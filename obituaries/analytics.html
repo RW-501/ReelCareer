@@ -54,7 +54,31 @@ main {
         color: #666;
     }
     
-     
+    .tab-container {
+  display: flex;
+  margin-bottom: 1em;
+}
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #ddd;
+  border: none;
+  outline: none;
+}
+.tab-btn:hover {
+  background-color: #ccc;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.hidden {
+  display: none;
+}
+.tab-content:not(.hidden) {
+  display: block;
+}
+
 }    
     </style>
     
@@ -199,51 +223,52 @@ const withTimeout = (promise, timeout) => {
 };
 
         // Function to load analytics
-        async function loadAnalytics(pageID) {
-            console.log("loadAnalytics pageID:", pageID);
+        import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js';
+
+async function loadAnalytics(pageID) {
+  console.log("loadAnalytics pageID:", pageID);
 
   const analyticsSection = document.getElementById("analytics-section");
   analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
+
   try {
-
-  const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the specific page document
-  console.log("pageRef:", pageRef);
-
+    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
-    
-    console.log("pageDocSnapshot:", pageDocSnapshot);
 
     if (pageDocSnapshot.exists()) {
       const analyticsData = pageDocSnapshot.data(); // Get data from the document
+      const { views, uniqueViews, dailyViews = {}, cityViews = {}, stateViews = {} } = analyticsData;
 
+      // Create collapsible tabs
       analyticsSection.innerHTML = `
-        <div class="analytics-card">
-          <h2>Total Page Views</h2>
-          <p>${analyticsData.views || 0}</p>
+        <div class="tab-container">
+          <button class="tab-btn" onclick="toggleTab('overview')">Overview</button>
+          <button class="tab-btn" onclick="toggleTab('view-chart')">Daily View Count</button>
+          <button class="tab-btn" onclick="toggleTab('location-chart')">Location Analytics</button>
         </div>
-        <div class="analytics-card">
-          <h2>Unique Views</h2>
-          <p>${analyticsData.uniqueViews || 0}</p>
+
+        <div id="overview" class="tab-content">
+          <div class="analytics-card">
+            <h2>Total Page Views</h2>
+            <p>${views || 0}</p>
+          </div>
+          <div class="analytics-card">
+            <h2>Unique Views</h2>
+            <p>${uniqueViews || 0}</p>
+          </div>
         </div>
-        <div class="analytics-card">
-          <h2>Last Viewed</h2>
-          <p>${analyticsData.lastViewTime ? new Date(analyticsData.lastViewTime.toDate()).toLocaleString() : "N/A"}</p>
+
+        <div id="view-chart" class="tab-content hidden">
+          <canvas id="dailyViewChart"></canvas>
         </div>
-        <div class="analytics-card">
-          <h2>Last Referral</h2>
-          <p>${analyticsData.lastViewSource || "Direct"}</p>
-        </div>
-        <div class="analytics-card">
-          <h2>User Location (Last Viewer)</h2>
-          <p>City: ${analyticsData.lastViewCity || "Unknown"}</p>
-          <p>State: ${analyticsData.lastViewState || "Unknown"}</p>
-          <p>Country: ${analyticsData.lastViewCountry || "Unknown"}</p>
-        </div>
-        <div class="analytics-card">
-          <h2>Last Device</h2>
-          <p>${analyticsData.lastViewDevice || "Unknown"}</p>
+
+        <div id="location-chart" class="tab-content hidden">
+          <canvas id="cityViewChart"></canvas>
+          <canvas id="stateViewChart"></canvas>
         </div>
       `;
+
+      renderCharts(dailyViews, cityViews, stateViews); // Render charts with data
     } else {
       analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
     }
@@ -251,6 +276,62 @@ const withTimeout = (promise, timeout) => {
     console.error("Error loading analytics:", error);
     analyticsSection.innerHTML = `<h2>Error loading analytics data. Please try again later.</h2>`;
   }
+}
+
+function renderCharts(dailyViews, cityViews, stateViews) {
+  const dailyViewChartCtx = document.getElementById('dailyViewChart').getContext('2d');
+  new Chart(dailyViewChartCtx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(dailyViews),
+      datasets: [{
+        label: 'Daily Views',
+        data: Object.values(dailyViews),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+      }
+    }
+  });
+
+  const cityViewChartCtx = document.getElementById('cityViewChart').getContext('2d');
+  new Chart(cityViewChartCtx, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(cityViews),
+      datasets: [{
+        data: Object.values(cityViews),
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      }]
+    },
+    options: {
+      responsive: true,
+    }
+  });
+
+  const stateViewChartCtx = document.getElementById('stateViewChart').getContext('2d');
+  new Chart(stateViewChartCtx, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(stateViews),
+      datasets: [{
+        data: Object.values(stateViews),
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+      }]
+    },
+    options: {
+      responsive: true,
+    }
+  });
+}
+
+function toggleTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
 }
 
 

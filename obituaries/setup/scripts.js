@@ -496,19 +496,29 @@ async function selectGift(giftType, price) {
   const gift_choices = document.getElementById('gift_choices');
   const custom_amount_area = document.getElementById('custom-amount-area');
   const payment_area = document.getElementById('payment-area');
+  const payment_info = document.getElementById('payment-info');
 
 if(giftType == "custom" && !customAmount > 0){
   custom_amount_area.style.display = "block";
   return;
 }
 
-gift_choices.style.display = "none";
-payment_area.style.display = "block";
 
+// If the custom amount is invalid or empty, use the selected price
+const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
 
-  // If the custom amount is invalid or empty, use the selected price
-  const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
+// Calculate the service fee (10%) and the amount the user will receive
+const serviceFee = amountToPay * 0.10;
+const amountToReceive = amountToPay - serviceFee;
 
+payment_info.innerHTML = `
+  You selected the ${giftType} gift with an amount of $${amountToPay}. 
+  A 10% service fee of $${serviceFee.toFixed(2)} will be deducted. 
+  The user will receive $${amountToReceive.toFixed(2)}.
+`;
+  gift_choices.style.display = "none";
+  payment_area.style.display = "block";
+  
   showToast(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
 
   // Initialize PayPal Button

@@ -98,6 +98,7 @@ function renderGiftBoxArea(nameFull) {
 
         <!-- Fee Information -->
         <div class="fees-info">
+                <div id="payment-info"></div>
           <p>Upfront Service Fee: 10% on all gifts.</p>
         </div>
 
