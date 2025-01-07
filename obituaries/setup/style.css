@@ -727,6 +727,16 @@ color: red;
 }
 
 
+#custom-amount-area {
+    margin: 4rem;
+}
+
+#customAmount-button {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
   /* Basic Toast Styling */
 .toast {
     position: fixed;
