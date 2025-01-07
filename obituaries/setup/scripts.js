@@ -514,7 +514,7 @@ const amountToReceive = amountToPay - serviceFee;
 payment_info.innerHTML = `
   You selected the ${giftType} gift with an amount of $${amountToPay}. 
   A 10% service fee of $${serviceFee.toFixed(2)} will be deducted. 
-  The user will receive $${amountToReceive.toFixed(2)}.
+  <p>The user will receive $${amountToReceive.toFixed(2)}.</p>
 `;
   gift_choices.style.display = "none";
   payment_area.style.display = "block";
