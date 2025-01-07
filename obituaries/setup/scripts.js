@@ -197,8 +197,7 @@ querySnapshot.forEach((doc) => {
     }
   }
 
-  // Load entries initially on page load
-  loadEntries();
+window.loadEntries = loadEntries;
 
 // Function to load gifts for a guestbook post
 async function loadGiftsForPost(postID) {

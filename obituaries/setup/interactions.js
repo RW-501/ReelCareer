@@ -40,6 +40,8 @@ function renderInteractionsArea() {
     // Find the share area on the page and insert the share buttons
     const interactionsArea = document.getElementById('dynamic-interaction-area');
     interactionsArea.innerHTML = interactionsHTML;
+
+    loadEntries();
 }
 window.renderInteractionsArea = renderInteractionsArea;
 
@@ -60,17 +62,17 @@ function renderGiftBoxArea(nameFull) {
         <!-- Gift Options -->
         <div class="gift-options">
           <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle', 5)">
-            <img src="https://reelcareer.co/obituaries/images/gifts/CandleSmall.png" alt="Small Candle">
+            <img src="https://reelcareer.co/obituaries/images/gifts/CandleSmall.PNG" alt="Small Candle">
             <h3>Small Candle $5.00</h3>
             <p>Light a candle to keep the memory alive.</p>
           </div>
           <div id="gift-candle-big" class="gift-item" onclick="selectGift('big-candle', 25)">
-            <img src="https://reelcareer.co/obituaries/images/gifts/CandleBig.png" alt="Big Candle">
+            <img src="https://reelcareer.co/obituaries/images/gifts/CandleBig.PNG" alt="Big Candle">
             <h3>Big Candle $25.00</h3>
             <p>Light another candle to keep memories aglow.</p>
           </div>
           <div id="gift-charity" class="gift-item" onclick="selectGift('charity', 20)">
-            <img src="https://reelcareer.co/obituaries/images/gifts/Charity.png" alt="Charity Donation">
+            <img src="https://reelcareer.co/obituaries/images/gifts/Charity.PNG" alt="Charity Donation">
             <h3>Charity Donation</h3>
             <p>Extend generosity with another contribution.</p>
           </div>
