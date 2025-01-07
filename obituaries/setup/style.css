@@ -580,7 +580,9 @@ footer p {
     display: none;
   }
 
-
+  video {
+    width: 100%;
+}
 
 
   .giftPopup {
