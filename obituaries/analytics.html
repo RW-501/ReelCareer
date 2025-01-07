@@ -250,6 +250,7 @@ const withTimeout = (promise, timeout) => {
     const { views, uniqueViews } = pageData;
     const { lastViewTime, lastViewCity, lastViewState } = viewerData;
 
+    let pageViewed;
     // Log retrieved data
     console.log("pageData: ", pageData);
     console.log("viewerData: ", viewerData);
