@@ -456,12 +456,14 @@ function giftPopupBackBtn(){
   const custom_amount_area = document.getElementById('custom-amount-area');
   const payment_area = document.getElementById('payment-area');
   const back_button = document.getElementById('back-button');
+  let customAmount = document.getElementById('customAmount').value.trim();
 
   if(custom_amount_area.style.display = "block"){
     gift_choices.style.display = "none";
     custom_amount_area.style.display = "none";
     payment_area.style.display = "none";
     gift_choices.style.display = "block";
+    customAmount = 0;
 
 
   }else
@@ -469,6 +471,7 @@ function giftPopupBackBtn(){
     custom_amount_area.style.display = "none";
     payment_area.style.display = "none";
     gift_choices.style.display = "block";
+    customAmount = 0;
 
   }else{
     back_button.style.display = "none";
@@ -507,7 +510,7 @@ if(giftType == "custom" && !customAmount > 0){
   return;
 }else{
   custom_amount_area.style.display = "none";
-
+/// procecced
 }
 
 
