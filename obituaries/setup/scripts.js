@@ -192,7 +192,10 @@ querySnapshot.forEach((doc) => {
             </div>
             ` : ""}
     `;
-    loadGiftsForPost(postID); 
+    if(entry.giftType){
+      loadGiftsForPost(postID); 
+
+    }
 
     // Extract the first part of the name before any space
 const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
