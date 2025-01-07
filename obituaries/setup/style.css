@@ -667,3 +667,8 @@ footer p {
   .giftPopup button:hover {
       background-color: #212f88;
   }
+
+
+  .changeable-area {
+    margin-bottom: .5rem;
+  }
