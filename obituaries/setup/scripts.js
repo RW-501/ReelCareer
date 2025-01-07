@@ -518,14 +518,24 @@ const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmo
 const serviceFee = amountToPay * 0.10;
 const amountToReceive = amountToPay - serviceFee;
 
+if (amountToPay < 5) {
+  payment_info.innerHTML = ` 
+    <p><strong>Note:</strong> There is a minimum contribution of $5.00.</p>
+    Please choose a gift amount of at least $5.00 to proceed. 
+    <br>To continue, kindly adjust your contribution and try again.
+  `;
+  return;
+}
+
 payment_info.innerHTML = `
   You selected the ${giftType} gift with an amount of $${amountToPay}. 
   A 10% service fee of $${serviceFee.toFixed(2)} will be deducted. 
   <p>The user will receive $${amountToReceive.toFixed(2)}.</p>
 `;
-  gift_choices.style.display = "none";
-  payment_area.style.display = "block";
-  
+
+gift_choices.style.display = "none";
+payment_area.style.display = "block";
+
   showToast(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
 
   // Initialize PayPal Button
