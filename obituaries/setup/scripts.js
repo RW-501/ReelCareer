@@ -607,19 +607,6 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
 
 
-const anonymousCheckbox = document.getElementById("anonymousCheckbox");
-const guestNameInput = document.getElementById("guestName");
-
-// Add event listener for checkbox change
-anonymousCheckbox.addEventListener("change", () => {
-  if (anonymousCheckbox.checked) {
-    guestNameInput.value = "Anonymous"; // Set the value to "Anonymous" when checked
-  } else {
-    guestNameInput.value = ""; // Clear the value when unchecked
-  }
-});
-
-
 
 
   // Add an event listener to the "Send Flowers" button
@@ -809,6 +796,19 @@ submitbtn.addEventListener("click", async (e) => {
   } else {
     // Optionally, you can add a message to the user here
     showToast("Please fill in both the name and the message.");
+  }
+});
+
+
+const anonymousCheckbox = document.getElementById("anonymousCheckbox");
+const guestNameInput = document.getElementById("guestName");
+
+// Add event listener for checkbox change
+anonymousCheckbox.addEventListener("change", () => {
+  if (anonymousCheckbox.checked) {
+    guestNameInput.value = "Anonymous"; // Set the value to "Anonymous" when checked
+  } else {
+    guestNameInput.value = ""; // Clear the value when unchecked
   }
 });
 
