@@ -119,7 +119,7 @@ function renderGiftBoxArea(firstName) {
   </div>
   <div>
     <input type="checkbox" id="gift-publicCheckbox" checked>
-    <label for="gift-publicCheckbox">Do You Want It to Be Public?</label>
+    <label for="gift-publicCheckbox">Do You Want The Gift to Be Public?</label>
   </div>
 </div>
 
