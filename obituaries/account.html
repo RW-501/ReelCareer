@@ -390,27 +390,25 @@ async function loadGuestbookPosts(pageID) {
         const postElement = document.createElement("div");
         postElement.classList.add("guestbook-post");
         postElement.innerHTML = `
-            <p><strong>${postData.name}:</strong> <br>Message:${postData.message}</p>
+            <p><strong>From:</strong> ${postData.name}
+              <br><strong>Message:</strong> ${postData.message}</p>
+
             <p><strong>Date:</strong> ${formatTimestamp(postData.timestamp)}</p>
             <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
             ${postData.giftType ? `
             <div class='gifts'>
-                <h4>Gifts:</h4>
-                <ul id="gifts-${postID}">
-                    <!-- Gifts for this post will be injected here -->
-                </ul>
+              <p><strong>Gift:</strong> ${postData.gift}</p>
             </div>
             ` : ""}
             <div class="controls">
-                <button onclick="approvePost('${postID}')">Approve</button>
-                <button onclick="rejectPost('${postID}')">Reject</button>
+                <button onclick="privitePost('${postID}')">Privite</button>
                 <button onclick="deletePost('${postID}')">Delete</button>
             </div><hr>
         `;
         guestbookList.appendChild(postElement);
+//                 <button onclick="rejectPost('${postID}')">Reject</button>
 
         // Load gifts associated with the post
-        loadGiftsForPost(postID);
     });
 }
 
@@ -419,30 +417,12 @@ window.loadGuestbookPosts = loadGuestbookPosts;
 
 
 
-// Function to load gifts for a guestbook post
-async function loadGiftsForPost(postID) {
-    const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
-
-   // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
-    const giftsSnapshot = await getDocs(giftsRefs);
-    const giftsList = document.getElementById(`gifts-${postID}`);
-    giftsList.innerHTML = "";  // Clear previous gifts
-
-    giftsSnapshot.forEach(doc => {
-        const giftData = doc.data();
-        const giftItem = document.createElement("li");
-        giftItem.textContent = `${giftData.name} - $${giftData.amount}`;
-        giftsList.appendChild(giftItem);
-    });
-}
-window.loadGiftsForPost = loadGiftsForPost;
-
 
 
 // Function to approve a guestbook post
-async function approvePost(postID) {
+async function privitePost(postID) {
     const postRef = doc(db, "Guestbook", postID);
-    await updateDoc(postRef, { status: "Approved" });
+    await updateDoc(postRef, { status: "privite" });
     loadGuestbookPosts(pageID);
 }
 
@@ -462,31 +442,40 @@ async function deletePost(postID) {
 }
 
 // Function to load transactions and calculate the total available payout
+
 async function calculateTotalPayout() {
-    const transactionsRef = collection(db, `A_Transactions`, `Gift_${pageID}`);
+  try {
+    const transactionsRef = collection(db, 'A_Transactions');
     
-    // Fetch all transaction data
-    const transactionSnapshot = await getDocs(transactionsRef);
-    
+    // Query transactions for the specified pageID
+    const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
+    const transactionSnapshot = await getDocs(transactionsQuery);
+
     let totalGifts = 0;
     let pendingPayouts = 0;
 
-    // Loop through transactions and calculate total available amount
+    // Loop through transactions and calculate totals
     transactionSnapshot.forEach(doc => {
-        const transactionData = doc.data();
-        const amount = transactionData.amount;
-        const status = transactionData.status;  // Assume we have a status field for payout status
-        
-        if (status === "Completed") {
-            totalGifts += amount;  // Add completed transactions to total
-        } else if (status === "Pending") {
-            pendingPayouts += amount;  // Track pending payouts
-        }
+      const transactionData = doc.data();
+      const amount = transactionData.amount || 0; // Handle missing amount safely
+      const status = transactionData.status;      // Assume 'status' field exists
+      
+      if (status === "Completed") {
+        totalGifts += amount;  // Add completed transaction amounts
+      } else if (status === "Pending") {
+        pendingPayouts += amount;  // Add pending transaction amounts
+      }
     });
 
-    const availablePayout = totalGifts - pendingPayouts; // Available funds after pending payouts
+    const availablePayout = totalGifts - pendingPayouts;  // Net available funds
     return availablePayout;
+
+  } catch (error) {
+    console.error("Error calculating total payout:", error);
+    return 0;  // Return 0 if an error occurs
+  }
 }
+
 window.calculateTotalPayout = calculateTotalPayout;
 
 
