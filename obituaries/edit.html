@@ -295,19 +295,38 @@
 
 
 
+          onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+      const userID = user.uid;
+      console.log("User ID:", userID);
+
+      // Extract pageName and pageID from URL query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageName = urlParams.get("pageName");
+      const pageID = urlParams.get("pageID");
+
+      if (!pageID) {
+        console.warn("Missing pageID in URL parameters.");
+        return;
+      }
+
+      const ownerRef = collection(db, `A_Obituaries`);
+      const ownerQuery = query(ownerRef, where('userID', '==', userID), where('__name__', '==', pageID));
+      const ownerSnapshot = await getDocs(ownerQuery);
+
+      if (ownerSnapshot.empty) {
+        console.log("You do not have ownership of this page.");
+        return;  // Stop execution if the user does not own the page
+      }
+
+      console.log(`Welcome! You are the owner of the page: ${pageName}`);
 
 
-
-    onAuthStateChanged(auth, async (user) => {
-    if (user) {
-    const userID = user.uid;
-    console.log("User ID:", userID);
     // Call this function when the page loads
     loadUserObituaries(userID);
-    // Extract pageName from URL query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const pageName = urlParams.get("pageName");
-    const pageID = urlParams.get("pageID");
+
+    
 
     console.log("pageName:", pageName);
     createToolbar(pageID, pageName);
@@ -316,6 +335,11 @@
       // Fetch obituary data if pageName exists
       fetchObituary(pageName);
     }
+  } catch (error) {
+      console.error("Error checking page ownership:", error);
+    }
+
+
   } else {
     console.log("No user signed in ...");
     

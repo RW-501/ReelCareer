@@ -1273,6 +1273,7 @@ document.getElementById('preview-button').click();
         // Get user's IP address
         const userIP = await getUserIP();
 
+        
         // Upload main photo to Firebase Storage
         let mainPhotoUrl = "";
         if (mainPhoto) {
@@ -1487,6 +1488,7 @@ let Content = `
 
   <div id="dynamic-footer" class="nonChangeable"></div>
   <div id="pageID" class="nonChangeable">${pageID}</div>
+  <div id="userPageID" class="nonChangeable">${obituary.userID}</div>
   <div id="pageName" class="nonChangeable">${obituary.pageName}</div>
 </body>
 </html>
