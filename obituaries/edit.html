@@ -666,6 +666,28 @@ const token = part_1 + part_2 + part_3 + part_4;
 
       viewObituary.innerHTML = content;
       newHTML = content;  // Set the new HTML to be the same as the original at first
+   
+if (viewObituary) {
+  const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
+
+  // Fetch and inject external stylesheet
+  fetch('https://reelcareer.co/obituaries/setup/style.css')
+    .then(response => response.text())
+    .then(css => {
+      const styleElement = document.createElement('style');
+      styleElement.textContent = css;
+      shadowRoot.appendChild(styleElement);
+
+      // Move the viewObituary content into the shadow DOM
+      while (viewObituary.firstChild) {
+        shadowRoot.appendChild(viewObituary.firstChild);
+      }
+    })
+    .catch(error => console.error('Failed to load stylesheet:', error));
+}
+
+   
+   
     } else {
       messageDiv.innerHTML = 'File not found.';
     }
