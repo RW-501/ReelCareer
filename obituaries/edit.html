@@ -817,7 +817,7 @@ changeTextBtn.addEventListener('click', () => {
 previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
   viewObituary.innerHTML = newHTML;
-  previewBtn.style.display = 'none';
+  previewBtn.style.visibility = 'hidden';
   saveBtn.style.display = 'block';
 });
 saveBtn.addEventListener('click', async () => {
