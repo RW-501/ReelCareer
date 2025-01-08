@@ -818,7 +818,7 @@ previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
   viewObituary.innerHTML = newHTML;
   previewBtn.style.visibility = 'hidden';
-  saveBtn.style.display = 'block';
+  saveBtn.style.visibility = 'visible';
 });
 saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
@@ -858,8 +858,8 @@ saveBtn.addEventListener('click', async () => {
    // const newHTML = viewObituary.innerHTML;
     await saveHTMLToGitHub(newHTML);
     messageDiv.innerHTML = 'Changes saved successfully!';
-    previewBtn.style.display = 'none';
-    saveBtn.style.display = 'none';
+    previewBtn.style.visibility = 'hidden';
+    saveBtn.style.visibility = 'hidden';
   }
 });
 
@@ -867,8 +867,8 @@ saveBtn.addEventListener('click', async () => {
 function enableLayoutEditing() { 
   removeEditingHighlights();
 
-  previewBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
+  previewBtn.style.visibility = 'visible';
+  saveBtn.style.visibility = 'visible';
 
   const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
@@ -935,8 +935,8 @@ function handleDragLeave(e) {
 // Enable text editing
 function enableTextEditing() {
   removeEditingHighlights();
-  previewBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
+  previewBtn.style.visibility = 'visible';
+  saveBtn.style.visibility = 'visible';
 
   const changeableTextDivs = shadowRoot.querySelectorAll('.changeable-text');
   changeableTextDivs.forEach(div => {
