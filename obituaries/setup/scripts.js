@@ -173,6 +173,15 @@ async function loadEntries() {
     // Order by timestamp (ascending or descending)
     const querySnapshot = await getDocs(query(guestbookRef, orderBy("timestamp", "desc"))); // 'desc' for most recent first, 'asc' for oldest first
 
+    const nameHeader = document.getElementById("name-header");
+    const guestMessage = document.getElementById("gift-guestMessage");
+
+    // Extract the first part of the name before any space
+    const firstName = nameHeader.textContent.split(" ")[0];
+
+    // Replace [$Name$] with the first name in the placeholder text
+    guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
+
     entriesDiv.innerHTML = ""; // Clear existing entries
 
     querySnapshot.forEach((doc) => {
