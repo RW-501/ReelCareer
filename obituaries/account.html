@@ -304,13 +304,15 @@
         
             <label for="requested-amount" class="input-label">Enter Amount to Request:</label>
             <input type="number" id="requested-amount" placeholder="Enter amount" class="input-box">
-            
+            <p class="info-text">* Minimum payout amount is $25.</p> <!-- Added informational text -->
+        
             <div class="button-group">
               <button onclick="confirmPayout()" class="btn confirm-btn">Process Payout</button>
               <button onclick="closeModal()" class="btn cancel-btn">Close</button>
             </div>
           </div>
         </section>
+        
         
 
 
@@ -687,30 +689,32 @@ window.viewTransactions = viewTransactions;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
+  const MINIMUM_PAYOUT = 25; // Set minimum payout amount
 
   if (!requestPayoutBool) {
     showToast("Request can only be made once every 7 days", 'error');
     return;
   }
-    try {
+  
+  try {
+    const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
+    const availableAmount = await calculateTotalPayout();
 
-
-        const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
-        const availableAmount = await calculateTotalPayout();
-
-        if (requestedAmount > availableAmount) {
-            showToast("Requested amount exceeds the available balance.", 'error');
-        } else if (requestedAmount <= 0) {
-            showToast("Please enter a valid payout amount.", 'error');
-        } else {
-            await createPayoutTransaction(requestedAmount, availableAmount);
-            showToast("Payout request confirmed. Your payout is being processed.", 'success');
-            closeModal();
-        }
-    } catch (error) {
-        console.error("Error in confirmPayout:", error);
-        showToast("An error occurred while confirming the payout.", 'error');
+    if (requestedAmount > availableAmount) {
+      showToast("Requested amount exceeds the available balance.", 'error');
+    } else if (requestedAmount < MINIMUM_PAYOUT) {
+      showToast(`Minimum payout amount is $${MINIMUM_PAYOUT}. Please enter a valid amount.`, 'error');
+    } else if (requestedAmount <= 0) {
+      showToast("Please enter a valid payout amount.", 'error');
+    } else {
+      await createPayoutTransaction(requestedAmount, availableAmount);
+      showToast("Payout request confirmed. Your payout is being processed.", 'success');
+      closeModal();
     }
+  } catch (error) {
+    console.error("Error in confirmPayout:", error);
+    showToast("An error occurred while confirming the payout.", 'error');
+  }
 }
 
 window.confirmPayout = confirmPayout;

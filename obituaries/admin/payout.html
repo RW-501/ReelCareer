@@ -1,0 +1,187 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Admin Dashboard</title>
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+   
+   
+   
+   
+   
+   <style>
+
+.admin-payout-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+.search-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.payout-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.payout-table th, .payout-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.payout-table th {
+  background-color: #f4f4f4;
+}
+button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.modal {
+  display: none;
+}
+.modal.open {
+  display: block;
+}
+
+   </style>
+   
+   
+   
+   <div class="admin-payout-page">
+   
+   
+   
+    <h1>Admin Payout Management</h1>
+    
+    <div class="search-filter-bar">
+      <input type="text" id="searchUser" placeholder="Search by User ID or Page Name" oninput="filterPayoutRequests()">
+      <select id="statusFilter" onchange="filterPayoutRequests()">
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="Completed">Completed</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+    </div>
+  
+    <table class="payout-table">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Page Name</th>
+          <th>Amount</th>
+          <th>Request Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="payoutRequestsTable">
+        <!-- Payout request rows will be dynamically generated -->
+      </tbody>
+    </table>
+  
+    <div id="payoutDetailsModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closePayoutDetails()">&times;</span>
+        <h2>Payout Details</h2>
+        <p><strong>User ID:</strong> <span id="detailUserId"></span></p>
+        <p><strong>Page Name:</strong> <span id="detailPageName"></span></p>
+        <p><strong>Amount:</strong> <span id="detailAmount"></span></p>
+        <p><strong>Status:</strong> <span id="detailStatus"></span></p>
+        <button id="approveButton" onclick="updatePayoutStatus('Completed')">Approve</button>
+        <button id="rejectButton" onclick="updatePayoutStatus('Rejected')">Reject</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // Fetch and display all payout requests
+async function loadPayoutRequests() {
+  const payoutRequestsTable = document.getElementById("payoutRequestsTable");
+  payoutRequestsTable.innerHTML = ''; // Clear existing rows
+
+  const payoutQuerySnapshot = await getDocs(collection(db, 'A_Payouts'));
+
+  payoutQuerySnapshot.forEach(doc => {
+    const payoutData = doc.data();
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${payoutData.userID}</td>
+      <td>${payoutData.pageName}</td>
+      <td>$${payoutData.transactionData.withdraw_amount.toFixed(2)}</td>
+      <td>${new Date(payoutData.requestDate).toLocaleDateString()}</td>
+      <td>${payoutData.status}</td>
+      <td>
+        <button onclick="viewPayoutDetails('${doc.id}')">View</button>
+      </td>
+    `;
+    payoutRequestsTable.appendChild(row);
+  });
+}
+
+// Filter payout requests by search and status
+function filterPayoutRequests() {
+  const searchValue = document.getElementById("searchUser").value.toLowerCase();
+  const statusValue = document.getElementById("statusFilter").value;
+  
+  const rows = document.querySelectorAll("#payoutRequestsTable tr");
+  rows.forEach(row => {
+    const userIdCell = row.cells[0].textContent.toLowerCase();
+    const pageNameCell = row.cells[1].textContent.toLowerCase();
+    const statusCell = row.cells[4].textContent;
+
+    const matchesSearch = userIdCell.includes(searchValue) || pageNameCell.includes(searchValue);
+    const matchesStatus = statusValue === "" || statusCell === statusValue;
+    
+    row.style.display = matchesSearch && matchesStatus ? "" : "none";
+  });
+}
+
+// Show detailed payout information
+async function viewPayoutDetails(payoutId) {
+  const docRef = doc(db, 'A_Payouts', payoutId);
+  const payoutDoc = await getDoc(docRef);
+  
+  if (payoutDoc.exists()) {
+    const data = payoutDoc.data();
+    document.getElementById("detailUserId").textContent = data.userID;
+    document.getElementById("detailPageName").textContent = data.pageName;
+    document.getElementById("detailAmount").textContent = `$${data.transactionData.withdraw_amount.toFixed(2)}`;
+    document.getElementById("detailStatus").textContent = data.status;
+    document.getElementById("approveButton").dataset.payoutId = payoutId;
+    document.getElementById("rejectButton").dataset.payoutId = payoutId;
+
+    document.getElementById("payoutDetailsModal").classList.add('open');
+  }
+}
+
+// Update payout status
+async function updatePayoutStatus(newStatus) {
+  const payoutId = event.target.dataset.payoutId;
+  const docRef = doc(db, 'A_Payouts', payoutId);
+
+  await updateDoc(docRef, { status: newStatus });
+  closePayoutDetails();
+  showToast(`Payout status updated to ${newStatus}.`, 'success');
+  loadPayoutRequests();  // Refresh the list
+}
+
+function closePayoutDetails() {
+  document.getElementById("payoutDetailsModal").classList.remove('open');
+}
+
+// Load payouts on page load
+loadPayoutRequests();
+
+  </script>
+  
+  
+  <footer>
+    <p>&copy; 2025 ReelCareer. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
