@@ -49,7 +49,7 @@ window.renderInteractionsArea = renderInteractionsArea;
 
 
 // Function to render the Gift Box
-function renderGiftBoxArea(nameFull) {
+function renderGiftBoxArea(firstName) {
   const giftBoxAreaHTML = `
     <!-- Pop-up Container -->
     <div id="giftPopup" class="giftPopup">
@@ -63,7 +63,7 @@ function renderGiftBoxArea(nameFull) {
 <span class="close-button" onclick="closeGiftPopup()">&times;</span>
 
         <div id="gift_choices">
-        <h2>Choose a Gift for ${nameFull}</h2>
+        <h2>Choose a Gift for ${firstName}</h2>
         
 
         <!-- Gift Options -->
@@ -115,7 +115,7 @@ function renderGiftBoxArea(nameFull) {
     <label for="gift-anonymousCheckbox">Submit as Anonymous</label>
   </div>
   <div>
-    <textarea id="gift-guestMessage" rows="4" placeholder="Share a memory of [$Name$]..." required></textarea>
+    <textarea id="gift-guestMessage" rows="4" placeholder="Share a memory of  ${firstName}..." required></textarea>
   </div>
   <div>
     <input type="checkbox" id="gift-publicCheckbox" checked>

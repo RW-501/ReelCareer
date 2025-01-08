@@ -225,15 +225,11 @@ querySnapshot.forEach((doc) => {
   }
 
 });
-    // Extract the first part of the name before any space
-const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
+ 
 
-renderGiftBoxArea(fullName);
+renderGiftBoxArea(firstName);
 
 
-const giftBoxArea = document.getElementById("giftBoxArea");
-
-giftBoxArea.placeholder = giftBoxArea.placeholder.replaceAll("[$Name$]", firstName);
 
 // Event Listener: Handle Anonymous Checkbox
 const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
