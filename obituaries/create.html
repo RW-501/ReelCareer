@@ -1455,41 +1455,54 @@ let Content = `
   <\/script>
   ${script} <!-- The script is correctly inserted here -->
 </head>
-<body>
+<body> 
   <header>
-    <div id="celebrating-header" class="changeable-text">Celebrating ${obituary.name}'s Journey</div>
-    <div id="life-transformation" class="changeable-text">A life of transformation and growth</div>
+    <div id="celebrating-header" class="changeable-text" role="heading" aria-level="1">Celebrating ${obituary.name}'s Journey</div>
+    <div id="life-transformation" class="changeable-text" role="heading" aria-level="2">A life of transformation and growth</div>
   </header>
-  <main>
+  
+  <main role="main">
     <div class="container">
-      <div id="mainPhoto-area" class="changeable-area">
-        <img id="mainPhoto" src="${obituary.mainPhoto}" alt="${obituary.name}">
+      <div id="mainPhoto-area" class="changeable-area" role="figure" aria-labelledby="celebrating-header">
+        <img id="mainPhoto" src="${obituary.mainPhoto}" alt="Photo of ${obituary.name}" role="img" aria-describedby="journey-description">
       </div>
-      <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
-      <div id="name-header" class="changeable-area">${obituary.name}</div>
-      <div id="horizontal-rule" class="changeable-area"></div>
-      <div id="journey-description" class="changeable-area changeable-text">Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</div>
-      <div id="info-section" class="changeable-area">
-        <div id="event-details-header" class="changeable-text">Event Details</div>
-        <div id="event-date" class="changeable-text"><strong>Date:</strong> ${obituary.sunset}</div>
-        <div id="event-location" class="changeable-text"><strong>Services will be held:</strong> ${obituary.location}</div>
-        <div id="thoughts-share" class="changeable-text">Share your thoughts using</div>
-        <div id="hashTag" class="changeable-text">${obituary.hashTag}</div>
-        <div id="social-link" class="changeable-text">${obituary.socialLinkName}: <a href="${obituary.socialLinks}">${obituary.socialLinks}</a></div>
+      
+      <div id="celebrating-life-header" class="changeable-area" role="heading" aria-level="3">Celebrating the Life of</div> 
+      <div id="name-header" class="changeable-area" role="heading" aria-level="3">${obituary.name}</div>
+      
+      <div id="horizontal-rule" class="changeable-area" role="separator"></div>
+      
+      <div id="journey-description" class="changeable-area changeable-text" role="region" aria-labelledby="name-header">
+        Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.
       </div>
-      <div id="media-section" class="changeable-area">${obituary.videoURL}</div>
-      <div id="obituary-section"  class="changeable-area">
-        <div id="about-obituary" class="changeable-text">${obituary.about}</div>
+      
+      <div id="info-section" class="changeable-area" role="region" aria-labelledby="event-details-header">
+        <div id="event-details-header" class="changeable-text" role="heading" aria-level="4">Event Details</div>
+        <div id="event-date" class="changeable-text" aria-live="polite"><strong>Date:</strong> ${obituary.sunset}</div>
+        <div id="event-location" class="changeable-text" aria-live="polite"><strong>Services will be held:</strong> ${obituary.location}</div>
+        <div id="thoughts-share" class="changeable-text" aria-live="polite">Share your thoughts using</div>
+        <div id="hashTag" class="changeable-text" aria-live="polite">${obituary.hashTag}</div>
+        <div id="social-link" class="changeable-text" aria-live="polite">${obituary.socialLinkName}: <a href="${obituary.socialLinks}" aria-label="Visit ${obituary.socialLinkName}">${obituary.socialLinks}</a></div>
       </div>
-      <div id="dynamic-shareArea"  class="changeable-area container"></div>
-      <div id="dynamic-interaction-area"></div>
+      
+      <div id="media-section" class="changeable-area" role="region" aria-labelledby="media-section">
+        ${obituary.videoURL}
+      </div>
+      
+      <div id="obituary-section" class="changeable-area" role="region" aria-labelledby="about-obituary">
+        <div id="about-obituary" class="changeable-text" role="document">${obituary.about}</div>
+      </div>
+      
+      <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
+      <div id="dynamic-interaction-area" role="region"></div>
     </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
 
-  <div id="dynamic-footer" class="nonChangeable"></div>
-  <div id="pageID" class="nonChangeable">${pageID}</div>
-  <div id="userPageID" class="nonChangeable">${obituary.userID}</div>
-  <div id="pageName" class="nonChangeable">${obituary.pageName}</div>
+  <div id="dynamic-footer" class="nonChangeable" role="contentinfo"></div>
+  
+  <div id="pageID" class="nonChangeable" aria-hidden="true">${pageID}</div>
+  <div id="userPageID" class="nonChangeable" aria-hidden="true">${obituary.userID}</div>
+  <div id="pageName" class="nonChangeable" aria-hidden="true">${obituary.pageName}</div>
 </body>
 </html>
 `;
