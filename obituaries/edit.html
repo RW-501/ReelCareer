@@ -79,41 +79,16 @@
     overflow-y: auto;
 }
   
-  #viewObituary .changeable-area.active {
-    border: 2px dashed blue;
-    margin: .5rem 0;
-    padding: .5rem 0;
-    background-color: #f4f4f4;
-    border-radius: 5px;
-}
-  #viewObituary .changeable-text.active {
-    border: 2px solid green;
-  }
-  
-  #viewObituary .changeable-area {
-    margin: .5rem 0;
-    padding: .5rem 0;
-    border: none;
-
-}
-  #viewObituary .changeable-text {
-    border: none;
-  }
-  
 
 
 
 
 
-  #viewObituary .editable {
-   /* outline: 2px solid rgb(217, 230, 29); */
-   display: block;
-  }
-  
-  .changeable-area, .changeable-text {
-    cursor: pointer;
-  }
-  
+
+
+
+
+
   #messageDiv {
     margin-top: 20px;
     font-size: 14px;
@@ -124,43 +99,8 @@
 
 
 
-  .draggable {
-  cursor: move;  /* Show a move cursor */
-  border: 2px dashed #ccc;  /* Subtle outline indicating draggable area */
-}
-
-.dragging {
-  opacity: 0.5;  /* Visual feedback for dragging */
-}
-
-.drop-zone {
-  background-color: #f0f8ff;  /* Highlight the drop zone */
-  border: 2px solid #00f;  /* Clear border for the drop target */
-}
 
 
-
-/* Style for the element being dragged */
-.changeable-area.dragging {
-  opacity: 0.5;
-  background-color: #f0f0f0; /* Light gray to indicate it's being dragged */
-}
-
-/* Highlight the drop zone */
-.changeable-area.highlight {
-  border: 2px dashed blue;
-  background-color: #f0f8ff; /* Light blue background when a drop is allowed */
-  transition: background-color 0.3s ease-in-out;
-}
-
-/* Style for active editing */
-.changeable-area.active {
-  border: 2px dashed blue;
-  margin: .5rem 0;
-  padding: .5rem 0;
-  background-color: #f4f4f4;
-  border-radius: 5px;
-}
 
 
 
@@ -354,6 +294,109 @@
     
 });
 
+
+
+function applyViewObituaryStyles() {
+  const viewObituary = document.getElementById('viewObituary');
+  if (!viewObituary) return;
+
+  const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
+
+  // Fetch external stylesheet for viewObituary
+  fetch('https://reelcareer.co/obituaries/setup/style.css')
+    .then(response => response.text())
+    .then(css => {
+      const styleElement = document.createElement('style');
+      styleElement.textContent = css;
+
+      // Add drag-and-drop styles directly
+      const dragDropStyles = `
+
+
+        #viewObituary .changeable-area.active {
+    border: 2px dashed blue;
+    margin: .5rem 0;
+    padding: .5rem 0;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+}
+  #viewObituary .changeable-text.active {
+    border: 2px solid green;
+  }
+  
+  #viewObituary .changeable-area {
+    margin: .5rem 0;
+    padding: .5rem 0;
+    border: none;
+
+}
+  #viewObituary .changeable-text {
+    border: none;
+  }
+  
+
+
+
+
+
+  #viewObituary .editable {
+   /* outline: 2px solid rgb(217, 230, 29); */
+   display: block;
+  }
+  
+  .changeable-area, .changeable-text {
+    cursor: pointer;
+  }
+  
+  .draggable {
+  cursor: move;  /* Show a move cursor */
+  border: 2px dashed #ccc;  /* Subtle outline indicating draggable area */
+}
+
+.dragging {
+  opacity: 0.5;  /* Visual feedback for dragging */
+}
+
+.drop-zone {
+  background-color: #f0f8ff;  /* Highlight the drop zone */
+  border: 2px solid #00f;  /* Clear border for the drop target */
+}
+
+        .changeable-area.dragging {
+          opacity: 0.5;
+          background-color: #f0f0f0;
+        }
+        .changeable-area.highlight {
+          border: 2px dashed blue;
+          background-color: #f0f8ff;
+          transition: background-color 0.3s ease-in-out;
+        }
+        .changeable-area.active {
+          border: 2px dashed blue;
+          margin: 0.5rem 0;
+          padding: 0.5rem 0;
+          background-color: #f4f4f4;
+          border-radius: 5px;
+        }
+
+
+
+
+
+      `;
+      styleElement.textContent += dragDropStyles;
+      shadowRoot.appendChild(styleElement);
+
+      // Move inner content to shadow DOM
+      while (viewObituary.firstChild) {
+        shadowRoot.appendChild(viewObituary.firstChild);
+      }
+    })
+    .catch(error => console.error('Error loading styles:', error));
+}
+
+
+
         // Fetch user's IP address using an external service
         async function getUserIP() {
             try {
@@ -422,6 +465,20 @@ function updateImageStylesAndCreateCanvas() {
     return canvas;
 }
 /*
+
+how about scripts? but i do not want the .. https://reelcareer.co/obituaries/setup/interactions.js, loadScript('https://reelcareer.co/obituaries/setup/share.js, https://reelcareer.co/obituaries/setup/footer.js
+
+
+
+
+
+
+
+
+
+
+
+
 
 if(fileInput){
 
@@ -667,24 +724,8 @@ const token = part_1 + part_2 + part_3 + part_4;
       viewObituary.innerHTML = content;
       newHTML = content;  // Set the new HTML to be the same as the original at first
    
-if (viewObituary) {
-  const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
 
-  // Fetch and inject external stylesheet
-  fetch('https://reelcareer.co/obituaries/setup/style.css')
-    .then(response => response.text())
-    .then(css => {
-      const styleElement = document.createElement('style');
-      styleElement.textContent = css;
-      shadowRoot.appendChild(styleElement);
-
-      // Move the viewObituary content into the shadow DOM
-      while (viewObituary.firstChild) {
-        shadowRoot.appendChild(viewObituary.firstChild);
-      }
-    })
-    .catch(error => console.error('Failed to load stylesheet:', error));
-}
+      applyViewObituaryStyles();
 
    
    
