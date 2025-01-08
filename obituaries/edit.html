@@ -816,9 +816,9 @@ changeTextBtn.addEventListener('click', () => {
 // Preview Changes
 previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
-  shadowRoot.innerHTML = newHTML;
+  viewObituary.innerHTML = newHTML;
   previewBtn.style.display = 'none';
-  saveBtn.style.display = 'none';
+  saveBtn.style.display = 'block';
 });
 saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
