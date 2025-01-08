@@ -608,6 +608,7 @@ async function processPayoutTransaction(amount) {
         userID: userID,
             userIP: userIP,
             timestamp: serverTimestamp(),
+            requestDate: new Date(),
     });
 
     console.log("Payout initiated:", payoutDoc.id);
@@ -615,7 +616,7 @@ async function processPayoutTransaction(amount) {
 
 // Function to close the payout modal
 function closeModal() {
-    document.getElementById("payout-modal").style.display = "none";
+  document.getElementById("payout-modal").classList.remove('open');
 }
 
 window.closeModal = closeModal;
