@@ -865,6 +865,8 @@ saveBtn.addEventListener('click', async () => {
 
 // Handle drag start (grab the entire div, not just the inner element)
 function enableLayoutEditing() { 
+  removeEditingHighlights();
+
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
