@@ -295,12 +295,13 @@
 });
 
 
+let  shadowRoot;
 
 function applyViewObituaryStyles() {
   const viewObituary = document.getElementById('viewObituary');
   if (!viewObituary) return;
 
-  const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
+   shadowRoot = viewObituary.attachShadow({ mode: 'open' });
 
   // Fetch external stylesheet for viewObituary
   fetch('https://reelcareer.co/obituaries/setup/style.css')
