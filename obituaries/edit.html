@@ -296,12 +296,13 @@
 
 
 let  shadowRoot;
+const viewObituary = document.getElementById('viewObituary');
+shadowRoot = viewObituary.attachShadow({ mode: 'open' });
+
 
 function applyViewObituaryStyles() {
-  const viewObituary = document.getElementById('viewObituary');
   if (!viewObituary) return;
 
-   shadowRoot = viewObituary.attachShadow({ mode: 'open' });
 
   // Fetch external stylesheet for viewObituary
   fetch('https://reelcareer.co/obituaries/setup/style.css')
@@ -665,7 +666,6 @@ document.getElementById('category').addEventListener('change', function() {
 
 
 
-const viewObituary = document.getElementById('viewObituary');
 const changeLayoutBtn = document.getElementById('changeLayoutBtn');
 const changeTextBtn = document.getElementById('changeTextBtn');
 const previewBtn = document.getElementById('previewBtn');
@@ -726,7 +726,7 @@ const token = part_1 + part_2 + part_3 + part_4;
       originalHTML = content;
       //console.log("originalHTML:", originalHTML);
 
-      viewObituary.innerHTML = content;
+      shadowRoot.innerHTML = content;
       newHTML = content;  // Set the new HTML to be the same as the original at first
    
 
