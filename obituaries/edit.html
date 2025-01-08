@@ -863,7 +863,7 @@ function enableLayoutEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableAreas = document.querySelectorAll('.changeable-area');
+  const changeableAreas = viewObituary.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.add('active');
     area.style.cursor = 'grab';  // Set initial grab cursor
@@ -898,7 +898,7 @@ function handleDragOver(e) {
 
 function handleDrop(e) {
   e.preventDefault();
-  const draggedElement = document.querySelector('.dragging');
+  const draggedElement = viewObituary.querySelector('.dragging');
   const droppedElement = e.target.closest('.changeable-area');  // Ensure valid drop target
 
   if (droppedElement && draggedElement !== droppedElement) {
@@ -931,7 +931,7 @@ function enableTextEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableTextDivs = document.querySelectorAll('.changeable-text');
+  const changeableTextDivs = viewObituary.querySelectorAll('.changeable-text');
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
@@ -943,13 +943,13 @@ function enableTextEditing() {
 
 // Remove all highlights or outlines
 function removeEditingHighlights() {
-  const editableDivs = document.querySelectorAll('.changeable-text');
+  const editableDivs = viewObituary.querySelectorAll('.changeable-text');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
   });
 
-  const changeableAreas = document.querySelectorAll('.changeable-area');
+  const changeableAreas = viewObituary.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.remove('active');
   });
