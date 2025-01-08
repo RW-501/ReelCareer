@@ -624,7 +624,7 @@ async function calculateTotalPayout() {
     });
 
     const availablePayout = totalGifts - withdrawnPayouts;
-    handleRequestCooldown();
+    handleRequestCooldown(transactionData);
     return availablePayout;
   } catch (error) {
     console.error("Error calculating total payout:", error);
@@ -633,7 +633,7 @@ async function calculateTotalPayout() {
 }
 window.calculateTotalPayout = calculateTotalPayout;
 
-function handleRequestCooldown() {
+function handleRequestCooldown(transactionData) {
   const lastRequestDate = new Date(transactionData.requestDate || 0);
   const sevenDaysLater = new Date(lastRequestDate.getTime() + 7 * 24 * 60 * 60 * 1000);
   const now = new Date();
