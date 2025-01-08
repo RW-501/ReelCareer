@@ -308,7 +308,7 @@ function applyViewObituaryStyles() {
     .then(response => response.text())
     .then(css => {
       const styleElement = document.createElement('style');
-      styleElement.textContent = css;
+      styleElement.innerHTML = css;
 
       // Add drag-and-drop styles directly
       const dragDropStyles = `
@@ -385,7 +385,7 @@ function applyViewObituaryStyles() {
 
 
       `;
-      styleElement.textContent = dragDropStyles;
+      styleElement.innerHTML += dragDropStyles;
       shadowRoot.appendChild(styleElement);
 
       // Move inner content to shadow DOM
