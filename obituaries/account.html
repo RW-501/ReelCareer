@@ -569,22 +569,23 @@ function createTransactionElement(doc, transactionData, isWithdraw) {
     const netAmount = transactionData.amount - fee;
 
     transactionElement.innerHTML = `
-      <div class="transaction-details">
-        <p><strong>Transaction ID:</strong> ${doc.id}</p>
-        <p><strong>Note:</strong> ${transactionData.note}</p>
-        <p><strong>Date:</strong> ${timestamp}</p>
-        ${isWithdraw ? `
-        <p><strong>Withdraw Amount:</strong> $${transactionData.withdraw_amount.toFixed(2)}</p>
-        <p><strong>Available Amount:</strong> $${transactionData.availableAmount.toFixed(2)}</p>` : `
-        <p><strong>Gift Type:</strong> ${transactionData.giftType || 'N/A'}</p>
-        <p><strong>Amount:</strong> $${transactionData.amount.toFixed(2)}</p>
-        <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
-        <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
-        `}
-      </div>
-      <hr>
-      <p><strong>Status:</strong> ${transactionData.status || 'Active'}</p>
-    `;
+  <div class="transaction-details">
+    <p><strong>Transaction ID:</strong> ${doc.id}</p>
+    <p><strong>Note:</strong> ${transactionData.note}</p>
+    <p><strong>Date:</strong> ${timestamp}</p>
+    ${isWithdraw ? `
+      <p><strong>Withdraw Amount:</strong> $${transactionData.withdraw_amount.toFixed(2)}</p>
+      <p><strong>Available Amount:</strong> $${(transactionData.availableAmount - transactionData.withdraw_amount).toFixed(2)}</p>` : `
+      <p><strong>Gift Type:</strong> ${transactionData.giftType || 'N/A'}</p>
+      <p><strong>Amount:</strong> $${transactionData.amount.toFixed(2)}</p>
+      <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+      <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+    `}
+  </div>
+  <hr>
+  <p><strong>Status:</strong> ${transactionData.status || 'Active'}</p>
+`;
+
     return transactionElement;
 }
 
@@ -622,7 +623,7 @@ async function calculateTotalPayout() {
         latestTransactionDate = transactionData.requestDate;
       }
 
-      const transactionElement = createTransactionElement(doc.id, transactionData, isWithdraw, payPalPayStatus);
+      const transactionElement = createTransactionElement(doc, transactionData, isWithdraw, payPalPayStatus);
       transactionsLog.appendChild(transactionElement);
     });
 
