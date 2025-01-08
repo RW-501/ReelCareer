@@ -263,7 +263,7 @@ async function loadGiftsForPost(postID) {
     giftImage.alt = giftData.name; // Set alt text for accessibility
   
     // Determine image source based on gift name
-    switch (giftData.name.toLowerCase()) {
+    switch (giftData.giftType.toLowerCase()) {
       case "small-candle":
         giftImage.src = "https://reelcareer.co/obituaries/images/gifts/CandleSmall.PNG";
         break;
