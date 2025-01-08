@@ -160,6 +160,40 @@
     gap: .5rem;
 }
 
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.highlighted-amount {
+  color: #28a745;
+  font-weight: bold;
+}
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.confirm-btn {
+  color: white;
+  border: none;
+}
+.cancel-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+}
+
+
+
 
 .totalPayout {
     margin: 1rem auto;
@@ -256,18 +290,29 @@
         
         <section id="payout-modal" class="popup">
           <div class="popup-content">
-            <h3>Process Payout</h3>
-            <div class="totalPayout">Total available for payout: $<span id="total-payout"></span></div>
-            <div id="transactions-log"></div>
-
-
-
-
-            <input type="number" id="requested-amount" placeholder="Enter amount">
-            <button onclick="confirmPayout()">Confirm</button>
-            <button onclick="closeModal()">Close</button>
+            <div class="popup-header">
+              <h3>Process Payout</h3>
+              <button onclick="closeModal()" class="close-btn">&times;</button>
+            </div>
+            <div class="totalPayout">
+              <strong>Total Available for Payout:</strong> 
+              <span id="total-payout" class="highlighted-amount">$0.00</span>
+            </div>
+            <div id="transactions-log" class="transaction-log"></div>
+        
+            <div id="last-request-date" class="info-text"></div>
+            <div id="request-note" class="info-text"></div>
+        
+            <label for="requested-amount" class="input-label">Enter Amount to Request:</label>
+            <input type="number" id="requested-amount" placeholder="Enter amount" class="input-box">
+            
+            <div class="button-group">
+              <button onclick="confirmPayout()" class="btn confirm-btn">Confirm</button>
+              <button onclick="closeModal()" class="btn cancel-btn">Close</button>
+            </div>
           </div>
         </section>
+        
 
 
         <div id="user-toolbar" class="toolbar">
@@ -548,61 +593,71 @@ function createTransactionElement(doc, transactionData, isWithdraw) {
 
 
 
+let requestPayoutBool = false;
 
-
-
-// Function to load transactions and calculate the total available payout
 async function calculateTotalPayout() {
   try {
     const transactionsRef = collection(db, 'A_Transactions');
-    
-    // Query transactions for the specified pageID
     const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
     const transactionSnapshot = await getDocs(transactionsQuery);
 
     let totalGifts = 0;
     let withdrawnPayouts = 0;
     const transactionsLog = document.getElementById("transactions-log");
-    transactionsLog.innerHTML = '';  // Clear existing logs before adding new ones
+    transactionsLog.innerHTML = '';  // Clear previous logs
 
-    // Loop through transactions and calculate totals
     transactionSnapshot.forEach(doc => {
       const transactionData = doc.data();
-console.log("Processing Transaction:", doc.id, transactionData);  // Log transaction details
+      const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
+      const isWithdraw = transactionData.transactionType === "withdraw";
 
-// Extract and log PayPal payment status
-const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
-console.log(`PayPal Payment Status for Transaction ${doc.id}:`, payPalPayStatus);
+      if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
+        const fee = transactionData.amount * 0.10;
+        const netAmount = transactionData.amount - fee;
+        totalGifts += netAmount;
+      } else if (isWithdraw) {
+        withdrawnPayouts += transactionData.withdraw_amount || 0;
+      }
 
-// Check transaction type
-const isWithdraw = transactionData.transactionType === "withdraw";
-console.log(`Transaction Type for ${doc.id}:`, isWithdraw ? "Withdraw" : "Gift/Deposit");
-
-// Calculate and log totals
-if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
-    const fee = transactionData.amount * 0.10;
-    const netAmount = transactionData.amount - fee;
-    totalGifts += netAmount;
-    console.log(`Gift Transaction ${doc.id}: Amount: $${transactionData.amount.toFixed(2)}, Fee: $${fee.toFixed(2)}, Net Amount: $${netAmount.toFixed(2)}`);
-} else if (isWithdraw) {
-    const withdrawAmount = transactionData.withdraw_amount || 0;
-    withdrawnPayouts += withdrawAmount;
-    console.log(`Withdraw Transaction ${doc.id}: Withdrawn Amount: $${withdrawAmount.toFixed(2)}`);
-}
-
-
-    const transactionElement = createTransactionElement(doc, transactionData, isWithdraw);
-    transactionsLog.appendChild(transactionElement);
-});
-
+      const transactionElement = createTransactionElement(doc.id, transactionData, isWithdraw, payPalPayStatus);
+      transactionsLog.appendChild(transactionElement);
+    });
 
     const availablePayout = totalGifts - withdrawnPayouts;
+    handleRequestCooldown();
     return availablePayout;
-
   } catch (error) {
     console.error("Error calculating total payout:", error);
     return 0;
   }
+}
+
+function handleRequestCooldown() {
+  const lastRequestDate = new Date(transactionData.requestDate || 0);
+  const sevenDaysLater = new Date(lastRequestDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const now = new Date();
+
+  if (now >= sevenDaysLater) {
+    requestPayoutBool = true;
+    document.getElementById("request-note").textContent = "You can request funds.";
+  } else {
+    requestPayoutBool = false;
+    document.getElementById("request-note").textContent = `You can request funds on ${sevenDaysLater.toLocaleDateString()}.`;
+  }
+  document.getElementById("last-request-date").textContent = `Last Request: ${lastRequestDate.toLocaleDateString()}`;
+}
+
+async function processPayout() {
+  const availableAmount = await calculateTotalPayout();
+  document.getElementById("total-payout").textContent = availableAmount.toFixed(2);
+
+  if (!requestPayoutBool) {
+    showToast("Request can only be made once every 7 days", 'error');
+    return;
+  }
+
+  showToast(`Total available payout: $${availableAmount.toFixed(2)}`, 'success');
+  document.getElementById("payout-modal").classList.add('open');
 }
 
 window.calculateTotalPayout = calculateTotalPayout;
@@ -615,6 +670,11 @@ async function processPayout() {
     const availableAmount = await calculateTotalPayout();
     document.getElementById("total-payout").textContent = availableAmount;
 
+if(requestPayoutBool = fasle){
+  showToast(`Request can only be made once every 7 days`, 'error');
+return;
+}
+
     // Show available payout
     showToast(`Total available payout: $${availableAmount}`, 'success');
     document.getElementById("payout-modal").classList.add('open');
@@ -624,6 +684,10 @@ window.processPayout = processPayout;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
+
+
+
+
     const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
     const availableAmount = await calculateTotalPayout();
 
