@@ -128,26 +128,35 @@
     height: 100%;
     overflow: hidden;
     outline: 0;
-    background-color: #9e9a9a;
-}
+    background-color: #9e9a9a82;
+  }
 
 .open {
   display: block;
 }
 
 .popup-content {
-  
-    position: relative;
-
+    position: absolute;
     display: grid;
-
-    width: 100%;
+    width: 90%;
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid rgba(0,0,0,.2);
     border-radius: .3rem;
     outline: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 2rem auto;
+    max-height: 500px;
+    padding: 1rem;
+    overflow-y: scroll;
+    align-content: stretch;
+    justify-content: center;
+    align-items: center;
+    justify-items: stretch;
 }
 
 
