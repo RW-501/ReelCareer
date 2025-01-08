@@ -683,14 +683,19 @@ footer p {
 color: red;
 }
 
-  
-  .giftPopup  input {
-      width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-  }
+.giftPopup  input[type=text],
+.giftPopup  input[type=checkbox],
+.giftPopup  textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.giftPopup  input[type=text],
+.giftPopup  textarea {
+    width: calc(100% - 20px);
+}
 
   .giftPopup button {
       display: block;
