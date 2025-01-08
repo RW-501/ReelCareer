@@ -527,8 +527,11 @@ window.confirmPayout = confirmPayout;
 
 // Function to create a new payout transaction
 async function createPayoutTransaction(amount) {
-    const pageID = "PageID"; // Replace with actual page ID
-    const transactionRef = collection(db, `A_Transactions`, `Gift_${pageID}`);
+    const transactionsRef = collection(db, 'A_Transactions');
+    
+    // Query transactions for the specified pageID
+    const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
+
 
     const transactionData = {
         giftType: "Gift", // Example value, adjust as needed
@@ -539,7 +542,7 @@ async function createPayoutTransaction(amount) {
     };
 
     // Add the transaction to the database
-    await addDoc(transactionRef, transactionData);
+    await addDoc(transactionsQuery, transactionData);
 
     console.log("Payout transaction created:", transactionData);
 }
