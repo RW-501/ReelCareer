@@ -217,7 +217,7 @@ querySnapshot.forEach((doc) => {
             </div>
             ` : ""}
     `;
-    if(entry.giftType){
+    if(entry.giftType  && entry.public == true){
       loadGiftsForPost(postID); 
 
     }
@@ -257,7 +257,7 @@ async function loadGiftsForPost(postID) {
  // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
   const giftsSnapshot = await getDocs(giftsRefs);
   const giftsList = document.getElementById(`gifts-${postID}`);
-  giftsList.innerHTML = "";  // Clear previous gifts
+  // giftsList.innerHTML = "";  // Clear previous gifts
 
   giftsSnapshot.forEach(doc => {
     const giftData = doc.data();
