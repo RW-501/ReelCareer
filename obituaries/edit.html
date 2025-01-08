@@ -750,53 +750,48 @@ previewBtn.addEventListener('click', () => {
   previewBtn.style.display = 'none';
   saveBtn.style.display = 'none';
 });
-
-// Save Changes
 saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
-  
   removeEditingHighlights();
 
-  // Get all non-changeable divs from the current view
   const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
 
-  // Log each non-changeable div's current content
   console.log('Current nonChangeable divs:');
   nonChangeableDivs.forEach((div, index) => {
     console.log(`Div ${index}:`, div.outerHTML);
   });
 
-  // Extract original non-changeable content from originalHTML
   const tempContainer = document.createElement('div');
   tempContainer.innerHTML = originalHTML;
   const originalNonChangeableDivs = tempContainer.querySelectorAll('.nonChangeable');
 
-  // Log each original non-changeable div's content
   console.log('Original nonChangeable divs:');
   originalNonChangeableDivs.forEach((div, index) => {
     console.log(`Div ${index}:`, div.outerHTML);
   });
 
-  // Compare each corresponding non-changeable div's innerHTML
-  const modified = Array.from(nonChangeableDivs).some((div, index) => {
-    return div.innerHTML !== originalNonChangeableDivs[index].innerHTML;
-  });
+  // Check if the number of non-changeable divs has changed
+  let modified = nonChangeableDivs.length !== originalNonChangeableDivs.length;
+  
+  // If lengths are the same, compare outerHTML for all non-changeable divs
+  if (!modified) {
+    modified = Array.from(nonChangeableDivs).some((div, index) => {
+      return div.outerHTML !== originalNonChangeableDivs[index].outerHTML;
+    });
+  }
 
-  // Log result of comparison
   console.log('Is content modified:', modified);
 
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
   } else {
-    const newHTML = viewObituary.innerHTML; // Capture the latest HTML
+    const newHTML = viewObituary.innerHTML;
     await saveHTMLToGitHub(newHTML);
     messageDiv.innerHTML = 'Changes saved successfully!';
     previewBtn.style.display = 'none';
     saveBtn.style.display = 'none';
   }
 });
-
-
 
 // Handle drag start (grab the entire div, not just the inner element)
 // Enable drag events for layout
