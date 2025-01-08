@@ -567,15 +567,29 @@ async function calculateTotalPayout() {
 
     // Loop through transactions and calculate totals
     transactionSnapshot.forEach(doc => {
-    const transactionData = doc.data();
-    const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
-    const isWithdraw = transactionData.transactionType === "withdraw";
-    
-    if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
-        totalGifts += transactionData.amount - (transactionData.amount * 0.10);
-    } else if (isWithdraw) {
-        withdrawnPayouts += transactionData.withdraw_amount || 0;
-    }
+      const transactionData = doc.data();
+console.log("Processing Transaction:", doc.id, transactionData);  // Log transaction details
+
+// Extract and log PayPal payment status
+const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
+console.log(`PayPal Payment Status for Transaction ${doc.id}:`, payPalPayStatus);
+
+// Check transaction type
+const isWithdraw = transactionData.transactionType === "withdraw";
+console.log(`Transaction Type for ${doc.id}:`, isWithdraw ? "Withdraw" : "Gift/Deposit");
+
+// Calculate and log totals
+if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
+    const fee = transactionData.amount * 0.10;
+    const netAmount = transactionData.amount - fee;
+    totalGifts += netAmount;
+    console.log(`Gift Transaction ${doc.id}: Amount: $${transactionData.amount.toFixed(2)}, Fee: $${fee.toFixed(2)}, Net Amount: $${netAmount.toFixed(2)}`);
+} else if (isWithdraw) {
+    const withdrawAmount = transactionData.withdraw_amount || 0;
+    withdrawnPayouts += withdrawAmount;
+    console.log(`Withdraw Transaction ${doc.id}: Withdrawn Amount: $${withdrawAmount.toFixed(2)}`);
+}
+
 
     const transactionElement = createTransactionElement(doc, transactionData, isWithdraw);
     transactionsLog.appendChild(transactionElement);
