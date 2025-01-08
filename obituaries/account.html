@@ -283,14 +283,14 @@
 
           <div id="processPayoutArea">
 
-          <button class="action-btn" onclick="processPayout()">Process Payout</button>
+          <button class="action-btn" onclick="viewTransactions()">Transactions</button>
         </div>
         </section>
         
         <section id="payout-modal" class="popup">
           <div class="popup-content">
             <div class="popup-header">
-              <h3>Process Payout</h3>
+              <h3>Transactions</h3>
               <button onclick="closeModal()" class="close-btn">&times;</button>
             </div>
             <div class="totalPayout">
@@ -306,7 +306,7 @@
             <input type="number" id="requested-amount" placeholder="Enter amount" class="input-box">
             
             <div class="button-group">
-              <button onclick="confirmPayout()" class="btn confirm-btn">Confirm</button>
+              <button onclick="confirmPayout()" class="btn confirm-btn">Process Payout</button>
               <button onclick="closeModal()" class="btn cancel-btn">Close</button>
             </div>
           </div>
@@ -664,7 +664,7 @@ function handleRequestCooldown(latestTransactionDate) {
   document.getElementById("last-request-date").textContent = `Last Request: ${lastRequestDate.toLocaleDateString()}`;
 }
 
-async function processPayout() {
+async function viewTransactions() {
   const availableAmount = await calculateTotalPayout();
   document.getElementById("total-payout").textContent = availableAmount.toFixed(2);
 
@@ -683,7 +683,7 @@ async function processPayout() {
 
 
 
-window.processPayout = processPayout;
+window.viewTransactions = viewTransactions;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
@@ -784,7 +784,7 @@ async function processPayoutTransaction(contact, contact2, transactionData) {
             pageName: pageName,
             status: "Pending",
             userID: userID,
-            userIP: userIP,
+            userIP: getUserIP(),
             timestamp: serverTimestamp(),
             requestDate: new Date(),
         });
