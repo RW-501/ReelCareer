@@ -312,25 +312,28 @@ console.log("stateViews: ", stateViews);
   }
 }
 
-function countDailyViews(pageViewed) {
+function countDailyViews(ipData) {
   const dailyViews = {};
-  pageViewed.forEach(({ time }) => {
-    const date = time.toDate().toLocaleDateString(); // Format date to day
-    dailyViews[date] = (dailyViews[date] || 0) + 1; // Increment count for that day
+  ipData.forEach(({ lastViewTime }) => {
+    if (lastViewTime && lastViewTime.toDate) {
+      const date = lastViewTime.toDate().toLocaleDateString(); // Format date to day
+      dailyViews[date] = (dailyViews[date] || 0) + 1; // Increment count for that day
+    }
   });
   return dailyViews;
 }
 
-function countLocationViews(pageViewed, locationType) {
+function countLocationViews(ipData, locationType) {
   const locationViews = {};
-  pageViewed.forEach(({ title, time, city, state, country }) => {
-    const location = locationType === 'city' ? city : state;
+  ipData.forEach(({ lastCity, lastState }) => {
+    const location = locationType === 'city' ? lastCity : lastState;
     if (location) {
       locationViews[location] = (locationViews[location] || 0) + 1; // Increment count for city/state
     }
   });
   return locationViews;
 }
+
 
 function renderCharts(dailyViews, cityViews, stateViews) {
   const dailyViewChartCtx = document.getElementById('dailyViewChart').getContext('2d');
