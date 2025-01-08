@@ -495,7 +495,13 @@ async function calculateTotalPayout(pageID) {
     transactionSnapshot.forEach(doc => {
       const transactionData = doc.data();
       const amount = transactionData.amount || 0;
-      const fee = amount * 0.10;  // Calculate 10% fee
+      const purchaseUnit = transactionData.paymentDetails?.purchase_units?.[0];
+const captureDetails = purchaseUnit?.payments?.captures?.[0];
+const payPalPayStatus = captureDetails?.status || 'Unknown';
+
+console.log(`Payment status: ${payPalPayStatus}`);
+
+const fee = amount * 0.10;  // Calculate 10% fee
       const netAmount = amount - fee;
       const status = transactionData.status || 'Unknown';
       const timestamp = transactionData.timestamp ? new Date(transactionData.timestamp.seconds * 1000).toLocaleString() : 'No date';
@@ -512,6 +518,8 @@ async function calculateTotalPayout(pageID) {
       transactionElement.innerHTML = `
         <div class="transaction-details">
           <p><strong>Transaction ID:</strong> ${doc.id}</p>
+          <p><strong>Gift Type:</strong> ${transactionData.giftType}</p>
+          
           <p><strong>Date:</strong> ${timestamp}</p>
           <p><strong>Amount:</strong> $${amount.toFixed(2)}</p>
           <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
