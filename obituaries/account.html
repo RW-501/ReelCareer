@@ -596,7 +596,7 @@ if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
 });
 
 
-    const availablePayout = totalGifts - pendingPayouts;
+    const availablePayout = totalGifts - withdrawnPayouts;
     return availablePayout;
 
   } catch (error) {
