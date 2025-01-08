@@ -553,7 +553,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
     const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
    // const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`, `TransactionRecords`); // Corrected path
-    const transactionsRefs = collection(db, `A_Transactions/Gift-${pageID}`); // Corrected path
+    const transactionsRefs = collection(db, `A_Transactions`); // Corrected path
 
     const anonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
     const publicCheckbox = document.getElementById("gift-publicCheckbox");
