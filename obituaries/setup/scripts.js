@@ -219,7 +219,7 @@ querySnapshot.forEach((doc) => {
             ` : ""}
     `;
     if(entry.giftType  && entry.public == true){
-      loadGiftsForPost(postID); 
+      loadGiftsForPost(entry, postID); 
 
     }
   }
@@ -252,16 +252,12 @@ window.loadEntries = loadEntries;
 
 
 // Function to load gifts for a guestbook post
-async function loadGiftsForPost(postID) {
-  const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+async function loadGiftsForPost(giftData, postID) {
 
- // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
-  const giftsSnapshot = await getDocs(giftsRefs);
+  
   const giftsList = document.getElementById(`gifts-${postID}`);
   // giftsList.innerHTML = "";  // Clear previous gifts
 
-  giftsSnapshot.forEach(doc => {
-    const giftData = doc.data();
     const giftItem = document.createElement("div");
   
     // Create a div container for better structure
@@ -297,7 +293,7 @@ async function loadGiftsForPost(postID) {
     // Add the gift container to the list item
     giftItem.appendChild(giftContainer);
     giftsList.appendChild(giftItem);
-  });
+ 
   
 }
 window.loadGiftsForPost = loadGiftsForPost;
@@ -623,7 +619,8 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   try {
     const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
     const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-    const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`, `TransactionRecords`); // Corrected path
+   // const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`, `TransactionRecords`); // Corrected path
+    const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`); // Corrected path
 
     const anonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
     const publicCheckbox = document.getElementById("gift-publicCheckbox");
