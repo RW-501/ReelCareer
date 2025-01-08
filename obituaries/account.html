@@ -387,7 +387,14 @@ async function getUserDetails() {
   }
 }
 
+// Utility: Format Timestamp
+function formatTimestamp(timestamp) {
+  // Convert Firebase Timestamp to milliseconds
+  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
 
+  // Format the date as MM/DD/YYYY
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
 
 // Function to load and display guestbook posts
 async function loadGuestbookPosts(pageID) {
@@ -405,13 +412,13 @@ async function loadGuestbookPosts(pageID) {
             const postElement = document.createElement("div");
             postElement.classList.add("guestbook-post");
             postElement.innerHTML = `
-                <p><strong>From:</strong> ${sanitizeInput(postData.name)}
-                  <br><strong>Message:</strong> ${sanitizeInput(postData.message)}</p>
+                <p><strong>From:</strong> ${(postData.name)}
+                  <br><strong>Message:</strong> ${(postData.message)}</p>
                 <p><strong>Date:</strong> ${formatTimestamp(postData.timestamp)}</p>
                 <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
                 ${postData.giftType ? `
                 <div class='gifts'>
-                  <p><strong>Gift:</strong> ${sanitizeInput(postData.gift)}</p>
+                  <p><strong>Gift:</strong> ${(postData.gift)}</p>
                 </div>
                 ` : ""}
                 <div class="controls">
