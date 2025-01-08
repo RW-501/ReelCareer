@@ -753,18 +753,42 @@ previewBtn.addEventListener('click', () => {
 
 // Save Changes
 saveBtn.addEventListener('click', async () => {
-  console.log('saveBtn.');
+  console.log('Save button clicked.');
+  
   removeEditingHighlights();
 
+  // Get all non-changeable divs from the current view
   const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
-  const modified = Array.from(nonChangeableDivs).some(div => div.innerHTML !== originalHTML);
-  console.log('nonChangeableDivs.',nonChangeableDivs);
-  console.log('nonChangeableDivs.',nonChangeableDivs.innerHTML);
-  console.log('modified.',modified);
+
+  // Log each non-changeable div's current content
+  console.log('Current nonChangeable divs:');
+  nonChangeableDivs.forEach((div, index) => {
+    console.log(`Div ${index}:`, div.outerHTML);
+  });
+
+  // Extract original non-changeable content from originalHTML
+  const tempContainer = document.createElement('div');
+  tempContainer.innerHTML = originalHTML;
+  const originalNonChangeableDivs = tempContainer.querySelectorAll('.nonChangeable');
+
+  // Log each original non-changeable div's content
+  console.log('Original nonChangeable divs:');
+  originalNonChangeableDivs.forEach((div, index) => {
+    console.log(`Div ${index}:`, div.outerHTML);
+  });
+
+  // Compare each corresponding non-changeable div's innerHTML
+  const modified = Array.from(nonChangeableDivs).some((div, index) => {
+    return div.innerHTML !== originalNonChangeableDivs[index].innerHTML;
+  });
+
+  // Log result of comparison
+  console.log('Is content modified:', modified);
 
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
   } else {
+    const newHTML = viewObituary.innerHTML; // Capture the latest HTML
     await saveHTMLToGitHub(newHTML);
     messageDiv.innerHTML = 'Changes saved successfully!';
     previewBtn.style.display = 'none';
