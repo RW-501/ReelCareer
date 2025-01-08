@@ -753,7 +753,7 @@ async function getUserContactDetails(transactionData) {
 // Function to process the payout transaction
 async function processPayoutTransaction(contact, contact2, transactionData) {
     try {
-        const payoutRef = collection(db, "Payouts");  // Ensure db is initialized properly
+        const payoutRef = collection(db, "A_Payouts");  // Ensure db is initialized properly
         if (!payoutRef) throw new Error('Failed to get payouts collection reference.');
         
         const payoutDoc = await addDoc(payoutRef, {
