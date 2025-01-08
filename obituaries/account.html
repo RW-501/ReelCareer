@@ -241,6 +241,11 @@
           <div class="popup-content">
             <h3>Process Payout</h3>
             <p>Total available for payout: $<span id="total-payout"></span></p>
+            <div id="transactions-log"></div>
+
+
+
+
             <input type="number" id="requested-amount" placeholder="Enter amount">
             <button onclick="confirmPayout()">Confirm</button>
             <button onclick="closeModal()">Close</button>
@@ -473,8 +478,7 @@ async function deletePost(postID) {
 }
 
 // Function to load transactions and calculate the total available payout
-
-async function calculateTotalPayout() {
+async function calculateTotalPayout(pageID) {
   try {
     const transactionsRef = collection(db, 'A_Transactions');
     
@@ -484,26 +488,47 @@ async function calculateTotalPayout() {
 
     let totalGifts = 0;
     let pendingPayouts = 0;
+    const transactionsLog = document.getElementById("transactions-log");
+    transactionsLog.innerHTML = '';  // Clear existing logs before adding new ones
 
     // Loop through transactions and calculate totals
     transactionSnapshot.forEach(doc => {
       const transactionData = doc.data();
-      const amount = transactionData.amount || 0; // Handle missing amount safely
-      const status = transactionData.status;      // Assume 'status' field exists
+      const amount = transactionData.amount || 0;
+      const fee = amount * 0.10;  // Calculate 10% fee
+      const netAmount = amount - fee;
+      const status = transactionData.status || 'Unknown';
+      const timestamp = transactionData.timestamp ? new Date(transactionData.timestamp.seconds * 1000).toLocaleString() : 'No date';
       
       if (status === "Completed") {
-        totalGifts += amount;  // Add completed transaction amounts
+        totalGifts += netAmount;
       } else if (status === "Pending") {
-        pendingPayouts += amount;  // Add pending transaction amounts
+        pendingPayouts += netAmount;
       }
+
+      // Create transaction entry
+      const transactionElement = document.createElement("div");
+      transactionElement.classList.add("transaction-entry");
+      transactionElement.innerHTML = `
+        <div class="transaction-details">
+          <p><strong>Transaction ID:</strong> ${doc.id}</p>
+          <p><strong>Date:</strong> ${timestamp}</p>
+          <p><strong>Amount:</strong> $${amount.toFixed(2)}</p>
+          <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+          <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+          <p><strong>Status:</strong> ${status}</p>
+        </div>
+        <hr>
+      `;
+      transactionsLog.appendChild(transactionElement);
     });
 
-    const availablePayout = totalGifts - pendingPayouts;  // Net available funds
+    const availablePayout = totalGifts - pendingPayouts;
     return availablePayout;
 
   } catch (error) {
     console.error("Error calculating total payout:", error);
-    return 0;  // Return 0 if an error occurs
+    return 0;
   }
 }
 
