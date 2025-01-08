@@ -180,7 +180,9 @@ async function loadEntries() {
     const firstName = nameHeader.textContent.split(" ")[0];
 
     // Replace [$Name$] with the first name in the placeholder text
-    guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
+    //guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
+    
+    renderInteractionsArea(firstName);
 
     entriesDiv.innerHTML = ""; // Clear existing entries
 

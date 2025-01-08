@@ -1,4 +1,4 @@
-function renderInteractionsArea() {
+function renderInteractionsArea(firstName) {
 
     
     // Create the HTML for the share buttons
@@ -24,7 +24,7 @@ function renderInteractionsArea() {
   </div>
 
   <div>
-    <textarea id="guestMessage" rows="4" placeholder="Share a memory of [$Name$]..." required></textarea>
+    <textarea id="guestMessage" rows="4" placeholder="Share a memory of ${firstName}..." required></textarea>
   </div>
   <div>
 
@@ -115,7 +115,7 @@ function renderGiftBoxArea(firstName) {
     <label for="gift-anonymousCheckbox">Submit as Anonymous</label>
   </div>
   <div>
-    <textarea id="gift-guestMessage" rows="4" placeholder="Share a memory of  ${firstName}..." required></textarea>
+    <textarea id="gift-guestMessage" rows="4" placeholder="Share a memory of ${firstName}..." required></textarea>
   </div>
   <div>
     <input type="checkbox" id="gift-publicCheckbox" checked>
@@ -145,5 +145,4 @@ function renderGiftBoxArea(firstName) {
 
 window.renderGiftBoxArea = renderGiftBoxArea;
 
-renderInteractionsArea();
 
