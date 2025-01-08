@@ -211,3 +211,113 @@ document.addEventListener('DOMContentLoaded', () => {
 
   trackAnalytics();  // Start tracking analytics after the page has loaded
 });
+
+
+
+function addToastStyles() {
+  // Check if the style already exists
+  if (document.getElementById('toast-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'toast-styles';
+  style.textContent = `
+      .toast {
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #333;
+          color: white;
+          padding: 15px 25px;
+          border-radius: 10px;
+          font-size: 16px;
+          font-family: 'Arial', sans-serif;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+          opacity: 0;
+          animation: fadeInOut 5s forwards;
+          z-index: 9999;
+      }
+      .toast.success {
+          background-color: #28a745;
+      }
+      .toast.error {
+          background-color: #dc3545;
+      }
+      .toast .close-toast {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 20px;
+          cursor: pointer;
+          padding: 0 10px;
+          margin-left: 15px;
+          transition: opacity 0.3s;
+      }
+      .toast .close-toast:hover {
+          opacity: 0.7;
+          color: red;
+      }
+      @keyframes fadeInOut {
+          0% {
+              opacity: 0;
+              transform: translateX(-50%) translateY(20px);
+          }
+          10% {
+              opacity: 1;
+              transform: translateX(-50%) translateY(0);
+          }
+          90% {
+              opacity: 1;
+              transform: translateX(-50%) translateY(0);
+          }
+          100% {
+              opacity: 0;
+              transform: translateX(-50%) translateY(20px);
+          }
+      }
+  `;
+  document.head.appendChild(style);
+}
+
+// Call the function to add the styles
+addToastStyles();
+
+  
+function showToast(message, type = "success") {
+  // Create a toast container (div)
+  const toast = document.createElement("div");
+  toast.classList.add("toast");
+  toast.classList.add(type); // Add type for different styles (e.g., success, error)
+
+  // Add message to the toast
+  toast.innerHTML = `
+    <span>${message}</span>
+    <button class="close-toast">×</button>
+  `;
+
+  // Append the toast to the body
+  document.body.appendChild(toast);
+
+  // Get the close button and add event listener
+  const closeButton = toast.querySelector(".close-toast");
+  closeButton.addEventListener("click", () => {
+    toast.remove();
+  });
+
+  // Apply the toast animation
+  toast.style.animation = "fadeInOut 5s forwards";
+
+  // Remove the toast after 5 seconds (or when clicked)
+  setTimeout(() => {
+    toast.remove();
+  }, 5000); // Toast disappears after 5 seconds
+}
+
+
+window.showToast = showToast;
+
+
+
