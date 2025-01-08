@@ -599,13 +599,21 @@ async function calculateTotalPayout() {
     const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
     const transactionSnapshot = await getDocs(transactionsQuery);
 
+    // Sort the transactions by requestDate in descending order
+    const sortedTransactions = transactionSnapshot.docs.sort((a, b) => {
+      const dateA = new Date(a.data().requestDate);
+      const dateB = new Date(b.data().requestDate);
+      return dateB - dateA; // Sort in descending order (latest first)
+    });
+
     let totalGifts = 0;
     let withdrawnPayouts = 0;
     const transactionsLog = document.getElementById("transactions-log");
     transactionsLog.innerHTML = '';  // Clear previous logs
-    let latestTransactionDate = null; // To track the latest transaction date
 
-    transactionSnapshot.forEach(doc => {
+    let latestTransactionDate = null;
+
+    sortedTransactions.forEach(doc => {
       const transactionData = doc.data();
       const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
       const isWithdraw = transactionData.transactionType === "Withdraw";
@@ -637,6 +645,7 @@ async function calculateTotalPayout() {
     return 0;
   }
 }
+
 
 window.calculateTotalPayout = calculateTotalPayout;
 
