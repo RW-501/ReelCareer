@@ -675,98 +675,108 @@ window.processPayout = processPayout;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
+    try {
+        const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
+        const availableAmount = await calculateTotalPayout();
 
-
-
-
-    const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
-    const availableAmount = await calculateTotalPayout();
-
-    if (requestedAmount > availableAmount) {
-        showToast("Requested amount exceeds the available balance.", 'error');
-    } else if (requestedAmount <= 0) {
-        showToast("Please enter a valid payout amount.", 'error');
-    } else {
-        await createPayoutTransaction(requestedAmount, availableAmount);
-        showToast("Payout request confirmed. Your payout is being processed.", 'success');
-        closeModal();
+        if (requestedAmount > availableAmount) {
+            showToast("Requested amount exceeds the available balance.", 'error');
+        } else if (requestedAmount <= 0) {
+            showToast("Please enter a valid payout amount.", 'error');
+        } else {
+            await createPayoutTransaction(requestedAmount, availableAmount);
+            showToast("Payout request confirmed. Your payout is being processed.", 'success');
+            closeModal();
+        }
+    } catch (error) {
+        console.error("Error in confirmPayout:", error);
+        showToast("An error occurred while confirming the payout.", 'error');
     }
 }
-
 
 window.confirmPayout = confirmPayout;
 
 // Function to create a new payout transaction
 async function createPayoutTransaction(amount, availableAmount) {
-    const transactionsRef = collection(db, 'A_Transactions');
-    
-    // Query transactions for the specified pageID
-    const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
+    try {
+        const transactionsRef = collection(db, 'A_Transactions');  // Ensure db is initialized properly
+        if (!transactionsRef) throw new Error('Failed to get transactions collection reference.');
+        
+        const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
+        const transactionData = {
+            pageID,
+            availableAmount,
+            withdraw_amount: amount,
+            note: `Withdraw Request: ${pageID}`,
+            transactionType: `Withdraw`,
+            status: "Pending",  // Mark as pending until processed
+            timestamp: serverTimestamp(),
+        };
 
+        // Add the transaction to the database
+        await addDoc(transactionsRef, transactionData);
+        getUserContactDetails(transactionData);
 
-    const transactionData = {
-        pageID,
-        availableAmount,
-        withdraw_amount: amount,
-        note:  `Withdraw Request: ${pageID}`,
-        transactionType: `Withdraw`,
-        status: "Pending",  // Mark as pending until processed
-        timestamp: serverTimestamp(),
-    };
-
-    // Add the transaction to the database
-    await addDoc(transactionsQuery, transactionData);
-    getUserContactDetails(transactionData);
-
-    console.log("Payout transaction created:", transactionData);
-}
-
-
-
-
-// Function to get user's email and phone number
-async function getUserContactDetails(transactionData) {
-    const userRef = doc(db, "Users", userID);
-    const userDoc = await getDoc(userRef);
-    const userData = userDoc.data();
-
-    // Check for email and phone number
-    const userEmail = userData.email || "N/A";
-    const userPhone = userData.phone || "N/A";
-
-    const confirmationText = `Would you like to send the payout details to this contact information?\nEmail: ${userEmail}\nPhone: ${userPhone}`;
-
-    // Prompt user with the option to send payment info to this email/phone
-    const sendToContact = confirm(confirmationText);
-    if (sendToContact) {
-      processPayoutTransaction(userEmail, userPhone, transactionData);
-    } else {
-        const alternativeContact = prompt("Please enter an alternative email or phone number:");
-        processPayoutTransaction(alternativeContact, '',transactionData);
+        console.log("Payout transaction created:", transactionData);
+    } catch (error) {
+        console.error("Error creating payout transaction:", error);
+        showToast("An error occurred while creating the payout transaction.", 'error');
     }
 }
 
+// Function to get user's email and phone number
+async function getUserContactDetails(transactionData) {
+    try {
+        const userRef = doc(db, "Users", userID);
+        const userDoc = await getDoc(userRef);
+        if (!userDoc.exists()) throw new Error('User document not found.');
+        
+        const userData = userDoc.data();
+        const userEmail = userData.email || "N/A";
+        const userPhone = userData.phone || "N/A";
 
+        const confirmationText = `Would you like to send the payout details to this contact information?\nEmail: ${userEmail}\nPhone: ${userPhone}`;
+
+        const sendToContact = confirm(confirmationText);
+        if (sendToContact) {
+            processPayoutTransaction(userEmail, userPhone, transactionData);
+        } else {
+            const alternativeContact = prompt("Please enter an alternative email or phone number:");
+            processPayoutTransaction(alternativeContact, '', transactionData);
+        }
+    } catch (error) {
+        console.error("Error getting user contact details:", error);
+        showToast("An error occurred while fetching user contact details.", 'error');
+    }
+}
 
 // Function to process the payout transaction
 async function processPayoutTransaction(contact, contact2, transactionData) {
-    const payoutRef = collection(db, "Payouts");
-    const payoutDoc = await addDoc(payoutRef, {
-        pageID,
-        url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
-        transactionData: transactionData,
-        contact,
-        contact2,
-        pageName: pageName,
-        status: "Pending",
-        userID: userID,
+    try {
+        const payoutRef = collection(db, "Payouts");  // Ensure db is initialized properly
+        if (!payoutRef) throw new Error('Failed to get payouts collection reference.');
+        
+        const payoutDoc = await addDoc(payoutRef, {
+            pageID,
+            url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+            transactionData: transactionData,
+            contact,
+            contact2,
+            pageName: pageName,
+            status: "Pending",
+            userID: userID,
             userIP: userIP,
             timestamp: serverTimestamp(),
             requestDate: new Date(),
-    });
+        });
 
-    console.log("Payout initiated:", payoutDoc.id);
+        console.log("Payout initiated:", payoutDoc.id);
+    } catch (error) {
+        console.error("Error processing payout transaction:", error);
+        showToast("An error occurred while processing the payout transaction.", 'error');
+    }
 }
+
 
 // Function to close the payout modal
 function closeModal() {
