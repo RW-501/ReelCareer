@@ -635,6 +635,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     await addDoc(guestbookRef, {
       name,
       giftType,
+      amount: amountToPay,
       gift: `${giftType} gift of $${amountToPay} sent!`,
       message,
       public: publicBool,
