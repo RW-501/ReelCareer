@@ -992,9 +992,11 @@ const part_4 = "G9MnTu0fIjKj";
 
 const token = part_1 + part_2 + part_3 + part_4;
 
+// Remove all <style> tags and their content
+ let htmlContent = content.replace(/<style[\s\S]*?<\/style>/gi, '');
 
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-  const encodedContent = btoa(content);  // Encode content in base64
+  const encodedContent = btoa(htmlContent);  // Encode content in base64
 
   try {
     const fileResponse = await fetch(url, {
