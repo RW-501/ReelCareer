@@ -260,7 +260,7 @@ async function loadGiftsForPost(postID) {
   
     // Add image element
     const giftImage = document.createElement("img");
-    giftImage.alt = giftData.name; // Set alt text for accessibility
+    giftImage.alt = giftData.giftType; // Set alt text for accessibility
   
     // Determine image source based on gift name
     switch (giftData.giftType.toLowerCase()) {
