@@ -794,69 +794,71 @@ saveBtn.addEventListener('click', async () => {
 });
 
 // Handle drag start (grab the entire div, not just the inner element)
-// Enable drag events for layout
-function enableLayoutEditing() {
+function enableLayoutEditing() { 
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.add('active');
+    area.style.cursor = 'grab';  // Set initial grab cursor
     area.setAttribute('draggable', 'true');
     area.addEventListener('dragstart', handleDragStart);
     area.addEventListener('dragover', handleDragOver);
     area.addEventListener('drop', handleDrop);
-    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
-    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
+    area.addEventListener('dragenter', handleDragEnter);
+    area.addEventListener('dragleave', handleDragLeave);
+
+    // Prevent child elements from triggering drag events
+    const childElements = area.querySelectorAll('*');
+    childElements.forEach(child => {
+      child.setAttribute('draggable', 'false');
+    });
+
+    // Change cursor on hover and drag events
+    area.addEventListener('mousedown', () => area.style.cursor = 'grabbing');
+    area.addEventListener('mouseup', () => area.style.cursor = 'grab');
   });
 }
 
-// Handle drag start (add dragging class to show the element is being dragged)
 function handleDragStart(e) {
   e.dataTransfer.setData('text/html', e.target.outerHTML);
-  e.target.classList.add('dragging');  // Add class to indicate the element is being dragged
+  e.target.classList.add('dragging');
+  e.target.style.cursor = 'grabbing';  // Change cursor to grabbing when dragging
 }
 
-// Handle drag over (allow dropping)
 function handleDragOver(e) {
   e.preventDefault(); // Allow the drop
 }
 
-// Handle drop (swap the dragged element with the dropped element)
 function handleDrop(e) {
   e.preventDefault();
   const draggedElement = document.querySelector('.dragging');
-  const droppedElement = e.target;
+  const droppedElement = e.target.closest('.changeable-area');  // Ensure valid drop target
 
-  // Check if the drop target is a valid 'changeable-area'
-  if (droppedElement.classList.contains('changeable-area')) {
-    // Swap the elements: Remove from the DOM and insert the dragged one into the new location
+  if (droppedElement && draggedElement !== droppedElement) {
     const draggedHTML = draggedElement.outerHTML;
     const droppedHTML = droppedElement.outerHTML;
 
-    // Swap HTML between dragged and dropped elements
     draggedElement.outerHTML = droppedHTML;
     droppedElement.outerHTML = draggedHTML;
 
-    // Optionally, reattach event listeners after swapping
-    enableLayoutEditing();
+    enableLayoutEditing();  // Reattach event listeners
   }
 
-  // Remove the dragging class and highlight after the drop
-  droppedElement.classList.remove('highlight');
   draggedElement.classList.remove('dragging');
+  draggedElement.style.cursor = 'grab';  // Reset cursor after dropping
 }
 
-// Highlight drop zone when dragging over it
 function handleDragEnter(e) {
   e.preventDefault();
-  e.target.classList.add('highlight');  // Add class to highlight drop zone
+  e.target.classList.add('highlight');
 }
 
-// Remove highlight from drop zone when dragging leaves
 function handleDragLeave(e) {
-  e.target.classList.remove('highlight');  // Remove highlight when dragging leaves
+  e.target.classList.remove('highlight');
 }
+
 
 // Enable text editing
 function enableTextEditing() {
