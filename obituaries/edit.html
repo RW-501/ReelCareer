@@ -857,7 +857,6 @@ saveBtn.addEventListener('click', async () => {
   } else {
    // const newHTML = viewObituary.innerHTML;
     await saveHTMLToGitHub(newHTML);
-    messageDiv.innerHTML = 'Changes saved successfully!';
     previewBtn.style.visibility = 'hidden';
     saveBtn.style.visibility = 'hidden';
   }
@@ -1032,6 +1031,10 @@ const token = part_1 + part_2 + part_3 + part_4;
 
     const data = await response.json();
     console.log('File saved successfully!', data);
+    messageDiv.innerHTML = 'Changes saved successfully!';
+
+    showToast("Saved successfully!");
+
   } catch (error) {
     messageDiv.innerHTML = `Error: ${error.message}`;
   }
