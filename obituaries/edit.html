@@ -793,6 +793,7 @@ window.getSelectedObituary = getSelectedObituary;
 
 });
 
+const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
 
 // Change Layout Mode
 changeLayoutBtn.addEventListener('click', () => {
@@ -811,7 +812,7 @@ changeTextBtn.addEventListener('click', () => {
 // Preview Changes
 previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
-  viewObituary.innerHTML = newHTML;
+  shadowRoot.innerHTML = newHTML;
   previewBtn.style.display = 'none';
   saveBtn.style.display = 'none';
 });
@@ -819,7 +820,8 @@ saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
   removeEditingHighlights();
 
-  const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
+
+  const nonChangeableDivs = shadowRoot.querySelectorAll('.nonChangeable');
 
   console.log('Current nonChangeable divs:');
   nonChangeableDivs.forEach((div, index) => {
@@ -850,7 +852,7 @@ saveBtn.addEventListener('click', async () => {
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
   } else {
-    const newHTML = viewObituary.innerHTML;
+    const newHTML = shadowRoot.innerHTML;
     await saveHTMLToGitHub(newHTML);
     messageDiv.innerHTML = 'Changes saved successfully!';
     previewBtn.style.display = 'none';
@@ -863,7 +865,7 @@ function enableLayoutEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableAreas = document.querySelectorAll('.changeable-area');
+  const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.add('active');
     area.style.cursor = 'grab';  // Set initial grab cursor
@@ -898,7 +900,7 @@ function handleDragOver(e) {
 
 function handleDrop(e) {
   e.preventDefault();
-  const draggedElement = document.querySelector('.dragging');
+  const draggedElement = shadowRoot.querySelector('.dragging');
   const droppedElement = e.target.closest('.changeable-area');  // Ensure valid drop target
 
   if (droppedElement && draggedElement !== droppedElement) {
@@ -931,7 +933,7 @@ function enableTextEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableTextDivs = document.querySelectorAll('.changeable-text');
+  const changeableTextDivs = shadowRoot.querySelectorAll('.changeable-text');
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
@@ -943,13 +945,13 @@ function enableTextEditing() {
 
 // Remove all highlights or outlines
 function removeEditingHighlights() {
-  const editableDivs = document.querySelectorAll('.changeable-text');
+  const editableDivs = shadowRoot.querySelectorAll('.changeable-text');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
   });
 
-  const changeableAreas = document.querySelectorAll('.changeable-area');
+  const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.remove('active');
   });
