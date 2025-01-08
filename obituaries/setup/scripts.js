@@ -672,14 +672,6 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   }
 }
 
-// Event Listener: Handle Anonymous Checkbox
-const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
-const giftGuestNameInput = document.getElementById("gift-guestName");
-
-giftAnonymousCheckbox.addEventListener("change", () => {
-  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
-});
-
 
 
 
@@ -840,4 +832,12 @@ loadEntries();
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
+
+// Event Listener: Handle Anonymous Checkbox
+const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
+const giftGuestNameInput = document.getElementById("gift-guestName");
+
+giftAnonymousCheckbox.addEventListener("change", () => {
+  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
+});
 
