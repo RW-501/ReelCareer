@@ -631,6 +631,7 @@ async function calculateTotalPayout() {
     return 0;
   }
 }
+window.calculateTotalPayout = calculateTotalPayout;
 
 function handleRequestCooldown() {
   const lastRequestDate = new Date(transactionData.requestDate || 0);
@@ -660,25 +661,9 @@ async function processPayout() {
   document.getElementById("payout-modal").classList.add('open');
 }
 
-window.calculateTotalPayout = calculateTotalPayout;
 
 
 
-
-// Function to display the payout modal with total available payout
-async function processPayout() {
-    const availableAmount = await calculateTotalPayout();
-    document.getElementById("total-payout").textContent = availableAmount;
-
-if(requestPayoutBool = fasle){
-  showToast(`Request can only be made once every 7 days`, 'error');
-return;
-}
-
-    // Show available payout
-    showToast(`Total available payout: $${availableAmount}`, 'success');
-    document.getElementById("payout-modal").classList.add('open');
-}
 
 window.processPayout = processPayout;
 
