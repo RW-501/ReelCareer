@@ -952,7 +952,8 @@ function removeEditingHighlights() {
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
-    div.removeAttribute('draggable');
+    div.classList.remove('editable');
+   // div.removeAttribute('draggable');
 
   });
 
