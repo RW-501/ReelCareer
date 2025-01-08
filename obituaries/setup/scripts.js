@@ -163,88 +163,75 @@ function timeSincePost(timestamp) {
   return `${years} years ago`;
 }
   // Function to load guestbook entries
-  async function loadEntries() {
-    try {
+// Function to load guestbook entries
+async function loadEntries() {
+  try {
+    console.log('pageID:', pageID);
 
-      console.log('pageID:', pageID);
+    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+    
+    // Order by timestamp (ascending or descending)
+    const querySnapshot = await getDocs(query(guestbookRef, orderBy("timestamp", "desc"))); // 'desc' for most recent first, 'asc' for oldest first
 
-      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-      const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
+    const nameHeader = document.getElementById("name-header");
+    const guestMessage = document.getElementById("gift-guestMessage");
 
-      const nameHeader = document.getElementById("name-header");
-      const guestMessage = document.getElementById("guestMessage");
+    // Extract the first part of the name before any space
+    const firstName = nameHeader.textContent.split(" ")[0];
 
-      // Extract the first part of the name before any space
-      const firstName = nameHeader.textContent.split(" ")[0];
-      
-      // Replace [$Name$] with the first name in the placeholder text
-      guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
-      
+    // Replace [$Name$] with the first name in the placeholder text
+    guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
 
-      
+    entriesDiv.innerHTML = ""; // Clear existing entries
 
+    querySnapshot.forEach((doc) => {
+      const entry = doc.data();
+      const sanitizedMessage = sanitizeInput(entry.message);
+      const sanitizedName = sanitizeInput(entry.name);
+      const timestamp = entry.timestamp;
+      const postID = doc.id;
 
-//giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
+      const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
 
-
-      entriesDiv.innerHTML = ""; // Clear existing entries
-
-querySnapshot.forEach((doc) => {
-  const entry = doc.data();
-  const sanitizedMessage = sanitizeInput(entry.message);
-  const sanitizedName = sanitizeInput(entry.name);
-  const timestamp = entry.timestamp;
-  const postID = doc.id;
- // console.log('entry:', entry);
-
-  const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
-  
-  if(entry.status =='active'){
-
-  // Enhanced entry display
-  entriesDiv.innerHTML += `
-    <div class="entry" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #f9f9f9;">
-      <div class="guestbook-content">
-        <strong style="font-size: 1.1em; color: #333;">${sanitizedName}</strong>
-        <span style="font-size: 0.9em; color: #777;">${timeAgo}</span>
-      </div>
-      <div class="guestbook-message">${sanitizedMessage}</div>
-    </div>
-                ${entry.giftType  && entry.public == true ? `
-            <div class='gifts'>
-                <ul id="gifts-${postID}">
-                    <!-- Gifts for this post will be injected here -->
-                </ul>
+      if (entry.status == 'active') {
+        // Enhanced entry display
+        entriesDiv.innerHTML += `
+          <div class="entry" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #f9f9f9;">
+            <div class="guestbook-content">
+              <strong style="font-size: 1.1em; color: #333;">${sanitizedName}</strong>
+              <span style="font-size: 0.9em; color: #777;">${timeAgo}</span>
             </div>
-            ` : ""}
-    `;
-    if(entry.giftType  && entry.public == true){
-      loadGiftsForPost(entry, postID); 
+            <div class="guestbook-message">${sanitizedMessage}</div>
+          </div>
+          ${entry.giftType && entry.public == true ? `
+            <div class='gifts'>
+              <ul id="gifts-${postID}">
+                <!-- Gifts for this post will be injected here -->
+              </ul>
+            </div>
+          ` : ""}
+        `;
+        
+        if (entry.giftType && entry.public == true) {
+          loadGiftsForPost(entry, postID); 
+        }
+      }
+    });
 
-    }
+    renderGiftBoxArea(firstName);
+
+    // Event Listener: Handle Anonymous Checkbox
+    const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
+    const giftGuestNameInput = document.getElementById("gift-guestName");
+
+    giftAnonymousCheckbox.addEventListener("change", () => {
+      giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
+    });
+
+  } catch (error) {
+    console.error("Error loading guestbook entries:", error);
   }
-
-});
- 
-
-renderGiftBoxArea(firstName);
-
-
-
-// Event Listener: Handle Anonymous Checkbox
-const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
-const giftGuestNameInput = document.getElementById("gift-guestName");
-
-giftAnonymousCheckbox.addEventListener("change", () => {
-  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
-});
-
-
-
-    } catch (error) {
-      console.error("Error loading guestbook entries:", error);
-    }
-  }
+}
 
 window.loadEntries = loadEntries;
 
