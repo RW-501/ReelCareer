@@ -575,43 +575,79 @@ window.selectGift = selectGift;
 
 // Handle payment success (save to Firestore)
 async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
-  const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+  try {
+    const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+    const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`);
 
-  // Add the transaction data to Firestore
-  await addDoc(giftsRefs, {
-    giftType: giftType,
-    amount: amountToPay,
-    paymentDetails: paymentDetails,
-    status: "completed", // Set as completed after payment
-    timestamp: serverTimestamp(),
-  });
+    // Fetch inputs and sanitize
+    const anonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
+    const publicCheckbox = document.getElementById("gift-publicCheckbox");
+    const nameInput = document.getElementById("gift-guestName");
+    const messageInput = document.getElementById("gift-guestMessage");
 
-  // Optionally post the gift to the guestbook
-  const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-  await addDoc(guestbookRef, {
-   // name: name || "",
-    giftType: giftType,
-    message: `${giftType} gift of $${amountToPay} sent!`,
-    status: "active",
-    timestamp: serverTimestamp(),
-  });
+    const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
+    const message = sanitizeInput(messageInput.value.trim());
+    const publicBool = publicCheckbox.checked;
+    const userIP = await getUserIP(); // Fetch user IP
 
-  // Add the PayPal transaction to the transactions collection
-  const transcationsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`);
-  await addDoc(transcationsRefs, {
-    giftType: giftType,
-    pageID,
-    url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
-    pageName: pageName,
-    paymentDetails: paymentDetails,
-    amount: amountToPay,
-    timestamp: serverTimestamp(),
-  });
-  
+    // Validation
+    if (!message) {
+      alert("Please enter a message before submitting.");
+      return;
+    }
 
-  // Load entries again after posting
-  loadEntries();
+    // Add to Gifts-Transactions collection
+    await addDoc(giftsRefs, {
+      giftType,
+      amount: amountToPay,
+      paymentDetails,
+      status: "completed", // Payment status
+      timestamp: serverTimestamp(),
+    });
+
+    // Add to Guestbook collection
+    await addDoc(guestbookRef, {
+      name,
+      giftType,
+      gift: `${giftType} gift of $${amountToPay} sent!`,
+      message,
+      public: publicBool,
+      userIP,
+      status: "active",
+      timestamp: serverTimestamp(),
+    });
+
+    // Add to A_Transactions collection
+    await addDoc(transactionsRefs, {
+      giftType,
+      pageID,
+      url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+      pageName,
+      paymentDetails,
+      amount: amountToPay,
+      timestamp: serverTimestamp(),
+    });
+
+    // Reload guestbook entries
+    loadEntries();
+
+    alert("Thank you for your contribution!");
+  } catch (error) {
+    console.error("Error processing payment:", error);
+    alert("There was an error processing your gift. Please try again.");
+  }
 }
+
+// Event Listener: Handle Anonymous Checkbox
+const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
+const giftGuestNameInput = document.getElementById("gift-guestName");
+
+giftAnonymousCheckbox.addEventListener("change", () => {
+  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
+});
+
+
 
 
 const anonymousCheckbox = document.getElementById("anonymousCheckbox");
@@ -625,6 +661,7 @@ anonymousCheckbox.addEventListener("change", () => {
     guestNameInput.value = ""; // Clear the value when unchecked
   }
 });
+
 
 
 

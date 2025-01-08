@@ -97,11 +97,33 @@ function renderGiftBoxArea(nameFull) {
 
   </div>
 
-  
+
 <div id="payment-area" class="custom-amount hidden">
 
         <!-- Fee Information -->
         <div class="fees-info">
+
+<div id="gift-guestbookForm">
+  <div>
+    If you want this private, click the box. If you want it anonymous, click the anonymous box.
+  </div>
+  <div>
+    <input type="text" id="gift-guestName" placeholder="Your Name">
+  </div>
+  <div>
+    <input type="checkbox" id="gift-anonymousCheckbox">
+    <label for="gift-anonymousCheckbox">Submit as Anonymous</label>
+  </div>
+  <div>
+    <textarea id="gift-guestMessage" rows="4" placeholder="Share a memory of [$Name$]..." required></textarea>
+  </div>
+  <div>
+    <input type="checkbox" id="gift-publicCheckbox" checked>
+    <label for="gift-publicCheckbox">Do You Want It to Be Public?</label>
+  </div>
+</div>
+
+
                 <div id="payment-info"></div>
         </div>
 
