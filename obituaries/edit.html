@@ -873,7 +873,7 @@ function enableLayoutEditing() {
 
   const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
-    area.classList.add('active');
+    //area.classList.add('active');
     area.style.cursor = 'grab';  // Set initial grab cursor
     area.setAttribute('draggable', 'true');
     area.addEventListener('dragstart', handleDragStart);
@@ -897,6 +897,8 @@ function enableLayoutEditing() {
 function handleDragStart(e) {
   e.dataTransfer.setData('text/html', e.target.outerHTML);
   e.target.classList.add('dragging');
+  e.target.classList.add('active');
+
   e.target.style.cursor = 'grabbing';  // Change cursor to grabbing when dragging
 }
 
@@ -943,7 +945,7 @@ function enableTextEditing() {
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
-    div.classList.add('active');
+   // div.classList.add('active');
     div.addEventListener('focus', () => div.classList.add('active'));  // Add active class on focus
     div.addEventListener('blur', () => div.classList.remove('active'));  // Remove active class on blur
   });
