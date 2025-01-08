@@ -83,66 +83,6 @@ function sanitizeInput(input) {
 
 
 
-// Add the checkbox to the form
-// const formContainer = document.getElementById("form-container"); // Assume this is your form's container
-
-
-const submitbtn = document.getElementById("submit-btn");
-
-// Handle form submission
-submitbtn.addEventListener("click", async (e) => {
-  console.log('Form submission triggered.');
-  const anonymousCheckbox = document.getElementById("anonymousCheckbox");
-
-  const nameInput = document.getElementById("guestName");
-  const messageInput = document.getElementById("guestMessage");
-  const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
-  const message = sanitizeInput(messageInput.value.trim());
-  const userIP = await getUserIP(); // Fetch user IP address
-
-  let valid = true;
-
-  // Check if name and message are filled
-  if (!name) {
-    nameInput.style.borderColor = 'red'; // Highlight input with red border
-    valid = false;
-  } else {
-    nameInput.style.borderColor = ''; // Reset border color
-  }
-
-  if (!message) {
-    messageInput.style.borderColor = 'red'; // Highlight input with red border
-    valid = false;
-  } else {
-    messageInput.style.borderColor = ''; // Reset border color
-  }
-
-  // If both fields are valid, proceed with submission
-  if (valid) {
-    try {
-      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-      await addDoc(guestbookRef, {
-        name,
-        message,
-        userIP,
-        status: "active",
-        timestamp: serverTimestamp(),
-      });
-      nameInput.value = ''; // Clear form inputs
-      messageInput.value = ''; // Clear form inputs
-      anonymousCheckbox.checked = false; // Reset checkbox
-      await loadEntries(); // Refresh guestbook entries
-    } catch (error) {
-      console.error("Error adding guestbook entry:", error);
-    }
-  } else {
-    // Optionally, you can add a message to the user here
-    showToast("Please fill in both the name and the message.");
-  }
-});
-
-
-
     const entriesDiv = document.getElementById("guestbookEntries");
 
 
@@ -816,6 +756,62 @@ function showToast(message, type = "success") {
 
 
 window.showToast = showToast;
+
+
+const submitbtn = document.getElementById("submit-btn");
+
+// Handle form submission
+submitbtn.addEventListener("click", async (e) => {
+  console.log('Form submission triggered.');
+  const anonymousCheckbox = document.getElementById("anonymousCheckbox");
+
+  const nameInput = document.getElementById("guestName");
+  const messageInput = document.getElementById("guestMessage");
+  const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
+  const message = sanitizeInput(messageInput.value.trim());
+  const userIP = await getUserIP(); // Fetch user IP address
+
+  let valid = true;
+
+  // Check if name and message are filled
+  if (!name) {
+    nameInput.style.borderColor = 'red'; // Highlight input with red border
+    valid = false;
+  } else {
+    nameInput.style.borderColor = ''; // Reset border color
+  }
+
+  if (!message) {
+    messageInput.style.borderColor = 'red'; // Highlight input with red border
+    valid = false;
+  } else {
+    messageInput.style.borderColor = ''; // Reset border color
+  }
+
+  // If both fields are valid, proceed with submission
+  if (valid) {
+    try {
+      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+      await addDoc(guestbookRef, {
+        name,
+        message,
+        userIP,
+        status: "active",
+        timestamp: serverTimestamp(),
+      });
+      nameInput.value = ''; // Clear form inputs
+      messageInput.value = ''; // Clear form inputs
+      anonymousCheckbox.checked = false; // Reset checkbox
+      await loadEntries(); // Refresh guestbook entries
+    } catch (error) {
+      console.error("Error adding guestbook entry:", error);
+    }
+  } else {
+    // Optionally, you can add a message to the user here
+    showToast("Please fill in both the name and the message.");
+  }
+});
+
 
 
 
