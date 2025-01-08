@@ -173,12 +173,14 @@ function timeSincePost(timestamp) {
 
       const nameHeader = document.getElementById("name-header");
       const guestMessage = document.getElementById("guestMessage");
+      const giftBoxArea = document.getElementById("giftBoxArea");
 
       // Extract the first part of the name before any space
       const firstName = nameHeader.textContent.split(" ")[0];
       
       // Replace [$Name$] with the first name in the placeholder text
       guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
+      giftBoxArea.placeholder = giftBoxArea.placeholder.replaceAll("[$Name$]", firstName);
       
       
 
@@ -194,7 +196,7 @@ querySnapshot.forEach((doc) => {
   const sanitizedName = sanitizeInput(entry.name);
   const timestamp = entry.timestamp;
   const postID = doc.id;
-  console.log('entry:', entry);
+ // console.log('entry:', entry);
 
   const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
   
