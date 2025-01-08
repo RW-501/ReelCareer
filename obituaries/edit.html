@@ -962,6 +962,8 @@ function removeEditingHighlights() {
   const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.remove('active');
+    area.classList.remove('highlight');
+    area.classList.remove('dragging');
     area.removeAttribute('draggable');
     area.removeAttribute('style');
 
