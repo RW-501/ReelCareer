@@ -329,6 +329,21 @@ const getViewSource = () => {
   return externalSource || internalSource || 'Direct Visit';
 };
 
+// userLocationService.js
+const userLocationService = {
+  async getUserIPAndLocation() {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json'); // Example IP fetching API
+      const { ip } = await response.json();
+      const locationResponse = await fetch(`https://ipinfo.io/${ip}/json`);
+      const locationData = await locationResponse.json();
+      return { ipAddress: ip, locationData };
+    } catch (error) {
+      console.error('Error fetching user IP or location:', error);
+      return {};
+    }
+  }
+};
 
 
 async function incrementViews() {
