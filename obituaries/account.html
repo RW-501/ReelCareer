@@ -311,13 +311,13 @@
           onAuthStateChanged(auth, async (user) => {
   if (user) {
     try {
-      const userID = user.uid;
+       userID = user.uid;
       console.log("User ID:", userID);
 
       // Extract pageName and pageID from URL query parameters
       const urlParams = new URLSearchParams(window.location.search);
-      const pageName = urlParams.get("pageName");
-      const pageID = urlParams.get("pageID");
+       pageName = urlParams.get("pageName");
+       pageID = urlParams.get("pageID");
 
       if (!pageID) {
         console.warn("Missing pageID in URL parameters.");
