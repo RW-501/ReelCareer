@@ -719,7 +719,7 @@ const token = part_1 + part_2 + part_3 + part_4;
       const fileData = await fileResponse.json();
       const content = atob(fileData.content);  // Decode base64 content
       originalHTML = content;
-    //  console.log("originalHTML:", originalHTML);
+      console.log("originalHTML:", originalHTML);
 
       viewObituary.innerHTML = content;
       newHTML = content;  // Set the new HTML to be the same as the original at first
@@ -792,8 +792,8 @@ function getSelectedObituary() {
 window.getSelectedObituary = getSelectedObituary;
 
 });
-
 const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
+
 
 // Change Layout Mode
 changeLayoutBtn.addEventListener('click', () => {
@@ -812,7 +812,7 @@ changeTextBtn.addEventListener('click', () => {
 // Preview Changes
 previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
-  shadowRoot.innerHTML = newHTML;
+  viewObituary.innerHTML = newHTML;
   previewBtn.style.display = 'none';
   saveBtn.style.display = 'none';
 });
@@ -852,7 +852,7 @@ saveBtn.addEventListener('click', async () => {
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
   } else {
-    const newHTML = shadowRoot.innerHTML;
+    const newHTML = viewObituary.innerHTML;
     await saveHTMLToGitHub(newHTML);
     messageDiv.innerHTML = 'Changes saved successfully!';
     previewBtn.style.display = 'none';
@@ -900,7 +900,7 @@ function handleDragOver(e) {
 
 function handleDrop(e) {
   e.preventDefault();
-  const draggedElement = shadowRoot.querySelector('.dragging');
+  const draggedElement = document.querySelector('.dragging');
   const droppedElement = e.target.closest('.changeable-area');  // Ensure valid drop target
 
   if (droppedElement && draggedElement !== droppedElement) {
@@ -933,7 +933,7 @@ function enableTextEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableTextDivs = shadowRoot.querySelectorAll('.changeable-text');
+  const changeableTextDivs = document.querySelectorAll('.changeable-text');
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
@@ -945,13 +945,13 @@ function enableTextEditing() {
 
 // Remove all highlights or outlines
 function removeEditingHighlights() {
-  const editableDivs = shadowRoot.querySelectorAll('.changeable-text');
+  const editableDivs = document.querySelectorAll('.changeable-text');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
   });
 
-  const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
+  const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.remove('active');
   });
