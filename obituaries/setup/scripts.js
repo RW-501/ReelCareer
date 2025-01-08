@@ -735,6 +735,20 @@ function showToast(message, type = "success") {
 window.showToast = showToast;
 
 
+
+
+
+
+loadEntries();
+
+
+
+
+
+
+
+
+
 const submitbtn = document.getElementById("submit-btn");
 
 // Handle form submission
@@ -814,8 +828,6 @@ anonymousCheckbox.addEventListener("change", () => {
 
 
 
-
-loadEntries();
 
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
