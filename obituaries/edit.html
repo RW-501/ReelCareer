@@ -792,7 +792,6 @@ function getSelectedObituary() {
 window.getSelectedObituary = getSelectedObituary;
 
 });
-const shadowRoot = viewObituary.attachShadow({ mode: 'open' });
 
 
 // Change Layout Mode
@@ -820,8 +819,7 @@ saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
   removeEditingHighlights();
 
-
-  const nonChangeableDivs = shadowRoot.querySelectorAll('.nonChangeable');
+  const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
 
   console.log('Current nonChangeable divs:');
   nonChangeableDivs.forEach((div, index) => {
@@ -865,7 +863,7 @@ function enableLayoutEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
-  const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
+  const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.add('active');
     area.style.cursor = 'grab';  // Set initial grab cursor
