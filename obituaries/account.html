@@ -658,13 +658,15 @@ async function processPayout() {
   const availableAmount = await calculateTotalPayout();
   document.getElementById("total-payout").textContent = availableAmount.toFixed(2);
 
+
+
+  showToast(`Total available payout: $${availableAmount.toFixed(2)}`, 'success');
+  document.getElementById("payout-modal").classList.add('open');
+
   if (!requestPayoutBool) {
     showToast("Request can only be made once every 7 days", 'error');
     return;
   }
-
-  showToast(`Total available payout: $${availableAmount.toFixed(2)}`, 'success');
-  document.getElementById("payout-modal").classList.add('open');
 }
 
 
@@ -675,7 +677,14 @@ window.processPayout = processPayout;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
+
+  if (!requestPayoutBool) {
+    showToast("Request can only be made once every 7 days", 'error');
+    return;
+  }
     try {
+
+
         const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
         const availableAmount = await calculateTotalPayout();
 
