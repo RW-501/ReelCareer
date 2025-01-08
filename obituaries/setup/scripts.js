@@ -572,6 +572,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
     await addDoc(giftsRefs, {
       giftType,
+      pageID,
       amount: amountToPay,
       paymentDetails,
       status: "completed",
@@ -581,6 +582,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     await addDoc(guestbookRef, {
       name,
       giftType,
+      pageID,
       amount: amountToPay,
       gift: `${giftType} gift of $${amountToPay} sent!`,
       message,
@@ -596,6 +598,11 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
       url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
       pageName,
       paymentDetails,
+      withdraw_amount: 0,
+      note: `Credit to Account: ${pageID}`,
+      transactionType: `credit`,
+      status: "active",
+      userIP,
       amount: amountToPay,
       timestamp: serverTimestamp(),
     });

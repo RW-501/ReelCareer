@@ -157,9 +157,26 @@
     justify-content: center;
     align-items: center;
     justify-items: stretch;
+    gap: .5rem;
 }
 
 
+.totalPayout {
+    margin: 1rem auto;
+}
+
+
+.transaction-entry {
+  background-color: #f3f3f3;
+    padding: .5rem;
+    border-radius: 10px;
+
+}
+.transaction-details p {
+
+  margin-top: 0;
+  margin-bottom: 0;
+}
 }    
   </style>
   
@@ -240,7 +257,7 @@
         <section id="payout-modal" class="popup">
           <div class="popup-content">
             <h3>Process Payout</h3>
-            <p>Total available for payout: $<span id="total-payout"></span></p>
+            <div class="totalPayout">Total available for payout: $<span id="total-payout"></span></div>
             <div id="transactions-log"></div>
 
 
@@ -494,6 +511,46 @@ async function deletePost(postID) {
 
 }
 
+
+
+
+
+function createTransactionElement(doc, transactionData, isWithdraw) {
+    const transactionElement = document.createElement("div");
+    transactionElement.classList.add("transaction-entry");
+    const timestamp = transactionData.timestamp 
+        ? new Date(transactionData.timestamp.seconds * 1000).toLocaleString() 
+        : 'No date';
+    const fee = transactionData.amount ? transactionData.amount * 0.10 : 0;
+    const netAmount = transactionData.amount - fee;
+
+    transactionElement.innerHTML = `
+      <div class="transaction-details">
+        <p><strong>Transaction ID:</strong> ${doc.id}</p>
+        <p><strong>Note:</strong> ${transactionData.note}</p>
+        <p><strong>Date:</strong> ${timestamp}</p>
+        ${isWithdraw ? `
+        <p><strong>Withdraw Amount:</strong> $${transactionData.withdraw_amount.toFixed(2)}</p>
+        <p><strong>Available Amount:</strong> $${transactionData.availableAmount.toFixed(2)}</p>` : `
+        <p><strong>Gift Type:</strong> ${transactionData.giftType || 'N/A'}</p>
+        <p><strong>Amount:</strong> $${transactionData.amount.toFixed(2)}</p>
+        <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+        <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+        `}
+      </div>
+      <hr>
+      <p><strong>Status:</strong> ${transactionData.status || 'Active'}</p>
+    `;
+    return transactionElement;
+}
+
+
+
+
+
+
+
+
 // Function to load transactions and calculate the total available payout
 async function calculateTotalPayout() {
   try {
@@ -504,49 +561,26 @@ async function calculateTotalPayout() {
     const transactionSnapshot = await getDocs(transactionsQuery);
 
     let totalGifts = 0;
-    let pendingPayouts = 0;
+    let withdrawnPayouts = 0;
     const transactionsLog = document.getElementById("transactions-log");
     transactionsLog.innerHTML = '';  // Clear existing logs before adding new ones
 
     // Loop through transactions and calculate totals
     transactionSnapshot.forEach(doc => {
-      const transactionData = doc.data();
-      const amount = transactionData.amount || 0;
-      const purchaseUnit = transactionData.paymentDetails?.purchase_units?.[0];
-const captureDetails = purchaseUnit?.payments?.captures?.[0];
-const payPalPayStatus = captureDetails?.status || 'Unknown';
+    const transactionData = doc.data();
+    const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
+    const isWithdraw = transactionData.transactionType === "withdraw";
+    
+    if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
+        totalGifts += transactionData.amount - (transactionData.amount * 0.10);
+    } else if (isWithdraw) {
+        withdrawnPayouts += transactionData.withdraw_amount || 0;
+    }
 
-console.log(`Payment status: ${payPalPayStatus}`);
+    const transactionElement = createTransactionElement(doc, transactionData, isWithdraw);
+    transactionsLog.appendChild(transactionElement);
+});
 
-const fee = amount * 0.10;  // Calculate 10% fee
-      const netAmount = amount - fee;
-      const status = transactionData.status || 'Unknown';
-      const timestamp = transactionData.timestamp ? new Date(transactionData.timestamp.seconds * 1000).toLocaleString() : 'No date';
-      
-      if (status === "Completed") {
-        totalGifts += netAmount;
-      } else if (status === "Pending") {
-        pendingPayouts += netAmount;
-      }
-
-      // Create transaction entry
-      const transactionElement = document.createElement("div");
-      transactionElement.classList.add("transaction-entry");
-      transactionElement.innerHTML = `
-        <div class="transaction-details">
-          <p><strong>Transaction ID:</strong> ${doc.id}</p>
-          <p><strong>Gift Type:</strong> ${transactionData.giftType}</p>
-          
-          <p><strong>Date:</strong> ${timestamp}</p>
-          <p><strong>Amount:</strong> $${amount.toFixed(2)}</p>
-          <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
-          <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
-          <p><strong>Status:</strong> ${status}</p>
-        </div>
-        <hr>
-      `;
-      transactionsLog.appendChild(transactionElement);
-    });
 
     const availablePayout = totalGifts - pendingPayouts;
     return availablePayout;
@@ -576,23 +610,25 @@ window.processPayout = processPayout;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
-    const requestedAmount = parseFloat(document.getElementById("requested-amount").value);
+    const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
     const availableAmount = await calculateTotalPayout();
 
     if (requestedAmount > availableAmount) {
-        alert("Requested amount exceeds the available balance.");
+        showToast("Requested amount exceeds the available balance.", 'error');
+    } else if (requestedAmount <= 0) {
+        showToast("Please enter a valid payout amount.", 'error');
     } else {
-        // Create a new transaction for the payout
-        await createPayoutTransaction(requestedAmount);
-        alert("Payout request confirmed.");
+        await createPayoutTransaction(requestedAmount, availableAmount);
+        showToast("Payout request confirmed. Your payout is being processed.", 'success');
         closeModal();
     }
 }
 
+
 window.confirmPayout = confirmPayout;
 
 // Function to create a new payout transaction
-async function createPayoutTransaction(amount) {
+async function createPayoutTransaction(amount, availableAmount) {
     const transactionsRef = collection(db, 'A_Transactions');
     
     // Query transactions for the specified pageID
@@ -600,15 +636,18 @@ async function createPayoutTransaction(amount) {
 
 
     const transactionData = {
-        giftType: "Gift", // Example value, adjust as needed
         pageID,
-        amount,
+        availableAmount,
+        withdraw_amount: amount,
+        note:  `Withdraw Request: ${pageID}`,
+        transactionType: `Withdraw`,
         status: "Pending",  // Mark as pending until processed
         timestamp: serverTimestamp(),
     };
 
     // Add the transaction to the database
     await addDoc(transactionsQuery, transactionData);
+    getUserContactDetails(transactionData);
 
     console.log("Payout transaction created:", transactionData);
 }
@@ -617,7 +656,7 @@ async function createPayoutTransaction(amount) {
 
 
 // Function to get user's email and phone number
-async function getUserContactDetails() {
+async function getUserContactDetails(transactionData) {
     const userRef = doc(db, "Users", userID);
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
@@ -631,28 +670,24 @@ async function getUserContactDetails() {
     // Prompt user with the option to send payment info to this email/phone
     const sendToContact = confirm(confirmationText);
     if (sendToContact) {
-        sendPaymentInfo(userEmail, userPhone);
+      processPayoutTransaction(userEmail, userPhone, transactionData);
     } else {
         const alternativeContact = prompt("Please enter an alternative email or phone number:");
-        sendPaymentInfo(alternativeContact);
+        processPayoutTransaction(alternativeContact, '',transactionData);
     }
-}
-
-// Function to send payment info to a specific email/phone
-function sendPaymentInfo(contact) {
-    // Assuming you send email or SMS through an external API, make this request here.
-    console.log(`Sending payout details to ${contact}`);
 }
 
 
 
 // Function to process the payout transaction
-async function processPayoutTransaction(amount) {
+async function processPayoutTransaction(contact, contact2, transactionData) {
     const payoutRef = collection(db, "Payouts");
     const payoutDoc = await addDoc(payoutRef, {
         pageID,
         url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
-        amount: amount,
+        transactionData: transactionData,
+        contact,
+        contact2,
         pageName: pageName,
         status: "Pending",
         userID: userID,
