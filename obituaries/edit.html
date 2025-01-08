@@ -816,10 +816,12 @@ changeTextBtn.addEventListener('click', () => {
 // Preview Changes
 previewBtn.addEventListener('click', () => {
   removeEditingHighlights();
+  viewObituary.innerHTML = '';
   viewObituary.innerHTML = newHTML;
   previewBtn.style.visibility = 'hidden';
   saveBtn.style.visibility = 'visible';
 });
+
 saveBtn.addEventListener('click', async () => {
   console.log('Save button clicked.');
   removeEditingHighlights();
