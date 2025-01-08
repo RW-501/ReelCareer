@@ -1034,7 +1034,8 @@ const token = part_1 + part_2 + part_3 + part_4;
     const data = await response.json();
     console.log('File saved successfully!', data);
     messageDiv.innerHTML = 'Changes saved successfully!';
-
+    viewObituary.innerHTML = content;
+    
     showToast("Saved successfully!");
 
   } catch (error) {
