@@ -401,7 +401,7 @@ async function loadGuestbookPosts(pageID) {
             </div>
             ` : ""}
             <div class="controls">
-                <button onclick="privitePost('${postID}')">Privite</button>
+                <button onclick="privatePost('${postID}')">Private</button>
                 <button onclick="deletePost('${postID}')">Delete</button>
             </div><hr>
         `;
@@ -420,9 +420,9 @@ window.loadGuestbookPosts = loadGuestbookPosts;
 
 
 // Function to approve a guestbook post
-async function privitePost(postID) {
+async function privatePost(postID) {
     const postRef = doc(db, "Guestbook", postID);
-    await updateDoc(postRef, { status: "privite" });
+    await updateDoc(postRef, { status: "private" });
     loadGuestbookPosts(pageID);
 }
 
