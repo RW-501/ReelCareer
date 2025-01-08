@@ -354,63 +354,45 @@ async function getUserDetails() {
 
 
 // Function to format Firebase timestamp into a human-readable date format
-function formatTimestamp(timestamp) {
-  const date = new Date(timestamp.seconds * 1000); // Convert seconds to milliseconds
-
-  // Format the date into a readable format
-  const options = {
-    weekday: 'short', // "Mon"
-    year: 'numeric', // "2023"
-    month: 'short',  // "Jan"
-    day: 'numeric',  // "1"
-    hour: '2-digit', // "03"
-    minute: '2-digit', // "59"
-    second: '2-digit', // "59"
-    hour12: true // 12-hour clock (AM/PM)
-  };
-
-  return date.toLocaleString('en-US', options); // Returns formatted date string
-}
-
-
+import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 
 // Function to load and display guestbook posts
 async function loadGuestbookPosts(pageID) {
-    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-    const guestbookSnapshot = await getDocs(guestbookRef);
-    const guestbookList = document.getElementById("guestbook-list");
-   // guestbookList.innerHTML = "";  // Clear previous list
+    try {
+        const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+        const guestbookQuery = query(guestbookRef, orderBy('timestamp', 'desc')); // Order by timestamp descending
+        const guestbookSnapshot = await getDocs(guestbookQuery);
+        const guestbookList = document.getElementById("guestbook-list");
+        guestbookList.innerHTML = "";  // Clear previous list
 
-    guestbookSnapshot.forEach(doc => {
-        const postData = doc.data();
-        const postID = doc.id;
+        guestbookSnapshot.forEach(doc => {
+            const postData = doc.data();
+            const postID = doc.id;
 
-        console.log("postData ",postData);
-        
-        const postElement = document.createElement("div");
-        postElement.classList.add("guestbook-post");
-        postElement.innerHTML = `
-            <p><strong>From:</strong> ${postData.name}
-              <br><strong>Message:</strong> ${postData.message}</p>
-
-            <p><strong>Date:</strong> ${formatTimestamp(postData.timestamp)}</p>
-            <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
-            ${postData.giftType ? `
-            <div class='gifts'>
-              <p><strong>Gift:</strong> ${postData.gift}</p>
-            </div>
-            ` : ""}
-            <div class="controls">
-                <button onclick="privatePost('${postID}')">Private</button>
-                <button onclick="deletePost('${postID}')">Delete</button>
-            </div><hr>
-        `;
-        guestbookList.appendChild(postElement);
-//                 <button onclick="rejectPost('${postID}')">Reject</button>
-
-        // Load gifts associated with the post
-    });
+            const postElement = document.createElement("div");
+            postElement.classList.add("guestbook-post");
+            postElement.innerHTML = `
+                <p><strong>From:</strong> ${sanitizeInput(postData.name)}
+                  <br><strong>Message:</strong> ${sanitizeInput(postData.message)}</p>
+                <p><strong>Date:</strong> ${formatTimestamp(postData.timestamp)}</p>
+                <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
+                ${postData.giftType ? `
+                <div class='gifts'>
+                  <p><strong>Gift:</strong> ${sanitizeInput(postData.gift)}</p>
+                </div>
+                ` : ""}
+                <div class="controls">
+                    <button onclick="privatePost('${postID}')">Private</button>
+                    <button onclick="deletePost('${postID}')">Delete</button>
+                </div><hr>
+            `;
+            guestbookList.appendChild(postElement);
+        });
+    } catch (error) {
+        console.error("Error loading guestbook posts:", error);
+    }
 }
+
 
 window.loadGuestbookPosts = loadGuestbookPosts;
 
