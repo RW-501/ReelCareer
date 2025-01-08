@@ -591,8 +591,6 @@ function createTransactionElement(doc, transactionData, isWithdraw) {
 
 
 
-
-
 let requestPayoutBool = false;
 
 async function calculateTotalPayout() {
@@ -605,6 +603,7 @@ async function calculateTotalPayout() {
     let withdrawnPayouts = 0;
     const transactionsLog = document.getElementById("transactions-log");
     transactionsLog.innerHTML = '';  // Clear previous logs
+    let latestTransactionDate = null; // To track the latest transaction date
 
     transactionSnapshot.forEach(doc => {
       const transactionData = doc.data();
@@ -619,22 +618,30 @@ async function calculateTotalPayout() {
         withdrawnPayouts += transactionData.withdraw_amount || 0;
       }
 
+      // Capture the date of the most recent transaction
+      if (!latestTransactionDate || new Date(transactionData.requestDate) > new Date(latestTransactionDate)) {
+        latestTransactionDate = transactionData.requestDate;
+      }
+
       const transactionElement = createTransactionElement(doc.id, transactionData, isWithdraw, payPalPayStatus);
       transactionsLog.appendChild(transactionElement);
     });
 
+    // Check request cooldown using the latest transaction date
+    handleRequestCooldown(latestTransactionDate);
+
     const availablePayout = totalGifts - withdrawnPayouts;
-    handleRequestCooldown(transactionData);
     return availablePayout;
   } catch (error) {
     console.error("Error calculating total payout:", error);
     return 0;
   }
 }
+
 window.calculateTotalPayout = calculateTotalPayout;
 
-function handleRequestCooldown(transactionData) {
-  const lastRequestDate = new Date(transactionData.requestDate || 0);
+function handleRequestCooldown(latestTransactionDate) {
+  const lastRequestDate = new Date(latestTransactionDate || 0);
   const sevenDaysLater = new Date(lastRequestDate.getTime() + 7 * 24 * 60 * 60 * 1000);
   const now = new Date();
 
