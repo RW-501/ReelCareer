@@ -230,6 +230,15 @@ const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
 renderGiftBoxArea(fullName);
 
 
+// Event Listener: Handle Anonymous Checkbox
+const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
+const giftGuestNameInput = document.getElementById("gift-guestName");
+
+giftAnonymousCheckbox.addEventListener("change", () => {
+  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
+});
+
+
 
     } catch (error) {
       console.error("Error loading guestbook entries:", error);
@@ -832,12 +841,3 @@ loadEntries();
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
-
-// Event Listener: Handle Anonymous Checkbox
-const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
-const giftGuestNameInput = document.getElementById("gift-guestName");
-
-giftAnonymousCheckbox.addEventListener("change", () => {
-  giftGuestNameInput.value = giftAnonymousCheckbox.checked ? "Anonymous" : "";
-});
-
