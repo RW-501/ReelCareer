@@ -635,7 +635,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
     // Validation
     if (!message) {
-      alert("Please enter a message before submitting.");
+      showToast("Please enter a message before submitting.");
       return;
     }
 
@@ -674,10 +674,10 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     // Reload guestbook entries
     loadEntries();
 
-    alert("Thank you for your contribution!");
+    showToast("Thank you for your contribution!");
   } catch (error) {
     console.error("Error processing payment:", error);
-    alert("There was an error processing your gift. Please try again.");
+    showToast("There was an error processing your gift. Please try again.");
   }
 }
 
