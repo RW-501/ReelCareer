@@ -209,7 +209,7 @@ querySnapshot.forEach((doc) => {
       </div>
       <div class="guestbook-message">${sanitizedMessage}</div>
     </div>
-                ${entry.giftType ? `
+                ${entry.giftType  && entry.public == true ? `
             <div class='gifts'>
                 <ul id="gifts-${postID}">
                     <!-- Gifts for this post will be injected here -->
@@ -251,11 +251,44 @@ async function loadGiftsForPost(postID) {
   giftsList.innerHTML = "";  // Clear previous gifts
 
   giftsSnapshot.forEach(doc => {
-      const giftData = doc.data();
-      const giftItem = document.createElement("li");
-      giftItem.textContent = `${giftData.name} - $${giftData.amount}`;
-      giftsList.appendChild(giftItem);
+    const giftData = doc.data();
+    const giftItem = document.createElement("div");
+  
+    // Create a div container for better structure
+    const giftContainer = document.createElement("div");
+    giftContainer.className = "gift-item";
+  
+    // Add image element
+    const giftImage = document.createElement("img");
+    giftImage.alt = giftData.name; // Set alt text for accessibility
+  
+    // Determine image source based on gift name
+    switch (giftData.name.toLowerCase()) {
+      case "small-candle":
+        giftImage.src = "https://reelcareer.co/obituaries/images/gifts/CandleSmall.PNG";
+        break;
+      case "big-candle":
+        giftImage.src = "https://reelcareer.co/obituaries/images/gifts/CandleBig.PNG";
+        break;
+      case "custom":
+        giftImage.src = "https://reelcareer.co/obituaries/images/gifts/Charity.PNG"; // Example custom gift image
+        break;
+      default:
+        giftImage.src = "https://reelcareer.co/obituaries/images/gifts/Charity.PNG"; // Default image if no match
+    }
+  
+    // Add image and text to the container
+    const giftText = document.createElement("span");
+    giftText.textContent = `${giftData.name} - $${giftData.amount}`;
+  
+    giftContainer.appendChild(giftImage);
+    giftContainer.appendChild(giftText);
+  
+    // Add the gift container to the list item
+    giftItem.appendChild(giftContainer);
+    giftsList.appendChild(giftItem);
   });
+  
 }
 window.loadGiftsForPost = loadGiftsForPost;
 
