@@ -314,24 +314,24 @@ function applyViewObituaryStyles() {
       const dragDropStyles = `
 
 
-        #viewObituary .changeable-area.active {
+ .changeable-area.active {
     border: 2px dashed blue;
     margin: .5rem 0;
     padding: .5rem 0;
     background-color: #f4f4f4;
     border-radius: 5px;
 }
-  #viewObituary .changeable-text.active {
+   .changeable-text.active {
     border: 2px solid green;
   }
   
-  #viewObituary .changeable-area {
+   .changeable-area {
     margin: .5rem 0;
     padding: .5rem 0;
     border: none;
 
 }
-  #viewObituary .changeable-text {
+   .changeable-text {
     border: none;
   }
   
@@ -340,7 +340,7 @@ function applyViewObituaryStyles() {
 
 
 
-  #viewObituary .editable {
+   .editable {
    /* outline: 2px solid rgb(217, 230, 29); */
    display: block;
   }
@@ -389,8 +389,8 @@ function applyViewObituaryStyles() {
 
 
       styleElement2.innerHTML = dragDropStyles;
-      shadowRoot.appendChild(styleElement2);
       shadowRoot.appendChild(styleElement);
+      shadowRoot.appendChild(styleElement2);
 
       // Move inner content to shadow DOM
       while (viewObituary.firstChild) {
