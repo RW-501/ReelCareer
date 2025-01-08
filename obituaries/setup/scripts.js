@@ -621,7 +621,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   try {
     const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
     const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-    const transactionsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`);
+    const transactionsRefs = collection(db, `A_Transactions/Gift_${pageID}`);
 
     // Fetch inputs and sanitize
     const anonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
