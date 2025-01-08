@@ -617,13 +617,14 @@ payment_area.style.display = "block";
 window.selectGift = selectGift;
 
 // Handle payment success (save to Firestore)
+// 
+// 
 async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   try {
     const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
     const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-    const transactionsRefs = collection(db, `A_Transactions/Gift_${pageID}`);
+    const transactionsRefs = collection(db, `A_Transactions/Gift_${pageID}`); // Fixed path
 
-    // Fetch inputs and sanitize
     const anonymousCheckbox = document.getElementById("gift-anonymousCheckbox");
     const publicCheckbox = document.getElementById("gift-publicCheckbox");
     const nameInput = document.getElementById("gift-guestName");
@@ -632,24 +633,21 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
     const message = sanitizeInput(messageInput.value.trim());
     const publicBool = publicCheckbox.checked;
-    const userIP = await getUserIP(); // Fetch user IP
+    const userIP = await getUserIP();
 
-    // Validation
     if (!message) {
       showToast("Please enter a message before submitting.");
       return;
     }
 
-    // Add to Gifts-Transactions collection
     await addDoc(giftsRefs, {
       giftType,
       amount: amountToPay,
       paymentDetails,
-      status: "completed", // Payment status
+      status: "completed",
       timestamp: serverTimestamp(),
     });
 
-    // Add to Guestbook collection
     await addDoc(guestbookRef, {
       name,
       giftType,
@@ -661,7 +659,6 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
       timestamp: serverTimestamp(),
     });
 
-    // Add to A_Transactions collection
     await addDoc(transactionsRefs, {
       giftType,
       pageID,
@@ -672,9 +669,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
       timestamp: serverTimestamp(),
     });
 
-    // Reload guestbook entries
     loadEntries();
-
     showToast("Thank you for your contribution!");
   } catch (error) {
     console.error("Error processing payment:", error);
