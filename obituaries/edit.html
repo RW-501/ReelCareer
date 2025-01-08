@@ -857,7 +857,7 @@ saveBtn.addEventListener('click', async () => {
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
   } else {
-   // const newHTML = viewObituary.innerHTML;
+    const newHTML = viewObituary.innerHTML;
     await saveHTMLToGitHub(newHTML);
     previewBtn.style.visibility = 'hidden';
     saveBtn.style.visibility = 'hidden';
