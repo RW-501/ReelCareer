@@ -104,14 +104,14 @@
   </header>
   <main>
     <div class="container">
-      <div id="mainPhoto-area" class="changeable-area" draggable="true" style="cursor: grab;">
+      <div id="mainPhoto-area" class="changeable-area">
         <img id="mainPhoto" src="https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/obituaries%2Freelcareer.jpg?alt=media&amp;token=2dbd2767-f97a-4ef1-9b90-8793307a2b59" alt="Ronald Wilson" draggable="false">
       </div>
-      <div id="celebrating-life-header" class="changeable-area" draggable="true" style="cursor: grab;">Celebrating the Life of</div> 
-      <div id="name-header" class="changeable-area" draggable="true" style="cursor: grab;">Ronald Wilson</div>
-      <div id="horizontal-rule" class="changeable-area" draggable="true" style="cursor: grab;"></div>
-      <div id="journey-description" class="changeable-area changeable-text" draggable="true" style="cursor: grab;">Born in February 2, 2020, Ronald Wilson's journey inspires growth and transformation. Embrace this new beginning together.</div>
-      <div id="info-section" class="changeable-area" draggable="true" style="cursor: grab;">
+      <div id="name-header" class="changeable-area">Ronald Wilson</div> 
+      <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div>
+      <div id="horizontal-rule" class="changeable-area"></div>
+      <div id="journey-description" class="changeable-area changeable-text">Born in February 2, 2020, Ronald Wilson's journey inspires growth and transformation. Embrace this new beginning together.</div>
+      <div id="info-section" class="changeable-area">
         <div id="event-details-header" class="changeable-text" draggable="false">Event Details</div>
         <div id="event-date" class="changeable-text" draggable="false"><strong draggable="false">Date:</strong> January 1, 2025</div>
         <div id="event-location" class="changeable-text" draggable="false"><strong draggable="false">Services will be held:</strong> Virtual Event</div>
@@ -119,12 +119,12 @@
         <div id="hashTag" class="changeable-text" draggable="false">#HashTag</div>
         <div id="social-link" class="changeable-text" draggable="false">website: <a href="https://reelcareer.co/obituaries/create" draggable="false">https://reelcareer.co/obituaries/create</a></div>
       </div>
-      <div id="media-section" class="changeable-area" draggable="true" style="cursor: grab;"></div>
+      <div id="media-section" class="changeable-area"></div>
       <div id="obituary-section">
         <div id="about-obituary" class="changeable-text">Ronald Wilson, a cherished developer, whose journey on earth began on February 2, 2020 and came to an end on January 1, 2025, is remembered fondly for the love and joy they brought to the lives of those around them in Virtual Event. Whether through their work, art, or friendship, Ronald Wilson's impact was immeasurable, and their spirit will live on in the hearts of their loved ones forever. #HashTag</div>
       </div>
-      <div id="dynamic-shareArea" class="changeable-area container" draggable="true" style="cursor: grab;"></div>
-      <div id="dynamic-interaction-area" class="changeable-area" draggable="true" style="cursor: grab;"></div>
+      <div id="dynamic-shareArea" class="changeable-area container"></div>
+      <div id="dynamic-interaction-area" class="changeable-area"></div>
     </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
 
@@ -133,3 +133,894 @@
   <div id="pageName" class="nonChangeable">reelcareer</div>
 
 
+<style>body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #000428, #004e92);
+    color: #ffffff;
+}
+header {
+    background: #ff8c00;
+    padding: 15px;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #ffffff;
+}
+header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#mainPhoto {
+    width: 100%;
+    max-height: 500px;
+    object-fit: scale-down;
+
+}
+.photo img {
+    width: 100%;
+    height: auto;
+}
+h1 {
+    font-size: 2.5em;
+    margin: 20px 0;
+}
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+.info-section, .message-form {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+.submit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ff8c00;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.submit-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.events-section h2, .flowers-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.events-list, .flowers-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.event p {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.flowers-section p {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button a {
+    padding: 15px 30px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s;
+}
+
+.button a:hover {
+    background-color: #ffa733;
+}
+
+footer {
+    background: #002d63;
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 30px;
+}
+footer p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+.banner {
+    background: #ffffff;
+    color: #004e92;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+.banner a {
+    color: #ff8c00;
+    font-weight: bold;
+    text-decoration: none;
+}
+.banner a:hover {
+    text-decoration: underline;
+}
+
+#flower-area i {
+    font-size: 3rem;
+    color: green;
+}
+
+
+
+#flowerCount {
+    font-size: 2rem;
+    color: rgb(24, 83, 24);
+}
+
+
+.share-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.share-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.share-buttons button,
+.share-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+.share-buttons button:hover,
+.share-buttons a:hover {
+    transform: scale(1.1);
+}
+
+.share-buttons .facebook {
+    background-color: #3b5998;
+}
+
+.share-buttons .twitter {
+    background-color: #1da1f2;
+}
+
+.share-buttons .linkedin {
+    background-color: #0077b5;
+}
+
+.share-buttons .whatsapp {
+    background-color: #25d366;
+}
+
+.share-buttons .device-share {
+    background-color: #5c6363;
+    border: none;
+}
+
+.share-buttons .device-share:focus,
+.share-buttons .device-share:active {
+    border: none;
+}
+
+
+.info-section {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.actions {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.actions button {
+    margin: 5px;
+    padding: 10px 20px;
+    background: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    background: #ffa733;
+}
+
+.guestbook {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.guestbook h2 {
+    text-align: center;
+}
+
+.guestbook-entries {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.entry {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* General Reset */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin: 10px 0 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .photo img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+            border: 4px solid #ddd;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+            margin: 20px 0;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        #info-section h2,
+        #obituary-section h2,
+        .guestbook h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .actions button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .guestbook  {
+            margin-top: 15px;
+        }
+
+        .guestbook  input,
+        .guestbook  textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .guestbook button {
+            display: block;
+            width: 100%;
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .guestbook button:hover {
+            background-color: #218838;
+        }
+
+        .guestbook-content {
+            padding: 0 5px 10px;
+            margin-bottom: .5rem;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+        }
+
+        .guestbook-message {
+            margin-top: 5px;
+            font-size: 1em;
+            color: #555;
+            background-color: #ffffffb0;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .banner {
+            background: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .banner a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .flowers-section {
+            text-align: center;
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .flowers-section p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        .flowers-section .button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .flowers-section .button a:hover {
+            background: #0056b3;
+        }
+
+
+
+        /* Styles for divs that were previously h1, h2, and hr tags */
+
+/* Header Styles */
+#celebrating-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000e37;
+    text-align: center;
+}
+  
+  #life-transformation {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+  }
+  
+  /* Celebrating the Life of (formerly h2) */
+  #celebrating-life-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Main Name Header (formerly h1) */
+  #name-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1abc9c;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Horizontal Rule (formerly hr) */
+  #horizontal-rule {
+    border-top: 0.2rem solid #001643;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+  
+  /* Event Details Header (formerly h2) */
+  #event-details-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Event Date and Location */
+  #event-date,
+  #event-location {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* Thoughts Share */
+  #thoughts-share {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* HashTag */
+  #hashTag {
+    font-size: 1.1rem;
+    color: #2a9d8f;
+  }
+  
+  /* Social Link */
+  #social-link {
+    margin-top: 10px;
+  }
+  
+  #social-link a {
+    color: #264653;
+    text-decoration: none;
+  }
+  
+  #social-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Obituary About Section */
+  #about-obituary {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* Media Section */
+  #media-section {
+    margin-top: 20px;
+  }
+  
+  #pageID, #pageName {
+    display: none;
+  }
+
+  video {
+    width: 100%;
+    margin: auto;
+    display: block;
+    object-fit: fill;
+    max-width: fit-content;
+}
+
+.media-video {
+    margin: auto;
+    display: block;
+    object-fit: fill;
+    max-width: fit-content;
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+
+#flower-area {
+    padding: .5rem;
+}
+.giftPopup {
+    display: none;
+    position: fixed;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+    bottom: 2rem;
+    margin: auto;
+    overflow-y: scroll;
+    height: auto;
+}
+  
+.giftPopup-content {
+    padding: 2rem;
+    text-align: center;
+}
+  
+  .gift-options {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .gift-item {
+    text-align: center;
+    max-width: 30%;
+    cursor: pointer;
+  }
+  
+  .gift-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+  }
+  
+  .fees-info {
+    margin: 1.5rem;
+    font-size: 14px;
+    color: #666;
+}
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .close-button:hover {
+color: red;
+}
+
+.giftPopup  input[type=text],
+.giftPopup  input[type=checkbox],
+.giftPopup  textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.giftPopup  input[type=text],
+.giftPopup  textarea {
+    width: calc(100% - 20px);
+}
+
+  .giftPopup button {
+      display: block;
+      width: 100%;
+      background-color: #4128a7;
+      color: #fff;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .giftPopup button:hover {
+      background-color: #212f88;
+  }
+
+
+  .changeable-area {
+    margin-bottom: .5rem;
+  }
+
+  #back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+
+}
+#back-button:hover {
+    color: #212f88;
+}
+
+.gift-options p { 
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+
+#custom-amount-area {
+    margin: 4rem;
+}
+
+#customAmount-button {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+  /* Basic Toast Styling */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInOut 5s forwards;
+    z-index: 9999; /* Ensure it's on top of other elements */
+  }
+  
+  /* Success Toast (green background) */
+  .toast.success {
+    background-color: #28a745;
+  }
+  
+  /* Error Toast (red background) */
+  .toast.error {
+    background-color: #dc3545;
+  }
+  
+  /* Close Button */
+  .toast .close-toast {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-left: 15px;
+    transition: opacity 0.3s;
+  }
+  
+  .toast .close-toast:hover {
+    opacity: 0.7;
+    color: red;
+  }
+  
+  /* Animation for toast fading in and out */
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+  }
+  </style><style>
+
+
+ .changeable-area.active {
+    border: 2px dashed blue;
+    margin: .5rem 0;
+    padding: .5rem 0;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+}
+   .changeable-text.active {
+    border: 2px solid green;
+  }
+  
+   .changeable-area {
+    margin: .5rem 0;
+    padding: .5rem 0;
+    border: none;
+
+}
+   .changeable-text {
+    border: none;
+  }
+  
+
+
+
+
+
+   .editable {
+   /* outline: 2px solid rgb(217, 230, 29); */
+   display: block;
+  }
+  
+  .changeable-area, .changeable-text {
+    cursor: pointer;
+  }
+  
+  .draggable {
+  cursor: move;  /* Show a move cursor */
+  border: 2px dashed #ccc;  /* Subtle outline indicating draggable area */
+}
+
+.dragging {
+  opacity: 0.5;  /* Visual feedback for dragging */
+}
+
+.drop-zone {
+  background-color: #f0f8ff;  /* Highlight the drop zone */
+  border: 2px solid #00f;  /* Clear border for the drop target */
+}
+
+        .changeable-area.dragging {
+          opacity: 0.5;
+          background-color: #f0f0f0;
+        }
+        .changeable-area.highlight {
+          border: 2px dashed blue;
+          background-color: #f0f8ff;
+          transition: background-color 0.3s ease-in-out;
+        }
+        .changeable-area.active {
+          border: 2px dashed blue;
+          margin: 0.5rem 0;
+          padding: 0.5rem 0;
+          background-color: #f4f4f4;
+          border-radius: 5px;
+        }
+
+
+
+
+
+      </style>
