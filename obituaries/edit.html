@@ -719,7 +719,7 @@ const token = part_1 + part_2 + part_3 + part_4;
       const fileData = await fileResponse.json();
       const content = atob(fileData.content);  // Decode base64 content
       originalHTML = content;
-      console.log("originalHTML:", originalHTML);
+      //console.log("originalHTML:", originalHTML);
 
       viewObituary.innerHTML = content;
       newHTML = content;  // Set the new HTML to be the same as the original at first
