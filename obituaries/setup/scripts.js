@@ -68,8 +68,13 @@ const pageName = document.getElementById('pageName').innerText;
 
 
 renderShareArea(pageName);
+const nameHeader = document.getElementById("name-header");
+
+// Extract the first part of the name before any space
+const firstName = nameHeader.textContent.split(" ")[0];
 
 
+renderInteractionsArea(firstName);
 
 
 
@@ -83,7 +88,6 @@ function sanitizeInput(input) {
 
 
 
-    const entriesDiv = document.getElementById("guestbookEntries");
 
 
 // Helper function to calculate time since post
@@ -112,9 +116,10 @@ async function loadEntries() {
     
     // Order by timestamp (ascending or descending)
     const querySnapshot = await getDocs(query(guestbookRef, orderBy("timestamp", "desc"))); // 'desc' for most recent first, 'asc' for oldest first
+    const entriesDiv = document.getElementById("guestbookEntries");
 
     const nameHeader = document.getElementById("name-header");
-    const guestMessage = document.getElementById("gift-guestMessage");
+    //const guestMessage = document.getElementById("gift-guestMessage");
 
     // Extract the first part of the name before any space
     const firstName = nameHeader.textContent.split(" ")[0];
@@ -122,7 +127,6 @@ async function loadEntries() {
     // Replace [$Name$] with the first name in the placeholder text
     //guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
     
-    renderInteractionsArea(firstName);
 
     entriesDiv.innerHTML = ""; // Clear existing entries
 
@@ -737,9 +741,9 @@ window.showToast = showToast;
 
 
 
-
-
 loadEntries();
+
+
 
 
 
