@@ -385,7 +385,11 @@ function applyViewObituaryStyles() {
 
 
       `;
-      styleElement.innerHTML += dragDropStyles;
+      const styleElement2 = document.createElement('style');
+
+
+      styleElement2.innerHTML + dragDropStyles;
+      shadowRoot.appendChild(styleElement2);
       shadowRoot.appendChild(styleElement);
 
       // Move inner content to shadow DOM
