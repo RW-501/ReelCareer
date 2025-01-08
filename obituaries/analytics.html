@@ -234,34 +234,46 @@ const withTimeout = (promise, timeout) => {
   analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
 
   try {
-    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
-    const ipCollectionRef = collection(pageRef, "PageViewIPs");
 
-    // Fetch page data
-    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); 
-    if (!pageDocSnapshot.exists()) {
-      analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
-      return;
-    }
-    
-    const pageData = pageDocSnapshot.data();
+    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document 
+const ipCollectionRef = collection(pageRef, "PageViewIPs");
 
-    let pageViewed = 0;
-    // Log retrieved data
-    console.log("pageData: ", pageData);
-    console.log("ipCollectionRef: ", ipCollectionRef);
+// Fetch page data
+const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); 
+if (!pageDocSnapshot.exists()) {
+  analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
+  return;
+}
 
-    
-    const { views, uniqueViews } = pageData;
-    const { lastViewTime, lastViewCity, lastViewState } = viewerData;
+const pageData = pageDocSnapshot.data();
+console.log("pageData: ", pageData); 
 
-    // Sort and count data for dailyViews, cityViews, and stateViews
-    const dailyViews = countDailyViews(pageViewed);
-    const cityViews = countLocationViews(pageViewed, 'city');
-    const stateViews = countLocationViews(pageViewed, 'state');
-    
-    console.log("dailyViews: ", dailyViews);
-    console.log("stateViews: ", stateViews);
+// Fetch IP collection data
+const ipSnapshots = await getDocs(ipCollectionRef);
+const ipData = [];
+ipSnapshots.forEach(doc => {
+  ipData.push(doc.data()); // Collecting all IP view data
+});
+
+// Count total page views
+const pageViewed = ipData.length; 
+console.log("Total views: ", pageViewed);
+
+// Log individual IPs for debugging or analytics (optional)
+ipData.forEach((entry, index) => {
+  console.log(`IP Record ${index + 1}: `, entry);
+});
+
+// Process page analytics
+const { views, uniqueViews } = pageData;
+const dailyViews = countDailyViews(ipData); // Pass ipData to count actual views
+const cityViews = countLocationViews(ipData, 'city');
+const stateViews = countLocationViews(ipData, 'state');
+
+console.log("dailyViews: ", dailyViews);
+console.log("stateViews: ", stateViews);
+
+
 
     // Create collapsible tabs and render analytics
     analyticsSection.innerHTML = `
