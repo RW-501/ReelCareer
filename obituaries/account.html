@@ -607,7 +607,7 @@ async function calculateTotalPayout() {
     transactionSnapshot.forEach(doc => {
       const transactionData = doc.data();
       const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
-      const isWithdraw = transactionData.transactionType === "withdraw";
+      const isWithdraw = transactionData.transactionType === "Withdraw";
 
       if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
         const fee = transactionData.amount * 0.10;
