@@ -456,9 +456,9 @@ const globalCallbacks = {
 };
 
 // Global timer function
-function setGlobalTimer(countdownSeconds, callbackName) {
-    const timerKey = 'globalTimerEndTime';   // Unique key for local storage
-    const callbackKey = 'globalTimerCallback'; // Key for callback function name
+function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerEndTime', callbackKey = 'globalTimerCallback') {
+    //   const timerKey = 'globalTimerEndTime';   Unique key for local storage
+  //  const callbackKey = 'globalTimerCallback'; Key for callback function name
 
     // Calculate the target end time
     const endTime = Date.now() + countdownSeconds * 1000;

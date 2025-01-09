@@ -779,7 +779,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     // Define actions, subjects, verbs, and predicates
     const actions = {
-        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"],
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule", "settimer"],
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
@@ -1426,30 +1426,41 @@ return token;  // Return token as-is if no match found
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
     const mappedWords = [];
+    const tokensCopy = [...tokens]; // Copy to avoid modifying the original
 
-    // Define regex for different number formats
-    const numberRegex = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/; // Matches 100, 1,000, 100.5, etc.
-    const largeNumberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'million', 'billion', 'trillion', 'hundred']; // Extend as needed
+    // Loop to check for multi-word phrases
+    for (let i = 0; i < tokensCopy.length; i++) {
+        let foundMatch = false;
 
-    tokens.forEach(token => {
-        // Check for number-like tokens
-        if (numberRegex.test(token.replace(/,/g, ''))) { // Remove commas before matching
-            mappedWords.push({ category: 'numbers', word: token });
-        } else if (largeNumberWords.includes(token.toLowerCase())) {
-            mappedWords.push({ category: 'numbers', word: token });
-        } else {
-            // Otherwise, check against other categories
-            Object.keys(categories).forEach(category => {
-                const categoryValues = categories[category];
-                
-                if (Array.isArray(categoryValues) && categoryValues.includes(token)) {
-                    mappedWords.push({ category: category, word: token });
-                } else if (category !== 'states' && categoryValues instanceof Set && categoryValues.has(token)) {
-                    mappedWords.push({ category: category, word: token });
+        // Iterate over categories to check for phrases
+        Object.keys(categories).forEach(category => {
+            if (categories[category] instanceof Set) {
+                // Check up to a length of 3-word phrases (customize as needed)
+                for (let length = 3; length > 0; length--) {
+                    const phrase = tokensCopy.slice(i, i + length).join(' ');
+                    if (categories[category].has(phrase)) {
+                        mappedWords.push({ category: category, word: phrase });
+                        i += length - 1; // Skip processed tokens
+                        foundMatch = true;
+                        break;
+                    }
                 }
-            });
+            }
+        });
+
+        if (!foundMatch) {
+            // Default single-token check if no multi-word phrase matched
+            const token = tokensCopy[i];
+            const numberRegex = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/; // Numbers regex
+            const largeNumberWords = new Set(['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'hundred', 'million']); 
+
+            if (numberRegex.test(token.replace(/,/g, ''))) {
+                mappedWords.push({ category: 'numbers', word: token });
+            } else if (largeNumberWords.has(token.toLowerCase())) {
+                mappedWords.push({ category: 'numbers', word: token });
+            }
         }
-    });
+    }
 
     return mappedWords;
 }
