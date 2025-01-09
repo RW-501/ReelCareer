@@ -780,6 +780,449 @@
 
 
 
+const abbreviations = {
+    "pls": "please",
+    "thx": "thanks",
+    "omg": "oh my god",
+    "brb": "be right back",
+    "idk": "I don't know",
+    "smh": "shaking my head",
+    "imo": "in my opinion",
+    "btw": "by the way",
+    "afk": "away from keyboard",
+    "np": "no problem",
+    "lmk": "let me know",
+    "tbh": "to be honest",
+    "fyi": "for your information",
+    "wfh": "working from home",
+    "gtg": "got to go",
+    "rofl": "rolling on the floor laughing",
+    "irl": "in real life",
+    "afaik": "as far as I know",
+    "bbl": "be back later",
+    "gr8": "great",
+    "hmu": "hit me up",
+    "imo": "in my opinion",
+    "icymi": "in case you missed it",
+    "asap": "as soon as possible",
+    "ty": "thank you",
+    "yw": "you're welcome",
+    "nvm": "never mind",
+    "ily": "I love you",
+    "jk": "just kidding",
+    "idc": "I don’t care",
+    "ttyl": "talk to you later",
+    "omw": "on my way",
+    "wbu": "what about you?",
+    "bff": "best friend forever",
+    "tldr": "too long; didn't read",
+    // Add more as necessary
+};
+
+const timeAndNumbers = {
+    "sec": "second",
+    "secs": "seconds",
+    "min": "minute",
+    "mins": "minutes",
+    "hr": "hour",
+    "hrs": "hours",
+    "wk": "week",
+    "wks": "weeks",
+    "yr": "year",
+    "yrs": "years",
+    "tmrw": "tomorrow",
+    "yday": "yesterday",
+    "mo": "month",
+    "mos": "months",
+    "cent": "century",
+    "msec": "millisecond",
+    "tues": "Tuesday",
+    "wed": "Wednesday",
+    "thurs": "Thursday",
+    "fri": "Friday",
+    // Add more as necessary
+};
+
+const contextSynonyms = {
+    "bad": ["poor", "awful", "terrible", "horrible", "atrocious", "dreadful", "lousy"],
+    "good": ["great", "excellent", "awesome", "superb", "outstanding", "fantastic", "wonderful"],
+    "fast": ["quick", "speedy", "rapid", "swift", "brisk", "nimble"],
+    "slow": ["sluggish", "lethargic", "delayed", "creeping", "snail-paced"],
+    "smart": ["intelligent", "clever", "brilliant", "genius", "sharp", "wise", "savvy"],
+    "sick": ["awesome", "cool", "amazing"],  // In slang context
+    "happy": ["joyful", "content", "pleased", "cheerful", "delighted", "elated", "thrilled"],
+    "sad": ["unhappy", "miserable", "downcast", "melancholy", "heartbroken", "sorrowful", "dejected"],
+    "rich": ["wealthy", "affluent", "prosperous", "loaded", "well-off"],
+    "poor": ["impoverished", "needy", "destitute", "broke", "penniless"],
+    "hot": ["warm", "boiling", "blazing", "scorching", "searing", "sweltering"],
+    "cold": ["chilly", "freezing", "icy", "frosty", "bitter", "frigid"],
+    "angry": ["mad", "furious", "irritated", "annoyed", "enraged", "exasperated"],
+    "calm": ["peaceful", "serene", "tranquil", "composed", "relaxed"],
+    "bright": ["luminous", "shining", "radiant", "vivid", "dazzling"],
+    "dark": ["dim", "gloomy", "shadowy", "murky", "pitch-black"],
+    "strong": ["powerful", "sturdy", "tough", "resilient", "robust"],
+    "weak": ["fragile", "frail", "feeble", "delicate", "brittle"],
+    "big": ["large", "huge", "enormous", "gigantic", "massive", "immense"],
+    "small": ["tiny", "miniature", "diminutive", "petite", "compact"],
+    "easy": ["simple", "effortless", "straightforward", "uncomplicated"],
+    "hard": ["difficult", "challenging", "tough", "arduous"],
+    "funny": ["hilarious", "amusing", "comical", "witty", "entertaining"],
+    "boring": ["dull", "tedious", "uninteresting", "monotonous", "mind-numbing"],
+    "beautiful": ["pretty", "gorgeous", "stunning", "lovely", "attractive"],
+    "ugly": ["hideous", "unsightly", "unattractive", "repulsive"],
+    "tired": ["exhausted", "weary", "fatigued", "drained", "worn-out"],
+    "hungry": ["starving", "famished", "ravenous", "peckish"],
+    "thirsty": ["parched", "dehydrated"],
+    "lazy": ["idle", "sluggish", "lethargic", "indolent"],
+    "brave": ["courageous", "fearless", "valiant", "bold", "daring"],
+    "scared": ["frightened", "terrified", "afraid", "panicked", "spooked"],
+    "kind": ["nice", "thoughtful", "considerate", "compassionate", "generous"],
+    "mean": ["cruel", "unkind", "harsh", "nasty", "spiteful"],
+    "important": ["crucial", "vital", "essential", "significant", "key"],
+    "cheap": ["inexpensive", "affordable", "low-cost", "bargain"],
+    "expensive": ["costly", "pricey", "high-priced", "luxurious"],
+    "strong-willed": ["determined", "resolute", "tenacious", "persistent"],
+    "confident": ["self-assured", "bold", "fearless", "assertive"],
+    "polite": ["courteous", "respectful", "gracious", "well-mannered"],
+    "rude": ["impolite", "disrespectful", "insolent", "unmannered"],
+    "clean": ["tidy", "neat", "orderly", "spotless"],
+    "dirty": ["filthy", "grimy", "messy", "soiled"],
+    "healthy": ["fit", "robust", "vigorous", "strong"],
+    "sick": ["ill", "unwell", "ailing", "feverish"],
+    "quiet": ["silent", "hushed", "mute", "tranquil"],
+    "noisy": ["loud", "boisterous", "clamorous", "deafening"],
+    "friendly": ["amiable", "kind", "sociable", "affable", "warm"],
+    "unfriendly": ["hostile", "cold", "distant", "aloof", "rude"],
+    "new": ["fresh", "recent", "modern", "novel"],
+    "old": ["ancient", "antique", "vintage", "aged"],
+    "creative": ["innovative", "imaginative", "original", "inventive"],
+    "destructive": ["damaging", "harmful", "devastating", "ruinous"],
+    // Add more as needed...
+};
+
+
+const leetspeak = {
+    "leet": "l33t",
+    "hello": "h3ll0",
+    "good": "g00d",
+    "you": "u",
+    "please": "plz",
+    "speak": "sp34k",
+    "elite": "3l1t3",
+    "hacker": "h4ck3r",
+    "password": "p4ssw0rd",
+    "friend": "fr13nd",
+    "cool": "c00l",
+    "thanks": "thx",
+    "love": "l0v3",
+    "skill": "sk1ll",
+    "quick": "qu1ck",
+    "success": "succ3ss",
+    // Add more as necessary
+};
+
+
+
+
+const homophones = { 
+    "there": { correct: "their", category: "location" },
+    "their": { correct: "they're", category: "pronouns" },
+    "they're": { correct: "their", category: "pronouns" },
+    "to": { correct: "too", category: "quantity" },
+    "too": { correct: "to", category: "direction" },
+    "your": { correct: "you're", category: "pronouns" },
+    "you're": { correct: "your", category: "possessives" },
+    "its": { correct: "it's", category: "possessives" },
+    "it's": { correct: "its", category: "possessives" },
+    "than": { correct: "then", category: "comparison" },
+    "then": { correct: "than", category: "time" },
+    "weather": { correct: "whether", category: "generalInquiry" },
+    "whether": { correct: "weather", category: "generalInquiry" },
+    "hear": { correct: "here", category: "location" },
+    "here": { correct: "hear", category: "actions" },
+    "peace": { correct: "piece", category: "abstractConcepts" },
+    "piece": { correct: "peace", category: "abstractConcepts" },
+    "right": { correct: "write", category: "actions" },
+    "write": { correct: "right", category: "actions" },
+    "affect": { correct: "effect", category: "causation" },
+    "effect": { correct: "affect", category: "causation" },
+    "site": { correct: "sight", category: "location" },
+    "sight": { correct: "site", category: "vision" },
+    "accept": { correct: "except", category: "inclusion" },
+    "except": { correct: "accept", category: "exclusion" }
+};
+
+
+
+const slang = {
+    "ya": "you",
+    "gonna": "going to",
+    "wanna": "want to",
+    "ain't": "isn't",
+    "lemme": "let me",
+    "gotta": "got to",
+    "sorta": "sort of",
+    "kinda": "kind of",
+    "ainy": "any",
+    "coulda": "could have",
+    "thang": "thing",
+    "neva": "never",
+    "whassup": "what's up",
+    "brotha": "brother",
+    "sistah": "sister",
+    "dat": "that",
+    "dis": "this",
+    "finna": "fixing to",
+    "boutta": "about to",
+    "bruh": "bro",
+    "thot": "that hoe over there",
+    "bae": "before anyone else",
+    "fr": "for real",
+    "cap": "lie",
+    "lit": "cool",
+    "dope": "cool",
+    "onfleek": "on point",
+    "noob": "newbie",
+    "stfu": "shut the f*ck up",
+    "yall": "you all",
+    "cuz": "because",
+    "nuffin": "nothing",
+    "tryna": "trying to",
+    "gimme": "give me",
+    "hunnid": "hundred",
+    "omw": "on my way",
+    "yolo": "you only live once",
+    "sus": "suspicious",
+    "fam": "family",
+    "rofl": "rolling on the floor laughing",
+    "lmfao": "laughing my f*cking ass off",
+    "runnin": "running",
+    "ppl": "people",
+    "srsly": "seriously",
+    "plz": "please",
+    "idk": "I don't know",
+    "tbh": "to be honest",
+    "ikr": "I know, right?",
+    "gr8": "great",
+    "luv": "love",
+    "nah": "no",
+    "yea": "yes",
+    "smh": "shaking my head",
+    "fren": "friend",
+    "mofo": "motherf*cker",
+    "hella": "a lot",
+    "creepin": "creeping",
+    "chillin": "chilling",
+    "flexin": "flexing",
+    "drippin": "dripping",
+    "flava": "flavor",
+    "holla": "holla at me",
+    "icedout": "jewelry (diamond-studded)",
+    "lamez": "lame",
+    "noice": "nice",
+    "peeps": "people",
+    "pimpin": "pimping",
+    "reppin": "representing",
+    "scaredycat": "someone who is easily frightened",
+    "sk8": "skate",
+    "savage": "brutally honest or cool",
+    "snap": "quick photo or moment",
+    "salty": "upset or bitter",
+    "whip": "car",
+    "props": "respect",
+    "turnt": "excited or high energy",
+    "vibe": "feeling or atmosphere",
+    "lowkey": "secretly or quietly",
+    "wet": "cool",
+    "squad": "group of friends",
+    "werk": "work",
+    "yaaas": "yes (exclamation)",
+    "bro": "brother",
+    "sis": "sister",
+    "gucci": "good or okay",
+    "dope": "cool or impressive",
+    "swaggy": "stylish",
+    "toof": "tooth",
+    "woke": "aware or enlightened",
+    "yeet": "throw something with force or excitement",
+    "zaddy": "attractive man",
+    "fiddy": "fifty",
+    "fo'": "for",
+    "mood": "current feeling or vibe"
+};
+
+const misspellings = {
+    "teh": "the",
+    "recieve": "receive",
+    "definately": "definitely",
+    "seperate": "separate",
+    "occurence": "occurrence",
+    "acommodate": "accommodate",
+    "embarras": "embarrass",
+    "concious": "conscious",
+    "neccessary": "necessary",
+    "publically": "publicly",
+    "truely": "truly",
+    "untill": "until",
+    "wich": "which",
+    "comming": "coming",
+    "mispell": "misspell",
+    "persue": "pursue",
+    "guage": "gauge",
+    "acheive": "achieve",
+    "arguement": "argument",
+    "beleive": "believe",
+    "calender": "calendar",
+    "carribean": "Caribbean",
+    "cemetary": "cemetery",
+    "collegue": "colleague",
+    "concieve": "conceive",
+    "decieve": "deceive",
+    "dilema": "dilemma",
+    "enviroment": "environment",
+    "existince": "existence",
+    "familliar": "familiar",
+    "finaly": "finally",
+    "foriegn": "foreign",
+    "freind": "friend",
+    "goverment": "government",
+    "grafic": "graphic",
+    "gratefull": "grateful",
+    "hight": "height",
+    "idiosyncracy": "idiosyncrasy",
+    "ignorence": "ignorance",
+    "imediately": "immediately",
+    "independant": "independent",
+    "interupt": "interrupt",
+    "jewelery": "jewelry",
+    "judgement": "judgment",
+    "knowlege": "knowledge",
+    "liason": "liaison",
+    "lightening": "lightning",
+    "maintainance": "maintenance",
+    "medeval": "medieval",
+    "millenium": "millennium",
+    "mispellings": "misspellings",
+    "misterious": "mysterious",
+    "mixure": "mixture",
+    "morgage": "mortgage",
+    "neccessity": "necessity",
+    "ocasion": "occasion",
+    "oppurtunity": "opportunity",
+    "parliment": "parliament",
+    "pavillion": "pavilion",
+    "permenant": "permanent",
+    "playwrite": "playwright",
+    "possable": "possible",
+    "potatos": "potatoes",
+    "prefered": "preferred",
+    "professer": "professor",
+    "pronounciation": "pronunciation",
+    "propoganda": "propaganda",
+    "protocal": "protocol",
+    "reciept": "receipt",
+    "reconize": "recognize",
+    "refering": "referring",
+    "relise": "realize",
+    "religous": "religious",
+    "remeber": "remember",
+    "renumeration": "remuneration",
+    "reposess": "repossess",
+    "resistence": "resistance",
+    "rythm": "rhythm",
+    "satelite": "satellite",
+    "scedule": "schedule",
+    "sence": "sense",
+    "seige": "siege",
+    "seperately": "separately",
+    "signiture": "signature",
+    "sillhouette": "silhouette",
+    "similiar": "similar",
+    "smoothe": "smooth",
+    "speach": "speech",
+    "stong": "strong",
+    "strenght": "strength",
+    "strenghen": "strengthen",
+    "subconsious": "subconscious",
+    "substract": "subtract",
+    "succesful": "successful",
+    "suceed": "succeed",
+    "supprise": "surprise",
+    "surpress": "suppress",
+    "temperment": "temperament",
+    "thier": "their",
+    "tommorow": "tomorrow",
+    "tounge": "tongue",
+    "twelth": "twelfth",
+    "tyrany": "tyranny",
+    "unforseen": "unforeseen",
+    "unfortunatly": "unfortunately",
+    "useing": "using",
+    "vacume": "vacuum",
+    "vehical": "vehicle",
+    "volcanoe": "volcano",
+    "wierd": "weird",
+    "withold": "withhold",
+    "realy": "really",
+    "adress": "address",
+    "buisness": "business",
+    "occuring": "occurring",
+    "dont": "don't",
+    "wont": "won't",
+    "cant": "can't",
+    "alot": "a lot",
+    "its": "it's",
+    "whos": "who's",
+    "there": "their",
+    "your": "you're",
+    "youre": "you're",
+    "wether": "whether",
+    "wierd": "weird",
+    "finnaly": "finally",
+    "heros": "heroes",
+    "aswell": "as well",
+    "peice": "piece",
+    "becuase": "because",
+    "carreer": "career",
+    "interupt": "interrupt",
+    "liquify": "liquefy",
+    "mentaly": "mentally",
+    "movment": "movement",
+    "nowdays": "nowadays",
+    "procede": "proceed",
+    "restraunt": "restaurant",
+    "similer": "similar",
+    "vaccum": "vacuum",
+    "verticle": "vertical",
+    "agian": "again",
+    "bellow": "below",
+    "empyt": "empty",
+    "futher": "further",
+    "gues": "guess",
+    "ignor": "ignore",
+    "insted": "instead",
+    "jepardy": "jeopardy",
+    "knolwedge": "knowledge",
+    "lable": "label",
+    "medcine": "medicine",
+    "necesary": "necessary",
+    "ninty": "ninety",
+    "offcially": "officially",
+    "perhas": "perhaps",
+    "pritty": "pretty",
+    "quater": "quarter",
+    "realize": "realise",
+    "reffer": "refer",
+    "simpy": "simply",
+    "stricly": "strictly",
+    "threshhold": "threshold",
+    "usualy": "usually",
+    "warrent": "warrant",
+    "wholy": "wholly",
+    "occuring": "occurring"
+};
+
+
         const categoryKeys = Object.keys(categories);
 
         console.log(categoryKeys);
@@ -787,12 +1230,15 @@
 
 
 // Tokenize the input, including math symbols and numbers
-function tokenize(input) {
+function tokenize2(input) {
     const regex = /[\w'-?]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, math symbols, and '?'
     return input.match(regex) || [];
 }
 
 
+function tokenize(input) {
+    return input.match(/\b[\w']+\b|[.,!?;:]/g) || [];
+}
 
 
 
@@ -1468,305 +1914,6 @@ return token;  // Return token as-is if no match found
 
 
 
-const homophones = { 
-    "there": { correct: "their", category: "location" },
-    "their": { correct: "they're", category: "pronouns" },
-    "they're": { correct: "their", category: "pronouns" },
-    "to": { correct: "too", category: "quantity" },
-    "too": { correct: "to", category: "direction" },
-    "your": { correct: "you're", category: "pronouns" },
-    "you're": { correct: "your", category: "possessives" },
-    "its": { correct: "it's", category: "possessives" },
-    "it's": { correct: "its", category: "possessives" },
-    "than": { correct: "then", category: "comparison" },
-    "then": { correct: "than", category: "time" },
-    "weather": { correct: "whether", category: "generalInquiry" },
-    "whether": { correct: "weather", category: "generalInquiry" },
-    "hear": { correct: "here", category: "location" },
-    "here": { correct: "hear", category: "actions" },
-    "peace": { correct: "piece", category: "abstractConcepts" },
-    "piece": { correct: "peace", category: "abstractConcepts" },
-    "right": { correct: "write", category: "actions" },
-    "write": { correct: "right", category: "actions" },
-    "affect": { correct: "effect", category: "causation" },
-    "effect": { correct: "affect", category: "causation" },
-    "site": { correct: "sight", category: "location" },
-    "sight": { correct: "site", category: "vision" },
-    "accept": { correct: "except", category: "inclusion" },
-    "except": { correct: "accept", category: "exclusion" }
-};
-
-
-
-const slang = {
-    "ya": "you",
-    "gonna": "going to",
-    "wanna": "want to",
-    "ain't": "isn't",
-    "lemme": "let me",
-    "gotta": "got to",
-    "sorta": "sort of",
-    "kinda": "kind of",
-    "ainy": "any",
-    "coulda": "could have",
-    "thang": "thing",
-    "neva": "never",
-    "whassup": "what's up",
-    "brotha": "brother",
-    "sistah": "sister",
-    "dat": "that",
-    "dis": "this",
-    "finna": "fixing to",
-    "boutta": "about to",
-    "bruh": "bro",
-    "thot": "that hoe over there",
-    "bae": "before anyone else",
-    "fr": "for real",
-    "cap": "lie",
-    "lit": "cool",
-    "dope": "cool",
-    "onfleek": "on point",
-    "noob": "newbie",
-    "stfu": "shut the f*ck up",
-    "yall": "you all",
-    "cuz": "because",
-    "nuffin": "nothing",
-    "tryna": "trying to",
-    "gimme": "give me",
-    "hunnid": "hundred",
-    "omw": "on my way",
-    "yolo": "you only live once",
-    "sus": "suspicious",
-    "fam": "family",
-    "rofl": "rolling on the floor laughing",
-    "lmfao": "laughing my f*cking ass off",
-    "runnin": "running",
-    "ppl": "people",
-    "srsly": "seriously",
-    "plz": "please",
-    "idk": "I don't know",
-    "tbh": "to be honest",
-    "ikr": "I know, right?",
-    "gr8": "great",
-    "luv": "love",
-    "nah": "no",
-    "yea": "yes",
-    "smh": "shaking my head",
-    "fren": "friend",
-    "mofo": "motherf*cker",
-    "hella": "a lot",
-    "creepin": "creeping",
-    "chillin": "chilling",
-    "flexin": "flexing",
-    "drippin": "dripping",
-    "flava": "flavor",
-    "holla": "holla at me",
-    "icedout": "jewelry (diamond-studded)",
-    "lamez": "lame",
-    "noice": "nice",
-    "peeps": "people",
-    "pimpin": "pimping",
-    "reppin": "representing",
-    "scaredycat": "someone who is easily frightened",
-    "sk8": "skate",
-    "savage": "brutally honest or cool",
-    "snap": "quick photo or moment",
-    "salty": "upset or bitter",
-    "whip": "car",
-    "props": "respect",
-    "turnt": "excited or high energy",
-    "vibe": "feeling or atmosphere",
-    "lowkey": "secretly or quietly",
-    "wet": "cool",
-    "squad": "group of friends",
-    "werk": "work",
-    "yaaas": "yes (exclamation)",
-    "bro": "brother",
-    "sis": "sister",
-    "gucci": "good or okay",
-    "dope": "cool or impressive",
-    "swaggy": "stylish",
-    "toof": "tooth",
-    "woke": "aware or enlightened",
-    "yeet": "throw something with force or excitement",
-    "zaddy": "attractive man",
-    "fiddy": "fifty",
-    "fo'": "for",
-    "mood": "current feeling or vibe"
-};
-
-const misspellings = {
-    "teh": "the",
-    "recieve": "receive",
-    "definately": "definitely",
-    "seperate": "separate",
-    "occurence": "occurrence",
-    "acommodate": "accommodate",
-    "embarras": "embarrass",
-    "concious": "conscious",
-    "neccessary": "necessary",
-    "publically": "publicly",
-    "truely": "truly",
-    "untill": "until",
-    "wich": "which",
-    "comming": "coming",
-    "mispell": "misspell",
-    "persue": "pursue",
-    "guage": "gauge",
-    "acheive": "achieve",
-    "arguement": "argument",
-    "beleive": "believe",
-    "calender": "calendar",
-    "carribean": "Caribbean",
-    "cemetary": "cemetery",
-    "collegue": "colleague",
-    "concieve": "conceive",
-    "decieve": "deceive",
-    "dilema": "dilemma",
-    "enviroment": "environment",
-    "existince": "existence",
-    "familliar": "familiar",
-    "finaly": "finally",
-    "foriegn": "foreign",
-    "freind": "friend",
-    "goverment": "government",
-    "grafic": "graphic",
-    "gratefull": "grateful",
-    "hight": "height",
-    "idiosyncracy": "idiosyncrasy",
-    "ignorence": "ignorance",
-    "imediately": "immediately",
-    "independant": "independent",
-    "interupt": "interrupt",
-    "jewelery": "jewelry",
-    "judgement": "judgment",
-    "knowlege": "knowledge",
-    "liason": "liaison",
-    "lightening": "lightning",
-    "maintainance": "maintenance",
-    "medeval": "medieval",
-    "millenium": "millennium",
-    "mispellings": "misspellings",
-    "misterious": "mysterious",
-    "mixure": "mixture",
-    "morgage": "mortgage",
-    "neccessity": "necessity",
-    "ocasion": "occasion",
-    "oppurtunity": "opportunity",
-    "parliment": "parliament",
-    "pavillion": "pavilion",
-    "permenant": "permanent",
-    "playwrite": "playwright",
-    "possable": "possible",
-    "potatos": "potatoes",
-    "prefered": "preferred",
-    "professer": "professor",
-    "pronounciation": "pronunciation",
-    "propoganda": "propaganda",
-    "protocal": "protocol",
-    "reciept": "receipt",
-    "reconize": "recognize",
-    "refering": "referring",
-    "relise": "realize",
-    "religous": "religious",
-    "remeber": "remember",
-    "renumeration": "remuneration",
-    "reposess": "repossess",
-    "resistence": "resistance",
-    "rythm": "rhythm",
-    "satelite": "satellite",
-    "scedule": "schedule",
-    "sence": "sense",
-    "seige": "siege",
-    "seperately": "separately",
-    "signiture": "signature",
-    "sillhouette": "silhouette",
-    "similiar": "similar",
-    "smoothe": "smooth",
-    "speach": "speech",
-    "stong": "strong",
-    "strenght": "strength",
-    "strenghen": "strengthen",
-    "subconsious": "subconscious",
-    "substract": "subtract",
-    "succesful": "successful",
-    "suceed": "succeed",
-    "supprise": "surprise",
-    "surpress": "suppress",
-    "temperment": "temperament",
-    "thier": "their",
-    "tommorow": "tomorrow",
-    "tounge": "tongue",
-    "twelth": "twelfth",
-    "tyrany": "tyranny",
-    "unforseen": "unforeseen",
-    "unfortunatly": "unfortunately",
-    "useing": "using",
-    "vacume": "vacuum",
-    "vehical": "vehicle",
-    "volcanoe": "volcano",
-    "wierd": "weird",
-    "withold": "withhold",
-    "realy": "really",
-    "adress": "address",
-    "buisness": "business",
-    "occuring": "occurring",
-    "dont": "don't",
-    "wont": "won't",
-    "cant": "can't",
-    "alot": "a lot",
-    "its": "it's",
-    "whos": "who's",
-    "there": "their",
-    "your": "you're",
-    "youre": "you're",
-    "wether": "whether",
-    "wierd": "weird",
-    "finnaly": "finally",
-    "heros": "heroes",
-    "aswell": "as well",
-    "peice": "piece",
-    "becuase": "because",
-    "carreer": "career",
-    "interupt": "interrupt",
-    "liquify": "liquefy",
-    "mentaly": "mentally",
-    "movment": "movement",
-    "nowdays": "nowadays",
-    "procede": "proceed",
-    "restraunt": "restaurant",
-    "similer": "similar",
-    "vaccum": "vacuum",
-    "verticle": "vertical",
-    "agian": "again",
-    "bellow": "below",
-    "empyt": "empty",
-    "futher": "further",
-    "gues": "guess",
-    "ignor": "ignore",
-    "insted": "instead",
-    "jepardy": "jeopardy",
-    "knolwedge": "knowledge",
-    "lable": "label",
-    "medcine": "medicine",
-    "necesary": "necessary",
-    "ninty": "ninety",
-    "offcially": "officially",
-    "perhas": "perhaps",
-    "pritty": "pretty",
-    "quater": "quarter",
-    "realize": "realise",
-    "reffer": "refer",
-    "simpy": "simply",
-    "stricly": "strictly",
-    "threshhold": "threshold",
-    "usualy": "usually",
-    "warrent": "warrant",
-    "wholy": "wholly",
-    "occuring": "occurring"
-};
-
-
 // Function to correct slang terms
 function correctSlang(token) {
     return slang[token.toLowerCase()] || token; // Return corrected slang or original token
@@ -1776,6 +1923,99 @@ function correctSlang(token) {
 function correctMisspellings(token) {
     return misspellings[token.toLowerCase()] || token; // Return corrected misspelling or original token
 }
+
+
+
+  
+
+  const punctuationNormalization = (text) => {
+    return text.replace(/[!]+/g, "!").replace(/[?]+/g, "?").replace(/[.]+/g, ".");
+  };
+  
+
+// Normalize abbreviations
+function normalizeAbbreviations(token) {
+    return abbreviations[token.toLowerCase()] || token;
+}
+
+// Normalize time and numbers
+function normalizeTimeAndNumbers(token) {
+    return timeAndNumbers[token.toLowerCase()] || token;
+}
+
+// Apply context-based synonym replacement
+function applyContextSynonyms(token, previous, next) {
+    for (const [key, synonyms] of Object.entries(contextSynonyms)) {
+        if (key === token.toLowerCase() || synonyms.includes(token.toLowerCase())) {
+            // Check for surrounding context, if required
+            return key; // Replace with canonical form
+        }
+    }
+    return token;
+}
+
+// Convert leetspeak to normal words
+function convertLeetspeak(token) {
+    for (const [key, value] of Object.entries(leetspeak)) {
+        if (token.toLowerCase() === value) {
+            return key; // Replace with original word
+        }
+    }
+    return token;
+}
+
+// Normalize plural forms and conjugations
+function normalizeWordForms(token) {
+    if (token.endsWith("'s") || token.endsWith("s'")) {
+        return token.slice(0, -2); // Normalize possessive plurals
+    } else if (token.endsWith("s")) {
+        return token.slice(0, -1); // Normalize plurals
+    }
+    return token;
+}
+
+// Intent detection (e.g., questions or emphasis)
+function detectIntent(tokens) {
+    if (tokens.includes("?")) return "question";
+    if (tokens.includes("!")) return "exclamation";
+    return "statement";
+}
+
+// Main normalization function
+function normalizeInput(userInput) {
+    const tokens = tokenize(userInput); // Tokenize input
+    const normalizedTokens = tokens.map((token, index) => {
+        const previous = tokens[index - 1] || "";
+        const next = tokens[index + 1] || "";
+
+        // Step-by-step normalization
+        token = normalizeAbbreviations(token);
+        token = normalizeTimeAndNumbers(token);
+        token = applyContextSynonyms(token, previous, next);
+        token = convertLeetspeak(token);
+        token = normalizeWordForms(token);
+
+        return token;
+    });
+
+    // Detect intent
+    const intent = detectIntent(tokens);
+
+    // Reconstruct normalized sentence
+    const normalizedSentence = punctuationNormalization(normalizedTokens.join(" "));
+
+    return { normalizedSentence, intent };
+}
+
+// Example input
+//const userInput = "OMG! idk if tomrrow's hrs are enough to h3ll0!";
+
+// Output:
+// {
+//   normalizedSentence: "oh my god! I don't know if tomorrow hours are enough to hello!",
+//   intent: "exclamation"
+// }
+
 
 // Extended correctHomophones function to handle slang and misspellings
 function correctHomophonesAndMore(userInput, categories) {
@@ -2526,8 +2766,13 @@ function processMessage(message) {
 const userInput = message.toLowerCase();
 //let tokens = tokenize(userInput);
 
+const result = normalizeInput(userInput);
 
-let tokens = correctHomophonesAndMore(userInput, categories);
+let tokens = correctHomophonesAndMore(result, categories);
+
+
+console.log("normalizeInput:", result);
+console.log("correctHomophonesAndMore:", tokens);
 
 
  categorizedTokens = categorizeTokens(tokens, categories);
@@ -2541,6 +2786,7 @@ const inputType = determineInputType(tokens, categories);
 //console.log("inputType:", inputType);
 
 
+console.log("???????????????????????????????????????????????//:");
 
 
 
