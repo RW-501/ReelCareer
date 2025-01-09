@@ -680,7 +680,7 @@ function displayMessage(sender, message) {
     color: #333333;
     font-family: Arial, sans-serif;
     display: grid;
-    word-wrap: break-word;
+    word-wrap: anywhere;
     justify-content: start;
     justify-items: start;
     text-align: left;`
@@ -694,7 +694,7 @@ function displayMessage(sender, message) {
     color: rgb(21, 87, 36);
     font-family: Arial, sans-serif;
     display: grid;
-        word-wrap: break-word;
+        word-wrap: anywhere;
     place-content: stretch end;
     justify-items: stretch;
     text-align: left;
