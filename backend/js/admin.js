@@ -13,7 +13,8 @@ const navData = {
       "title": "Dashboard and Analytics",
       "links": [
         { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
-        { "text": "Edit Page", "href": "https://reelcareer.co/backend/page-editor" },
+        { "text": "Analytics", "href": "https://reelcareer.co/backend/analytics" },
+        { "text": "Page Editor", "href": "https://reelcareer.co/backend/page-editor" },
         { "text": "Edit Page", "href": "https://reelcareer.co/backend/editpage" },
         { "text": "Site Info", "href": "https://reelcareer.co/backend/siteInfo" },
         { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
