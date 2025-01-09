@@ -773,7 +773,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // Detect actions and subjects
     categorizedTokens.forEach(token => {
         Object.keys(actions).forEach(actionKey => {
-            if (actions[actionKey].includes(token.word.toLowerCase())) {
+            if (token.word && actions[actionKey].includes(token.word.toLowerCase())) {
                 actionsToPerform.push(actionKey);
             }
         });
