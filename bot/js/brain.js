@@ -1126,10 +1126,29 @@ async function handleJobQuery( tokens, userPreferences) {
  
         
 
-            
-      
-        
-
+// Normalize locations by matching location abbreviations and full names
+function normalizeLocations(tokens, categories) {
+    return tokens.map(token => {
+    console.log("tokens:", tokens);
+    // Check if the token matches a state abbreviation
+    const normalizedToken = categories[token.toUpperCase()];
+    if (normalizedToken) {
+        return normalizedToken.toLowerCase(); // Normalize state names to lowercase
+    }
+    
+    // Check if the token matches a state name
+    const foundState = Object.values(categories.states).find(state => 
+        state.toLowerCase() === token.toLowerCase()
+    );
+    if (foundState) {
+        return foundState.toLowerCase(); // Normalize full state names to lowercase
+    }
+    
+    // Return the token unchanged if not a state
+    return token;
+    });
+    }
+    
 
 
     
