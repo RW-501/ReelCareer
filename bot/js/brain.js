@@ -704,39 +704,23 @@ function tokenize(input) {
 
 // Detect and evaluate math-related queries
 function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
-const mathTokens = [];
-let containsMathSymbol = false;
-
-
-const dataBaseTerms = categorizedTokens.filter(token => token.category === 'dataBaseTerms')[0]?.word;
+    let containsMathSymbol = categorizedTokens.some(token => token.category === 'math');
+    let mathTokens = categorizedTokens.filter(token => token.category === 'numbers' || token.category === 'math').map(token => token.word);
   
-const setDocument = categorizedTokens.filter(token => token.category === 'setDocument')[0]?.word;
-const addDocument = categorizedTokens.filter(token => token.category === 'addDocument')[0]?.word;
-const updateDocument = categorizedTokens.filter(token => token.category === 'updateDocument')[0]?.word;
-
-
-
-
-tokens.forEach(token => {
-if (categories.math.includes(token) || token.match(/[+\-*/]/)) {
-    containsMathSymbol = true; // Math-related symbol detected
-}
-mathTokens.push(token); // Add to potential math expression
-});
-
-// If math symbols or terms are detected, evaluate the math expression
-if (containsMathSymbol) {
-try {
-    const mathExpression = mathTokens.join(' ').replace(/,/g, ''); // Join tokens into a valid expression
-    const result = eval(mathExpression); // Safely evaluate the expression
-    return `The result of your calculation (${mathExpression}) is ${result.toFixed(2)}.`;
-} catch (error) {
-    return "I couldn't evaluate that expression. Please check your input.";
-}
-}
-return null; // No math-related input detected
-}
-
+    if (containsMathSymbol) {
+      try {
+        // Join and validate the math expression
+        const mathExpression = mathTokens.join(' ');
+        const result = new Function(`return ${mathExpression}`)(); // Safer alternative to eval()
+        if (isNaN(result)) throw new Error('Invalid calculation'); // Handle non-numeric results
+        return `The result of your calculation (${mathExpression}) is ${result.toFixed(2)}.`;
+      } catch (error) {
+        return "I couldn't evaluate that expression. Please check your input.";
+      }
+    }
+    return null; // No math-related input detected
+  }
+  
 
 
 
@@ -812,18 +796,30 @@ return token;  // Return token as-is if no match found
 function categorizeTokens(tokens, categories) {
     const mappedWords = [];
 
+    // Precompute regex and state set for efficiency
+    const stateCategory = categories['states'];
+    let stateRegex, stateSet;
+    if (stateCategory) {
+        const states = Object.keys(stateCategory);
+        const stateValues = Object.values(stateCategory).map(state => state.toLowerCase());
+        stateRegex = new RegExp('\\b(' + states.join('|') + ')\\b', 'i');
+        stateSet = new Set(stateValues);  // To quickly match full state names
+    }
+
     tokens.forEach(token => {
         // Match against each category
         Object.keys(categories).forEach(category => {
             const categoryValues = categories[category];
-            
-            if (category === 'states') {
+
+            if (category === 'states' && stateRegex) {
                 // Check if token matches any state abbreviation or full name
-                const regexState = new RegExp('\\b(' + Object.keys(categoryValues).join('|') + ')\\b', 'i');
-                if (regexState.test(token) || Object.values(categoryValues).map(state => state.toLowerCase()).includes(token.toLowerCase())) {
+                if (stateRegex.test(token) || stateSet.has(token.toLowerCase())) {
                     mappedWords.push({ category: category, word: token });
                 }
             } else if (Array.isArray(categoryValues) && categoryValues.includes(token)) {
+                mappedWords.push({ category: category, word: token });
+            } else if (category !== 'states' && categoryValues instanceof Set && categoryValues.has(token)) {
+                // For other categories stored as Sets (optimized lookup)
                 mappedWords.push({ category: category, word: token });
             }
         });
@@ -831,6 +827,7 @@ function categorizeTokens(tokens, categories) {
 
     return mappedWords;
 }
+
 
 const homophones = {
     "there": "their",
@@ -1479,7 +1476,6 @@ function createJobCard(job, container) {
 // Predefined sets for faster lookups
 const questionWords = new Set(['what', 'how', 'why', 'when', 'where', 'who', 'which']);
 const requestVerbs = new Set(['calculate', 'show', 'help', 'find', 'get', 'give']);
-
 const selfPronouns = new Set(['i', 'me', 'my', 'mine', 'myself']);
 const otherPronouns = new Set(['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her']);
 
@@ -1488,34 +1484,32 @@ const otherPronouns = new Set(['you', 'your', 'yours', 'he', 'she', 'they', 'the
  * @param {string[]} tokens - Array of input words.
  * @returns {string} - Type of input: 'question', 'request', 'self-reference', 'other-reference', or 'statement'.
  */
-function determineInputType(tokens) { 
-    // Validate input
+function determineInputType(tokens) {
     if (!Array.isArray(tokens) || tokens.length === 0) return 'statement';
 
-    // Normalize tokens to lowercase
     const lowerTokens = tokens.map(token => token.toLowerCase());
 
-    // Check for a question
+    // Check for a question (question words or ends with a '?')
     if (lowerTokens.some(token => questionWords.has(token)) || tokens.join(' ').trim().endsWith('?')) {
         return 'question';
     }
 
-    // Check for a request
+    // Check for a request (request verbs)
     if (lowerTokens.some(token => requestVerbs.has(token))) {
         return 'request';
     }
 
-    // Check for self-references
+    // Check for self-references (pronouns like "I", "me")
     if (lowerTokens.some(token => selfPronouns.has(token))) {
         return 'self-reference';
     }
 
-    // Check for references to others
+    // Check for references to others (pronouns like "you", "he", "they")
     if (lowerTokens.some(token => otherPronouns.has(token))) {
         return 'other-reference';
     }
 
-    // Default to statement
+    // Default to statement if none of the above match
     return 'statement';
 }
 
@@ -1551,18 +1545,18 @@ console.log("categorizedTokens:", categorizedTokens);
 
 
 
-
-
-
-
-
-
-
-
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
 
 console.log("userPreferences:", inputType);
+
+
+
+
+
+
+
+
 
 
 // 1. Handle math expressions
