@@ -873,7 +873,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
         return subjectsToEvaluate.map(subject => {
-            return handleActionWithSubject(action, subject, tokens, statementStart, context);
+            return handleActionWithSubject(action, subject, tokens, statementStart, context, categorizedTokens, inputType);
         });
     }).flat();
 
@@ -891,13 +891,20 @@ function handleMultipleActions(actionsToPerform, subjectsToEvaluate) {
 
 
 // Handle actions dynamically
-function handleActionWithSubject(action, subject, tokens, statementStart) {
+function handleActionWithSubject(action, subject, tokens, statementStart, context, categorizedTokens,inputType ) {
     let actionResult = "";
     const textToModify = tokens.slice(statementStart).join(' ');
+
+
+    const bestMatch = prioritizeCategories(tokens, inputType );
+
+    console.log("bestMatch ",bestMatch); 
+    console.log(`categorizedTokens ${categorizedTokens} `);
     console.log("tokens  ",tokens);
     console.log("textToModify  ",textToModify);
     console.log("action  ",action);
     console.log("statementStart  ",statementStart);
+    console.log("context  ",context);
 
     switch(action) {
         case "count":
@@ -1614,6 +1621,7 @@ async function handleJobQuery( tokens, userPreferences) {
         const bestMatch = prioritizeCategories(tokens, userPreferences );
 
         console.log("bestMatch ",bestMatch); 
+
         
 
     //"question" | "request" | "self-reference" | "other-reference" | "statement"
@@ -2102,17 +2110,13 @@ let categorizedTokens;
 function processMessage(message) {
 
  
- let words =   tensorflowTokenize(message);
-
- console.log("words:", words);
-
-
+ 
 
 const userInput = message.toLowerCase();
 let tokens = tokenize(userInput);
 
 
-console.log("tokens:", tokens);
+//console.log("tokens:", tokens);
 
 
  categorizedTokens = categorizeTokens(tokens, categories);
@@ -2123,7 +2127,7 @@ console.log("categorizedTokens:", categorizedTokens);
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
 
-console.log("inputType:", inputType);
+//console.log("inputType:", inputType);
 
 
 
