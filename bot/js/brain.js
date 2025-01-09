@@ -768,6 +768,16 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const context = {}; // To store contextual information that may influence the actions
     const statementStart = tokens.indexOf("statement") + 1;
 
+
+    const bestMatch = prioritizeCategories(tokens, inputType );
+
+    console.log("bestMatch ",bestMatch); 
+    console.log(`categorizedTokens ${categorizedTokens} `);
+    console.log("tokens  ",tokens);
+    console.log("statementStart  ",statementStart);
+    console.log("context  ",context);
+
+
     // Define actions, subjects, verbs, and predicates
     const actions = {
         "count": ["count", "calculate", "find", "determine", "compute"],
