@@ -525,10 +525,6 @@ function generateRandom6DigitNumber() {
 }
 
 
-const generalTags = createTagInputSystem({
-                    tagsContainerId: "tagsContainertagsSET-tags",
-                    badgeClass: "tag-primary" // Custom badge class for general tags
-                });
 
 
 
@@ -869,12 +865,28 @@ function copyToClipboard(text) {
 
 
 
+// Call viewDidLoad when the window is fully loaded
+window.addEventListener('load', function() {
+   // Assuming createTagInputSystem is a function that initializes a tag input system
+   const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainertagsSET-tags",
+        badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
+});
+
+
+
 // Initial data loading
 loadInteractionLogs();
 
 
 // Initial fetch and render on page load
 fetchChatbotData();
+
+
+
+
 
     </script>
 </body>
