@@ -770,6 +770,8 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         return mathResult; // Return the result if it's a math expression
     }
 
+
+    
     // Detect actions and subjects
     categorizedTokens.forEach(token => {
         Object.keys(actions).forEach(actionKey => {
@@ -1020,13 +1022,25 @@ function handleRemoveAction(tokens, textToModify, subject) {
 
 // Handle replacement of words or characters
 function handleReplaceAction(tokens, textToModify, subject) {
-    const match = tokens.find(token => token.word.toLowerCase() === "with");
+    // Define a mapping of words that can be used in place of "with"
+    const replacementKeywords = ["with", "by", "using", "via"];
+
+    // Find the token that matches any of the keywords in the replacementKeywords array
+    const match = tokens.find(token => replacementKeywords.includes(token.word.toLowerCase()));
+
+    // If a matching word is found
     if (match) {
-        const replaceTarget = tokens[tokens.indexOf(match) - 1];
-        const replaceWith = tokens[tokens.indexOf(match) + 1];
+        // Get the word before the matching token (the target to replace)
+        const replaceTarget = tokens[tokens.indexOf(match) - 1].word;
+        // Get the word after the matching token (the word to replace with)
+        const replaceWith = tokens[tokens.indexOf(match) + 1].word;
+
+        // Perform the replacement in the text
         const replacedText = textToModify.replace(new RegExp(replaceTarget, 'g'), replaceWith);
-        return `${subject} - Updated text after replacement: "${replacedText}" `;
+
+        return `${subject} - Updated text after replacement: "${replacedText}"`;
     }
+
     return `${subject} - No replacement found.`;
 }
 
