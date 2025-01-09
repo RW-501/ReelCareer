@@ -685,16 +685,11 @@
 
 
 // Tokenize the input, including math symbols and numbers
-function tokenize(input) {
-    const regex = /[\w'-?]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, math symbols, and '?'
-    return input.match(regex) || [];
-}
-
 function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     let action = null;
     let subject = null;
-    let targetFrom = null;
-    let targetTo = null;
+    let targetFrom = [];
+    let targetTo = [];
 
     // Define actions and subjects
     const actions = {
@@ -727,19 +722,20 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         });
     });
 
-    // Specific handling for replace
+    // Handle replace action
     if (action === "replace") {
-        const fromIndex = tokens.findIndex(token => token.toLowerCase() === "replace") + 1;
+        const replaceIndex = tokens.findIndex(token => token.toLowerCase() === "replace") + 1;
         const withIndex = tokens.findIndex(token => token.toLowerCase() === "with");
-        if (fromIndex > 0 && withIndex > fromIndex) {
-            targetFrom = tokens[fromIndex];
-            targetTo = tokens[withIndex + 1];
-            const replacedText = tokens.map(word => word === targetFrom ? targetTo : word).join(' ');
+        if (replaceIndex > 0 && withIndex > replaceIndex) {
+            targetFrom = tokens.slice(replaceIndex, withIndex).join(' '); // All words after 'replace' up to 'with'
+            targetTo = tokens.slice(withIndex + 1).join(' ');            // All words after 'with'
+            const replacedText = tokens.map(word => 
+                word === targetFrom.trim() ? targetTo.trim() : word).join(' ');
             return `Updated text after replacement: "${replacedText}"`;
         }
     }
 
-    // Handle actions with count
+    // Handle count actions (if implemented)
     if (action === "count") {
         if (subject === "letters") {
             const letterCount = tokens.join(' ').replace(/[^a-zA-Z]/g, '').length;
@@ -758,10 +754,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         }
     }
 
-   // return `No actionable statement found for: "${tokens.join(' ')}"`;
+  // return `No actionable statement found for: "${tokens.join(' ')}"`;
 
-   return null;
+    return null;
+
 }
+
 
 
 
