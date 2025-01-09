@@ -1034,7 +1034,7 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 
 async function handleJobQuery( tokens, userPreferences) {
     try {
-        console.log(`categorizedTokens ${categorizedTokens} `);
+        //console.log(`tokens ${tokens} `);
 
         const lowerTokens = tokens
     .map(t => t.trim().toLowerCase())
@@ -1122,7 +1122,7 @@ async function handleJobQuery( tokens, userPreferences) {
 
          
 
-            return `I cee you have a  ${bestMatch.category} about ${tokens}, i will check in ${learningModel_DB}`
+            return `I see you have a  ${bestMatch.category} about ${tokens}, i will check in ${learningModel_DB}`
         }
 
 
@@ -1959,8 +1959,12 @@ setTimeout(() => {
 async function handleLearningModelQuery(bestMatch, matchedQuestion,matchedInquiry  , tokens, 
     categorizedTokens, constraints, learningModel_DB){
         try {
+
+            console.log("learningModel_DB:", learningModel_DB);
+            console.log("bestMatch.category:", bestMatch.category);
+
         // Reference to the document in the collection
-        const docRef = db.collection(learningModel_DB).doc(docId);
+        const docRef = db.collection(learningModel_DB).doc(bestMatch.category);
 
         // Get the document snapshot
         const docSnapshot = await docRef.get();
@@ -1979,7 +1983,7 @@ async function handleLearningModelQuery(bestMatch, matchedQuestion,matchedInquir
 
             return directionsArray;
         } else {
-            console.log(`No document found with ID '${docId}'.`);
+            console.log(`No document found with ID '${bestMatch.category}'.`);
             return [];
         }
     } catch (error) {

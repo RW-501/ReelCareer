@@ -91,7 +91,7 @@ const encodeUserData = (userData, secretKey = '') => {
         const updatedData = { ...currentData, ...userData };
         
    
-        console.log("updatedData Data:", updatedData);
+     //   console.log("updatedData Data:", updatedData);
   
   
     // Encode user data
