@@ -1111,24 +1111,29 @@ function handleRemoveAction(tokens, textToModify, subject) {
 }
 
 // Handle replacement of words or characters
-function handleReplaceAction(tokens, textToModify, subject) {
+function handleReplaceAction(tokens, textToModify, subject) { 
     // Define a mapping of words that can be used in place of "with"
     const replacementKeywords = ["with", "by", "using", "via"];
 
     // Find the token that matches any of the keywords in the replacementKeywords array
-    const match = tokens.find(token => replacementKeywords.includes(token.word.toLowerCase()));
+    const match = tokens.find(token => token.word && replacementKeywords.includes(token.word.toLowerCase()));
 
     // If a matching word is found
     if (match) {
         // Get the word before the matching token (the target to replace)
-        const replaceTarget = tokens[tokens.indexOf(match) - 1].word;
+        const replaceTarget = tokens[tokens.indexOf(match) - 1]?.word; // Safe navigation operator
         // Get the word after the matching token (the word to replace with)
-        const replaceWith = tokens[tokens.indexOf(match) + 1].word;
+        const replaceWith = tokens[tokens.indexOf(match) + 1]?.word; // Safe navigation operator
 
-        // Perform the replacement in the text
-        const replacedText = textToModify.replace(new RegExp(replaceTarget, 'g'), replaceWith);
+        // Check if both replaceTarget and replaceWith are valid words
+        if (replaceTarget && replaceWith) {
+            // Perform the replacement in the text
+            const replacedText = textToModify.replace(new RegExp(replaceTarget, 'g'), replaceWith);
 
-        return `${subject} - Updated text after replacement: "${replacedText}"`;
+            return `${subject} - Updated text after replacement: "${replacedText}"`;
+        } else {
+            return `${subject} - Incomplete replacement: missing target or replacement word.`;
+        }
     }
 
     return `${subject} - No replacement found.`;
