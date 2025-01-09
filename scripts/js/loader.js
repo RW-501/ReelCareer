@@ -158,11 +158,10 @@ function preLoadPageScripts() {
 
 
         // Load Toast Notifications after <main> is available
-        waitForElement('main', () => {
             loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { defer: true }, () => {
                 logExecutionTime('Toast Notifications', performance.now());
             });
-        });
+        
     
     // Logo Script (immediate)
     loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
