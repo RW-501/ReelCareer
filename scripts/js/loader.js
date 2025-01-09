@@ -183,6 +183,15 @@ function preLoadPageScripts() {
         logExecutionTime('schema', performance.now());
     });
 
+
+
+    // Load favicons.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/meta/favicons.js', {  async: false }, () => {
+        logExecutionTime('favicons Script', performance.now());
+    });
+
+
+
     loadScript('https://code.jquery.com/jquery-3.5.1.slim.min.js', { async: false }, () => {
         logExecutionTime('jquery', performance.now());
     });
@@ -208,6 +217,16 @@ function preLoadPageScripts() {
         loadStylesheet("https://reelcareer.co/obituaries/style.css");
         logExecutionTime('Obituaries CSS', performance.now());
     }
+
+
+    // Load formats.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/formats.js', { defer: true }, () => {
+        logExecutionTime('formats Script', performance.now());
+    });
+
+
+
+
 }
 
 preLoadPageScripts();
@@ -251,6 +270,9 @@ function loadPageScripts() {
         });
     });
 
+
+
+
     if (!currentPath.includes('obituaries')) {
         // Load Job Card Script
         loadScript('https://reelcareer.co/scripts/js/load/elements/jobCard.js', { async: true }, () => {
@@ -285,6 +307,33 @@ function loadPageScripts() {
         logExecutionTime('Similar Script', performance.now());
     });
     }
+
+
+
+    // Load autoSuggest.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/autoSuggest.js', { defer: true }, () => {
+        logExecutionTime('autoSuggest Script', performance.now());
+    });
+
+
+
+    // Load tagSystem.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/tagSystem.js', { defer: true }, () => {
+        logExecutionTime('tagSystem Script', performance.now());
+    });
+
+
+
+    // Load googleAnalytics.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/meta/googleAnalytics.js', {  defer: true }, () => {
+        logExecutionTime('googleAnalytics Script', performance.now());
+    });
+
+
+    // Load imagePopup.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/imagePopup.js', {  defer: true }, () => {
+        logExecutionTime('imagePopup Script', performance.now());
+    });
 
     // Load Chatbot Script
     loadScript('https://reelcareer.co/bot/js/chatbot.js', { defer: true }, () => {
