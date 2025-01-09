@@ -713,7 +713,7 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
         const mathExpression = mathTokens.join(' ');
         const result = new Function(`return ${mathExpression}`)(); // Safer alternative to eval()
         if (isNaN(result)) throw new Error('Invalid calculation'); // Handle non-numeric results
-        return `The result of your calculation (${mathExpression}) is ${result.toFixed(2)}.`;
+        return `The result of your calculation (${mathExpression}) is ${result.toFixed(0)}.`;
       } catch (error) {
         return "I couldn't evaluate that expression. Please check your input.";
       }
