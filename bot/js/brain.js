@@ -1230,13 +1230,13 @@ const misspellings = {
 
 
 // Tokenize the input, including math symbols and numbers
-function tokenize2(input) {
+function tokenize(input) {
     const regex = /[\w'-?]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, math symbols, and '?'
     return input.match(regex) || [];
 }
 
 
-function tokenize(input) {
+function tokenize2(input) {
     return input.match(/\b[\w']+\b|[.,!?;:]/g) || [];
 }
 
