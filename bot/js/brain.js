@@ -685,6 +685,29 @@
 
 
 // Tokenize the input, including math symbols and numbers
+function tokenize(input) {
+    const regex = /[\w'-?]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, math symbols, and '?'
+    return input.match(regex) || [];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Tokenize the input, including math symbols and numbers
 function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     let action = null;
     let subject = null;
@@ -759,7 +782,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     return null;
 
 }
-
 
 
 
