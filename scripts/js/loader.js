@@ -233,11 +233,6 @@ function preLoadPageScripts() {
         logExecutionTime('formats Script', performance.now());
     });
 
-  // Load tagSystem.js as a module
-  loadScript('https://reelcareer.co/scripts/js/load/helpers/tagSystem.js', { async: true }, () => {
-    logExecutionTime('tagSystem Script', performance.now());
-});
-
 
 
 
@@ -325,7 +320,12 @@ function loadPageScripts() {
 
 
 
-  
+    // Load tagSystem.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/tagSystem.js', { async: true }, () => {
+        logExecutionTime('tagSystem Script', performance.now());
+    });
+
+
 
     // Load googleAnalytics.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/meta/googleAnalytics.js', {  defer: true }, () => {
