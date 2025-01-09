@@ -909,7 +909,7 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
     const bestMatch = prioritizeCategories(tokens, inputType );
 
     console.log("bestMatch ",bestMatch); 
-    console.log(`categorizedTokens ${categorizedTokens} `);
+    console.log(`categorizedTokens`, categorizedTokens);
     console.log("tokens  ",tokens);
     console.log("textToModify  ",textToModify);
     console.log("action  ",action);
