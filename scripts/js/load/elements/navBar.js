@@ -389,13 +389,12 @@ async function logoutUser() {
   window.logoutUser = logoutUser;
   
 
-  document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("logoutButton").addEventListener("click", () => {
       console.log("Button clicked");
       logoutUser();
     });
     
-  });    
 
+    
   
   
