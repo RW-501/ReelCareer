@@ -1117,13 +1117,18 @@ function handleReplaceAction(tokens, textToModify, subject) {
 
     // Find the token that matches any of the keywords in the replacementKeywords array
     const match = tokens.find(token => token.word && replacementKeywords.includes(token.word.toLowerCase()));
+    console.log("match  ",match);
 
     // If a matching word is found
     if (match) {
         // Get the word before the matching token (the target to replace)
         const replaceTarget = tokens[tokens.indexOf(match) - 1]?.word; // Safe navigation operator
+      
+        console.log("replaceTarget  ",replaceTarget);
+
         // Get the word after the matching token (the word to replace with)
         const replaceWith = tokens[tokens.indexOf(match) + 1]?.word; // Safe navigation operator
+        console.log("replaceWith  ",replaceWith);
 
         // Check if both replaceTarget and replaceWith are valid words
         if (replaceTarget && replaceWith) {
@@ -1136,7 +1141,7 @@ function handleReplaceAction(tokens, textToModify, subject) {
         }
     }
 
-    return `${subject} - No replacement found.`;
+    return null;
 }
 
 // Handle capitalization of words
