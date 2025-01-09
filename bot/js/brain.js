@@ -2019,8 +2019,12 @@ function normalizeInput(userInput) {
 
 // Extended correctHomophones function to handle slang and misspellings
 function correctHomophonesAndMore(tokens, categories) {
+    console.log("tokens:", tokens);
 
     let correctedSentence = tokens.map((token, index) => {
+
+        console.log("correctedSentence:", correctedSentence);
+
         let lowerToken = token.toLowerCase();
 
         // Correct homophones
@@ -2767,11 +2771,11 @@ const userInput = message.toLowerCase();
 //let tokens = tokenize(userInput);
 
 const result = normalizeInput(userInput);
+console.log("normalizeInput:", result);
 
 let tokens = correctHomophonesAndMore(result, categories);
 
 
-console.log("normalizeInput:", result);
 console.log("correctHomophonesAndMore:", tokens);
 
 
