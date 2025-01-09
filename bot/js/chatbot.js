@@ -650,6 +650,10 @@ function easeInOutQuad(t) {
 
 // Display messages in the chat panel
 function displayMessage(sender, message) {
+
+  console.log("message *********************************:", message);
+
+
   return new Promise((resolve) => {
     const messageArea = document.getElementById("chatbot-messages");
     const messageDiv = document.createElement("div");
