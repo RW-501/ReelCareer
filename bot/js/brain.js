@@ -700,7 +700,10 @@
                 'optimize', 'rearrange', 'evaluate', 'write down', 'fill in', 'fill out',
                 'ask', 'answer', 'teach', 'learn', 'coach', 'request', 'download file',
                 'approve request', 'add', 'add to', 'remove from', 'clear', 'backup',
-                'replace', 'pause', 'resume', 'stop', 'start over', 'retry', 'sync'
+                'replace', 'pause', 'resume', 'stop', 'start over', 'retry',        'apply for', 'search for', 'submit for', 'apply to', 'log in', 'sign up', 
+                'sign in', 'reset password', 'update profile', 'post job', 'write down', 
+                'fill in', 'fill out', 'download file', 'approve request', 'add to', 
+                'remove from', 'start over', 'sync', 'set timer', 'turn off', 'play music',
             ],
             dataBaseTerms: [
                 'firebase', 'firestore', 'database', 
