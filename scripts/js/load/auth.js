@@ -280,23 +280,4 @@ function redirectToLogin() {
   
   window.checkLogin = checkLogin;
   
-  let autoLogoutTimer = null;
-  
-  // Initialize auto logout on page load
-  function initializeAutoLogout() {
-    const savedMinutes = localStorage.getItem('autoLogoutTime');
-    if (savedMinutes && !isNaN(savedMinutes)) {
-        // Set the timer using the saved setting
-        autoLogoutTimer = setTimeout(() => {
-          logoutUser();
-        }, parseInt(savedMinutes) * 60 * 1000);
-  
-  
-        showToast(`Auto logout initialized for ${savedMinutes} minutes.`);
-    } else {
-       // showToast('Auto logout is disabled.');
-    }
-  }
-  window.initializeAutoLogout = initializeAutoLogout;
-  
- 
+
