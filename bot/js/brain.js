@@ -772,7 +772,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const bestMatch = prioritizeCategories(tokens, inputType );
 
     console.log("bestMatch ",bestMatch); 
-    console.log(`categorizedTokens ${categorizedTokens} `);
+    console.log(`categorizedTokens`, categorizedTokens);
     console.log("tokens  ",tokens);
     console.log("statementStart  ",statementStart);
     console.log("context  ",context);
