@@ -775,7 +775,11 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         Object.keys(actions).forEach(actionKey => {
             if (token.word && actions[actionKey].includes(token.word.toLowerCase())) {
                 actionsToPerform.push(actionKey);
+            }else if (!token.word) {
+                console.error("Missing word in token:", token);
+                return;  // Skip the token or handle the error as needed
             }
+            
         });
     
         // Check if any token corresponds to a subject and add it to subjectsToEvaluate
