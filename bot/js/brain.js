@@ -588,41 +588,33 @@
                 "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming"
             },
             
-            money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial'],
-            numbers: ["number", "digit", "quantity", "count", "figure", "value", "total", "sum", "amount", "statistic", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"],
-
-            compare: ['like', 'same','better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease'],
-            conversation: ["talk", "chat", "speak", "discuss", "converse", "dialogue", "exchange", "communication", "interaction", "discussion", "conversing", "message", "question", "answer", "reply", "respond", "gather", "meeting", "meeting up", "speak up", "talking", "conversation"],
-            sports: ["sport", "game", "team", "player", "match", "competition", "athlete", "league", "coach", "training", "goal", "score", "winning", "losing", "tournament", "championship", "referee", "fan", "stadium", "arena", "football", "basketball", "soccer", "baseball", "hockey", "tennis", "running", "swimming", "boxing", "wrestling", "volleyball", "rugby", "cycling", "gymnastics", "track", "field", "exercise", "workout"],
-            shopping: ["buy", "purchase", "store", "shop", "sale", "discount", "coupon", "offer", "price", "expensive", "cheap", "cost", "market", "mall", "checkout", "cart", "product", "goods", "clothes", "shoes", "electronics", "accessories", "fashion", "shopping", "retail", "online", "shopper", "customer", "storefront", "brand", "deal", "bargain", "item", "order", "transaction"],
-            people: ["person", "individual", "human", "people", "family", "friend", "relative", "acquaintance", "colleague", "neighbor", "stranger", "group", "crowd", "team", "community", "society", "audience", "member", "citizen", "resident", "tourist", "employee", "employer", "leader", "follower", "adult", "child", "teenager", "elder", "man", "woman", "boy", "girl", "couple", "parent", "sibling", "partner"],
-            occupation: ["job", "career", "work", "profession", "employee", "employer", "occupation", "role", "position", "job title", "workplace", "office", "salary", "pay", "hourly", "freelance", "contract", "full-time", "part-time", "intern", "manager", "director", "supervisor", "staff", "worker", "entrepreneur", "business owner", "contractor", "consultant", "technician", "specialist", "designer", "developer", "engineer", "teacher", "nurse", "doctor", "lawyer", "developer", "writer"],
-            holidays: ["holiday", "vacation", "break", "trip", "celebration", "season", "festivity", "celebrate", "party", "holiday season", "christmas", "new year", "thanksgiving", "easter", "summer vacation", "winter holiday", "spring break", "fall break", "public holiday", "national holiday", "long weekend", "tourism", "getaway", "journey", "trip", "travel", "destination", "holiday resort", "traveling", "staycation", "holiday destination", "festival"],
-            testing: ["test", "exam", "quiz", "assessment", "evaluation", "check", "trial", "experiment", "survey", "analysis", "questionnaire", "test case", "testing", "assessment", "feedback", "score", "results", "marks", "pass", "fail", "rating", "grade", "measure", "verify", "review", "validate", "analysis", "study", "experimentation", "result", "sample", "sample size", "benchmark"],
-            resume: ["resume", "CV", "curriculum vitae", "job application", "cover letter", "qualification", "experience", "education", "skills", "references", "professional", "career", "job history", "work experience", "profile", "career summary", "objective", "accomplishments", "certification", "portfolio", "application", "job seeker", "candidate", "job candidate", "summary", "employment history", "contact information", "personal details", "interests", "achievements", "skills"],
-            interview: ["interview", "question", "answer", "panel", "hiring", "recruitment", "candidate", "applicant", "job interview", "selection", "screening", "interviewee", "interviewer", "interview questions", "resume", "behavioral interview", "technical interview", "phone interview", "video interview", "group interview", "one-on-one", "follow-up", "evaluation", "feedback", "offer", "discussion", "negotiation", "job offer", "rejection", "acceptance", "hire"],
-            jobPosting: ["job posting", "job ad", "advertisement", "hiring", "career opening", "vacancy", "position", "job opportunity", "career opportunity", "employment", "work", "job description", "listing", "recruitment", "job opening", "staffing", "company", "recruitment ad", "job listing", "career announcement", "career page", "job vacancy", "new hire", "application", "job search", "post a job", "job board", "company career", "job seekers", "search for jobs"],          
+            money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial', 'profit', 'loss', 'savings', 'investment'],
+            numbers: ['number', 'digit', 'quantity', 'count', 'figure', 'value', 'total', 'sum', 'amount', 'statistic', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'percentage', 'ratio'],
+            average: ['average', 'mean', 'median', 'mode', 'balance', 'rate', 'percentage'],
+            paragraphs: ['paragraph', 'sentence', 'text', 'section', 'block', 'content', 'document', 'line', 'phrase'],
+            compare: ['like', 'same', 'better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease', 'similar', 'different', 'versus'],
+            conversation: ['talk', 'chat', 'speak', 'discuss', 'dialogue', 'exchange', 'communication', 'interaction', 'discussion', 'message', 'reply', 'conversation', 'debate', 'negotiation'],
+            sports: ['sport', 'game', 'match', 'competition', 'athlete', 'league', 'team', 'training', 'score', 'tournament', 'referee', 'football', 'basketball', 'tennis'],
+            shopping: ['buy', 'purchase', 'store', 'shop', 'sale', 'discount', 'cart', 'product', 'goods', 'price', 'checkout', 'customer', 'order', 'transaction'],
+            people: ['person', 'individual', 'human', 'family', 'friend', 'colleague', 'crowd', 'community', 'citizen', 'employee', 'employer', 'leader'],
+            occupation: ['job', 'career', 'profession', 'role', 'position', 'employment', 'contract', 'freelance', 'manager', 'engineer', 'teacher', 'nurse', 'developer'],
+            holidays: ['holiday', 'vacation', 'trip', 'season', 'celebration', 'festival', 'christmas', 'new year', 'thanksgiving', 'travel'],
+            testing: ['test', 'exam', 'quiz', 'assessment', 'survey', 'analysis', 'check', 'results', 'feedback', 'rating', 'score', 'evaluation'],
+            resume: ['resume', 'CV', 'curriculum vitae', 'cover letter', 'job application', 'skills', 'experience', 'education', 'references'],
+            interview: ['interview', 'question', 'answer', 'hiring', 'screening', 'interviewer', 'candidate', 'feedback', 'negotiation'],
+            jobPosting: ['job posting', 'job ad', 'career opening', 'vacancy', 'position', 'recruitment', 'job listing'],
             question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
-            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help', 'show me', 'tell me'],
-            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
+            request: ['please', 'can you', 'could you', 'would you', 'help', 'show me', 'tell me'],
+            statement: ['is', 'am', 'are', 'was', 'will', 'it', 'this', 'that', '.'],
+            math: ['salary', 'pay', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+            quantity: ['much', 'many', 'few', 'several', 'amount', 'count', 'number', 'volume'],
+            verbs: ['is', 'are', 'was', 'be', 'been', 'do', 'does', 'make'],
+            determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the'],
+            pronouns: ['it', 'he', 'she', 'they', 'we', 'you', 'I'],
+            title: ['title', 'name', 'heading', 'label', 'alias', 'caption'],
+            tag: ['tag', 'label', 'keyword'],
+            description: ['description', 'overview', 'summary', 'details'],
         
-            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
-            quantity: ['much', 'many', 'few', 'several', 'lot', 'amount', 'count', 'number', 'how much', 'how many', 'volume'],
-            verbs: ['is', 'are', 'was', 'were', 'be', 'being', 'been'], // Words serving as linking verbs or auxiliary verbs
-            determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the', 'any', 'some'], // Words that specify nouns
-            pronouns: ['it', 'he', 'she', 'they', 'we', 'you','i', 'I', 'me', 'us', 'them', 'him', 'her'],
-            title: [
-                'title', 'name', 'called', 'label',, 'heading', 
-                'caption', 'nickname', 'alias', 'doc name', 
-                 'reference name', 'identifier'
-            ],
-            tag: [
-                 'tags',
-            ],
-            
-            description: [
-                'description',
-           ],
             action: [
                 'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
                 'submit', 'interview', 'complete', 'start', 'create', 'build', 
@@ -699,6 +691,51 @@ function tokenize(input) {
 }
 
 
+function detectAndEvaluateStatement(tokens, categorizedTokens) {
+    let action = null;
+    let subject = null;
+
+    // Define possible actions and subjects
+    const actions = {
+        "count": ["count", "calculate", "find", "determine", "compute"],
+        "length": ["length", "measure", "size"],
+    };
+
+    const subjects = {
+        "letters": ["letter", "letters", "character", "characters"],
+        "words": ["word", "words"],
+        "sentences": ["sentence", "sentences"],
+    };
+
+    // Find the first matching action and subject
+    categorizedTokens.forEach(token => {
+        Object.keys(actions).forEach(key => {
+            if (actions[key].includes(token.word.toLowerCase())) {
+                action = key;
+            }
+        });
+        Object.keys(subjects).forEach(key => {
+            if (subjects[key].includes(token.word.toLowerCase())) {
+                subject = key;
+            }
+        });
+    });
+
+    // Perform the action based on detected subject
+    if (action === "count") {
+        if (subject === "letters") {
+            const letterCount = tokens.join(' ').replace(/[^a-zA-Z]/g, '').length;
+            return `The number of letters in the given input is ${letterCount}.`;
+        } else if (subject === "words") {
+            const wordCount = tokens.length;
+            return `The number of words in the given input is ${wordCount}.`;
+        } else if (subject === "sentences") {
+            const sentenceCount = tokens.join(' ').split(/[.!?]/).filter(Boolean).length;
+            return `The number of sentences in the given input is ${sentenceCount}.`;
+        }
+    }
+    return null;
+}
 
 
 
@@ -1596,7 +1633,11 @@ console.log("userPreferences:", inputType);
 
 
 
-
+    const statementResponse = detectAndEvaluateStatement(tokens, categorizedTokens, inputType);
+    if (statementResponse) {
+    return `Evaluate Statement: ${statementResponse}`;
+    }
+    
 
 
 
