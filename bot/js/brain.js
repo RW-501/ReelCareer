@@ -798,6 +798,10 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 function handleActionWithSubject(action, subject, tokens, statementStart) {
     let actionResult = "";
     const textToModify = tokens.slice(statementStart).join(' ');
+    console.log("tokens  ",tokens);
+    console.log("textToModify  ",textToModify);
+    console.log("action  ",action);
+    console.log("statementStart  ",statementStart);
 
     switch(action) {
         case "count":
