@@ -16,35 +16,6 @@ import {
 const user = getUserId;
   
 
-async function logoutUser() {
-  console.log("logoutUser: ", auth);
-
-    try {
-      await signOut(auth);
-  
-      // Clear auto logout timer and localStorage
-      clearTimeout(autoLogoutTimer);
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('autoLogoutTime');
-      showToast('You have been logged out.');
-  
-      // Redirect to login or home page
-      window.location.href = 'https://reelcareer.co/';
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  }
-  
-  
-  window.logoutUser = logoutUser;
-  
-
-  // Event listener to handle login forms, popups, and more...
-  document.getElementById("logoutButton")?.addEventListener("click", logoutUser);
-    
-  
-  
-  
   // Show loading spinner
   const showLoading = () => {
     const loader = document.createElement("div");

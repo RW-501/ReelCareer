@@ -365,3 +365,34 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
 
 
+
+async function logoutUser() {
+  console.log("logoutUser: ", auth);
+
+    try {
+      await signOut(auth);
+  
+      // Clear auto logout timer and localStorage
+      clearTimeout(autoLogoutTimer);
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('autoLogoutTime');
+      showToast('You have been logged out.');
+  
+      // Redirect to login or home page
+      window.location.href = 'https://reelcareer.co/';
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  }
+  
+  
+  window.logoutUser = logoutUser;
+  
+  document.addEventListener('DOMContentLoaded', () => {
+
+  // Event listener to handle login forms, popups, and more...
+  document.getElementById("logoutButton")?.addEventListener("click", logoutUser);
+    
+  });
+  
+  
