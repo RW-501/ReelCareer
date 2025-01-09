@@ -775,11 +775,11 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     console.log(`categorizedTokens`, categorizedTokens);
     console.log("tokens  ",tokens);
     console.log("statementStart  ",statementStart);
-    console.log("context  ",context);
 
 
     // Define actions, subjects, verbs, and predicates
     const actions = {
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"],
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
@@ -810,6 +810,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     };
 
     const subjects = {
+        "timer": ["timer", "countdown", "time duration", "alarm"],
         "letters": ["letter", "letters", "character", "characters", "alphabets", "letters of the alphabet"],
         "numbers": ["number", "numbers", "digits", "numerals"],
         "words": ["word", "words"],
@@ -920,6 +921,10 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
         case "count":
             actionResult = handleCountAction(tokens, textToModify, subject); // Pass subject to the handler
             break;
+            case "setTimer":
+    actionResult = handleSetTimerAction(tokens, textToModify, subject);
+    break;
+
         case "length":
             actionResult = handleLengthAction(tokens, textToModify, subject);
             break;
@@ -1078,10 +1083,40 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
 
 
 
+function convertToMilliseconds(timeString) {
+    const timeValue = parseInt(timeString.match(/\d+/)[0]);
+    if (timeString.includes("min")) {
+        return timeValue * 60000; // Minutes to milliseconds
+    } else if (timeString.includes("second")) {
+        return timeValue * 1000;  // Seconds to milliseconds
+    } else if (timeString.includes("hour")) {
+        return timeValue * 3600000; // Hours to milliseconds
+    }
+    return 0;
+}
+
+function startTimer(duration) {
+    setTimeout(() => {
+        alert("Timer ended!");
+    }, duration);
+}
 
 
 
 
+function handleSetTimerAction(tokens, textToModify, subject) {
+    const timePattern = /\d+\s*(mins?|seconds?|hours?)/i;
+    const timeMatch = textToModify.match(timePattern);
+
+    if (timeMatch) {
+        const timeString = timeMatch[0];
+        // Convert timeString to milliseconds or appropriate unit
+        const duration = convertToMilliseconds(timeString); // Define this helper
+        startTimer(duration); // Implement your timer logic
+        return `Timer set for ${timeString}.`;
+    }
+    return `Could not set timer. Please specify a valid time duration.`;
+}
 
 
 
