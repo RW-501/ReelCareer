@@ -653,6 +653,10 @@ function displayMessage(sender, message) {
 
   console.log("message *********************************:", message);
 
+  if(!message){
+
+    return;
+  }
 
   return new Promise((resolve) => {
     const messageArea = document.getElementById("chatbot-messages");
