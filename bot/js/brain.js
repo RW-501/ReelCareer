@@ -1265,7 +1265,7 @@ import {
 async function fetchJobData({ location, jobType }) {
     try {
         // Create a base query on the 'Jobs' collection
-        let jobQuery = collection(db, 'Jobs'); 
+        let jobQuery = collection(db, 'Jobs');
         
         // Array to hold query constraints
         let constraints = [];
@@ -1279,6 +1279,9 @@ async function fetchJobData({ location, jobType }) {
             constraints.push(where('category', '==', jobType));
         }
 
+        // Add the limit of 25 to the query
+        constraints.push(limit(25));
+
         // Combine query constraints
         const finalQuery = query(jobQuery, ...constraints);
 
@@ -1288,9 +1291,9 @@ async function fetchJobData({ location, jobType }) {
 
         // Return the result message
         if (jobs.length > 0) {
-            return `Found ${jobs.length} job(s) matching your criteria.`;
+            return `Found ${jobs.length} job(s) matching your criteria. Visit [ReelCareer Job Listings](https://reelcareer.co/job-listings/) for a more in-depth search.`;
         } else {
-            return "No jobs found for your search criteria.";
+            return "No jobs found for your search criteria. Visit [ReelCareer Job Listings](https://reelcareer.co/job-listings/) for a more in-depth search.";
         }
 
     } catch (error) {
@@ -1299,18 +1302,15 @@ async function fetchJobData({ location, jobType }) {
     }
 }
 
-
 async function fetchJobsByCategory(category) {
-    const jobQuery = query(collection(db, 'Jobs'), where('category', '==', category));
+    const jobQuery = query(collection(db, 'Jobs'), where('category', '==', category), limit(25));
     return executeQuery(jobQuery, `Jobs in category: ${category}`);
 }
 
-
 async function fetchJobsByBenefits(tokens) {
-    const jobQuery = query(collection(db, 'Jobs'), where('benefits', 'array-contains-any', tokens));
+    const jobQuery = query(collection(db, 'Jobs'), where('benefits', 'array-contains-any', tokens), limit(25));
     return executeQuery(jobQuery, `Jobs with benefits matching: ${tokens.join(', ')}`);
 }
-
 
 async function fetchJobsByDate(dateFilter) {
     const currentTime = new Date();
@@ -1325,41 +1325,34 @@ async function fetchJobsByDate(dateFilter) {
         startDate = new Date(currentTime.getFullYear(), currentTime.getMonth(), 1);
     }
 
-    const jobQuery = query(collection(db, 'Jobs'), where('createdAt', '>=', startDate));
+    const jobQuery = query(collection(db, 'Jobs'), where('createdAt', '>=', startDate), limit(25));
     return executeQuery(jobQuery, `Jobs posted since ${dateFilter}`);
 }
 
 async function fetchJobsByIndustry(industry) {
-    const jobQuery = query(collection(db, 'Jobs'), where('industry', '==', industry));
+    const jobQuery = query(collection(db, 'Jobs'), where('industry', '==', industry), limit(25));
     return executeQuery(jobQuery, `Jobs in the industry: ${industry}`);
 }
 
-
 async function fetchJobsByRequirements(tokens) {
-    const jobQuery = query(collection(db, 'Jobs'), where('searchableRequirements', 'array-contains-any', tokens));
+    const jobQuery = query(collection(db, 'Jobs'), where('searchableRequirements', 'array-contains-any', tokens), limit(25));
     return executeQuery(jobQuery, `Jobs matching requirements: ${tokens.join(', ')}`);
 }
 
-
 async function fetchJobsByTitle(tokens) {
-    const jobQuery = query(collection(db, 'Jobs'), where('searchableTitle', 'array-contains-any', tokens));
+    const jobQuery = query(collection(db, 'Jobs'), where('searchableTitle', 'array-contains-any', tokens), limit(25));
     return executeQuery(jobQuery, `Jobs matching titles: ${tokens.join(', ')}`);
 }
 
 async function fetchJobCountByLocation(tokens) {
-    const jobQuery = query(collection(db, 'Jobs'), where('location', 'array-contains-any', tokens));
+    const jobQuery = query(collection(db, 'Jobs'), where('location', 'array-contains-any', tokens), limit(25));
     const snapshot = await getDocs(jobQuery);
-    return `Found ${snapshot.size} jobs in location(s): ${tokens.join(', ')}`;
+    return `Found ${snapshot.size} job(s) in location(s): ${tokens.join(', ')}. Visit [ReelCareer Job Listings](https://reelcareer.co/job-listings/) for more results.`;
 }
 
 async function filterJobsBySalary(salary) {
-    const jobQuery = query(collection(db, 'Jobs'), where('salary', '>=', salary));
+    const jobQuery = query(collection(db, 'Jobs'), where('salary', '>=', salary), limit(25));
     return executeQuery(jobQuery, `Jobs paying over $${salary}`);
-}
-
-function detectSalaryFromTokens(tokens) {
-    const salary = tokens.find(token => /^\d+$/.test(token)); // Extract numeric token
-    return salary ? parseInt(salary, 10) : null;
 }
 
 async function executeQuery(jobQuery, message) {
@@ -1375,7 +1368,7 @@ async function executeQuery(jobQuery, message) {
             botQueryDiv = document.createElement("div");
             botQueryDiv.id = botQueryId;
             botQueryDiv.style.cssText = `
-                display: none; /* Initially hidden */
+                display: none;
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -1387,7 +1380,6 @@ async function executeQuery(jobQuery, message) {
                 padding: 20px;
             `;
             
-            // Add a close button
             const closeButton = document.createElement("button");
             closeButton.textContent = "Close";
             closeButton.style.cssText = `
@@ -1401,26 +1393,20 @@ async function executeQuery(jobQuery, message) {
                 botQueryDiv.style.display = "none"; // Hide div on close
             });
 
-            // Append the close button to the div
             botQueryDiv.appendChild(closeButton);
 
-            // Add a content area for the job cards
             const contentArea = document.createElement("div");
             contentArea.id = "jobContentArea";
             botQueryDiv.appendChild(contentArea);
 
-            // Append the hidden div to the body
             document.body.appendChild(botQueryDiv);
         }
 
-        // Clear any existing content in the job content area
         const jobContentArea = document.getElementById("jobContentArea");
         jobContentArea.innerHTML = "";
 
-        // Create and append job cards
         jobs.forEach(job => createJobCard(job, jobContentArea));
 
-        // Create a button that will unhide the botQuery div
         const botButton = document.createElement("button");
         botButton.className = "botJobs";
         botButton.textContent = `We found ${jobs.length} job(s). Tap here to see them.`;
@@ -1434,18 +1420,16 @@ async function executeQuery(jobQuery, message) {
             border-radius: 5px;
         `;
 
-        // Event listener to show the hidden div when clicked
         botButton.addEventListener("click", () => {
             botQueryDiv.style.display = "block";
         });
 
-        // Append the button to the body
         document.body.appendChild(botButton);
 
         if (jobs.length > 0) {
             return `${message}: Found ${jobs.length} job(s).`;
         } else {
-            return `${message}: No jobs found.`;
+            return `${message}: No jobs found. Visit [ReelCareer Job Listings](https://reelcareer.co/job-listings/) for more results.`;
         }
     } catch (error) {
         console.error("Error executing query:", error);
@@ -1477,8 +1461,6 @@ function createJobCard(job, container) {
 
     container.appendChild(jobCard);
 }
-
-
 
 
 

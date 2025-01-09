@@ -849,7 +849,7 @@ let highestScore = 0;
 // Define weights for tags and categories
 const tagWeight = 2;
 const categoryWeight = 1;
-console.log("Tag Weight:", tagWeight, "Category Weight:", categoryWeight);
+//console.log("Tag Weight:", tagWeight, "Category Weight:", categoryWeight);
 
 // Iterate over all questions to find the best match
 allQuestions.forEach((questionObj, index) => {
