@@ -700,92 +700,196 @@ function tokenize(input) {
 
 
 
-
-
-
-
-
-
-
-// Tokenize the input, including math symbols and numbers
-function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
-    let action = null;
-    let subject = null;
-    let targetFrom = [];
-    let targetTo = [];
+function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) { 
+    const actionsToPerform = [];
+    const subjectsToEvaluate = []; // Initialize subjectsToEvaluate array
+    const statementStart = tokens.indexOf("statement") + 1;
 
     // Define actions and subjects
     const actions = {
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size"],
         "remove": ["remove", "delete", "clear", "strip"],
-        "replace": ["replace", "substitute", "change", "swap"]
+        "replace": ["replace", "substitute", "change", "swap"],
+        "capitalize": ["capitalize", "upper", "title"],
+        "reverse": ["reverse", "invert", "flip"],
+        "transform": ["transform", "convert", "change case"],
+        "sort": ["sort", "order"],
+        "multiply": ["multiply", "times"],
+        "add": ["add", "plus"],
+        "subtract": ["subtract", "minus"],
+        "concatenate": ["concatenate", "join", "combine"],
+        "substring": ["substring", "extract part", "slice"],
+        "trim": ["trim", "remove spaces", "strip spaces"],
+        "find": ["find", "locate", "position"],
+        "split": ["split", "divide", "separate"],
+        "countOccurrences": ["count occurrences", "count times", "how many times"],
+        "extract": ["extract", "pull out", "find pattern"],
+        "convert": ["convert", "change format", "to snake_case", "to camelCase"],
+        "encode": ["encode", "base64 encode", "url encode"],
+        "decode": ["decode", "base64 decode", "url decode"],
+        "palindrome": ["palindrome", "check palindrome"],
+        "shuffle": ["shuffle", "randomize", "scramble"],
+        "merge": ["merge", "combine sets"],
+        "highlight": ["highlight", "mark", "emphasize"],
+        "convertToArray": ["convert to array", "to array", "split into array"],
+        "countUnique": ["count unique", "unique count", "distinct count"]
     };
-
+    
     const subjects = {
         "letters": ["letter", "letters", "character", "characters"],
         "words": ["word", "words"],
         "sentences": ["sentence", "sentences"],
         "symbols": ["symbol", "symbols", "punctuation"],
         "asterisks": ["*", "**", "asterisk", "asterisks"],
-        "numbers": ["number", "numbers"]
+        "numbers": ["number", "numbers"],
+        "phrases": ["phrase", "phrases"],
+        "vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
+        "consonants": ["consonant", "consonants"],
+        "digits": ["digit", "digits"],
+        "spaces": ["space", "spaces"],
+        "capital_letters": ["capital letter", "capital letters"],
+        "lowercase_letters": ["lowercase letter", "lowercase letters"],
+        "even_numbers": ["even number", "even numbers"],
+        "odd_numbers": ["odd number", "odd numbers"],
+        "alphabets": ["alphabet", "alphabets"],
+        "symbols_emojis": ["symbol", "emoji", "emojis"],
+        "dates": ["date", "dates"],
+        "urls": ["url", "urls"],
+        "phone_numbers": ["phone number", "phone numbers"],
+        "emails": ["email", "emails"],
+        "hashtags": ["hashtag", "hashtags"],
+        "quotes": ["quote", "quotes"],
+        "tags": ["tag", "tags", "html tag", "html tags"],
+        "capitalized_words": ["capitalized word", "capitalized words"]
     };
 
-    // Detect action and subject
+    // Check if the statement contains math-related tokens and evaluate it
+    const mathResult = detectAndEvaluateMath(tokens, categorizedTokens, inputType);
+    if (mathResult) {
+        return mathResult; // Return the result if it's a math expression
+    }
+
+    // Detect actions and subjects
     categorizedTokens.forEach(token => {
-        Object.keys(actions).forEach(key => {
-            if (actions[key].includes(token.word.toLowerCase())) {
-                action = key;
+        Object.keys(actions).forEach(actionKey => {
+            if (actions[actionKey].includes(token.word.toLowerCase())) {
+                actionsToPerform.push(actionKey);
             }
         });
-        Object.keys(subjects).forEach(key => {
-            if (subjects[key].includes(token.word.toLowerCase())) {
-                subject = key;
+    
+        // Check if any token corresponds to a subject and add it to subjectsToEvaluate
+        Object.keys(subjects).forEach(subjectKey => {
+            if (subjects[subjectKey].includes(token.word.toLowerCase())) {
+                subjectsToEvaluate.push(subjectKey); // Add the subject to subjectsToEvaluate
             }
         });
     });
 
-    // Handle replace action
-    if (action === "replace") {
-        const replaceIndex = tokens.findIndex(token => token.toLowerCase() === "replace") + 1;
-        const withIndex = tokens.findIndex(token => token.toLowerCase() === "with");
-        if (replaceIndex > 0 && withIndex > replaceIndex) {
-            targetFrom = tokens.slice(replaceIndex, withIndex).join(' '); // All words after 'replace' up to 'with'
-            targetTo = tokens.slice(withIndex + 1).join(' ');            // All words after 'with'
-            const replacedText = tokens.map(word => 
-                word === targetFrom.trim() ? targetTo.trim() : word).join(' ');
-            return `Updated text after replacement: "${replacedText}"`;
-        }
+    // Now, use subjectsToEvaluate to handle specific logic for each subject
+    const results = actionsToPerform.map(action => {
+        return subjectsToEvaluate.map(subject => handleActionWithSubject(action, subject, tokens, statementStart));
+    }).flat();
+    
+    return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
+}
+
+// Handle actions dynamically
+function handleActionWithSubject(action, subject, tokens, statementStart) {
+    let actionResult = "";
+    const textToModify = tokens.slice(statementStart).join(' ');
+
+    switch(action) {
+        case "count":
+            actionResult = handleCountAction(tokens, textToModify, subject); // Pass subject to the handler
+            break;
+        case "length":
+            actionResult = handleLengthAction(tokens, textToModify, subject);
+            break;
+        case "remove":
+            actionResult = handleRemoveAction(tokens, textToModify, subject);
+            break;
+        case "replace":
+            actionResult = handleReplaceAction(tokens, textToModify, subject);
+            break;
+        case "capitalize":
+            actionResult = handleCapitalizeAction(tokens, textToModify, subject);
+            break;
+        case "reverse":
+            actionResult = handleReverseAction(tokens, textToModify, subject);
+            break;
+        case "sort":
+            actionResult = handleSortAction(tokens, textToModify, subject);
+            break;
+        case "multiply":
+            actionResult = handleMathAction(tokens, textToModify, 'multiply', subject);
+            break;
+        case "add":
+            actionResult = handleMathAction(tokens, textToModify, 'add', subject);
+            break;
+        case "subtract":
+            actionResult = handleMathAction(tokens, textToModify, 'subtract', subject);
+            break;
+        case "transform":
+            actionResult = handleTransformAction(tokens, textToModify, subject);
+            break;
+        case "concatenate":
+            actionResult = handleConcatenateAction(tokens, textToModify, subject);
+            break;
+        case "substring":
+            actionResult = handleSubstringAction(tokens, textToModify, subject);
+            break;
+        case "trim":
+            actionResult = handleTrimAction(tokens, textToModify, subject);
+            break;
+        case "find":
+            actionResult = handleFindAction(tokens, textToModify, subject);
+            break;
+        case "split":
+            actionResult = handleSplitAction(tokens, textToModify, subject);
+            break;
+        case "countOccurrences":
+            actionResult = handleCountOccurrencesAction(tokens, textToModify, subject);
+            break;
+        case "extract":
+            actionResult = handleExtractAction(tokens, textToModify, subject);
+            break;
+        case "convert":
+            actionResult = handleConvertAction(tokens, textToModify, subject);
+            break;
+        case "encode":
+            actionResult = handleEncodeAction(tokens, textToModify, subject);
+            break;
+        case "decode":
+            actionResult = handleDecodeAction(tokens, textToModify, subject);
+            break;
+        case "palindrome":
+            actionResult = handlePalindromeAction(tokens, textToModify, subject);
+            break;
+        case "shuffle":
+            actionResult = handleShuffleAction(tokens, textToModify, subject);
+            break;
+        case "merge":
+            actionResult = handleMergeAction(tokens, textToModify, subject);
+            break;
+        case "highlight":
+            actionResult = handleHighlightAction(tokens, textToModify, subject);
+            break;
+        case "convertToArray":
+            actionResult = handleConvertToArrayAction(tokens, textToModify, subject);
+            break;
+        case "countUnique":
+            actionResult = handleCountUniqueAction(tokens, textToModify, subject);
+            break;
+        default:
+            actionResult = `Action "${action}" not implemented.`;
     }
 
-    // Handle count actions (if implemented)
-    if (action === "count") {
-        if (subject === "letters") {
-            const letterCount = tokens.join(' ').replace(/[^a-zA-Z]/g, '').length;
-            return `The number of letters in the given input is ${letterCount}.`;
-        } else if (subject === "words") {
-            const wordCount = tokens.filter(word => /\w+/.test(word)).length;
-            return `The number of words in the given input is ${wordCount}.`;
-        } else if (subject === "sentences") {
-            const sentenceCount = tokens.join(' ').split(/[.!?]/).filter(Boolean).length;
-            return `The number of sentences in the given input is ${sentenceCount}.`;
-        }
-    } else if (action === "remove") {
-        if (subject === "asterisks" || subject === "symbols") {
-            const cleanedText = tokens.join(' ').replace(/\*+/g, '').trim();
-            return `Cleaned text without asterisks: "${cleanedText}"`;
-        }
-    }
-
-  // return `No actionable statement found for: "${tokens.join(' ')}"`;
-
-    return null;
-
+    return actionResult;
 }
 
 
-
-// Detect and evaluate math-related queries
+// Math expression evaluation function
 function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
     const numberWords = {
         "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, 
@@ -847,6 +951,231 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
         }
     }
     return null; // No math-related input detected
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Handle count action (count words, sentences, letters)
+// Handle count action (count words, sentences, letters)
+function handleCountAction(tokens, textToModify, subject) {
+    let result = "";
+    if (tokens.includes("sentence")) {
+        const sentenceCount = textToModify.split('.').length;
+        result += `${subject} - Sentence count: "${sentenceCount}" `;
+    }
+    if (tokens.includes("word")) {
+        const wordCount = textToModify.split(' ').length;
+        result += `${subject} - Word count: "${wordCount}" `;
+    }
+    if (tokens.includes("letter")) {
+        const letterCount = textToModify.replace(/\s/g, '').length;
+        result += `${subject} - Letter count: "${letterCount}" `;
+    }
+    return result;
+}
+
+
+// Handle length-related action
+function handleLengthAction(tokens, textToModify, subject) {
+    let result = "";
+    if (tokens.includes("sentence")) {
+        const sentenceLength = textToModify.length;
+        result += `${subject} - Length of sentence: "${sentenceLength}" characters `;
+    }
+    if (tokens.includes("word")) {
+        const words = textToModify.split(' ');
+        const wordLength = words.map(word => word.length);
+        result += `${subject} - Word lengths: "${wordLength.join(', ')}" `;
+    }
+    return result;
+}
+
+
+// Handle removal of symbols
+function handleRemoveAction(tokens, textToModify, subject) {
+    const removedText = textToModify.replace(/[^\w\s]/g, '');
+    return `${subject} - Text after removing symbols: "${removedText}" `;
+}
+
+// Handle replacement of words or characters
+function handleReplaceAction(tokens, textToModify, subject) {
+    const match = tokens.find(token => token.word.toLowerCase() === "with");
+    if (match) {
+        const replaceTarget = tokens[tokens.indexOf(match) - 1];
+        const replaceWith = tokens[tokens.indexOf(match) + 1];
+        const replacedText = textToModify.replace(new RegExp(replaceTarget, 'g'), replaceWith);
+        return `${subject} - Updated text after replacement: "${replacedText}" `;
+    }
+    return `${subject} - No replacement found.`;
+}
+
+// Handle capitalization of words
+function handleCapitalizeAction(tokens, textToModify) {
+    const capitalizedText = textToModify.replace(/\b\w/g, char => char.toUpperCase());
+    return `Updated text after capitalization: "${capitalizedText}" `;
+}
+
+// Handle reversing the text
+function handleReverseAction(tokens, textToModify) {
+    const reversedText = textToModify.split('').reverse().join('');
+    return `Reversed text: "${reversedText}" `;
+}
+
+// Handle sorting words alphabetically
+function handleSortAction(tokens, textToModify) {
+    const words = textToModify.split(' ').sort();
+    return `Sorted words: "${words.join(' ')}" `;
+}
+
+// Handle basic math operations (Multiply/Add/Subtract)
+function handleMathAction(tokens, textToModify, operation) {
+    const numbers = textToModify.split(' ').map(Number).filter(num => !isNaN(num));
+    let result = 0;
+    if (operation === 'multiply') {
+        result = numbers.reduce((acc, num) => acc * num, 1);
+    } else if (operation === 'add') {
+        result = numbers.reduce((acc, num) => acc + num, 0);
+    } else if (operation === 'subtract') {
+        result = numbers.reduce((acc, num) => acc - num);
+    }
+    return `${operation.charAt(0).toUpperCase() + operation.slice(1)} result: "${result}"`;
+}
+
+// Handle transforming the case of text
+function handleTransformAction(tokens, textToModify) {
+    if (tokens.includes("upper")) {
+        return `Text in uppercase: "${textToModify.toUpperCase()}" `;
+    } else if (tokens.includes("lower")) {
+        return `Text in lowercase: "${textToModify.toLowerCase()}" `;
+    } else if (tokens.includes("title")) {
+        return `Text in title case: "${textToModify.replace(/\b\w/g, char => char.toUpperCase())}" `;
+    }
+    return `No transformation found.`;
+}
+
+
+
+
+// Handle Concatenate action
+function handleConcatenateAction(tokens, text) {
+    const words = text.split(' ');
+    return words.join('');
+}
+
+// Handle Substring action
+function handleSubstringAction(tokens, text) {
+    const [start, end] = tokens.slice(-2).map(Number);
+    return text.substring(start, end);
+}
+
+// Handle Trim action
+function handleTrimAction(tokens, text) {
+    return text.trim();
+}
+
+// Handle Find action
+function handleFindAction(tokens, text) {
+    const wordToFind = tokens.slice(-1).join(' ').toLowerCase();
+    const position = text.toLowerCase().indexOf(wordToFind);
+    return position !== -1 ? `Found at position ${position}` : `Word not found`;
+}
+
+// Handle Split action
+function handleSplitAction(tokens, text) {
+    const separator = tokens.slice(-1).join(' ');
+    return text.split(separator).join(', ');
+}
+
+// Handle CountOccurrences action
+function handleCountOccurrencesAction(tokens, text) {
+    const wordToCount = tokens.slice(-1).join(' ');
+    const count = (text.match(new RegExp(wordToCount, 'gi')) || []).length;
+    return `The word "${wordToCount}" appears ${count} times.`;
+}
+
+// Handle Extract action
+function handleExtractAction(tokens, text) {
+    const regex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;  // example pattern for email extraction
+    const matches = text.match(regex);
+    return matches ? `Extracted email(s): ${matches.join(', ')}` : 'No emails found';
+}
+
+
+
+
+
+
+// Example function for handling the "convert" action
+function handleConvertAction(tokens, text) {
+    // For simplicity, let's implement a basic conversion (e.g., camelCase to snake_case)
+    const convertedText = text.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+    return `Converted text: ${convertedText}`;
+}
+
+// Example function for handling the "encode" action (Base64 encoding)
+function handleEncodeAction(tokens, text) {
+    const encodedText = btoa(text); // Simple Base64 encoding
+    return `Encoded text in Base64: ${encodedText}`;
+}
+
+// Example function for handling the "decode" action (Base64 decoding)
+function handleDecodeAction(tokens, text) {
+    try {
+        const decodedText = atob(text); // Base64 decoding
+        return `Decoded Base64 text: ${decodedText}`;
+    } catch (e) {
+        return `Error decoding Base64: ${e.message}`;
+    }
+}
+
+// Example function for handling the "palindrome" action
+function handlePalindromeAction(tokens, text) {
+    const isPalindrome = text === text.split('').reverse().join('');
+    return `Is "${text}" a palindrome? ${isPalindrome}`;
+}
+
+// Example function for handling the "shuffle" action
+function handleShuffleAction(tokens, text) {
+    const shuffledText = text.split('').sort(() => Math.random() - 0.5).join('');
+    return `Shuffled text: ${shuffledText}`;
+}
+
+// Example function for handling the "merge" action
+function handleMergeAction(tokens, text) {
+    const mergedText = text.replace(/\s+/g, ''); // Remove spaces and merge
+    return `Merged text: ${mergedText}`;
+}
+
+// Example function for handling the "highlight" action
+function handleHighlightAction(tokens, text) {
+    const highlightedText = `<mark>${text}</mark>`; // Wrap the text with a <mark> tag to highlight
+    return `Highlighted text: ${highlightedText}`;
+}
+
+// Example function for handling the "convertToArray" action
+function handleConvertToArrayAction(tokens, text) {
+    const arrayOfWords = text.split(' '); // Convert the sentence into an array of words
+    return `Array of words: [${arrayOfWords.join(', ')}]`;
+}
+
+// Example function for handling the "countUnique" action
+function handleCountUniqueAction(tokens, text) {
+    const words = text.split(' ');
+    const uniqueWords = new Set(words);
+    return `Number of unique words: ${uniqueWords.size}`;
 }
 
 
@@ -1686,12 +2015,6 @@ console.log("inputType:", inputType);
     
 
 
-
-// 1. Handle math expressions
-const mathResponse = detectAndEvaluateMath(tokens, categorizedTokens, inputType);
-if (mathResponse) {
-return `Here's your result: ${mathResponse}`;
-}
 
 
 
