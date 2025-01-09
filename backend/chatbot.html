@@ -345,6 +345,7 @@ let newQuestions = [];
         // Reference 'ChatbotInteractions' collection and order by timestamp
         const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
+        console.log("loadInteractionLogs");
 
         interactionBody.innerHTML = ''; // Clear loading message
 

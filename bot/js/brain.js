@@ -861,7 +861,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // Handle missing components
     const missingVerb = actionsToPerform.length === 0;
     const missingSubject = subjectsToEvaluate.length === 0;
-
+/*
     if (missingVerb && missingSubject) {
         return "Missing both verb (action) and subject. Please provide a complete sentence.";
     } else if (missingVerb) {
@@ -869,7 +869,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     } else if (missingSubject) {
         return "Missing subject. Please provide a subject for the sentence.";
     }
-
+*/
     // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
         return subjectsToEvaluate.map(subject => {

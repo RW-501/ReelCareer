@@ -427,3 +427,89 @@ document.addEventListener('DOMContentLoaded', loadPageScripts);
     myFunction
  } from 'https://reelcareer.co/js/navBar.js';
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Object to store global callbacks by name
+const globalCallbacks = {
+    exampleCallback: () => {
+        alert('Time is up! Action performed.');
+    },
+    // Add other reusable callbacks here
+    notifyUser: () => {
+        console.log('Notification sent to user.');
+    },
+    logTimeExpired: () => {
+        console.log('Timer expired, logging action.');
+    }
+};
+
+// Global timer function
+function setGlobalTimer(countdownSeconds, callbackName) {
+    const timerKey = 'globalTimerEndTime';   // Unique key for local storage
+    const callbackKey = 'globalTimerCallback'; // Key for callback function name
+
+    // Calculate the target end time
+    const endTime = Date.now() + countdownSeconds * 1000;
+    localStorage.setItem(timerKey, endTime.toString()); // Save end time
+    localStorage.setItem(callbackKey, callbackName);    // Save callback name
+
+    // Function to check and update the countdown
+    function updateTimer() {
+        const now = Date.now();
+        const storedEndTime = parseInt(localStorage.getItem(timerKey), 10);
+        const storedCallback = localStorage.getItem(callbackKey);
+
+        if (!storedEndTime || !storedCallback) {
+            console.warn('No timer or callback found in local storage.');
+            clearInterval(intervalId);
+            return;
+        }
+
+        const timeLeft = Math.max(0, storedEndTime - now);
+        if (timeLeft <= 0) {
+            clearInterval(intervalId);  // Stop the timer
+            localStorage.removeItem(timerKey);  // Clear timer
+            localStorage.removeItem(callbackKey);  // Clear callback
+
+            // Execute the stored callback if it exists
+            if (globalCallbacks[storedCallback]) {
+                globalCallbacks[storedCallback]();
+            } else {
+                console.error(`Callback function "${storedCallback}" not found.`);
+            }
+        } else {
+            console.log(`Time left: ${Math.ceil(timeLeft / 1000)} seconds`);
+        }
+    }
+
+    // Check every second
+    const intervalId = setInterval(updateTimer, 1000);
+    updateTimer();  // Initial call to update timer display
+}
+
+
+// Set a timer for 10 seconds that uses 'exampleCallback'
+setGlobalTimer(10, 'exampleCallback');
+
+// Set a timer for 15 seconds that logs a message
+setGlobalTimer(15, 'logTimeExpired');
+
+
+
+
+
+
+
+
