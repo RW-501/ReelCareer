@@ -690,11 +690,11 @@ function tokenize(input) {
     return input.match(regex) || [];
 }
 
-
-function detectAndEvaluateStatement(tokens, categorizedTokens) {
+function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     let action = null;
     let subject = null;
-    let target = null;
+    let targetFrom = null;
+    let targetTo = null;
 
     // Define actions and subjects
     const actions = {
@@ -713,7 +713,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens) {
         "numbers": ["number", "numbers"]
     };
 
-    // Detect action, subject, and optional target
+    // Detect action and subject
     categorizedTokens.forEach(token => {
         Object.keys(actions).forEach(key => {
             if (actions[key].includes(token.word.toLowerCase())) {
@@ -725,12 +725,21 @@ function detectAndEvaluateStatement(tokens, categorizedTokens) {
                 subject = key;
             }
         });
-        if (!target && !subjects[token.word] && !actions[token.word]) {
-            target = token.word; // Capture words not categorized as subject or action as target
-        }
     });
 
-    // Handle actions and subjects
+    // Specific handling for replace
+    if (action === "replace") {
+        const fromIndex = tokens.findIndex(token => token.toLowerCase() === "replace") + 1;
+        const withIndex = tokens.findIndex(token => token.toLowerCase() === "with");
+        if (fromIndex > 0 && withIndex > fromIndex) {
+            targetFrom = tokens[fromIndex];
+            targetTo = tokens[withIndex + 1];
+            const replacedText = tokens.map(word => word === targetFrom ? targetTo : word).join(' ');
+            return `Updated text after replacement: "${replacedText}"`;
+        }
+    }
+
+    // Handle actions with count
     if (action === "count") {
         if (subject === "letters") {
             const letterCount = tokens.join(' ').replace(/[^a-zA-Z]/g, '').length;
@@ -747,21 +756,11 @@ function detectAndEvaluateStatement(tokens, categorizedTokens) {
             const cleanedText = tokens.join(' ').replace(/\*+/g, '').trim();
             return `Cleaned text without asterisks: "${cleanedText}"`;
         }
-    } else if (action === "replace") {
-        const fromIndex = tokens.indexOf(target);
-        const toIndex = tokens.indexOf('with');
-        if (fromIndex > -1 && toIndex > fromIndex) {
-            const fromWord = tokens[fromIndex + 1];
-            const toWord = tokens[toIndex + 1];
-            const replacedText = tokens.map(word => word === fromWord ? toWord : word).join(' ');
-            return `Updated text after replacement: "${replacedText}"`;
-        }
     }
 
    // return `No actionable statement found for: "${tokens.join(' ')}"`;
 
-
-    return null;
+   return null;
 }
 
 
@@ -1653,7 +1652,7 @@ console.log("categorizedTokens:", categorizedTokens);
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
 
-console.log("userPreferences:", inputType);
+console.log("inputType:", inputType);
 
 
 
