@@ -704,18 +704,54 @@ function tokenize(input) {
 
 // Detect and evaluate math-related queries
 function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
-    const wordToNumberMap = {
+    const numberWords = {
         "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, 
-        "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+        "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, 
+        "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, 
+        "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19, 
+        "twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, 
+        "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90,
         "hundred": 100, "thousand": 1000, "million": 1000000, "billion": 1000000000
     };
     
+    function parseWordNumber(words) {
+        let total = 0, current = 0;
+        words.forEach(word => {
+            let value = numberWords[word.toLowerCase()];
+            if (value === undefined) return; // Skip unknown words
+            if (value >= 100) {
+                current *= value; // Apply multiplier for "hundred", "thousand", etc.
+            } else {
+                current += value; // Sum tens, units, etc.
+            }
+            if (value >= 1000) {
+                total += current;
+                current = 0;
+            }
+        });
+        return total + current;
+    }
+    
     let containsMathSymbol = categorizedTokens.some(token => token.category === 'math');
     
-    // Replace word numbers with actual numeric values
-    let mathTokens = categorizedTokens
-        .filter(token => token.category === 'numbers' || token.category === 'math')
-        .map(token => wordToNumberMap[token.word.toLowerCase()] !== undefined ? wordToNumberMap[token.word.toLowerCase()] : token.word);
+    let mathTokens = [];
+    let tempWordNumber = [];
+    
+    categorizedTokens.forEach(token => {
+        if (token.category === 'numbers') {
+            tempWordNumber.push(token.word);
+        } else {
+            if (tempWordNumber.length > 0) {
+                mathTokens.push(parseWordNumber(tempWordNumber));
+                tempWordNumber = [];
+            }
+            mathTokens.push(token.word);
+        }
+    });
+
+    if (tempWordNumber.length > 0) {
+        mathTokens.push(parseWordNumber(tempWordNumber));
+    }
 
     if (containsMathSymbol) {
         try {
@@ -729,6 +765,7 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
     }
     return null; // No math-related input detected
 }
+
 
 
 
