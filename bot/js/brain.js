@@ -2018,8 +2018,8 @@ function normalizeInput(userInput) {
 
 
 // Extended correctHomophones function to handle slang and misspellings
-function correctHomophonesAndMore(userInput, categories) {
-    const tokens = tokenize(userInput); // Tokenize input
+function correctHomophonesAndMore(tokens, categories) {
+
     let correctedSentence = tokens.map((token, index) => {
         let lowerToken = token.toLowerCase();
 
