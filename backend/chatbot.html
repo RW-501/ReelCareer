@@ -456,12 +456,6 @@ let  jsonOutput = {
 
 
 
-    const generalTags = createTagInputSystem({
-                    tagsContainerId: "tagsContainertagsSET-tags",
-                    badgeClass: "tag-primary" // Custom badge class for general tags
-                });
-
-
 
 
          
@@ -529,6 +523,12 @@ document.getElementById("upload-to-db").addEventListener("click", batchUpdateCha
 function generateRandom6DigitNumber() {
     return Math.floor(100000 + Math.random() * 900000);
 }
+
+
+const generalTags = createTagInputSystem({
+                    tagsContainerId: "tagsContainertagsSET-tags",
+                    badgeClass: "tag-primary" // Custom badge class for general tags
+                });
 
 
 
