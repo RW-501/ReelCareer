@@ -219,6 +219,18 @@ function createNavbar() {
       
         // Display Job Seeker and Recruiter links
 
+
+
+
+        document.getElementById("logoutButton").addEventListener("click", () => {
+          console.log("Button clicked");
+          logoutUser();
+        });
+        
+    
+        
+
+
     } else {
       // If not logged in, show login button
   
@@ -389,12 +401,6 @@ async function logoutUser() {
   window.logoutUser = logoutUser;
   
 
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      console.log("Button clicked");
-      logoutUser();
-    });
-    
-
-    
+ 
   
   
