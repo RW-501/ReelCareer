@@ -704,23 +704,31 @@ function tokenize(input) {
 
 // Detect and evaluate math-related queries
 function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
+    const wordToNumberMap = {
+        "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, 
+        "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+        "hundred": 100, "thousand": 1000, "million": 1000000, "billion": 1000000000
+    };
+    
     let containsMathSymbol = categorizedTokens.some(token => token.category === 'math');
-    let mathTokens = categorizedTokens.filter(token => token.category === 'numbers' || token.category === 'math').map(token => token.word);
-  
+    
+    // Replace word numbers with actual numeric values
+    let mathTokens = categorizedTokens
+        .filter(token => token.category === 'numbers' || token.category === 'math')
+        .map(token => wordToNumberMap[token.word.toLowerCase()] !== undefined ? wordToNumberMap[token.word.toLowerCase()] : token.word);
+
     if (containsMathSymbol) {
-      try {
-        // Join and validate the math expression
-        const mathExpression = mathTokens.join(' ');
-        const result = new Function(`return ${mathExpression}`)(); // Safer alternative to eval()
-        if (isNaN(result)) throw new Error('Invalid calculation'); // Handle non-numeric results
-        return `The result of your calculation (${mathExpression}) is ${result.toFixed(0)}.`;
-      } catch (error) {
-        return "I couldn't evaluate that expression. Please check your input.";
-      }
+        try {
+            const mathExpression = mathTokens.join(' ');
+            const result = new Function(`return ${mathExpression}`)();
+            if (isNaN(result)) throw new Error('Invalid calculation');
+            return `The result of your calculation (${mathExpression}) is ${result.toFixed(0)}.`;
+        } catch (error) {
+            return "I couldn't evaluate that expression. Please check your input.";
+        }
     }
     return null; // No math-related input detected
-  }
-  
+}
 
 
 
