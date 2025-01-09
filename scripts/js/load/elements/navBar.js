@@ -389,9 +389,13 @@ async function logoutUser() {
   window.logoutUser = logoutUser;
   
 
-  // Event listener to handle login forms, popups, and more...
-  document.getElementById("logoutButton").addEventListener("click", logoutUser);
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      console.log("Button clicked");
+      logoutUser();
+    });
     
+  });    
 
   
   
