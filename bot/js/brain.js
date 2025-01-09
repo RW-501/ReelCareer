@@ -573,6 +573,57 @@
                 'mourning', 'bereaved', 'devastated', 'heartbroken', 'sorrowful', 'heavy', 'weeping', 'downcast', 'empty', 'mournful', 
                 'bereft', 'desolate', 'lonely', 'grieving', 'abandoned'
             ],
+            healthCare: [
+                'healthcare', 'medicine', 'doctor', 'nurse', 'hospital', 'clinic', 'patient', 'treatment', 'surgery', 
+                'wellness', 'physical therapy', 'medical', 'pharmacy', 'care', 'rehabilitation', 'mental health', 'psychiatrist', 
+                'psychologist', 'nursing', 'health insurance', 'vaccine', 'medication', 'disease', 'disability', 'healthcare provider',
+                'elderly care', 'pediatric care', 'dentistry', 'optometry', 'ambulance', 'health checkup', 'health screening'
+            ],
+            artsAndEntertainment: [
+                'art', 'performance', 'painting', 'sculpture', 'gallery', 'artist', 'exhibition', 'theater', 'cinema', 'filmmaker', 
+                'director', 'musician', 'band', 'composer', 'performer', 'actor', 'actress', 'studio', 'gallery', 'animation', 
+                'creative writing', 'poetry', 'novel', 'book', 'publishing', 'dance', 'theater production', 'stage', 'voice acting', 
+                'music production', 'sound engineer', 'composer', 'musician', 'film editing', 'soundtrack', 'vocalist'
+            ],
+            retail: [
+                'retail', 'store', 'shop', 'shopping', 'customer service', 'sales associate', 'cashier', 'manager', 'inventory', 
+                'merchandising', 'display', 'promotion', 'retail marketing', 'sales representative', 'salesperson', 'shop assistant', 
+                'store manager', 'team lead', 'product display', 'online store', 'e-commerce', 'sales floor', 'product knowledge', 
+                'POS system', 'returns', 'product launching', 'brand ambassador', 'seasonal sales', 'customer satisfaction', 'store opening'
+            ],
+            manufacturing: [
+                'manufacturing', 'factory', 'production', 'assembly', 'industrial', 'machinery', 'automation', 'engineering', 
+                'production line', 'workshop', 'blue-collar', 'skilled labor', 'machine operator', 'quality control', 'workforce', 
+                'manufacturing plant', 'product design', 'supply chain', 'logistics', 'material handling', 'warehouse', 'packaging', 
+                'process improvement', 'lean manufacturing', 'supply management', 'inventory control', 'factory worker', 'maintenance'
+            ],
+            construction: [
+                'construction', 'contractor', 'builder', 'blueprints', 'site', 'project manager', 'architect', 'engineer', 'electrician', 
+                'plumber', 'carpenter', 'laborer', 'heavy equipment', 'excavator', 'foundation', 'framing', 'construction site', 
+                'roofing', 'building materials', 'structural', 'renovation', 'remodeling', 'contracting', 'civil engineering', 'building', 
+                'construction management', 'surveying', 'landscaping', 'interior design', 'architecture', 'construction worker'
+            ],
+            customerSupport: [
+                'customer support', 'customer service', 'help desk', 'support agent', 'technical support', 'call center', 
+                'client relations', 'client care', 'service representative', 'help center', 'contact center', 'live chat', 
+                'phone support', 'email support', 'product support', 'issue resolution', 'client communication', 'troubleshooting', 
+                'feedback', 'satisfaction', 'service recovery', 'customer experience', 'customer loyalty', 'ticketing system', 
+                'CRM', 'customer inquiries', 'customer care', 'client success', 'service escalation'
+            ],
+            education: [
+                'education', 'teaching', 'learning', 'instructor', 'tutor', 'student', 'classroom', 'school', 'university', 
+                'college', 'curriculum', 'course', 'degree', 'bachelor', 'master', 'doctoral', 'certification', 'training', 
+                'homework', 'assignment', 'lecturer', 'pedagogy', 'study', 'reading', 'learning style', 'student success', 
+                'academic advisor', 'exam', 'test', 'study group', 'school project', 'online education', 'e-learning', 'study plan', 
+                'mentor', 'research', 'lab', 'teaching assistant', 'faculty', 'graduate'
+            ],
+            lawAndCompliance: [
+                'law', 'legal', 'attorney', 'lawyer', 'court', 'litigation', 'judiciary', 'compliance', 'contract', 'lawsuit', 
+                'corporate law', 'criminal law', 'intellectual property', 'patent', 'trademark', 'employment law', 'tax law', 
+                'legal advice', 'legal documents', 'law enforcement', 'criminal justice', 'family law', 'legal counsel', 'regulations', 
+                'court proceedings', 'trial', 'arbitration', 'mediation', 'legal compliance', 'policy', 'law firm', 'judicial', 
+                'insurance', 'regulatory affairs', 'dispute resolution', 'negotiation'
+            ],
             states: {
                 "AL": "alabama", "AK": "alaska", "AZ": "arizona", "AR": "arkansas", 
                 "CA": "california", "CO": "colorado", "CT": "connecticut", "DE": "delaware", 
@@ -610,11 +661,25 @@
             quantity: ['much', 'many', 'few', 'several', 'amount', 'count', 'number', 'volume'],
             verbs: ['is', 'are', 'was', 'be', 'been', 'do', 'does', 'make'],
             determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the'],
-            pronouns: ['it', 'he', 'she', 'they', 'we', 'you', 'I'],
+            pronouns: ['I', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'who', 'what', 'which'],
             title: ['title', 'name', 'heading', 'label', 'alias', 'caption'],
             tag: ['tag', 'label', 'keyword'],
             description: ['description', 'overview', 'summary', 'details'],
-        
+            articles: ['the', 'a', 'an'],
+            conjunctions: ['and', 'but', 'or', 'nor', 'for', 'so', 'yet'],
+
+            prepositions: ['in', 'on', 'at', 'by', 'with', 'to', 'from', 'about', 'over', 'under', 'between', 'through', 'during'],
+            auxiliaryVerbs: ['is', 'are', 'was', 'were', 'be', 'been', 'being', 'has', 'had', 'have', 'do', 'does', 'did', 'can', 'may', 'will', 'would'],
+            adverbs: ['not', 'more', 'most', 'less', 'least', 'how', 'when', 'where', 'there', 'here', 'also', 'always', 'never', 'too'],
+            interrogatives: ['who', 'what', 'where', 'when', 'how', 'why'],
+
+            determiners: ['this', 'that', 'these', 'those', 'my', 'your', 'his', 'her', 'their', 'our', 'some', 'any', 'each'],
+            comparativesSuperlatives: ['more', 'most', 'less', 'least', 'better', 'best', 'worse', 'worst'],
+            possessives: ['my', 'your', 'his', 'her', 'its', 'our', 'their'],
+
+
+
+
             action: [
                 'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
                 'submit', 'interview', 'complete', 'start', 'create', 'build', 
@@ -697,18 +762,16 @@ function tokenize(input) {
 
 
 
-
-
-
 function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) { 
     const actionsToPerform = [];
-    const subjectsToEvaluate = []; // Initialize subjectsToEvaluate array
+    const subjectsToEvaluate = [];
+    const context = {}; // To store contextual information that may influence the actions
     const statementStart = tokens.indexOf("statement") + 1;
 
-    // Define actions and subjects
+    // Define actions, subjects, verbs, and predicates
     const actions = {
         "count": ["count", "calculate", "find", "determine", "compute"],
-        "length": ["length", "measure", "size"],
+        "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
         "replace": ["replace", "substitute", "change", "swap"],
         "capitalize": ["capitalize", "upper", "title"],
@@ -735,14 +798,14 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "convertToArray": ["convert to array", "to array", "split into array"],
         "countUnique": ["count unique", "unique count", "distinct count"]
     };
-    
+
     const subjects = {
-        "letters": ["letter", "letters", "character", "characters"],
+        "letters": ["letter", "letters", "character", "characters", "alphabets", "letters of the alphabet"],
+        "numbers": ["number", "numbers", "digits", "numerals"],
         "words": ["word", "words"],
         "sentences": ["sentence", "sentences"],
         "symbols": ["symbol", "symbols", "punctuation"],
         "asterisks": ["*", "**", "asterisk", "asterisks"],
-        "numbers": ["number", "numbers"],
         "phrases": ["phrase", "phrases"],
         "vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
         "consonants": ["consonant", "consonants"],
@@ -754,7 +817,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "odd_numbers": ["odd number", "odd numbers"],
         "alphabets": ["alphabet", "alphabets"],
         "symbols_emojis": ["symbol", "emoji", "emojis"],
-        "dates": ["date", "dates"],
+        "dates": ["date", "dates", "calendar", "time"],
         "urls": ["url", "urls"],
         "phone_numbers": ["phone number", "phone numbers"],
         "emails": ["email", "emails"],
@@ -770,34 +833,75 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         return mathResult; // Return the result if it's a math expression
     }
 
-
-    
-    // Detect actions and subjects
+    // Detect actions, verbs, and subjects
     categorizedTokens.forEach(token => {
+        // Matching action verbs
         Object.keys(actions).forEach(actionKey => {
             if (token.word && actions[actionKey].includes(token.word.toLowerCase())) {
                 actionsToPerform.push(actionKey);
-            }else if (!token.word) {
-                console.error("Missing word in token:", token);
-                return;  // Skip the token or handle the error as needed
             }
-            
         });
-    
-        // Check if any token corresponds to a subject and add it to subjectsToEvaluate
+
+        // Matching subjects
         Object.keys(subjects).forEach(subjectKey => {
             if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-                subjectsToEvaluate.push(subjectKey); // Add the subject to subjectsToEvaluate
+                subjectsToEvaluate.push(subjectKey);
             }
         });
     });
 
-    // Now, use subjectsToEvaluate to handle specific logic for each subject
+    // Handle cases with multiple actions and context-aware detection
+    if (actionsToPerform.length > 1 && subjectsToEvaluate.length > 0) {
+        context.multipleActions = true;
+        // If multiple actions are found, prioritize based on context or user's intent
+        // Here, simply return the first action and subject as an example:
+        return handleMultipleActions(actionsToPerform, subjectsToEvaluate);
+    }
+
+    // Handle missing components
+    const missingVerb = actionsToPerform.length === 0;
+    const missingSubject = subjectsToEvaluate.length === 0;
+
+    if (missingVerb && missingSubject) {
+        return "Missing both verb (action) and subject. Please provide a complete sentence.";
+    } else if (missingVerb) {
+        return "Missing verb (action). Please provide a verb to complete the sentence.";
+    } else if (missingSubject) {
+        return "Missing subject. Please provide a subject for the sentence.";
+    }
+
+    // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
-        return subjectsToEvaluate.map(subject => handleActionWithSubject(action, subject, tokens, statementStart));
+        return subjectsToEvaluate.map(subject => {
+            return handleActionWithSubject(action, subject, tokens, statementStart, context);
+        });
     }).flat();
-    
+
     return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
+}
+
+// Helper function to handle multiple actions
+function handleMultipleActions(actionsToPerform, subjectsToEvaluate) {
+    // This function is a placeholder; the logic for handling multiple actions can be refined based on intent
+    const primaryAction = actionsToPerform[0]; // Take the first action as a fallback
+    const primarySubject = subjectsToEvaluate[0]; // Take the first subject as a fallback
+    return handleActionWithSubject(primaryAction, primarySubject);
+}
+
+// Helper function to handle the specific action and subject pair
+function handleActionWithSubject(action, subject, tokens, statementStart, context) {
+    // Context-aware handling of actions and subjects
+    switch (action) {
+        case 'count':
+            return `Counting ${subject} in the provided text.`;
+        case 'length':
+            return `Determining the length of ${subject}.`;
+        case 'remove':
+            return `Removing ${subject} from the text.`;
+        // Add more cases for different actions...
+        default:
+            return `Action ${action} not recognized for subject ${subject}.`;
+    }
 }
 
 // Handle actions dynamically
