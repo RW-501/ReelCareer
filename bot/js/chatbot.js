@@ -898,6 +898,8 @@ if (bestMatch && highestScore > 0) {
     // Log unanswered question and suggest contacting support
     if(trimmedMessage){
     let brainOutput = processMessage(trimmedMessage);
+    document.getElementById("chat-input").innerText = '';
+
     displayMessage("bot", brainOutput);
     }
     if(!trimmedMessage){
