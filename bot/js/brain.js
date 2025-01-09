@@ -888,21 +888,7 @@ function handleMultipleActions(actionsToPerform, subjectsToEvaluate) {
     return handleActionWithSubject(primaryAction, primarySubject);
 }
 
-// Helper function to handle the specific action and subject pair
-function handleActionWithSubject(action, subject, tokens, statementStart, context) {
-    // Context-aware handling of actions and subjects
-    switch (action) {
-        case 'count':
-            return `Counting ${subject} in the provided text.`;
-        case 'length':
-            return `Determining the length of ${subject}.`;
-        case 'remove':
-            return `Removing ${subject} from the text.`;
-        // Add more cases for different actions...
-        default:
-            return `Action ${action} not recognized for subject ${subject}.`;
-    }
-}
+
 
 // Handle actions dynamically
 function handleActionWithSubject(action, subject, tokens, statementStart) {
