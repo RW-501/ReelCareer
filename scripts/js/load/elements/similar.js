@@ -12,22 +12,22 @@ import {
     
   async function checkImageURL(url) {
     try {
-      const response = await fetch(url, { method: 'HEAD' });
-  
-      // Check if the response is OK (status 200)
+      const response = await fetch(url, {
+        method: 'HEAD',
+        mode: 'cors' // Explicitly set CORS mode
+      });
+    
       if (response.ok) {
         return url; // Image is accessible
       } else {
-        // Handle 403 Forbidden or any other response status
-        return 'https://reelcareer.co/images/rc_text_sm.png'; // Fallback image
+        console.warn('Access denied or URL not valid, using fallback image:', response.status);
+        return 'https://reelcareer.co/images/rc_text_sm.png';
       }
     } catch (error) {
-      // If an error occurs (e.g., network error, CORS issue), return the fallback image
+      console.error('Error fetching image URL:', error.message);
       return 'https://reelcareer.co/images/rc_text_sm.png'; // Fallback image
     }
   }
-  
-  
   
   window.checkImageURL = checkImageURL;
   
