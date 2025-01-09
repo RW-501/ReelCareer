@@ -694,20 +694,26 @@ function tokenize(input) {
 function detectAndEvaluateStatement(tokens, categorizedTokens) {
     let action = null;
     let subject = null;
+    let target = null;
 
-    // Define possible actions and subjects
+    // Define actions and subjects
     const actions = {
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size"],
+        "remove": ["remove", "delete", "clear", "strip"],
+        "replace": ["replace", "substitute", "change", "swap"]
     };
 
     const subjects = {
         "letters": ["letter", "letters", "character", "characters"],
         "words": ["word", "words"],
         "sentences": ["sentence", "sentences"],
+        "symbols": ["symbol", "symbols", "punctuation"],
+        "asterisks": ["*", "**", "asterisk", "asterisks"],
+        "numbers": ["number", "numbers"]
     };
 
-    // Find the first matching action and subject
+    // Detect action, subject, and optional target
     categorizedTokens.forEach(token => {
         Object.keys(actions).forEach(key => {
             if (actions[key].includes(token.word.toLowerCase())) {
@@ -719,21 +725,42 @@ function detectAndEvaluateStatement(tokens, categorizedTokens) {
                 subject = key;
             }
         });
+        if (!target && !subjects[token.word] && !actions[token.word]) {
+            target = token.word; // Capture words not categorized as subject or action as target
+        }
     });
 
-    // Perform the action based on detected subject
+    // Handle actions and subjects
     if (action === "count") {
         if (subject === "letters") {
             const letterCount = tokens.join(' ').replace(/[^a-zA-Z]/g, '').length;
             return `The number of letters in the given input is ${letterCount}.`;
         } else if (subject === "words") {
-            const wordCount = tokens.length;
+            const wordCount = tokens.filter(word => /\w+/.test(word)).length;
             return `The number of words in the given input is ${wordCount}.`;
         } else if (subject === "sentences") {
             const sentenceCount = tokens.join(' ').split(/[.!?]/).filter(Boolean).length;
             return `The number of sentences in the given input is ${sentenceCount}.`;
         }
+    } else if (action === "remove") {
+        if (subject === "asterisks" || subject === "symbols") {
+            const cleanedText = tokens.join(' ').replace(/\*+/g, '').trim();
+            return `Cleaned text without asterisks: "${cleanedText}"`;
+        }
+    } else if (action === "replace") {
+        const fromIndex = tokens.indexOf(target);
+        const toIndex = tokens.indexOf('with');
+        if (fromIndex > -1 && toIndex > fromIndex) {
+            const fromWord = tokens[fromIndex + 1];
+            const toWord = tokens[toIndex + 1];
+            const replacedText = tokens.map(word => word === fromWord ? toWord : word).join(' ');
+            return `Updated text after replacement: "${replacedText}"`;
+        }
     }
+
+   // return `No actionable statement found for: "${tokens.join(' ')}"`;
+
+
     return null;
 }
 
