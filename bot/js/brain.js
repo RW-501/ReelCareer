@@ -796,33 +796,28 @@ return token;  // Return token as-is if no match found
 function categorizeTokens(tokens, categories) {
     const mappedWords = [];
 
-    // Precompute regex and state set for efficiency
-    const stateCategory = categories['states'];
-    let stateRegex, stateSet;
-    if (stateCategory) {
-        const states = Object.keys(stateCategory);
-        const stateValues = Object.values(stateCategory).map(state => state.toLowerCase());
-        stateRegex = new RegExp('\\b(' + states.join('|') + ')\\b', 'i');
-        stateSet = new Set(stateValues);  // To quickly match full state names
-    }
+    // Define regex for different number formats
+    const numberRegex = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/; // Matches 100, 1,000, 100.5, etc.
+    const largeNumberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'million', 'billion', 'trillion', 'hundred']; // Extend as needed
 
     tokens.forEach(token => {
-        // Match against each category
-        Object.keys(categories).forEach(category => {
-            const categoryValues = categories[category];
-
-            if (category === 'states' && stateRegex) {
-                // Check if token matches any state abbreviation or full name
-                if (stateRegex.test(token) || stateSet.has(token.toLowerCase())) {
+        // Check for number-like tokens
+        if (numberRegex.test(token.replace(/,/g, ''))) { // Remove commas before matching
+            mappedWords.push({ category: 'numbers', word: token });
+        } else if (largeNumberWords.includes(token.toLowerCase())) {
+            mappedWords.push({ category: 'numbers', word: token });
+        } else {
+            // Otherwise, check against other categories
+            Object.keys(categories).forEach(category => {
+                const categoryValues = categories[category];
+                
+                if (Array.isArray(categoryValues) && categoryValues.includes(token)) {
+                    mappedWords.push({ category: category, word: token });
+                } else if (category !== 'states' && categoryValues instanceof Set && categoryValues.has(token)) {
                     mappedWords.push({ category: category, word: token });
                 }
-            } else if (Array.isArray(categoryValues) && categoryValues.includes(token)) {
-                mappedWords.push({ category: category, word: token });
-            } else if (category !== 'states' && categoryValues instanceof Set && categoryValues.has(token)) {
-                // For other categories stored as Sets (optimized lookup)
-                mappedWords.push({ category: category, word: token });
-            }
-        });
+            });
+        }
     });
 
     return mappedWords;
