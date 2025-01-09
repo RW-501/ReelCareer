@@ -499,13 +499,13 @@ function setGlobalTimer(countdownSeconds, callbackName) {
     updateTimer();  // Initial call to update timer display
 }
 
-
+/*
 // Set a timer for 10 seconds that uses 'exampleCallback'
 setGlobalTimer(10, 'exampleCallback');
 
 // Set a timer for 15 seconds that logs a message
 setGlobalTimer(15, 'logTimeExpired');
-
+*/
 
 
 
