@@ -678,6 +678,40 @@
             possessives: ['my', 'your', 'his', 'her', 'its', 'our', 'their'],
 
 
+            misspellings: [
+                'teh', 'recieve', 'definately', 'seperate', 'occurence', 'acommodate', 
+                'embarras', 'concious', 'neccessary', 'publically', 'truely', 'untill', 
+                'wich', 'comming', 'mispell', 'persue', 'guage', 'acheive', 'arguement', 'beleive', 'calender', 'carribean', 'cemetary', 'collegue',  
+'concieve', 'decieve', 'dilema', 'enviroment', 'existince', 'familliar', 'finaly', 'foriegn', 'freind', 'goverment',
+'grafic', 'gratefull', 'hight', 'idiosyncracy', 'ignorence', 'imediately', 'independant', 'interupt', 'jewelery', 
+'judgement', 'knowlege', 'liason', 'lightening', 'maintainance', 'medeval', 'millenium', 'mispellings', 'misterious',  
+'mixure', 'morgage', 'neccessity', 'ocasion', 'oppurtunity', 'parliment', 'pavillion', 'permenant', 'playwrite',  
+'possable', 'potatos', 'prefered', 'professer', 'pronounciation', 'propoganda', 'protocal', 'reciept', 'reconize', 
+'refering', 'relise', 'religous', 'remeber', 'renumeration', 'reposess', 'resistence', 'rythm', 'satelite', 'scedule',
+'sence', 'seige', 'seperately', 'signiture', 'sillhouette', 'similiar', 'smoothe', 'speach', 'stong', 'strenght',  
+'strenghen', 'subconsious', 'substract', 'succesful', 'suceed', 'supprise', 'surpress', 'temperment', 'thier',  
+'tommorow', 'tounge', 'twelth', 'tyrany', 'unforseen', 'unfortunatly', 'useing', 'vacume', 'vehical', 'volcanoe', 
+'wierd', 'withold', 'wich', 'realy', 'teh', 'recieve', 'adress', 'wich', 'untill', 'truely', 'suprise', 'comming', 'buisness', 'neccessary',
+'occuring', 'dont', 'wont', 'cant', 'thier', 'alot', 'its', 'whos', 'there', 'your',  
+'youre', 'wether', 'wierd', 'finnaly', 'heros', 'aswell', 'wich', 'peice', 'becuase', 'definately',  
+'seperate', 'occurence', 'acommodate', 'embarras', 'concious', 'publically', 'ocassion', 'miniture',  
+'tommorrow', 'oppisite', 'alright', 'arguement', 'beleive', 'carreer', 'freind', 'interupt', 'liquify',  
+'mentaly', 'mispell', 'movment', 'nowdays', 'procede', 'remeber', 'restraunt', 'similer', 'strenght',  
+'thier', 'tommorow', 'truely', 'unfortunatly', 'vaccum', 'vehical', 'verticle', 'wierd', 'wich',  
+'agian', 'bellow', 'definate', 'empyt', 'futher', 'gues', 'ignor', 'insted', 'jepardy', 'knolwedge',  
+'lable', 'medcine', 'necesary', 'ninty', 'offcially', 'perhas', 'pritty', 'quater', 'realize',  
+'reffer', 'seige', 'simpy', 'stricly', 'threshhold', 'usualy', 'warrent', 'wholy', 'adress', 'suprise', 'buisness', 'occuring'
+            ],
+            Slang : [ 'ya', 'gonna', 'wanna', 'ain\'t', 'lemme', 'gotta', 'sorta', 'kinda', 'ainy', 'coulda',  
+'thang', 'neva', 'whassup', 'brotha', 'sistah', 'dat', 'dis', 'finna', 'boutta', 'bruh',  
+'thot', 'bae', 'fr', 'cap', 'lit', 'dope', 'onfleek', 'noob', 'stfu', 'yall',  
+'cuz', 'nuffin', 'tryna', 'gimme', 'hunnid', 'omw', 'yolo', 'sus', 'fam', 'rofl',  
+'lmfao', 'runnin', 'ppl', 'srsly', 'plz', 'idk', 'tbh', 'ikr', 'gr8', 'luv',  
+'nah', 'yea', 'smh', 'fren', 'mofo', 'hella', 'bouta', 'aint', 'creepin', 'chillin',  
+'flexin', 'drippin', 'flava', 'holla', 'icedout', 'lamez', 'noice', 'peeps', 'pimpin', 'reppin',  
+'scaredycat', 'sk8', 'savage', 'snap', 'salty', 'whip', 'props', 'turnt', 'vibe', 'lowkey',  
+'wet', 'squad', 'werk', 'yaaas', 'bro', 'sis', 'gucci', 'dope', 'swaggy', 'toof',  
+'woke', 'yeet', 'zaddy', 'fiddy', 'fo’', 'mood'   ],
 
 
             action: [
@@ -1426,41 +1460,391 @@ return token;  // Return token as-is if no match found
 });
 }
 
+
+
+
+
+
+
+
+
+const homophones = { 
+    "there": { correct: "their", category: "location" },
+    "their": { correct: "they're", category: "pronouns" },
+    "they're": { correct: "their", category: "pronouns" },
+    "to": { correct: "too", category: "quantity" },
+    "too": { correct: "to", category: "direction" },
+    "your": { correct: "you're", category: "pronouns" },
+    "you're": { correct: "your", category: "possessives" },
+    "its": { correct: "it's", category: "possessives" },
+    "it's": { correct: "its", category: "possessives" },
+    "than": { correct: "then", category: "comparison" },
+    "then": { correct: "than", category: "time" },
+    "weather": { correct: "whether", category: "generalInquiry" },
+    "whether": { correct: "weather", category: "generalInquiry" },
+    "hear": { correct: "here", category: "location" },
+    "here": { correct: "hear", category: "actions" },
+    "peace": { correct: "piece", category: "abstractConcepts" },
+    "piece": { correct: "peace", category: "abstractConcepts" },
+    "right": { correct: "write", category: "actions" },
+    "write": { correct: "right", category: "actions" },
+    "affect": { correct: "effect", category: "causation" },
+    "effect": { correct: "affect", category: "causation" },
+    "site": { correct: "sight", category: "location" },
+    "sight": { correct: "site", category: "vision" },
+    "accept": { correct: "except", category: "inclusion" },
+    "except": { correct: "accept", category: "exclusion" }
+};
+
+
+
+const slang = {
+    "ya": "you",
+    "gonna": "going to",
+    "wanna": "want to",
+    "ain't": "isn't",
+    "lemme": "let me",
+    "gotta": "got to",
+    "sorta": "sort of",
+    "kinda": "kind of",
+    "ainy": "any",
+    "coulda": "could have",
+    "thang": "thing",
+    "neva": "never",
+    "whassup": "what's up",
+    "brotha": "brother",
+    "sistah": "sister",
+    "dat": "that",
+    "dis": "this",
+    "finna": "fixing to",
+    "boutta": "about to",
+    "bruh": "bro",
+    "thot": "that hoe over there",
+    "bae": "before anyone else",
+    "fr": "for real",
+    "cap": "lie",
+    "lit": "cool",
+    "dope": "cool",
+    "onfleek": "on point",
+    "noob": "newbie",
+    "stfu": "shut the f*ck up",
+    "yall": "you all",
+    "cuz": "because",
+    "nuffin": "nothing",
+    "tryna": "trying to",
+    "gimme": "give me",
+    "hunnid": "hundred",
+    "omw": "on my way",
+    "yolo": "you only live once",
+    "sus": "suspicious",
+    "fam": "family",
+    "rofl": "rolling on the floor laughing",
+    "lmfao": "laughing my f*cking ass off",
+    "runnin": "running",
+    "ppl": "people",
+    "srsly": "seriously",
+    "plz": "please",
+    "idk": "I don't know",
+    "tbh": "to be honest",
+    "ikr": "I know, right?",
+    "gr8": "great",
+    "luv": "love",
+    "nah": "no",
+    "yea": "yes",
+    "smh": "shaking my head",
+    "fren": "friend",
+    "mofo": "motherf*cker",
+    "hella": "a lot",
+    "creepin": "creeping",
+    "chillin": "chilling",
+    "flexin": "flexing",
+    "drippin": "dripping",
+    "flava": "flavor",
+    "holla": "holla at me",
+    "icedout": "jewelry (diamond-studded)",
+    "lamez": "lame",
+    "noice": "nice",
+    "peeps": "people",
+    "pimpin": "pimping",
+    "reppin": "representing",
+    "scaredycat": "someone who is easily frightened",
+    "sk8": "skate",
+    "savage": "brutally honest or cool",
+    "snap": "quick photo or moment",
+    "salty": "upset or bitter",
+    "whip": "car",
+    "props": "respect",
+    "turnt": "excited or high energy",
+    "vibe": "feeling or atmosphere",
+    "lowkey": "secretly or quietly",
+    "wet": "cool",
+    "squad": "group of friends",
+    "werk": "work",
+    "yaaas": "yes (exclamation)",
+    "bro": "brother",
+    "sis": "sister",
+    "gucci": "good or okay",
+    "dope": "cool or impressive",
+    "swaggy": "stylish",
+    "toof": "tooth",
+    "woke": "aware or enlightened",
+    "yeet": "throw something with force or excitement",
+    "zaddy": "attractive man",
+    "fiddy": "fifty",
+    "fo'": "for",
+    "mood": "current feeling or vibe"
+};
+
+const misspellings = {
+    "teh": "the",
+    "recieve": "receive",
+    "definately": "definitely",
+    "seperate": "separate",
+    "occurence": "occurrence",
+    "acommodate": "accommodate",
+    "embarras": "embarrass",
+    "concious": "conscious",
+    "neccessary": "necessary",
+    "publically": "publicly",
+    "truely": "truly",
+    "untill": "until",
+    "wich": "which",
+    "comming": "coming",
+    "mispell": "misspell",
+    "persue": "pursue",
+    "guage": "gauge",
+    "acheive": "achieve",
+    "arguement": "argument",
+    "beleive": "believe",
+    "calender": "calendar",
+    "carribean": "Caribbean",
+    "cemetary": "cemetery",
+    "collegue": "colleague",
+    "concieve": "conceive",
+    "decieve": "deceive",
+    "dilema": "dilemma",
+    "enviroment": "environment",
+    "existince": "existence",
+    "familliar": "familiar",
+    "finaly": "finally",
+    "foriegn": "foreign",
+    "freind": "friend",
+    "goverment": "government",
+    "grafic": "graphic",
+    "gratefull": "grateful",
+    "hight": "height",
+    "idiosyncracy": "idiosyncrasy",
+    "ignorence": "ignorance",
+    "imediately": "immediately",
+    "independant": "independent",
+    "interupt": "interrupt",
+    "jewelery": "jewelry",
+    "judgement": "judgment",
+    "knowlege": "knowledge",
+    "liason": "liaison",
+    "lightening": "lightning",
+    "maintainance": "maintenance",
+    "medeval": "medieval",
+    "millenium": "millennium",
+    "mispellings": "misspellings",
+    "misterious": "mysterious",
+    "mixure": "mixture",
+    "morgage": "mortgage",
+    "neccessity": "necessity",
+    "ocasion": "occasion",
+    "oppurtunity": "opportunity",
+    "parliment": "parliament",
+    "pavillion": "pavilion",
+    "permenant": "permanent",
+    "playwrite": "playwright",
+    "possable": "possible",
+    "potatos": "potatoes",
+    "prefered": "preferred",
+    "professer": "professor",
+    "pronounciation": "pronunciation",
+    "propoganda": "propaganda",
+    "protocal": "protocol",
+    "reciept": "receipt",
+    "reconize": "recognize",
+    "refering": "referring",
+    "relise": "realize",
+    "religous": "religious",
+    "remeber": "remember",
+    "renumeration": "remuneration",
+    "reposess": "repossess",
+    "resistence": "resistance",
+    "rythm": "rhythm",
+    "satelite": "satellite",
+    "scedule": "schedule",
+    "sence": "sense",
+    "seige": "siege",
+    "seperately": "separately",
+    "signiture": "signature",
+    "sillhouette": "silhouette",
+    "similiar": "similar",
+    "smoothe": "smooth",
+    "speach": "speech",
+    "stong": "strong",
+    "strenght": "strength",
+    "strenghen": "strengthen",
+    "subconsious": "subconscious",
+    "substract": "subtract",
+    "succesful": "successful",
+    "suceed": "succeed",
+    "supprise": "surprise",
+    "surpress": "suppress",
+    "temperment": "temperament",
+    "thier": "their",
+    "tommorow": "tomorrow",
+    "tounge": "tongue",
+    "twelth": "twelfth",
+    "tyrany": "tyranny",
+    "unforseen": "unforeseen",
+    "unfortunatly": "unfortunately",
+    "useing": "using",
+    "vacume": "vacuum",
+    "vehical": "vehicle",
+    "volcanoe": "volcano",
+    "wierd": "weird",
+    "withold": "withhold",
+    "realy": "really",
+    "adress": "address",
+    "buisness": "business",
+    "occuring": "occurring",
+    "dont": "don't",
+    "wont": "won't",
+    "cant": "can't",
+    "alot": "a lot",
+    "its": "it's",
+    "whos": "who's",
+    "there": "their",
+    "your": "you're",
+    "youre": "you're",
+    "wether": "whether",
+    "wierd": "weird",
+    "finnaly": "finally",
+    "heros": "heroes",
+    "aswell": "as well",
+    "peice": "piece",
+    "becuase": "because",
+    "carreer": "career",
+    "interupt": "interrupt",
+    "liquify": "liquefy",
+    "mentaly": "mentally",
+    "movment": "movement",
+    "nowdays": "nowadays",
+    "procede": "proceed",
+    "restraunt": "restaurant",
+    "similer": "similar",
+    "vaccum": "vacuum",
+    "verticle": "vertical",
+    "agian": "again",
+    "bellow": "below",
+    "empyt": "empty",
+    "futher": "further",
+    "gues": "guess",
+    "ignor": "ignore",
+    "insted": "instead",
+    "jepardy": "jeopardy",
+    "knolwedge": "knowledge",
+    "lable": "label",
+    "medcine": "medicine",
+    "necesary": "necessary",
+    "ninty": "ninety",
+    "offcially": "officially",
+    "perhas": "perhaps",
+    "pritty": "pretty",
+    "quater": "quarter",
+    "realize": "realise",
+    "reffer": "refer",
+    "simpy": "simply",
+    "stricly": "strictly",
+    "threshhold": "threshold",
+    "usualy": "usually",
+    "warrent": "warrant",
+    "wholy": "wholly",
+    "occuring": "occurring"
+};
+
+
+// Function to correct slang terms
+function correctSlang(token) {
+    return slang[token.toLowerCase()] || token; // Return corrected slang or original token
+}
+
+// Function to correct misspelled words
+function correctMisspellings(token) {
+    return misspellings[token.toLowerCase()] || token; // Return corrected misspelling or original token
+}
+
+// Extended correctHomophones function to handle slang and misspellings
+function correctHomophonesAndMore(userInput, categories) {
+    const tokens = tokenize(userInput); // Tokenize input
+    let correctedSentence = tokens.map((token, index) => {
+        let lowerToken = token.toLowerCase();
+
+        // Correct homophones
+        if (homophones[lowerToken]) {
+            const homophoneData = homophones[lowerToken];
+            let previous = tokens[index - 1] || '';
+            let next = tokens[index + 1] || '';
+            let context = categorizeTokens([previous, token, next], categories);
+
+            if (context.some(c => c.category === homophoneData.category)) {
+                return homophoneData.correct; // Apply homophone correction
+            }
+        }
+
+        // Correct slang
+        let correctedSlang = correctSlang(token);
+        if (correctedSlang !== token) {
+            return correctedSlang; // Return corrected slang
+        }
+
+        // Correct misspellings
+        let correctedMisspelling = correctMisspellings(token);
+        if (correctedMisspelling !== token) {
+            return correctedMisspelling; // Return corrected misspelling
+        }
+
+        return token; // Return original token if no correction
+    }).join(' ');
+
+    return correctedSentence;
+}
+
+
+
+
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
     const mappedWords = [];
-    const tokensCopy = [...tokens]; // Copy to avoid modifying the original
+    const tokensCopy = [...tokens]; // Clone to avoid modifying the original
 
-    // Loop to check for multi-word phrases
     for (let i = 0; i < tokensCopy.length; i++) {
         let foundMatch = false;
 
-        // Iterate over categories to check for phrases
-        Object.keys(categories).forEach(category => {
-            if (categories[category] instanceof Set) {
-                // Check up to a length of 3-word phrases (customize as needed)
-                for (let length = 3; length > 0; length--) {
-                    const phrase = tokensCopy.slice(i, i + length).join(' ');
-                    if (categories[category].has(phrase)) {
-                        mappedWords.push({ category: category, word: phrase });
-                        i += length - 1; // Skip processed tokens
+        // Check each category for multi-word phrases first
+        for (const [category, words] of Object.entries(categories)) {
+            if (category.startsWith('multiWord')) {
+                words.forEach(phrase => {
+                    const splitPhrase = phrase.split(' ');
+                    const joinedPhrase = tokensCopy.slice(i, i + splitPhrase.length).join(' ');
+                    if (joinedPhrase === phrase) {
+                        mappedWords.push({ category: category.replace('multiWord', ''), word: joinedPhrase });
+                        i += splitPhrase.length - 1; // Skip processed tokens
                         foundMatch = true;
-                        break;
                     }
-                }
+                });
             }
-        });
+        }
 
         if (!foundMatch) {
-            // Default single-token check if no multi-word phrase matched
-            const token = tokensCopy[i];
-            const numberRegex = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/; // Numbers regex
-            const largeNumberWords = new Set(['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'hundred', 'million']); 
-
-            if (numberRegex.test(token.replace(/,/g, ''))) {
-                mappedWords.push({ category: 'numbers', word: token });
-            } else if (largeNumberWords.has(token.toLowerCase())) {
-                mappedWords.push({ category: 'numbers', word: token });
+            // Check single-word tokens for each category
+            for (const [category, words] of Object.entries(categories)) {
+                if (!category.startsWith('multiWord') && words.has(tokensCopy[i])) {
+                    mappedWords.push({ category, word: tokensCopy[i] });
+                }
             }
         }
     }
@@ -1469,38 +1853,6 @@ function categorizeTokens(tokens, categories) {
 }
 
 
-const homophones = {
-    "there": "their",
-    "they're": "their",
-    "to": "too",
-    "too": "to",
-    "your": "you're",
-    "its": "it's",
-    "than": "then",
-    "weather": "whether",
-    "hear": "here",
-    "peace": "piece",
-    "right": "write"
-    // Add more homophones as necessary
-};
-
-
-/*
-function tokenize(sentence) {
-    // A simple tokenizer that splits sentence by spaces. 
-    // You can make it more sophisticated if needed.
-    return sentence.split(' ');
-}
-*/
-function correctHomophones(sentence) {
-    const tokens = tokenize(sentence);  // Tokenize the input sentence
-    let correctedSentence = tokens.map(token => {
-        // If the token is a homophone, replace it
-        return homophones[token.toLowerCase()] || token;
-    }).join(' ');
-    
-    return correctedSentence;
-}
 
 
 
@@ -2172,10 +2524,10 @@ function processMessage(message) {
  
 
 const userInput = message.toLowerCase();
-let tokens = tokenize(userInput);
+//let tokens = tokenize(userInput);
 
 
-//console.log("tokens:", tokens);
+let tokens = correctHomophonesAndMore(userInput, categories);
 
 
  categorizedTokens = categorizeTokens(tokens, categories);
