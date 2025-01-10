@@ -1345,7 +1345,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                             console.log("actionKey  ", actionKey);
                             actionsToPerform.push(actionKey);
                         }
-                            phraseIndex++;
                         } else {
                             break;
                         }
