@@ -1351,13 +1351,14 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
             });
         });
     });
-    console.log("uniqueActions  ", uniqueActions);
-    console.log("uniqueSubjects  ", uniqueSubjects);
 
     // If you need arrays later
     const uniqueActions = Array.from(actionsToPerform);
     const uniqueSubjects = Array.from(subjectsToEvaluate);
     
+    console.log("uniqueActions  ", uniqueActions);
+    console.log("uniqueSubjects  ", uniqueSubjects);
+
     // Handle cases with multiple actions and context-aware detection
     if (uniqueActions.length > 1 && uniqueSubjects.length > 0) {
         context.multipleActions = true;
