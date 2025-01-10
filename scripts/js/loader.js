@@ -455,7 +455,7 @@ const globalCallbacks = {
 
 // Global timer function
 function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerEndTime', callbackKey = 'globalTimerCallback') {
-    const endTime = Date.now() + countdownSeconds * 1000;  // countdownSeconds is assumed in seconds
+    const endTime = Date.now() + countdownSeconds;  // countdownSeconds is assumed in seconds
     localStorage.setItem(timerKey, endTime.toString());
     localStorage.setItem(callbackKey, callbackName);
 
