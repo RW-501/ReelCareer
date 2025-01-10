@@ -1336,13 +1336,13 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                 // We are matching full words (or phrases) stored in 'word'
                 let phraseIndex = 0;
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
-                    // Check if the word matches the phrase sequence
-                        if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
-                            const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length)
-                            .map(t => t.word.toLowerCase()).join(" ");
-                        if (matchedPhrase === phrase.toLowerCase()) {
+                    // Check if the current token matches the phrase word at the current phraseIndex
+                    if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
+                        phraseIndex++;  // Move to the next word in the phrase
+    
+                        // If we have matched all words in the phrase, we consider it a full match
+                        if (phraseIndex === actionPhrases.length) {
                             console.log("actionKey  ", actionKey);
-
                             actionsToPerform.push(actionKey);
                         }
                             phraseIndex++;
