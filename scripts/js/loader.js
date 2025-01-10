@@ -503,9 +503,6 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
         const now = Date.now();
         const timeLeft = Math.max(0, storedData.endTime - now);
         if (timeLeft <= 0) {
-            clearInterval(intervalId);
-            localStorage.removeItem(`timer_${timerId}`);
-            console.log('removeItem');
 
             if (globalCallbacks[storedData.callbackName]) {
 
@@ -515,7 +512,10 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
                  else {
                     globalCallbacks[storedData.callbackName]();
                 }
-
+                clearInterval(intervalId);
+                localStorage.removeItem(`timer_${timerId}`);
+                console.log('removeItem');
+    
             } else {
                 console.error(`Callback function "${storedData.callbackName}" not found.`);
             }
