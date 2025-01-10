@@ -481,6 +481,44 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
 }
 
 // Restore all timers on page load
+// Function to create the clock element and update it every second
+// Function to create the clock element and return it immediately
+function createClock(timerId) {
+    const clockElement = document.createElement('div');
+    clockElement.id = timerId;  // Set the ID to control this clock
+    clockElement.style.width = '200px';
+    clockElement.style.height = '200px';
+    clockElement.style.border = '2px solid black';
+    clockElement.style.borderRadius = '50%';
+    clockElement.style.display = 'flex';
+    clockElement.style.justifyContent = 'center';
+    clockElement.style.alignItems = 'center';
+    clockElement.style.fontSize = '24px';
+    clockElement.style.backgroundColor = '#f0f0f0';
+    clockElement.style.textAlign = 'center';
+    clockElement.style.position = 'relative';
+
+    // Return the clock element immediately
+    return clockElement;
+}
+
+// Function to start the timer and update the clock
+function startTimer(timerId, timeLeft) {
+    const clockElement = document.getElementById(timerId);
+
+    // Update clock every second
+    const intervalId = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(intervalId);
+            clockElement.innerText = 'Time\'s Up!';
+        } else {
+            clockElement.innerText = `${Math.ceil(timeLeft / 1000)} sec`;
+        }
+        timeLeft -= 1000;  // Decrease time by 1 second (1000 ms)
+    }, 1000);
+}
+
+// Function to restore timers and create clocks for each
 function restoreTimersOnPageLoad() {
     Object.keys(localStorage).forEach(key => {
         if (key.startsWith('timer_')) {
@@ -488,9 +526,35 @@ function restoreTimersOnPageLoad() {
             const timerId = key.split('timer_')[1];
 
             if (timerData && timerData.endTime && timerData.callbackName) {
-                const timeLeft = Math.max(0, timerData.endTime - Date.now());
+                let timeLeft = Math.max(0, timerData.endTime - Date.now());
+
                 if (timeLeft > 0) {
                     console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
+                   setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
+                } else {
+                    console.log(`Timer ${timerId} has already expired.`);
+                    localStorage.removeItem(key);
+                }
+            }
+        }
+    });
+}
+
+window.createClock = createClock;
+
+// Function to restore timers and create clocks for each
+function restoreTimersOnPageLoad() {
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('timer_')) {
+            const timerData = JSON.parse(localStorage.getItem(key));
+            const timerId = key.split('timer_')[1];
+
+            if (timerData && timerData.endTime && timerData.callbackName) {
+                let timeLeft = Math.max(0, timerData.endTime - Date.now());
+
+                if (timeLeft > 0) {
+                    console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
+//                    createClock(timerId, timeLeft);  // Create a clock with the timerId
                     setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
                 } else {
                     console.log(`Timer ${timerId} has already expired.`);
@@ -500,6 +564,7 @@ function restoreTimersOnPageLoad() {
         }
     });
 }
+
 
 
 // Restore timers when the page is loaded

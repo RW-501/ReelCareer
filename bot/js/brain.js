@@ -1260,7 +1260,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 */
     // Define actions, subjects, verbs, and predicates
     const actions = {
-        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule", "global timer", "page ping timer"], // action to set the timer
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule", "global timer", "page ping in"], // action to set the timer
         "count": ["count", "calculate", "find", "determine", "compute"],
         "page_ping": ["page", "ping"],
         "length": ["length", "measure", "size", "size of"],
@@ -1294,6 +1294,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     const subjects = {
         "timer": ["timer", "countdown", "time duration", "alarm"],
+        "globalTimer": ["global timer", "global"],
+
+        "page_ping": ["ping page", "ping"],
+"webpage": ["https", "http", "www", ".com", ".net", ".org", "website", "web page",
+     "homepage", "web link", "site"],
+
         "letters": ["letter", "letters", "character", "characters", "alphabets", "letters of the alphabet"],
         "numbers": ["number", "numbers", "digits", "numerals"],
         "words": ["word", "words"],
@@ -1315,9 +1321,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "urls": ["url", "urls"],
         "phone_numbers": ["phone number", "phone numbers"],
         "emails": ["email", "emails"],
-        "page_ping": ["page", "ping"],
-"webpage": ["https", "http", "www", ".com", ".net", ".org", "website", "web page",
-     "homepage", "web link", "site"],
         "hashtags": ["hashtag", "hashtags"],
         "quotes": ["quote", "quotes"],
         "tags": ["tag", "tags", "html tag", "html tags"],
@@ -1626,11 +1629,17 @@ function handleSetTimerAction(tokens, textToModify, subject) {
             : unit.endsWith('s') ? unit : `${unit}s`;
 
 
-            console.log("duration  ",duration);
+            console.log("tokens  ",tokens);
+            console.log("subject  ",subject);
 
         setGlobalTimer(duration, timerName, `${timerName}`);
 
-        return `Timer set for ${number} ${pluralizedUnit}.`;
+        const clockElement =  createClock(`timer_${timerName}`, duration);  // Create the clock element
+        setTimeout(() => {
+            startTimer(`timer_${timerName}`, duration);  // Start the timer after 200ms
+        }, 200);
+    
+        return `Timer set for ${number} ${pluralizedUnit}. <br>${clockElement} ` ;
     }
     return `Could not set timer. Please specify a valid time duration.`;
 }
