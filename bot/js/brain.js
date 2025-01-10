@@ -1252,12 +1252,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const statementStart = tokens.indexOf("statement") + 1;
 
     const bestMatch = prioritizeCategories(categorizedTokens, tokens, inputType);
-
+/*
     console.log("bestMatch ", bestMatch); 
     console.log("categorizedTokens", categorizedTokens);
     console.log("tokens ", tokens);
     console.log("statementStart ", statementStart);
-
+*/
     // Define actions, subjects, verbs, and predicates
     const actions = {
         "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"], // action to set the timer
@@ -1333,19 +1333,19 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         Object.keys(actions).forEach(actionKey => {
             actions[actionKey].forEach(actionWord => {
                 if (token.word.toLowerCase().includes(actionWord.toLowerCase())) {
-                    console.log("Matched actionWord: ", actionKey);
+                   // console.log("Matched actionWord: ", actionKey);
                     actionsToPerform.add(actionKey);  // Add to Set to prevent duplicates
                 }
             });
         });
     
-        console.log("token.word  ", token.word);
+      //  console.log("token.word  ", token.word);
     
         // Matching subjects
         Object.keys(subjects).forEach(subjectKey => {
             subjects[subjectKey].forEach(subjectWord => {
                 if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
-                    console.log("Matched subject: ", subjectKey);
+                  //  console.log("Matched subject: ", subjectKey);
                     subjectsToEvaluate.add(subjectKey);  // Add to Set to prevent duplicates
                 }
             });
@@ -1358,9 +1358,11 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     console.log("uniqueActions  ", uniqueActions);
     console.log("uniqueSubjects  ", uniqueSubjects);
+
+/*
     console.log("uniqueActions.length  ", uniqueActions.length);
     console.log("uniqueSubjects.length  ", uniqueSubjects.length);
-
+*/
     // Handle cases with multiple actions and context-aware detection
     if (uniqueActions.length > 1 && uniqueSubjects.length > 0) {
         context.multipleActions = true;
@@ -1372,13 +1374,18 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     }
 
     // Construct the result with actions and subjects
-    const results = uniqueActions.map(action => {
-        return uniqueSubjects.map(subject => {
-            return handleActionWithSubject(action, subject, tokens, statementStart, context, categorizedTokens, inputType);
-        });
-    }).flat();
+    const results = [];
 
-    return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
+uniqueActions.forEach(action => {
+    uniqueSubjects.forEach(subject => {
+        const result = handleActionWithSubject(action, subject, tokens, statementStart, context, categorizedTokens, inputType);
+        if (!results.includes(result)) {
+            results.push(result);
+        }
+    });
+});
+
+return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
 }
 
 
