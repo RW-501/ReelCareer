@@ -1862,51 +1862,6 @@ return { salary, keyword };
 
 
 
-// Implement basic fuzzy matching using Levenshtein distance
-function fuzzyMatch(word, categoryWords, threshold = 0.8) {
-const matches = categoryWords.filter(categoryWord => {
-const similarity = calculateLevenshteinDistance(word, categoryWord);
-const maxLength = Math.max(word.length, categoryWord.length);
-return (similarity / maxLength) >= threshold;  // Return words that are at least 80% similar
-});
-return matches;
-}
-
-// Function to calculate Levenshtein distance between two words
-function calculateLevenshteinDistance(a, b) {
-const tmp = [];
-for (let i = 0; i <= b.length; i++) {
-tmp[i] = [i];
-}
-for (let i = 0; i <= a.length; i++) {
-tmp[0][i] = i;
-}
-for (let i = 1; i <= a.length; i++) {
-for (let j = 1; j <= b.length; j++) {
-    tmp[j][i] = Math.min(
-        tmp[j - 1][i] + 1,
-        tmp[j][i - 1] + 1,
-        tmp[j - 1][i - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-    );
-}
-}
-return tmp[b.length][a.length];
-}
-
-// Expand synonyms by using fuzzy matching
-function expandSynonyms(tokens, category, categories) {
-return tokens.map(token => {
-if (categories[category]) {
-    const matches = fuzzyMatch(token, categories[category]);
-    if (matches.length > 0) {
-        return matches[0]; // Return the first match
-    }
-}
-return token;  // Return token as-is if no match found
-});
-}
-
-
 
 
 
