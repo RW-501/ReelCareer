@@ -436,52 +436,42 @@ document.addEventListener('DOMContentLoaded', loadPageScripts);
 
 
 
-
-
-
-
 // Object to store global callbacks by name
 const globalCallbacks = {
-    globalTimer: () => {
-        alert('Time is up! Action performed.');
-    },
-    notifyUser: () => {
-        console.log('Notification sent to user.');
-    },
-    logTimeExpired: () => {
-        console.log('Timer expired, logging action.');
-    }
+    globalTimer: () => alert('Time is up! Action performed.'),
+    notifyUser: () => console.log('Notification sent to user.'),
+    logTimeExpired: () => console.log('Timer expired, logging action.')
 };
 
 // Global timer function
-function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerEndTime', callbackKey = 'globalTimerCallback') {
-    const endTime = Date.now() + countdownSeconds;  // countdownSeconds is assumed in seconds
-    localStorage.setItem(timerKey, endTime.toString());
-    localStorage.setItem(callbackKey, callbackName);
+function setGlobalTimer(countdownSeconds, callbackName, timerId) {
+    const endTime = Date.now() + countdownSeconds * 1000;  // countdownSeconds is assumed in seconds
+    const timerData = { endTime, callbackName };
+
+    // Store the timer data as a JSON string
+    localStorage.setItem(`timer_${timerId}`, JSON.stringify(timerData));
 
     function updateTimer() {
-        const now = Date.now();
-        const storedEndTime = parseInt(localStorage.getItem(timerKey), 10);
-        const storedCallback = localStorage.getItem(callbackKey);
+        const storedData = JSON.parse(localStorage.getItem(`timer_${timerId}`));
 
-        if (!storedEndTime || !storedCallback) {
+        if (!storedData) {
             clearInterval(intervalId);
             return;
         }
 
-        const timeLeft = Math.max(0, storedEndTime - now);
+        const now = Date.now();
+        const timeLeft = Math.max(0, storedData.endTime - now);
         if (timeLeft <= 0) {
             clearInterval(intervalId);
-            localStorage.removeItem(timerKey);
-            localStorage.removeItem(callbackKey);
+            localStorage.removeItem(`timer_${timerId}`);
 
-            if (globalCallbacks[storedCallback]) {
-                globalCallbacks[storedCallback]();
+            if (globalCallbacks[storedData.callbackName]) {
+                globalCallbacks[storedData.callbackName]();
             } else {
-                console.error(`Callback function "${storedCallback}" not found.`);
+                console.error(`Callback function "${storedData.callbackName}" not found.`);
             }
         } else {
-            console.log(`Time left: ${Math.ceil(timeLeft / 1000)} seconds`);
+            console.log(`Timer ${timerId}: ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
         }
     }
 
@@ -489,28 +479,29 @@ function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerE
     updateTimer();  // Initial call
 }
 
-// Restore the timer on page load if it exists
-function restoreTimerOnPageLoad() {
-    const timerKey = 'globalTimerEndTime';
-    const callbackKey = 'globalTimerCallback';
+// Restore all timers on page load
+function restoreTimersOnPageLoad() {
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('timer_')) {
+            const timerData = JSON.parse(localStorage.getItem(key));
+            const timerId = key.split('timer_')[1];
 
-    const storedEndTime = parseInt(localStorage.getItem(timerKey), 10);
-    const storedCallback = localStorage.getItem(callbackKey);
-
-    if (storedEndTime && storedCallback) {
-        const timeLeft = Math.max(0, storedEndTime - Date.now());
-        if (timeLeft > 0) {
-            console.log(`Restoring timer with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
-            setGlobalTimer(timeLeft / 1000, storedCallback, timerKey, callbackKey);
-        } else {
-            console.log('Stored timer has already expired.');
-            localStorage.removeItem(timerKey);
-            localStorage.removeItem(callbackKey);
+            if (timerData && timerData.endTime && timerData.callbackName) {
+                const timeLeft = Math.max(0, timerData.endTime - Date.now());
+                if (timeLeft > 0) {
+                    console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
+                    setGlobalTimer(timeLeft / 1000, timerData.callbackName, timerId);
+                } else {
+                    console.log(`Timer ${timerId} has already expired.`);
+                    localStorage.removeItem(key);
+                }
+            }
         }
-    }
+    });
 }
 
-// Restore the timer when the page is loaded
-window.addEventListener('load', restoreTimerOnPageLoad);
+// Restore timers when the page is loaded
+window.addEventListener('load', restoreTimersOnPageLoad);
 
 window.setGlobalTimer = setGlobalTimer;
+

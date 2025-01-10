@@ -1628,7 +1628,7 @@ function handleSetTimerAction(tokens, textToModify, subject) {
 
             console.log("duration  ",duration);
 
-        setGlobalTimer(duration, timerName, `${timerName}EndTime`, `${timerName}Callback`);
+        setGlobalTimer(duration, timerName, `${timerName}`);
 
         return `Timer set for ${number} ${pluralizedUnit}.`;
     }
