@@ -1341,7 +1341,9 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                     while (phraseIndex < phrase.split(" ").length && index + phraseIndex < categorizedTokens.length) {
                         const tokenWord = categorizedTokens[index + phraseIndex].word.toLowerCase();
                         const phraseWord = phrase.split(" ")[phraseIndex].toLowerCase();
-        
+                        console.log("tokenWord  ", tokenWord);
+                        console.log("phraseIndex  ", phraseIndex);
+
                         // Check if the current token matches the phrase word at the current phraseIndex
                         if (tokenWord === phraseWord) {
                             phraseIndex++; // Move to the next word in the phrase
