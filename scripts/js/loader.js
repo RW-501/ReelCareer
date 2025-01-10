@@ -438,10 +438,19 @@ document.addEventListener('DOMContentLoaded', loadPageScripts);
 
 // Object to store global callbacks by name
 const globalCallbacks = {
-    globalTimer: () => alert('Time is up! Action performed.'),
-    notifyUser: () => console.log('Notification sent to user.'),
-    logTimeExpired: () => console.log('Timer expired, logging action.')
+    globalTimer: () => {
+       // alert('Time is up! Action performed.');  // Display an alert when time is up
+    },
+
+    notifyUser: () => {
+        console.log('Notification sent to user.');  // Log a notification message in the console
+    },
+
+    logTimeExpired: () => {
+        console.log('Timer expired, logging action.');  // Log the time expiration action in the console
+    }
 };
+
 
 // Global timer function
 // Global timer function
