@@ -1350,12 +1350,8 @@ categorizedTokens.forEach((token, index) => {
     });
 });
 
-    // Matching subjects
-    Object.keys(subjects).forEach(subjectKey => {
-        if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-            subjectsToEvaluate.push(subjectKey);
-        }
-    });
+
+
 });
     // Handle cases with multiple actions and context-aware detection
     if (actionsToPerform.length > 1 && subjectsToEvaluate.length > 0) {
