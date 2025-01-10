@@ -487,6 +487,8 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
 
 // Function to start the timer and update the clock
 function startTimer(timerId, timeLeft) {
+    console.log("timerId  ", timerId);
+
     const clockElement = document.getElementById(timerId);
 
     // Update clock every second
