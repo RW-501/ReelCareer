@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obituaries FAQ</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item h3 {
+            margin: 0;
+            cursor: pointer;
+            color: #0073e6;
+        }
+
+        .faq-item p {
+            display: none;
+            margin: 0.5rem 0 0;
+            color: #555;
+        }
+
+        .tag-area, .add-faq-section {
+            margin-top: 2rem;
+        }
+
+        .tag-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .tag-list {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #17a2b8;
+            color: #ffffff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .add-faq-section button {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-faq-section button:hover {
+            background: #218838;
+        }
+
+        .login-reminder {
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Obituaries FAQ</h1>
+        
+        <div id="faq-list">
+            <!-- Dynamic FAQ items will be loaded here -->
+        </div>
+
+        <div class="tag-area">
+            <h2>Tags</h2>
+            <div id="tag-list" class="tag-list">
+                <!-- Tags will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <div id="add-faq-section" class="add-faq-section">
+            <h2>Add a New FAQ</h2>
+            <div id="login-reminder" class="login-reminder">Please log in to submit a new FAQ.</div>
+            <div id="faq-form" style="display:none;">
+                <label for="faq-question">Question:</label><br>
+                <input type="text" id="faq-question" class="tag-input" placeholder="Enter your question" required><br><br>
+                <label for="faq-answer">Answer:</label><br>
+                <textarea id="faq-answer" class="tag-input" rows="4" placeholder="Enter your answer" required></textarea><br><br>
+                <button id="submit-faq">Submit for Review</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import {
+            db, collection, serverTimestamp, getAuth, onAuthStateChanged, doc, setDoc
+        } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+        const auth = getAuth();
+        const collectionRef = collection(db, "ChatbotInteractions");
+
+        function renderFAQ(faqs) {
+            const faqList = document.getElementById('faq-list');
+            faqList.innerHTML = '';
+            faqs.forEach(faq => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = `<h3>${faq.question}</h3><p>${faq.answer}</p>`;
+                item.querySelector('h3').addEventListener('click', () => {
+                    const answer = item.querySelector('p');
+                    answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+                });
+                faqList.appendChild(item);
+            });
+        }
+
+        
+        const q = query(collectionRef, where("topic", "==", "obituaries"));
+const querySnapshot = await getDocs(q);
+const faqs = [];
+querySnapshot.forEach(doc => {
+    faqs.push(doc.data());
+});
+renderFAQ(faqs);
+
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('login-reminder').style.display = 'none';
+                document.getElementById('faq-form').style.display = 'block';
+            }
+        });
+
+        document.getElementById('submit-faq').addEventListener('click', async () => {
+            const question = document.getElementById('faq-question').value;
+            const answer = document.getElementById('faq-answer').value;
+            const newFaq = {
+                question,
+                answer,
+                status: 'review',
+                activate: true,
+                topic: 'obituaries',
+                timestamp: serverTimestamp(),
+                lastUpdated: serverTimestamp()
+            };
+            try {
+                const docRef = doc(collectionRef, question.replace(/\s+/g, '-').toLowerCase());
+                await setDoc(docRef, newFaq);
+                alert('FAQ submitted for review!');
+            } catch (error) {
+                console.error('Error submitting FAQ:', error);
+            }
+        });
+    </script>
+</body>
+</html>
