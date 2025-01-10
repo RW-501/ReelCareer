@@ -1300,7 +1300,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "symbols": ["symbol", "symbols", "punctuation"],
         "asterisks": ["*", "**", "asterisk", "asterisks"],
         "phrases": ["phrase", "phrases"],
-        "vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
+        //"vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
         "consonants": ["consonant", "consonants"],
         "digits": ["digit", "digits"],
         "spaces": ["space", "spaces"],
