@@ -1327,7 +1327,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     }
 
     // Detect actions, verbs, and subjects
-categorizedTokens.forEach((token, index) => {
+tokens.forEach((token, index) => {
     // Matching action verbs
     Object.keys(actions).forEach(actionKey => {
         const actionPhrases = actions[actionKey];
