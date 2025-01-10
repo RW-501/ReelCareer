@@ -1331,9 +1331,16 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Matching action verbs
         Object.keys(actions).forEach(actionKey => {
             const actionPhrases = actions[actionKey];
+            console.log("actionPhrases  ",actionPhrases);
+
+
             // Check for multi-token actions like "set timer"
             actionPhrases.forEach(phrase => {
+                console.log("phrase  ",phrase);
+
                 const phraseTokens = phrase.split(' ');
+                console.log("phraseTokens  ",phraseTokens);
+
                 if (tokens.slice(index, index + phraseTokens.length).join(' ') === phrase) {
                     actionsToPerform.push(actionKey);
                 }
