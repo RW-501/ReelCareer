@@ -1356,17 +1356,19 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     
         console.log("token.word  ", token.word);
 
-        // Matching subjects
-        Object.keys(subjects).forEach(subjectKey => {
-            console.log("subjectKey  ", subjectKey);
+// Matching subjects
+Object.keys(subjects).forEach(subjectKey => {
+    console.log("subjectKey  ", subjectKey);
 
-            if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-                console.log("subjectKey  ", subjectKey);
+    // Check if the token belongs to the current subject category
+    subjects[subjectKey].forEach(subjectWord => {
+        if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
+            console.log("Matched subject: ", subjectKey);
+            subjectsToEvaluate.push(subjectKey);
+        }
+    });
+});
 
-
-                subjectsToEvaluate.push(subjectKey);
-            }
-        });
 
         
 
