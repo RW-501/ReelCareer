@@ -1339,13 +1339,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                     // Check if the word matches the phrase sequence
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
                         console.log("actionKey  ", actionKey);
-
-                        if (actionKey && actionsToPerform.length == 0) {
-                            actionsToPerform.push(actionKey);
-                        }
-                        
                         phraseIndex++;
 
+                        if (phraseIndex === actionPhrases.length) {
+                            actionsToPerform.push(actionKey);
+                        }
+                     
                     } else {
                         break;
                     }
@@ -1372,6 +1371,8 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Here, simply return the first action and subject as an example:
         return handleMultipleActions(actionsToPerform, subjectsToEvaluate);
     }
+    console.log("actionsToPerform  ", actionsToPerform);
+    console.log("subjectsToEvaluate  ", subjectsToEvaluate);
 
     // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
