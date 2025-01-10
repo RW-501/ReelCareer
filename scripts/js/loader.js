@@ -444,8 +444,9 @@ const globalCallbacks = {
 };
 
 // Global timer function
-function setGlobalTimer(countdownSeconds, callbackName, timerId) {
-    const endTime = Date.now() + countdownSeconds;  // countdownSeconds is assumed in seconds
+// Global timer function
+function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
+    const endTime = Date.now() + countdownMilliseconds;  // countdownMilliseconds is used directly
     const timerData = { endTime, callbackName };
 
     // Store the timer data as a JSON string
@@ -490,7 +491,7 @@ function restoreTimersOnPageLoad() {
                 const timeLeft = Math.max(0, timerData.endTime - Date.now());
                 if (timeLeft > 0) {
                     console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
-                    setGlobalTimer(timeLeft / 1000, timerData.callbackName, timerId);
+                    setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
                 } else {
                     console.log(`Timer ${timerId} has already expired.`);
                     localStorage.removeItem(key);
@@ -499,6 +500,7 @@ function restoreTimersOnPageLoad() {
         }
     });
 }
+
 
 // Restore timers when the page is loaded
 window.addEventListener('load', restoreTimersOnPageLoad);
