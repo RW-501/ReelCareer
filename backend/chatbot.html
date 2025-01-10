@@ -238,7 +238,21 @@ li.dragging {
                        <option value="active">Active</option>
                    </select>
 
-
+                   <label for="topic">Topic</label>
+                   <select id="topic">
+                       <option value="obituaries">Career Obituaries</option>
+                       <option value="chatbot">Chatbot Support</option>
+                       <option value="jobsearch">Job Search</option>
+                       <option value="recruiter">Recruiter Tools</option>
+                       <option value="videoreel">Video Reel & Resume</option>
+                       <option value="profile">User Profile</option>
+                       <option value="account">Account Management</option>
+                       <option value="membership">Membership & Payments</option>
+                       <option value="analytics">Analytics & Insights</option>
+                       <option value="notifications">Notifications & Alerts</option>
+                       <option value="privacy">Privacy & Security</option>
+                   </select>
+                   
 
 
                 <label for="link">Add Link (Optional)</label>
@@ -470,7 +484,7 @@ async function batchUpdateChatbotInteractions() {
     const collectionRef = collection(db, "ChatbotInteractions"); // Reference to the "ChatbotInteractions" collection
 
     // Function to process each question in the given category
-    function processQuestions(questions, category) {
+    function processQuestions(questions, category,topic) {
         questions.forEach((question) => {
             const docID = question.id || generateRandom6DigitNumber(); // Ensure unique ID
             const docRef = doc(collectionRef, docID.toString()); // Reference to document in Firestore
@@ -492,7 +506,7 @@ async function batchUpdateChatbotInteractions() {
 
 
                     feedback: "",
-                    topics: '',
+                    topic: topic,
 
     timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
     lastUpdated: serverTimestamp(),
@@ -504,9 +518,9 @@ async function batchUpdateChatbotInteractions() {
     }
 
     // Access jsonOutput directly (make sure jsonOutput is defined elsewhere)
-    processQuestions(jsonOutput.generalQuestions, "General");
-    processQuestions(jsonOutput.predefinedQuestions, "Predefined");
-    processQuestions(jsonOutput.newQuestions, "New");
+    processQuestions(jsonOutput.generalQuestions, "General",jsonOutput.topic);
+    processQuestions(jsonOutput.predefinedQuestions, "Predefined",jsonOutput.topic);
+    processQuestions(jsonOutput.newQuestions, "New",jsonOutput.topic);
 
     // Commit the batch
     try {
@@ -544,6 +558,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
 
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
+    const topic = document.getElementById("topic").value.trim();
 
 
     const tagsInput = document.getElementById('tagsSET-tags').value.trim();
@@ -556,6 +571,14 @@ document.getElementById("new-question-form").addEventListener("submit", function
         question: question,
         answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
         category: category,
+        searchableQuestion: [
+    ...new Set(
+        question
+        .split(",")
+        .map(question => question.toLowerCase().trim())
+    )
+  ].join(","),
+  topic: topic,
         tags: tags,
         supportURL: supportURL || null,
         status: status,
