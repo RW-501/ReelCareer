@@ -1612,7 +1612,6 @@ function convertToMilliseconds(timeString) {
     }
     return 0;
 }
-
 function handleSetTimerAction(tokens, textToModify, subject) {
     const timePattern = /\d+\s*(mins?|seconds?|hours?|days?)/i;  // Added "days?" to the pattern
     const timeMatch = textToModify.match(timePattern);
@@ -1628,23 +1627,30 @@ function handleSetTimerAction(tokens, textToModify, subject) {
             ? unit.replace(/s$/, '') 
             : unit.endsWith('s') ? unit : `${unit}s`;
 
-
-            console.log("tokens  ",tokens);
-            console.log("subject  ",subject);
+        console.log("tokens  ", tokens);
+        console.log("subject  ", subject);
 
         setGlobalTimer(duration, timerName, `${timerName}`);
 
-        const clockElement =  createClock(`timer_${timerName}`, duration);  // Create the clock element
+        // Create the clock element
+        const clockElement = createClock(`timer_${timerName}`, duration);  
+
+        // Append the clock element to the DOM (Optional)
+        // Assuming you want to place it somewhere specific, such as in a div with id 'timerContainer'
+       // const targetElement = document.getElementById('timerContainer');
+       // targetElement.appendChild(clockElement);
+
+        // Start the timer after 200ms to ensure the clock is in the DOM
         setTimeout(() => {
             startTimer(`timer_${timerName}`, duration);  // Start the timer after 200ms
         }, 200);
-    
-        return `Timer set for ${number} ${pluralizedUnit}. <br>${clockElement} ` ;
+
+        // Return the clock element as HTML (use outerHTML to get the HTML string)
+        return `Timer set for ${number} ${pluralizedUnit}. <br>${clockElement.outerHTML}`;
     }
+
     return `Could not set timer. Please specify a valid time duration.`;
 }
-
-
 
 // Handle count action (count words, sentences, letters)
 // Handle count action (count words, sentences, letters)
