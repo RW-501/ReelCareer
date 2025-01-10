@@ -1246,7 +1246,6 @@ function tokenize2(input) {
 
 
 
-
 function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const actionsToPerform = [];
     const subjectsToEvaluate = [];
@@ -1262,7 +1261,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     // Define actions, subjects, verbs, and predicates
     const actions = {
-        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"],
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"], // action to set the timer
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
@@ -1328,12 +1327,17 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     }
 
     // Detect actions, verbs, and subjects
-    categorizedTokens.forEach(token => {
+    categorizedTokens.forEach((token, index) => {
         // Matching action verbs
         Object.keys(actions).forEach(actionKey => {
-            if (token.word && actions[actionKey].includes(token.word.toLowerCase())) {
-                actionsToPerform.push(actionKey);
-            }
+            const actionPhrases = actions[actionKey];
+            // Check for multi-token actions like "set timer"
+            actionPhrases.forEach(phrase => {
+                const phraseTokens = phrase.split(' ');
+                if (tokens.slice(index, index + phraseTokens.length).join(' ') === phrase) {
+                    actionsToPerform.push(actionKey);
+                }
+            });
         });
 
         // Matching subjects
@@ -1351,10 +1355,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Here, simply return the first action and subject as an example:
         return handleMultipleActions(actionsToPerform, subjectsToEvaluate);
     }
-
-    // Handle missing components
-    const missingVerb = actionsToPerform.length === 0;
-    const missingSubject = subjectsToEvaluate.length === 0;
 
     // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
