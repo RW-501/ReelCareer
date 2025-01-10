@@ -1330,7 +1330,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Matching action verbs
         Object.keys(actions).forEach(actionKey => {
             const actionPhrases = actions[actionKey];
-            console.log("actionPhrases  ", actionPhrases);
     
             // Loop through all possible action phrases
             actionPhrases.forEach(phrase => {
@@ -1339,6 +1338,8 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
                     // Check if the word matches the phrase sequence
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
+                        console.log("index  ", index);
+
                         phraseIndex++;
                     } else {
                         break;
