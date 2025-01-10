@@ -1338,17 +1338,17 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
                     // Check if the word matches the phrase sequence
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
-                        console.log("index  ", index);
-
+                        console.log("actionKey  ", actionKey);
+                        if (phraseIndex === actionPhrases.length) {
+                            actionsToPerform.push(actionKey);
+                        }
                         phraseIndex++;
                     } else {
                         break;
                     }
                 }
     
-                if (phraseIndex === actionPhrases.length) {
-                    actionsToPerform.push(actionKey);
-                }
+
             });
         });
     
