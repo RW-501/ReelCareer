@@ -1300,7 +1300,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "symbols": ["symbol", "symbols", "punctuation"],
         "asterisks": ["*", "**", "asterisk", "asterisks"],
         "phrases": ["phrase", "phrases"],
-        //"vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
+        "vowels": ["vowel", "vowels", "a", "e", "i", "o", "u"],
         "consonants": ["consonant", "consonants"],
         "digits": ["digit", "digits"],
         "spaces": ["space", "spaces"],
@@ -1337,18 +1337,21 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                 let phraseIndex = 0;
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
                     // Check if the word matches the phrase sequence
-                    if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
-                        console.log("actionKey  ", actionKey);
+                    if (index + phraseIndex < categorizedTokens.length) {
+                        if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
+                            const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length)
+                            .map(t => t.word.toLowerCase()).join(" ");
+                        if (matchedPhrase === phrase.toLowerCase()) {
+                            console.log("actionKey  ", actionKey);
 
-                        if (actionKey) {
                             actionsToPerform.push(actionKey);
                         }
-                        phraseIndex++;
-
-                    } else {
-                        break;
+                            phraseIndex++;
+                        } else {
+                            break;
+                        }
                     }
-                }
+                }                    
     
 
             });
