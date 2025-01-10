@@ -1340,7 +1340,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
                         console.log("actionKey  ", actionKey);
 
-                        if (phraseIndex === actionPhrases.length) {
+                        if (actionKey) {
                             actionsToPerform.push(actionKey);
                         }
                         phraseIndex++;
@@ -1354,8 +1354,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
             });
         });
     
+        console.log("token.word  ", token.word);
+
         // Matching subjects
         Object.keys(subjects).forEach(subjectKey => {
+            console.log("subjectKey  ", subjectKey);
+
             if (subjects[subjectKey].includes(token.word.toLowerCase())) {
                 console.log("subjectKey  ", subjectKey);
 
