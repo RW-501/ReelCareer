@@ -1579,6 +1579,9 @@ console.log('token:', token);
         const data = await response.json();
         console.log( "File created/updated successfully!");
 
+
+        setGlobalTimer(60000, `${timerName}`, "pingTimer");
+
         clearFormData();
     } catch (error) {
         console.log( "error:", error.message);

@@ -446,17 +446,35 @@ const globalCallbacks = {
         console.log('Notification sent to user.');  // Log a notification message in the console
     },
 
-    logTimeExpired: () => {
-        console.log('Timer expired, logging action.');  // Log the time expiration action in the console
+   
+    pingTimer: (pingURL, timerId) => {
+        console.log('Pinging URL:', pingURL);
+        fetch(pingURL)
+            .then(response => {
+                if (response.status === 402) {
+                    console.log('Received 402 status code. Taking action.');
+                    // Perform action for 402 (e.g., notify user, start a process, etc.)
+                    globalCallbacks.notifyUser();
+                } else if (response.status === 404) {
+                    console.log('Received 404 status code. Resetting timer for 1 minute.');
+                    // If 404 is received, reset the timer and set it to 1 minute
+                    setGlobalTimer(60000, 'pingTimer', timerId, pingURL);  // 1 minute delay
+                } else {
+                    console.log('Received status code:', response.status);
+                    // Handle other status codes or errors
+                }
+            })
+            .catch(error => {
+                console.error('Error pinging URL:', error);
+                // Handle network errors
+            });
     }
 };
 
-
 // Global timer function
-// Global timer function
-function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
+function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
     const endTime = Date.now() + countdownMilliseconds;  // countdownMilliseconds is used directly
-    const timerData = { endTime, callbackName };
+    const timerData = { endTime, callbackName, pingURL };  // Include pingURL in the timerData object
 
     // Store the timer data as a JSON string
     localStorage.setItem(`timer_${timerId}`, JSON.stringify(timerData));
@@ -476,7 +494,14 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
             localStorage.removeItem(`timer_${timerId}`);
 
             if (globalCallbacks[storedData.callbackName]) {
-                globalCallbacks[storedData.callbackName]();
+
+                if (storedData.callbackName === 'pingTimer') {
+                    globalCallbacks[storedData.callbackName](storedData.pingURL, timerId);
+                }
+                 else {
+                    globalCallbacks[storedData.callbackName]();
+                }
+
             } else {
                 console.error(`Callback function "${storedData.callbackName}" not found.`);
             }
@@ -489,9 +514,6 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
     updateTimer();  // Initial call
 }
 
-// Restore all timers on page load
-// Function to create the clock element and update it every second
-// Function to create the clock element and return it immediately
 
 
 // Function to start the timer and update the clock
@@ -524,7 +546,7 @@ function restoreTimersOnPageLoad() {
 
                 if (timeLeft > 0) {
                     console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
-                   setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
+                    setGlobalTimer(timeLeft, timerData.callbackName, timerId, timerData.pingURL);  // Pass timeLeft and pingURL
                 } else {
                     console.log(`Timer ${timerId} has already expired.`);
                     localStorage.removeItem(key);
