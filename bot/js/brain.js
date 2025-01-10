@@ -1633,8 +1633,8 @@ function handleSetTimerAction(tokens, textToModify, subject) {
         setGlobalTimer(duration, timerName, `${timerName}`);
 
         // Create the clock element
-        const clockElement = createClock(`timer_${timerName}`, duration);  
 
+        
         // Append the clock element to the DOM (Optional)
         // Assuming you want to place it somewhere specific, such as in a div with id 'timerContainer'
        // const targetElement = document.getElementById('timerContainer');
