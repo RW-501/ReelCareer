@@ -2019,10 +2019,13 @@ function normalizeInput(userInput) {
 
 // Extended correctHomophones function to handle slang and misspellings
 function correctHomophonesAndMore(tokens, categories) {
-    console.log("tokens:", tokens);
+    console.log("tokens before processing:", tokens);  // Log tokens to check input type
+
+    if (!Array.isArray(tokens)) {
+        throw new TypeError("Expected 'tokens' to be an array.");
+    }
 
     let correctedSentence = tokens.map((token, index) => {
-
         console.log("correctedSentence:", correctedSentence);
 
         let lowerToken = token.toLowerCase();
