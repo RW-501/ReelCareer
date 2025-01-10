@@ -2091,10 +2091,13 @@ function categorizeTokens(tokens, categories) {
         if (!foundMatch) {
             // Check single-word tokens for each category
             for (const [category, words] of Object.entries(categories)) {
-                if (!category.startsWith('multiWord') && words.includes(tokensCopy[i])) {
+                const wordArray = Array.isArray(words) ? words : Array.from(words);  // Convert sets or similar to arrays
+                if (!category.startsWith('multiWord') && wordArray.includes(tokensCopy[i])) {
                     mappedWords.push({ category, word: tokensCopy[i] });
                 }
             }
+            
+            
             
 
         }
