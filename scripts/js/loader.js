@@ -445,7 +445,7 @@ const globalCallbacks = {
 
 // Global timer function
 function setGlobalTimer(countdownSeconds, callbackName, timerId) {
-    const endTime = Date.now() + countdownSeconds * 1000;  // countdownSeconds is assumed in seconds
+    const endTime = Date.now() + countdownSeconds;  // countdownSeconds is assumed in seconds
     const timerData = { endTime, callbackName };
 
     // Store the timer data as a JSON string
