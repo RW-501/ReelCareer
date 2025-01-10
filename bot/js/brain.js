@@ -1331,22 +1331,37 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Matching action verbs
         Object.keys(actions).forEach(actionKey => {
             const actionPhrases = actions[actionKey];
-            console.log("actionPhrases  ",actionPhrases);
+            console.log("actionPhrases  ", actionPhrases);
 
-
-            // Check for multi-token actions like "set timer"
+            // Loop through all possible action phrases and check if they match the sequence of tokens
             actionPhrases.forEach(phrase => {
-                console.log("phrase  ",phrase);
-
-                const phraseTokens = phrase.split(' ');
-                console.log("phraseTokens  ",phraseTokens);
-
-                if (tokens.slice(index, index + phraseTokens.length).join(' ') === phrase) {
+                // Check if the phrase matches a sequence of tokens in the categorizedTokens
+                const phraseTokens = phrase.split(' ');  // Split the phrase into individual words
+                let isMatch = true;
+    
+                // Ensure we have enough tokens left to match the phrase
+                if (index + phraseTokens.length <= categorizedTokens.length) {
+                    // Check each token in the phrase against the corresponding tokens
+                    for (let i = 0; i < phraseTokens.length; i++) {
+                        if (categorizedTokens[index + i].word.toLowerCase() !== phraseTokens[i].toLowerCase()) {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+                } else {
+                    isMatch = false;
+                }
+    
+                // If a match is found, add the action to the actionsToPerform array
+                if (isMatch) {
                     actionsToPerform.push(actionKey);
                 }
             });
         });
 
+
+
+        
         // Matching subjects
         Object.keys(subjects).forEach(subjectKey => {
             if (subjects[subjectKey].includes(token.word.toLowerCase())) {
