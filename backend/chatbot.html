@@ -253,13 +253,16 @@ li.dragging {
                        <option value="privacy">Privacy & Security</option>
                    </select>
                    
-
+                   
 
                 <label for="link">Add Link (Optional)</label>
                 <input type="text" id="link" placeholder="https://example.com">
             
                 <label for="supportURL">Support URL (Optional)</label>
                 <input type="text" id="supportURL" placeholder="https://reelcareer.com/support">
+
+                <label for="searchableQuestion">Searchable Question</label>
+                <input type="text" id="searchableQuestion" placeholder="searchableQuestion">
             
                 <button type="submit">Add Question</button>
             </form>
@@ -725,6 +728,7 @@ document.getElementById("answer").value = questionData.answer
 document.getElementById("link").value = extractLink(questionData.answer) || "";
 document.getElementById("category").value = category;
 document.getElementById("supportURL").value = questionData.supportURL || "";
+document.getElementById("topic").value = questionData.topic || "";
 
 // Check if tags are empty
 if (!questionData.tags || questionData.tags.length === 0) {
@@ -740,6 +744,7 @@ if (!questionData.tags || questionData.tags.length === 0) {
 
 // Populate tags field
 document.getElementById('tagsSET-tags').value = questionData.tags.join(", ");
+document.getElementById('searchableQuestion').value = questionData.searchableQuestion.join(", ");
 
 // Populate tags list dynamically
 const tagsContainer = document.getElementById('tagsList');
