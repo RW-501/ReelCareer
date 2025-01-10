@@ -1385,7 +1385,7 @@ uniqueActions.forEach(action => {
     });
 });
 
-return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
+return results.length ? results.join(' | ') : null;
 }
 
 
@@ -1406,6 +1406,9 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
 
 
     const bestMatch = prioritizeCategories(categorizedTokens, tokens,  inputType );
+
+
+    console.log("**************************************************************** "); 
 
     console.log("handleActionWithSubject bestMatch ",bestMatch); 
     console.log(`categorizedTokens`, categorizedTokens);
@@ -1579,9 +1582,6 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
 
 
 
-
-
-
 function convertToMilliseconds(timeString) {
     const timeValue = parseInt(timeString.match(/\d+/)[0]);
     if (timeString.includes("min")) {
@@ -1590,32 +1590,30 @@ function convertToMilliseconds(timeString) {
         return timeValue * 1000;  // Seconds to milliseconds
     } else if (timeString.includes("hour")) {
         return timeValue * 3600000; // Hours to milliseconds
+    } else if (timeString.includes("day")) {
+        return timeValue * 86400000; // Days to milliseconds (24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
     }
     return 0;
 }
 
-function startTimer(duration) {
-    setTimeout(() => {
-     //   alert("Timer ended!");
-     console.log("Timer ended!  ",duration);
-    }, duration);
-}
-
-
-
-
 function handleSetTimerAction(tokens, textToModify, subject) {
-    const timePattern = /\d+\s*(mins?|seconds?|hours?)/i;
+    const timePattern = /\d+\s*(mins?|seconds?|hours?|days?)/i;  // Added "days?" to the pattern
     const timeMatch = textToModify.match(timePattern);
 
     if (timeMatch) {
         const timeString = timeMatch[0];
-        // Convert timeString to milliseconds or appropriate unit
-        const duration = convertToMilliseconds(timeString); // Define this helper
-        startTimer(duration); // Implement your timer logic
-        console.log("duration  ",duration);
+        const duration = convertToMilliseconds(timeString); // Conversion helper
+        let timerName = "globalTimer";
 
-        return `Timer set for ${timeString}.`;
+        // Add "s" to timeString if necessary for proper pluralization
+        const [number, unit] = timeString.split(/\s+/);
+        const pluralizedUnit = parseInt(number) === 1 
+            ? unit.replace(/s$/, '') 
+            : unit.endsWith('s') ? unit : `${unit}s`;
+
+        setGlobalTimer(duration, timerName, `${timerName}EndTime`, `${timerName}Callback`);
+
+        return `Timer set for ${number} ${pluralizedUnit}.`;
     }
     return `Could not set timer. Please specify a valid time duration.`;
 }
@@ -2150,7 +2148,7 @@ function prioritizeCategories(categorizedTokens, tokens, inputType = 'statement'
 
     // Sort and return the highest-priority token
     const sortedTokens = sortTokensByPriority(categorizedTokens, priorities);
-    console.log("Sorted tokens:", sortedTokens);
+   // console.log("Sorted tokens:", sortedTokens);
 
     return sortedTokens[0] || null; // Return the highest-priority match or null
 }

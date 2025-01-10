@@ -443,9 +443,13 @@ document.addEventListener('DOMContentLoaded', loadPageScripts);
 
 // Object to store global callbacks by name
 const globalCallbacks = {
-    exampleCallback: () => {
+    globalTimer: () => {
         alert('Time is up! Action performed.');
     },
+
+
+
+    
     // Add other reusable callbacks here
     notifyUser: () => {
         console.log('Notification sent to user.');
@@ -500,6 +504,8 @@ function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerE
 }
 
 /*
+        setGlobalTimer(countdownSeconds, callbackName, 'globalTimerEndTime', 'globalTimerCallback');
+ 
 // Set a timer for 10 seconds that uses 'exampleCallback'
 setGlobalTimer(10, 'exampleCallback');
 
@@ -507,7 +513,7 @@ setGlobalTimer(10, 'exampleCallback');
 setGlobalTimer(15, 'logTimeExpired');
 */
 
-
+window.setGlobalTimer = setGlobalTimer;
 
 
 
