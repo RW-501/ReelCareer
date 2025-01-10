@@ -481,9 +481,10 @@ const globalCallbacks = {
 
 
 function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
-    if( callbackName = "pingTimer" && !pingURL){
+    if (callbackName === "pingTimer" && !pingURL) {
         return;
     }
+    
     
     const endTime = Date.now() + countdownMilliseconds;  // countdownMilliseconds is used directly
     const timerData = { endTime, callbackName, pingURL };  // Include pingURL in the timerData object
