@@ -1331,7 +1331,6 @@ categorizedTokens.forEach((token, index) => {
     // Matching action verbs
     Object.keys(actions).forEach(actionKey => {
         const actionPhrases = actions[actionKey];
-        console.log("actionPhrases  ", actionPhrases);
 
         // Loop through all possible action phrases
         actionPhrases.forEach(phrase => {
@@ -1342,6 +1341,9 @@ categorizedTokens.forEach((token, index) => {
             if (index + actionPhrases.length <= categorizedTokens.length) {
                 // Check if the concatenated tokens match the phrase
                 const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
+                console.log("matchedPhrase  ", matchedPhrase);
+                console.log("phrase  ", phrase);
+
                 if (matchedPhrase === phrase.toLowerCase()) {
                     actionsToPerform.push(actionKey);
                 }
