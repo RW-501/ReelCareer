@@ -1247,8 +1247,7 @@ function tokenize2(input) {
 
 
 function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
-    const actionsToPerform = [];
-    const subjectsToEvaluate = [];
+
     const context = {}; // To store contextual information that may influence the actions
     const statementStart = tokens.indexOf("statement") + 1;
 
@@ -1326,57 +1325,50 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         return mathResult; // Return the result if it's a math expression
     }
 
+    const actionsToPerform = new Set();
+    const subjectsToEvaluate = new Set();
     
+    categorizedTokens.forEach((token, index) => {
         // Matching action verbs
-        categorizedTokens.forEach((token, index) => {
-
-
-
-
-            Object.keys(actions).forEach(actionKey => {
-                // console.log("subjectKey  ", subjectKey);
-              
-                  // Check if the token belongs to the current subject category
-                  actions[actionKey].forEach(actionWord => {
-                      if (token.word.toLowerCase().includes(actionWord.toLowerCase())) {
-                          console.log("Matched actionWord: ", actionKey);
-                          actionsToPerform.push(actionKey);
-                      }
-                  });
-              });
-
+        Object.keys(actions).forEach(actionKey => {
+            actions[actionKey].forEach(actionWord => {
+                if (token.word.toLowerCase().includes(actionWord.toLowerCase())) {
+                    console.log("Matched actionWord: ", actionKey);
+                    actionsToPerform.add(actionKey);  // Add to Set to prevent duplicates
+                }
+            });
+        });
+    
         console.log("token.word  ", token.word);
-
-// Matching subjects
-Object.keys(subjects).forEach(subjectKey => {
-  // console.log("subjectKey  ", subjectKey);
-
-    // Check if the token belongs to the current subject category
-    subjects[subjectKey].forEach(subjectWord => {
-        if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
-            console.log("Matched subject: ", subjectKey);
-            subjectsToEvaluate.push(subjectKey);
-        }
+    
+        // Matching subjects
+        Object.keys(subjects).forEach(subjectKey => {
+            subjects[subjectKey].forEach(subjectWord => {
+                if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
+                    console.log("Matched subject: ", subjectKey);
+                    subjectsToEvaluate.add(subjectKey);  // Add to Set to prevent duplicates
+                }
+            });
+        });
     });
-});
-
-
-        
-
-});
+    
+    // If you need arrays later
+    const uniqueActions = Array.from(actionsToPerform);
+    const uniqueSubjects = Array.from(subjectsToEvaluate);
+    
     // Handle cases with multiple actions and context-aware detection
-    if (actionsToPerform.length > 1 && subjectsToEvaluate.length > 0) {
+    if (uniqueActions.length > 1 && uniqueSubjects.length > 0) {
         context.multipleActions = true;
         // If multiple actions are found, prioritize based on context or user's intent
         // Here, simply return the first action and subject as an example:
-        return handleMultipleActions(actionsToPerform, subjectsToEvaluate);
+        return handleMultipleActions(uniqueActions, uniqueSubjects);
     }
-    console.log("actionsToPerform  ", actionsToPerform);
-    console.log("subjectsToEvaluate  ", subjectsToEvaluate);
+    console.log("uniqueActions  ", uniqueActions);
+    console.log("uniqueSubjects  ", uniqueSubjects);
 
     // Construct the result with actions and subjects
-    const results = actionsToPerform.map(action => {
-        return subjectsToEvaluate.map(subject => {
+    const results = uniqueActions.map(action => {
+        return uniqueSubjects.map(subject => {
             return handleActionWithSubject(action, subject, tokens, statementStart, context, categorizedTokens, inputType);
         });
     }).flat();
