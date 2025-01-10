@@ -1062,13 +1062,20 @@ setTimeout(() => {
 onAuthStateChanged(auth, async (user) => {
     if (user) {
      userID = user.uid;
+
+             // Fetch profile information based on userId in the URL
+             const profileDoc = doc(db, 'Users', userIdFromURL);
+        const profileSnapshot = await getDoc(profileDoc);
+        if (profileSnapshot.exists()) {
+          const userData = profileSnapshot.data();
+          console.log("User data fetched from Firestore:", userData);
+
     console.log("User ID onAuthStateChanged:", userID);
-    const userData = getUserData();
-                if (userData) {
+   // const userData = getUserData();
 
                 await loadUserVideoResumes(userData);
-                }
-
+            
+            }
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
       // Check if user has providerData and if it has at least one provider
@@ -1788,6 +1795,10 @@ document.getElementById('view-create-create-video-btn').addEventListener('click'
 */
     async function loadUserVideoResumes(userData) {
         console.log("loadUserVideoResumes:", userData);
+
+
+
+
       const videoResumeList = document.getElementById('video-resume-list');
       // Check if videoResumeData exists and is an object
       if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
