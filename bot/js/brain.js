@@ -2765,13 +2765,19 @@ function processMessage(message) {
 
  
  
+    console.log("Starting Message:", message);
 
 const userInput = message.toLowerCase();
-//let tokens = tokenize(userInput);
 
 // Normalize input and get result object
 const result = normalizeInput(userInput);
-console.log("normalizeInput:", result);
+
+
+console.log("Ending Message::", result.normalizedSentence);
+
+
+
+
 let tokens = tokenize(result.normalizedSentence);  // Ensure tokens is an array of words
 
 // Tokenize the normalized sentence before passing it to correctHomophonesAndMore
@@ -2788,6 +2794,9 @@ console.log("categorizedTokens:", categorizedTokens);
 
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
+
+
+console.log("normalizeInput intent:", result.intent);
 
 console.log("inputType:", inputType);
 
