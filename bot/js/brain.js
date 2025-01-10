@@ -2090,12 +2090,12 @@ function categorizeTokens(tokens, categories) {
 
         if (!foundMatch) {
             // Check single-word tokens for each category
-for (const [category, words] of Object.entries(categories)) {
-    const wordSet = new Set(words); // Convert words to Set for faster lookups
-    if (!category.startsWith('multiWord') && wordSet.has(tokensCopy[i])) {
-        mappedWords.push({ category, word: tokensCopy[i] });
-    }
-}
+            for (const [category, words] of Object.entries(categories)) {
+                if (!category.startsWith('multiWord') && words.includes(tokensCopy[i])) {
+                    mappedWords.push({ category, word: tokensCopy[i] });
+                }
+            }
+            
 
         }
     }
