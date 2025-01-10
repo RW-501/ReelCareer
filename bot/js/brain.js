@@ -2062,38 +2062,34 @@ function categorizeTokens(tokens, categories) {
     for (let i = 0; i < tokensCopy.length; i++) {
         let foundMatch = false;
 
-        // Check each category for multi-word phrases first
+        // Check for multi-word phrases dynamically within each category
         for (const [category, words] of Object.entries(categories)) {
-            if (category.startsWith('multiWord')) {
-                words.forEach(phrase => {
-                    const splitPhrase = phrase.split(' ');
-                    const joinedPhrase = tokensCopy.slice(i, i + splitPhrase.length).join(' ');
-                    if (joinedPhrase === phrase) {
-                        mappedWords.push({ category: category.replace('multiWord', ''), word: joinedPhrase });
-                        i += splitPhrase.length - 1; // Skip processed tokens
-                        foundMatch = true;
-                    }
-                });
-            }
+            words.forEach(phrase => {
+                const splitPhrase = phrase.split(' '); // Split multi-word phrases into individual words
+                const joinedPhrase = tokensCopy.slice(i, i + splitPhrase.length).join(' '); // Reconstruct the phrase from tokens
+                if (joinedPhrase.toLowerCase() === phrase.toLowerCase()) { // Case-insensitive comparison
+                    mappedWords.push({ category, word: joinedPhrase });
+                    i += splitPhrase.length - 1; // Skip processed tokens
+                    foundMatch = true;
+                }
+            });
         }
 
         if (!foundMatch) {
             // Check single-word tokens for each category
             for (const [category, words] of Object.entries(categories)) {
-                const wordArray = Array.isArray(words) ? words : Array.from(words);  // Convert sets or similar to arrays
-                if (!category.startsWith('multiWord') && wordArray.includes(tokensCopy[i])) {
+                const wordArray = Array.isArray(words) ? words : Array.from(words); // Convert to arrays if necessary
+                if (wordArray.includes(tokensCopy[i].toLowerCase())) { // Case-insensitive matching
                     mappedWords.push({ category, word: tokensCopy[i] });
+                    break; // Exit the loop once a match is found
                 }
             }
-            
-            
-            
-
         }
     }
 
     return mappedWords;
 }
+
 
 
 
