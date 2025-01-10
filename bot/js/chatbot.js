@@ -720,30 +720,44 @@ let messageWithLinks = '';
       let index = 0;
       const typingSpeed = 70;
 
-      utterance = new SpeechSynthesisUtterance(message);
-      toggleTextToVoice();
+    // Regular expression to check for <script> tags
+    const scriptTagPattern = /<div.*?>.*?<\/div>/gi;
+
+    // Check if the message contains <script> tags
+    if (scriptTagPattern.test(message)) {
 
 
+        utterance = new SpeechSynthesisUtterance(message);
+        toggleTextToVoice();
+  
+  
+  
+        messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
+        const typingEffect = setInterval(() => {
+  
+          smoothScrollToBottom();
+  
+          if(messageWithLinks.length > 0){
+  
+          messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+           }else{
+            return;
+           }
+          index++;
+  
+          if (index === messageWithLinks.length) {
+            clearInterval(typingEffect);
+            resolve(); // Resolve the promise when typing completes
+          }
+        }, typingSpeed);
+  
 
-      messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
-      const typingEffect = setInterval(() => {
-
-        smoothScrollToBottom();
-
-        if(messageWithLinks.length > 0){
-
-        messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
-         }else{
-          return;
-         }
-        index++;
-
-        if (index === messageWithLinks.length) {
-          clearInterval(typingEffect);
-          resolve(); // Resolve the promise when typing completes
-        }
-      }, typingSpeed);
-
+      }else{
+        setTimeout(() => {
+          messageDiv.innerHTML = senderLabel + messageWithLinks;
+        }, 100);
+        resolve();
+      }
       
     } else {
       setTimeout(() => {
