@@ -638,9 +638,13 @@
                 "UT": "utah", "VT": "vermont", "VA": "virginia", "WA": "washington", 
                 "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming"
             },
-            
+            duration: ["second", "seconds", "minute", "minutes", "hour", "hours", "day", "days", "week", "weeks", "month", "months"],
             money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial', 'profit', 'loss', 'savings', 'investment'],
-            numbers: ['number', 'digit', 'quantity', 'count', 'figure', 'value', 'total', 'sum', 'amount', 'statistic', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'percentage', 'ratio'],
+            numbers: ['number', 'digit', 'quantity', 'count', 'figure', 'value', 'total', 'sum', 'amount', 'statistic', 'zero', 'one', 'two', 'three', 'four', 'five',
+                 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'thirty',
+                  'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety', 'hundred', 'thousand', 'million', 'billion', 'trillion', 'percentage', 'percent', 'ratio', '0', '1', '2',
+                   '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '30', '40', '50', '60', '70', '80', '90', '100', '1000', '1000000', '1000000000', '1e3', '1e6', '1e9'],
+
             average: ['average', 'mean', 'median', 'mode', 'balance', 'rate', 'percentage'],
             paragraphs: ['paragraph', 'sentence', 'text', 'section', 'block', 'content', 'document', 'line', 'phrase'],
             compare: ['like', 'same', 'better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease', 'similar', 'different', 'versus'],
@@ -1262,7 +1266,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     // Define actions, subjects, verbs, and predicates
     const actions = {
-        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule", "settimer"],
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"],
         "count": ["count", "calculate", "find", "determine", "compute"],
         "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
@@ -1392,7 +1396,7 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
 
     const bestMatch = prioritizeCategories(categorizedTokens, tokens,  inputType );
 
-    console.log("bestMatch ",bestMatch); 
+    console.log("handleActionWithSubject bestMatch ",bestMatch); 
     console.log(`categorizedTokens`, categorizedTokens);
     console.log("tokens  ",tokens);
     console.log("textToModify  ",textToModify);
@@ -2008,7 +2012,7 @@ function normalizeInput(userInput) {
 
 // Extended correctHomophones function to handle slang and misspellings
 function correctHomophonesAndMore(tokens, categories) {
-    console.log("tokens before processing:", tokens);  // Log tokens to check input type
+    //console.log("tokens before processing:", tokens);  // Log tokens to check input type
 
     if (!Array.isArray(tokens)) {
         throw new TypeError("Expected 'tokens' to be an array.");
@@ -2046,7 +2050,6 @@ function correctHomophonesAndMore(tokens, categories) {
     }).join(' ');
 
 
-    console.log("correctedSentence:", correctedSentence);
 
     return correctedSentence;
 }
@@ -2056,8 +2059,8 @@ function correctHomophonesAndMore(tokens, categories) {
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
-    console.log("categories:", categories);
-    console.log("tokens:", tokens);
+
+    
 
     const mappedWords = [];
     const tokensCopy = [...tokens]; // Clone to avoid modifying the original
@@ -2108,16 +2111,18 @@ function prioritizeCategories(categorizedTokens, tokens, inputType = 'statement'
         console.error("Invalid input: categorizedTokens is not an array", categorizedTokens);
         return []; // Exit early for invalid input
     }
-   
+
+        // Default priorities for categories
+        const priorities = getDefaultPriorities();
+   /*
     console.log("prioritizeCategories=====================================, "); 
     console.log("categorizedTokens, ", categorizedTokens); 
     console.log( "inputType,", inputType); 
     console.log("tokens, ", tokens); 
 
-    // Default priorities for categories
-    const priorities = getDefaultPriorities();
-    console.log("priorities, ", priorities); 
 
+    console.log("priorities, ", priorities); 
+*/
     // Adjust priorities based on inputType (e.g., favorite categories)
     adjustPrioritiesForInputType(priorities, inputType);
 
@@ -2278,7 +2283,7 @@ async function handleJobQuery( tokens, userPreferences) {
 
         const bestMatch = prioritizeCategories(categorizedTokens, tokens,  userPreferences );
 
-        console.log("bestMatch ",bestMatch); 
+        console.log("handleJobQuery bestMatch ",bestMatch); 
 
         
 
@@ -2777,7 +2782,7 @@ const userInput = message.toLowerCase();
 const result = normalizeInput(userInput);
 
 
-console.log("Ending Message::", result.normalizedSentence);
+//
 
 
 
@@ -2785,14 +2790,15 @@ console.log("Ending Message::", result.normalizedSentence);
 let tokens = tokenize(result.normalizedSentence);  // Ensure tokens is an array of words
 
 // Tokenize the normalized sentence before passing it to correctHomophonesAndMore
-tokens = correctHomophonesAndMore(tokens, categories);  // Use the tokenized array
+let correctedSentence = correctHomophonesAndMore(tokens, categories);  // Use the tokenized array
 
-console.log("correctHomophonesAndMore:", tokens);
- tokens = tokenize(tokens);  // Ensure tokens is an array of words
+
+console.log("Ending Message::", correctedSentence);
+tokens = tokenize(correctedSentence);  // Ensure tokens is an array of words
 
 // Categorize tokens
 let categorizedTokens = categorizeTokens(tokens, categories);
-console.log("categorizedTokens:", categorizedTokens);
+//console.log("categorizedTokens:", categorizedTokens);
 
 
 
