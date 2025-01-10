@@ -1327,7 +1327,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     }
 
     // Detect actions, verbs, and subjects
-tokens.forEach((token, index) => {
+categorizedTokens.forEach((token, index) => {
     // Matching action verbs
     Object.keys(actions).forEach(actionKey => {
         const actionPhrases = actions[actionKey];
@@ -1338,9 +1338,9 @@ tokens.forEach((token, index) => {
             let isMatch = true;
             
             // Ensure we have enough tokens left to match the phrase
-            if (index + actionPhrases.length <= tokens.length) {
+            if (index + actionPhrases.length <= categorizedTokens.length) {
                 // Check if the concatenated tokens match the phrase
-                const matchedPhrase = tokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
+                const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
                 console.log("matchedPhrase  ", matchedPhrase);
                 console.log("phrase  ", phrase);
 
