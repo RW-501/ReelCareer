@@ -1414,6 +1414,7 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
     console.log("action  ",action);
     console.log("statementStart  ",statementStart);
     console.log("context  ",context);
+    console.log("subject  ",subject);
 
     switch(action) {
         case "count":
@@ -1595,7 +1596,8 @@ function convertToMilliseconds(timeString) {
 
 function startTimer(duration) {
     setTimeout(() => {
-        alert("Timer ended!");
+     //   alert("Timer ended!");
+     console.log("Timer ended!  ",duration);
     }, duration);
 }
 
@@ -1611,6 +1613,8 @@ function handleSetTimerAction(tokens, textToModify, subject) {
         // Convert timeString to milliseconds or appropriate unit
         const duration = convertToMilliseconds(timeString); // Define this helper
         startTimer(duration); // Implement your timer logic
+        console.log("duration  ",duration);
+
         return `Timer set for ${timeString}.`;
     }
     return `Could not set timer. Please specify a valid time duration.`;
