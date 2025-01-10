@@ -440,17 +440,11 @@ document.addEventListener('DOMContentLoaded', loadPageScripts);
 
 
 
-
 // Object to store global callbacks by name
 const globalCallbacks = {
     globalTimer: () => {
         alert('Time is up! Action performed.');
     },
-
-
-
-
-    // Add other reusable callbacks here
     notifyUser: () => {
         console.log('Notification sent to user.');
     },
@@ -461,33 +455,26 @@ const globalCallbacks = {
 
 // Global timer function
 function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerEndTime', callbackKey = 'globalTimerCallback') {
-    //   const timerKey = 'globalTimerEndTime';   Unique key for local storage
-  //  const callbackKey = 'globalTimerCallback'; Key for callback function name
+    const endTime = Date.now() + countdownSeconds * 1000;  // countdownSeconds is assumed in seconds
+    localStorage.setItem(timerKey, endTime.toString());
+    localStorage.setItem(callbackKey, callbackName);
 
-    // Calculate the target end time
-    const endTime = Date.now() + countdownSeconds;
-    localStorage.setItem(timerKey, endTime.toString()); // Save end time
-    localStorage.setItem(callbackKey, callbackName);    // Save callback name
-
-    // Function to check and update the countdown
     function updateTimer() {
         const now = Date.now();
         const storedEndTime = parseInt(localStorage.getItem(timerKey), 10);
         const storedCallback = localStorage.getItem(callbackKey);
 
         if (!storedEndTime || !storedCallback) {
-            console.warn('No timer or callback found in local storage.');
             clearInterval(intervalId);
             return;
         }
 
         const timeLeft = Math.max(0, storedEndTime - now);
         if (timeLeft <= 0) {
-            clearInterval(intervalId);  // Stop the timer
-            localStorage.removeItem(timerKey);  // Clear timer
-            localStorage.removeItem(callbackKey);  // Clear callback
+            clearInterval(intervalId);
+            localStorage.removeItem(timerKey);
+            localStorage.removeItem(callbackKey);
 
-            // Execute the stored callback if it exists
             if (globalCallbacks[storedCallback]) {
                 globalCallbacks[storedCallback]();
             } else {
@@ -498,24 +485,32 @@ function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerE
         }
     }
 
-    // Check every second
     const intervalId = setInterval(updateTimer, 1000);
-    updateTimer();  // Initial call to update timer display
+    updateTimer();  // Initial call
 }
 
-/*
-        setGlobalTimer(countdownSeconds, callbackName, 'globalTimerEndTime', 'globalTimerCallback');
- 
-// Set a timer for 10 seconds that uses 'exampleCallback'
-setGlobalTimer(10, 'exampleCallback');
+// Restore the timer on page load if it exists
+function restoreTimerOnPageLoad() {
+    const timerKey = 'globalTimerEndTime';
+    const callbackKey = 'globalTimerCallback';
 
-// Set a timer for 15 seconds that logs a message
-setGlobalTimer(15, 'logTimeExpired');
-*/
+    const storedEndTime = parseInt(localStorage.getItem(timerKey), 10);
+    const storedCallback = localStorage.getItem(callbackKey);
+
+    if (storedEndTime && storedCallback) {
+        const timeLeft = Math.max(0, storedEndTime - Date.now());
+        if (timeLeft > 0) {
+            console.log(`Restoring timer with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
+            setGlobalTimer(timeLeft / 1000, storedCallback, timerKey, callbackKey);
+        } else {
+            console.log('Stored timer has already expired.');
+            localStorage.removeItem(timerKey);
+            localStorage.removeItem(callbackKey);
+        }
+    }
+}
+
+// Restore the timer when the page is loaded
+window.addEventListener('load', restoreTimerOnPageLoad);
 
 window.setGlobalTimer = setGlobalTimer;
-
-
-
-
-
