@@ -1357,7 +1357,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         // Matching subjects
         Object.keys(subjects).forEach(subjectKey => {
             if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-                console.log("actionKey  ", actionKey);
+                console.log("subjectKey  ", subjectKey);
 
 
                 subjectsToEvaluate.push(subjectKey);
