@@ -1579,8 +1579,10 @@ console.log('token:', token);
         const data = await response.json();
         console.log( "File created/updated successfully!");
 
+        let pingURL =  `https://reelcareer.co/obituaries/celebrating/${obituary.pageName}`;
 
-        setGlobalTimer(60000, `${timerName}`, "pingTimer");
+
+        setGlobalTimer(60000, `${timerName}`, "pingTimer", pingURL );
 
         clearFormData();
     } catch (error) {
@@ -1765,7 +1767,10 @@ function clearFormData() {
 
 
 
+let pingURL =  `https://reelcareer.co/obituaries/celebrating/lrp`;
 
+
+setGlobalTimer(10000, `${timerName}`, "pingTimer", pingURL );
 
 
     </script>
