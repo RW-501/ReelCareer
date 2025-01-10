@@ -1329,6 +1329,24 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     
         // Matching action verbs
         categorizedTokens.forEach((token, index) => {
+
+
+
+
+            Object.keys(actions).forEach(actionKey => {
+                // console.log("subjectKey  ", subjectKey);
+              
+                  // Check if the token belongs to the current subject category
+                  actions[actionKey].forEach(actionWord => {
+                      if (token.word.toLowerCase().includes(actionWord.toLowerCase())) {
+                          console.log("Matched actionWord: ", actionKey);
+                          actionsToPerform.push(actionKey);
+                      }
+                  });
+              });
+
+
+
             // Matching action verbs
             Object.keys(actions).forEach(actionKey => {
                 const actionPhrases = actions[actionKey];
