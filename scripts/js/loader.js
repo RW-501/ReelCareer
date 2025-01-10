@@ -483,24 +483,7 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
 // Restore all timers on page load
 // Function to create the clock element and update it every second
 // Function to create the clock element and return it immediately
-function createClock(timerId) {
-    const clockElement = document.createElement('div');
-    clockElement.id = timerId;  // Set the ID to control this clock
-    clockElement.style.width = '200px';
-    clockElement.style.height = '200px';
-    clockElement.style.border = '2px solid black';
-    clockElement.style.borderRadius = '50%';
-    clockElement.style.display = 'flex';
-    clockElement.style.justifyContent = 'center';
-    clockElement.style.alignItems = 'center';
-    clockElement.style.fontSize = '24px';
-    clockElement.style.backgroundColor = '#f0f0f0';
-    clockElement.style.textAlign = 'center';
-    clockElement.style.position = 'relative';
 
-    // Return the clock element immediately
-    return clockElement;
-}
 
 // Function to start the timer and update the clock
 function startTimer(timerId, timeLeft) {
@@ -540,7 +523,7 @@ function restoreTimersOnPageLoad() {
     });
 }
 
-window.createClock = createClock;
+
 
 // Function to restore timers and create clocks for each
 function restoreTimersOnPageLoad() {

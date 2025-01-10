@@ -1645,8 +1645,17 @@ function handleSetTimerAction(tokens, textToModify, subject) {
             startTimer(`timer_${timerName}`, duration);  // Start the timer after 200ms
         }, 200);
 
+        const clockHTML = `
+        <div id="timer_${timerName}" 
+            style="width: 200px; height: 200px; border: 2px solid black; 
+                   border-radius: 50%; display: flex; justify-content: center; 
+                   align-items: center; font-size: 24px; background-color: #f0f0f0; 
+                   text-align: center; position: relative;">
+            ${Math.ceil(timeLeft / 1000)} sec
+        </div>
+    `;
         // Return the clock element as HTML (use outerHTML to get the HTML string)
-        return `Timer set for ${number} ${pluralizedUnit}. <br>${clockElement.outerHTML}`;
+        return `Timer set for ${number} ${pluralizedUnit}. <br>${clockHTML}`;
     }
 
     return `Could not set timer. Please specify a valid time duration.`;
