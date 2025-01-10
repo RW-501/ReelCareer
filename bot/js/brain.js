@@ -1636,7 +1636,7 @@ function handleSetTimerAction(tokens, textToModify, subject) {
         // Start the timer after 200ms to ensure the clock is in the DOM
         setTimeout(() => {
             startTimer(`timer_${timerName}`, duration);  // Start the timer after 200ms
-        }, 200);
+        }, 500);
 
         const clockHTML = `
         <div id="timer_${timerName}" 
