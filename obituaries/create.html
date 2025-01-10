@@ -1582,7 +1582,7 @@ console.log('token:', token);
         let pingURL =  `https://reelcareer.co/obituaries/celebrating/${obituary.pageName}`;
 
 
-        setGlobalTimer(60000, `${timerName}`, "pingTimer", pingURL );
+        setGlobalTimer(60000, `pingTimer`, "pingTimer", pingURL );
 
         clearFormData();
     } catch (error) {
@@ -1770,7 +1770,7 @@ function clearFormData() {
 let pingURL =  `https://reelcareer.co/obituaries/celebrating/lrp`;
 
 
-setGlobalTimer(10000, `${timerName}`, "pingTimer", pingURL );
+setGlobalTimer(10000, `pingTimer`, "pingTimer", pingURL );
 
 
     </script>
