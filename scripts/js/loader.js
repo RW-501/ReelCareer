@@ -570,7 +570,6 @@ function restoreTimersOnPageLoad() {
 
                 if (timeLeft > 0) {
                     console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
-//                    createClock(timerId, timeLeft);  // Create a clock with the timerId
                     setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
                 } else {
                     console.log(`Timer ${timerId} has already expired.`);
