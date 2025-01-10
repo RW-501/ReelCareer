@@ -427,6 +427,12 @@ async function loadUserObituaries(userID) {
         const memberType = data.memberType || "";
 
         if (obituaryPageIDs.length === 0) {
+
+
+
+
+          createCareerObituaryContent(container);
+
             // No obituaries found, add the "Create Obituary" button
             const createButton = document.createElement("button");
             createButton.textContent = "Create Obituary";
@@ -434,7 +440,9 @@ async function loadUserObituaries(userID) {
             createButton.onclick = () => {
                 window.location.href = "https://reelcareer.co/obituaries/create";
             };
-            container.appendChild(createButton);
+
+
+           // container.appendChild(createButton);
         } else {
             // Loop through obituaries and create a card for each
             for (let i = 0; i < obituaryPageIDs.length; i++) {
@@ -481,7 +489,10 @@ async function loadUserObituaries(userID) {
         createButton.onclick = () => {
             window.location.href = "https://reelcareer.co/obituaries/create";
         };
-        container.appendChild(createButton);
+        //container.appendChild(createButton);
+
+        createCareerObituaryContent(container);
+
     }
 }
 
@@ -608,6 +619,8 @@ if (container) {
 
 
     if (obituaryPageIDs.length === 1) {
+
+
             // No obituaries found, add the "Create Obituary" button
             const createButton = document.createElement("button");
             createButton.textContent = "Create Obituary";
@@ -615,7 +628,9 @@ if (container) {
             createButton.onclick = () => {
                 window.location.href = "https://reelcareer.co/obituaries/create";
             };
-            container.appendChild(createButton);
+           // container.appendChild(createButton);
+           createCareerObituaryContent(container);
+
         } 
 
 
@@ -632,6 +647,40 @@ if (container) {
   }
 }
 
+function createCareerObituaryContent(container) {
+    // Check if the container exists
+    //const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Container not found.`);
+        return;
+    }
+
+    // Create a div element for the obituary content
+    const obituaryContent = document.createElement("div");
+    obituaryContent.classList.add("career-obituary-content");
+    obituaryContent.innerHTML = `
+        <h2>Create Your Career Legacy</h2>
+        <p>
+            For just <strong>$25</strong>, create a personalized <strong>Career Obituary</strong> that showcases your professional journey, achievements, and unique skills.
+            Share your story with the world, inspire others, and receive the recognition you deserve while you’re alive.
+        </p>
+        <ul>
+            <li><strong>Customizable Career Page:</strong> Highlight your skills, key milestones, and professional accomplishments.</li>
+            <li><strong>Photo & Video Upload:</strong> Add visuals of your work, project links, and personalized content that tells your story.</li>
+            <li><strong>Interactive Features:</strong> Receive tribute messages and financial gifts from supporters.</li>
+            <li><strong>Analytics & Moderation Tools:</strong> Track engagement on your page and manage supportive posts.</li>
+            <li><strong>Lifetime Access:</strong> Update your page as your story evolves.</li>
+        </ul>
+        <div class="cta-container">
+            <a href="https://reelcareer.co/obituaries/create" class="cta-button">Start Your Career Obituary</a>
+        </div>
+    `;
+
+ 
+
+    // Append the content and button to the container
+    container.appendChild(obituaryContent);
+}
 
 // Functions to handle button actions
 function goToEditPage(pageID, pageName) {
