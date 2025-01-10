@@ -1260,8 +1260,9 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 */
     // Define actions, subjects, verbs, and predicates
     const actions = {
-        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule"], // action to set the timer
+        "setTimer": ["set timer", "start timer", "begin timer", "countdown", "schedule", "global timer", "page ping timer"], // action to set the timer
         "count": ["count", "calculate", "find", "determine", "compute"],
+        "page_ping": ["page", "ping"],
         "length": ["length", "measure", "size", "size of"],
         "remove": ["remove", "delete", "clear", "strip"],
         "replace": ["replace", "substitute", "change", "swap"],
@@ -1290,6 +1291,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "countUnique": ["count unique", "unique count", "distinct count"]
     };
 
+
     const subjects = {
         "timer": ["timer", "countdown", "time duration", "alarm"],
         "letters": ["letter", "letters", "character", "characters", "alphabets", "letters of the alphabet"],
@@ -1313,6 +1315,9 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         "urls": ["url", "urls"],
         "phone_numbers": ["phone number", "phone numbers"],
         "emails": ["email", "emails"],
+        "page_ping": ["page", "ping"],
+"webpage": ["https", "http", "www", ".com", ".net", ".org", "website", "web page",
+     "homepage", "web link", "site"],
         "hashtags": ["hashtag", "hashtags"],
         "quotes": ["quote", "quotes"],
         "tags": ["tag", "tags", "html tag", "html tags"],
@@ -1341,15 +1346,24 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     
       //  console.log("token.word  ", token.word);
     
-        // Matching subjects
-        Object.keys(subjects).forEach(subjectKey => {
-            subjects[subjectKey].forEach(subjectWord => {
-                if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
-                  //  console.log("Matched subject: ", subjectKey);
-                    subjectsToEvaluate.add(subjectKey);  // Add to Set to prevent duplicates
-                }
-            });
-        });
+      const urlPattern = /(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})(\/\S*)?/gi;
+
+      categorizedTokens.forEach(token => {
+          // Check all subjects
+          Object.keys(subjects).forEach(subjectKey => {
+              subjects[subjectKey].forEach(subjectWord => {
+                  if (token.word.toLowerCase().includes(subjectWord.toLowerCase())) {
+                      subjectsToEvaluate.add(subjectKey);  // Add to Set to prevent duplicates
+                  }
+              });
+          });
+      
+          // Additional check for URLs
+          if (urlPattern.test(token.word)) {
+              subjectsToEvaluate.add("webpage");  // Add "webpage" as a subject if URL pattern matches
+          }
+      });
+      
     });
 
     // If you need arrays later
