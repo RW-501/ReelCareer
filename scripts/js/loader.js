@@ -449,7 +449,7 @@ const globalCallbacks = {
 
 
 
-    
+
     // Add other reusable callbacks here
     notifyUser: () => {
         console.log('Notification sent to user.');
@@ -465,7 +465,7 @@ function setGlobalTimer(countdownSeconds, callbackName, timerKey = 'globalTimerE
   //  const callbackKey = 'globalTimerCallback'; Key for callback function name
 
     // Calculate the target end time
-    const endTime = Date.now() + countdownSeconds * 1000;
+    const endTime = Date.now() + countdownSeconds;
     localStorage.setItem(timerKey, endTime.toString()); // Save end time
     localStorage.setItem(callbackKey, callbackName);    // Save callback name
 

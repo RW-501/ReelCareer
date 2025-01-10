@@ -1625,6 +1625,9 @@ function handleSetTimerAction(tokens, textToModify, subject) {
             ? unit.replace(/s$/, '') 
             : unit.endsWith('s') ? unit : `${unit}s`;
 
+
+            console.log("duration  ",duration);
+
         setGlobalTimer(duration, timerName, `${timerName}EndTime`, `${timerName}Callback`);
 
         return `Timer set for ${number} ${pluralizedUnit}.`;
