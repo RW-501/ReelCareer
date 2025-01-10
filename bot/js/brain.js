@@ -1325,37 +1325,41 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     if (mathResult) {
         return mathResult; // Return the result if it's a math expression
     }
-    let phraseIndex = 0;
 
-    categorizedTokens.forEach((token, index) => {
+    
         // Matching action verbs
-        Object.keys(actions).forEach(actionKey => {
-            const actionPhrases = actions[actionKey];
-    
-            // Loop through all possible action phrases
-            actionPhrases.forEach(phrase => {
-                // We are matching full words (or phrases) stored in 'word'
-                while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
-                    // Check if the current token matches the phrase word at the current phraseIndex
-                    if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
-                        phraseIndex++;  // Move to the next word in the phrase
-                        console.log("phraseIndex  ", phraseIndex);
-                        console.log("actionPhrases.length  ", actionPhrases.length);
-
-                        // If we have matched all words in the phrase, we consider it a full match
-                        if (phraseIndex === actionPhrases.length) {
-                            console.log("actionKey  ", actionKey);
-                            actionsToPerform.push(actionKey);
-                        }
+        categorizedTokens.forEach((token, index) => {
+            // Matching action verbs
+            Object.keys(actions).forEach(actionKey => {
+                const actionPhrases = actions[actionKey];
+        
+                // Loop through all possible action phrases
+                actionPhrases.forEach(phrase => {
+                    let phraseIndex = 0; // Reset phraseIndex for each phrase
+        
+                    // Loop through categorizedTokens to try matching each word in the phrase
+                    while (phraseIndex < phrase.split(" ").length && index + phraseIndex < categorizedTokens.length) {
+                        const tokenWord = categorizedTokens[index + phraseIndex].word.toLowerCase();
+                        const phraseWord = phrase.split(" ")[phraseIndex].toLowerCase();
+        
+                        // Check if the current token matches the phrase word at the current phraseIndex
+                        if (tokenWord === phraseWord) {
+                            phraseIndex++; // Move to the next word in the phrase
+                            console.log("phraseIndex  ", phraseIndex);
+                            console.log("actionPhrases.length  ", phrase.split(" ").length);
+        
+                            // If we have matched all words in the phrase, we consider it a full match
+                            if (phraseIndex === phrase.split(" ").length) {
+                                console.log("actionKey  ", actionKey);
+                                actionsToPerform.push(actionKey);
+                            }
                         } else {
-                            break;
+                            break; // Stop if there's a mismatch
                         }
-                    
-                }                    
-    
-
+                    }
+                });
             });
-        });
+        
     
         console.log("token.word  ", token.word);
 
