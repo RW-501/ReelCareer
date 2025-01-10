@@ -1337,7 +1337,6 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                 let phraseIndex = 0;
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
                     // Check if the word matches the phrase sequence
-                    if (index + phraseIndex < categorizedTokens.length) {
                         if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
                             const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length)
                             .map(t => t.word.toLowerCase()).join(" ");
@@ -1350,7 +1349,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                         } else {
                             break;
                         }
-                    }
+                    
                 }                    
     
 
