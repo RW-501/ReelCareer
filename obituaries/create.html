@@ -1582,7 +1582,9 @@ console.log('token:', token);
         let pingURL =  `https://reelcareer.co/obituaries/celebrating/${obituary.pageName}`;
 
 
-        setGlobalTimer(60000, `pingTimer`, "pingTimer", pingURL );
+
+
+setGlobalTimer(30000, `pingTimer`, `timer_${obituary.pageName}`, pingURL );
 
         clearFormData();
     } catch (error) {

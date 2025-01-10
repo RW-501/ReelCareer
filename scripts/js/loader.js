@@ -452,7 +452,7 @@ const globalCallbacks = {
         console.log('timerId:', timerId);
         fetch(pingURL)
             .then(response => {
-                if (response.status === 402) {
+                if (response.status === 200) {
                     let message = 'Page is Ready... ';
                      showToast(message, 'info', 50000, pingURL, true, "View Now");
 
