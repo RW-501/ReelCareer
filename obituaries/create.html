@@ -523,8 +523,16 @@ main {
                     <p id="videoHint" class="visually-hidden">Optional: Provide a video URL (e.g., YouTube, Vimeo) related to the obituary.</p>
                     <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
                     <div id="videoPreview"></div>
+
+                    <div id="video-resume-list"></div>
+
                 </div>
                     
+                
+
+
+
+
                 <div class="inputArea">
                     <label for="socialLinkName" aria-label="Enter social media name (e.g., Facebook, CashApp, Instagram)">Social Media Name (e.g., Facebook, CashApp, Instagram)</label>
                     <p id="socialNameHint" class="visually-hidden">Enter the name of the social media platform (e.g., Facebook, CashApp, Instagram).</p>
@@ -1093,6 +1101,11 @@ onAuthStateChanged(auth, async (user) => {
                 const { ip: userIP, city, state, country } = userDetails;
 
                 const userData = getUserData();
+                if (userData) {
+
+                await loadUserVideoResumes(userData);
+                }
+
                 if (!userData) {
 
 
@@ -1766,6 +1779,39 @@ function clearFormData() {
     localStorage.removeItem("obituaryFormData");
 }
 
+
+document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u/create';
+    });
+
+
+    async function loadUserVideoResumes(userData) {
+      const videoResumeList = document.getElementById('video-resume-list');
+      // Check if videoResumeData exists and is an object
+      if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
+        videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+        return;
+      }
+    //  console.log("userData.videoResumeData: ", userData.videoResumeData);
+      // Since videoResumeData is a single object, directly check its status
+      const videoData = userData.videoResumeData;
+      if (videoData.status === 'posted') {
+        const card = document.createElement('div');
+        card.classList.add("profileVideoCard");
+        card.innerHTML = `
+      <div class="vidioCard">
+        <video 
+          src="${videoData.videoResumeURL}" 
+          class="card-img-top video-player" 
+          id="video-${videoData.reelID}"
+        ></video>
+
+      <a class="btn btn-primary btn-block" href="https://reelcareer.co/reels/?r=${videoData.reelID}">View More</a>
+    `;
+        // Append the card to the video resume list
+        videoResumeList.appendChild(card);
+      }
+    }
 
 
 
