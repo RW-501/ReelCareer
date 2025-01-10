@@ -1651,7 +1651,7 @@ function handleSetTimerAction(tokens, textToModify, subject) {
                    border-radius: 50%; display: flex; justify-content: center; 
                    align-items: center; font-size: 24px; background-color: #f0f0f0; 
                    text-align: center; position: relative;">
-            ${Math.ceil(timeLeft / 1000)} sec
+            ${Math.ceil(duration / 1000)} sec
         </div>
     `;
         // Return the clock element as HTML (use outerHTML to get the HTML string)
