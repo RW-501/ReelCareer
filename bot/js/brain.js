@@ -1943,16 +1943,50 @@ function normalizeTimeAndNumbers(token) {
     return timeAndNumbers[token.toLowerCase()] || token;
 }
 
-// Apply context-based synonym replacement
+// Optimized synonym lookup with a scoring mechanism
 function applyContextSynonyms(token, previous, next) {
-    for (const [key, synonyms] of Object.entries(contextSynonyms)) {
-        if (key === token.toLowerCase() || synonyms.includes(token.toLowerCase())) {
-            // Check for surrounding context, if required
-            return key; // Replace with canonical form
+    const lowerToken = token.toLowerCase();
+    
+    // Quick lookup using a Trie for synonyms
+    const synonyms = contextSynonyms[lowerToken];
+    if (!synonyms) return token;
+
+    // Contextual scoring logic
+    let bestMatch = lowerToken; // Default to the original token
+    let highestScore = 0;
+
+    // Iterate over synonyms and calculate contextual relevance
+    synonyms.forEach((synonym) => {
+        let score = 0;
+
+        // Boost score if previous or next context matches specific categories
+        if (previous && contextSynonyms[synonym]?.includes(previous.toLowerCase())) {
+            score += 5; // High match for context before
         }
-    }
-    return token;
+        if (next && contextSynonyms[synonym]?.includes(next.toLowerCase())) {
+            score += 5; // High match for context after
+        }
+
+        // Add token frequency or relevance score (can integrate with ML models)
+        score += synonym.length / lowerToken.length; // Prefer longer synonyms for clarity
+
+        // Update the best match if the score is higher
+        if (score > highestScore) {
+            highestScore = score;
+            bestMatch = synonym;
+        }
+    });
+
+    // Return the highest-scoring synonym
+    return highestScore > 0 ? bestMatch : token;
 }
+
+/*
+// Example usage
+const result = applyContextSynonyms("smart", "a", "student");
+console.log(result); // Outputs: "intelligent" if context matches
+*/
+
 
 // Convert leetspeak to normal words
 function convertLeetspeak(token) {
@@ -1991,9 +2025,9 @@ function normalizeInput(userInput) {
         // Step-by-step normalization
         token = normalizeAbbreviations(token);
         token = normalizeTimeAndNumbers(token);
-        token = applyContextSynonyms(token, previous, next);
         token = convertLeetspeak(token);
         token = normalizeWordForms(token);
+        token = applyContextSynonyms(token, previous, next);
 
         return token;
     });
