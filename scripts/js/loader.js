@@ -463,7 +463,7 @@ const globalCallbacks = {
                     // If 404 is received, reset the timer and set it to 1 minute
 
                     
-                    setGlobalTimer(60000, 'pingTimer', timerId, pingURL);  // Pass timeLeft and pingURL
+                    setGlobalTimer(30000, 'pingTimer', timerId, pingURL);  // Pass timeLeft and pingURL
 
                 } else {
                     console.log('Received status code:', response.status);
