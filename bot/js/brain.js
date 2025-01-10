@@ -2773,16 +2773,18 @@ function processMessage(message) {
 const userInput = message.toLowerCase();
 //let tokens = tokenize(userInput);
 
+// Normalize input and get result object
 const result = normalizeInput(userInput);
 console.log("normalizeInput:", result);
 
-let tokens = correctHomophonesAndMore(result, categories);
-
+// Tokenize the normalized sentence before passing it to correctHomophonesAndMore
+let tokens = tokenize(result.normalizedSentence);  // Ensure tokens is an array of words
+tokens = correctHomophonesAndMore(tokens, categories);  // Use the tokenized array
 
 console.log("correctHomophonesAndMore:", tokens);
 
-
- categorizedTokens = categorizeTokens(tokens, categories);
+// Categorize tokens
+let categorizedTokens = categorizeTokens(tokens, categories);
 console.log("categorizedTokens:", categorizedTokens);
 
 
