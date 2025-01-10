@@ -2056,6 +2056,9 @@ function correctHomophonesAndMore(tokens, categories) {
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
+    console.log("categories:", categories);
+    console.log("tokens:", tokens);
+
     const mappedWords = [];
     const tokensCopy = [...tokens]; // Clone to avoid modifying the original
 
@@ -2064,24 +2067,28 @@ function categorizeTokens(tokens, categories) {
 
         // Check for multi-word phrases dynamically within each category
         for (const [category, words] of Object.entries(categories)) {
-            words.forEach(phrase => {
-                const splitPhrase = phrase.split(' '); // Split multi-word phrases into individual words
-                const joinedPhrase = tokensCopy.slice(i, i + splitPhrase.length).join(' '); // Reconstruct the phrase from tokens
-                if (joinedPhrase.toLowerCase() === phrase.toLowerCase()) { // Case-insensitive comparison
-                    mappedWords.push({ category, word: joinedPhrase });
-                    i += splitPhrase.length - 1; // Skip processed tokens
-                    foundMatch = true;
-                }
-            });
+            if (Array.isArray(words)) { // Ensure words is an array
+                words.forEach(phrase => {
+                    const splitPhrase = phrase.split(' '); // Split multi-word phrases
+                    const joinedPhrase = tokensCopy.slice(i, i + splitPhrase.length).join(' '); // Reconstruct phrase
+                    if (joinedPhrase.toLowerCase() === phrase.toLowerCase()) { // Case-insensitive comparison
+                        mappedWords.push({ category, word: joinedPhrase });
+                        i += splitPhrase.length - 1; // Skip processed tokens
+                        foundMatch = true;
+                    }
+                });
+            }
         }
 
         if (!foundMatch) {
             // Check single-word tokens for each category
             for (const [category, words] of Object.entries(categories)) {
-                const wordArray = Array.isArray(words) ? words : Array.from(words); // Convert to arrays if necessary
-                if (wordArray.includes(tokensCopy[i].toLowerCase())) { // Case-insensitive matching
-                    mappedWords.push({ category, word: tokensCopy[i] });
-                    break; // Exit the loop once a match is found
+                if (Array.isArray(words)) { // Check words is an array
+                    const wordArray = words.map(word => word.toLowerCase()); // Convert all to lowercase
+                    if (wordArray.includes(tokensCopy[i].toLowerCase())) { // Case-insensitive matching
+                        mappedWords.push({ category, word: tokensCopy[i] });
+                        break; // Exit the loop once a match is found
+                    }
                 }
             }
         }
