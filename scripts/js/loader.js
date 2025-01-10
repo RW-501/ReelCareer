@@ -475,7 +475,13 @@ const globalCallbacks = {
 };
 
 // Global timer function
+
+
 function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
+    if( callbackName = "pingTimer" && !pingURL){
+        return;
+    }
+    
     const endTime = Date.now() + countdownMilliseconds;  // countdownMilliseconds is used directly
     const timerData = { endTime, callbackName, pingURL };  // Include pingURL in the timerData object
     console.log('??????????/  Pinging URL:', pingURL);
@@ -544,6 +550,7 @@ function restoreTimersOnPageLoad() {
         if (key.startsWith('timer_')) {
             const timerData = JSON.parse(localStorage.getItem(key));
             const timerId = key.split('timer_')[1];
+            console.log("timerData  ",timerData);
 
             if (timerData && timerData.endTime && timerData.callbackName) {
                 let timeLeft = Math.max(0, timerData.endTime - Date.now());
