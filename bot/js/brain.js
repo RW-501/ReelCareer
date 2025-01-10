@@ -1338,9 +1338,9 @@ tokens.forEach((token, index) => {
             let isMatch = true;
             
             // Ensure we have enough tokens left to match the phrase
-            if (index + actionPhrases.length <= categorizedTokens.length) {
+            if (index + actionPhrases.length <= tokens.length) {
                 // Check if the concatenated tokens match the phrase
-                const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
+                const matchedPhrase = tokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
                 console.log("matchedPhrase  ", matchedPhrase);
                 console.log("phrase  ", phrase);
 
