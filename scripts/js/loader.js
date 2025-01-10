@@ -461,7 +461,10 @@ const globalCallbacks = {
                 } else if (response.status === 404) {
                     showToast('Received 404 status code. Resetting timer for 1 minute.');
                     // If 404 is received, reset the timer and set it to 1 minute
-                    setGlobalTimer(60000, 'pingTimer', timerId, pingURL);  // 1 minute delay
+
+                    
+                    setGlobalTimer(60000, 'pingTimer', timerId, pingURL);  // Pass timeLeft and pingURL
+
                 } else {
                     console.log('Received status code:', response.status);
                     // Handle other status codes or errors
@@ -502,6 +505,7 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
         if (timeLeft <= 0) {
             clearInterval(intervalId);
             localStorage.removeItem(`timer_${timerId}`);
+            console.log('removeItem');
 
             if (globalCallbacks[storedData.callbackName]) {
 
@@ -560,6 +564,8 @@ function restoreTimersOnPageLoad() {
                     setGlobalTimer(timeLeft, timerData.callbackName, timerId, timerData.pingURL);  // Pass timeLeft and pingURL
                 } else {
                     console.log(`Timer ${timerId} has already expired.`);
+                    console.log('removeItem');
+
                     localStorage.removeItem(key);
                 }
             }
@@ -569,27 +575,7 @@ function restoreTimersOnPageLoad() {
 
 
 
-// Function to restore timers and create clocks for each
-function restoreTimersOnPageLoad() {
-    Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('timer_')) {
-            const timerData = JSON.parse(localStorage.getItem(key));
-            const timerId = key.split('timer_')[1];
 
-            if (timerData && timerData.endTime && timerData.callbackName) {
-                let timeLeft = Math.max(0, timerData.endTime - Date.now());
-
-                if (timeLeft > 0) {
-                    console.log(`Restoring timer ${timerId} with ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
-                    setGlobalTimer(timeLeft, timerData.callbackName, timerId);  // Pass timeLeft directly in milliseconds
-                } else {
-                    console.log(`Timer ${timerId} has already expired.`);
-                    localStorage.removeItem(key);
-                }
-            }
-        }
-    });
-}
 
 
 
