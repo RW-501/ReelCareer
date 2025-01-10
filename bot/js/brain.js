@@ -1355,9 +1355,11 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // If you need arrays later
     const uniqueActions = Array.from(actionsToPerform);
     const uniqueSubjects = Array.from(subjectsToEvaluate);
-    
+
     console.log("uniqueActions  ", uniqueActions);
     console.log("uniqueSubjects  ", uniqueSubjects);
+    console.log("uniqueActions.length  ", uniqueActions.length);
+    console.log("uniqueSubjects.length  ", uniqueSubjects.length);
 
     // Handle cases with multiple actions and context-aware detection
     if (uniqueActions.length > 1 && uniqueSubjects.length > 0) {
