@@ -1327,49 +1327,35 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     }
 
     // Detect actions, verbs, and subjects
-    categorizedTokens.forEach((token, index) => {
-        // Matching action verbs
-        Object.keys(actions).forEach(actionKey => {
-            const actionPhrases = actions[actionKey];
-            console.log("actionPhrases  ", actionPhrases);
+categorizedTokens.forEach((token, index) => {
+    // Matching action verbs
+    Object.keys(actions).forEach(actionKey => {
+        const actionPhrases = actions[actionKey];
+        console.log("actionPhrases  ", actionPhrases);
 
-            // Loop through all possible action phrases and check if they match the sequence of tokens
-            actionPhrases.forEach(phrase => {
-                // Check if the phrase matches a sequence of tokens in the categorizedTokens
-                const phraseTokens = phrase.split(' ');  // Split the phrase into individual words
-                let isMatch = true;
-    
-                // Ensure we have enough tokens left to match the phrase
-                if (index + phraseTokens.length <= categorizedTokens.length) {
-                    // Check each token in the phrase against the corresponding tokens
-                    for (let i = 0; i < phraseTokens.length; i++) {
-                        if (categorizedTokens[index + i].word.toLowerCase() !== phraseTokens[i].toLowerCase()) {
-                            isMatch = false;
-                            break;
-                        }
-                    }
-                } else {
-                    isMatch = false;
-                }
-    
-                // If a match is found, add the action to the actionsToPerform array
-                if (isMatch) {
+        // Loop through all possible action phrases
+        actionPhrases.forEach(phrase => {
+            // Check if the entire phrase matches the sequence of tokens
+            let isMatch = true;
+            
+            // Ensure we have enough tokens left to match the phrase
+            if (index + actionPhrases.length <= categorizedTokens.length) {
+                // Check if the concatenated tokens match the phrase
+                const matchedPhrase = categorizedTokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ");
+                if (matchedPhrase === phrase.toLowerCase()) {
                     actionsToPerform.push(actionKey);
                 }
-            });
-        });
-
-
-
-        
-        // Matching subjects
-        Object.keys(subjects).forEach(subjectKey => {
-            if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-                subjectsToEvaluate.push(subjectKey);
             }
         });
     });
 
+    // Matching subjects
+    Object.keys(subjects).forEach(subjectKey => {
+        if (subjects[subjectKey].includes(token.word.toLowerCase())) {
+            subjectsToEvaluate.push(subjectKey);
+        }
+    });
+});
     // Handle cases with multiple actions and context-aware detection
     if (actionsToPerform.length > 1 && subjectsToEvaluate.length > 0) {
         context.multipleActions = true;
