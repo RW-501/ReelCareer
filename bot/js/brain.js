@@ -1247,22 +1247,18 @@ function tokenize2(input) {
 
 
 
-
-
-function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) { 
+function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const actionsToPerform = [];
     const subjectsToEvaluate = [];
     const context = {}; // To store contextual information that may influence the actions
     const statementStart = tokens.indexOf("statement") + 1;
 
+    const bestMatch = prioritizeCategories(categorizedTokens, tokens, inputType);
 
-    const bestMatch = prioritizeCategories(categorizedTokens, tokens,  inputType );
-
-    console.log("bestMatch ",bestMatch); 
-    console.log(`categorizedTokens`, categorizedTokens);
-    console.log("tokens  ",tokens);
-    console.log("statementStart  ",statementStart);
-
+    console.log("bestMatch ", bestMatch); 
+    console.log("categorizedTokens", categorizedTokens);
+    console.log("tokens ", tokens);
+    console.log("statementStart ", statementStart);
 
     // Define actions, subjects, verbs, and predicates
     const actions = {
@@ -1359,15 +1355,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // Handle missing components
     const missingVerb = actionsToPerform.length === 0;
     const missingSubject = subjectsToEvaluate.length === 0;
-/*
-    if (missingVerb && missingSubject) {
-        return "Missing both verb (action) and subject. Please provide a complete sentence.";
-    } else if (missingVerb) {
-        return "Missing verb (action). Please provide a verb to complete the sentence.";
-    } else if (missingSubject) {
-        return "Missing subject. Please provide a subject for the sentence.";
-    }
-*/
+
     // Construct the result with actions and subjects
     const results = actionsToPerform.map(action => {
         return subjectsToEvaluate.map(subject => {
@@ -1377,6 +1365,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
     return results.length ? results.join(' | ') : `No actionable statement found for: "${tokens.join(' ')}"`;
 }
+
 
 // Helper function to handle multiple actions
 function handleMultipleActions(actionsToPerform, subjectsToEvaluate) {
