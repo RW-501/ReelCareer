@@ -1063,6 +1063,11 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
      userID = user.uid;
     console.log("User ID onAuthStateChanged:", userID);
+    const userData = getUserData();
+                if (userData) {
+
+                await loadUserVideoResumes(userData);
+                }
 
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
@@ -1101,11 +1106,7 @@ onAuthStateChanged(auth, async (user) => {
                 const { ip: userIP, city, state, country } = userDetails;
 
                 const userData = getUserData();
-                if (userData) {
-
-                await loadUserVideoResumes(userData);
-                }
-
+        
                 if (!userData) {
 
 
@@ -1786,6 +1787,7 @@ document.getElementById('view-create-create-video-btn').addEventListener('click'
 
 
     async function loadUserVideoResumes(userData) {
+        console.log("loadUserVideoResumes:", userData);
       const videoResumeList = document.getElementById('video-resume-list');
       // Check if videoResumeData exists and is an object
       if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
