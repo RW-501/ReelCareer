@@ -1325,6 +1325,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     if (mathResult) {
         return mathResult; // Return the result if it's a math expression
     }
+    let phraseIndex = 0;
 
     categorizedTokens.forEach((token, index) => {
         // Matching action verbs
@@ -1334,16 +1335,15 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
             // Loop through all possible action phrases
             actionPhrases.forEach(phrase => {
                 // We are matching full words (or phrases) stored in 'word'
-                let phraseIndex = 0;
                 while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
                     // Check if the current token matches the phrase word at the current phraseIndex
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
                         phraseIndex++;  // Move to the next word in the phrase
-                        console.log("phraseIndex  ", index + phraseIndex);
+                        console.log("phraseIndex  ", phraseIndex);
                         console.log("actionPhrases.length  ", actionPhrases.length);
 
                         // If we have matched all words in the phrase, we consider it a full match
-                        if (index + phraseIndex === actionPhrases.length) {
+                        if (phraseIndex === actionPhrases.length) {
                             console.log("actionKey  ", actionKey);
                             actionsToPerform.push(actionKey);
                         }
