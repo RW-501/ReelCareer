@@ -2101,13 +2101,13 @@ function categorizeTokens(tokens, categories) {
 
 
 function prioritizeCategories(tokens, userPreferences = {}) { 
-   /*
+   
    
     console.log("prioritizeCategories=====================================, "); 
     console.log("categorizedTokens, ", categorizedTokens); 
     console.log( "userPreferences,", userPreferences); 
     console.log("tokens, ", tokens); 
-*/
+
     // Default priorities for categories
     const priorities = getDefaultPriorities();
 
