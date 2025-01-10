@@ -1252,7 +1252,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     const statementStart = tokens.indexOf("statement") + 1;
 
 
-    const bestMatch = prioritizeCategories(tokens, inputType );
+    const bestMatch = prioritizeCategories(categorizedTokens, tokens,  inputType );
 
     console.log("bestMatch ",bestMatch); 
     console.log(`categorizedTokens`, categorizedTokens);
@@ -1390,7 +1390,7 @@ function handleActionWithSubject(action, subject, tokens, statementStart, contex
     const textToModify = tokens.slice(statementStart).join(' ');
 
 
-    const bestMatch = prioritizeCategories(tokens, inputType );
+    const bestMatch = prioritizeCategories(categorizedTokens, tokens,  inputType );
 
     console.log("bestMatch ",bestMatch); 
     console.log(`categorizedTokens`, categorizedTokens);
@@ -2100,69 +2100,61 @@ function categorizeTokens(tokens, categories) {
 
 
 
-function prioritizeCategories(tokens, userPreferences = {}) { 
-   
+function prioritizeCategories(categorizedTokens, tokens, inputType = 'statement') {
+    if (!Array.isArray(categorizedTokens)) {
+        console.error("Invalid input: categorizedTokens is not an array", categorizedTokens);
+        return []; // Exit early for invalid input
+    }
    
     console.log("prioritizeCategories=====================================, "); 
     console.log("categorizedTokens, ", categorizedTokens); 
-    console.log( "userPreferences,", userPreferences); 
+    console.log( "inputType,", inputType); 
     console.log("tokens, ", tokens); 
 
     // Default priorities for categories
     const priorities = getDefaultPriorities();
+    console.log("priorities, ", priorities); 
 
-    // Adjust priorities based on user preferences (e.g., favorite categories)
-    adjustPrioritiesForUserPreferences(priorities, userPreferences);
+    // Adjust priorities based on inputType (e.g., favorite categories)
+    adjustPrioritiesForInputType(priorities, inputType);
 
     // Adjust priorities based on the input type (e.g., question, request, or statement)
-    adjustPrioritiesByInputType(categorizedTokens, tokens, priorities);
+    adjustPrioritiesByInputType(categorizedTokens, priorities);
 
     // Handle emotion-based prioritization if the input contains sentiment/emotion words
     handleEmotionPrioritization(categorizedTokens, priorities);
+    prioritizeActionTokens(categorizedTokens, inputType, priorities);
 
-    getWeightAdjustmentFactor(tokens);
-    // Adjust priorities if the query involves an action
-    prioritizeActionTokens(categorizedTokens, tokens, priorities);
-
-    // Sort tokens based on the adjusted priorities
+    // Sort and return the highest-priority token
     const sortedTokens = sortTokensByPriority(categorizedTokens, priorities);
+    console.log("Sorted tokens:", sortedTokens);
 
-    return sortedTokens[0]; // Return the highest-priority match
+    return sortedTokens[0] || null; // Return the highest-priority match or null
 }
 
-// Get default priorities for categories
+
+// Default priorities setup
 function getDefaultPriorities() {
     let prioritiesCount = 0;
-
     return {
-        // Auto-incremented priorities
-        action: prioritiesCount, // Assign the highest priority to action by default
-
+        action: prioritiesCount++,
         setDocument: prioritiesCount++,
         addDocument: prioritiesCount++,
         updateDocument: prioritiesCount++,
-
         generalInquiry: prioritiesCount++,
         question: prioritiesCount++,
-    
-        
         dataBaseTerms: prioritiesCount++,
-
         jobSearch: prioritiesCount++,
         jobRelated: prioritiesCount++,
-
         title: prioritiesCount++,
         tag: prioritiesCount++,
         description: prioritiesCount++,
         math: prioritiesCount++,
-
         location: prioritiesCount++,
         time: prioritiesCount++,
         salary: prioritiesCount++,
-
         websiteSupport: prioritiesCount++,
         conversation: prioritiesCount++,
-
         vehicle: prioritiesCount++,
         jobCategories: prioritiesCount++,
         events: prioritiesCount++,
@@ -2175,43 +2167,47 @@ function getDefaultPriorities() {
         preferences: prioritiesCount++,
         relationships: prioritiesCount++,
         payments: prioritiesCount++,
-        feedback: prioritiesCount++,
+        feedback: prioritiesCount++
     };
 }
+// Adjust priorities based on input type
+function adjustPrioritiesForInputType(priorities, inputType) {
+    const inputTypeAdjustments = {
+        question: ['question', 'generalInquiry'],
+        request: ['action', 'payments'],
+        statement: ['conversation']
+    };
 
-// Adjust priorities based on user preferences (e.g., favorite categories)
-function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
-    if (userPreferences && userPreferences.favoriteCategories) {
-        userPreferences.favoriteCategories.forEach(category => {
-            priorities[category] = 1; // Give priority to favorite categories
-        });
-    }
+    (inputTypeAdjustments[inputType] || []).forEach(category => {
+        if (priorities[category] !== undefined) {
+            priorities[category] = Math.max(0, priorities[category] - 1); // Higher priority
+        }
+    });
 }
+
 
 // Adjust priorities dynamically based on the input type (e.g., question, request, or statement)
 let userPreferences = {};
 
-function adjustPrioritiesByInputType(categorizedTokens, tokens) {
-    console.log("tokens:", tokens);
 
+// Dynamically adjust priorities by category weights
+function adjustPrioritiesByInputType(categorizedTokens, priorities) {
     const categoryWeights = {};
 
     categorizedTokens.forEach(({ category }) => {
-        categoryWeights[category] = (categoryWeights[category] || 1) * 1.5;
+        if (category) {
+            categoryWeights[category] = (categoryWeights[category] || 1) * 1.5;
+        }
     });
 
-    const favoriteCategories = Object.entries(categoryWeights)
-        .sort(([, weightA], [, weightB]) => weightB - weightA)
-        .map(([category]) => category);
-
-    userPreferences = { favoriteCategories };
-
-    console.log("Updated User Preferences:", userPreferences);
-    return categorizedTokens.map(token => ({
-        ...token,
-        weight: categoryWeights[token.category] || 1
-    }));
+    Object.entries(categoryWeights).forEach(([category, weight]) => {
+        if (priorities[category] !== undefined) {
+            priorities[category] /= weight; // Adjust priority by weight
+        }
+    });
 }
+
+
 
 // Return a dynamic weight adjustment factor based on the input type
 function getWeightAdjustmentFactor(inputType) {
@@ -2225,38 +2221,43 @@ function getWeightAdjustmentFactor(inputType) {
     return factors[inputType] || 1;  // Default to 1 if inputType is not found
 }
 
-// Handle emotion-based prioritization if the input contains sentiment/emotion words
+// Handle emotion-based prioritization
 function handleEmotionPrioritization(categorizedTokens, priorities) {
     const emotionCategories = ['excitement', 'frustration', 'hope', 'regret'];
-    categorizedTokens.forEach(token => {
-        if (emotionCategories.includes(token.category)) {
-            priorities.emotions = 1; // High priority if emotions are involved
+
+    categorizedTokens.forEach(({ category }) => {
+        if (emotionCategories.includes(category)) {
+            priorities.emotions = Math.min(priorities.emotions || 99, 1); // High priority for emotions
         }
     });
 }
 
-// Adjust priorities if the query involves an action
+// Prioritize action tokens
 function prioritizeActionTokens(categorizedTokens, inputType, priorities) {
-    const actionToken = categorizedTokens.find(token => token.category === 'action');
+    const actionToken = categorizedTokens.find(({ category }) => category === 'action');
+
     if (actionToken) {
-        priorities.action = 0; // Override with highest priority if action is involved
+        priorities.action = 0; // Highest priority for action
     }
 
-    // Prioritize action over other categories like technology, unless it's a question involving technology
-    categorizedTokens.forEach(token => {
-        if (actionToken && token.category === 'technology' && inputType === 'question') {
-            priorities.technology = 2; // Reduce priority for technology in questions unless it's a direct match
-        }
-    });
+    if (inputType === 'question') {
+        categorizedTokens.forEach(({ category }) => {
+            if (category === 'technology') {
+                priorities.technology = Math.min(priorities.technology || 99, 2);
+            }
+        });
+    }
 }
 
-// Sort tokens based on the adjusted priorities
+
+// Sort tokens by priority and weight
 function sortTokensByPriority(categorizedTokens, priorities) {
     return categorizedTokens.sort((a, b) => {
-        return (priorities[a.category] || 99) - (priorities[b.category] || 99);
+        const priorityA = (priorities[a.category] || 99) * (a.weight || 1);
+        const priorityB = (priorities[b.category] || 99) * (b.weight || 1);
+        return priorityA - priorityB;
     });
 }
-
 
 
 
@@ -2272,7 +2273,7 @@ async function handleJobQuery( tokens, userPreferences) {
     .map(t => t.trim().toLowerCase())
     .slice(0, 10); // Limit the array to the first 10 tokens
 
-        const bestMatch = prioritizeCategories(tokens, userPreferences );
+        const bestMatch = prioritizeCategories(categorizedTokens, tokens,  userPreferences );
 
         console.log("bestMatch ",bestMatch); 
 
