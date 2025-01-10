@@ -2026,7 +2026,6 @@ function correctHomophonesAndMore(tokens, categories) {
     }
 
     let correctedSentence = tokens.map((token, index) => {
-        console.log("correctedSentence:", correctedSentence);
 
         let lowerToken = token.toLowerCase();
 
@@ -2056,6 +2055,9 @@ function correctHomophonesAndMore(tokens, categories) {
 
         return token; // Return original token if no correction
     }).join(' ');
+
+    
+    console.log("correctedSentence:", correctedSentence);
 
     return correctedSentence;
 }
