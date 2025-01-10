@@ -1358,7 +1358,7 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
 
 // Matching subjects
 Object.keys(subjects).forEach(subjectKey => {
-    console.log("subjectKey  ", subjectKey);
+  // console.log("subjectKey  ", subjectKey);
 
     // Check if the token belongs to the current subject category
     subjects[subjectKey].forEach(subjectWord => {
