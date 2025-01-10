@@ -481,7 +481,7 @@ function setGlobalTimer(countdownMilliseconds, callbackName, timerId) {
                 console.error(`Callback function "${storedData.callbackName}" not found.`);
             }
         } else {
-            console.log(`Timer ${timerId}: ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
+           // console.log(`Timer ${timerId}: ${Math.ceil(timeLeft / 1000)} seconds remaining.`);
         }
     }
 
