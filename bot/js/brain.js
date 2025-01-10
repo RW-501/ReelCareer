@@ -1339,12 +1339,13 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
                     // Check if the word matches the phrase sequence
                     if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
                         console.log("actionKey  ", actionKey);
-                        phraseIndex++;
 
-                        if (phraseIndex === actionPhrases.length) {
+                        if (actionKey && actionsToPerform.length == 0) {
                             actionsToPerform.push(actionKey);
                         }
-                     
+                        
+                        phraseIndex++;
+
                     } else {
                         break;
                     }
