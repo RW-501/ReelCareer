@@ -1632,14 +1632,7 @@ function handleSetTimerAction(tokens, textToModify, subject) {
 
         setGlobalTimer(duration, timerName, `${timerName}`);
 
-        // Create the clock element
-
-        
-        // Append the clock element to the DOM (Optional)
-        // Assuming you want to place it somewhere specific, such as in a div with id 'timerContainer'
-       // const targetElement = document.getElementById('timerContainer');
-       // targetElement.appendChild(clockElement);
-
+     
         // Start the timer after 200ms to ensure the clock is in the DOM
         setTimeout(() => {
             startTimer(`timer_${timerName}`, duration);  // Start the timer after 200ms
