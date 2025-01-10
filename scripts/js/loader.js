@@ -452,11 +452,13 @@ const globalCallbacks = {
         fetch(pingURL)
             .then(response => {
                 if (response.status === 402) {
-                    console.log('Received 402 status code. Taking action.');
+                    let message = 'Page is Ready... ';
+                     showToast(message, 'info', 50000, pingURL, true, "View Now");
+
                     // Perform action for 402 (e.g., notify user, start a process, etc.)
                     globalCallbacks.notifyUser();
                 } else if (response.status === 404) {
-                    console.log('Received 404 status code. Resetting timer for 1 minute.');
+                    showToast('Received 404 status code. Resetting timer for 1 minute.');
                     // If 404 is received, reset the timer and set it to 1 minute
                     setGlobalTimer(60000, 'pingTimer', timerId, pingURL);  // 1 minute delay
                 } else {
