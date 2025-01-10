@@ -478,6 +478,7 @@ const globalCallbacks = {
 function setGlobalTimer(countdownMilliseconds, callbackName, timerId, pingURL) {
     const endTime = Date.now() + countdownMilliseconds;  // countdownMilliseconds is used directly
     const timerData = { endTime, callbackName, pingURL };  // Include pingURL in the timerData object
+    console.log('??????????/  Pinging URL:', pingURL);
 
     // Store the timer data as a JSON string
     localStorage.setItem(`timer_${timerId}`, JSON.stringify(timerData));
