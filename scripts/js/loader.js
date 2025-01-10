@@ -459,7 +459,7 @@ const globalCallbacks = {
                     // Perform action for 402 (e.g., notify user, start a process, etc.)
                     globalCallbacks.notifyUser();
                 } else if (response.status === 404) {
-                    showToast('Received 404 status code. Resetting timer for 1 minute.');
+                    showToast('Page is not a available yet.');
                     // If 404 is received, reset the timer and set it to 1 minute
 
                     
