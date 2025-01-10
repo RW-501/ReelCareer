@@ -1326,31 +1326,39 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
         return mathResult; // Return the result if it's a math expression
     }
 
-// Detect actions, verbs, and subjects
-categorizedTokens.forEach((token, index) => {
-    // Matching action verbs
-    Object.keys(actions).forEach(actionKey => {
-        const actionPhrases = actions[actionKey];
-        console.log("actionPhrases  ", actionPhrases);
-
-        // Loop through all possible action phrases
-        actionPhrases.forEach(phrase => {
-            // Check if the current phrase matches the sequence of tokens starting from the current index
-            if (categorizedTokens.slice(index, index + actionPhrases.length).map(t => t.word.toLowerCase()).join(" ") === phrase.toLowerCase()) {
-                actionsToPerform.push(actionKey);
+    categorizedTokens.forEach((token, index) => {
+        // Matching action verbs
+        Object.keys(actions).forEach(actionKey => {
+            const actionPhrases = actions[actionKey];
+            console.log("actionPhrases  ", actionPhrases);
+    
+            // Loop through all possible action phrases
+            actionPhrases.forEach(phrase => {
+                // We are matching full words (or phrases) stored in 'word'
+                let phraseIndex = 0;
+                while (phraseIndex < actionPhrases.length && index + phraseIndex < categorizedTokens.length) {
+                    // Check if the word matches the phrase sequence
+                    if (categorizedTokens[index + phraseIndex].word.toLowerCase() === actionPhrases[phraseIndex].toLowerCase()) {
+                        phraseIndex++;
+                    } else {
+                        break;
+                    }
+                }
+    
+                if (phraseIndex === actionPhrases.length) {
+                    actionsToPerform.push(actionKey);
+                }
+            });
+        });
+    
+        // Matching subjects
+        Object.keys(subjects).forEach(subjectKey => {
+            if (subjects[subjectKey].includes(token.word.toLowerCase())) {
+                subjectsToEvaluate.push(subjectKey);
             }
         });
 
         
-    // Matching subjects
-    Object.keys(subjects).forEach(subjectKey => {
-        if (subjects[subjectKey].includes(token.word.toLowerCase())) {
-            subjectsToEvaluate.push(subjectKey);
-        }
-    });
-});
-
-
 
 });
     // Handle cases with multiple actions and context-aware detection
