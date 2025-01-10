@@ -1351,7 +1351,9 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
             });
         });
     });
-    
+    console.log("uniqueActions  ", uniqueActions);
+    console.log("uniqueSubjects  ", uniqueSubjects);
+
     // If you need arrays later
     const uniqueActions = Array.from(actionsToPerform);
     const uniqueSubjects = Array.from(subjectsToEvaluate);
@@ -1359,12 +1361,12 @@ function detectAndEvaluateStatement(tokens, categorizedTokens, inputType) {
     // Handle cases with multiple actions and context-aware detection
     if (uniqueActions.length > 1 && uniqueSubjects.length > 0) {
         context.multipleActions = true;
+        console.log("multipleActions  ", multipleActions);
+
         // If multiple actions are found, prioritize based on context or user's intent
         // Here, simply return the first action and subject as an example:
         return handleMultipleActions(uniqueActions, uniqueSubjects);
     }
-    console.log("uniqueActions  ", uniqueActions);
-    console.log("uniqueSubjects  ", uniqueSubjects);
 
     // Construct the result with actions and subjects
     const results = uniqueActions.map(action => {
