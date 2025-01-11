@@ -652,7 +652,9 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
     if (await doesQuestionIDExist(questionID)) {
         showToast("Error: Duplicate question ID detected. Please use a different ID.");
         console.error(`Duplicate question ID (${questionID}) detected.`);
-        return;
+
+        questionID = generateRandom6DigitNumber;
+
     }
 
     const difficultyLevel = calculateDifficultyLevel(question);
