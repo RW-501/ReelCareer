@@ -230,14 +230,28 @@
             </div>
         </div>
 
+
+        <div id="feedback-area">
+            <h2>Your Feedback</h2>
+            <textarea id="user-feedback" placeholder="Share your feedback here"></textarea>
+            <button id="submit-feedback">Submit Feedback</button>
+        </div>
+
+
         <div id="add-faq-section" class="add-faq-section">
             <h2>Add a New FAQ</h2>
             <div id="login-reminder" class="login-reminder">Please log in to submit a new FAQ.</div>
             <div id="faq-form" style="display:none;">
                 <label for="faq-question">Question:</label><br>
-                <input type="text" id="faq-question" class="tag-input" placeholder="Enter your question" required><br><br>
+                <input type="text" id="faq-question" placeholder="Enter your question" required><br><br>
                 <label for="faq-answer">Answer:</label><br>
-                <textarea id="faq-answer" class="tag-input" rows="4" placeholder="Enter your answer" required></textarea><br><br>
+                <textarea id="faq-answer" rows="4" placeholder="Enter your answer" required></textarea><br><br>
+                <label for="faq-category">Category:</label><br>
+                <select id="faq-category" required>
+                    <option value="general">General</option>
+                    <option value="obituaries">Obituaries</option>
+                    <option value="payment">Payment</option>
+                </select><br><br>
                 <button id="submit-faq">Submit for Review</button>
             </div>
         </div>
@@ -275,90 +289,124 @@ import {
   } from 'https://reelcareer.co/scripts/js/load/module.js';
   
   
+// Fetch and Render FAQs
 async function fetchAndRenderFAQs() {
-    // Use collection() to get a reference to the 'ChatbotInteractions' collection
     const collectionRef = collection(db, "ChatbotInteractions");
+    const categoryFilter = document.getElementById('category-dropdown').value;
 
-    // Create the query to filter based on topic
-    const q = query(collectionRef, where("topic", "==", "obituaries"));
+    let q;
+    if (categoryFilter === "all") {
+        q = query(collectionRef);
+    } else {
+        q = query(collectionRef, where("category", "==", categoryFilter));
+    }
 
-    // Fetch the FAQ data from Firestore using the query
     const querySnapshot = await getDocs(q);
     const faqs = [];
 
-    // Iterate through the results and collect the FAQ data
     querySnapshot.forEach(doc => {
-        faqs.push(doc.data());
+        faqs.push({ id: doc.id, ...doc.data() });
     });
 
-    // Render the FAQs
     renderFAQ(faqs);
 }
 
+// Render FAQ items
 function renderFAQ(faqs) {
     const faqList = document.getElementById('faq-list');
-    faqList.innerHTML = ''; // Clear any existing FAQ content
+    faqList.innerHTML = ''; // Clear any existing content
 
     faqs.forEach(faq => {
         const item = document.createElement('div');
         item.className = 'faq-item';
 
-        // Set the inner HTML for the FAQ item
         item.innerHTML = `
             <h3>${faq.question}</h3>
-            <p style="display: none;">${faq.answer}</p>
+            <p class="faq-answer" style="display: none;">${faq.answer}</p>
+            <div class="faq-footer">
+                <span>Views: ${faq.views}</span>
+                <button class="was-helpful-btn">Was this helpful?</button>
+            </div>
+            <div class="feedback">
+                <span>Feedback: ${faq.helpfulCount}</span>
+            </div>
         `;
 
-        // Toggle answer visibility when the question is clicked
+        // Toggle answer visibility
         item.querySelector('h3').addEventListener('click', () => {
-            const answer = item.querySelector('p');
+            const answer = item.querySelector('.faq-answer');
             answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
         });
 
-        // Append the FAQ item to the list
+        // Handle feedback submission
+        item.querySelector('.was-helpful-btn').addEventListener('click', async () => {
+            await updateFAQFeedback(faq.id, faq.helpfulCount + 1);
+            alert("Feedback submitted!");
+        });
+
         faqList.appendChild(item);
     });
 }
 
-// Call the function to fetch and render FAQs
-fetchAndRenderFAQs();
+// Update FAQ feedback
+async function updateFAQFeedback(faqId, helpfulCount) {
+    const faqRef = doc(db, "ChatbotInteractions", faqId);
+    await setDoc(faqRef, {
+        helpfulCount: helpfulCount,
+        views: increment(1), // Increment views count
+        uniqueViews: increment(await getUniqueViews()) // Increment unique views count
+    }, { merge: true });
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Firebase Auth state listener
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // If user is logged in, hide the login reminder and show the FAQ form
-            document.getElementById('login-reminder').style.display = 'none';
-            document.getElementById('faq-form').style.display = 'block';
-        } else {
-            // Optionally, you can add logic here to handle the case when the user is not logged in.
-        }
-    });
+// Get Unique Views based on IP (Mocked function for simplicity)
+async function getUniqueViews() {
+    const ip = await fetchUserIP(); // You'd use a service to get the user's IP
+    // Store and check IP for unique views logic here
+    return 1; // For now, just increment by 1
+}
+
+// Fetch user's IP (Mocked function for simplicity)
+async function fetchUserIP() {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    return data.ip;
+}
+
+// Handle FAQ form submission
+document.getElementById('submit-faq').addEventListener('click', async () => {
+    const question = document.getElementById('faq-question').value;
+    const answer = document.getElementById('faq-answer').value;
+    const category = document.getElementById('faq-category').value;
+    const newFaq = {
+        question,
+        answer,
+        category,
+        status: 'review',
+        timestamp: serverTimestamp(),
+        helpfulCount: 0,
+        views: 0,
+        uniqueViews: 0
+    };
+
+    try {
+        const docRef = doc(collection(db, "ChatbotInteractions"), question.replace(/\s+/g, '-').toLowerCase());
+        await setDoc(docRef, newFaq);
+        alert('FAQ submitted for review!');
+        fetchAndRenderFAQs(); // Refresh the FAQ list
+    } catch (error) {
+        console.error('Error submitting FAQ:', error);
+    }
 });
 
+// Fetch and render FAQs initially
+fetchAndRenderFAQs();
 
-        document.getElementById('submit-faq').addEventListener('click', async () => {
-            const question = document.getElementById('faq-question').value;
-            const answer = document.getElementById('faq-answer').value;
-            const newFaq = {
-                question,
-                answer,
-                status: 'review',
-                activate: true,
-                topic: 'obituaries',
-                timestamp: serverTimestamp(),
-                lastUpdated: serverTimestamp()
-            };
-            try {
-                const docRef = doc(collectionRef, question.replace(/\s+/g, '-').toLowerCase());
-                await setDoc(docRef, newFaq);
-                alert('FAQ submitted for review!');
-            } catch (error) {
-                console.error('Error submitting FAQ:', error);
-            }
-        });
-    </script>
+// Listen for category changes
+document.getElementById('category-dropdown').addEventListener('change', () => {
+    fetchAndRenderFAQs(); // Re-fetch FAQs based on the selected category
+});
 
+</script>
 
 <script>
     // Dynamically set the current year
