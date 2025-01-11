@@ -717,6 +717,10 @@ let messageWithLinks = '';
       // If `url` is provided, append it as a link
       if (urls) {
         messageWithLinks += convertTextToLinks(urls);
+      }else{
+
+        messageWithLinks += message;
+
       }
     
     }
@@ -734,11 +738,19 @@ let messageWithLinks = '';
 
     // Regular expression to check for <script> tags
     const scriptTagPattern = /<div.*?>.*?<\/div>/gi;
+    const aTagPattern = /<a.*?>.*?<\/a>/gi;
 
     // Check if the message contains <script> tags
-    if (scriptTagPattern.test(message)) {
+    if (scriptTagPattern.test(message) || aTagPattern.test(message)) {
+      setTimeout(() => {
+        messageDiv.innerHTML = senderLabel + messageWithLinks;
+      }, 100);
+      resolve();
 
 
+      }else{
+  
+        
         utterance = new SpeechSynthesisUtterance(message);
         toggleTextToVoice();
   
@@ -764,11 +776,6 @@ let messageWithLinks = '';
         }, typingSpeed);
   
 
-      }else{
-        setTimeout(() => {
-          messageDiv.innerHTML = senderLabel + messageWithLinks;
-        }, 100);
-        resolve();
       }
       
     } else {
