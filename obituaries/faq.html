@@ -328,7 +328,7 @@ function renderFAQ(faqs) {
         item.className = 'faq-item';
 
         item.innerHTML = `
-            <h3>${faq.question}</h3>
+            <div class="faq-question">${faq.question}</div>
             <p class="faq-answer" style="display: none;">${faq.answer}</p>
             <div class="faq-footer">
                 <span>Views: ${faq.views}</span>
