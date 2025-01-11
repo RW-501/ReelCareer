@@ -99,17 +99,144 @@
                 padding: 15px;
             }
         }
+
+
+
+
+
+
+
+        /* FAQ Container Styles */
+.faq-container {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.faq-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 30px;
+}
+
+/* Search Input */
+.search-container {
+  margin-bottom: 30px;
+  position: relative;
+}
+.search-input {
+  padding: 12px 40px 12px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* Category Filter */
+.category-filter {
+  margin-bottom: 30px;
+}
+.category-select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 200px;
+}
+
+/* FAQ List */
+.faq-list {
+  margin-bottom: 40px;
+}
+.faq-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.faq-item:hover {
+  background-color: #f9f9f9;
+}
+.faq-question {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+.faq-answer {
+  font-size: 16px;
+  color: #666;
+  display: none;
+  margin-top: 10px;
+}
+
+/* Ask Question Section */
+.ask-question {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+.ask-button {
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+.ask-form {
+  display: none;
+}
+.ask-textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.submit-button {
+  padding: 12px;
+  background-color: #28a745;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Live Chat Button */
+.live-chat-button {
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+}
+
     </style>
-       <!-- Bootstrap CSS -->
-       
     
-
-   <!-- Bootstrap CSS -->
-   
-   
-   <!-- Custom CSS -->
-   
-
+    
 <!-- Main Script Loader -->
     <script src="https://reelcareer.co/scripts/js/loader.js"></script>
 </head>
@@ -169,6 +296,22 @@
           font-size: 18px; 
           color: #007bff;" class="search-icon">🔍</span>
     </div>
+
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <label for="categorySelect">Filter by Category:</label>
+            <select id="categorySelect" class="category-select">
+              <option value="all">All Categories</option>
+              <option value="general">General</option>
+              <option value="account">Account</option>
+              <option value="payment">Payment</option>
+              <option value="technical">Technical</option>
+              <!-- Add more categories as needed -->
+            </select>
+          </div>
+
+
 
     <!-- FAQ List -->
     <div id="faqList" class="list-group" style="
@@ -316,86 +459,186 @@
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+document.addEventListener('DOMContentLoaded', async () => {
+    const faqList = document.getElementById('faqList');
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categorySelect');
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const ipAddress = await getUserIP();  // Function to get the user's IP
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const faqList = document.getElementById('faqList');
-        const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    faqList.innerHTML = '';  // Clear existing content
 
-        faqList.innerHTML = ''; // Clear any existing content
+    // Fetch FAQs from Firestore
+    const faqs = [];
+    const faqQuery = collection(db, "ChatbotInteractions");
+    const querySnapshot = await getDocs(faqQuery);
 
-        // Fetch FAQs from Firestore
-        const faqs = [];
-        const faqQuery = collection(db, "ChatbotInteractions");
-        const querySnapshot = await getDocs(faqQuery);
+    querySnapshot.forEach((doc) => {
+        const { question, answer, category, views, uniqueViews } = doc.data();
+        faqs.push({ question, answer, category, views, uniqueViews, id: doc.id });
+    });
 
-        querySnapshot.forEach((doc) => {
-            const { question, answer } = doc.data();
-            faqs.push({ question, answer });
-        });
+    loadFAQs(faqs);  // Load FAQs into the list
+    generateFAQSchema(faqs);
 
-        // Load FAQs dynamically
-        loadFAQs(faqs);
-
-        // Generate FAQ schema and add to the page
-        generateFAQSchema(faqs);
-
-        // Check if the user is logged in
-        toggleAuthState(isLoggedIn);
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('keyup', function () {
-            const searchTerm = this.value.toLowerCase();
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question').textContent.toLowerCase();
-                item.style.display = question.includes(searchTerm) ? '' : 'none';
-            });
-        });
-
-        // Live chat button
-        document.getElementById('liveChatButton').addEventListener('click', () => {
-            alert("Chat feature coming soon!");
-        });
-
-        // Toggle FAQ answer
-        faqList.addEventListener('click', function (e) {
-            if (e.target && e.target.classList.contains('faq-question')) {
-                const answerDiv = e.target.nextElementSibling;
-                answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
-            }
-        });
-
-        // Ask question form submission
-        document.getElementById('askQuestionForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const questionInput = document.getElementById('questionInput').value;
-            console.log("Question submitted:", questionInput);
-            // Reset the form
-            document.getElementById('questionInput').value = '';
-            showToast("Your question has been submitted for review.", 'success');
-        });
-
-        // Toggle form display on button click
-        document.getElementById('askQuestionBtn').addEventListener('click', () => {
-            document.getElementById('askQuestionForm').style.display = 'block';
-            document.getElementById('authMessage').style.display = 'none';
-            document.getElementById('askQuestionBtn').style.display = 'none';
+    // Search functionality
+    searchInput.addEventListener('keyup', function () {
+        const searchTerm = this.value.toLowerCase();
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question').textContent.toLowerCase();
+            item.style.display = question.includes(searchTerm) ? '' : 'none';
         });
     });
 
-    // Function to load FAQs dynamically
-    function loadFAQs(faqs) {
-        const faqList = document.getElementById('faqList');
-        faqs.forEach((faq, index) => {
-            const faqItem = document.createElement('div');
-            faqItem.className = 'faq-item';
-            faqItem.innerHTML = `
+    // Category filtering
+    categorySelect.addEventListener('change', function () {
+        const category = this.value;
+        filterByCategory(faqs, category);
+    });
+
+    // Ask question form
+    document.getElementById('askQuestionForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const questionInput = document.getElementById('questionInput').value;
+        // Submit question to Firestore
+        submitQuestion(questionInput);
+    });
+
+    // Toggle FAQ answer visibility
+    faqList.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('faq-question')) {
+            const answerDiv = e.target.nextElementSibling;
+            answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
+            updateFAQViews(e.target, ipAddress);  // Track view count and IP-based unique views
+        }
+    });
+});
+
+// Function to load FAQs
+// Enhanced FAQ Loading Functionality
+function loadFAQs(faqs) {
+    const faqList = document.getElementById('faqList');
+    faqList.innerHTML = '';  // Clear existing content before loading
+
+    faqs.forEach((faq) => {
+        const faqItem = document.createElement('div');
+        faqItem.classList.add('faq-item', 'modern-card');
+        faqItem.innerHTML = `
+            <div class="faq-header">
                 <div class="faq-question">${faq.question}</div>
-                <div class="faq-answer">${faq.answer}</div>
-            `;
-            faqList.appendChild(faqItem);
+                <button class="toggle-answer">&#x25BC;</button>
+            </div>
+            <div class="faq-answer hidden">${faq.answer}</div>
+            <div class="faq-actions">
+                <button class="helpful-button">👍 Helpful</button>
+                <button class="not-helpful-button">👎 Not Helpful</button>
+            </div>
+            <div class="feedback-section hidden">
+                <textarea class="feedback-input" placeholder="Provide feedback..."></textarea>
+                <button class="submit-feedback">Submit</button>
+            </div>
+        `;
+
+        const toggleAnswerBtn = faqItem.querySelector('.toggle-answer');
+        const faqAnswer = faqItem.querySelector('.faq-answer');
+        toggleAnswerBtn.addEventListener('click', () => {
+            faqAnswer.classList.toggle('hidden');
+            toggleAnswerBtn.innerHTML = faqAnswer.classList.contains('hidden') ? '&#x25BC;' : '&#x25B2;';
         });
+
+        const helpfulButton = faqItem.querySelector('.helpful-button');
+        const notHelpfulButton = faqItem.querySelector('.not-helpful-button');
+        const feedbackSection = faqItem.querySelector('.feedback-section');
+
+        helpfulButton.addEventListener('click', () => {
+            showToast('Thank you for your feedback!');
+            incrementHelpfulCount(faq.faq_ID);
+        });
+
+        notHelpfulButton.addEventListener('click', () => {
+            feedbackSection.classList.remove('hidden');
+        });
+
+        const submitFeedbackButton = faqItem.querySelector('.submit-feedback');
+        submitFeedbackButton.addEventListener('click', () => {
+            const feedback = faqItem.querySelector('.feedback-input').value;
+            if (feedback.trim()) {
+                submitFeedback(faq.faq_ID, feedback);
+                showToast('Feedback submitted successfully!');
+                feedbackSection.classList.add('hidden');
+            } else {
+                showToast('Please enter valid feedback.');
+            }
+        });
+
+        faqList.appendChild(faqItem);
+    });
+}
+
+
+// Function to filter FAQs by category
+function filterByCategory(faqs, category) {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const faqCategory = item.querySelector('.faq-category').textContent.toLowerCase();
+        if (category === 'all' || faqCategory.includes(category)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Function to submit a question to Firestore
+function submitQuestion(questionInput) {
+    const newQuestion = {
+        question: questionInput,
+        answer: 'Your question is under review.',
+        category: 'general',
+        status: 'pending',
+        views: 0,
+        uniqueViews: 0,
+        timestamp: serverTimestamp()
+    };
+
+    // Save question to Firestore
+    addDoc(collection(db, "ChatbotInteractions"), newQuestion)
+        .then(() => {
+            showToast("Your question has been submitted for review.");
+            document.getElementById('questionInput').value = '';  // Clear input
+        })
+        .catch((error) => {
+            console.error("Error submitting question: ", error);
+            showToast("Error submitting question. Please try again.");
+        });
+}
+
+// Function to update view count and unique views based on IP
+async function updateFAQViews(faqElement, ipAddress) {
+    const faqID = faqElement.parentElement.dataset.id;
+    const faqDocRef = doc(db, "ChatbotInteractions", faqID);
+    const faqDoc = await getDoc(faqDocRef);
+    if (faqDoc.exists()) {
+        const faqData = faqDoc.data();
+        const newViews = faqData.views + 1;
+        const newUniqueViews = faqData.uniqueViews.includes(ipAddress) ? faqData.uniqueViews.length : faqData.uniqueViews + 1;
+
+        // Update views in Firestore
+        await updateDoc(faqDocRef, { views: newViews, uniqueViews: newUniqueViews });
     }
+}
+
+
+
+
+// Function to fetch user's IP address
+async function getUserIP() {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    return data.ip;
+}
+
 
     // Function to generate FAQ schema and inject into the page
     function generateFAQSchema(faqs) {
