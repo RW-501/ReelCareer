@@ -624,7 +624,7 @@ function calculateDifficultyLevel(question) {
     return Math.min(difficulty, 5); // Cap difficulty between 1 and 5
 }
 
-document.getElementById("new-question-form").addEventListener("submit", async function (e) {
+document.getElementById("new-question-form").addEventListener("submit", async function (e) { 
     e.preventDefault();
 
     let questionID = document.getElementById("questionID").value.trim() || generateRandom6DigitNumber();
@@ -649,12 +649,12 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
         .filter(word => !stopWords.includes(word))
         .slice(0, 15);  // Firebase indexing limit: keep searchable array small
 
-    if (await doesQuestionIDExist(questionID)) {
-        showToast("Error: Duplicate question ID detected. Please use a different ID.");
-        console.error(`Duplicate question ID (${questionID}) detected.`);
-
-        questionID = generateRandom6DigitNumber;
-
+    // Check if question already exists in the database
+    const questionExists = await doesQuestionExist(question);
+    if (questionExists) {
+        showToast("Error: This question already exists. Please use a different question.");
+        console.error(`Duplicate question: "${question}" detected.`);
+        return;
     }
 
     const difficultyLevel = calculateDifficultyLevel(question);
@@ -713,6 +713,13 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
     renderQuestions();
     document.getElementById("new-question-form").reset();
 });
+
+// Function to check if a question already exists
+async function doesQuestionExist(question) {
+    const q = query(collection(db, "ChatbotInteractions"), where("question", "==", question));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;  // Returns true if the question exists, false otherwise
+}
 
 let timeoutDelay = 5000; // Default timeout delay in milliseconds (5 seconds)
 let isProcessing = false;
@@ -1008,7 +1015,7 @@ function createQuestionElement(question, category, index) {
 
 function populateForm(questionData, category, index) {
 
-console.log("populateForm  ",questionData)
+//console.log("populateForm  ",questionData)
 
 // Populate form fields
 document.getElementById("questionID").value = questionData.id || "";
