@@ -342,7 +342,7 @@ function renderFAQ(faqs) {
         `;
 
         // Toggle answer visibility
-        item.querySelector('h3').addEventListener('click', () => {
+        item.querySelector('.faq-question').addEventListener('click', () => {
             const answer = item.querySelector('.faq-answer');
             answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
         });
