@@ -397,7 +397,9 @@ document.getElementById('submit-faq').addEventListener('click', async () => {
 });
 
 // Fetch and render FAQs initially
-fetchAndRenderFAQs();
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderFAQs();
+});
 /*
 // Listen for category changes
 document.getElementById('category-dropdown').addEventListener('change', () => {
