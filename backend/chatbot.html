@@ -627,7 +627,7 @@ function calculateDifficultyLevel(question) {
 document.getElementById("new-question-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const questionID = document.getElementById("questionID").value.trim() || generateRandom6DigitNumber();
+    let questionID = document.getElementById("questionID").value.trim() || generateRandom6DigitNumber();
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
     let category = document.getElementById("category").value.trim();
@@ -1039,7 +1039,7 @@ document.getElementById('searchableQuestion').value = questionData.searchableQue
 
 // Populate tags list dynamically
 const tagsContainer = document.getElementById('tagsList');
-tagsContainer.innerHTML = ""; // Clear any existing tags
+//tagsContainer.innerHTML = ""; // Clear any existing tags
 
 questionData.tags.forEach(tag => {
     const tagElement = document.createElement('div');
