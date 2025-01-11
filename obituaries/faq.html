@@ -322,12 +322,19 @@ fetchAndRenderFAQs();
 
 
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('login-reminder').style.display = 'none';
-                document.getElementById('faq-form').style.display = 'block';
-            }
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    // Firebase Auth state listener
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // If user is logged in, hide the login reminder and show the FAQ form
+            document.getElementById('login-reminder').style.display = 'none';
+            document.getElementById('faq-form').style.display = 'block';
+        } else {
+            // Optionally, you can add logic here to handle the case when the user is not logged in.
+        }
+    });
+});
+
 
         document.getElementById('submit-faq').addEventListener('click', async () => {
             const question = document.getElementById('faq-question').value;
