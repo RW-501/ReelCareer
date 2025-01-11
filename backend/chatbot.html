@@ -761,7 +761,7 @@ function updateProgressBar(percent, estimatedTime) {
     const roundedPercent = Math.round(percent);
     
     progressBar.style.width = `${roundedPercent}%`;
-    progressMessage.textContent = `Processing... ${roundedPercent}% completed. Estimated time: ${estimatedTime}`;
+    progressMessage.innerHTML = `Processing... ${roundedPercent}% completed.<br> Estimated time: ${estimatedTime}`;
 }
 
 
