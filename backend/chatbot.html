@@ -143,6 +143,12 @@ li.dragging {
     display: grid;
 }
 
+#autoUploadInfo {
+    margin: 2rem auto;
+    width: 100%;
+    display: grid;
+}
+
 #autoUploadControlsBTN {
     margin: 2rem auto;
     width: 100%;
@@ -153,7 +159,6 @@ li.dragging {
     justify-content: space-evenly;
     align-items: center;
 }
-
 
     </style>
 <!-- Main Script Loader -->
@@ -298,10 +303,12 @@ li.dragging {
             <button id="upload-to-db">Upload to Database</button>
 
             <div id="autoUploadControls"></div>
+            <div id="autoUploadInfo"></div>
             <div id="autoUploadControlsBTN">
-            
+                
             <button id="start-button">Start</button>
             <button id="stop-button">Stop</button>
+            <button id="resume-button">Resume</button>
         </div>
 
 
@@ -701,10 +708,22 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
     document.getElementById("new-question-form").reset();
 });
 
-
+let timeoutDelay = 5000; // Default timeout delay in milliseconds (5 seconds)
 let isProcessing = false;
 let generalIndex = parseInt(localStorage.getItem("generalIndex") || "0");
 let predefinedIndex = parseInt(localStorage.getItem("predefinedIndex") || "0");
+let processedQuestions = []; // Array to store processed questions
+
+// Function to calculate the estimated time for completion
+function calculateEstimatedTime(totalQuestions) {
+    const timePerQuestion = timeoutDelay / 1000; // Time per question in seconds
+    const remainingQuestions = totalQuestions - (generalIndex + predefinedIndex);
+    const estimatedTimeInSeconds = remainingQuestions * timePerQuestion;
+
+    const minutes = Math.floor(estimatedTimeInSeconds / 60);
+    const seconds = Math.floor(estimatedTimeInSeconds % 60);
+    return `${minutes} minutes and ${seconds} seconds`;
+}
 
 function createProgressBar() {
     const progressContainer = document.createElement('div');
@@ -730,15 +749,12 @@ function createProgressBar() {
     document.getElementById("autoUploadControls").appendChild(progressMessage);
 }
 
-function updateProgressBar(percent) {
+function updateProgressBar(percent, estimatedTime) {
     const progressBar = document.getElementById('progress-bar');
     const progressMessage = document.getElementById('progress-message');
     progressBar.style.width = `${percent}%`;
-    progressMessage.textContent = `Processing... ${percent}% completed`;
+    progressMessage.textContent = `Processing... ${percent}% completed. Estimated time: ${estimatedTime}`;
 }
-
-
-let processedQuestions = []; // Array to store processed questions
 
 function uploadQuestionsToDB() {
     isProcessing = true;
@@ -752,7 +768,7 @@ function uploadQuestionsToDB() {
     function processQuestion(questions, category) {
         if (!isProcessing || generalIndex >= generalQuestions.length && predefinedIndex >= predefinedQuestions.length) {
             console.log("Processing complete or stopped.");
-            updateProgressBar(100); // Set progress to 100% when done
+            updateProgressBar(100, "0 minutes and 0 seconds"); // Set progress to 100% when done
             return;
         }
 
@@ -795,7 +811,6 @@ function uploadQuestionsToDB() {
             processedQuestions.push(questionText);
 
             removeButton.click(); // Simulate remove click
-           // console.log("Question removed");
 
             // Update index and save progress
             if (category === "General") {
@@ -808,7 +823,8 @@ function uploadQuestionsToDB() {
 
             // Update progress bar after processing each question
             const completed = (generalIndex + predefinedIndex) / totalQuestions * 100;
-            updateProgressBar(completed);
+            const estimatedTime = calculateEstimatedTime(totalQuestions);
+            updateProgressBar(completed, estimatedTime);
 
             setTimeout(() => {
                 submitToDB.click(); // Simulate adding new question
@@ -816,14 +832,13 @@ function uploadQuestionsToDB() {
 
                 // Continue processing
                 processQuestion(questions, category);
-            }, 5000); // Adjustable delay between actions
-        }, 5000); // Adjustable delay for each action
+            }, timeoutDelay); // Adjustable delay between actions
+        }, timeoutDelay); // Adjustable delay for each action
     }
 
     processQuestion(generalQuestions, "General");
     processQuestion(predefinedQuestions, "Predefined");
 }
-
 
 function stopProcessing() {
     isProcessing = false;
@@ -831,6 +846,24 @@ function stopProcessing() {
     const progressMessage = document.getElementById('progress-message');
     progressMessage.textContent = "Processing stopped.";
 }
+
+// Input to adjust timeouts
+const timeoutInput = document.createElement("input");
+timeoutInput.id = "timeoutInput";
+timeoutInput.type = "number";
+timeoutInput.value = timeoutDelay / 1000; // Convert ms to seconds
+timeoutInput.min = 1; // Minimum timeout value in seconds
+timeoutInput.max = 60; // Maximum timeout value in seconds
+timeoutInput.step = 1;
+timeoutInput.addEventListener("input", () => {
+    timeoutDelay = timeoutInput.value * 1000; // Convert seconds to ms
+    console.log(`Timeout adjusted to ${timeoutDelay}ms`);
+});
+
+// Displaying autoUpload info
+const autoUploadInfo = document.getElementById("autoUploadInfo");
+autoUploadInfo.appendChild(timeoutInput);
+autoUploadInfo.appendChild(document.createTextNode(" Adjust timeout (in seconds)"));
 
 document.getElementById("stop-button").addEventListener("click", stopProcessing);
 
@@ -841,6 +874,27 @@ document.getElementById("start-button").addEventListener("click", () => {
     }
 });
 
+// Resume process button (to reset and restart the process)
+document.getElementById("resume-button").addEventListener("click", () => {
+    if (isProcessing) {
+        console.log("Cannot resume, process is already running.");
+        showToast("Cannot resume, process is already running.");
+        return;
+    }
+
+    console.log("Resuming process...");
+    showToast("Resuming process...");
+
+    // Reset the processedQuestions array and start over
+    processedQuestions = []; // Clear previously processed questions
+    generalIndex = 0; // Reset generalIndex
+    predefinedIndex = 0; // Reset predefinedIndex
+    localStorage.setItem("generalIndex", generalIndex);
+    localStorage.setItem("predefinedIndex", predefinedIndex);
+
+    // Restart the processing
+    uploadQuestionsToDB();
+});
 
 document.getElementById("upload-to-db-new").addEventListener("click", uploadQuestionsToDB);
 
