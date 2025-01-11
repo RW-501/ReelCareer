@@ -681,6 +681,7 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
         showToast("Question successfully added/updated!");
     } catch (error) {
         console.error("Error adding/updating question:", error);
+        stopProcessing();
         showToast("Error: Could not add/update question. Please try again.");
     }
 
@@ -736,6 +737,9 @@ function updateProgressBar(percent) {
     progressMessage.textContent = `Processing... ${percent}% completed`;
 }
 
+
+let processedQuestions = []; // Array to store processed questions
+
 function uploadQuestionsToDB() {
     isProcessing = true;
     createProgressBar(); // Create progress bar UI elements
@@ -763,8 +767,6 @@ function uploadQuestionsToDB() {
         const removeButton = questionItem.querySelector(".remove-button");
         const submitToDB = document.getElementById('submitToDB');
 
-
-        
         if (!editButton || !removeButton) {
             console.error(`Missing buttons in question-item at index ${index}`);
             return;
@@ -772,12 +774,28 @@ function uploadQuestionsToDB() {
 
         setTimeout(() => {
             editButton.click(); // Simulate edit click
-            console.log(`Editing question: ${questionItem.innerText.trim()}`);
+
+            let questionText = questionItem.innerText.trim();
+
+            // Use regex to remove unwanted words like 'Edit' and 'Remove' from the question text
+            questionText = questionText.replace(/(Edit|Remove)/gi, '').trim();
+
             const dataIndex = questionItem.getAttribute("data-index");
-            console.log(`Data-index: ${dataIndex}`);
+            console.log(`Index: ${dataIndex}: Adding question: ${questionText} `);
+            showToast(`Adding Index: ${dataIndex}`);
+
+            // Check if the question is already processed
+            if (processedQuestions.includes(questionText)) {
+                console.log(`Question "${questionText}" already processed, skipping.`);
+                showToast(`Question "${questionText}" already processed, skipping.`);
+                return;
+            }
+
+            // Add question to the array to avoid reprocessing
+            processedQuestions.push(questionText);
 
             removeButton.click(); // Simulate remove click
-            console.log("Question removed");
+           // console.log("Question removed");
 
             // Update index and save progress
             if (category === "General") {
@@ -794,7 +812,7 @@ function uploadQuestionsToDB() {
 
             setTimeout(() => {
                 submitToDB.click(); // Simulate adding new question
-                console.log("Simulated new question form submission");
+                console.log("New question submission ****************");
 
                 // Continue processing
                 processQuestion(questions, category);
@@ -805,6 +823,7 @@ function uploadQuestionsToDB() {
     processQuestion(generalQuestions, "General");
     processQuestion(predefinedQuestions, "Predefined");
 }
+
 
 function stopProcessing() {
     isProcessing = false;
