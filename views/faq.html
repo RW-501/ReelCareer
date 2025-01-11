@@ -524,7 +524,9 @@ function loadFAQs(faqs) {
                 <div class="faq-question">${faq.question}</div>
                 <button class="toggle-answer">&#x25BC;</button>
             </div>
-            <div class="faq-answer hidden">${faq.answer}</div>
+                        <div class="faq-answer-area">
+
+            <div class="faq-answer">${faq.answer}</div>
             <div class="faq-actions">
                 <button class="helpful-button">👍 Helpful</button>
                 <button class="not-helpful-button">👎 Not Helpful</button>
@@ -533,10 +535,12 @@ function loadFAQs(faqs) {
                 <textarea class="feedback-input" placeholder="Provide feedback..."></textarea>
                 <button class="submit-feedback">Submit</button>
             </div>
+                                        </div>
+
         `;
 
-        const toggleAnswerBtn = faqItem.querySelector('.toggle-answer');
-        const faqAnswer = faqItem.querySelector('.faq-answer');
+        const toggleAnswerBtn = faqItem.querySelector('.faq-question');
+        const faqAnswer = faqItem.querySelector('.faq-answer-area');
         toggleAnswerBtn.addEventListener('click', () => {
             faqAnswer.classList.toggle('hidden');
             toggleAnswerBtn.innerHTML = faqAnswer.classList.contains('hidden') ? '&#x25BC;' : '&#x25B2;';
