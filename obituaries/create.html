@@ -1855,10 +1855,10 @@ if (videoData.status === 'posted') {
     addButton.addEventListener('click', () => {
         // Send the video URL to the video element with the id 'video'
         const videoElement = document.getElementById('video');
-        videoElement.src = videoData.videoResumeURL;
+        videoElement.value = videoData.videoResumeURL;
 
         // Optionally, you can also trigger the video to play or display it:
-        videoElement.play();
+       // videoElement.play();
     });
 
 
