@@ -314,6 +314,26 @@ main {
         display: none;
     }
      
+
+   #video-resume-list {
+    display: flex;
+}
+
+
+   .profileVideoCard {
+    width: 200px;
+}
+
+
+.vidioCard {
+    height: 350px;
+}
+
+
+
+
+
+
 }    
     </style>
     
@@ -1829,7 +1849,7 @@ if (videoData.status === 'posted') {
         // Append the card to the video resume list
         videoResumeList.appendChild(card);
 
-        
+
     // Button functionality to set video URL to another element with id 'video'
     const addButton = document.getElementById(`add-to-obituary-btn-${videoData.reelID}`);
     addButton.addEventListener('click', () => {
