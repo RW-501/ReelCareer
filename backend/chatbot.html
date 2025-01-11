@@ -631,7 +631,7 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
     let category = document.getElementById("category").value.trim();
-    const status = document.getElementById("status").value.trim();
+    const status = document.getElementById("status").value.trim() || "active";
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
     let topic = document.getElementById("topic").value.trim();
@@ -668,6 +668,7 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
         searchableQuestion: sanitizedQuestion.join(","),
         topic: topic,
         tags: tags,
+        type: "FAQ",
         supportURL: supportURL || null,
         status: status,
         feedback: [],
