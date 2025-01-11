@@ -137,6 +137,11 @@ li.dragging {
     background-color: #c82333;
 }
 
+#autoUploadControls {
+    margin: 2rem auto;
+    width: 100%;
+    display: flex;
+}
     </style>
 <!-- Main Script Loader -->
     <script src="https://reelcareer.co/scripts/js/loader.js"></script>
@@ -278,6 +283,9 @@ li.dragging {
             <!-- JSON Output Area -->
             <h4>JSON Output</h4>
             <button id="upload-to-db">Upload to Database</button>
+
+            <div id="autoUploadControls"></div>
+            <button id="upload-to-db-new">Upload All Database</button>
 
             <textarea id="json-output" rows="10" cols="50" readonly></textarea>
             
@@ -540,45 +548,78 @@ async function batchUpdateChatbotInteractions() {
 
 document.getElementById("upload-to-db").addEventListener("click", batchUpdateChatbotInteractions);
 
+
 // Helper Function: Generate Random 6-Digit Number
 function generateRandom6DigitNumber() {
     return Math.floor(100000 + Math.random() * 900000);
 }
 
+let editIndex = null; // Index of the question being edited
+let editCategory = null; // Category of the question being edited
 
+async function doesQuestionIDExist(questionID) {
+    const collectionRef = collection(db, "ChatbotInteractions");
+    const querySnapshot = await getDocs(query(collectionRef, where("faq_ID", "==", questionID)));
+    return !querySnapshot.empty;
+}
 
+function calculateDifficultyLevel(question) {
+    const complexWords = new Set(["algorithm", "analytics", "configuration", "performance", "optimization",
+        "metrics", "compliance", "visibility", "customization", "integration", "encryption",
+        "authentication", "obfuscation", "complexity"]);
+    const questionWords = question.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/);
+    const complexWordCount = questionWords.filter(word => complexWords.has(word)).length;
+    const wordCount = questionWords.length;
+    const sentenceCount = question.split(/[.!?]+/).filter(Boolean).length;
 
+    let difficulty = 1; // Base difficulty
+    if (complexWordCount > 1) difficulty += 1;
+    if (wordCount > 10) difficulty += 1;
+    if (sentenceCount > 1) difficulty += 1;
 
-let editIndex = null; // To store the index of the question being edited
-let editCategory = null; // To store the category of the question being edited
+    return Math.min(difficulty, 5); // Cap difficulty between 1 and 5
+}
+
 document.getElementById("new-question-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Get form values
-    const questionID = document.getElementById("questionID").value.trim();
+    const questionID = document.getElementById("questionID").value.trim() || generateRandom6DigitNumber();
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
-    const category = document.getElementById("category").value;
-    const status = document.getElementById("status").value;
+    let category = document.getElementById("category").value.trim();
+    const status = document.getElementById("status").value.trim();
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
-    const topic = document.getElementById("topic").value.trim();
-
+    let topic = document.getElementById("topic").value.trim();
     const tagsInput = document.getElementById('tagsSET-tags').value.trim();
     const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+    const allowedCategories = ["Predefined", "General"];
+    category = allowedCategories.includes(category) ? category : "General";
 
-    const collectionRef = collection(db, "ChatbotInteractions"); 
+    if (!topic && tags.length > 0) topic = tags[0];
+
+    const stopWords = ["a", "i", "do", "how", "what", "and", "the", "is", "in", "or", "for"];
+    const sanitizedQuestion = question.toLowerCase()
+        .replace(/[^\w\s]/g, "")
+        .split(/\s+/)
+        .filter(word => !stopWords.includes(word))
+        .slice(0, 15);  // Firebase indexing limit: keep searchable array small
+
+    if (await doesQuestionIDExist(questionID)) {
+        showToast("Error: Duplicate question ID detected. Please use a different ID.");
+        console.error(`Duplicate question ID (${questionID}) detected.`);
+        return;
+    }
+
+    const difficultyLevel = calculateDifficultyLevel(question);
 
     const updatedQuestion = {
-        id: questionID || generateRandom6DigitNumber(),
+        faq_ID: questionID,
         question: question,
-        answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
+        answer: answer,
+        link: link,
         category: category,
-        searchableQuestion: [
-            ...new Set(
-                question.split(",").map(q => q.toLowerCase().trim())
-            )
-        ].join(","),
+        searchableQuestion: sanitizedQuestion.join(","),
         topic: topic,
         tags: tags,
         supportURL: supportURL || null,
@@ -587,44 +628,171 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
         confidenceScore: 0,
         helpfulCount: 0,
         views: 0,
-        createdAt: new Date(), // Local timestamp for initial creation
-        timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
-        lastUpdated: new Date() // Placeholder for the timestamp of the most recent update
+        popularityScore: 0,
+        relatedQuestions: [],
+        difficultyLevel: difficultyLevel,
+        categoriesHierarchy: '',
+        attachments: [],
+        isArchived: false,
+        lastUpdatedBy: "ReelCareer",
+        createdBy: "ReelCareer",
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        lastUpdated: new Date()
     };
 
     try {
-        const docRef = doc(collectionRef, updatedQuestion.id.toString()); // Use document ID based on question ID
-        await setDoc(docRef, updatedQuestion, { merge: true }); // Set document with merge to avoid overwriting
-        console.log("Question successfully added/updated in Firestore.");
+        const docRef = doc(collection(db, "ChatbotInteractions"));
+        await setDoc(docRef, updatedQuestion, { merge: true });
+        updatedQuestion.id = docRef.id;
+        showToast("Question successfully added/updated!");
     } catch (error) {
-        console.error("Error adding/updating document: ", error);
+        console.error("Error adding/updating question:", error);
+        showToast("Error: Could not add/update question. Please try again.");
     }
 
-    // Handle local updates if needed for in-memory data
     if (editIndex !== null && editCategory !== null) {
-        if (editCategory === "General") {
-            generalQuestions[editIndex] = updatedQuestion;
-        } else if (editCategory === "Predefined") {
-            predefinedQuestions[editIndex] = updatedQuestion;
-        } else {
-            newQuestions[editIndex] = updatedQuestion;
-        }
-        editIndex = null; // Reset edit state
+        const targetArray = editCategory === "General" ? generalQuestions :
+            editCategory === "Predefined" ? predefinedQuestions : newQuestions;
+        targetArray[editIndex] = updatedQuestion;
+        editIndex = null;
         editCategory = null;
     } else {
-        if (category === "General") {
-            generalQuestions.push(updatedQuestion);
-        } else if (category === "Predefined") {
-            predefinedQuestions.push(updatedQuestion);
-        } else {
-            newQuestions.push(updatedQuestion);
-        }
+        const targetArray = category === "General" ? generalQuestions :
+            category === "Predefined" ? predefinedQuestions : newQuestions;
+        targetArray.push(updatedQuestion);
     }
 
-    // Re-render the questions and reset form
     renderQuestions();
     document.getElementById("new-question-form").reset();
 });
+
+
+let isProcessing = false;
+let generalIndex = parseInt(localStorage.getItem("generalIndex") || "0");
+let predefinedIndex = parseInt(localStorage.getItem("predefinedIndex") || "0");
+
+function createProgressBar() {
+    const progressContainer = document.createElement('div');
+    progressContainer.id = 'progress-container';
+    progressContainer.style.width = '100%';
+    progressContainer.style.height = '25px';
+    progressContainer.style.backgroundColor = '#f3f3f3';
+    
+    const progressBar = document.createElement('div');
+    progressBar.id = 'progress-bar';
+    progressBar.style.width = '0%';
+    progressBar.style.height = '100%';
+    progressBar.style.backgroundColor = '#4caf50';
+    
+    progressContainer.appendChild(progressBar);
+    
+    const progressMessage = document.createElement('div');
+    progressMessage.id = 'progress-message';
+    progressMessage.style.marginTop = '10px';
+    progressMessage.textContent = "Processing...";
+
+    document.getElementById("autoUploadControls").appendChild(progressContainer);
+    document.getElementById("autoUploadControls").appendChild(progressMessage);
+}
+
+function updateProgressBar(percent) {
+    const progressBar = document.getElementById('progress-bar');
+    const progressMessage = document.getElementById('progress-message');
+    progressBar.style.width = `${percent}%`;
+    progressMessage.textContent = `Processing... ${percent}% completed`;
+}
+
+function uploadQuestionsToDB() {
+    isProcessing = true;
+    createProgressBar(); // Create progress bar UI elements
+
+    const generalQuestions = document.querySelectorAll("#general-questions .question-item");
+    const predefinedQuestions = document.querySelectorAll("#predefined-questions .question-item");
+
+    const totalQuestions = generalQuestions.length + predefinedQuestions.length;
+
+    function processQuestion(questions, category) {
+        if (!isProcessing || generalIndex >= generalQuestions.length && predefinedIndex >= predefinedQuestions.length) {
+            console.log("Processing complete or stopped.");
+            updateProgressBar(100); // Set progress to 100% when done
+            return;
+        }
+
+        const index = category === "General" ? generalIndex : predefinedIndex;
+        if (index >= questions.length) {
+            console.log(`No more questions in ${category} to process.`);
+            return;
+        }
+
+        const questionItem = questions[index];
+        const editButton = questionItem.querySelector(".edit-button");
+        const removeButton = questionItem.querySelector(".remove-button");
+
+        if (!editButton || !removeButton) {
+            console.error(`Missing buttons in question-item at index ${index}`);
+            return;
+        }
+
+        setTimeout(() => {
+            editButton.click(); // Simulate edit click
+            console.log(`Editing question: ${questionItem.innerText.trim()}`);
+            const dataIndex = questionItem.getAttribute("data-index");
+            console.log(`Data-index: ${dataIndex}`);
+
+            removeButton.click(); // Simulate remove click
+            console.log("Question removed");
+
+            // Update index and save progress
+            if (category === "General") {
+                generalIndex++;
+                localStorage.setItem("generalIndex", generalIndex);
+            } else {
+                predefinedIndex++;
+                localStorage.setItem("predefinedIndex", predefinedIndex);
+            }
+
+            // Update progress bar after processing each question
+            const completed = (generalIndex + predefinedIndex) / totalQuestions * 100;
+            updateProgressBar(completed);
+
+            setTimeout(() => {
+                document.getElementById("new-question-form").click(); // Simulate adding new question
+                console.log("Simulated new question form submission");
+
+                // Continue processing
+                processQuestion(questions, category);
+            }, 5000); // Adjustable delay between actions
+        }, 5000); // Adjustable delay for each action
+    }
+
+    processQuestion(generalQuestions, "General");
+    processQuestion(predefinedQuestions, "Predefined");
+}
+
+function stopProcessing() {
+    isProcessing = false;
+    console.log("Processing stopped.");
+    const progressMessage = document.getElementById('progress-message');
+    progressMessage.textContent = "Processing stopped.";
+}
+
+document.getElementById("stop-button").addEventListener("click", stopProcessing);
+
+// Start process button
+document.getElementById("start-button").addEventListener("click", () => {
+    if (!isProcessing) {
+        uploadQuestionsToDB();
+    }
+});
+
+
+document.getElementById("upload-to-db-new").addEventListener("click", uploadQuestionsToDB);
+
+
+
+
+
 
 
 function renderQuestions() {
