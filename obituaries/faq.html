@@ -276,31 +276,50 @@ import {
   
   
   
-        const collectionRef = collection(db, "ChatbotInteractions");
+async function fetchAndRenderFAQs() {
+    const collectionRef = collection(db, "ChatbotInteractions");
 
-        function renderFAQ(faqs) {
-            const faqList = document.getElementById('faq-list');
-            faqList.innerHTML = '';
-            faqs.forEach(faq => {
-                const item = document.createElement('div');
-                item.className = 'faq-item';
-                item.innerHTML = `<h3>${faq.question}</h3><p>${faq.answer}</p>`;
-                item.querySelector('h3').addEventListener('click', () => {
-                    const answer = item.querySelector('p');
-                    answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
-                });
-                faqList.appendChild(item);
-            });
-        }
+    // Fetch the FAQ data from Firestore
+    const q = query(collectionRef, where("topic", "==", "obituaries"));
+    const querySnapshot = await getDocs(q);
+    const faqs = [];
 
+    querySnapshot.forEach(doc => {
+        faqs.push(doc.data());
+    });
 
-        const q = query(collectionRef, where("topic", "==", "obituaries"));
-const querySnapshot = await getDocs(q);
-const faqs = [];
-querySnapshot.forEach(doc => {
-    faqs.push(doc.data());
-});
-renderFAQ(faqs);
+    // Render the FAQs
+    renderFAQ(faqs);
+}
+
+function renderFAQ(faqs) {
+    const faqList = document.getElementById('faq-list');
+    faqList.innerHTML = ''; // Clear any existing FAQ content
+
+    faqs.forEach(faq => {
+        const item = document.createElement('div');
+        item.className = 'faq-item';
+
+        // Set the inner HTML for the FAQ item
+        item.innerHTML = `
+            <h3>${faq.question}</h3>
+            <p style="display: none;">${faq.answer}</p>
+        `;
+
+        // Toggle answer visibility when the question is clicked
+        item.querySelector('h3').addEventListener('click', () => {
+            const answer = item.querySelector('p');
+            answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Append the FAQ item to the list
+        faqList.appendChild(item);
+    });
+}
+
+// Call the function to fetch and render FAQs
+fetchAndRenderFAQs();
+
 
 
         onAuthStateChanged(auth, (user) => {
