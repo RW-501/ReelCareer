@@ -565,6 +565,11 @@ main {
                     <label for="socialLinks" aria-label="Enter social media link (URL)">Social Media Link (URL)</label>
                     <p id="socialLinkHint" class="visually-hidden">Enter the full URL to the social media profile (e.g., https://yourURL.com).</p>
                     <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media link (e.g., https://yourURL.com)" required aria-required="true" aria-describedby="socialLinkHint">
+               
+               
+                    <div id="socialLinks-preview"></div>
+
+               
                 </div>
 
 
@@ -1868,6 +1873,22 @@ if (videoData.status === 'posted') {
 
       }
     }
+    
+
+    document.getElementById('socialLinks').addEventListener('change', function() {
+    const inputValue = this.value;  // Get the value of the input
+    console.log('Entered social media link:', inputValue);
+    const socialLinksPreview = document.getElementById('socialLinks-preview');
+
+    socialLinksPreview += convertTextToLinks(inputValue);
+
+});
+
+
+
+
+
+
 
 
 let pingURL =  "https://reelcareer.co/obituaries/celebrating/reelcareer";
