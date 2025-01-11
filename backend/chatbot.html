@@ -551,8 +551,7 @@ function generateRandom6DigitNumber() {
 
 let editIndex = null; // To store the index of the question being edited
 let editCategory = null; // To store the category of the question being edited
-
-document.getElementById("new-question-form").addEventListener("submit", function (e) {
+document.getElementById("new-question-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     // Get form values
@@ -561,64 +560,64 @@ document.getElementById("new-question-form").addEventListener("submit", function
     const answer = document.getElementById("answer").value.trim();
     const category = document.getElementById("category").value;
     const status = document.getElementById("status").value;
-
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
     const topic = document.getElementById("topic").value.trim();
 
-
     const tagsInput = document.getElementById('tagsSET-tags').value.trim();
-     const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
-            
+    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
 
-    
+    const collectionRef = collection(db, "ChatbotInteractions"); 
+
     const updatedQuestion = {
         id: questionID || generateRandom6DigitNumber(),
         question: question,
         answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
         category: category,
         searchableQuestion: [
-    ...new Set(
-        question
-        .split(",")
-        .map(question => question.toLowerCase().trim())
-    )
-  ].join(","),
-  topic: topic,
+            ...new Set(
+                question.split(",").map(q => q.toLowerCase().trim())
+            )
+        ].join(","),
+        topic: topic,
         tags: tags,
         supportURL: supportURL || null,
         status: status,
-                    feedback: "",
-                    confidenceScore:  0,
+        feedback: "",
+        confidenceScore: 0,
         helpfulCount: 0,
         views: 0,
         createdAt: new Date(), // Local timestamp for initial creation
-    timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
-    lastUpdated: new Date() // Placeholder for the timestamp of the most recent update
-        };
+        timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
+        lastUpdated: new Date() // Placeholder for the timestamp of the most recent update
+    };
 
-    // If editing, update the question instead of adding
+    try {
+        const docRef = doc(collectionRef, updatedQuestion.id.toString()); // Use document ID based on question ID
+        await setDoc(docRef, updatedQuestion, { merge: true }); // Set document with merge to avoid overwriting
+        console.log("Question successfully added/updated in Firestore.");
+    } catch (error) {
+        console.error("Error adding/updating document: ", error);
+    }
+
+    // Handle local updates if needed for in-memory data
     if (editIndex !== null && editCategory !== null) {
         if (editCategory === "General") {
             generalQuestions[editIndex] = updatedQuestion;
         } else if (editCategory === "Predefined") {
             predefinedQuestions[editIndex] = updatedQuestion;
-        }else{
+        } else {
             newQuestions[editIndex] = updatedQuestion;
-
-
         }
         editIndex = null; // Reset edit state
         editCategory = null;
     } else {
-        // Add to respective category
         if (category === "General") {
             generalQuestions.push(updatedQuestion);
         } else if (category === "Predefined") {
             predefinedQuestions.push(updatedQuestion);
-        }else{
+        } else {
             newQuestions.push(updatedQuestion);
-
         }
     }
 
@@ -626,6 +625,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
     renderQuestions();
     document.getElementById("new-question-form").reset();
 });
+
 
 function renderQuestions() {
     const generalList = document.getElementById("general-questions");
