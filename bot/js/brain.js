@@ -661,7 +661,8 @@
             question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
             request: ['please', 'can you', 'could you', 'would you', 'help', 'show me', 'tell me'],
             statement: ['is', 'am', 'are', 'was', 'will', 'it', 'this', 'that', '.'],
-            math: ['salary', 'pay', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+            math: ['salary', 'pay', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/', 'x'
+                , 'X', 'times', 'plus', 'equals', 'add up to'],
             quantity: ['much', 'many', 'few', 'several', 'amount', 'count', 'number', 'volume'],
             verbs: ['is', 'are', 'was', 'be', 'been', 'do', 'does', 'make'],
             determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the'],
@@ -1544,22 +1545,33 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
     
     function parseWordNumber(words) {
         let total = 0, current = 0;
+        let isNegative = false;
+
         words.forEach(word => {
-            let value = numberWords[word.toLowerCase()];
-            if (value === undefined) return; // Skip unknown words
-            if (value >= 100) {
-                current *= value; // Apply multiplier for "hundred", "thousand", etc.
-            } else {
-                current += value; // Sum tens, units, etc.
+            if (word.toLowerCase() === 'minus') {
+                isNegative = true;
+                return;
             }
+
+            let value = numberWords[word.toLowerCase()];
+            if (value === undefined) return;
+
+            if (value >= 100) {
+                current *= value;
+            } else {
+                current += value;
+            }
+
             if (value >= 1000) {
                 total += current;
                 current = 0;
             }
         });
-        return total + current;
+
+        total += current;
+        return isNegative ? -total : total;
     }
-    
+
     let containsMathSymbol = categorizedTokens.some(token => token.category === 'math');
     
     let mathTokens = [];
@@ -1591,8 +1603,9 @@ function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
             return "I couldn't evaluate that expression. Please check your input.";
         }
     }
-    return null; // No math-related input detected
+    return null;
 }
+
 
 
 
