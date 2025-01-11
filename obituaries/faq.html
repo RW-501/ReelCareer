@@ -301,10 +301,13 @@ async function fetchAndRenderFAQs() {
 
     const querySnapshot = await getDocs(q);
     const faqs = [];
+console.log("llquerySnapshotl  ",querySnapshot);
+
 
     querySnapshot.forEach(doc => {
         faqs.push({ id: doc.id, ...doc.data() });
     });
+    console.log("faqs  ",faqs);
 
     renderFAQ(faqs);
 }
