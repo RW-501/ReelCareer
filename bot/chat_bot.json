@@ -101,8 +101,2665 @@
       "topic": "obituaries",
       "status": "active",
       "type": "FAQ"
-    }
+    },
+    {
+      "id": 1007,
+      "question": "How do I save my changes?",
+      "tags": [
+        "save changes",
+        "obituaries",
+        "editing"
+      ],
+      "category": "General",
+      "answer": "After previewing your changes, click the 'Save' button to store them.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "Can I add new photos to my obituary?",
+      "tags": [
+        "add photos",
+        "obituaries",
+        "media"
+      ],
+      "category": "General",
+      "answer": "The feature to add or replace photos will be available soon.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "How are non-editable sections managed?",
+      "tags": [
+        "non-editable",
+        "obituaries",
+        "sections"
+      ],
+      "category": "General",
+      "answer": "Non-editable sections are marked with a class called .nonChangeable. These cannot be modified directly on the edit page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "Why am I seeing a 'You do not have ownership of this page' message?",
+      "tags": [
+        "ownership",
+        "account",
+        "obituaries"
+      ],
+      "category": "Account and Access",
+      "answer": "This means the page you are trying to edit does not belong to your account. Please ensure you are signed in with the correct user ID.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "How do I select a different obituary to edit?",
+      "tags": [
+        "edit obituary",
+        "select obituary",
+        "obituaries"
+      ],
+      "category": "Account and Access",
+      "answer": "Use the dropdown menu to select an obituary page from your list. Then click to fetch and start editing it.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "What happens if I am not signed in?",
+      "tags": [
+        "sign in",
+        "obituaries",
+        "account"
+      ],
+      "category": "Account and Access",
+      "answer": "If no user is signed in, the page will display a message stating 'No user signed in.' Please log in to access editing features.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "Why does the page fetch user IP and location details?",
+      "tags": [
+        "IP location",
+        "security",
+        "obituaries"
+      ],
+      "category": "Technical",
+      "answer": "The system may use your IP and location to enhance security or provide personalized features.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "What happens if the obituary content cannot be fetched?",
+      "tags": [
+        "content fetch",
+        "obituaries",
+        "error"
+      ],
+      "category": "Technical",
+      "answer": "If the fetch request fails, you will see a message stating 'File not found' or 'Error fetching the obituary HTML.' Check your connection or ensure the page name is correct.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1015,
+      "question": "What is the 'shadowRoot' used for?",
+      "tags": [
+        "shadowRoot",
+        "obituaries",
+        "technical"
+      ],
+      "category": "Technical",
+      "answer": "The shadowRoot is used to encapsulate the obituary content and styles, preventing conflicts with other page elements.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1016,
+      "question": "How do I report issues or errors while editing?",
+      "tags": [
+        "error report",
+        "technical support",
+        "obituaries"
+      ],
+      "category": "Technical",
+      "answer": "If you encounter errors like 'Error checking page ownership' or 'Error fetching user details,' please contact support with the error message for assistance.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
 
+    {
+      "id": 1001,
+      "question": "Why is my location automatically detected when creating a Career Obituary?",
+      "tags": [
+        "location",
+        "career obituary",
+        "personalization"
+      ],
+      "category": "General",
+      "answer": "Your IP address and general location are automatically fetched to help personalize your page. This feature can display your city, state, and country, making your profile more authentic and locally relevant.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "How do I upload a profile image for my Career Obituary?",
+      "tags": [
+        "profile image",
+        "upload",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "Click the file input button or the image preview area to select and upload a photo from your device. Only image files are accepted.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "What kind of transformations can I apply to my uploaded photo?",
+      "tags": [
+        "image transformations",
+        "photo editing",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "You can toggle black-and-white filters, rotate the image in 90-degree increments, zoom in and out, and reset the image to its original state.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "How do I switch an uploaded photo to black and white?",
+      "tags": [
+        "black and white",
+        "image editing",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "Click the 'Black & White' button to toggle grayscale mode on or off.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "How can I rotate my image?",
+      "tags": [
+        "image rotation",
+        "photo editing",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "Use the 'Rotate' button to rotate your image by 90 degrees each time you click.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "Is there a limit on how much I can zoom in or out on my image?",
+      "tags": [
+        "image zoom",
+        "photo editing",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "Yes, the maximum zoom level is capped at 3 times the original size, and the minimum zoom level is 0.5 times.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "How can I reset the image transformations?",
+      "tags": [
+        "reset image",
+        "photo editing",
+        "career obituary"
+      ],
+      "category": "General",
+      "answer": "Click the 'Reset' button to restore the image to its original state, removing any rotations, zoom levels, or black-and-white filters.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "Can I preview videos before submitting my Career Obituary?",
+      "tags": [
+        "video preview",
+        "career obituary"
+      ],
+      "category": "Video",
+      "answer": "Yes, a video preview will display after entering a video URL in the provided field.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "Which video platforms are supported for embedding videos?",
+      "tags": [
+        "video platforms",
+        "embedding videos",
+        "career obituary"
+      ],
+      "category": "Video",
+      "answer": "We support videos from YouTube, Vimeo, Dailymotion, Twitch, Facebook, Instagram, Twitter, and TikTok. Direct MP4, WebM, and OGG video files are also supported.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "How do I embed a YouTube video in my Career Obituary?",
+      "tags": [
+        "embed YouTube",
+        "career obituary"
+      ],
+      "category": "Video",
+      "answer": "Enter the full YouTube video URL in the video field. The system automatically generates an embedded preview.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "What happens if I enter an unsupported video URL?",
+      "tags": [
+        "unsupported video",
+        "video URL",
+        "career obituary"
+      ],
+      "category": "Video",
+      "answer": "A message will appear informing you that the platform is not supported. We recommend using popular platforms like YouTube, Vimeo, or Facebook.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "Can I enter a video from a private link?",
+      "tags": [
+        "private video",
+        "career obituary"
+      ],
+      "category": "Video",
+      "answer": "Only publicly accessible video URLs are supported. Ensure the privacy settings of your video allow embedding.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "What happens if I select 'Other' as my career category?",
+      "tags": [
+        "career category",
+        "custom category",
+        "career obituary"
+      ],
+      "category": "Category and Text Generation",
+      "answer": "If you select 'Other,' a text field appears where you can enter a custom category.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "How is the 'About' text generated?",
+      "tags": [
+        "about text",
+        "career obituary",
+        "text generation"
+      ],
+      "category": "Category and Text Generation",
+      "answer": "The 'About' text is created using the name, dates (sunrise and sunset), hashtag, location, and category information you provide. The tool also formats the dates for consistency.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1015,
+      "question": "Why isn’t my hashtag showing correctly?",
+      "tags": [
+        "hashtag",
+        "career obituary"
+      ],
+      "category": "Category and Text Generation",
+      "answer": "Ensure your hashtag begins with a '#' symbol and does not contain spaces or special characters, except underscores or numbers.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1001,
+      "question": "Do I need an account to create an obituary page?",
+      "tags": [
+        "account",
+        "obituary creation",
+        "authentication"
+      ],
+      "category": "Authentication and User Accounts",
+      "answer": "Yes, you need an account. If you do not have one, we provide an option to sign in anonymously, which you can later link to an email or Google account.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "What happens if I sign in anonymously?",
+      "tags": [
+        "anonymous",
+        "authentication",
+        "account"
+      ],
+      "category": "Authentication and User Accounts",
+      "answer": "Anonymous users can create obituary pages, but it is recommended to link your anonymous session to a Google, email, or phone account for secure access and data retention.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "Can I link my anonymous account to another authentication method later?",
+      "tags": [
+        "anonymous",
+        "authentication",
+        "account"
+      ],
+      "category": "Authentication and User Accounts",
+      "answer": "Yes, you can link an anonymous account to a Google, email, or phone account at any time.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "Why do I need to link my anonymous account?",
+      "tags": [
+        "anonymous",
+        "account",
+        "security"
+      ],
+      "category": "Authentication and User Accounts",
+      "answer": "Linking your account ensures your obituary pages and other data are saved securely and can be accessed from any device.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "How is my location data used when I create an obituary?",
+      "tags": [
+        "location",
+        "data usage",
+        "privacy"
+      ],
+      "category": "Authentication and User Accounts",
+      "answer": "We collect IP address, city, state, and country information when creating an obituary to enhance personalization and prevent abuse. This information is stored securely.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "How do I create an obituary page?",
+      "tags": [
+        "create obituary",
+        "obituary creation",
+        "process"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "After logging in, you can create an obituary page by filling in the required details and submitting it. A unique page ID is generated, and your obituary will be available for sharing.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "How can I update the details of my obituary page?",
+      "tags": [
+        "update obituary",
+        "obituary management",
+        "edit"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "Once the obituary is created, you can edit and update the page using your dashboard under the obituary management section.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "How are obituary pages saved?",
+      "tags": [
+        "save obituary",
+        "data storage",
+        "obituary"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "Obituaries are stored securely in our database, and each one is assigned a unique page ID.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "Can I preview my obituary page before publishing it?",
+      "tags": [
+        "preview obituary",
+        "obituary page",
+        "publishing"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "Yes, a preview is automatically generated to allow you to review your obituary page before finalizing it.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "Can I add videos to my obituary page?",
+      "tags": [
+        "video",
+        "obituary page",
+        "media"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "Yes, you can add a video by entering the video URL, and a video preview will be displayed on the page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "How can I share my obituary page?",
+      "tags": [
+        "share obituary",
+        "social media",
+        "sharing"
+      ],
+      "category": "Social Media and Sharing",
+      "answer": "Social media sharing buttons for Facebook and Twitter are available on the obituary page. Simply click the button to share your page directly.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "Can I share my obituary page on platforms other than Facebook and Twitter?",
+      "tags": [
+        "share obituary",
+        "social media",
+        "other platforms"
+      ],
+      "category": "Social Media and Sharing",
+      "answer": "Currently, we provide quick share options for Facebook and Twitter, but you can copy the page link and share it on any platform.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "How is my profile updated after creating an obituary?",
+      "tags": [
+        "profile update",
+        "obituary",
+        "user profile"
+      ],
+      "category": "User Profile and Obituary Data",
+      "answer": "Your profile will include the obituary page ID and name, which are stored and linked to your user account.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "Can I create multiple obituary pages?",
+      "tags": [
+        "multiple obituary",
+        "obituary creation",
+        "user profile"
+      ],
+      "category": "User Profile and Obituary Data",
+      "answer": "Yes, your user profile supports multiple obituary pages, each with unique page IDs and names.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1015,
+      "question": "How do I update my obituary list after creating a new page?",
+      "tags": [
+        "update obituary",
+        "list update",
+        "obituary management"
+      ],
+      "category": "User Profile and Obituary Data",
+      "answer": "The system automatically adds new obituary pages to your profile, updating your list of obituary IDs and names.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1016,
+      "question": "What should I do if I receive an error while linking my account?",
+      "tags": [
+        "account error",
+        "error handling",
+        "linking"
+      ],
+      "category": "Technical Issues",
+      "answer": "Please check your credentials and internet connection. If the issue persists, contact support with the error details.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1017,
+      "question": "What should I do if I encounter an error while saving my obituary?",
+      "tags": [
+        "obituary saving",
+        "error handling",
+        "saving issue"
+      ],
+      "category": "Technical Issues",
+      "answer": "Ensure all required fields are filled out. If the error continues, refresh the page and try again or contact support.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1018,
+      "question": "Can I add a donation or gift feature to the obituary page?",
+      "tags": [
+        "donation",
+        "gifts",
+        "obituary"
+      ],
+      "category": "Obituary Creation and Management",
+      "answer": "The obituary includes a 'gifts' section where people can contribute financial gifts to the family or cause. This section will be updated once the obituary page goes live.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "What details are required when creating an obituary?",
+      "tags": [
+        "obituary",
+        "details",
+        "creation"
+      ],
+      "category": "Obituary Creation",
+      "answer": "To create an obituary, you will need to provide the following information:\n- Name of the deceased\n- Sunrise (birth date)\n- Sunset (death date)\n- About the person (a brief biography)\n- Location of services\n- Category (e.g., profession, hobby, etc.)\n- Page name (unique identifier for the obituary URL)\n- Main photo (image of the deceased)\n- Video URL (optional video tribute)\n- Social media links (for the deceased)\n- Social link name (e.g., Facebook, Twitter)\n- Hashtag for the obituary\n- Gender (optional)",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "What is a valid format for the hashtag?",
+      "tags": [
+        "hashtag",
+        "format"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Hashtags should start with a `#` symbol. Spaces within the hashtag will be removed automatically.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "Can I upload a photo for the obituary?",
+      "tags": [
+        "photo",
+        "upload"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Yes, you can upload a main photo for the obituary. The photo will be processed and stored in Firebase Storage. The image is then used in the obituary page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "What happens to the photo after uploading?",
+      "tags": [
+        "photo",
+        "upload",
+        "storage"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Once the photo is uploaded, it will be modified for optimal use on the obituary page. The photo is then saved to Firebase Storage, and its URL is included in the obituary's data.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "What is the purpose of the `pageName` field?",
+      "tags": [
+        "pageName",
+        "obituary",
+        "URL"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The `pageName` is a unique identifier used to generate the obituary's URL. This name is used in the URL to access the obituary page (e.g., `https://reelcareer.co/obituaries/celebrating/[pageName]`).",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "What happens if the form inputs contain invalid characters?",
+      "tags": [
+        "form",
+        "validation"
+      ],
+      "category": "Obituary Creation",
+      "answer": "All form inputs (like name, location, category, etc.) are sanitized by removing invalid characters to ensure they only contain alphanumeric characters and allowed symbols such as spaces and hyphens.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "Can I include a video in the obituary?",
+      "tags": [
+        "video",
+        "obituary",
+        "tribute"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Yes, you can include a video URL. The video will be embedded in the obituary page for visitors to view.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "How do I make the obituary page searchable by name and location?",
+      "tags": [
+        "search",
+        "obituary",
+        "name",
+        "location"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The name and location are split into searchable arrays to improve search functionality on the website.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "What is the significance of the `gender` field?",
+      "tags": [
+        "gender",
+        "obituary"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The gender field is optional and is used to personalize the obituary. If not provided, it will default to 'Not Specified.'",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "How is the obituary page created after submission?",
+      "tags": [
+        "creation",
+        "obituary",
+        "page"
+      ],
+      "category": "Obituary Creation",
+      "answer": "After submitting the obituary details, the system generates a page using the provided data, including the obituary photo, bio, social links, and other information. The page is hosted at a URL like `https://reelcareer.co/obituaries/celebrating/[pageName]`.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "How are payment details handled when creating an obituary?",
+      "tags": [
+        "payment",
+        "transaction",
+        "obituary"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Payment details are added to a transaction record in Firestore, which includes the page ID, URL, user ID, and payment information such as amount and timestamp. The cost of creating the obituary is $25 with additional transaction fees.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "What happens if there’s an error while creating the obituary?",
+      "tags": [
+        "error",
+        "obituary",
+        "issue"
+      ],
+      "category": "Obituary Creation",
+      "answer": "If there is an error, the system will alert you with a message asking you to try again. Common issues may include missing details or network problems.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "Can I edit the obituary after it’s created?",
+      "tags": [
+        "edit",
+        "obituary",
+        "update"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The system allows for modifications after submission, but the changes need to be updated manually through the admin interface.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "How is the obituary page optimized for search engines?",
+      "tags": [
+        "SEO",
+        "search engine",
+        "obituary"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The obituary page includes meta tags, Open Graph properties, and schema markup, ensuring it is indexed correctly by search engines and appears rich in social media previews.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1015,
+      "question": "What kind of structured data is used in the obituary page?",
+      "tags": [
+        "structured data",
+        "obituary",
+        "SEO"
+      ],
+      "category": "Obituary Creation",
+      "answer": "The obituary page includes structured data for the person and article types. This helps search engines understand the content, making it easier for others to find and share.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1016,
+      "question": "What should I do if my video or photo doesn’t appear on the obituary page?",
+      "tags": [
+        "video",
+        "photo",
+        "issue"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Ensure that the file is correctly uploaded and that it meets the necessary requirements (e.g., file size and format). If the issue persists, you can contact support for troubleshooting.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1017,
+      "question": "How can I share the obituary with others?",
+      "tags": [
+        "share",
+        "obituary",
+        "social media"
+      ],
+      "category": "Obituary Creation",
+      "answer": "You can share the obituary page URL, which is unique to the individual, via social media or other channels. Additionally, there are options to include social media links and hashtags on the page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1018,
+      "question": "What is the process for adding transaction details?",
+      "tags": [
+        "transaction",
+        "payment",
+        "obituary"
+      ],
+      "category": "Obituary Creation",
+      "answer": "After payment for the obituary is processed, transaction details such as the user ID, payment status, and date are stored in Firestore under the transaction record.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1019,
+      "question": "What is the refund policy for obituary submissions?",
+      "tags": [
+        "refund",
+        "obituary",
+        "policy"
+      ],
+      "category": "Obituary Creation",
+      "answer": "Refunds are not typically offered for obituary submissions unless the submission fails to meet the guidelines or there is an error during the process. Please contact support for assistance.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "Can I delete the obituary page after it's created?",
+      "tags": [
+        "delete obituary",
+        "obituary page",
+        "remove obituary"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, On the main Career Obituaries page, press remove on the obituary you wish to delete.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "What happens if I enter incorrect information in the form?",
+      "tags": [
+        "incorrect information",
+        "form data",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "The form includes data sanitization to clean up certain fields, like the page name, to ensure the URL is formatted correctly. However, incorrect information can still be previewed. You can always edit the form and preview the updated version before finalizing it.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "Is my obituary page public?",
+      "tags": [
+        "obituary page",
+        "public obituary",
+        "privacy"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, once created, the obituary page will be accessible through a unique URL and can be shared publicly, depending on the settings and permissions provided by the platform.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "What happens if I miss a required field?",
+      "tags": [
+        "missing field",
+        "required field",
+        "obituary form"
+      ],
+      "category": "Obituaries",
+      "answer": "The code does not specify required field validations, but missing essential information like name, date, and location will likely result in an incomplete preview. It's recommended to ensure all fields are filled before previewing the page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "Can I add a personalized message or description to the obituary page?",
+      "tags": [
+        "personalized message",
+        "obituary description",
+        "about section"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, the 'About' section allows you to add a personalized message or description to honor the individual.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "What if I want to add more than one social media link?",
+      "tags": [
+        "multiple social media links",
+        "social media",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "The current form allows for a single social link. You can add more by filling out the fields individually, though adding multiple links may require additional customization.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "Can I include a video in the obituary?",
+      "tags": [
+        "video obituary",
+        "video link",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, you can provide a video URL, which will be embedded in the obituary preview. The video will be displayed as a playable video in the preview section.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "How do I clear the form data if I want to start over?",
+      "tags": [
+        "clear form data",
+        "reset form",
+        "start over"
+      ],
+      "category": "Obituaries",
+      "answer": "The form data is stored in localStorage. You can clear the saved data by clicking the 'Clear' button or reset your progress by using the provided function to remove the stored data.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "What happens to the page after I preview it?",
+      "tags": [
+        "preview obituary",
+        "preview page",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "After previewing, the page will be displayed in a modal window. You can review all your entered information and make edits if necessary. The page can be shared on social media or saved for future use.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "What if I want to add a 'dynamic share area' or 'dynamic interaction area'?",
+      "tags": [
+        "dynamic share area",
+        "dynamic interaction area",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "The preview includes placeholders for dynamic sections, which could be updated later as part of the obituary page features. These placeholders will appear as 'Dynamic Share Area Placeholder' and 'Dynamic Interaction Area Placeholder' until implemented.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "Can I include a footer in the obituary page?",
+      "tags": [
+        "footer",
+        "obituary page",
+        "page layout"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, there is a non-editable dynamic footer at the bottom of the preview page, labeled 'Dynamic Footer Placeholder.' This footer is automatically included in the layout.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "What is the purpose of the 'celebrating header' and 'life transformation' text?",
+      "tags": [
+        "celebrating header",
+        "life transformation",
+        "obituary page"
+      ],
+      "category": "Obituaries",
+      "answer": "The header sections ('Celebrating [name]'s Journey' and 'A life of transformation and growth') serve as the introduction to the obituary, highlighting the positive and celebratory aspects of the individual's life.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1001,
+      "question": "How do I preview my obituary page?",
+      "tags": [
+        "preview",
+        "obituary",
+        "page"
+      ],
+      "category": "Obituary",
+      "answer": "Click the 'Preview' button after filling out the form. A preview of the obituary page will be displayed, showing your entries such as the name, video, main photo, event details, and more.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "What information can I add to my obituary page?",
+      "tags": [
+        "information",
+        "add",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "You can add the following information: Name, Sunrise (date of birth), Sunset (date of passing), About (a description of the individual's life), Location (event location), Category (for example, a career category), Social Links (such as social media profiles), Video (a video link related to the individual), Main Photo (an image of the individual).",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "What happens if I forget to upload a photo or video?",
+      "tags": [
+        "photo",
+        "video",
+        "missing"
+      ],
+      "category": "Obituary",
+      "answer": "If you don't upload a photo or video, the preview will display a 'Missing Photo' or 'Missing Video' message, indicating that these items are not available.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "Can I customize the page's URL?",
+      "tags": [
+        "customization",
+        "URL",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "Yes, you can create a custom page name for your obituary, which will be sanitized (special characters removed) to create a friendly URL. The URL will look like `https://reelcareer.co/obituaries/celebrating/[your-page-name]`.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "Can I add social media links?",
+      "tags": [
+        "social media",
+        "links",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "Yes, you can provide a social media link and specify the name of the platform (e.g., Facebook, Twitter). The link will be displayed with the label you enter, and users will be able to visit the linked profile directly.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "What is the purpose of the hashtag?",
+      "tags": [
+        "hashtag",
+        "sharing",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "The hashtag is a unique identifier you can use for sharing on social media platforms. You can use it to encourage others to share their thoughts or memories using the hashtag. Ensure it starts with the '#' symbol for proper formatting.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "How do I share the obituary on social media?",
+      "tags": [
+        "social media",
+        "sharing",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "After creating your obituary, you can share it on Facebook and Twitter by clicking the social media icons on the preview page. This will open a new tab with sharing options for each platform.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "Can I save my obituary form progress?",
+      "tags": [
+        "progress",
+        "save",
+        "form"
+      ],
+      "category": "Obituary",
+      "answer": "Yes, the form automatically saves your data locally as you fill it out. If you close the page and return later, your information will be pre-filled from localStorage. If you want to clear your saved data, you can use the provided option to reset it.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "How can I update the information after saving?",
+      "tags": [
+        "update",
+        "information",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "If you want to update the obituary information after it has been previewed, you can simply edit the form fields and click the preview button again to generate a new preview with the updated details.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "Can I give an anonymous flower or gift?",
+      "tags": [
+        "anonymous",
+        "flower",
+        "gift"
+      ],
+      "category": "Obituary",
+      "answer": "Yes, there is an option to remain anonymous while giving a flower or gift. If the 'anonymous' checkbox is selected, your name will appear as 'Anonymous' in the guestbook entry.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "What happens when I try to add a flower multiple times?",
+      "tags": [
+        "flower",
+        "multiple",
+        "IP"
+      ],
+      "category": "Obituary",
+      "answer": "Flowers can only be added once per IP address to prevent multiple entries. If you’ve already added a flower from your current IP, you will receive a message notifying you that you cannot add another flower.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "What is the purpose of tracking views on a Career Obituary?",
+      "tags": [
+        "views",
+        "tracking",
+        "obituary"
+      ],
+      "category": "Obituary",
+      "answer": "The views are tracked to provide insights into how many people have seen the obituary and how long they’ve spent on the page. This helps in understanding the reach and impact of a Career Obituary.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "What is the \"Career Obituary\" feature?",
+      "tags": ["career obituary", "feature", "recognition", "legacy"],
+      "category": "Obituaries",
+      "answer": "The \"Career Obituary\" is a personalized page where users can highlight their career achievements, skills, videos, links, and more, all while receiving recognition and \"flowers\" from others while still alive. It’s a way to celebrate and honor someone’s professional life.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "How do I create a Career Obituary page?",
+      "tags": ["career obituary", "create obituary", "step-by-step"],
+      "category": "Obituaries",
+      "answer": "To create a Career Obituary page, you can visit the ReelCareer Obituaries section and follow the prompts. It costs $25, with a 10% service fee and a $1.50 transaction fee per payout.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "What is the \"flower count\" and how does it work?",
+      "tags": ["flower count", "recognition", "legacy", "career obituary"],
+      "category": "Obituaries",
+      "answer": "The \"flower count\" represents the number of flowers (recognitions) a user has received for their Career Obituary. People can add flowers to celebrate someone's career, and each flower added is recorded. The more flowers a user receives, the higher the recognition.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "How do I add a flower to someone's Career Obituary?",
+      "tags": ["add flower", "career obituary", "recognition", "legacy"],
+      "category": "Obituaries",
+      "answer": "To add a flower, simply click the flower icon on a Career Obituary page. You will have the option to donate and show support. The number of flowers will increment, and the flower count will animate with a small visual effect.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "Can I add a gift along with my flower?",
+      "tags": ["add gift", "flower", "career obituary", "donation"],
+      "category": "Obituaries",
+      "answer": "Yes! If the user has enabled public gifts, you can donate gifts along with your flowers. The gifts could include items like candles or custom items, and these will be displayed on the page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "How can I see the gifts I have given to a Career Obituary?",
+      "tags": ["view gifts", "career obituary", "guestbook"],
+      "category": "Obituaries",
+      "answer": "When you add a gift to a Career Obituary, it will be displayed in the guestbook section with the gift type and its value.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "What if I experience issues with submitting a gift or message?",
+      "tags": ["issues", "gift", "message", "payment"],
+      "category": "Obituaries",
+      "answer": "If you encounter any issues, ensure that all fields are correctly filled out. If the problem persists, check your payment details or contact support for further assistance.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "How is my IP address used on the obituary page?",
+      "tags": ["IP address", "privacy", "tracking"],
+      "category": "Obituaries",
+      "answer": "Your IP address is collected when submitting a gift or message to help with tracking and ensuring that submissions are legitimate. It is stored securely and not shared publicly.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "How does the \"Send Flowers\" button work?",
+      "tags": ["send flowers", "career obituary", "button"],
+      "category": "Obituaries",
+      "answer": "The \"Send Flowers\" button increments a count, indicating that someone has sent flowers in memory of the individual on the obituary page. This count is updated each time the button is pressed.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "Can I modify the obituary page after it’s created?",
+      "tags": ["modify", "edit", "obituary", "page"],
+      "category": "Obituaries",
+      "answer": "Currently, the obituary page content cannot be modified by the guestbook users. Only the page administrator can manage and update the obituary content.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "How can I confirm the transaction was successful?",
+      "tags": ["transaction", "confirmation", "payment"],
+      "category": "Obituaries",
+      "answer": "Once the transaction is complete, the system will save all relevant details in the database, and you will receive a confirmation notification with the details of your contribution.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "How do I make a gift to a ReelCareer Obituary page?",
+      "tags": [
+        "gift",
+        "obituary",
+        "donation"
+      ],
+      "category": "Obituaries",
+      "answer": "To make a gift, simply select the 'Send Gift' button on the Obituary page. You’ll be prompted to enter a message, choose whether you'd like to remain anonymous, and decide if the message will be public. Once you complete the form and submit, your payment will be processed, and your gift will be recorded.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "Can I send a gift anonymously?",
+      "tags": [
+        "anonymous",
+        "gift",
+        "obituary"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, you can send a gift anonymously. Check the 'Anonymous' checkbox when submitting your gift, and your name will not be displayed. Instead, it will show as 'Anonymous.'",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "Will my gift message be public?",
+      "tags": [
+        "gift message",
+        "privacy",
+        "public"
+      ],
+      "category": "Obituaries",
+      "answer": "You can choose whether your message is public or private. There is a checkbox option to mark your message as public when submitting a gift. If you leave it unchecked, the message will remain private.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "Can I add a video to my gift message?",
+      "tags": [
+        "gift message",
+        "video",
+        "attachment"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, you can attach a video to your gift message. The platform supports videos from popular sites like YouTube, Vimeo, Dailymotion, Facebook, Instagram, TikTok, and others. Simply paste the video URL into the appropriate field, and it will be displayed as a preview in your message.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "What types of gifts can I send?",
+      "tags": [
+        "gift types",
+        "monetary",
+        "donation"
+      ],
+      "category": "Obituaries",
+      "answer": "The types of gifts supported on ReelCareer Obituaries are monetary contributions. You can select the amount you wish to donate, and the gift will be processed accordingly.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "How do I know if my gift was successfully processed?",
+      "tags": [
+        "gift",
+        "confirmation",
+        "payment"
+      ],
+      "category": "Obituaries",
+      "answer": "After submitting your gift, you will receive a success message or notification. If there is any issue with the payment processing, you will be notified with an error message prompting you to try again.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "Can I send multiple gifts to the same obituary page?",
+      "tags": [
+        "multiple gifts",
+        "obituary",
+        "donation"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, you can send multiple gifts to the same obituary page. Each gift will be recorded separately and displayed in the guestbook with its associated message and details.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "How can I view my gift or transaction history?",
+      "tags": [
+        "transaction history",
+        "gift",
+        "history"
+      ],
+      "category": "Obituaries",
+      "answer": "Currently, the system tracks all gifts and transactions in the backend, but there is no user-facing history displayed. However, the administrator of the obituary page can view all gift transactions and the details within their account.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "Can I modify or delete my gift message after submitting?",
+      "tags": [
+        "modify",
+        "delete",
+        "gift message"
+      ],
+      "category": "Obituaries",
+      "answer": "Once a gift message is submitted, it cannot be edited or deleted directly. If you need any changes, please contact support for assistance.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "What happens after I submit my gift message?",
+      "tags": [
+        "gift",
+        "message",
+        "confirmation"
+      ],
+      "category": "Obituaries",
+      "answer": "Once you submit your gift message, it is saved in the system. Your donation and message are recorded in the obituary’s guestbook, and your payment details are processed.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "Can I use any video platform to attach a video?",
+      "tags": [
+        "video platform",
+        "video",
+        "embedding"
+      ],
+      "category": "Obituaries",
+      "answer": "No, only certain platforms are supported for video embedding. These include YouTube, Vimeo, Dailymotion, Facebook, Instagram, TikTok, and MP4 files. If you provide a URL from a non-supported platform, a message will be displayed indicating that the video cannot be processed.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "Is there a fee for making a gift?",
+      "tags": [
+        "fee",
+        "transaction",
+        "gift"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, there is a 10% service fee applied to each gift, along with a $1.50 transaction fee for any payouts.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "How do I submit a message in the guestbook?",
+      "tags": [
+        "guestbook",
+        "message",
+        "submit"
+      ],
+      "category": "Obituaries",
+      "answer": "To submit a message in the guestbook, fill in your name and message in the designated fields, then click the submit button. If you prefer to remain anonymous, you can check the anonymous checkbox. Messages will be visible in the obituary’s guestbook unless marked as private.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "What happens if I don’t fill out both name and message?",
+      "tags": [
+        "required fields",
+        "name",
+        "message"
+      ],
+      "category": "Obituaries",
+      "answer": "Both fields—name and message—are required for submitting a guestbook entry. If either field is left empty, the form will highlight the missing field, and you will be prompted to complete both before submitting.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1015,
+      "question": "How can I track if my guestbook entry was successfully submitted?",
+      "tags": [
+        "guestbook",
+        "entry",
+        "confirmation"
+      ],
+      "category": "Obituaries",
+      "answer": "Upon successful submission of your guestbook entry, the page will refresh and load the new entries. You will also see a confirmation message, letting you know your message has been added.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "How do I view my saved jobs?",
+      "tags": [
+        "saved jobs",
+        "dashboard",
+        "job seeker"
+      ],
+      "category": "Dashboard",
+      "answer": "Go to the 'Saved Jobs' section in your dashboard to view jobs you have saved.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "How do I toggle between different sections of the analytics page?",
+      "tags": [
+        "analytics",
+        "page toggle",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "You can toggle between sections by clicking the respective tabs, such as 'Overview,' 'Daily View Count,' and 'Location Analytics.' This will display the corresponding data.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "What is the 'Page View IPs' collection in the database?",
+      "tags": [
+        "analytics",
+        "database",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "The 'Page View IPs' collection stores records of each visitor's IP address and the corresponding timestamp of when the obituary page was viewed. This data is used for counting total and unique views and gathering location analytics.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "How is the data for daily views processed?",
+      "tags": [
+        "analytics",
+        "daily views",
+        "data processing",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "The daily views are processed by checking the 'lastViewTime' for each IP address. The system then groups views by date and counts how many times the page was viewed each day.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "Why does the analytics page show an error sometimes?",
+      "tags": [
+        "error",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "An error may occur if there is a problem with fetching the data from the database or if the pageID provided is incorrect. The system may also show an error if the network request to fetch the data fails.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "Can I edit the obituary page directly from the analytics page?",
+      "tags": [
+        "edit obituary",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, there is an 'Edit' button in the toolbar that allows you to navigate to the edit page of the obituary. You can use this button to make changes to the obituary's content.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "How can I view my obituary page as a visitor?",
+      "tags": [
+        "view obituary",
+        "obituary page",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "You can view your obituary page by clicking the 'View' button in the toolbar. This will take you to the public view of your obituary page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "What happens if the page doesn't have any location data?",
+      "tags": [
+        "location data",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "If no location data is available (e.g., city or state), the location analytics section will not show any information, and the charts will not display data for that location.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "Can I receive notifications when someone views my obituary page?",
+      "tags": [
+        "notifications",
+        "page views",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "Currently, the system does not provide notifications for page views. However, the analytics section allows you to monitor views and locations manually.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+
+      "id": 1001,
+      "question": "What is the purpose of the analytics page for ReelCareer Obituaries?",
+      "tags": [
+        "analytics",
+        "obituaries",
+        "views"
+      ],
+      "category": "Obituaries",
+      "answer": "The analytics page provides insights into the number of views and interactions with a Career Obituary page. It displays data such as total page views, unique views, daily views, and location-based statistics like city and state views.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "How can I access the analytics for my obituary page?",
+      "tags": [
+        "access",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "You can access the analytics page for your obituary by visiting the relevant page and ensuring that the `pageID` is included in the URL. Once you have the correct pageID, the analytics data will be loaded automatically.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "What data is displayed on the analytics page?",
+      "tags": [
+        "analytics",
+        "data",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "The analytics page displays the following data:\n- **Total Page Views**: The overall number of times the obituary page has been viewed.\n- **Unique Views**: The number of unique users who have visited the page.\n- **Daily View Count**: A bar chart showing how many views the page received on each day.\n- **Location Analytics**: Pie charts displaying how views are distributed across different cities and states.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "How are views counted on the analytics page?",
+      "tags": [
+        "views",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "Views are counted based on IP addresses. Every time a user visits the obituary page, the system records their IP address. The system tracks both total and unique views, as well as daily views.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "What does the “Daily View Count” section show?",
+      "tags": [
+        "daily views",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "The 'Daily View Count' section displays a bar chart with the number of views each day. It helps you track how often your obituary page is being visited on a daily basis.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "How are views categorized by location?",
+      "tags": [
+        "location",
+        "views",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "Views are categorized based on the city and state information extracted from the user's IP address. Pie charts are used to represent how many views came from different cities and states.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "What happens if there is no analytics data available?",
+      "tags": [
+        "no data",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "If no analytics data is found for the obituary page, the page will display a message saying, 'No analytics data found for this page.'",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1008,
+      "question": "What is the role of IP addresses in the analytics?",
+      "tags": [
+        "IP addresses",
+        "analytics",
+        "views",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "IP addresses are used to track and record page views. This allows the system to count both total views and unique views, and also categorize views by location (city and state).",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1009,
+      "question": "How do I view detailed analytics for my obituary page?",
+      "tags": [
+        "detailed analytics",
+        "obituary page",
+        "views",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "After accessing the obituary page with the correct `pageID` in the URL, the analytics data will be displayed in a tabbed interface, which includes options for viewing the 'Overview,' 'Daily View Count,' and 'Location Analytics.'",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1010,
+      "question": "What is the “withTimeout” function used for?",
+      "tags": [
+        "withTimeout",
+        "function",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "The `withTimeout` function ensures that if a request to fetch analytics data takes too long, it will time out and return an error. This helps prevent long delays in loading data.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1011,
+      "question": "Can I see where users are viewing my obituary from?",
+      "tags": [
+        "location",
+        "views",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "Yes, the 'Location Analytics' section provides charts that show the distribution of views by city and state based on the IP addresses of the visitors.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1012,
+      "question": "Why might the analytics not load?",
+      "tags": [
+        "analytics",
+        "loading issues",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "There could be several reasons why analytics do not load:\n- The `pageID` is missing or incorrect in the URL.\n- There is an issue fetching data from the server or database.\n- The page has no recorded views or analytics data.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1013,
+      "question": "How does the system determine the city and state of a visitor?",
+      "tags": [
+        "city",
+        "state",
+        "location",
+        "IP addresses",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "The system determines the city and state of a visitor by using the location information associated with their IP address.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1014,
+      "question": "What does the “hidden” class do on the tab content?",
+      "tags": [
+        "hidden class",
+        "tabs",
+        "obituaries"
+      ],
+      "category": "Obituaries",
+      "answer": "The 'hidden' class is used to hide content under the tabbed interface until the user clicks on a tab to view it. This ensures that only the relevant information is visible at any given time.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+
+    {
+      "id": 1001,
+      "question": "How does ReelCareer Obituaries handle user privacy when tracking analytics?",
+      "tags": [
+        "user privacy",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Privacy & Analytics",
+      "answer": "We respect user privacy and do not store any personally identifiable information. IP addresses are collected solely for analytics purposes to count views and identify general locations (city and state). This information is used only to provide users with meaningful insights into their career obituary pages.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "Why is my location-based data missing or inaccurate?",
+      "tags": [
+        "location data",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Privacy & Analytics",
+      "answer": "Location analytics are based on IP address geolocation, which may not always be precise. If users access your page through VPNs or other IP-masking services, location data may be affected.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "Can I customize my analytics report or export the data?",
+      "tags": [
+        "analytics customization",
+        "data export",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "At this time, analytics reports are displayed directly on your ReelCareer Obituary analytics page. We are working on implementing data export functionality for future updates.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "How are unique views counted?",
+      "tags": [
+        "unique views",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "Unique views are calculated based on unique IP addresses accessing your page. Each IP address is counted only once within a specific timeframe to avoid over-counting repeat visits.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "What should I do if my analytics data is missing?",
+      "tags": [
+        "missing data",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "Ensure that your page ID is correctly included in the URL. If the page ID is missing or invalid, the analytics data cannot be retrieved. If the problem persists, please contact our support team for assistance.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "Why do I see a 'No analytics data found' message?",
+      "tags": [
+        "no data",
+        "analytics",
+        "obituaries"
+      ],
+      "category": "Analytics",
+      "answer": "This message appears if no analytics records have been created for the specified page ID. It may mean the page is new or that no visits have been recorded yet.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1007,
+      "question": "What does the toolbar at the top of the page do?",
+      "tags": [
+        "toolbar",
+        "page editor",
+        "obituaries"
+      ],
+      "category": "User Interface",
+      "answer": "The toolbar provides quick access to essential actions:  \n- **Edit**: Opens the page editor. \n- **Analytics**: Displays the current page's analytics. \n- **View**: Shows the live page view. \n- **Account**: Takes you to the user account management page.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+      {
+        "id": 1001,
+        "question": "How do I view my saved jobs?",
+        "tags": [
+          "saved jobs",
+          "dashboard",
+          "job seeker"
+        ],
+        "category": "Dashboard",
+        "answer": "Go to the 'Saved Jobs' section in your dashboard to view jobs you have saved.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1002,
+        "question": "How does ReelCareer Obituaries handle user privacy when tracking analytics?",
+        "tags": [
+          "analytics",
+          "privacy",
+          "tracking"
+        ],
+        "category": "Analytics",
+        "answer": "We respect user privacy and do not store any personally identifiable information. IP addresses are collected solely for analytics purposes to count views and identify general locations (city and state). This information is used only to provide users with meaningful insights into their career obituary pages.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1003,
+        "question": "Why is my location-based data missing or inaccurate?",
+        "tags": [
+          "location",
+          "analytics",
+          "data"
+        ],
+        "category": "Analytics",
+        "answer": "Location analytics are based on IP address geolocation, which may not always be precise. If users access your page through VPNs or other IP-masking services, location data may be affected.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1004,
+        "question": "Can I customize my analytics report or export the data?",
+        "tags": [
+          "analytics",
+          "export",
+          "customization"
+        ],
+        "category": "Analytics",
+        "answer": "At this time, analytics reports are displayed directly on your ReelCareer Obituary analytics page. We are working on implementing data export functionality for future updates.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1005,
+        "question": "How are unique views counted?",
+        "tags": [
+          "views",
+          "analytics",
+          "unique"
+        ],
+        "category": "Analytics",
+        "answer": "Unique views are calculated based on unique IP addresses accessing your page. Each IP address is counted only once within a specific timeframe to avoid over-counting repeat visits.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1006,
+        "question": "What should I do if my analytics data is missing?",
+        "tags": [
+          "analytics",
+          "missing data",
+          "troubleshooting"
+        ],
+        "category": "Analytics",
+        "answer": "Ensure that your page ID is correctly included in the URL. If the page ID is missing or invalid, the analytics data cannot be retrieved. If the problem persists, please contact our support team for assistance.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1007,
+        "question": "Why do I see a 'No analytics data found' message?",
+        "tags": [
+          "analytics",
+          "error",
+          "no data"
+        ],
+        "category": "Analytics",
+        "answer": "This message appears if no analytics records have been created for the specified page ID. It may mean the page is new or that no visits have been recorded yet.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1008,
+        "question": "What does the toolbar at the top of the page do?",
+        "tags": [
+          "toolbar",
+          "page features",
+          "obituaries"
+        ],
+        "category": "User Interface",
+        "answer": "The toolbar provides quick access to essential actions: 'Edit' (opens the page editor), 'Analytics' (displays the current page's analytics), 'View' (shows the live page view), and 'Account' (takes you to the user account management page).",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1009,
+        "question": "How do I make a gift to a ReelCareer Obituary page?",
+        "tags": [
+          "gifts",
+          "contribution",
+          "obituary"
+        ],
+        "category": "Obituary",
+        "answer": "To make a gift, simply select the 'Send Gift' button on the Obituary page. You’ll be prompted to enter a message, choose whether you'd like to remain anonymous, and decide if the message will be public. Once you complete the form and submit, your payment will be processed, and your gift will be recorded.",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+      {
+        "id": 1010,
+        "question": "Can I send a gift anonymously?",
+        "tags": [
+          "gifts",
+          "anonymous",
+          "obituary"
+        ],
+        "category": "Obituary",
+        "answer": "Yes, you can send a gift anonymously. Check the 'Anonymous' checkbox when submitting your gift, and your name will not be displayed. Instead, it will show as 'Anonymous.'",
+        "supportURL": "https://reelcareer.co/support",
+        "helpful": 0,
+        "views": 0,
+        "topic": "obituaries",
+        "status": "active",
+        "type": "FAQ"
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "id": 11,
+      "question": "How do I view my saved jobs?",
+      "tags": [
+        "saved jobs",
+        "dashboard",
+        "job seeker"
+      ],
+      "category": "Dashboard",
+      "answer": "Go to the 'Saved Jobs' section in your dashboard to view jobs you have saved.",
+      "supportURL": "https://reelcareer.com/help/saved-jobs",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 12,
+      "question": "How can I change my password?",
+      "tags": [
+        "password",
+        "change",
+        "security"
+      ],
+      "category": "Account Management",
+      "answer": "To change your password, go to 'Account Settings', select 'Change Password', and follow the prompts.",
+      "supportURL": "https://reelcareer.com/help/change-password",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 14,
+      "question": "How do I report a job listing?",
+      "tags": [
+        "report",
+        "job listing",
+        "flag"
+      ],
+      "category": "Support",
+      "answer": "To report a job listing, click the 'Report' button on the job page and provide a brief reason.",
+      "supportURL": "https://reelcareer.com/help/report-job",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 17,
+      "question": "How do I view my resume analytics?",
+      "tags": [
+        "resume analytics",
+        "dashboard",
+        "recruiter"
+      ],
+      "category": "Dashboard",
+      "answer": "Go to 'Resume Analytics' in your dashboard to view insights about your resume views.",
+      "supportURL": "https://reelcareer.com/help/resume-analytics",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 18,
+      "question": "How do recruiters view my profile?",
+      "tags": [
+        "profile visibility",
+        "recruiters",
+        "settings"
+      ],
+      "category": "Privacy",
+      "answer": "Recruiters can view your profile if it is set to 'Public' in your account privacy settings.",
+      "supportURL": "https://reelcareer.com/help/profile-visibility",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 17,
+      "question": "How do I submit a video resume?",
+      "tags": [
+        "video resume",
+        "job seeker",
+        "upload"
+      ],
+      "category": "Resume Management",
+      "answer": "You can submit a video resume by uploading a link or video file in the 'Resume' section of your profile.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/video-resume",
+      "helpful": 0,
+      "views": 0
+    }
   ],
   "predefinedQuestions": [
     {
@@ -120,7 +2777,168 @@
       "helpful": 0,
       "views": 0
     },
-    
+    {
+      "id": 10,
+      "question": "Can I edit a submitted job application?",
+      "tags": [
+        "edit application",
+        "job seeker",
+        "update"
+      ],
+      "category": "Job Application",
+      "answer": "Once submitted, applications cannot be edited. You can, however, contact the recruiter directly for updates.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/edit-application",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 11,
+      "question": "How do I boost my resume visibility?",
+      "tags": [
+        "resume boost",
+        "visibility",
+        "job seeker"
+      ],
+      "category": "Resume Management",
+      "answer": "You can boost your resume visibility by enabling the 'Featured Resume' option under your profile settings.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/resume-boost",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 12,
+      "question": "What types of membership plans do you offer?",
+      "tags": [
+        "membership",
+        "plans",
+        "pricing"
+      ],
+      "category": "Membership",
+      "answer": "We offer multiple membership plans for both job seekers and recruiters. Check our pricing page for more details.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/membership-plans",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 13,
+      "question": "How do I withdraw my account balance?",
+      "tags": [
+        "withdraw funds",
+        "balance",
+        "payments"
+      ],
+      "category": "Payments",
+      "answer": "To withdraw your account balance, go to the 'Wallet' section and follow the instructions for withdrawals.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/withdraw-balance",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 14,
+      "question": "How do I receive notifications for new job posts?",
+      "tags": [
+        "job alerts",
+        "notifications",
+        "job seeker"
+      ],
+      "category": "Notifications",
+      "answer": "Enable 'Job Alerts' under your profile settings to receive notifications for new jobs matching your preferences.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/job-notifications",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 15,
+      "question": "What is the 'Featured Resume' option?",
+      "tags": [
+        "featured resume",
+        "job seeker",
+        "visibility"
+      ],
+      "category": "Resume Management",
+      "answer": "The 'Featured Resume' option highlights your profile to recruiters, increasing your visibility for job opportunities.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/featured-resume",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 16,
+      "question": "How do I update my billing information?",
+      "tags": [
+        "billing",
+        "payments",
+        "account"
+      ],
+      "category": "Payments",
+      "answer": "Update your billing information in the 'Payment Settings' section of your account dashboard.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/billing-update",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 18,
+      "question": "How do I enable two-factor authentication (2FA)?",
+      "tags": [
+        "2FA",
+        "security",
+        "account"
+      ],
+      "category": "Account Security",
+      "answer": "To enable 2FA, go to the 'Security Settings' section and follow the steps to set up two-factor authentication for your account.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/2fa-setup",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 20,
+      "question": "How can I boost my job application?",
+      "tags": [
+        "boost application",
+        "job seeker",
+        "premium"
+      ],
+      "category": "Job Application",
+      "answer": "You can boost your application by selecting 'Boost Application' during the application process.",
+      "supportURL": "https://reelcareer.com/help/boost-application",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 19,
+      "question": "What is a featured job posting?",
+      "tags": [
+        "featured job",
+        "recruiter",
+        "posting"
+      ],
+      "category": "Job Posting",
+      "answer": "A featured job posting highlights your job listing, increasing its visibility to job seekers.",
+      "supportURL": "https://reelcareer.com/help/featured-job",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 16,
+      "question": "Can I edit my job application after submission?",
+      "tags": [
+        "edit application",
+        "job seeker",
+        "update"
+      ],
+      "category": "Job Application",
+      "answer": "No, you cannot edit an application after submission. Please review carefully before applying.",
+      "supportURL": "https://reelcareer.com/help/edit-application",
+      "helpful": 0,
+      "views": 0
+    },
     {
       "id": 15,
       "question": "How do I set up job alerts?",

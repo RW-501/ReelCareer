@@ -1,0 +1,153 @@
+{
+  "generalQuestions": [
+    {
+      "id": 1001,
+      "question": "What is ReelCareer Obituaries?",
+      "tags": [
+        "obituaries",
+        "legacy",
+        "career recognition"
+      ],
+      "category": "General",
+      "answer": "ReelCareer Obituaries is a feature on ReelCareer.co that allows users to create personalized pages highlighting their career achievements, skills, videos of work, and more. It’s a way to receive recognition and celebrate career milestones while alive.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1002,
+      "question": "How do I access the obituary edit page?",
+      "tags": [
+        "edit obituary",
+        "obituaries",
+        "account"
+      ],
+      "category": "Account and Access",
+      "answer": "Log in to your ReelCareer account, navigate to your obituary dashboard, and select the obituary you want to edit.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1003,
+      "question": "How do I create an obituary page?",
+      "tags": [
+        "create obituary",
+        "legacy",
+        "obituaries"
+      ],
+      "category": "General",
+      "answer": "Creating an obituary page costs $25. Once created, you can customize it, receive analytics, and accept gifts.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1004,
+      "question": "Can I change the layout of my obituary?",
+      "tags": [
+        "change layout",
+        "obituaries",
+        "customization"
+      ],
+      "category": "General",
+      "answer": "Yes, click the 'Change Layout' button to switch to layout editing mode.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1005,
+      "question": "How do I switch between layout and text editing modes?",
+      "tags": [
+        "edit mode",
+        "layout mode",
+        "text editing"
+      ],
+      "category": "General",
+      "answer": "Use the 'Change Layout' button for layout mode and the 'Change Text' button for text editing mode. The breadcrumb text will indicate the current mode.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    },
+    {
+      "id": 1006,
+      "question": "How do I preview changes before saving?",
+      "tags": [
+        "preview",
+        "editing",
+        "obituaries"
+      ],
+      "category": "General",
+      "answer": "Click the 'Preview' button to see how your changes will look. The preview mode hides editing highlights and shows a clean view of your content.",
+      "supportURL": "https://reelcareer.co/support",
+      "helpful": 0,
+      "views": 0,
+      "topic": "obituaries",
+      "status": "active",
+      "type": "FAQ"
+    }
+
+  ],
+  "predefinedQuestions": [
+    {
+      "id": 9,
+      "question": "How do I track my job posting's performance?",
+      "tags": [
+        "job analytics",
+        "performance",
+        "recruiter"
+      ],
+      "category": "Analytics",
+      "answer": "You can track your job posting's performance from the 'Job Analytics' section, where you’ll see views, applications, and other metrics.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/job-analytics",
+      "helpful": 0,
+      "views": 0
+    },
+    
+    {
+      "id": 15,
+      "question": "How do I set up job alerts?",
+      "tags": [
+        "job alerts",
+        "notifications",
+        "preferences"
+      ],
+      "category": "Notifications",
+      "answer": "Set up job alerts in the 'Job Preferences' section of your dashboard.",
+      "supportURL": "https://reelcareer.com/help/job-alerts",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 13,
+      "question": "What are the payment methods available?",
+      "tags": [
+        "payment",
+        "methods",
+        "billing"
+      ],
+      "category": "Payments",
+      "answer": "We accept credit cards, debit cards, and PayPal for payments.",
+      "supportURL": "https://reelcareer.com/help/payment-methods",
+      "helpful": 0,
+      "views": 0
+    }
+  ]
+}
