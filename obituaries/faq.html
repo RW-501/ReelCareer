@@ -275,15 +275,18 @@ import {
   } from 'https://reelcareer.co/scripts/js/load/module.js';
   
   
-  
 async function fetchAndRenderFAQs() {
+    // Use collection() to get a reference to the 'ChatbotInteractions' collection
     const collectionRef = collection(db, "ChatbotInteractions");
 
-    // Fetch the FAQ data from Firestore
+    // Create the query to filter based on topic
     const q = query(collectionRef, where("topic", "==", "obituaries"));
+
+    // Fetch the FAQ data from Firestore using the query
     const querySnapshot = await getDocs(q);
     const faqs = [];
 
+    // Iterate through the results and collect the FAQ data
     querySnapshot.forEach(doc => {
         faqs.push(doc.data());
     });
@@ -319,8 +322,6 @@ function renderFAQ(faqs) {
 
 // Call the function to fetch and render FAQs
 fetchAndRenderFAQs();
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
     // Firebase Auth state listener
