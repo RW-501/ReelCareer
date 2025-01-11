@@ -828,7 +828,10 @@ function uploadQuestionsToDB() {
             // Add question to the array to avoid reprocessing
             processedQuestions.push(questionText);
 
-            removeButton.click(); // Simulate remove click
+            setTimeout(() => {
+    removeButton.click();  // Simulate remove click
+}, 500);  // Adjust the delay as needed
+questionItem.remove();  // This removes the entire question item from the DOM
 
             // Update index and save progress
             if (category === "General") {
