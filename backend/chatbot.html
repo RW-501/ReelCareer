@@ -140,11 +140,18 @@ li.dragging {
 #autoUploadControls {
     margin: 2rem auto;
     width: 100%;
-    display: flex;
-}#autoUploadControlsBTN {
+    display: grid;
+}
+
+#autoUploadControlsBTN {
     margin: 2rem auto;
     width: 100%;
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 
@@ -278,7 +285,7 @@ li.dragging {
                 <label for="searchableQuestion">Searchable Question</label>
                 <input type="text" id="searchableQuestion" placeholder="searchableQuestion">
             
-                <button type="submit">Add Question</button>
+                <button id='submitToDB' type="submit">Add Question</button>
             </form>
             
             <!-- Buttons for Export and Upload -->
@@ -754,7 +761,10 @@ function uploadQuestionsToDB() {
         const questionItem = questions[index];
         const editButton = questionItem.querySelector(".edit-button");
         const removeButton = questionItem.querySelector(".remove-button");
+        const submitToDB = document.getElementById('submitToDB');
 
+
+        
         if (!editButton || !removeButton) {
             console.error(`Missing buttons in question-item at index ${index}`);
             return;
@@ -783,7 +793,7 @@ function uploadQuestionsToDB() {
             updateProgressBar(completed);
 
             setTimeout(() => {
-                document.getElementById("new-question-form").click(); // Simulate adding new question
+                submitToDB.click(); // Simulate adding new question
                 console.log("Simulated new question form submission");
 
                 // Continue processing
@@ -877,7 +887,7 @@ function createQuestionElement(question, category, index) {
     editButton.addEventListener("click", (e) => {
         e.stopPropagation();
         populateForm(question, category, index);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        //window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // Remove Button
