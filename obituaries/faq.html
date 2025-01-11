@@ -223,7 +223,7 @@
 
         <div class="tag-area">
             <h2>Tags</h2>
-            <div id="tag-list" class="tag-list">
+            <div id="faq-list" class="tag-list">
                 <!-- Tags will be dynamically inserted here -->
             </div>
         </div>
@@ -290,16 +290,16 @@ import {
 // Fetch and Render FAQs
 async function fetchAndRenderFAQs() {
 
-    console.log("fetchAndRenderFAQs  ");
 
+    
     const faqQuery = collection(db, "ChatbotInteractions");
 
 
     
     const querySnapshot = await getDocs(faqQuery);
     const faqs = [];
-console.log("llquerySnapshotl  ",querySnapshot);
 
+    
 
     querySnapshot.forEach(doc => {
         faqs.push({ id: doc.id, ...doc.data() });
