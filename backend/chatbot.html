@@ -756,9 +756,14 @@ function createProgressBar() {
 function updateProgressBar(percent, estimatedTime) {
     const progressBar = document.getElementById('progress-bar');
     const progressMessage = document.getElementById('progress-message');
-    progressBar.style.width = `${percent}%`;
-    progressMessage.textContent = `Processing... ${percent}% completed. Estimated time: ${estimatedTime}`;
+    
+    // Round the percent to the nearest full number
+    const roundedPercent = Math.round(percent);
+    
+    progressBar.style.width = `${roundedPercent}%`;
+    progressMessage.textContent = `Processing... ${roundedPercent}% completed. Estimated time: ${estimatedTime}`;
 }
+
 
 function uploadQuestionsToDB() {
     isProcessing = true;
