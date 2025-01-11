@@ -448,8 +448,8 @@ const globalCallbacks = {
 
    
     pingTimer: (pingURL, timerId) => {
-        console.log('Pinging URL:', pingURL);
-        console.log('timerId:', timerId);
+   //     console.log('Pinging URL:', pingURL);
+   //     console.log('timerId:', timerId);
         fetch(pingURL)
             .then(response => {
                 if (response.status === 200) {

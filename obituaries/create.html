@@ -1810,24 +1810,40 @@ document.getElementById('view-create-create-video-btn').addEventListener('click'
     //  console.log("userData.videoResumeData: ", userData.videoResumeData);
       // Since videoResumeData is a single object, directly check its status
       const videoData = userData.videoResumeData;
-      if (videoData.status === 'posted') {
-        const card = document.createElement('div');
-        card.classList.add("profileVideoCard");
-        card.innerHTML = `
-      <div class="vidioCard">
+if (videoData.status === 'posted') {
+    const card = document.createElement('div');
+    card.classList.add("profileVideoCard");
+    card.innerHTML = `
+    <div class="vidioCard">
         <video 
-          src="${videoData.videoResumeURL}" 
-          class="card-img-top video-player" 
-          id="video-${videoData.reelID}"
+            src="${videoData.videoResumeURL}" 
+            class="card-img-top video-player" 
+            id="video-${videoData.reelID}"
         ></video>
 
-      <a class="btn btn-primary btn-block" href="https://reelcareer.co/reels/?r=${videoData.reelID}">View More</a>
+        <button class="btn btn-primary btn-block" id="add-to-obituary-btn-${videoData.reelID}">Add to Obituary</button>
+    </div>
     `;
+
+
         // Append the card to the video resume list
         videoResumeList.appendChild(card);
+
+        
+    // Button functionality to set video URL to another element with id 'video'
+    const addButton = document.getElementById(`add-to-obituary-btn-${videoData.reelID}`);
+    addButton.addEventListener('click', () => {
+        // Send the video URL to the video element with the id 'video'
+        const videoElement = document.getElementById('video');
+        videoElement.src = videoData.videoResumeURL;
+
+        // Optionally, you can also trigger the video to play or display it:
+        videoElement.play();
+    });
+
+
       }
     }
-
 
 
 let pingURL =  "https://reelcareer.co/obituaries/celebrating/reelcareer";
