@@ -439,24 +439,34 @@ async function fetchChatbotData() {
 function loadGeneralQuestions() {
   const messageArea = document.getElementById("chatbot-messages");
   if (messageArea) {
-    //console.log("Loading general questions...");
     messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
-    messageArea.style.cssText = " text-align: center;     overflow-y: scroll;  margin: auto; display: block; font-family: sans-serif;";
-
-
-
-    // Filter and display only onload questions (general questions)
-    allQuestions.filter(q => q.onload).forEach(q => {
-        const button = document.createElement("button");
-        button.innerText = q.question;
-        button.style.cssText = "color: #30343f; margin: 5px;padding: 5px 10px;cursor: pointer;border: #dde3ed solid;border-radius: 25px;background-color: aliceblue;";
-        button.addEventListener("click", () => handleUserInput(q.question));
-        messageArea.appendChild(button);
+    messageArea.style.cssText = "text-align: center; overflow-y: scroll; margin: auto; display: block; font-family: sans-serif;";
+    
+    // Filter and shuffle the questions to ensure randomness
+    const generalQuestions = allQuestions.filter(q => q.onload);
+    const uniqueRandomQuestions = shuffleArray(generalQuestions).slice(0, 6); // Limit to 6 random unique questions
+    
+    uniqueRandomQuestions.forEach(q => {
+      const button = document.createElement("button");
+      button.innerText = q.question;
+      button.style.cssText = "color: #30343f; margin: 5px; padding: 5px 10px; cursor: pointer; border: #dde3ed solid; border-radius: 25px; background-color: aliceblue;";
+      button.addEventListener("click", () => handleUserInput(q.question));
+      messageArea.appendChild(button);
     });
   } else {
     console.error("Chatbot message area not found.");
   }
 }
+
+function shuffleArray(array) {
+  // Fisher-Yates Shuffle for randomizing the array
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 
 
 
