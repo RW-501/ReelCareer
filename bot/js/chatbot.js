@@ -709,6 +709,9 @@ let messageWithLinks = '';
       /https?:\/\/[^\s]+/g,
       (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
     );
+
+
+    messageWithLinks += convertTextToLinks(url);
   }
 
     const senderLabel = sender === "bot"
