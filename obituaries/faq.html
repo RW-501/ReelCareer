@@ -298,6 +298,7 @@ async function fetchAndRenderFAQs() {
     } else {
        // q = query(collectionRef, where("category", "==", categoryFilter));
     }
+    q = query(collectionRef);
 
     const querySnapshot = await getDocs(q);
     const faqs = [];
