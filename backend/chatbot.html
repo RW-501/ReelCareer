@@ -628,67 +628,70 @@ document.getElementById("new-question-form").addEventListener("submit", async fu
     e.preventDefault();
 
     let questionID = document.getElementById("questionID").value.trim() || generateRandom6DigitNumber();
-    const question = document.getElementById("question").value.trim();
-    const answer = document.getElementById("answer").value.trim();
-    let category = document.getElementById("category").value.trim();
-    const status = document.getElementById("status").value.trim() || "active";
-    const link = document.getElementById("link").value.trim();
-    const supportURL = document.getElementById("supportURL").value.trim();
-    let topic = document.getElementById("topic").value.trim();
-    const tagsInput = document.getElementById('tagsSET-tags').value.trim();
-    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
-    const allowedCategories = ["Predefined", "General"];
-    category = allowedCategories.includes(category) ? category : "General";
+const question = document.getElementById("question").value.trim();
+const answer = document.getElementById("answer").value.trim();
+let category = document.getElementById("category").value.trim();
+const status = document.getElementById("status").value.trim() || "active";
+const link = document.getElementById("link").value.trim();
+const supportURL = document.getElementById("supportURL").value.trim();
+let topic = document.getElementById("topic").value.trim();
+const tagsInput = document.getElementById('tagsSET-tags').value.trim();
+const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+const allowedCategories = ["Predefined", "General"];
+category = allowedCategories.includes(category) ? category : "General";
 
-    if (!topic && tags.length > 0) topic = tags[0];
+if (!topic && tags.length > 0) topic = tags[0];
 
-    const stopWords = ["a", "i", "do", "how", "what", "and", "the", "is", "in", "or", "for"];
-    const sanitizedQuestion = question.toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .split(/\s+/)
-        .filter(word => !stopWords.includes(word))
-        .slice(0, 15);  // Firebase indexing limit: keep searchable array small
+const stopWords = ["a", "i", "do", "how", "what", "and", "the", "is", "in", "or", "for"];
+const sanitizedQuestion = question.toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/)
+    .filter(word => !stopWords.includes(word))
+    .slice(0, 15);  // Firebase indexing limit: keep searchable array small
 
-    // Check if question already exists in the database
-    const questionExists = await doesQuestionExist(question);
-    if (questionExists) {
-        showToast("Error: This question already exists. Please use a different question.");
-        console.error(`Duplicate question: "${question}" detected.`);
-        return;
-    }
+// Convert sanitizedQuestion to an array for storage
+const searchableQuestion = sanitizedQuestion.map(word => word.trim());
 
-    const difficultyLevel = calculateDifficultyLevel(question);
+// Check if question already exists in the database
+const questionExists = await doesQuestionExist(question);
+if (questionExists) {
+    showToast("Error: This question already exists. Please use a different question.");
+    console.error(`Duplicate question: "${question}" detected.`);
+    return;
+}
 
-    const updatedQuestion = {
-        faq_ID: questionID,
-        question: question,
-        answer: answer,
-        link: link,
-        category: category,
-        searchableQuestion: sanitizedQuestion.join(","),
-        topic: topic,
-        tags: tags,
-        type: "FAQ",
-        supportURL: supportURL || null,
-        status: status,
-        feedback: [],
-        notes: '',
-        confidenceScore: 0,
-        helpfulCount: 0,
-        views: 0,
-        uniqueViews: 0,
-        popularityScore: 0,
-        relatedQuestions: [],
-        difficultyLevel: difficultyLevel,
-        categoriesHierarchy: '',
-        attachments: [],
-        isArchived: false,
-        lastUpdatedBy: "ReelCareer",
-        createdBy: "ReelCareer",
-        createdAt: new Date(),
-        timestamp: serverTimestamp(),
-        lastUpdated: new Date()
-    };
+const difficultyLevel = calculateDifficultyLevel(question);
+
+const updatedQuestion = {
+    faq_ID: questionID,
+    question: question,
+    answer: answer,
+    link: link,
+    category: category,
+    searchableQuestion: searchableQuestion,  // Stored as an array
+    topic: topic,
+    tags: tags,
+    type: "FAQ",
+    supportURL: supportURL || null,
+    status: status,
+    feedback: [],
+    notes: '',
+    confidenceScore: 0,
+    helpfulCount: 0,
+    views: 0,
+    uniqueViews: 0,
+    popularityScore: 0,
+    relatedQuestions: [],
+    difficultyLevel: difficultyLevel,
+    categoriesHierarchy: '',
+    attachments: [],
+    isArchived: false,
+    lastUpdatedBy: "ReelCareer",
+    createdBy: "ReelCareer",
+    createdAt: new Date(),
+    timestamp: serverTimestamp(),
+    lastUpdated: new Date()
+};
 
     try {
         const docRef = doc(collection(db, "ChatbotInteractions"));
