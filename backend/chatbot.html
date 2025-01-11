@@ -342,7 +342,7 @@ li.dragging {
         import {
             db, doc, getDoc, query, updateDoc,
             setDoc, ref, signInWithPopup, orderBy,
-             
+            serverTimestamp ,
             uploadBytes, OAuthProvider, arrayUnion, getStorage,
             signOut, addDoc, increment, onAuthStateChanged,
             createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -747,7 +747,7 @@ if (!questionData.tags || questionData.tags.length === 0) {
 
 // Populate tags field
 document.getElementById('tagsSET-tags').value = questionData.tags.join(", ");
-document.getElementById('searchableQuestion').value = questionData.searchableQuestion.join(", ");
+document.getElementById('searchableQuestion').value = questionData.searchableQuestion || '';
 
 // Populate tags list dynamically
 const tagsContainer = document.getElementById('tagsList');
