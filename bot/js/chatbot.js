@@ -739,44 +739,46 @@ let messageWithLinks = '';
     // Regular expression to check for <script> tags
     const scriptTagPattern = /<div.*?>.*?<\/div>/gi;
     const aTagPattern = /<a.*?>.*?<\/a>/gi;
-
-    // Check if the message contains <script> tags
+    
+    // Function to strip out HTML tags
+    function stripHTMLTags(input) {
+      const doc = new DOMParser().parseFromString(input, 'text/html');
+      return doc.body.textContent || "";
+    }
+    
+    // Check if the message contains <div> or <a> tags
     if (scriptTagPattern.test(message) || aTagPattern.test(message)) {
       setTimeout(() => {
-        messageDiv.innerHTML = senderLabel + messageWithLinks;
+        const messageText = stripHTMLTags(message);  // Strip tags before passing to speech synthesis
+        utterance = new SpeechSynthesisUtterance(messageText);  // Pass plain text to utterance
+        toggleTextToVoice();
+        
+        messageDiv.innerHTML = senderLabel + messageText;
       }, 100);
       resolve();
-
-
-      }else{
-  
-        
-        utterance = new SpeechSynthesisUtterance(message);
-        toggleTextToVoice();
-  
-  
-  
-        messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
-        const typingEffect = setInterval(() => {
-  
-          smoothScrollToBottom();
-  
-          if(messageWithLinks.length > 0){
-  
-          messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
-           }else{
-            return;
-           }
-          index++;
-  
-          if (index === messageWithLinks.length) {
-            clearInterval(typingEffect);
-            resolve(); // Resolve the promise when typing completes
-          }
-        }, typingSpeed);
-  
-
-      }
+    } else {
+      const messageText = stripHTMLTags(message);  // Strip tags before passing to speech synthesis
+      utterance = new SpeechSynthesisUtterance(messageText);  // Pass plain text to utterance
+      toggleTextToVoice();
+    
+      messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
+      const typingEffect = setInterval(() => {
+        smoothScrollToBottom();
+    
+        if (messageText.length > 0) {
+          messageDiv.innerHTML = `${senderLabel}${messageText.substring(0, index + 1)}`;
+        } else {
+          return;
+        }
+        index++;
+    
+        if (index === messageText.length) {
+          clearInterval(typingEffect);
+          resolve(); // Resolve the promise when typing completes
+        }
+      }, typingSpeed);
+    }
+    
       
     } else {
       setTimeout(() => {
