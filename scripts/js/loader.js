@@ -454,7 +454,7 @@ const globalCallbacks = {
             .then(response => {
                 if (response.status === 200) {
                     let message = 'Page is Ready... ';
-                     showToast(message, 'info', 500000, pingURL, true, "View Now");
+                     showToast(message, 'info', 50000000, pingURL, true, "View Now");
 
                     // Perform action for 402 (e.g., notify user, start a process, etc.)
                     globalCallbacks.notifyUser();
