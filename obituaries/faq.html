@@ -219,9 +219,7 @@
 
     <div class="container">
         
-        <div id="faq-list">
-            <!-- Dynamic FAQ items will be loaded here -->
-        </div>
+    
 
         <div class="tag-area">
             <h2>Tags</h2>
@@ -292,13 +290,13 @@ import {
 // Fetch and Render FAQs
 async function fetchAndRenderFAQs() {
     const collectionRef = collection(db, "ChatbotInteractions");
-    const categoryFilter = document.getElementById('category-dropdown').value;
+    //const categoryFilter = document.getElementById('category-dropdown').value;
 
     let q;
     if (categoryFilter === "all") {
         q = query(collectionRef);
     } else {
-        q = query(collectionRef, where("category", "==", categoryFilter));
+       // q = query(collectionRef, where("category", "==", categoryFilter));
     }
 
     const querySnapshot = await getDocs(q);
