@@ -704,16 +704,25 @@ function displayMessage(sender, message) {
 `;
 let messageWithLinks = '';
     // Replace URLs with <a> tags if they exist in the message
-    if(message){
-     messageWithLinks = message.replace(
-      /https?:\/\/[^\s]+/g,
-      (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
-    );
-
-
-    messageWithLinks += convertTextToLinks(url);
-  }
-
+    if (message) {
+      // Extract all URLs from the message using regex
+      const urls = message.match(/https?:\/\/[^\s]+/g);
+    
+      // If URLs exist, replace them with anchor tags
+      let messageWithLinks = message.replace(
+        /https?:\/\/[^\s]+/g,
+        (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
+      );
+    
+      // If `url` is provided, append it as a link
+      if (urls) {
+        messageWithLinks += convertTextToLinks(urls);
+      }
+    
+    }
+    
+   
+    
     const senderLabel = sender === "bot"
       ? '<strong style="color: #007bff;">Chatbot:</strong> '
       : '<strong style="color: #28a745;">You:</strong> ';
