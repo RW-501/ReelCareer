@@ -292,19 +292,11 @@ async function fetchAndRenderFAQs() {
 
     console.log("fetchAndRenderFAQs  ");
 
+    const faqQuery = collection(db, "ChatbotInteractions");
 
-    const collectionRef = collection(db, "ChatbotInteractions");
-    //const categoryFilter = document.getElementById('category-dropdown').value;
 
-    let q;
-    if (categoryFilter === "all") {
-        q = query(collectionRef);
-    } else {
-       // q = query(collectionRef, where("category", "==", categoryFilter));
-    }
-    q = query(collectionRef);
-
-    const querySnapshot = await getDocs(q);
+    
+    const querySnapshot = await getDocs(faqQuery);
     const faqs = [];
 console.log("llquerySnapshotl  ",querySnapshot);
 
