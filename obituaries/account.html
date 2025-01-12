@@ -728,8 +728,10 @@ async function createPayoutTransaction(amount, availableAmount) {
         
         const transactionsQuery = query(transactionsRef, where('pageID', '==', pageID));
         const transactionData = {
-            pageID,
-            availableAmount,
+          pageID,
+          userID,
+          transactionType: `withdraw`,
+          availableAmount,
             withdraw_amount: amount,
             note: `Withdraw Request: ${pageID}`,
             transactionType: `Withdraw`,

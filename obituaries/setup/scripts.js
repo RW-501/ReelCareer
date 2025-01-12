@@ -574,7 +574,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     const publicCheckbox = document.getElementById("gift-publicCheckbox");
     const nameInput = document.getElementById("gift-guestName");
     const messageInput = document.getElementById("gift-guestMessage");
-
+    const pageOwnerUserID = document.getElementById("pageOwnerUserID");
     const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
     const message = sanitizeInput(messageInput.value.trim());
     const publicBool = publicCheckbox.checked;
@@ -617,7 +617,9 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
       note: `Credit to Account: ${pageID}`,
       transactionType: `credit`,
       status: "active",
-      userIP,
+      pageOwnerUserID: pageOwnerUserID,
+      userID: userID,
+      userIP: userIP,
       amount: amountToPay,
       timestamp: serverTimestamp(),
     });

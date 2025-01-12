@@ -1381,11 +1381,15 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
         };
 
         // Add transaction details to Firestore
-        const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
-        await addDoc(transcationsRefs, {
+      //  const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
+      const transactionsRef = collection(db, 'A_Transactions');  // Ensure db is initialized properly
+
+        await addDoc(transactionsRef, {
             pageID,
             url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
             pageName: pageName,
+            transactionType: `create_Page`,
+            note: `Create_${pageID}`,
             userID: userID,
             userIP: userIP,
             paymentDetails: details, // Use the payment details from PayPal response
@@ -1555,7 +1559,7 @@ let Content = `
   <div id="dynamic-footer" class="nonChangeable" role="contentinfo"></div>
   
   <div id="pageID" class="nonChangeable" aria-hidden="true">${pageID}</div>
-  <div id="userPageID" class="nonChangeable" aria-hidden="true">${obituary.userID}</div>
+  <div id="pageOwnerUserID" class="nonChangeable" aria-hidden="true">${obituary.userID}</div>
   <div id="pageName" class="nonChangeable" aria-hidden="true">${obituary.pageName}</div>
 </body>
 </html>

@@ -118,31 +118,35 @@
 }
 /* Base styles */
 
+
 .user-info {
     display: flex;
+    padding: 10px;
+    gap: 10px;
+    align-items: stretch;
     flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
     flex-direction: row;
+    justify-content: space-between;
 }
 
-.user-info-left {
-  display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+.user-info-right {
+    display: grid;
     gap: .5rem;
     width: 50%;
+    align-content: stretch;
+    justify-content: space-between;
 }
 
 
 
-.user-info {
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  align-items: center;
+.user-info-left {
+    display: grid;
+    gap: .5rem;
+    width: 50%;
+    align-content: stretch;
+    justify-content: space-between;
 }
+
 
 
 .badge {
@@ -186,12 +190,6 @@
 .job-title {
   font-size: 0.9rem;
   color: #555;
-}
-
-
-.user-info-right {
-    display: block;
-    width: 50%;
 }
 
 
@@ -1223,7 +1221,7 @@ videoCard.innerHTML = `
       </div>
       <div class="user-info-right">
 
-        
+
         <div class="user-details">
           <div class="name-badge">
           <a href="${videoData.profileURL}" aria-label="View ${videoData.displayName}'s profile">
