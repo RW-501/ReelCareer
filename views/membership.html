@@ -556,6 +556,70 @@ async function updateMembership(userID, newMembershipType) {
       });
 
       showToast(`Membership updated to ${newMembershipType} successfully.`);
+
+
+
+
+// Referral logic - Get the referrer and reward
+const referralReward = 5;
+const timestamp = new Date().toISOString();
+
+// Get the referrer’s userID from UserReferral collection
+const userReferralDocRef = doc(db, 'UserReferral', userID);
+const userReferralDoc = await getDoc(userReferralDocRef);
+
+if (userReferralDoc.exists()) {
+    const userReferralDocRef = doc(db, 'UserReferral', userID);
+const userReferralDoc = await getDoc(userReferralDocRef);
+
+if (userReferralDoc.exists()) {
+    const userReferralData = userReferralDoc.data();
+    const referredUserID = userReferralData.referredBy;
+    const referMembershipBool = userReferralData.referMembershipBool;
+    const referObituariesBool = userReferralData.referObituariesBool;
+
+    // Check if the user was referred and the referral type is 'joined'
+    if (userReferralData.referObituariesBool === 'pending' && userReferralData.referType === 'joined') {
+        // Add the referral reward for the referrer
+        await addDoc(collection(db, "A_Transactions"), {
+            userID: referredUserID,  // The user receiving the referral reward
+            userIP: userIP,
+            transactionType: "referral_credit",  // Type of transaction (referral credit)
+            amount: referralReward,  // Referral reward amount
+            note: `Membership Referral Credit: Referred by ${userID}`,  // Description of the transaction
+            fee: referralReward * 0.10,  // Optional fee for referral (10% in this case)
+            netAmount: referralReward - (referralReward * 0.10),  // Net amount after fee deduction
+            status: "active",  // Status indicating the transaction is active
+            timestamp: serverTimestamp(),  // Current timestamp of the transaction
+            createdDate: new Date().toISOString(),  // ISO formatted date for the creation of the transaction record
+        });
+
+        let newStatus;
+
+        if (userReferralData.referObituariesBool === 'active') {
+            newStatus = "complete";
+
+}
+        // Update referObituariesBool to 'active' once the referral reward has been processed
+        await updateDoc(userReferralDocRef, {
+            referMembershipBool: 'active',  // Mark the referral as complete
+            status: newStatus  
+        });
+        
+        console.log("Referral reward processed and referObituariesBool updated to active.");
+    }
+} else {
+    console.log("No referral data found for the user.");
+}
+
+} else {
+    console.log("No referral data found for the user.");
+}
+
+
+
+
+
     } else {
         showToast("User not found.");
     }

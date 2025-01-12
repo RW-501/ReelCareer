@@ -104,91 +104,75 @@
           <li class="breadcrumb-item active" aria-current="page">Referrals</li>
         </ol>
       </nav>
-
       <main id="main-content">
-
-
-<div class="container">
-    <h2 class="text-center">Join Our Referral Program!</h2>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Earn Exciting Rewards!</h5>
-            <p class="card-text">
-                Help us grow the Reelcareer community and get rewarded! For every friend you refer to Reelcareer who signs up and engages with our platform, you'll receive <strong>$10 in account credits</strong> that can be used towards premium features.
-            </p>
+        <div class="container">
+            <h2 class="text-center">Join Our Referral Program!</h2>
+    
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Earn Exciting Rewards!</h5>
+                    <p class="card-text">
+                        Help us grow the Reelcareer community and get rewarded! For every friend you refer to Reelcareer who signs up and engages with our platform, you'll receive <strong>$5 in account credits</strong> that can be used towards purchases.
+                    </p>
+                </div>
+            </div>
+    
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">How It Works</h5>
+                    <ol class="card-text">
+                        <li>Sign up for the referral program.</li>
+                        <li>Share your unique referral link or code with friends and colleagues.</li>
+                        <li>For every person who signs up using your link or code and actively engages, you’ll earn rewards!</li>
+                    </ol>
+                </div>
+            </div>
+    
+            <div  id="referralLinkArea" class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Referral Link</h5>
+                    <div class="form-group">
+                        <label for="referralLink">Your Unique Referral Link</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="referralLink" readonly>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" id="copyBtn" title="Copy referral link"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <small>Share this link to invite others and earn rewards!</small>
+                </div>
+            </div>
+    
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Tips for Successful Referrals</h5>
+                    <ul class="card-text">
+                        <li>Share your referral link on social media platforms like Facebook, Twitter, and LinkedIn.</li>
+                        <li>Send personalized emails to friends and colleagues, emphasizing the benefits of joining Reelcareer.</li>
+                        <li>Consider using messaging apps to quickly share your link or code with friends.</li>
+                        <li>Engage with community groups related to your industry and share your referral link there.</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="form-section">
+                <h5>Terms and Conditions</h5>
+                <p>By participating in the Referral Program, you agree to the following:</p>
+                <ul>
+                    <li>Referrals must be new users who have not previously signed up on Reelcareer.</li>
+                    <li>Rewards will be credited to your account once the referred user signs up and completes their first action on the platform.</li>
+                    <li>There is no limit to the number of friends you can refer.</li>
+                    <li>Reelcareer reserves the right to modify or terminate the Referral Program at any time.</li>
+                </ul>
+                <p>If you have questions, please contact our support team for assistance!</p>
+            </div>
         </div>
-    </div>
-
+    </main>
     
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">How It Works</h5>
-            <ol class="card-text">
-                <li>Sign up for the referral program.</li>
-                <li>Share your unique referral link or code with friends and colleagues.</li>
-                <li>For every person who signs up using your link or code and actively engages, you’ll earn rewards!</li>
-            </ol>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Referral Submission</h5>
-            <form id="referralForm">
-                <div class="form-group">
-                    <label for="referrerEmail">Your Email</label>
-                    <input type="email" class="form-control" id="referrerEmail" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="friendEmail">Friend's Email</label>
-                    <input type="email" class="form-control" id="friendEmail" placeholder="Enter your friend's email" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Referral</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="recommendation">
-        <h5>Tips for Successful Referrals</h5>
-        <ul>
-            <li>Share your referral link on social media platforms like Facebook, Twitter, and LinkedIn.</li>
-            <li>Send personalized emails to friends and colleagues, emphasizing the benefits of joining Reelcareer.</li>
-            <li>Consider using messaging apps to quickly share your link or code with friends.</li>
-            <li>Engage with community groups related to your industry and share your referral link there.</li>
-        </ul>
-    </div>
-
-    <div class="form-section">
-        <h5>Terms and Conditions</h5>
-        <p>By participating in the Referral Program, you agree to the following:</p>
-        <ul>
-            <li>Referrals must be new users who have not previously signed up on Reelcareer.</li>
-            <li>Rewards will be credited to your account once the referred user signs up and completes their first action on the platform.</li>
-            <li>There is no limit to the number of friends you can refer.</li>
-            <li>Reelcareer reserves the right to modify or terminate the Referral Program at any time.</li>
-        </ul>
-        <p>If you have questions, please contact our support team for assistance!</p>
-    </div>
-</div>
-</main>
-
-<script>
-    // Handle the referral form submission
-    $('#referralForm').on('submit', function(event) {
-        event.preventDefault();
-        
-        const referrerEmail = $('#referrerEmail').val();
-        const friendEmail = $('#friendEmail').val();
-
-        // Replace this with your own logic for processing the referral
-        showToast(`Referral submitted! You referred: ${friendEmail}.`);
-
-        // Clear the form
-        $('#referralForm')[0].reset();
-    });
-</script>
+    
 
     <!-- Footer -->
     <footer id="dynamic-footer">
@@ -244,11 +228,10 @@
 
 <!-- Firebase JS SDK and Custom Scripts -->
 
-<script type="module">
+    <script type="module">
     import {
         db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,
-         
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
         createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -256,7 +239,107 @@
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+    // Function to handle referral logic
+    function handleReferral(userID) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const referredUserID = urlParams.get('r');
+        const referralType = urlParams.get('type');  // Add 'type' to determine the referral type (e.g., obituary, jobseeker, etc.)
 
-  </script>
+        // Check if the referral ID exists and is not the same as the current user ID
+        if (referredUserID && referredUserID !== userID) {
+            // Get the current timestamp and the last page visited
+            const timestamp = new Date().toISOString();
+            const lastPage = document.referrer || 'Direct';
+
+            // Set the referral type (default is 'joined')
+            const referType = referralType || 'joined';  // Default to 'joined' if not provided in the URL
+
+            // Add the referral information to the UserReferral collection
+            const referralData = {
+                referredBy: referredUserID,
+                referredUser: userID,
+                referType: referType,  // Type of referral (e.g., 'obituary', 'membership')
+                referObituariesBool: 'pending', // Flag for obituary-related referrals
+                referMembershipBool: 'pending', // Flag for Membership-related referrals
+                timestamp: timestamp,
+                lastPage: lastPage,
+                status: 'pending'  // Initial status is 'pending' until they complete an action like membership or obituary creation
+            };
+
+            // Save this referral info to Firebase
+            addDoc(collection(db, 'UserReferral'), referralData)
+                .then(() => {
+                    console.log('Referral data saved successfully');
+                })
+                .catch(error => {
+                    console.error('Error saving referral data: ', error);
+                });
+        } else {
+            console.log('No valid referral or user IDs are the same');
+        }
+    }
+
+    // Get the user ID from Firebase Auth and Firestore
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Get user ID from Firebase
+            const userID = user.uid;
+            const referralLink = `https://reelcareer.co/referral/?r=${userID}`;
+
+            // Display the referral link
+            document.getElementById('referralLink').value = referralLink;
+
+            // Call the referral function if a referral ID is present
+            handleReferral(userID);
+
+            // Handle copy button using Clipboard API for modern browsers
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.addEventListener('click', function() {
+                const referralInput = document.getElementById('referralLink');
+                navigator.clipboard.writeText(referralInput.value).then(() => {
+                    showToast("Referral link copied to clipboard!");
+                }).catch(err => {
+                    showToast("Failed to copy referral link. Try again.");
+                });
+            });
+
+            getReferral(userID);  // Assuming getReferral tracks any actions or changes for the user
+
+        } else {
+            const referralLinkArea = document.getElementById('referralLinkArea');
+            referralLinkArea.style.disable = 'true';
+
+            const referralArea = document.getElementById('referralArea');
+            referralArea.style.disable = 'true';
+
+            const referralLink = `https://reelcareer.co/referral/?r=JoinUs`;
+            document.getElementById('referralLink').value = referralLink;
+
+            console.log("User not signed in");
+        }
+    });
+
+
+    
+
+
+    function getReferral(userID) {
+        const referralArea = document.getElementById('referralArea');
+
+        const referralData = {
+                referredBy: referredUserID,
+                referredUser: userID,
+                referType: 'signUp', // Obituaries, signup, jobseeker, rectuter
+                timestamp: timestamp,
+                lastPage: lastPage,
+                status: 'active'  // Could also add a "pending" status or other relevant statuses
+            };
+
+            // Save this referral info to Firebase
+            getDocs(collection(db, 'UserReferral'), referralData)
+    }
+
+</script>
+
 </body>
 </html>

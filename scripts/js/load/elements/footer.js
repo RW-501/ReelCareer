@@ -4,156 +4,163 @@
   
 // Update the footer function (No changes needed for this part)
 function updateFooter() {
-    const footer = document.getElementById("dynamic-footer");
-    const currentYear = new Date().getFullYear();
-  
-    // Footer links data (from JSON)
-    const footerLinks = [
+  const footer = document.getElementById("dynamic-footer");
+  const currentYear = new Date().getFullYear();
+
+  // Footer links data (from JSON)
+  const footerLinks = [
       {
-        "url": "/",
-        "name": "ReelCareer",
-        "title": "ReelCareer - #1 Job Board - Find a job today",
+          "url": "/views/about",
+          "name": "About ReelCareer",
+          "title": "About ReelCareer - Who We Are and Our Mission",
+          "category": "General",
+          "order": 1
+      },
+      {
+          "url": "/views/privacy",
+          "name": "Privacy Policy",
+          "title": "Privacy Policy - How We Protect Your Data",
+          "category": "Legal",
+          "order": 2
+      },
+      {
+          "url": "/views/terms",
+          "name": "Terms of Use",
+          "title": "Terms of Use - Website User Agreement and Guidelines",
+          "category": "Legal",
+          "order": 3
+      },
+      {
+          "url": "/views/contact",
+          "name": "Contact Us",
+          "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
+          "category": "General",
+          "order": 4
+      },
+      {
+          "url": "/views/blogs",
+          "name": "Blogs",
+          "title": "ReelCareer Blog - Career Advice, News, and Insights",
+          "category": "Content",
+          "order": 5
+      },
+      {
+          "url": "/views/news",
+          "name": "News",
+          "title": "ReelCareer News - Latest Updates and Industry Trends",
+          "category": "Content",
+          "order": 6
+      },
+      {
+          "url": "/views/faq",
+          "name": "FAQs",
+          "title": "Frequently Asked Questions - Get Answers to Common Queries",
+          "category": "Support",
+          "order": 7
+      },
+      {
+          "url": "/views/referral",
+          "name": "Affiliate Program",
+          "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
+          "category": "Marketing",
+          "order": 8
+      },
+      {
+          "url": "/views/Personality-&-Trait-Tests",
+          "name": "Personality & Trait Tests",
+          "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
+          "category": "Content",
+          "order": 9
+      },
+      {
+          "url": "/backend/dashboard",
+          "name": "Admin",
+          "title": "Admin Dashboard - Manage Users, Jobs, and Content",
+          "category": "Admin",
+          "order": 10
+      },
+      {
+          "url": "/jobs/city",
+          "name": "City Jobs",
+          "title": "City Jobs - Find Career Opportunities by Location",
+          "category": "Features",
+          "order": 11
+      },
+      {
+          "url": "/jobs/state",
+          "name": "State Jobs",
+          "title": "State Jobs - Explore Job Listings by State",
+          "category": "Features",
+          "order": 12
+      },
+      {
+          "url": "/jobs/locations",
+          "name": "Job Locations",
+          "title": "Job Locations - Browse Jobs in Your Area",
+          "category": "Features",
+          "order": 13
+      },
+      {
+          "url": "/job-listings",
+          "name": "Job Listings",
+          "title": "Job Listings - Search and Apply for Job Openings",
+          "category": "General",
+          "order": 14
+      },
+      {
+          "url": "/bot",
+          "name": "Chat Bot",
+          "title": "Chat Bot - Get Instant Assistance with Your Job Search",
+          "category": "Support",
+          "order": 15
+      },
+      {
+          "url": "/reels",
+          "name": "Video Reels",
+          "title": "Video Reels - Showcase Your Resume with a Personal Touch",
+          "category": "Content",
+          "order": 16
+      },
+      {
+          "url": "/support",
+          "name": "Support",
+          "title": "Support - Get Help with Your Job Search and Account",
+          "category": "Support",
+          "order": 17
+      },
+      {
+          "url": "/membership",
+          "name": "Membership",
+          "title": "Membership - Unlock Premium Features and Job Opportunities",
+          "category": "General",
+          "order": 18
+      },
+      {
+          "url": "/obituaries",
+          "name": "Obituaries",
+          "title": "Create an obituary page - Let the world know your story.",
+          "category": "Content",
+          "order": 19
+      },
+      {
+        "url": "/u/account",
+        "name": "User Account",
+        "title": "Manage Your Account - Update Profile, Settings, and Preferences",
         "category": "General",
-        "order": 0
-      },{
-        "url": "/views/about",
-        "name": "About ReelCareer",
-        "title": "About ReelCareer - Who We Are and Our Mission",
-        "category": "General",
-        "order": 1
-      },
-      {
-        "url": "/views/privacy",
-        "name": "Privacy Policy",
-        "title": "Privacy Policy - How We Protect Your Data",
-        "category": "Legal",
-        "order": 2
-      },
-      {
-        "url": "/views/terms",
-        "name": "Terms of Use",
-        "title": "Terms of Use - Website User Agreement and Guidelines",
-        "category": "Legal",
-        "order": 3
-      },
-      {
-        "url": "/views/contact",
-        "name": "Contact Us",
-        "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
-        "category": "General",
-        "order": 4
-      },
-      {
-        "url": "/views/blogs",
-        "name": "Blogs",
-        "title": "ReelCareer Blog - Career Advice, News, and Insights",
-        "category": "Content",
-        "order": 5
-      },
-      {
-        "url": "/views/news",
-        "name": "News",
-        "title": "ReelCareer News - Latest Updates and Industry Trends",
-        "category": "Content",
-        "order": 6
-      },
-      {
-        "url": "/views/faq",
-        "name": "FAQs",
-        "title": "Frequently Asked Questions - Get Answers to Common Queries",
-        "category": "Support",
-        "order": 7
-      },
-      {
-        "url": "/views/referral",
-        "name": "Affiliate Program",
-        "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
+        "order": 20
+    },
+    {
+        "url": "/referral/",
+        "name": "Referral Program",
+        "title": "Referral Program - Earn Rewards by Referring Others to ReelCareer",
         "category": "Marketing",
-        "order": 8
-      },
-      {
-        "url": "/views/Personality-&-Trait-Tests",
-        "name": "Personality & Trait Tests",
-        "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
-        "category": "Content",
-        "order": 9
-      },
-      {
-        "url": "/backend/dashboard",
-        "name": "Admin",
-        "title": "Admin Dashboard - Manage Users, Jobs, and Content",
-        "category": "Admin",
-        "order": 10
-      },
-      {
-        "url": "/jobs/city",
-        "name": "City Jobs",
-        "title": "City Jobs - Find Career Opportunities by Location",
-        "category": "Features",
-        "order": 11
-      },
-      {
-        "url": "/jobs/state",
-        "name": "State Jobs",
-        "title": "State Jobs - Explore Job Listings by State",
-        "category": "Features",
-        "order": 12
-      },
-      {
-        "url": "/jobs/locations",
-        "name": "Job Locations",
-        "title": "Job Locations - Browse Jobs in Your Area",
-        "category": "Features",
-        "order": 13
-      },
-      {
-        "url": "/job-listings",
-        "name": "Job Listings",
-        "title": "Job Listings - Search and Apply for Job Openings",
-        "category": "General",
-        "order": 14
-      },
-          {
-            "url": "/bot",
-            "name": "Chat Bot",
-            "title": "Chat Bot - Get Instant Assistance with Your Job Search",
-            "category": "Support",
-            "order": 15
-          },
-          {
-            "url": "/reels",
-            "name": "Video Reels",
-            "title": "Video Reels - Showcase Your Resume with a Personal Touch",
-            "category": "Content",
-            "order": 16
-          },
-          {
-            "url": "/support",
-            "name": "Support",
-            "title": "Support - Get Help with Your Job Search and Account",
-            "category": "Support",
-            "order": 17
-          },
-          {
-            "url": "/membership",
-            "name": "Membership",
-            "title": "Membership - Unlock Premium Features and Job Opportunities",
-            "category": "General",
-            "order": 18
-          },
-          {
-            "url": "/obituaries",
-            "name": "Obituaries",
-            "title": "Create an obituary page - Let the world know your story.",
-            "category": "Content",
-            "order": 19
-          }
-        
-        
-    ];
+        "order": 21
+    }
     
-    // Sort the links based on their order
-    footerLinks.sort((a, b) => a.order - b.order);
+  ];
+
+  // Sort the links based on their order
+  footerLinks.sort((a, b) => a.order - b.order);
   
   
   
