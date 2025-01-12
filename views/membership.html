@@ -418,15 +418,119 @@
 <script type="module">
     import {
         db, doc, getDoc, query, updateDoc,
-        setDoc, ref, signInWithPopup, orderBy,
+        setDoc, ref, signInWithPopup, orderBy, limit,
          
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
         createUserWithEmailAndPassword, signInWithEmailAndPassword,
-        where, getDocs, storage, collection, deleteObject, 
+        where, getDocs, addDoc, serverTimestamp, updateDoc,
+         storage, collection, deleteObject, 
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+
+// Get Latest Membership Status
+async function getLatestMembership(userID) {
+  try {
+    // Query the Transactions collection for the latest membership change
+    const transactionsRef = collection(db, "A_Transactions");
+    const q = query(
+      transactionsRef,
+      orderBy("timestamp", "desc"), // Order by most recent
+      limit(1)
+    );
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+      const transaction = snapshot.docs[0].data();
+      return transaction.membershipType || "free"; // Default to free if not found
+    } else {
+      console.warn("No membership history found for user.");
+      return "free";
+    }
+  } catch (error) {
+    console.error("Error fetching latest membership:", error);
+    return "free"; // Return default if error occurs
+  }
+}
+window.getLatestMembership = getLatestMembership;
+
+
+// Update Membership
+async function updateMembership(userID, newMembershipType) {
+  try {
+    const userDocRef = doc(db, "Users", userID);
+    const userSnapshot = await getDoc(userDocRef);
+
+    if (userSnapshot.exists()) {
+      const currentData = userSnapshot.data();
+      const currentMembership = currentData.membershipType || "free";
+
+      if (currentMembership === newMembershipType) {
+        showToast("You are already on this plan.");
+        return;
+      }
+
+      // Update the user's membership in the Users collection
+      await updateDoc(userDocRef, {
+        membershipType: newMembershipType,
+        updatedAt: serverTimestamp(),
+      });
+
+      // Record the transaction
+      await addDoc(collection(db, "A_Transactions"), {
+        userID,
+        membershipType: newMembershipType,
+        transactionType: currentMembership === "free" ? "upgrade" : "downgrade",
+        amount: calculateMembershipCost(newMembershipType),
+        timestamp: serverTimestamp(),
+        createdDate: new Date().toISOString(),
+      });
+
+      showToast(`Membership updated to ${newMembershipType} successfully.`);
+    } else {
+        showToast("User not found.");
+    }
+  } catch (error) {
+    console.error("Failed to update membership:", error);
+  }
+}
+window.updateMembership = updateMembership;
+
+
+// Calculate Membership Cost
+function calculateMembershipCost(membershipType) {
+  switch (membershipType) {
+    case "free":
+      return 0;
+    case "basic":
+      return 9.99;
+    case "pro":
+      return 19.99;
+    default:
+      return 0;
+  }
+}
+
+// Upgrade/Downgrade Button Click
+async function upgradeMembership(newMembershipType) {
+  const userDataSaved = getUserData() || {};
+  const userID = userDataSaved.userID;
+
+  if (!userID) {
+    showToast("User not logged in.");
+    return;
+  }
+
+  window.upgradeMembership = upgradeMembership;
+
+  const currentMembership = await getLatestMembership(userID);
+  if (currentMembership === newMembershipType) {
+    showToast("You are already on this plan.");
+  } else {
+    await updateMembership(userID, newMembershipType);
+  }
+}
 
   </script>
 </body>
