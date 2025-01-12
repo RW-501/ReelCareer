@@ -816,3 +816,86 @@ color: red;
     }
   }
   
+
+
+
+
+
+  main {
+
+    
+.user-info {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-info-right {
+    display: grid;
+    gap: .5rem;
+    width: 50%;
+    align-content: stretch;
+    justify-content: space-between;
+}
+
+
+
+.user-info-left {
+    display: grid;
+    gap: .5rem;
+    width: 50%;
+    align-content: stretch;
+    justify-content: space-between;
+}
+
+
+
+.badge {
+  align-items: center;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  text-transform: uppercase;
+}
+
+.badge-verified {
+  color: #555;
+
+}
+
+.badge-verified i {
+  margin-right: 4px;
+  font-size: 1rem;
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.name-badge {
+  display: flex;
+}
+.job-title {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+  }

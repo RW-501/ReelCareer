@@ -62,11 +62,6 @@ const pageName = document.getElementById('pageName').innerText;
 
 
 
-
-
-
-
-
 renderShareArea(pageName);
 const nameHeader = document.getElementById("name-header");
 
@@ -76,6 +71,62 @@ const firstName = nameHeader.textContent.split(" ")[0];
 
 renderInteractionsArea(firstName);
 
+
+
+
+const pageOwnerUserID = document.getElementById("pageOwnerUserID").value; // Assume input or hidden field for user ID
+
+async function loadPageOwnerUserInfo(pageOwnerUserID) {
+  if (!pageOwnerUserID) {
+    console.error("Page owner user ID not provided.");
+    return;
+  }
+
+  try {
+    const userRef = doc(db, "Users", pageOwnerUserID); // Reference to the user's document
+    const userDoc = await getDoc(userRef);  // Fetch the user document
+    
+    if (userDoc.exists()) {
+      const userData = userDoc.data();  // Retrieve user data
+      const userInfoElement = document.getElementById("dynamic-userInfo");
+      
+      if (userInfoElement) {
+        userInfoElement.innerHTML = `
+          <div class="user-info">
+            <div class="user-info-left">
+              <img src="${userData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
+                   alt="${userData.displayName || 'User'}" 
+                   class="profile-img lazy-image">
+            </div>
+            <div class="user-info-right">
+              <div class="user-details">
+                <div class="name-badge">
+                  <a href="${userData.profileURL || '#'}" aria-label="View ${userData.displayName || 'User'}'s profile">
+                    <h3 class="user-name">
+                      ${userData.displayName || 'Anonymous'}
+                    </h3>
+                  </a>
+                  <small class="badge ${userData.verified ? 'badge-verified' : ''}">
+                    ${userData.verified ? '<i class="fa fa-check-circle"></i>' : ''}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        console.error("Dynamic user info container not found.");
+      }
+    } else {
+      console.error("No user found with the provided ID.");
+    }
+  } catch (error) {
+    console.error("Error loading user data:", error);
+  }
+}
+
+// Load user info on page load
+loadPageOwnerUserInfo(pageOwnerUserID);
 
 
 // Utility function to sanitize user inputs
