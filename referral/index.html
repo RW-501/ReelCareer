@@ -77,6 +77,90 @@
             padding: 15px;
             border-radius: 5px;
         }
+
+
+
+
+
+
+        .referral-area {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.referral-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.referral-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s;
+}
+
+.referral-card:hover {
+    transform: scale(1.05);
+}
+
+.card-header {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.card-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.card-status.pending {
+    background-color: #f8b400;
+    color: white;
+}
+
+.card-status.active {
+    background-color: #28a745;
+    color: white;
+}
+
+.card-status.completed {
+    background-color: #007bff;
+    color: white;
+}
+
+.referral-details {
+    margin-top: 10px;
+}
+
+.referral-button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.referral-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
     </style>
 
     <!-- Bootstrap CSS -->
@@ -131,6 +215,21 @@
             <div  id="referralLinkArea" class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Referral Link</h5>
+
+    
+                    <div class="form-section">
+                        <h5>Terms and Conditions</h5>
+                        <p>By participating in the Referral Program, you agree to the following:</p>
+                        <ul>
+                            <li>Referrals must be new users who have not previously signed up on Reelcareer.</li>
+                            <li>Rewards will be credited to your account once the referred user signs up and completes their first action on the platform.</li>
+                            <li>There is no limit to the number of friends you can refer.</li>
+                            <li>Reelcareer reserves the right to modify or terminate the Referral Program at any time.</li>
+                        </ul>
+                        <p>If you have questions, please contact our support team for assistance!</p>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="referralLink">Your Unique Referral Link</label>
                         <div class="input-group">
@@ -155,19 +254,19 @@
                     </ul>
                 </div>
             </div>
-    
-            <div class="form-section">
-                <h5>Terms and Conditions</h5>
-                <p>By participating in the Referral Program, you agree to the following:</p>
-                <ul>
-                    <li>Referrals must be new users who have not previously signed up on Reelcareer.</li>
-                    <li>Rewards will be credited to your account once the referred user signs up and completes their first action on the platform.</li>
-                    <li>There is no limit to the number of friends you can refer.</li>
-                    <li>Reelcareer reserves the right to modify or terminate the Referral Program at any time.</li>
-                </ul>
-                <p>If you have questions, please contact our support team for assistance!</p>
+
+
+
+
+        <div id="referralArea" class="referral-area">
+            <h2>Your Referrals</h2>
+            <div id="referralCards" class="referral-cards">
+                <!-- Referral Cards will go here -->
             </div>
         </div>
+
+    </div>
+
     </main>
     
 
@@ -324,20 +423,50 @@
 
 
     function getReferral(userID) {
-        const referralArea = document.getElementById('referralArea');
+    const referralArea = document.getElementById('referralArea');
+    const referralCards = document.getElementById('referralCards');
 
-        const referralData = {
-                referredBy: referredUserID,
-                referredUser: userID,
-                referType: 'signUp', // Obituaries, signup, jobseeker, rectuter
-                timestamp: timestamp,
-                lastPage: lastPage,
-                status: 'active'  // Could also add a "pending" status or other relevant statuses
-            };
+    // Fetch referral data from Firestore
+    const referralQuery = query(collection(db, 'UserReferral'), where('referredUser', '==', userID));
+    getDocs(referralQuery).then(snapshot => {
+        snapshot.forEach(doc => {
+            const referralData = doc.data();
+            const referredBy = referralData.referredBy;
+            const referType = referralData.referType;
+            const status = referralData.status;
 
-            // Save this referral info to Firebase
-            getDocs(collection(db, 'UserReferral'), referralData)
-    }
+            // Create referral card element
+            const referralCard = document.createElement('div');
+            referralCard.classList.add('referral-card');
+            
+            // Create the card content
+            referralCard.innerHTML = `
+                <div class="card-header">Referred By: ${referredBy}</div>
+                <div class="card-status ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</div>
+                <div class="referral-details">
+                    <p>Referral Type: ${referType}</p>
+                    <p>Status: <strong>${status}</strong></p>
+                </div>
+            `;
+            
+            // Append the card to the container
+            referralCards.appendChild(referralCard);
+        });
+    }).catch(error => {
+        console.error("Error fetching referrals: ", error);
+        referralArea.innerHTML = "<p>Error fetching referral data.</p>";
+    });
+}
+
+// Placeholder function to show more referral details on click
+function viewReferralDetails(referralID) {
+   // alert(`Viewing details for referral: ${referralID}`);
+    // Implement the actual view functionality here
+
+    //                 <div class="referral-button" onclick="viewReferralDetails('${doc.id}')">View Details</div>
+
+}
+
 
 </script>
 

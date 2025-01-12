@@ -59,7 +59,7 @@ function updateFooter() {
           "order": 7
       },
       {
-          "url": "/views/referral",
+          "url": "/referral",
           "name": "Affiliate Program",
           "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
           "category": "Marketing",
@@ -139,7 +139,7 @@ function updateFooter() {
           "url": "/obituaries",
           "name": "Obituaries",
           "title": "Create an obituary page - Let the world know your story.",
-          "category": "Content",
+          "category": "Marketing",
           "order": 19
       },
       {
