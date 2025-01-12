@@ -74,13 +74,14 @@ renderInteractionsArea(firstName);
 
 
 
-const pageOwnerUserID = document.getElementById("pageOwnerUserID").value; // Assume input or hidden field for user ID
+const pageOwnerUser = document.getElementById("pageOwnerUserID"); // Assume input or hidden field for user ID
 
-async function loadPageOwnerUserInfo(pageOwnerUserID) {
-  if (!pageOwnerUserID) {
+async function loadPageOwnerUserInfo(pageOwnerUser) {
+  if (!pageOwnerUser) {
     console.error("Page owner user ID not provided.");
     return;
   }
+const pageOwnerUserID = pageOwnerUser.innerText;
 
   try {
     const userRef = doc(db, "Users", pageOwnerUserID); // Reference to the user's document
@@ -126,7 +127,7 @@ async function loadPageOwnerUserInfo(pageOwnerUserID) {
 }
 
 // Load user info on page load
-loadPageOwnerUserInfo(pageOwnerUserID);
+loadPageOwnerUserInfo(pageOwnerUser);
 
 
 // Utility function to sanitize user inputs
