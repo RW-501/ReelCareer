@@ -143,6 +143,8 @@
   gap: 10px;
   align-items: center;
 }
+
+
 .badge {
   align-items: center;
 
@@ -1217,6 +1219,11 @@ videoCard.innerHTML = `
         <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
              alt="${videoData.displayName}" 
              class="profile-img lazy-image">
+
+      </div>
+      <div class="user-info-right">
+
+        
         <div class="user-details">
           <div class="name-badge">
           <a href="${videoData.profileURL}" aria-label="View ${videoData.displayName}'s profile">
@@ -1231,9 +1238,6 @@ videoCard.innerHTML = `
 
           <p class="job-title">${videoData.position || ''}</p>
         </div>
-      </div>
-      <div class="user-info-right">
-
            
       <div class="interaction-buttons">
         <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
