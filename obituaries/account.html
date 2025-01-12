@@ -256,7 +256,7 @@
 
 
 <header>
-    <h1 id="breadcrumbText">Edit Obituaries</h1>
+    <h1 id="breadcrumbText">Obituary Account</h1>
 </header>
 
    <!-- Breadcrumb Section -->
@@ -389,7 +389,7 @@
       }
 
       const ownerRef = collection(db, `A_Obituaries`);
-      const ownerQuery = query(ownerRef, where('userID', '==', userID), where('__name__', '==', pageID));
+      const ownerQuery = query(ownerRef, where('userID', '==', userID), where('pageID', '==', pageID));
       const ownerSnapshot = await getDocs(ownerQuery);
 
       if (ownerSnapshot.empty) {

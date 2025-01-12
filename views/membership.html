@@ -326,17 +326,7 @@
 </main>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    function upgradeMembership(plan) {
-        // Implement Stripe payment or Firebase logic here to handle the upgrade
-        showToast('Upgrading to ' + plan.charAt(0).toUpperCase() + plan.slice(1) + ' Membership.', 'success');
-    }
 
-    function viewBenefits() {
-        showToast("View detailed benefits of your current membership.", 'info');
-    }
-</script>
 
 <script type="application/ld+json">
     {
@@ -408,11 +398,7 @@
 
 </footer>
 
-    
-    <!-- Firebase configuration/ Login& Out -->
-     
 
-    <!-- Dynamic Schema Markup -->
  <!-- Firebase JS SDK and Custom Scripts -->
 
 <script type="module">
@@ -422,6 +408,14 @@ import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, addDoc, serverTimestamp,
   storage, collection, deleteObject, auth, analytics, deleteDoc, getDownloadURL
 } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+
+
+function viewBenefits() {
+        showToast("View detailed benefits of your current membership.", 'info');
+    }
+
+    window.viewBenefits = viewBenefits;
 
 
 // Get Latest Membership Status

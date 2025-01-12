@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Your ReelCareer Account">
+    <meta property="og:description" content="Manage your ReelCareer account. View your balance, request payouts, check transactions, and update your membership information.">
+    <meta property="og:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta property="og:url" content="https://reelcareer.co/account">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Your ReelCareer Account">
+    <meta name="twitter:description" content="Manage your ReelCareer account. View your balance, request payouts, check transactions, and update your membership information.">
+    <meta name="twitter:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta name="twitter:url" content="https://reelcareer.co/account">
+
+    <!-- General Meta Tags -->
+    <meta name="description" content="Access your ReelCareer account dashboard. Track your balance, manage membership, view transactions, and request payouts.">
+    <meta name="keywords" content="account management, payout request, membership, balance, transactions, ReelCareer">
+    <meta name="author" content="ReelCareer">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Canonical Tag for SEO -->
+    <link rel="canonical" href="https://reelcareer.co/account">
+
+    <!-- Standard Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://reelcareer.co/images/favicons/favicon.ico">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://reelcareer.co/account",
+      "name": "Your ReelCareer Account",
+      "description": "Manage your ReelCareer account. View your balance, request payouts, check transactions, and update your membership information.",
+      "author": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reelcareer.co/images/8pic_rc.png",
+          "width": 200,
+          "height": 60
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://reelcareer.co/images/8pic_rc.png",
+        "width": 1200,
+        "height": 630
+      }
+    }
+    </script>
+
+    <title>Your ReelCareer Account | ReelCareer</title>
+</head>
+
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+<style>
+  main {
+
+
+    
+    .content-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+
+  h3 {
+    font-size: 1.75rem;
+    color: #83bad9;
+    text-shadow: -1px 1px 0px #9e9a9a;
+    font-weight: 800;
+}
+
+#guestbook-list {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+#processPayoutArea {
+    padding: 20px;
+
+}
+
+
+.action-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: auto;
+  }
+  .action-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .popup {
+   
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1050;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    outline: 0;
+    background-color: #9e9a9a82;
+  }
+
+.open {
+  display: block;
+}
+
+.popup-content {
+    position: absolute;
+    display: grid;
+    width: 90%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 2rem auto;
+    max-height: 500px;
+    padding: 1rem;
+    overflow-y: scroll;
+    align-content: stretch;
+    align-items: center;
+    justify-items: stretch;
+    gap: .5rem;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.highlighted-amount {
+  color: #28a745;
+  font-weight: bold;
+}
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.confirm-btn {
+  color: white;
+  border: none;
+}
+.cancel-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+}
+
+
+
+
+.totalPayout {
+    margin: 1rem auto;
+}
+
+
+.transaction-entry {
+    background-color: #f3f3f3;
+    padding: .5rem;
+    border-radius: 10px;
+    margin: 1.5rem;
+}
+.transaction-details p {
+
+  margin-top: 0;
+  margin-bottom: 0;
+}
+}    
+  </style>
+  
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav id="Main-Nav_bar" class="navbar navbar-expand-lg main-navbar-light shadow-sm sticky-top" role="navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo -->
+      <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
+        ReelCareer
+      </a>
+
+      <!-- Always-visible Icons -->
+      <ul class="navbar-nav d-flex flex-row justify-content-center flex-grow-1" id="iconBar">
+        
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/job-listings" aria-label="Go to job listings page">
+          <i class="fa fa-briefcase"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/reels" aria-label="Go to reels page">
+          <i class="fa fa-video"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/membership" aria-label="Go to membership page">
+          <i class="fa fa-user"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/blogs" aria-label="Go to blogs page">
+          <i class="fa fa-pencil-alt"></i>
+        </a>
+      </li>
+      </ul>
+
+      <!-- Auth Section -->
+      <div id="authSection" class="d-flex align-items-center"><button class="btn btn-primary" id="loginButton">Login / Create Account</button></div>
+    </div>
+  </nav>
+
+
+<header>
+    <h1 id="breadcrumbText">ReelCareer Account</h1>
+</header>
+
+   <!-- Breadcrumb Section -->
+<div id="main-breadcrumb" class="breadcrumb">
+    <a href="https://reelcareer.co/">Home</a> | <a href="https://reelcareer.co/obituaries">Obituaries</a> 
+    | <a href="https://reelcareer.co/obituaries/create">Create</a>| <a href="https://reelcareer.co/obituaries/about">About</a>
+</div>
+
+
+    <!-- Main Content Section -->
+    <main id="main-content">
+        <section id="user-header">
+            <div class="profile-card">
+              <img id="profile-image" src="" alt="User Image" class="profile-img">
+              <h2 id="user-name">User Name</h2>
+              <p id="join-date">Join Date: MM/DD/YYYY</p>
+            </div>
+          </section>
+          
+        
+        <section id="Transactions-section" class="content-card">>
+              <h3>Transactions</h3>
+
+              
+            <div class="totalPayout">
+              <strong>Total Available for Payout:</strong> 
+              <span id="total-payout" class="highlighted-amount">$0.00</span>
+            </div>
+            <div id="transactions-log" class="transaction-log"></div>
+        
+            <div id="last-request-date" class="info-text"></div>
+            <div id="request-note" class="info-text"></div>
+        
+            <label for="requested-amount" class="input-label">Enter Amount to Request:</label>
+            <input type="number" id="requested-amount" placeholder="Enter amount" class="input-box">
+            <p class="info-text">* Minimum payout amount is $25.</p> <!-- Added informational text -->
+        
+            <div class="button-group">
+              <button onclick="confirmPayout()" class="btn confirm-btn">Process Payout</button>
+
+            </div>
+          </div>
+        </section>
+        
+        
+
+
+        <div id="user-toolbar" class="toolbar">
+            <!-- Toolbar buttons will be injected here -->
+        </div>
+        
+      </main>
+      
+      
+
+
+   <!-- Footer -->
+   <footer id="dynamic-footer">
+    <div class="footerMainContainer text-center">
+    <p class="footerSocialMedia"></p>
+    <nav class="footerNavContainer">
+    
+    <div class="footerNavItems">
+    <h5>General</h5>
+    <a href="/" title="ReelCareer - #1 Job Board - Find a job today">ReelCareer</a><a href="/views/about" title="About ReelCareer - Who We Are and Our Mission">About ReelCareer</a><a href="/views/contact" title="Contact ReelCareer - Get in Touch for Support and Inquiries">Contact Us</a><a href="/job-listings" title="Job Listings - Search and Apply for Job Openings">Job Listings</a><a href="/membership" title="Membership - Unlock Premium Features and Job Opportunities">Membership</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Legal</h5>
+    <a href="/views/privacy" title="Privacy Policy - How We Protect Your Data">Privacy Policy</a><a href="/views/terms" title="Terms of Use - Website User Agreement and Guidelines">Terms of Use</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Content</h5>
+    <a href="/views/blogs" title="ReelCareer Blog - Career Advice, News, and Insights">Blogs</a><a href="/views/news" title="ReelCareer News - Latest Updates and Industry Trends">News</a><a href="/views/Personality-&-Trait-Tests" title="Personality & Trait Tests - Discover Your Strengths and Work Style">Personality & Trait Tests</a><a href="/reels" title="Video Reels - Showcase Your Resume with a Personal Touch">Video Reels</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Support</h5>
+    <a href="/views/faq" title="Frequently Asked Questions - Get Answers to Common Queries">FAQs</a><a href="/bot" title="Chat Bot - Get Instant Assistance with Your Job Search">Chat Bot</a><a href="/support" title="Support - Get Help with Your Job Search and Account">Support</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Marketing</h5>
+    <a href="/views/referral" title="Join the ReelCareer Affiliate Program and Earn Rewards">Affiliate Program</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Admin</h5>
+    <a href="/backend/dashboard" title="Admin Dashboard - Manage Users, Jobs, and Content">Admin</a>
+    </div>
+    
+    <div class="footerNavItems">
+    <h5>Features</h5>
+    <a href="/jobs/city" title="City Jobs - Find Career Opportunities by Location">City Jobs</a><a href="/jobs/state" title="State Jobs - Explore Job Listings by State">State Jobs</a><a href="/jobs/locations" title="Job Locations - Browse Jobs in Your Area">Job Locations</a>
+    </div>
+    </nav>
+    <p class="footerCopyWrite">© 2024 ReelCareer</p>
+    
+    </div>
+    <button id="backToTop" title="Go to top">↑</button>
+    
+    </footer>
+    
+    
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
+
+
+    
+
+        <!-- Include Firebase SDK as a module -->
+<script type="module">
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot , linkWithCredential, EmailAuthProvider ,
+  getUserId // Export the function
+    } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+    
+        // Listen for authentication state changes to get the user ID
+        let userID = '';
+        let pageID = '';
+        let pageName = '';
+        document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+
+
+          onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    try {
+       userID = user.uid;
+      console.log("User ID:", userID);
+
+
+    if (pageName) {
+        createToolbar(pageID, pageName);
+
+    }
+
+// Get user data from localStorage or initialize as an empty array
+const userDataSaved = getUserData() || [];  // Assume getUserData() fetches stored user data
+if (userDataSaved.length > 0) {
+  // Assuming userDataSaved[0] contains user object details
+  const user = userDataSaved[0];
+  
+  // Update user header section
+  const profileImageElement = document.getElementById('profile-image');
+  const userNameElement = document.getElementById('user-name');
+  const joinDateElement = document.getElementById('join-date');
+  
+  profileImageElement.src = user.profilePicture || 'default-user-image.jpg';  // Fallback image
+  profileImageElement.alt = `${user.name}'s Profile Image`;  // Set descriptive alt text
+  
+  userNameElement.textContent = user.displayName || 'User Name';  // Fallback name
+  joinDateElement.textContent = `Join Date: ${user.joinDate || 'MM/DD/YYYY'}`;  // Fallback date
+} else {
+  console.warn('No user data found in storage.');
+
+  return;
+}
+
+// Mock getUserData function (replace with actual implementation)
+function getUserData() {
+  return JSON.parse(localStorage.getItem('userData')) || [];
+}
+
+
+} catch (error) {
+      console.error("Error checking page ownership:", error);
+    }
+
+  } else {
+    console.log("No user signed in ...");
+
+    return;
+    
+  }
+
+    
+});
+
+    
+});
+
+        // Fetch user's IP address using an external service
+        async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+// Function to fetch user IP and location details
+async function getUserDetails() {
+  try {
+    const response = await fetch("https://ipapi.co/json/");
+    const data = await response.json();
+
+    return {
+      ip: data.ip,
+      city: data.city,
+      state: data.region,
+      country: data.country_name,
+      location: {
+        latitude: data.latitude,
+        longitude: data.longitude,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return null;
+  }
+}
+
+// Utility: Format Timestamp
+function formatTimestamp(timestamp) {
+  // Convert Firebase Timestamp to milliseconds
+  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
+
+  // Format the date as MM/DD/YYYY
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+function createTransactionElement(doc, transactionData) {
+    const transactionElement = document.createElement("div");
+    transactionElement.classList.add("transaction-entry");
+
+    const timestamp = transactionData.timestamp 
+        ? new Date(transactionData.timestamp.seconds * 1000).toLocaleString() 
+        : 'No date';
+    
+    const fee = calculateFee(transactionData.amount);
+    const netAmount = transactionData.amount - fee;
+    
+    const { transactionDetails, suggestionText } = getTransactionDetails(transactionData, fee, netAmount);
+    
+    transactionElement.innerHTML = `
+        <div class="transaction-details">
+            <p><strong>Transaction ID:</strong> ${doc.id}</p>
+            <p><strong>Date:</strong> ${timestamp}</p>
+            ${transactionDetails}
+        </div>
+        <hr>
+        <p><strong>Status:</strong> ${transactionData.status || 'Active'}</p>
+        ${suggestionText}
+    `;
+    
+    return transactionElement;
+}
+
+function calculateFee(amount) {
+    return amount ? amount * 0.10 : 0;
+}
+
+function getTransactionDetails(transactionData, fee, netAmount) {
+    let transactionDetails = '';
+    let suggestionText = '';
+    
+    switch (transactionData.transactionType) {
+        case 'job_post_boost':
+            transactionDetails = getBoostTransactionDetails(transactionData, fee, netAmount);
+            suggestionText = "<p><em>Consider boosting your job posts periodically to maintain visibility among job seekers!</em></p>";
+            break;
+
+        case 'profile_boost':
+            transactionDetails = getBoostTransactionDetails(transactionData, fee, netAmount, 'profile boost');
+            suggestionText = "<p><em>Profile boosts help increase visibility to recruiters. Keep your profile active!</em></p>";
+            break;
+
+        case 'video_reel_gift':
+            transactionDetails = getGiftTransactionDetails(transactionData, fee, netAmount);
+            suggestionText = "<p><em>Gifting can help engage others in your network—consider sending more gifts to boost interactions!</em></p>";
+            break;
+
+        case 'withdraw':
+            transactionDetails = getWithdrawTransactionDetails(transactionData);
+            suggestionText = "<p><em>Ensure you have sufficient balance before making withdrawals to avoid disruptions.</em></p>";
+            break;
+
+        default:
+            transactionDetails = getGenericTransactionDetails(transactionData, fee, netAmount);
+            suggestionText = "<p><em>Stay on top of your transaction details to maintain a healthy account balance!</em></p>";
+            break;
+    }
+
+    return { transactionDetails, suggestionText };
+}
+
+function getBoostTransactionDetails(transactionData, fee, netAmount, type = 'Job post boost') {
+    return `
+        <p><strong>Amount Paid:</strong> $${transactionData.amount.toFixed(2)}</p>
+        <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+        <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+        <p><strong>Note:</strong> ${type} for ID: ${transactionData.pageID || transactionData.userID}</p>
+    `;
+}
+
+function getGiftTransactionDetails(transactionData, fee, netAmount) {
+    return `
+        <p><strong>Gift Type:</strong> ${transactionData.giftType || 'Video Reel'}</p>
+        <p><strong>Amount Given:</strong> $${transactionData.amount.toFixed(2)}</p>
+        <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+        <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+        <p><strong>Note:</strong> Gift given for Video Reel for User ID: ${transactionData.userID}</p>
+    `;
+}
+
+function getWithdrawTransactionDetails(transactionData) {
+    return `
+        <p><strong>Withdraw Amount:</strong> $${transactionData.withdraw_amount.toFixed(2)}</p>
+        <p><strong>Available Amount:</strong> $${(transactionData.availableAmount - transactionData.withdraw_amount).toFixed(2)}</p>
+        <p><strong>Note:</strong> Withdraw request for Page: ${transactionData.pageID}</p>
+    `;
+}
+
+function getGenericTransactionDetails(transactionData, fee, netAmount) {
+    return `
+        <p><strong>Amount:</strong> $${transactionData.amount.toFixed(2)}</p>
+        <p><strong>Fee (10%):</strong> $${fee.toFixed(2)}</p>
+        <p><strong>Net Amount:</strong> $${netAmount.toFixed(2)}</p>
+        <p><strong>Note:</strong> ${transactionData.note}</p>
+    `;
+}
+
+// Calculate the total payout (refactored)
+async function calculateTotalPayout() {
+    try {
+        const transactionsRef = collection(db, 'A_Transactions');
+        const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
+        const transactionSnapshot = await getDocs(transactionsQuery);
+        
+        const sortedTransactions = transactionSnapshot.docs.sort((a, b) => {
+            return new Date(b.data().requestDate) - new Date(a.data().requestDate);
+        });
+
+        let totalGifts = 0;
+        let withdrawnPayouts = 0;
+        const transactionsLog = document.getElementById("transactions-log");
+        transactionsLog.innerHTML = ''; 
+
+        let latestTransactionDate = null;
+
+        sortedTransactions.forEach(doc => {
+            const transactionData = doc.data();
+            const isWithdraw = transactionData.transactionType === "withdraw";
+            const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
+
+            if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
+                const fee = transactionData.amount * 0.10;
+                totalGifts += (transactionData.amount - fee);
+            } else if (isWithdraw) {
+                withdrawnPayouts += transactionData.withdraw_amount || 0;
+            }
+
+            if (!latestTransactionDate || new Date(transactionData.requestDate) > new Date(latestTransactionDate)) {
+                latestTransactionDate = transactionData.requestDate;
+            }
+
+            const transactionElement = createTransactionElement(doc, transactionData);
+            transactionsLog.appendChild(transactionElement);
+        });
+
+        handleRequestCooldown(latestTransactionDate);
+
+        const availablePayout = totalGifts - withdrawnPayouts;
+        return availablePayout;
+    } catch (error) {
+        console.error("Error calculating total payout:", error);
+        return 0;
+    }
+}
+
+// Handling payout cooldown (refactored)
+function handleRequestCooldown(latestTransactionDate) {
+    const lastRequestDate = new Date(latestTransactionDate || 0);
+    const sevenDaysLater = new Date(lastRequestDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const now = new Date();
+
+    requestPayoutBool = now >= sevenDaysLater;
+    const requestNote = requestPayoutBool
+        ? "You can request funds."
+        : `You can request funds on ${sevenDaysLater.toLocaleDateString()}.`;
+    document.getElementById("request-note").textContent = requestNote;
+    document.getElementById("last-request-date").textContent = `Last Request: ${lastRequestDate.toLocaleDateString()}`;
+}
+
+// Confirm payout (refactored)
+async function confirmPayout() {
+    const MINIMUM_PAYOUT = 25;
+    const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
+
+    const availableAmount = await calculateTotalPayout();
+
+    if (!requestPayoutBool) {
+        showToast("Request can only be made once every 7 days", 'error');
+        return;
+    }
+
+    if (requestedAmount <= 0) {
+        showToast("Please enter a valid payout amount.", 'error');
+    } else if (requestedAmount < MINIMUM_PAYOUT) {
+        showToast(`Minimum payout amount is $${MINIMUM_PAYOUT}. Please enter a valid amount.`, 'error');
+    } else if (requestedAmount > availableAmount) {
+        showToast("Requested amount exceeds the available balance.", 'error');
+    } else {
+        await createPayoutTransaction(requestedAmount, availableAmount);
+        showToast("Payout request confirmed. Your payout is being processed.", 'success');
+        closeModal();
+    }
+}
+
+// Create payout transaction (refactored)
+async function createPayoutTransaction(amount, availableAmount) {
+    try {
+        const transactionsRef = collection(db, 'A_Transactions');
+        const transactionData = {
+            pageID,
+            userID,
+            transactionType: 'withdraw',
+            availableAmount,
+            withdraw_amount: amount,
+            note: `Withdraw Request: Page: ${pageID}`,
+            status: "Pending",
+            timestamp: serverTimestamp(),
+        };
+
+        await addDoc(transactionsRef, transactionData);
+        getUserContactDetails(transactionData);
+    } catch (error) {
+        console.error("Error creating payout transaction:", error);
+        showToast("An error occurred while creating the payout transaction.", 'error');
+    }
+}
+
+
+
+let requestPayoutBool = false;
+
+async function calculateTotalPayout() {
+  try {
+    const transactionsRef = collection(db, 'A_Transactions');
+    const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
+    const transactionSnapshot = await getDocs(transactionsQuery);
+
+    // Sort the transactions by requestDate in descending order
+    const sortedTransactions = transactionSnapshot.docs.sort((a, b) => {
+      const dateA = new Date(a.data().requestDate);
+      const dateB = new Date(b.data().requestDate);
+      return dateB - dateA; // Sort in descending order (latest first)
+    });
+
+    let totalGifts = 0;
+    let withdrawnPayouts = 0;
+    const transactionsLog = document.getElementById("transactions-log");
+    transactionsLog.innerHTML = '';  // Clear previous logs
+
+    let latestTransactionDate = null;
+
+    sortedTransactions.forEach(doc => {
+      const transactionData = doc.data();
+      const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
+      const isWithdraw = transactionData.transactionType === "withdraw";
+
+      if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
+        const fee = transactionData.amount * 0.10;
+        const netAmount = transactionData.amount - fee;
+        totalGifts += netAmount;
+      } else if (isWithdraw) {
+        withdrawnPayouts += transactionData.withdraw_amount || 0;
+      }
+
+      // Capture the date of the most recent transaction
+      if (!latestTransactionDate || new Date(transactionData.requestDate) > new Date(latestTransactionDate)) {
+        latestTransactionDate = transactionData.requestDate;
+      }
+
+      const transactionElement = createTransactionElement(doc, transactionData, isWithdraw, payPalPayStatus);
+      transactionsLog.appendChild(transactionElement);
+    });
+
+    // Check request cooldown using the latest transaction date
+    handleRequestCooldown(latestTransactionDate);
+
+    const availablePayout = totalGifts - withdrawnPayouts;
+    return availablePayout;
+  } catch (error) {
+    console.error("Error calculating total payout:", error);
+    return 0;
+  }
+}
+
+
+window.calculateTotalPayout = calculateTotalPayout;
+
+
+async function viewTransactions() {
+  const availableAmount = await calculateTotalPayout();
+  document.getElementById("total-payout").textContent = availableAmount.toFixed(2);
+
+
+
+  showToast(`Total available payout: $${availableAmount.toFixed(2)}`, 'success');
+  document.getElementById("payout-modal").classList.add('open');
+
+  if (!requestPayoutBool) {
+    showToast("Request can only be made once every 7 days", 'error');
+    return;
+  }
+}
+
+
+
+
+
+window.viewTransactions = viewTransactions;
+
+viewTransactions();
+
+
+window.confirmPayout = confirmPayout;
+
+// Function to create a new payout transaction
+async function createPayoutTransaction(amount, availableAmount) {
+    try {
+        const transactionsRef = collection(db, 'A_Transactions');  // Ensure db is initialized properly
+        if (!transactionsRef) throw new Error('Failed to get transactions collection reference.');
+        
+        const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
+        const transactionData = {
+          pageID,
+          userID,
+          transactionType: `withdraw`,
+          availableAmount,
+            withdraw_amount: amount,
+            note: `Withdraw Request: Page: ${pageID}`,
+            status: "Pending",  // Mark as pending until processed
+            timestamp: serverTimestamp(),
+        };
+
+        // Add the transaction to the database
+        await addDoc(transactionsRef, transactionData);
+        getUserContactDetails(transactionData);
+
+        console.log("Payout transaction created:", transactionData);
+    } catch (error) {
+        console.error("Error creating payout transaction:", error);
+        showToast("An error occurred while creating the payout transaction.", 'error');
+    }
+}
+
+// Function to get user's email and phone number
+async function getUserContactDetails(transactionData) {
+    try {
+        const userRef = doc(db, "Users", userID);
+        const userDoc = await getDoc(userRef);
+        if (!userDoc.exists()) throw new Error('User document not found.');
+        
+        const userData = userDoc.data();
+        const userEmail = userData.email || "N/A";
+        const userPhone = userData.phone || "N/A";
+
+        const confirmationText = `Would you like to send the payout details to this contact information?\nEmail: ${userEmail}\nPhone: ${userPhone}`;
+
+        const sendToContact = confirm(confirmationText);
+        if (sendToContact) {
+            processPayoutTransaction(userEmail, userPhone, transactionData);
+        } else {
+            const alternativeContact = prompt("Please enter an alternative email or phone number:");
+            processPayoutTransaction(alternativeContact, '', transactionData);
+        }
+    } catch (error) {
+        console.error("Error getting user contact details:", error);
+        showToast("An error occurred while fetching user contact details.", 'error');
+    }
+}
+
+// Function to process the payout transaction
+async function processPayoutTransaction(contact, contact2, transactionData) {
+    try {
+        const payoutRef = collection(db, "A_Payouts");  // Ensure db is initialized properly
+        if (!payoutRef) throw new Error('Failed to get payouts collection reference.');
+        
+        const payoutDoc = await addDoc(payoutRef, {
+            pageID,
+            url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+            transactionData: transactionData,
+            contact,
+            contact2,
+            note: `Process Payout: User: ${userID}`,
+            pageName: pageName,
+            status: "Pending",
+            userID: userID,
+            userIP: getUserIP(),
+            timestamp: serverTimestamp(),
+            requestDate: new Date().toISOString(),  // Properly formatted date
+        });
+
+        console.log("Payout initiated:", payoutDoc.id);
+    } catch (error) {
+        console.error("Error processing payout transaction:", error);
+        showToast("An error occurred while processing the payout transaction.", 'error');
+    }
+}
+
+
+// Function to close the payout modal
+function closeModal() {
+  document.getElementById("payout-modal").classList.remove('open');
+}
+
+window.closeModal = closeModal;
+
+
+
+
+function createToolbar(pageID, pageName) {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'controls';
+    toolbar.innerHTML = `
+        <button id="edit_${pageID}">Edit</button>
+        <button id="analytics_${pageID}">Analytics</button>
+        <button id="view_${pageID}">View</button>
+        <button id="userAccount_${pageID}">Account</button>
+    `;
+
+    // Append the toolbar to the desired container
+    document.getElementById('user-toolbar').appendChild(toolbar);
+
+    // Add event listeners for the buttons
+    toolbar.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID, pageName));
+    toolbar.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
+    toolbar.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
+    toolbar.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
+}
+
+
+// Functions to handle button actions
+function goToEditPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/edit.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.goToEditPage = goToEditPage;
+
+function goToAnalyticsPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/analytics.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.goToAnalyticsPage = goToAnalyticsPage;
+
+function goToViewPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/celebrating/${encodeURIComponent(pageName)}`;
+}
+window.goToViewPage = goToViewPage;
+
+function loadUserAccount(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/account.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.loadUserAccount = loadUserAccount;
+
+
+</script>
+
+
+    </body>
+    
+    
+    
+    </html>
+      
