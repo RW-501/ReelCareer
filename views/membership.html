@@ -416,17 +416,12 @@
  <!-- Firebase JS SDK and Custom Scripts -->
 
 <script type="module">
-    import {
-        db, doc, getDoc, query, updateDoc,
-        setDoc, ref, signInWithPopup, orderBy, limit,
-         
-        uploadBytes, OAuthProvider, arrayUnion, getStorage,
-        signOut, addDoc, increment, onAuthStateChanged,
-        createUserWithEmailAndPassword, signInWithEmailAndPassword,
-        where, getDocs, addDoc, serverTimestamp, updateDoc,
-         storage, collection, deleteObject, 
-        auth, analytics, deleteDoc, getDownloadURL
-    } from 'https://reelcareer.co/scripts/js/load/module.js';
+import {
+  db, doc, getDoc, query, updateDoc, setDoc, ref, signInWithPopup, orderBy, limit,
+  uploadBytes, OAuthProvider, arrayUnion, getStorage, signOut, addDoc, increment, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, where, getDocs, addDoc, serverTimestamp,
+  storage, collection, deleteObject, auth, analytics, deleteDoc, getDownloadURL
+} from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
 // Get Latest Membership Status
@@ -456,8 +451,84 @@ async function getLatestMembership(userID) {
 window.getLatestMembership = getLatestMembership;
 
 
+async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+
+
+// Initialize PayPal Buttons
+function initializePayPalButtons() {
+  const membershipButtons = {
+    free: { price: 0, description: 'Free Membership' },
+    basic: { price: 9.99, description: 'Basic Premium Membership' },
+    pro: { price: 19.99, description: 'Pro Premium Membership' }
+  };
+
+  ['free', 'basic', 'pro'].forEach(type => {
+    paypal.Buttons({
+      style: {
+        layout: 'vertical',
+        color: 'blue',
+        shape: 'rect',
+        label: 'checkout'
+      },
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: membershipButtons[type].price.toFixed(2)
+            },
+            description: membershipButtons[type].description
+          }]
+        });
+      },
+      onApprove: async (data, actions) => {
+        const order = await actions.order.capture();
+        console.log('Order Approved:', order);
+        const userDataSaved = getUserData() || {};
+        const userID = userDataSaved.userID;
+        if (userID) {
+          await updateMembership(userID, type);
+        } else {
+          showToast("User not logged in.");
+        }
+      },
+      onError: err => {
+        console.error('PayPal error:', err);
+        showToast("Payment error. Please try again.");
+      }
+    }).render(`#paypal-button-container-${type}`);
+  });
+}
+
+
+
+// Updated Membership Plans UI with PayPal buttons
+document.write(`
+  <div class="membership-options">
+    <div id="paypal-button-container-free"></div>
+    <div id="paypal-button-container-basic"></div>
+    <div id="paypal-button-container-pro"></div>
+  </div>
+`);
+
+
+
 // Update Membership
 async function updateMembership(userID, newMembershipType) {
+
+    const container = document.getElementById(`paypal-button-container-${newMembershipType}`);
+  if (container) {
+    container.scrollIntoView({ behavior: 'smooth' });
+  }
+
   try {
     const userDocRef = doc(db, "Users", userID);
     const userSnapshot = await getDoc(userDocRef);
@@ -479,11 +550,14 @@ async function updateMembership(userID, newMembershipType) {
 
       // Record the transaction
       await addDoc(collection(db, "A_Transactions"), {
-        userID,
+        userID: userID,
+        userIP: getUserIP(),
         membershipType: newMembershipType,
+        note: `Membership Change: User: ${userID}`,
         transactionType: currentMembership === "free" ? "upgrade" : "downgrade",
         amount: calculateMembershipCost(newMembershipType),
         timestamp: serverTimestamp(),
+        status: "complete",
         createdDate: new Date().toISOString(),
       });
 
@@ -532,6 +606,7 @@ async function upgradeMembership(newMembershipType) {
   }
 }
 
+initializePayPalButtons(); 
   </script>
 </body>
 </html>

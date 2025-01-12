@@ -733,8 +733,7 @@ async function createPayoutTransaction(amount, availableAmount) {
           transactionType: `withdraw`,
           availableAmount,
             withdraw_amount: amount,
-            note: `Withdraw Request: ${pageID}`,
-            transactionType: `Withdraw`,
+            note: `Withdraw Request: Page: ${pageID}`,
             status: "Pending",  // Mark as pending until processed
             timestamp: serverTimestamp(),
         };
@@ -793,7 +792,7 @@ async function processPayoutTransaction(contact, contact2, transactionData) {
             userID: userID,
             userIP: getUserIP(),
             timestamp: serverTimestamp(),
-            requestDate: new Date(),
+            requestDate: new Date().toISOString(),  // Properly formatted date
         });
 
         console.log("Payout initiated:", payoutDoc.id);

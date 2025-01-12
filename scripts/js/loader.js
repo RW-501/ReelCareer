@@ -332,6 +332,14 @@ function loadPageScripts() {
     });
 
 
+
+    loadScript('https://www.paypal.com/sdk/js?client-id=AcOZi3sszHkpUZJCLDRglEAusFk4W_siExTkNTWQhjMSFRxV7Prc81274wHQ8H-wYYfnWsm4p6Rw55Qp&currency=USD', {  type: 'module'  }, () => {
+        logExecutionTime('paypal', performance.now());
+    });
+
+
+
+
     // Load imagePopup.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/helpers/imagePopup.js', {  defer: true }, () => {
         logExecutionTime('imagePopup Script', performance.now());

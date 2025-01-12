@@ -666,7 +666,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
       pageName,
       paymentDetails,
       withdraw_amount: 0,
-      note: `Credit to Account: ${pageID}`,
+      note: `Credit to Account: Page: ${pageID}`,
       transactionType: `credit`,
       status: "active",
       pageOwnerUserID: pageOwnerUserID,
