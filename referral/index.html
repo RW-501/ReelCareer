@@ -446,13 +446,13 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
     // Get the user ID from Firebase Auth and Firestore
     auth.onAuthStateChanged(user => {
         if (user) {
             // Get user ID from Firebase
             const userID = user.uid;
 
-            
             const referralLink = `https://reelcareer.co/referral/?r=${userID}`;
             renderReferralShareArea(userID, referralLink);
 
@@ -474,13 +474,14 @@
             });
 
             getReferral(userID);  // Assuming getReferral tracks any actions or changes for the user
-
         } else {
             const referralLinkArea = document.getElementById('referralLinkArea');
-            referralLinkArea.style.disable = 'true';
+            referralLinkArea.style.pointerEvents = 'none';
+            referralLinkArea.style.opacity = '0.5';
 
             const referralArea = document.getElementById('referralArea');
-            referralArea.style.disable = 'true';
+            referralArea.style.pointerEvents = 'none';
+            referralArea.style.opacity = '0.5';
 
             const referralLink = `https://reelcareer.co/referral/?r=JoinUs`;
             document.getElementById('referralLink').value = referralLink;
@@ -488,41 +489,51 @@
             console.log("User not signed in");
         }
     });
-
+});
 
     
-
-
-    function getReferral(userID) {
+function getReferral(userID) {
     const referralArea = document.getElementById('referralArea');
     const referralCards = document.getElementById('referralCards');
+
+    // Clear previous referral cards
+    referralCards.innerHTML = '';
 
     // Fetch referral data from Firestore
     const referralQuery = query(collection(db, 'UserReferral'), where('referredUser', '==', userID));
     getDocs(referralQuery).then(snapshot => {
-        snapshot.forEach(doc => {
-            const referralData = doc.data();
-            const referredBy = referralData.referredBy;
-            const referType = referralData.referType;
-            const status = referralData.status;
-
-            // Create referral card element
-            const referralCard = document.createElement('div');
-            referralCard.classList.add('referral-card');
-            
-            // Create the card content
-            referralCard.innerHTML = `
-                <div class="card-header">Referred By: ${referredBy}</div>
-                <div class="card-status ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</div>
-                <div class="referral-details">
-                    <p>Referral Type: ${referType}</p>
-                    <p>Status: <strong>${status}</strong></p>
+        if (snapshot.empty) {
+            // Display a message if no referrals are found
+            referralCards.innerHTML = `
+                <div class="no-referrals-message">
+                    <p>You have no referrals yet. Share your referral link to earn rewards!</p>
                 </div>
             `;
-            
-            // Append the card to the container
-            referralCards.appendChild(referralCard);
-        });
+        } else {
+            snapshot.forEach(doc => {
+                const referralData = doc.data();
+                const referredBy = referralData.referredBy;
+                const referType = referralData.referType;
+                const status = referralData.status;
+
+                // Create referral card element
+                const referralCard = document.createElement('div');
+                referralCard.classList.add('referral-card');
+
+                // Create the card content
+                referralCard.innerHTML = `
+                    <div class="card-header">Referred By: ${referredBy}</div>
+                    <div class="card-status ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</div>
+                    <div class="referral-details">
+                        <p>Referral Type: ${referType}</p>
+                        <p>Status: <strong>${status}</strong></p>
+                    </div>
+                `;
+
+                // Append the card to the container
+                referralCards.appendChild(referralCard);
+            });
+        }
     }).catch(error => {
         console.error("Error fetching referrals: ", error);
         referralArea.innerHTML = "<p>Error fetching referral data.</p>";
