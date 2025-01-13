@@ -275,7 +275,11 @@
         <h3>User Information</h3>
         <div class="account-card">
           <p id="user-name" class="user-detail"><strong>Name:</strong> <span>User Name</span></p>
+          <p id="user-display-name" class="user-detail"><strong>Display Name:</strong> <span>Display Name</span></p>
           <p id="user-email" class="user-detail"><strong>Email:</strong> <span>user@example.com</span></p>
+          <p id="user-phone" class="user-detail"><strong>Phone Number:</strong> <span>(123) 456-7890</span></p>
+          <p id="user-ip-address" class="user-detail"><strong>IP Address:</strong> <span>192.168.0.1</span></p>
+          <p id="user-verified" class="user-detail"><strong>Verified:</strong> <span>Yes</span></p>
           <div class="mb-3">
             <label for="userID-profile" class="form-label">User ID</label>
             <input type="text" class="form-control" id="userID-profile" disabled value="12345" aria-describedby="userIDHelp">
@@ -288,6 +292,7 @@
         </div>
         <button id="view-user-profile" class="btn action-btn" aria-label="Update User Profile">Update Profile</button>
       </section>
+      
       
       <section id="membership-section" class="content-card">
         <h3>Membership</h3>
@@ -839,6 +844,10 @@ function formatTimestamp(timestamp) {
 
 // Function to fetch and populate dynamic info
 function populateUserInfo(userId) {
+
+
+
+
     // Reference to the Firebase collections
     const db = firebase.firestore();
     
@@ -849,36 +858,80 @@ function populateUserInfo(userId) {
                 const userData = doc.data();
                 
                 // Populate the user info section
-                document.getElementById('user-name').querySelector('span').textContent = userData.name;
-                document.getElementById('user-email').querySelector('span').textContent = userData.email;
-                document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
+                document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
+      document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
+      document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
+      document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
+      document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
+      document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
+   document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
                 document.getElementById('join-date').querySelector('span').textContent = userData.joinDate || 'MM/DD/YYYY';
                 document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
                 document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
                 document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
-                document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiryDate || 'MM/DD/YYYY';
-            }
+                document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
+         
+              }
         })
         .catch(error => {
             console.error("Error fetching user data:", error);
         });
 
     // Fetch user referral data from the UserReferral collection
-    db.collection('UserReferral').doc(userId).get()
-        .then(doc => {
-            if (doc.exists) {
-                const referralData = doc.data();
-                document.getElementById('referrals-count').querySelector('span').textContent = referralData.referralsCount || 0;
-                document.getElementById('referrals-earned').querySelector('span').textContent = `$${referralData.earned || 0}`;
-                document.getElementById('referrals-pending').textContent = referralData.pending || 0;
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching referral data:", error);
-        });
+    let pendingReferral = 0;
+let referralEarned = 0;
+let completedReferral = 0;
+
+const referralQuery = query(collection(db, 'UserReferral'), where('referredBy', '==', userID));
+
+getDocs(referralQuery).then(snapshot => {
+  if (snapshot.empty) {
+    console.log("No referrals found.");
+  } else {
+    snapshot.forEach(doc => {
+      const referralData = doc.data();
+      const referredUser = referralData.referredUser;
+      const referType = referralData.referType;
+      const referMembershipBool = referralData.referMembershipBool;
+      const referObituariesBool = referralData.referObituariesBool;
+      const status = referralData.status;
+
+      // Count pending referrals for membership and obituaries
+      if (status === "pending") {
+        if (referObituariesBool) {
+          pendingReferral += 1;
+        }
+        if (referMembershipBool) {
+          pendingReferral += 1;
+        }
+      }
+
+      // Count completed referrals for membership and obituaries
+      if (status === "complete") {
+        if (referObituariesBool) {
+          completedReferral += 1;
+        }
+        if (referMembershipBool) {
+          completedReferral += 1;
+        }
+      }
+    });
+
+    // Referral earnings calculation (completed referrals + bonus)
+    referralEarned = completedReferral * 5;
+
+    // Update the DOM with referral data
+    let referralsCount = snapshot.size; // Using snapshot.size for number of documents
+    document.getElementById('referrals-count').querySelector('span').textContent = referralsCount || 0;
+    document.getElementById('referrals-earned').querySelector('span').textContent = `$${referralEarned || 0}`;
+    document.getElementById('referrals-pending').textContent = pendingReferral || 0;
+  }
+}).catch(error => {
+  console.error("Error fetching referral data:", error);
+});
 
     // Fetch obituary data from the Obituaries collection
-    db.collection('Obituaries').where('userId', '==', userId).get()
+    db.collection('A_Obituaries').where('userID', '==', userId).get()
         .then(querySnapshot => {
             const obituaryData = querySnapshot.docs.map(doc => doc.data());
             const totalObituaries = obituaryData.length;
@@ -902,13 +955,16 @@ function populateUserInfo(userId) {
         });
 
     // Fetch video resume data from the VideoResume collection
-    db.collection('VideoResume').where('userId', '==', userId).get()
+    db.collection('VideoResumes').where('userID', '==', userId).get()
         .then(querySnapshot => {
             const videoResumeData = querySnapshot.docs.map(doc => doc.data());
             const totalVideoResumes = videoResumeData.length;
             const totalLikes = videoResumeData.reduce((sum, resume) => sum + (resume.likes || 0), 0);
             const totalViews = videoResumeData.reduce((sum, resume) => sum + (resume.views || 0), 0);
+
             const totalGifts = videoResumeData.reduce((sum, resume) => sum + (resume.gifts || 0), 0);
+            const totalLoves = videoResumeData.reduce((sum, resume) => sum + (resume.loves || 0), 0);
+            const totalShares = videoResumeData.reduce((sum, resume) => sum + (resume.shares || 0), 0);
 
             document.getElementById('total-video-reels').textContent = videoResumeData.length;
             document.getElementById('total-video-reel-likes').textContent = totalLikes;
@@ -922,13 +978,18 @@ function populateUserInfo(userId) {
             videoResumeData.forEach(resume => {
                 const resumeElement = document.createElement('div');
                 resumeElement.classList.add('history-item');
-                resumeElement.innerHTML = `<p><strong>Video Resume ID:</strong> ${resume.id} | <strong>Title:</strong> ${resume.title}</p>`;
+                resumeElement.innerHTML = `<p><strong>Title:</strong> ${resume.videoResumeCaptions}</p> <p><strong>Video created Date:</strong> ${resume.createdAt} </p>`;
                 videoReelHistory.appendChild(resumeElement);
             });
         })
         .catch(error => {
             console.error("Error fetching video resume data:", error);
         });
+
+
+        const referralLink = `https://reelcareer.co/referral/?r=${userID}`;
+            // Display the referral link
+            document.getElementById('referral-code').value = referralLink;
 }
 
 
