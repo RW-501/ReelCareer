@@ -90,17 +90,16 @@
         }
 
         
-        main .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    row-gap: 0.5rem;
-    grid-column-gap: 1rem;
-    grid-column-gap: 0;
-    
-    padding: 0;
-    align-content: space-around;
-    align-items: stretch;
+        main  {
+          .join-referral-link {
+    color: #007bff; /* A modern blue color for links */
+    text-decoration: underline;
+    font-weight: bold;
+}
+.join-referral-link:hover {
+    text-decoration: none;
+}
+
 }
         
     </style>   
@@ -232,8 +231,11 @@
     </div>
 
     <div class="alert alert-info text-center" role="alert">
-        <strong>Limited Time Offer!</strong> Upgrade now and get 10% off for the first three months!
-    </div>
+      <p>
+        <strong>Limited Time Offer!</strong> Upgrade now and get 10% off for the first three months!  
+        <a href="/referral" class="join-referral-link">Join our referral program</a> and earn $5 account credit when your referrals upgrade their membership or create an obituary.
+    </p>
+        </div>
     
 
     <!-- Frequently Asked Questions -->
