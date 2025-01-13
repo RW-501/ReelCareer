@@ -138,7 +138,7 @@
         <div class="card-header">
             <h4>Your Current Membership</h4>
         </div>
-        <div class="card-body">
+        <div id="currentMembership" class="card-body">
             <p><strong>Current Plan:</strong> Basic Premium</p>
             <p><strong>Expiration Date:</strong> December 31, 2024</p>
             <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
@@ -353,11 +353,7 @@ import {
 
 
 
-function viewBenefits() {
-        showToast("View detailed benefits of your current membership.", 'info');
-    }
 
-    window.viewBenefits = viewBenefits;
 
 
 // Get Latest Membership Status
@@ -367,25 +363,59 @@ async function getLatestMembership(userID) {
     const transactionsRef = collection(db, "A_Transactions");
     const q = query(
       transactionsRef,
-      orderBy("timestamp", "desc"), // Order by most recent
+      where("userID", "==", userID), // Filter by user ID
+      orderBy("timestamp", "desc"),  // Order by most recent transaction
       limit(1)
     );
     const snapshot = await getDocs(q);
 
     if (!snapshot.empty) {
       const transaction = snapshot.docs[0].data();
-      return transaction.membershipType || "free"; // Default to free if not found
+      const membershipType = transaction.membershipType || "free";
+      const expiryDate = transaction.membershipExpiryDate 
+        ? new Date(transaction.membershipExpiryDate.toDate()).toLocaleDateString() 
+        : "N/A";
+
+      // Update the currentMembership area
+      const membershipElement = document.getElementById('currentMembership');
+      membershipElement.innerHTML = `
+        <p><strong>Current Plan:</strong> ${membershipType}</p>
+        <p><strong>Expiration Date:</strong> ${expiryDate}</p>
+        <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
+      `;
+
+      return membershipType;
     } else {
       console.warn("No membership history found for user.");
+      updateMembershipUI("free", "N/A");
       return "free";
     }
   } catch (error) {
     console.error("Error fetching latest membership:", error);
-    return "free"; // Return default if error occurs
+    updateMembershipUI("free", "N/A");
+    return "free";
   }
 }
-window.getLatestMembership = getLatestMembership;
 
+// Helper function to update the UI
+function updateMembershipUI(membershipType, expiryDate) {
+  const membershipElement = document.getElementById('currentMembership');
+  membershipElement.innerHTML = `
+    <p><strong>Current Plan:</strong> ${membershipType}</p>
+    <p><strong>Expiration Date:</strong> ${expiryDate}</p>
+    <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
+  `;
+}
+
+// Usage example
+getLatestMembership(userID);  // Call this with the appropriate user ID
+
+window.getLatestMembership = getLatestMembership;
+<div id="currentMembership" class="card-body">
+            <p><strong>Current Plan:</strong> Basic Premium</p>
+            <p><strong>Expiration Date:</strong> December 31, 2024</p>
+            <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
+        </div>
 
 async function getUserIP() {
             try {
@@ -407,7 +437,7 @@ function initializePayPalButtons() {
     pro: { price: 19.99, description: 'Pro Premium Membership' }
   };
 
-  ['free', 'basic', 'pro'].forEach(type => {
+  ["free", "basic", "premium"].forEach(type => {
     paypal.Buttons({
       style: {
         layout: 'vertical',
@@ -455,6 +485,12 @@ document.write(`
   </div>
 `);
 
+function isMembershipUpgrade(currentMembership, newMembershipType) {
+  const membershipLevels = ["free", "basic", "premium"]; // Define membership levels in order
+  const currentIndex = membershipLevels.indexOf(currentMembership.toLowerCase());
+  const newIndex = membershipLevels.indexOf(newMembershipType.toLowerCase());
+  return newIndex > currentIndex; // Upgrade if new membership has a higher index
+}
 
 
 // Update Membership
@@ -477,31 +513,36 @@ async function updateMembership(userID, newMembershipType) {
         showToast("You are already on this plan.");
         return;
       }
+  
+  // Determine the type of change: upgrade or downgrade
+  const isUpgrade = isMembershipUpgrade(currentMembership, newMembershipType);
+  const transactionType = isUpgrade ? "upgrade" : "downgrade";
 
-      // Update the user's membership in the Users collection
-      await updateDoc(userDocRef, {
-        membershipType: newMembershipType,
-        updatedAt: serverTimestamp(),
-      });
-
-      // Record the transaction
-      await addDoc(collection(db, "A_Transactions"), {
-        userID: userID,
-        userIP: getUserIP(),
-        membershipType: newMembershipType,
-        note: `Membership Change: User: ${userID}`,
-        transactionType: currentMembership === "free" ? "upgrade" : "downgrade",
-        amount: calculateMembershipCost(newMembershipType),
-        timestamp: serverTimestamp(),
-        status: "complete",
-        createdDate: new Date().toISOString(),
-      });
-
-      showToast(`Membership updated to ${newMembershipType} successfully.`);
+await updateDoc(userDocRef, {
+    membershipType: newMembershipType,
+    updatedAt: serverTimestamp(),
+    membershipExpiryDate: expiryDate // Store the calculated date
+});
 
 
 
+  // Record the transaction
+  await addDoc(collection(db, "A_Transactions"), {
+    userID: userID,
+    userIP: await getUserIP(),
+    currentMembership: currentMembership,
+    newMembershipType: newMembershipType,
+    note: `Membership Change: User: ${userID}, New Expiry Date: ${expiryDate.toISOString()}`,
+    transactionType: transactionType,
+    amount: calculateMembershipCost(newMembershipType),
+    timestamp: serverTimestamp(),
+    status: "complete",
+    createdDate: new Date().toISOString(),
+  });
 
+  showToast(`Membership updated to ${newMembershipType} successfully.`);
+
+  
 // Referral logic - Get the referrer and reward
 const referralReward = 5;
 const timestamp = new Date().toISOString();
