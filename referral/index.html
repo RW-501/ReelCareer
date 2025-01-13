@@ -56,179 +56,175 @@
 
   
 
-<style>
-        body {
-            background-color: #f8f9fa;
-        }
-  
-        
-        h2 {
-            margin-bottom: 30px;
-        }
-        .card {
-            margin-bottom: 20px;
-        }
-        .form-section {
-            margin-top: 30px;
-        }
-        .recommendation {
-            margin-top: 20px;
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-
-
-
-
-
-        .referral-area {
-    margin: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-}
-
-.referral-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-}
-
-.referral-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: transform 0.3s;
-}
-
-.referral-card:hover {
-    transform: scale(1.05);
-}
-
-.card-header {
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.card-status {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-}
-
-.card-status.pending {
-    background-color: #f8b400;
-    color: white;
-}
-
-.card-status.active {
-    background-color: #28a745;
-    color: white;
-}
-
-.card-status.completed {
-    background-color: #007bff;
-    color: white;
-}
-
-.referral-details {
-    margin-top: 10px;
-}
-
-.referral-button {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.referral-button:hover {
-    background-color: #0056b3;
-}
-
-
-
-
-
-.share-section {
-    text-align: center;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.share-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-
-.share-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.share-buttons button,
-.share-buttons a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
-    transition: transform 0.3s ease;
-}
-.share-buttons button:hover,
-.share-buttons a:hover {
-    transform: scale(1.1);
-}
-
-.share-buttons .facebook {
-    background-color: #3b5998;
-}
-
-.share-buttons .twitter {
-    background-color: #1da1f2;
-}
-
-.share-buttons .linkedin {
-    background-color: #0077b5;
-}
-
-.share-buttons .whatsapp {
-    background-color: #25d366;
-}
-
-.share-buttons .device-share {
-    background-color: #5c6363;
-    border: none;
-}
-
-.share-buttons .device-share:focus,
-.share-buttons .device-share:active {
-    border: none;
-}
-
-
-
-
-    </style>
-
 
     
 <!-- Main Script Loader -->
     <script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+    
+<style>
+
+    main {
+            .card {
+                margin-bottom: 20px;
+            }
+            .form-section {
+                margin-top: 30px;
+            }
+            .recommendation {
+                margin-top: 20px;
+                background-color: #e9ecef;
+                padding: 15px;
+                border-radius: 5px;
+            }
+    
+    
+    
+    
+    
+    
+            .referral-area {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+    }
+    
+    .referral-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .referral-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.3s;
+    }
+    
+    .referral-card:hover {
+        transform: scale(1.05);
+    }
+    
+    .card-header {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    .card-status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+    
+    .card-status.pending {
+        background-color: #f8b400;
+        color: white;
+    }
+    
+    .card-status.active {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .card-status.completed {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .referral-details {
+        margin-top: 10px;
+    }
+    
+    .referral-button {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .referral-button:hover {
+        background-color: #0056b3;
+    }
+    
+    
+    
+    
+    
+    .share-section {
+        text-align: center;
+        margin: 20px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    .share-section h2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+    
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .share-buttons button,
+    .share-buttons a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+        transition: transform 0.3s ease;
+    }
+    .share-buttons button:hover,
+    .share-buttons a:hover {
+        transform: scale(1.1);
+    }
+    
+    .share-buttons .facebook {
+        background-color: #3b5998;
+    }
+    
+    .share-buttons .twitter {
+        background-color: #1da1f2;
+    }
+    
+    .share-buttons .linkedin {
+        background-color: #0077b5;
+    }
+    
+    .share-buttons .whatsapp {
+        background-color: #25d366;
+    }
+    
+    .share-buttons .device-share {
+        background-color: #5c6363;
+        border: none;
+    }
+    
+    .share-buttons .device-share:focus,
+    .share-buttons .device-share:active {
+        border: none;
+    }
+    
+    }
+    
+    
+        </style>
+    
 </head>
 
 
