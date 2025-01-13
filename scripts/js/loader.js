@@ -258,10 +258,10 @@ preLoadPageScripts();
 
 
 // Call waitForElement to check for the 'main' element
-waitForElement('main', () => {
+//waitForElement('main', () => {
     // Hide the body initially
     document.body.style.visibility = 'hidden';
-});
+//});
 
 // Wait for the page to load
 window.addEventListener('load', function() {
