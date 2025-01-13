@@ -159,7 +159,7 @@ function loadStylesheet(href) {
  */
 function preLoadPageScripts() {
 
-    waitForElement('body', () => {
+    waitForElement('main', () => {
 
 // Hide the body initially
 document.body.style.visibility = 'hidden';
