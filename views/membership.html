@@ -600,6 +600,25 @@ if (userReferralDoc.exists()) {
   }
 }
 window.updateMembership = updateMembership;
+// Upgrade/Downgrade Button Click
+async function upgradeMembership(newMembershipType) {
+  const userDataSaved = getUserData() || {};
+  const userID = userDataSaved.userID;
+
+  if (!userID) {
+    showToast("User not logged in.");
+    return;
+  }
+  const currentMembership = await getLatestMembership(userID);
+  if (currentMembership === newMembershipType) {
+    showToast("You are already on this plan.");
+  } else {
+    await updateMembership(userID, newMembershipType);
+  }
+}
+
+
+window.upgradeMembership = upgradeMembership;
 
 
 // Calculate Membership Cost
@@ -616,25 +635,7 @@ function calculateMembershipCost(membershipType) {
   }
 }
 
-// Upgrade/Downgrade Button Click
-async function upgradeMembership(newMembershipType) {
-  const userDataSaved = getUserData() || {};
-  const userID = userDataSaved.userID;
 
-  if (!userID) {
-    showToast("User not logged in.");
-    return;
-  }
-
-  window.upgradeMembership = upgradeMembership;
-
-  const currentMembership = await getLatestMembership(userID);
-  if (currentMembership === newMembershipType) {
-    showToast("You are already on this plan.");
-  } else {
-    await updateMembership(userID, newMembershipType);
-  }
-}
 function loadMemberFAQs() {
     const faqArea = document.getElementById('memberFAQ-area');
     faqArea.innerHTML = ''; // Clear existing content
