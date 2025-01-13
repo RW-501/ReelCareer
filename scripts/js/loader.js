@@ -159,19 +159,6 @@ function loadStylesheet(href) {
  */
 function preLoadPageScripts() {
 
-    waitForElement('main', () => {
-
-// Hide the body initially
-document.body.style.visibility = 'hidden';
-});
-
-
-
-// Wait for the page to load
-window.addEventListener('load', function() {
-    // Once the page is fully loaded, make the body visible
-    document.body.style.visibility = 'visible';
-});
 
 
 
@@ -261,6 +248,30 @@ window.addEventListener('load', function() {
 }
 
 preLoadPageScripts();
+
+
+
+waitForElement('main', () => {
+
+    // Hide the body initially
+    document.body.style.visibility = 'hidden';
+    });
+    
+    
+    
+    // Wait for the page to load
+    window.addEventListener('load', function() {
+        // Once the page is fully loaded, make the body visible
+        document.body.style.visibility = 'visible';
+    });
+    
+
+
+
+
+
+
+
 /** 
  * Function: loadPageScripts
  * -------------------------
