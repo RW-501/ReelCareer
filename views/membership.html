@@ -160,7 +160,7 @@
                         <div class="card-body">
                             <h6>Price: $0</h6>
                             <p>Basic access to job listings.</p>
-                            <button class="btn btn-primary" onclick="upgradeMembership('free')">Start Free Membership</button>
+                            <button id="paypal-button-container-free" class="btn btn-primary" onclick="upgradeMembership('free')">Start Free Membership</button>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                         <div class="card-body">
                             <h6>Price: $9.99/month</h6>
                             <p>Access to premium job listings and features.</p>
-                            <button class="btn btn-primary" onclick="upgradeMembership('basic')">Unlock Benefits</button>
+                            <button id="paypal-button-container-basic" class="btn btn-primary" onclick="upgradeMembership('basic')">Unlock Benefits</button>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                         <div class="card-body">
                             <h6>Price: $19.99/month</h6>
                             <p>All features of Basic Premium plus additional benefits.</p>
-                            <button class="btn btn-primary" onclick="upgradeMembership('pro')">Unlock Benefits</button>
+                            <button  id="paypal-button-container-pro" class="btn btn-primary" onclick="upgradeMembership('pro')">Unlock Benefits</button>
                         </div>
                     </div>
                 </div>
@@ -192,6 +192,8 @@
         </div>
     </div>
 
+    
+    
     <!-- Comparison Table -->
     <div class="card">
         <div class="card-header">
@@ -407,8 +409,6 @@ function updateMembershipUI(membershipType, expiryDate) {
   `;
 }
 
-// Usage example
-getLatestMembership(userID);  // Call this with the appropriate user ID
 
 window.getLatestMembership = getLatestMembership;
 <div id="currentMembership" class="card-body">
@@ -476,14 +476,6 @@ function initializePayPalButtons() {
 
 
 
-// Updated Membership Plans UI with PayPal buttons
-document.write(`
-  <div class="membership-options">
-    <div id="paypal-button-container-free"></div>
-    <div id="paypal-button-container-basic"></div>
-    <div id="paypal-button-container-pro"></div>
-  </div>
-`);
 
 function isMembershipUpgrade(currentMembership, newMembershipType) {
   const membershipLevels = ["free", "basic", "premium"]; // Define membership levels in order
@@ -678,8 +670,32 @@ function loadMemberFAQs() {
         faqArea.innerHTML = '<p>Error loading FAQs. Please try again later.</p>';
     });
 }
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the user ID from Firebase Auth and Firestore
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Get user ID from Firebase
+            const userID = user.uid;
+            getLatestMembership(userID);
+
+  } else {
+    
+            console.log("User not signed in");
+        }
+    });
+});
+
+
+
 loadMemberFAQs();
 initializePayPalButtons(); 
+
+
+
   </script>
 </body>
 </html>
