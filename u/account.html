@@ -1236,20 +1236,27 @@ async function confirmPayout() {
 // Create payout transaction (refactored)
 async function createPayoutTransaction(amount, availableAmount) {
     try {
-        const transactionsRef = collection(db, 'A_Transactions');
-        const transactionData = {
-            pageID,
-            userID,
-            transactionType: 'withdraw',
-            availableAmount,
-            withdraw_amount: amount,
-            note: `Withdraw Request: Page: ${pageID}`,
-            status: "Pending",
-            timestamp: serverTimestamp(),
-        };
+      const transactionsRef = collection(db, 'A_Transactions');
+const transactionData = {
+  userID,
+  transactionType: "withdraw",
+  availableAmount,
+  withdraw_amount: amount,
+  fee: amount * 0.10,  // 10% service fee
+  netAmount: amount - (amount * 0.10),  // Net amount after fee
+  note: `Withdraw Request`,
+  status: "Pending",  // Mark as pending until processed
+  timestamp: serverTimestamp(),
+};
 
-        await addDoc(transactionsRef, transactionData);
-        getUserContactDetails(transactionData);
+const transactionDocRef = await addDoc(transactionsRef, transactionData);  // Add transaction
+const transactionID = transactionDocRef.id;  // Capture the transaction ID
+
+// Optionally, update the transaction record with its ID if necessary
+await setDoc(transactionDocRef, { transactionID }, { merge: true });
+
+
+        getUserContactDetails(transactionData, transactionID);
     } catch (error) {
         console.error("Error creating payout transaction:", error);
         showToast("An error occurred while creating the payout transaction.", 'error');
@@ -1288,37 +1295,10 @@ viewTransactions();
 
 window.confirmPayout = confirmPayout;
 
-// Function to create a new payout transaction
-async function createPayoutTransaction(amount, availableAmount) {
-    try {
-        const transactionsRef = collection(db, 'A_Transactions');  // Ensure db is initialized properly
-        if (!transactionsRef) throw new Error('Failed to get transactions collection reference.');
-        
-        const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
-        const transactionData = {
-          pageID,
-          userID,
-          transactionType: `withdraw`,
-          availableAmount,
-            withdraw_amount: amount,
-            note: `Withdraw Request: Page: ${pageID}`,
-            status: "Pending",  // Mark as pending until processed
-            timestamp: serverTimestamp(),
-        };
 
-        // Add the transaction to the database
-        await addDoc(transactionsRef, transactionData);
-        getUserContactDetails(transactionData);
-
-        console.log("Payout transaction created:", transactionData);
-    } catch (error) {
-        console.error("Error creating payout transaction:", error);
-        showToast("An error occurred while creating the payout transaction.", 'error');
-    }
-}
 
 // Function to get user's email and phone number
-async function getUserContactDetails(transactionData) {
+async function getUserContactDetails(transactionData, transactionID) {
     try {
         const userRef = doc(db, "Users", userID);
         const userDoc = await getDoc(userRef);
@@ -1332,10 +1312,10 @@ async function getUserContactDetails(transactionData) {
 
         const sendToContact = confirm(confirmationText);
         if (sendToContact) {
-            processPayoutTransaction(userEmail, userPhone, transactionData);
+            processPayoutTransaction(userEmail, userPhone, transactionData, transactionID);
         } else {
             const alternativeContact = prompt("Please enter an alternative email or phone number:");
-            processPayoutTransaction(alternativeContact, '', transactionData);
+            processPayoutTransaction(alternativeContact, '', transactionData, transactionID);
         }
     } catch (error) {
         console.error("Error getting user contact details:", error);
@@ -1344,19 +1324,19 @@ async function getUserContactDetails(transactionData) {
 }
 
 // Function to process the payout transaction
-async function processPayoutTransaction(contact, contact2, transactionData) {
+async function processPayoutTransaction(contact, contact2, transactionData, transactionID) {
     try {
         const payoutRef = collection(db, "A_Payouts");  // Ensure db is initialized properly
         if (!payoutRef) throw new Error('Failed to get payouts collection reference.');
         
         const payoutDoc = await addDoc(payoutRef, {
-            pageID,
-            url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+            obituaryPage: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+            userPage: `https://reelcareer.co/u/${userID}`,
             transactionData: transactionData,
+            transactionID: transactionID,
             contact,
             contact2,
             note: `Process Payout: User: ${userID}`,
-            pageName: pageName,
             status: "Pending",
             userID: userID,
             userIP: getUserIP(),

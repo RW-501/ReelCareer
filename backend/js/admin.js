@@ -14,6 +14,8 @@ const navData = {
       "links": [
         { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
         { "text": "Analytics", "href": "https://reelcareer.co/backend/analytics" },
+        { "text": "Payouts", "href": "https://reelcareer.co/backend/payout" },
+        { "text": "Transactions", "href": "https://reelcareer.co/backend/transactions" },
         { "text": "Page Editor", "href": "https://reelcareer.co/backend/page-editor" },
         { "text": "Edit Page", "href": "https://reelcareer.co/backend/editpage" },
         { "text": "Site Info", "href": "https://reelcareer.co/backend/siteInfo" },
