@@ -213,7 +213,8 @@ function createNavbar() {
             ${userPhoto} 
           </button>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-          <small> Welcome <name id="nav-user-name">${userName}</name></small>
+          <small id="nav-welcome-name" > Welcome <name id="nav-user-name">${userName}</name></small>
+          <hr>
             ${generateDropdownItems(dropdownMenuItems)}
             <hr>
 

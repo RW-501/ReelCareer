@@ -127,8 +127,29 @@ font-size: 1rem;
 #Main-Nav_bar #profileDropdown {
   color: #fdfefe;
   font-family: sans-serif;
-  border: #b4d2e3 solid;
+  border: none;
+
 }
+#nav-welcome-name {
+  width: 100%;
+  display: block;
+  margin: auto;
+  text-align: center;
+  font-size: 1rem;
+  word-wrap: break-word;
+  text-wrap-mode: wrap;
+}
+
+#Main-Nav_bar #profileDropdown.active,
+#Main-Nav_bar #profileDropdown:not(:disabled):not(.disabled):active,
+  .show>.btn-outline-primary.dropdown-toggle {
+    padding: 0;
+    color: #fff;
+    background-color: transparent;
+    margin: 0;
+}
+
+
 /* Style the navbar toggle button */
 #Main-Nav_bar  .navbar-toggler {
   background: transparent;
@@ -142,7 +163,8 @@ font-size: 1rem;
   color: #b4d2e3;
 
 }
-#Main-Nav_bar .navbar-nav:hover,
+
+
 #Main-Nav_bar .nav-item:hover,
 #Main-Nav_bar .nav-item i:hover,
 #Main-Nav_bar  .navbar-toggler-icon:focus,
