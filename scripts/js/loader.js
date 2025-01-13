@@ -115,15 +115,22 @@ async function loadScript(src, { async = false, defer = false, type = 'text/java
  * @param {function} callback - Callback executed when the element becomes available.
  */
 function waitForElement(selector, callback) {
-    if (document.querySelector(selector)) {
+    // Check if the element already exists
+    const element = document.querySelector(selector);
+    if (element) {
         callback();
     } else {
+        // If the element doesn't exist, set up a MutationObserver
         const observer = new MutationObserver((mutations, obs) => {
-            if (document.querySelector(selector)) {
-                obs.disconnect();
+            // Check if the element appears
+            const element = document.querySelector(selector);
+            if (element) {
+                obs.disconnect();  // Disconnect the observer once the element is found
                 callback();
             }
         });
+        
+        // Observe changes to the document body, including all child nodes and subtree
         observer.observe(document.body, { childList: true, subtree: true });
     }
 }
@@ -250,22 +257,17 @@ function preLoadPageScripts() {
 preLoadPageScripts();
 
 
-
+// Call waitForElement to check for the 'main' element
 waitForElement('main', () => {
-
     // Hide the body initially
     document.body.style.visibility = 'hidden';
-    });
-    
-    
-    
-    // Wait for the page to load
-    window.addEventListener('load', function() {
-        // Once the page is fully loaded, make the body visible
-        document.body.style.visibility = 'visible';
-    });
-    
+});
 
+// Wait for the page to load
+window.addEventListener('load', function() {
+    // Once the page is fully loaded, make the body visible
+    document.body.style.visibility = 'visible';
+});
 
 
 
