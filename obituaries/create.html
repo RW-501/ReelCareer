@@ -1960,12 +1960,16 @@ const videoPreview = document.getElementById("videoPreview");
 
 displayVideoPreview(videoUrl, videoPreview);
 
+if(videoUrl = videoElement.value){
+    addButton.innerHTML = "Remove";
+
+}else{
+    addButton.innerHTML = "Add to Obituary";
+    videoPreview.innerHTML = '';
+
+}
 
 
-
-
-        // Optionally, you can also trigger the video to play or display it:
-       // videoElement.play();
     });
 
 
