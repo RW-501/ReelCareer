@@ -904,7 +904,7 @@ if (videoUrl) {
 }
 }
 
-document.getElementById("video").addEventListener("change", function() {
+document.getElementById("video").addEventListener("input", function() {
 const videoUrl = this.value.trim();
 const videoPreview = document.getElementById("videoPreview");
 
@@ -1949,6 +1949,20 @@ if (videoData.status === 'posted') {
         // Send the video URL to the video element with the id 'video'
         const videoElement = document.getElementById('video');
         videoElement.value = videoData.videoResumeURL;
+
+
+
+
+
+      
+const videoUrl =  document.getElementById("video").value.trim();
+const videoPreview = document.getElementById("videoPreview");
+
+displayVideoPreview(videoUrl, videoPreview);
+
+
+
+
 
         // Optionally, you can also trigger the video to play or display it:
        // videoElement.play();
