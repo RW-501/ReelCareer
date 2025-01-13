@@ -499,7 +499,6 @@ async function updateMembership(userID, newMembershipType) {
       const currentMembership = currentData.membershipType || "free";
 
       if (currentMembership === newMembershipType) {
-        showToast("You are already on this plan.");
         return;
       }
   
