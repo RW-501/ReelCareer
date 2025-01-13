@@ -756,6 +756,8 @@ function populateUserInfo(userId) {
         .then(doc => {
             if (doc.exists) {
                 const userData = doc.data();
+                console.log("userData ",userData);
+
                 
                 // Populate the user info section
                 document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
