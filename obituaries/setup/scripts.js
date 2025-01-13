@@ -702,6 +702,15 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
     // Check if there is a videoUrl to display
     if (videoUrl) {
+          // Firebase Video URL Check
+    if (videoUrl.includes("firebasestorage.googleapis.com")) {
+      // Assuming it's an MP4 video, you can adjust the logic if other formats are used
+      videoPreviewContainer.innerHTML = `
+          <video width="560" height="315" controls>
+              <source src="${videoUrl}" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>`;
+  }
         // YouTube Video Check
         if (videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be")) {
             const youtubeEmbed = videoUrl.includes("youtube.com") 
