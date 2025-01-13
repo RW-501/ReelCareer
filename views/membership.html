@@ -499,7 +499,7 @@ async function updateMembership(userID, newMembershipType) {
       const currentMembership = currentData.membershipType || "free";
 
       if (currentMembership === newMembershipType) {
-        return;
+       // return;
       }
   
   // Determine the type of change: upgrade or downgrade
