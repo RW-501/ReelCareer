@@ -410,10 +410,14 @@
             <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
 
             <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
+            <button class="btn btn-primary btn-block" id="view-reel-account-btn">Video Reel Account</button>
             <button class="btn btn-primary btn-block" id="view-create-reel-btn">Create Reel</button>
 
             <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
             <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
+         
+            <button class="btn btn-primary btn-block" id="view-obituary-account-btn">Career Obituary Account</button>
+
           </div>
         </div>
 
@@ -1239,12 +1243,19 @@
           document.getElementById('send-message-btn').style.display = 'none';
           document.getElementById('connect-btn').style.display = 'none';
           document.getElementById('view-create-reel-btn').style.display = 'block';
+
+
+
+          
         }
         document.getElementById('jobSeeker-btn').style.display = 'none';
         document.getElementById('recruiter-btn').style.display = 'none';
         document.getElementById('view-profile-btn').style.display = 'none';
         document.getElementById('view-create-reel-btn').style.display = 'none';
         document.getElementById('settings-profile-btn').style.display = 'none';
+
+        document.getElementById('view-obituary-account-btn').style.display = 'none';
+        document.getElementById('view-reel-account-btn').style.display = 'none';
       } else {
         // checkUser(userId);
         document.getElementById('send-message-btn').style.display = 'none';
@@ -1254,6 +1265,9 @@
         document.getElementById('jobSeeker-btn').style.display = 'none';
         document.getElementById('recruiter-btn').style.display = 'none';
         document.getElementById('view-profile-btn').style.display = 'none';
+
+        document.getElementById('view-obituary-account-btn').style.display = 'none';
+        document.getElementById('view-reel-account-btn').style.display = 'none';
         if (userId) {
           lastBreadcrumb_last.style.display = "block";
           document.getElementById('currentUserId').innerText = userId;
@@ -1263,6 +1277,9 @@
           document.getElementById('view-profile-btn').style.display = 'block';
           document.getElementById('view-messages-btn').style.display = 'block';
           document.getElementById('view-create-reel-btn').style.display = 'block';
+
+          document.getElementById('view-obituary-account-btn').style.display = 'block';
+          document.getElementById('view-reel-account-btn').style.display = 'block';
           const userName = document.getElementById("user-name").innerText;
           const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
           breadcrumbjobTitleActive.innerText = `${userName} - Settings`;
@@ -1855,6 +1872,28 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         const userId = await getUserId(); // Await the userId if getUserId is asynchronous
         if (userId) {
           window.location.href = `https://reelcareer.co/u?u=${userId}`;
+        } else {
+          showToast('User ID could not be retrieved. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error fetching userId:', error);
+        showToast('An error occurred while navigating to the profile page.');
+      }
+    });
+
+
+
+    document.getElementById('view-reel-account-btn').addEventListener('click', async () => {
+
+          window.location.href = `https://reelcareer.co/u/reels/`;
+
+    });
+
+    document.getElementById('view-obituary-account-btn').addEventListener('click', async () => {
+      try {
+        const userId = await getUserId(); // Await the userId if getUserId is asynchronous
+        if (userId) {
+          window.location.href = `https://reelcareer.co/obituaries/?u=${userId}`;
         } else {
           showToast('User ID could not be retrieved. Please try again.');
         }
