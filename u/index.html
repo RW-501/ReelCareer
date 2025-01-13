@@ -608,14 +608,7 @@
 
           <!-- Membership Tab -->
           <form id="membershipForm-profile">
-            <div class="mb-3">
-              <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
-              <select class="form-select" id="membershipTypeSET-profile">
-                <option value="free">Free</option>
-                <option value="basic">Basic</option>
-                <option value="pro">Pro</option>
-              </select>
-            </div>
+ 
             <div class="mb-3">
               <label for="membershipStatus-profile" class="form-label">Membership Status</label>
               <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
@@ -1352,25 +1345,34 @@
     document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
       // Gather form data
       // Array to gather the name and URL inputs
-      const websitesSetup = [{
-          name: document.getElementById('linkedinSET-name').value.trim() || "",
-          url: document.getElementById('linkedinSET-profile').value.trim() || ''
-        },
-        {
-          name: document.getElementById('portfolioSET-name').value.trim() || "",
-          url: document.getElementById('portfolioSET-profile').value.trim() || ''
-        },
-        {
-          name: document.getElementById('githubSET-name').value.trim() || "",
-          url: document.getElementById('githubSET-profile').value.trim() || ''
-        },
-        {
-          name: document.getElementById('otherSET-name').value.trim() || "",
-          url: document.getElementById('otherSET-profile').value.trim() || ''
-        }
-      ];
-      // Filter out entries with empty URLs
-      const websites = websitesSetup.filter(site => site.url !== "");
+      const websitesSetup = [
+  { 
+    name: document.getElementById('linkedinSET-name').value.trim() || "",
+    url: document.getElementById('linkedinSET-profile').value.trim() || ""
+  },
+  {
+    name: document.getElementById('portfolioSET-name').value.trim() || "",
+    url: document.getElementById('portfolioSET-profile').value.trim() || ""
+  },
+  {
+    name: document.getElementById('githubSET-name').value.trim() || "",
+    url: document.getElementById('githubSET-profile').value.trim() || ""
+  },
+  {
+    name: document.getElementById('otherSET-name').value.trim() || "",
+    url: document.getElementById('otherSET-profile').value.trim() || ""
+  }
+];
+
+// Filter out entries with empty URLs
+const websites = websitesSetup.filter(site => site.url !== "");
+
+// Remove duplicates by combining name and URL as a unique key
+const uniqueWebsites = websites.filter((site, index, self) =>
+  index === self.findIndex(s => s.name === site.name && s.url === site.url)
+);
+
+
       // Log results to check
       //console.log("Filtered Websites:", websites);
       // Ensure tagsList is not empty or null
@@ -1393,8 +1395,6 @@
         publicProfile: document.getElementById('publicProfileSET-profile').checked || true,
         tags: tags,
         websites: websites || [],
-        membershipType: document.getElementById('membershipTypeSET-profile').value.trim() || '',
-        // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim() || ''
         audioAlert: document.getElementById('audioAlertSET').checked || true,
         showRead: document.getElementById('showReadSET').checked || true,
         textToVoice: document.getElementById('textToVoiceSET').checked || false,
@@ -1545,7 +1545,6 @@
           document.getElementById('portfolioSET-profile').value = website.url || "";
         }
         // Populate the Membership Details tab
-        document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
         document.getElementById('membershipStatus-profile').value = userData.membershipType || "";
         document.getElementById('renewalDateSET-profile').value = membershipExpiryDate || "";
         document.getElementById('lastLogin-profile').value = lastLoginDate || "";
