@@ -1,14 +1,4 @@
 
-// Hide the body initially
-document.body.style.visibility = 'hidden';
-
-// Wait for the page to load
-window.addEventListener('load', function() {
-    // Once the page is fully loaded, make the body visible
-    document.body.style.visibility = 'visible';
-});
-
-
 
 
 /* Documentation */
@@ -168,6 +158,26 @@ function loadStylesheet(href) {
  * for performance tracking.
  */
 function preLoadPageScripts() {
+
+    waitForElement('body', () => {
+
+// Hide the body initially
+document.body.style.visibility = 'hidden';
+});
+
+
+
+// Wait for the page to load
+window.addEventListener('load', function() {
+    // Once the page is fully loaded, make the body visible
+    document.body.style.visibility = 'visible';
+});
+
+
+
+
+
+
 
 
         // Load Toast Notifications after <main> is available
