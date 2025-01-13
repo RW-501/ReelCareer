@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging</title>
+
+    
+
+
+<!-- Main Script Loader -->
+    <script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+    <style>
+        /* Custom styles */
+
+        
+main {
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+        .status-completed {
+            color: green;
+            font-weight: bold;
+        }
+        .btn-primary {
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+       }
+
+
+    </style>
+
+
+</head>
+
+
+<body>
+    
+    
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+            <li id="lastBreadcrumb_1" class="breadcrumb-item"><a id="lastBreadcrumb_1_a" href="https://reelcareer.co/u/">View Profile</a></li>
+
+
+            <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">Messaging</li>
+        </ol>
+      </nav>
+  
+  
+
+      <main id="main-content">
+
+    
+        
+ <div class="container">
+        <h1 class="mb-4">User Payout Requests</h1>
+        <div id="toast-container"></div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Request Date</th>
+                        <th>Payout Date</th>
+                        <th>Amount</th>
+                        <th>Gift Card Number</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="payout-list">
+                    <!-- Dynamic content will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+      
+                </main>
+          
+          
+  
+    <!-- >Footer -->
+    <footer id="dynamic-footer">
+<div class="footerMainContainer text-center">
+<p class="footerSocialMedia"></p>
+<nav class="footerNavContainer">
+
+<div class="footerNavItems">
+<h5>General</h5>
+<a href="/" title="ReelCareer - #1 Job Board - Find a job today">ReelCareer</a><a href="/views/about" title="About ReelCareer - Who We Are and Our Mission">About ReelCareer</a><a href="/views/contact" title="Contact ReelCareer - Get in Touch for Support and Inquiries">Contact Us</a><a href="/job-listings" title="Job Listings - Search and Apply for Job Openings">Job Listings</a><a href="/membership" title="Membership - Unlock Premium Features and Job Opportunities">Membership</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Legal</h5>
+<a href="/views/privacy" title="Privacy Policy - How We Protect Your Data">Privacy Policy</a><a href="/views/terms" title="Terms of Use - Website User Agreement and Guidelines">Terms of Use</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Content</h5>
+<a href="/views/blogs" title="ReelCareer Blog - Career Advice, News, and Insights">Blogs</a><a href="/views/news" title="ReelCareer News - Latest Updates and Industry Trends">News</a><a href="/views/Personality-&-Trait-Tests" title="Personality & Trait Tests - Discover Your Strengths and Work Style">Personality & Trait Tests</a><a href="/reels" title="Video Reels - Showcase Your Resume with a Personal Touch">Video Reels</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Support</h5>
+<a href="/views/faq" title="Frequently Asked Questions - Get Answers to Common Queries">FAQs</a><a href="/bot" title="Chat Bot - Get Instant Assistance with Your Job Search">Chat Bot</a><a href="/support" title="Support - Get Help with Your Job Search and Account">Support</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Marketing</h5>
+<a href="/views/referral" title="Join the ReelCareer Affiliate Program and Earn Rewards">Affiliate Program</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Admin</h5>
+<a href="/backend/dashboard" title="Admin Dashboard - Manage Users, Jobs, and Content">Admin</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Features</h5>
+<a href="/jobs/city" title="City Jobs - Find Career Opportunities by Location">City Jobs</a><a href="/jobs/state" title="State Jobs - Explore Job Listings by State">State Jobs</a><a href="/jobs/locations" title="Job Locations - Browse Jobs in Your Area">Job Locations</a>
+</div>
+</nav>
+<p class="footerCopyWrite">© 2024 ReelCareer</p>
+
+</div>
+<button id="backToTop" title="Go to top">↑</button>
+
+</footer>
+
+    
+    <!-- Firebase configuration/ Login& Out -->
+     
+
+
+
+    <script >
+
+
+function showUserDataNotFoundMessage() {
+
+    const lastBreadcrumb_1_a = document.getElementById("lastBreadcrumb_1_a");
+
+    
+
+lastBreadcrumb_1_a.style.display = "block";
+lastBreadcrumb_1_a.innerText = "Create a Profile";
+lastBreadcrumb_1_a.href = `https://reelcareer.co/views/auth`;
+
+let mainContainer = document.getElementById('main-content');
+
+
+  mainContainer.innerHTML = '';
+
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'user-data-not-found-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+    `;
+    container.style.transform = 'none';
+    container.style.transition = 'none';
+    container.style.opacity = '1';
+    container.style.display = 'block';
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'user-data-not-found-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'User Not Found Create A Profile';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'The requested user could not be found.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Go Back" button
+    const goBackButton = document.createElement('button');
+    goBackButton.textContent = 'Go Back';
+    goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    goBackButton.style.padding = '10px 20px';
+    
+    // Add an event listener to navigate back
+    goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+    });
+
+    card.appendChild(goBackButton);
+
+    // Create a "Login" button
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Go to Login Page';
+    loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    loginButton.style.padding = '10px 20px';
+
+    // Add an event listener to redirect to the login page
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
+    });
+
+    card.appendChild(loginButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    mainContainer.appendChild(container);
+}
+
+window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
+    </script>
+  <!-- Firebase JS SDK and Custom Scripts -->
+
+<script type="module">
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot ,
+  facebookProvider,
+  getUserId // Export the function
+    } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+    
+    let userId;
+    document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                userId = await getUserId(); // Retrieve user ID
+                if (!userId || userId.trim() === "") {
+                    showUserDataNotFoundMessage();
+                    return;
+                } else {
+                    loadPayoutRequests(userId); // Load payouts for authenticated user
+                }
+            } catch (error) {
+                showUserDataNotFoundMessage();
+                console.error("Error fetching user ID:", error);
+            }
+        });
+
+        async function loadPayoutRequests(userId) {
+            const payoutsQuery = query(collection(db, "A_Payouts"), where("userID", "==", userId));
+            const querySnapshot = await getDocs(payoutsQuery);
+            
+            const payoutTable = document.getElementById('payout-list');
+            payoutTable.innerHTML = ''; // Clear existing content
+
+            querySnapshot.forEach(doc => {
+                const data = doc.data();
+                const payoutDate = data.payoutDate ? new Date(data.payoutDate.toMillis()).toLocaleDateString() : 'N/A';
+                const requestDate = data.requestDate ? new Date(data.requestDate.toMillis()).toLocaleDateString() : 'N/A';
+                const statusClass = data.status === 'Completed' ? 'status-completed' : 'status-pending';
+                
+                payoutTable.innerHTML += `
+                    <tr>
+                        <td>${requestDate}</td>
+                        <td>${payoutDate}</td>
+                        <td>${data.transactionData.withdraw_amount}</td>
+                        <td>${data.giftCardNumber || 'N/A'}</td>
+                        <td class="${statusClass}">${data.status}</td>
+                        <td><button class="btn btn-primary mark-used-btn" data-id="${doc.id}">Mark as Used</button></td>
+                    </tr>
+                `;
+            });
+
+            document.querySelectorAll('.mark-used-btn').forEach(button => {
+                button.addEventListener('click', () => markPayoutAsUsed(button.dataset.id));
+            });
+        }
+
+        async function markPayoutAsUsed(payoutID) {
+            const payoutRef = doc(db, "A_Payouts", payoutID);
+            await updateDoc(payoutRef, { used: true });
+            showToast('Payout marked as used.');
+            loadPayoutRequests(userId); // Refresh the list
+        }
+
+
+
+
+        
+const userDataSaved = getUserData() || [];
+
+const lastBreadcrumb_1_a = document.getElementById("lastBreadcrumb_1_a");
+lastBreadcrumb_1_a.innerText = userDataSaved.displayName;
+
+
+
+    console.log("userDataSaved: ", userDataSaved);
+
+
+
+
+// Utility: Format Timestamp
+function formatTimestamp(timestamp) {
+  // Convert Firebase Timestamp to milliseconds
+  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
+
+  // Format the date as MM/DD/YYYY
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+   </script>
+
+</body>
+</html>
