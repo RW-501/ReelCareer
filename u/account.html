@@ -568,98 +568,6 @@ function paymentStatusNotifications() {
 
 
 
-
-document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
-      const userDataSaved = getUserData() || [];
-      const userDocRef = doc(db, 'Users', userDataSaved.userID);
-      try {
-        // Check if user ID is valid
-        const userId = await getUserId(); // Await if getUserId is asynchronous
-        if (!userId) {
-          alert('Invalid user ID. Please log in again.');
-          return;
-        }
-        // Fetch current user status
-        const userDoc = await getDoc(userDocRef);
-        if (!userDoc.exists()) {
-          alert('User not found! Please contact support.');
-          return;
-        }
-        const currentStatus = userDoc.data().status;
-        if (!currentStatus) {
-          alert('Unable to retrieve account status. Please try again.');
-          return;
-        }
-        const isCurrentlyActive = currentStatus === 'active';
-        // Confirmation message based on current status
-        const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
-        const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
-        if (!confirmToggle) {
-          console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
-          return;
-        }
-        // Toggle status
-        const newStatus = isCurrentlyActive ? 'inactive' : 'active';
-        // Update user's status
-        await updateDoc(userDocRef, {
-          status: newStatus
-        });
-        console.log(`User account status updated to ${newStatus}`);
-        // Update job posts' status
-        try {
-          const jobsQuery = query(
-            collection(db, 'Jobs'),
-            where('createdBy', '==', userId)
-          );
-          const jobDocs = await getDocs(jobsQuery);
-          if (!jobDocs.empty) {
-            jobDocs.forEach(async (jobDoc) => {
-              const jobRef = doc(db, 'Jobs', jobDoc.id);
-              await updateDoc(jobRef, {
-                status: newStatus
-              });
-              console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
-            });
-          } else {
-            console.log('No job posts found for the user.');
-          }
-        } catch (jobError) {
-          console.error('Error updating job posts status:', jobError);
-          alert('An error occurred while updating job posts. Please try again later.');
-        }
-        // Update applications' status
-        try {
-          const applicationsQuery = query(
-            collection(db, 'Applications'),
-            where('userId', '==', userId)
-          );
-          const applicationDocs = await getDocs(applicationsQuery);
-          if (!applicationDocs.empty) {
-            applicationDocs.forEach(async (appDoc) => {
-              const appRef = doc(db, 'Applications', appDoc.id);
-              await updateDoc(appRef, {
-                status: newStatus
-              });
-              console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
-            });
-          } else {
-            console.log('No applications found for the user.');
-          }
-        } catch (appError) {
-          console.error('Error updating applications status:', appError);
-          alert('An error occurred while updating applications. Please try again later.');
-        }
-        // Update button text
-        const button = document.getElementById('deactivateAccountBtn-profile');
-        button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
-        // Notify user of successful update
-        alert(`Your account and related data have been successfully ${action}d.`);
-      } catch (error) {
-        console.error('Error during toggle process:', error);
-        alert('An unexpected error occurred. Please try again later.');
-      }
-    });
-  
       </script>
 
 
@@ -1034,6 +942,98 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+document.getElementById('delete-account').addEventListener('click', async () => {
+      const userDataSaved = getUserData() || [];
+      const userDocRef = doc(db, 'Users', userDataSaved.userID);
+      try {
+        // Check if user ID is valid
+        const userId = await getUserId(); // Await if getUserId is asynchronous
+        if (!userId) {
+          alert('Invalid user ID. Please log in again.');
+          return;
+        }
+        // Fetch current user status
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          alert('User not found! Please contact support.');
+          return;
+        }
+        const currentStatus = userDoc.data().status;
+        if (!currentStatus) {
+          alert('Unable to retrieve account status. Please try again.');
+          return;
+        }
+        const isCurrentlyActive = currentStatus === 'active';
+        // Confirmation message based on current status
+        const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
+        const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
+        if (!confirmToggle) {
+          console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
+          return;
+        }
+        // Toggle status
+        const newStatus = isCurrentlyActive ? 'inactive' : 'active';
+        // Update user's status
+        await updateDoc(userDocRef, {
+          status: newStatus
+        });
+        console.log(`User account status updated to ${newStatus}`);
+        // Update job posts' status
+        try {
+          const jobsQuery = query(
+            collection(db, 'Jobs'),
+            where('createdBy', '==', userId)
+          );
+          const jobDocs = await getDocs(jobsQuery);
+          if (!jobDocs.empty) {
+            jobDocs.forEach(async (jobDoc) => {
+              const jobRef = doc(db, 'Jobs', jobDoc.id);
+              await updateDoc(jobRef, {
+                status: newStatus
+              });
+              console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No job posts found for the user.');
+          }
+        } catch (jobError) {
+          console.error('Error updating job posts status:', jobError);
+          alert('An error occurred while updating job posts. Please try again later.');
+        }
+        // Update applications' status
+        try {
+          const applicationsQuery = query(
+            collection(db, 'Applications'),
+            where('userId', '==', userId)
+          );
+          const applicationDocs = await getDocs(applicationsQuery);
+          if (!applicationDocs.empty) {
+            applicationDocs.forEach(async (appDoc) => {
+              const appRef = doc(db, 'Applications', appDoc.id);
+              await updateDoc(appRef, {
+                status: newStatus
+              });
+              console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No applications found for the user.');
+          }
+        } catch (appError) {
+          console.error('Error updating applications status:', appError);
+          alert('An error occurred while updating applications. Please try again later.');
+        }
+        // Update button text
+        const button = document.getElementById('deactivateAccountBtn-profile');
+        button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
+        // Notify user of successful update
+        alert(`Your account and related data have been successfully ${action}d.`);
+      } catch (error) {
+        console.error('Error during toggle process:', error);
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    });
+  
+
 
 
 
@@ -1190,6 +1190,8 @@ async function calculateTotalPayout() {
     }
 }
 
+window.calculateTotalPayout = calculateTotalPayout;
+
 // Handling payout cooldown (refactored)
 function handleRequestCooldown(latestTransactionDate) {
     const lastRequestDate = new Date(latestTransactionDate || 0);
@@ -1256,61 +1258,6 @@ async function createPayoutTransaction(amount, availableAmount) {
 
 let requestPayoutBool = false;
 
-async function calculateTotalPayout() {
-  try {
-    const transactionsRef = collection(db, 'A_Transactions');
-    const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
-    const transactionSnapshot = await getDocs(transactionsQuery);
-
-    // Sort the transactions by requestDate in descending order
-    const sortedTransactions = transactionSnapshot.docs.sort((a, b) => {
-      const dateA = new Date(a.data().requestDate);
-      const dateB = new Date(b.data().requestDate);
-      return dateB - dateA; // Sort in descending order (latest first)
-    });
-
-    let totalGifts = 0;
-    let withdrawnPayouts = 0;
-    const transactionsLog = document.getElementById("transactions-log");
-    transactionsLog.innerHTML = '';  // Clear previous logs
-
-    let latestTransactionDate = null;
-
-    sortedTransactions.forEach(doc => {
-      const transactionData = doc.data();
-      const payPalPayStatus = transactionData.paymentDetails?.purchase_units?.[0]?.payments?.captures?.[0]?.status || 'Unknown';
-      const isWithdraw = transactionData.transactionType === "withdraw";
-
-      if (payPalPayStatus === "COMPLETED" && !isWithdraw) {
-        const fee = transactionData.amount * 0.10;
-        const netAmount = transactionData.amount - fee;
-        totalGifts += netAmount;
-      } else if (isWithdraw) {
-        withdrawnPayouts += transactionData.withdraw_amount || 0;
-      }
-
-      // Capture the date of the most recent transaction
-      if (!latestTransactionDate || new Date(transactionData.requestDate) > new Date(latestTransactionDate)) {
-        latestTransactionDate = transactionData.requestDate;
-      }
-
-      const transactionElement = createTransactionElement(doc, transactionData, isWithdraw, payPalPayStatus);
-      transactionsLog.appendChild(transactionElement);
-    });
-
-    // Check request cooldown using the latest transaction date
-    handleRequestCooldown(latestTransactionDate);
-
-    const availablePayout = totalGifts - withdrawnPayouts;
-    return availablePayout;
-  } catch (error) {
-    console.error("Error calculating total payout:", error);
-    return 0;
-  }
-}
-
-
-window.calculateTotalPayout = calculateTotalPayout;
 
 
 async function viewTransactions() {
