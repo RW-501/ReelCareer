@@ -110,6 +110,11 @@ font-size: 1rem;
   margin-top: 1rem;
 }
 
+#Main-Nav_bar .dropdown-toggle::after {
+  display: none;
+
+}
+
 #Main-Nav_bar  .dropdown-menu  {
   background-color: #8dbfdbe6;
   margin-top: 1rem;
@@ -132,10 +137,14 @@ font-size: 1rem;
   cursor: pointer;
 }
 
+
 #Main-Nav_bar hr {
   color: #b4d2e3;
 
 }
+#Main-Nav_bar .navbar-nav:hover,
+#Main-Nav_bar .nav-item:hover,
+#Main-Nav_bar .nav-item i:hover,
 #Main-Nav_bar  .navbar-toggler-icon:focus,
 #Main-Nav_bar   i:focus,
 #Main-Nav_bar  .navbar-toggler-icon, 
