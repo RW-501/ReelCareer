@@ -79,68 +79,67 @@
         </ul>
     </div>
 </nav>
-    <div class="container mt-4">
-        <h1>User Management</h1>
+    <!-- Main Content Section -->
+    <main id="main-content">
+        
 
-        <!-- Search Bar -->
-        <div class="mb-3">
-            <input type="text" id="searchBar" class="form-control" placeholder="Search Users..." onkeyup="searchUsers()">
-        </div>
 
-        <!-- User Table -->
-        <table class="table table-bordered table-striped" id="userTable">
-            <thead>
+        <div id="admin-payout-page" class="container mt-5">
+            <h2>Admin Payout Management</h2>
+            <input type="text" id="search-payouts" class="form-control mb-3" placeholder="Search payouts...">
+            
+            <table class="table table-striped table-hover">
+              <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
+                  <th>User ID</th>
+                  <th>Withdraw Amount</th>
+                  <th>Fee</th>
+                  <th>Net Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Action</th>
                 </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- User rows will be dynamically populated here -->
-            </tbody>
-        </table>
-
-        <!-- Add/Edit User Modal -->
-        <div class="modal fade hide" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="userModalLabel">Add/Edit User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="userForm">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <select class="form-control" id="role" required>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                </select>
-                            </div>
-                            <input type="hidden" id="userId">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                    </div>
-                </div>
+              </thead>
+              <tbody id="payout-requests">
+                <!-- Rows dynamically added here -->
+              </tbody>
+            </table>
+            
+            <!-- Collapsible Area -->
+            <div id="details-section" class="collapse">
+              <h4>Payout Details</h4>
+              <p><strong>Contact 1:</strong> <span id="contact1-detail"></span></p>
+              <p><strong>Contact 2:</strong> <span id="contact2-detail"></span></p>
+              <p><strong>Transaction Data:</strong> <span id="transaction-detail"></span></p>
+              <p><strong>Payout ID:</strong> <span id="payout-id-detail"></span></p>
             </div>
-        </div>
+            
+            <!-- Modal -->
+            <div id="payout-modal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h4>Payout Details</h4>
+                <p id="modal-details"></p>
+                <button class="btn btn-success" id="mark-complete">Mark Complete</button>
+              </div>
+            </div>
+          </div>
+          
 
-        <button class="btn btn-success mt-3" onclick="openUserModal()">Add User</button>
-    </div>
+
+
+
+
+
+
+
+
+    </main>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
+
     
-    <!-- Firebase configuration/ Login& Out -->
-     
 
     <!-- Firebase JS SDK and Custom Scripts -->
 
@@ -159,100 +158,194 @@
 
 
 
+// Fetch and display payout requests
+async function fetchPayoutRequests() {
+  const payoutQuery = query(collection(db, "A_Payouts"), orderBy("timestamp", "desc"));
+  const snapshot = await getDocs(payoutQuery);
 
-        
-        // Load users
-        function loadUsers() {
-            db.collection('Users').get().then((querySnapshot) => {
-                const userTableBody = document.getElementById('userTableBody');
-                userTableBody.innerHTML = ''; // Clear existing rows
-                querySnapshot.forEach((doc) => {
-                    const user = doc.data();
-                    const row = `
-                        <tr>
-                            <td>${doc.id}</td>
-                            <td>${user.email}</td>
-                            <td>${user.role}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="editUser('${doc.id}', '${user.email}', '${user.role}')">Edit</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteUser('${doc.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    userTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            });
-        }
+  const payoutTable = document.getElementById("payout-requests");
+  payoutTable.innerHTML = ""; // Clear table before adding rows
 
-        // Search users
-        function searchUsers() {
-            const searchValue = document.getElementById('searchBar').value.toLowerCase();
-            const rows = document.querySelectorAll('#userTableBody tr');
-            rows.forEach(row => {
-                const email = row.cells[1].textContent.toLowerCase();
-                row.style.display = email.includes(searchValue) ? '' : 'none';
-            });
-        }
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    const row = document.createElement("tr");
 
-        // Open user modal for adding a user
-        function openUserModal() {
-            document.getElementById('userForm').reset();
-            document.getElementById('userId').value = '';
-            $('#userModal').modal('show');
-        }
+    row.innerHTML = `
+      <td>${data.userID}</td>
+      <td>${data.transactionData.withdraw_amount}</td>
+      <td>${data.transactionData.fee}</td>
+      <td>${data.transactionData.netAmount}</td>
+      <td>${data.status}</td>
+      <td>${new Date(data.timestamp.toDate()).toLocaleString()}</td>
+      <td>
+        <button class="btn btn-primary view-details" data-id="${doc.id}">View</button>
+      </td>
+    `;
 
-        // Edit user
-        function editUser(id, email, role) {
-            document.getElementById('email').value = email;
-            document.getElementById('role').value = role;
-            document.getElementById('userId').value = id;
-            $('#userModal').modal('show');
-        }
+    payoutTable.appendChild(row);
+  });
 
-        // Delete user
-        function deleteUser(id) {
-            db.collection('Users').doc(id).delete().then(() => {
-                loadUsers(); // Reload users after deletion
-            }).catch(error => {
-                console.error("Error removing user: ", error);
-            });
-        }
+  // Attach event listeners for view and update
+  document.querySelectorAll(".view-details").forEach(button => {
+    button.addEventListener("click", () => viewPayoutDetails(button.dataset.id));
+  });
 
-        // Save user (add/edit)
-        document.getElementById('userForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const id = document.getElementById('userId').value;
-            const email = document.getElementById('email').value;
-            const role = document.getElementById('role').value;
+}
 
-            if (id) {
-                // Update user
-                db.collection('Users').doc(id).update({ email, role }).then(() => {
-                    loadUsers(); // Reload users after update
-                    $('#userModal').modal('hide');
-                });
-            } else {
-                // Add new user
-                firebase.auth().createUserWithEmailAndPassword(email, 'defaultPassword123') // Use a default password
-                    .then((userCredential) => {
-                        const userId = userCredential.user.uid;
-                        db.collection('Users').doc(userId).set({ email, role }).then(() => {
-                            loadUsers(); // Reload users after addition
-                            $('#userModal').modal('hide');
-                        });
-                    })
-                    .catch((error) => {
-                        console.error("Error creating user: ", error);
-                    });
-            }
-        });
+// View payout details in modal
+async function viewPayoutDetails(payoutID) {
+  const payoutRef = doc(db, "A_Payouts", payoutID);
+  const payoutDoc = await getDoc(payoutRef);
 
-        // Load users when the page is loaded
-        window.onload = loadUsers;
+  if (payoutDoc.exists()) {
+    const payoutData = payoutDoc.data();
+    const userID = payoutData.userID;
+
+    // Fetch user data from Users collection
+    const userRef = doc(db, "Users", userID);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.exists() ? userDoc.data() : {};
+
+    const modal = document.getElementById("payout-modal");
+    document.getElementById("modal-details").innerHTML = `
+      <p><strong>User ID:</strong> ${userID}</p>
+      <p><strong>Name:</strong> ${userData.name || 'N/A'}</p>
+      <p><strong>Display Name:</strong> ${userData.displayName || 'N/A'}</p>
+      <p><strong>Email:</strong> ${userData.email || 'N/A'}</p>
+      <p><strong>IP Address:</strong> ${userData.IPaddress || 'N/A'}</p>
+      <p><strong>Withdraw Amount:</strong> ${payoutData.transactionData.withdraw_amount}</p>
+      <p><strong>Fee:</strong> ${payoutData.transactionData.fee}</p>
+      <p><strong>Net Amount:</strong> ${payoutData.transactionData.netAmount}</p>
+      <p><strong>Status:</strong> 
+        <select id="status-select">
+          <option value="Pending" ${payoutData.status === "Pending" ? "selected" : ""}>Pending</option>
+          <option value="Review" ${payoutData.status === "Review" ? "selected" : ""}>Review</option>
+          <option value="Sent" ${payoutData.status === "Sent" ? "selected" : ""}>Sent</option>
+          <option value="Completed" ${payoutData.status === "Completed" ? "selected" : ""}>Completed</option>
+        </select>
+      </p>
+      <p><strong>Transaction ID:</strong> ${payoutData.transactionID}</p>
+      <div id="gift-card-input" style="display: none;">
+        <label for="gift-card-number">Amazon Gift Card Number:</label>
+        <input type="text" id="gift-card-number" class="form-control">
+      </div>
+      <button class="btn btn-success" id="update-status-btn" data-id="${payoutID}">Update Status</button>
+    `;
+
+    const userTransactionData = [
+      userData.name, userData.displayName, payoutData.status,
+      userData.email, userID, payoutData.transactionData.withdraw_amount,
+      payoutData.transactionID, payoutID, payoutData
+    ];
+
+    document.getElementById("status-select").addEventListener("change", (event) => {
+      document.getElementById("gift-card-input").style.display = event.target.value === "Completed" ? "block" : "none";
+    });
+
+    document.getElementById("update-status-btn").addEventListener("click", () => updatePayoutStatus(payoutID, userTransactionData));
+
+    modal.style.display = "block"; // Show modal
+  }
+}
+
+async function updatePayoutStatus(payoutID, userTransactionData) {
+  const newStatus = document.getElementById("status-select").value;
+  const giftCardNumber = document.getElementById("gift-card-number").value.trim();
+  const payoutRef = doc(db, "A_Payouts", payoutID);
+
+  const updateData = { status: newStatus };
+  if (newStatus === "Sent") {
+    if (!giftCardNumber) {
+      showToast("Please enter a gift card number for completion.");
+      return;
+    }
+    updateData.giftCardNumber = giftCardNumber;
+  }
+  
+  await updateDoc(payoutRef, updateData);
+  sendNotificationToUser(newStatus, userTransactionData, giftCardNumber);
+  showToast(`Payout status updated. Status: ${newStatus}`);
+  fetchPayoutRequests(); // Refresh table data
+  document.getElementById("payout-modal").style.display = "none"; // Close modal
+}
+
+async function sendNotificationToUser(status, userTransactionData, giftCardNumber) {
+  let message = '';
+  if (status === "Sent") {
+    message = `Your payment is completed. Amazon Gift Card Number: ${giftCardNumber}. Please mark it as used on your payout page.`;
+
+  } else if (status === "Review") {
+    message = "Your payment is under review. We may need additional information.";
+  }
+
+  const messageData = {
+    recipientID: userTransactionData[5],
+    recipientName: userTransactionData[0],
+    recipientProfileURL: `https://reelcareer.co/u/?u=${userTransactionData[5]}`,
+    recipientProfilePicture: "",
+        recipientRead: false,
+        participants: ["000000", userTransactionData[5]],
+        senderID: "000000",
+        senderName: "Support",
+
+    senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+    senderProfileURL: `https://reelcareer.co/support`,
+
+    group: "main",
+        messageType: "payout",
+        contactLocation: "platform",
+        conversationID: `conversation_${payoutID}`,        
+    content: message.trim(),
+    connectedBool: true,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        contentType: "notification",
+        status: "unread",
+        attachments: ""
+  };
+
+  await addDoc(collection(db, "Messages"), messageData);
+}
+
+
+// Initialize the page
+fetchPayoutRequests();
+
+/*
+    message = "Your payment has been processed. Please check your email/phone/ReelCareer messages and payout page for details.";
+
+  const messageData = {
+    recipientID: userTransactionData[5],
+    recipientName: userTransactionData[0],
+    recipientProfileURL: `https://reelcareer.co/u/?u=${userTransactionData[5]}`,
+    recipientProfilePicture: "",
+        recipientRead: false,
+        participants: ["000000", userTransactionData[5]],
+        senderID: "000000",
+        senderName: "Support",
+
+    senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+    senderProfileURL: `https://reelcareer.co/support`,
+
+    group: "main",
+        messageType: "payout",
+        contactLocation: "platform",
+        conversationID: `conversation_${payoutID}`,        
+    content: message.trim(),
+    connectedBool: true,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        contentType: "notification",
+        status: "unread",
+        attachments: ""
+  };
+
+  await addDoc(collection(db, "Messages"), messageData);
+
+    */
+
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
 </body>
 </html>
