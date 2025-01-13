@@ -63,16 +63,16 @@ function createNavbar() {
         ariaLabel: "Go to reels page",
       },
       {
-        href: "https://reelcareer.co/views/membership",
-        icon: "fa fa-user",
-        text: "Membership",
-        ariaLabel: "Go to membership page",
-      },
-      {
         href: "https://reelcareer.co/views/blogs",
         icon: "fa fa-pencil-alt",
         text: "Blogs",
         ariaLabel: "Go to blogs page",
+      },
+      {
+        href: "https://reelcareer.co/views/membership",
+        icon: "fa fa-user",
+        text: "Membership",
+        ariaLabel: "Go to membership page",
       },
       /*
       {
@@ -116,9 +116,7 @@ function createNavbar() {
   
           <!-- Auth Section -->
           <div id="authSection" class="d-flex align-items-center">
-              <!--
-          <button id="darkModeToggle" class="btn btn-outline-secondary" aria-label="Toggle dark mode">Dark Mode</button>
-         -->
+ 
           </div>
         </div>
       </nav>
@@ -155,6 +153,7 @@ function createNavbar() {
           icon: "fa fa-user",
           ariaLabel: "Go to Profile"
         },
+    
         {
           title: "Create",
           href: "https://reelcareer.co/u/create",
@@ -179,6 +178,12 @@ function createNavbar() {
           icon: "fa fa-tachometer-alt",
           ariaLabel: "Go to Recruiter Dashboard"
         },
+         {
+          title: "Career Obituaries",
+          href: "https://reelcareer.co/obituaries",
+          icon: "fa fa-plus-circle",
+          ariaLabel: "Create An Career Obituary"
+        }
       ];
       
 
@@ -205,26 +210,34 @@ function createNavbar() {
       authSection.innerHTML = `
         <div class="dropdown">
           <button class="btn btn-outline-primary dropdown-toggle" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            ${userPhoto} Welcome, <name id="nav-user-name">${userName}</name>
+            ${userPhoto} 
           </button>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+          <small> Welcome, <name id="nav-user-name">${userName}</name></small>
             ${generateDropdownItems(dropdownMenuItems)}
             <hr>
             <button class="dropdown-item" id="logoutButton">
               <i class="fa fa-sign-out-alt" style="margin-right: 8px;"></i> Logout
             </button>
+
+                        <button class="dropdown-item" id="accountButton">
+              <i class="fa fa-user" style="margin-right: 8px;"></i> Account
+            </button>
+
           </div>
         </div>`;
-      
+ 
       
         // Display Job Seeker and Recruiter links
 
-
-
-
         document.getElementById("logoutButton").addEventListener("click", () => {
-          console.log("Button clicked");
           logoutUser();
+        });
+        
+
+
+        document.getElementById("accountButton").addEventListener("click", () => {
+          window.location.href = "https://reelcareer.co/u/account";
         });
         
     
