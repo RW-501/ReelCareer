@@ -1,15 +1,12 @@
 
 // Hide the body initially
-document.body.style.display = 'none';
+document.body.style.visibility = 'hidden';
 
-// Wait for the DOM content to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Once the DOM is loaded, show the body
-    document.body.style.display = 'block';
+// Wait for the page to load
+window.addEventListener('load', function() {
+    // Once the page is fully loaded, make the body visible
+    document.body.style.visibility = 'visible';
 });
-
-
-
 
 
 
