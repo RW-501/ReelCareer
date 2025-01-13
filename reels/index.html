@@ -799,6 +799,10 @@ body {
     z-index: 500;
 
 }
+
+.comment-avatar {
+    width: 50px;
+}
 </style>
 
 
@@ -1826,7 +1830,9 @@ function showReplyInput(commentId, docID, commenterName) {
 
     // Delay the toggling of the reply input area by 1 second
     setTimeout(() => {
-        replyInputArea.classList.toggle("hidden");
+
+
+        replyInputArea.classList.remove("hidden");
     }, 1000); // 1 second delay
 }
 
