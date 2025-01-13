@@ -270,49 +270,400 @@
 
     <!-- Main Content Section -->
     <main id="main-content">
-        <section id="user-header">
-            <div class="profile-card">
-              <img id="profile-image" src="" alt="User Image" class="profile-img">
-              <h2 id="user-name">User Name</h2>
-              <p id="join-date">Join Date: MM/DD/YYYY</p>
-            </div>
-          </section>
-          
-        
-        <section id="Transactions-section" class="content-card">>
-              <h3>Transactions</h3>
 
-              
-            <div class="totalPayout">
-              <strong>Total Available for Payout:</strong> 
-              <span id="total-payout" class="highlighted-amount">$0.00</span>
-            </div>
-            <div id="transactions-log" class="transaction-log"></div>
-        
-            <div id="last-request-date" class="info-text"></div>
-            <div id="request-note" class="info-text"></div>
-        
-            <label for="requested-amount" class="input-label">Enter Amount to Request:</label>
-            <input type="number" id="requested-amount" placeholder="Enter amount" class="input-box">
-            <p class="info-text">* Minimum payout amount is $25.</p> <!-- Added informational text -->
-        
-            <div class="button-group">
-              <button onclick="confirmPayout()" class="btn confirm-btn">Process Payout</button>
-
-            </div>
+      <section id="user-info-section" class="content-card">
+        <h3>User Information</h3>
+        <div class="account-card">
+          <p id="user-name" class="user-detail"><strong>Name:</strong> <span>User Name</span></p>
+          <p id="user-email" class="user-detail"><strong>Email:</strong> <span>user@example.com</span></p>
+          <div class="mb-3">
+            <label for="userID-profile" class="form-label">User ID</label>
+            <input type="text" class="form-control" id="userID-profile" disabled value="12345" aria-describedby="userIDHelp">
           </div>
-        </section>
-        
-        
-
-
-        <div id="user-toolbar" class="toolbar">
-            <!-- Toolbar buttons will be injected here -->
+          <p id="join-date" class="user-detail"><strong>Join Date:</strong> MM/DD/YYYY</p>
+          <p id="loggedin-method" class="user-detail"><strong>Logged in with:</strong> email</p>
+          <p id="lastLogin-date" class="user-detail"><strong>Last Login:</strong> MM/DD/YYYY</p>
+          <p id="user-membershipType" class="user-detail"><strong>Membership Type:</strong> Basic</p>
+          <p id="user-membershipExpiryDate" class="user-detail"><strong>Membership Expiry:</strong> MM/DD/YYYY</p>
         </div>
-        
+        <button id="view-user-profile" class="btn action-btn" aria-label="Update User Profile">Update Profile</button>
+      </section>
+      
+      <section id="membership-section" class="content-card">
+        <h3>Membership</h3>
+        <div class="account-card">
+          <p id="user-membershipType" class="user-detail"><strong>Type:</strong> Basic</p>
+          <p id="user-membershipExpiryDate" class="user-detail"><strong>Expires:</strong> MM/DD/YYYY</p>
+        </div>
+        <button id="view-membership" class="btn action-btn" aria-label="Change Membership Plan">Change Membership</button>
+      </section>
+      
+      <section id="payment-plan-section" class="content-card">
+        <h3>Payment Plan</h3>
+        <div class="account-card">
+          <button id="payment-month-to-month" class="btn payment-option" aria-label="Select Monthly Plan">Monthly Plan</button>
+          <button id="payment-yearly" class="btn payment-option" aria-label="Select Yearly Plan">Yearly Plan</button>
+          <div id="payment-history" class="history-container" aria-live="polite">
+            <!-- Payment history dynamically inserted here -->
+          </div>
+        </div>
+        <button id="make-payment-btn" class="btn action-btn" aria-label="Make Payment">Make Payment</button>
+      </section>
+      
+      <section id="referral-program-section" class="content-card">
+        <h3>Referral Program</h3>
+        <div class="account-card">
+          <div class="referral-code-group">
+            <input id="referral-code" class="referral-input" placeholder="Your referral code" aria-describedby="referralCodeHelp">
+            <button id="copy-referral-code-btn" class="btn action-btn" aria-label="Copy Referral Code">Copy</button>
+          </div>
+          <p id="referrals-count" class="user-detail"><strong>Referrals Count:</strong> 0</p>
+          <p id="referrals-earned" class="user-detail"><strong>Earned:</strong> $0</p>
+          <p id="referrals-pending" hidden><strong>Pending:</strong> 0</p>
+        </div>
+        <button id="view-referral" class="btn action-btn" aria-label="View Referrals">View Referrals</button>
+      </section>
+      
+      <section id="obituary-management-section" class="content-card">
+        <h3>Obituary Management</h3>
+        <div class="account-card">
+          <p class="user-detail"><strong>Total Obituaries:</strong> <span id="total-Obituaries">0</span></p>
+          <p class="user-detail"><strong>Total Gifts:</strong> <span id="total-Obituaries-gifts">0</span></p>
+          <div id="user-Obituaries" class="history-container" aria-live="polite">
+            <!-- Dynamic Obituaries history -->
+          </div>
+        </div>
+        <button id="view-obituary-account" class="btn action-btn" aria-label="View Obituary Account">View Obituaries Account</button>
+        <button id="view-create-obituary" class="btn action-btn" aria-label="Create New Obituary">Create New Obituary</button>
+      </section>
+      
+      <section id="video-reels-management-section" class="content-card">
+        <h3>Video Reels Management</h3>
+        <div class="account-card">
+          <p class="user-detail"><strong>Total Video Reels:</strong> <span id="total-video-reels">0</span></p>
+          <p class="user-detail"><strong>Total Gifts:</strong> <span id="total-video-reel-gifts">0</span></p>
+          <p class="user-detail"><strong>Total Views:</strong> <span id="total-video-reel-views">0</span></p>
+          <p class="user-detail"><strong>Total Likes:</strong> <span id="total-video-reel-likes">0</span></p>
+          <p class="user-detail"><strong>Total Video Resumes:</strong> <span id="total-video-resumes">0</span></p>
+          <div id="user-video-reels" class="history-container" aria-live="polite">
+            <!-- Dynamic Video Reels history -->
+          </div>
+        </div>
+        <button id="view-video-reels-account" class="btn action-btn" aria-label="View Video Reels Account">View Video Reels Account</button>
+        <button id="create-new-video-reel" class="btn action-btn" aria-label="Create New Video Reel">Create New Video Reel</button>
+      </section>
+      
+      <section id="transactions-section" class="content-card">
+        <h3>Transactions</h3>
+        <div class="account-card">
+          <p class="user-detail"><strong>Total Available for Payout:</strong> <span id="total-payout" class="highlighted-amount">$0.00</span></p>
+          <div id="transactions-log" class="history-container" aria-live="polite">
+            <!-- Transaction history dynamically inserted here -->
+          </div>
+          <p id="last-request-date" class="info-text"></p>
+          <p id="request-note" class="info-text"></p>
+          <label for="requested-amount" class="input-label" aria-describedby="requestedAmountHelp">Enter Amount to Request:</label>
+          <input type="number" id="requested-amount" class="input-box" placeholder="Enter amount">
+          <p class="info-text">* Minimum payout amount is $25.</p>
+          <p class="info-text">* Payouts are available via Visa Gift Card through Amazon. Processing time is 2-3 business days.</p>
+          <p class="info-text">* For more information on payout options, <a href="/account/payout" id="view-payout">view payout details</a>.</p>
+
+          <button onclick="confirmPayout()" class="btn confirm-btn" aria-label="Process Payout">Process Payout</button>
+        </div>
+      </section>
+      
+      <section id="notifications-section" class="content-card">
+        <h3>Notifications</h3>
+        <div id="notifications-toolbar">
+          <button id="job-application-notifications" class="btn notification-btn" aria-label="Job Application Updates Notifications">Job Application Updates</button>
+          <button id="new-job-listings-notifications" class="btn notification-btn" aria-label="New Job Listings Notifications">New Job Listings</button>
+          <button id="membership-expiry-notifications" class="btn notification-btn" aria-label="Membership Expiry Reminder Notifications">Membership Expiry Reminder</button>
+          <button id="gift-received-notifications" class="btn notification-btn" aria-label="Gift Notifications">Gifts Received</button>
+          <button id="resume-views-notifications" class="btn notification-btn" aria-label="Resume Views and Insights Notifications">Resume Views and Insights</button>
+          <button id="recommendations-notifications" class="btn notification-btn" aria-label="Recommendations and Suggestions Notifications">Recommendations and Suggestions</button>
+          <button id="obituary-engagement-notifications" class="btn notification-btn" aria-label="Obituary Engagements Notifications">Obituary Engagements</button>
+          <button id="reel-analytics-notifications" class="btn notification-btn" aria-label="Reel and Video Analytics Notifications">Reel and Video Analytics</button>
+          <button id="payment-status-notifications" class="btn notification-btn" aria-label="Payment and Transaction Updates Notifications">Payment and Transaction Updates</button>
+        </div>
+      </section>
+      
+      <section id="help-section" class="content-card">
+        <h3>Support</h3>
+        <div id="support-area">
+          <div class="div-group">
+            <h5>Contact</h5>
+            <a href="https://reelcareer.co/views/contact" title="Contact Us">Contact Us</a>
+          </div>
+      
+          <div class="div-group">
+            <h5>Bot</h5>
+            <a href="https://reelcareer.co/bot" title="Chatbot Help and Information">Chatbot Support</a>
+          </div>
+      
+          <div class="div-group">
+            <h5>Support</h5>
+            <a href="https://reelcareer.co/support" title="Customer Support">Customer Support</a>
+          </div>
+      
+          <div class="div-group">
+            <h5>Privacy</h5>
+            <a href="https://reelcareer.co/views/privacy" title="Privacy Policy - How We Protect Your Data">Privacy Policy</a>
+          </div>
+      
+          <div class="div-group">
+            <h5>Terms</h5>
+            <a href="https://reelcareer.co/views/terms" title="Terms of Use - Website User Agreement and Guidelines">Terms of Use</a>
+          </div>
+        </div>
+      </section>
+      
+      <section id="faq-section" class="content-card">
+        <h3>FAQs</h3>
+        <div id="faqs-area">
+          <!-- FAQ content dynamically inserted here -->
+        </div>
+      </section>
+      
+      <section id="danger-section" class="content-card">
+        <h3>Danger Zone</h3>
+        <div id="danger-area">
+          <div class="div-group">
+            <p><strong>Change Password</strong></p>
+            <p class="warning-text">This option is unavailable for users logged in with Google or Facebook.</p>
+            <label for="old-password" class="label">Old Password</label>
+            <input type="password" id="old-password" class="form-control" placeholder="Enter old password" aria-describedby="oldPasswordHelp">
+            <label for="new-password" class="label">New Password</label>
+            <input type="password" id="new-password" class="form-control" placeholder="Enter new password" aria-describedby="newPasswordHelp">
+            <button type="button" class="btn btn-danger" id="change-password-button" aria-label="Change Password">Change Password</button>
+          </div>
+          <div class="div-group">
+            <p><strong>Reset Security Questions</strong></p>
+            <p class="warning-text">Update your security questions for improved account recovery options.</p>
+            <button type="button" class="btn btn-secondary" id="reset-security-questions" aria-label="Reset Security Questions">Reset Security Questions</button>
+          </div>
+          <div class="div-group">
+            <p><strong>Delete Account</strong></p>
+            <p class="warning-text">This action is permanent and cannot be undone.</p>
+            <button type="button" class="btn btn-danger" id="delete-account" aria-label="Delete Account">Delete Account</button>
+          </div>
+        </div>
+      </section>
+      
+
+      <div id="user-toolbar" class="toolbar">
+        <!-- Toolbar buttons will be injected here -->
+    </div>
+    
       </main>
       
-      
+      <script>
+
+
+
+// Define the functions outside the listener
+function updateUserProfile() {
+  console.log('User profile update triggered');
+  // Add logic for updating the user profile here
+}
+
+function changeMembershipPlan() {
+  console.log('Change membership plan triggered');
+  // Add logic to change membership plan
+}
+
+function selectMonthlyPlan() {
+  console.log('Monthly plan selected');
+  // Add logic for selecting the monthly plan
+}
+
+function selectYearlyPlan() {
+  console.log('Yearly plan selected');
+  // Add logic for selecting the yearly plan
+}
+
+function makePayment() {
+  console.log('Make payment triggered');
+  // Add logic for making a payment
+}
+
+function copyReferralCode() {
+  const referralCodeInput = document.getElementById('referral-code');
+  referralCodeInput.select();
+  document.execCommand('copy');
+  console.log('Referral code copied');
+}
+
+function viewReferrals() {
+  console.log('View referrals triggered');
+  // Add logic for viewing referrals
+}
+
+function viewObituaryAccount() {
+  console.log('View obituary account triggered');
+  // Add logic for viewing obituary account
+}
+
+function createNewObituary() {
+  console.log('Create new obituary triggered');
+  // Add logic for creating a new obituary
+}
+
+function viewVideoReelsAccount() {
+  console.log('View video reels account triggered');
+  // Add logic for viewing video reels account
+}
+
+function createNewVideoReel() {
+  console.log('Create new video reel triggered');
+  // Add logic for creating a new video reel
+}
+
+function confirmPayout() {
+  console.log('Payout confirmed');
+  // Add logic for confirming the payout
+}
+
+function jobApplicationNotifications() {
+  console.log('Job application updates notifications triggered');
+  // Add logic for job application updates notifications
+}
+
+function newJobListingsNotifications() {
+  console.log('New job listings notifications triggered');
+  // Add logic for new job listings notifications
+}
+
+function membershipExpiryNotifications() {
+  console.log('Membership expiry reminder triggered');
+  // Add logic for membership expiry reminder notifications
+}
+
+function giftNotifications() {
+  console.log('Gift notifications triggered');
+  // Add logic for gift notifications
+}
+
+function resumeViewsNotifications() {
+  console.log('Resume views notifications triggered');
+  // Add logic for resume views notifications
+}
+
+function recommendationsNotifications() {
+  console.log('Recommendations notifications triggered');
+  // Add logic for recommendations notifications
+}
+
+function obituaryEngagementNotifications() {
+  console.log('Obituary engagement notifications triggered');
+  // Add logic for obituary engagement notifications
+}
+
+function reelAnalyticsNotifications() {
+  console.log('Reel and video analytics notifications triggered');
+  // Add logic for reel and video analytics notifications
+}
+
+function paymentStatusNotifications() {
+  console.log('Payment and transaction updates notifications triggered');
+  // Add logic for payment and transaction updates notifications
+}
+
+
+
+
+
+document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
+      const userDataSaved = getUserData() || [];
+      const userDocRef = doc(db, 'Users', userDataSaved.userID);
+      try {
+        // Check if user ID is valid
+        const userId = await getUserId(); // Await if getUserId is asynchronous
+        if (!userId) {
+          alert('Invalid user ID. Please log in again.');
+          return;
+        }
+        // Fetch current user status
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          alert('User not found! Please contact support.');
+          return;
+        }
+        const currentStatus = userDoc.data().status;
+        if (!currentStatus) {
+          alert('Unable to retrieve account status. Please try again.');
+          return;
+        }
+        const isCurrentlyActive = currentStatus === 'active';
+        // Confirmation message based on current status
+        const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
+        const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
+        if (!confirmToggle) {
+          console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
+          return;
+        }
+        // Toggle status
+        const newStatus = isCurrentlyActive ? 'inactive' : 'active';
+        // Update user's status
+        await updateDoc(userDocRef, {
+          status: newStatus
+        });
+        console.log(`User account status updated to ${newStatus}`);
+        // Update job posts' status
+        try {
+          const jobsQuery = query(
+            collection(db, 'Jobs'),
+            where('createdBy', '==', userId)
+          );
+          const jobDocs = await getDocs(jobsQuery);
+          if (!jobDocs.empty) {
+            jobDocs.forEach(async (jobDoc) => {
+              const jobRef = doc(db, 'Jobs', jobDoc.id);
+              await updateDoc(jobRef, {
+                status: newStatus
+              });
+              console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No job posts found for the user.');
+          }
+        } catch (jobError) {
+          console.error('Error updating job posts status:', jobError);
+          alert('An error occurred while updating job posts. Please try again later.');
+        }
+        // Update applications' status
+        try {
+          const applicationsQuery = query(
+            collection(db, 'Applications'),
+            where('userId', '==', userId)
+          );
+          const applicationDocs = await getDocs(applicationsQuery);
+          if (!applicationDocs.empty) {
+            applicationDocs.forEach(async (appDoc) => {
+              const appRef = doc(db, 'Applications', appDoc.id);
+              await updateDoc(appRef, {
+                status: newStatus
+              });
+              console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No applications found for the user.');
+          }
+        } catch (appError) {
+          console.error('Error updating applications status:', appError);
+          alert('An error occurred while updating applications. Please try again later.');
+        }
+        // Update button text
+        const button = document.getElementById('deactivateAccountBtn-profile');
+        button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
+        // Notify user of successful update
+        alert(`Your account and related data have been successfully ${action}d.`);
+      } catch (error) {
+        console.error('Error during toggle process:', error);
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    });
+  
+      </script>
 
 
    <!-- Footer -->
@@ -405,27 +756,15 @@
       console.log("User ID:", userID);
 
 
-    if (pageName) {
-        createToolbar(pageID, pageName);
-
-    }
-
+ 
 // Get user data from localStorage or initialize as an empty array
 const userDataSaved = getUserData() || [];  // Assume getUserData() fetches stored user data
 if (userDataSaved.length > 0) {
   // Assuming userDataSaved[0] contains user object details
   const user = userDataSaved[0];
   
-  // Update user header section
-  const profileImageElement = document.getElementById('profile-image');
-  const userNameElement = document.getElementById('user-name');
-  const joinDateElement = document.getElementById('join-date');
-  
-  profileImageElement.src = user.profilePicture || 'default-user-image.jpg';  // Fallback image
-  profileImageElement.alt = `${user.name}'s Profile Image`;  // Set descriptive alt text
-  
-  userNameElement.textContent = user.displayName || 'User Name';  // Fallback name
-  joinDateElement.textContent = `Join Date: ${user.joinDate || 'MM/DD/YYYY'}`;  // Fallback date
+populateUserInfo(userId);
+
 } else {
   console.warn('No user data found in storage.');
 
@@ -496,6 +835,158 @@ function formatTimestamp(timestamp) {
   // Format the date as MM/DD/YYYY
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
+
+
+// Function to fetch and populate dynamic info
+function populateUserInfo(userId) {
+    // Reference to the Firebase collections
+    const db = firebase.firestore();
+    
+    // Fetch user data from the Users collection
+    db.collection('Users').doc(userId).get()
+        .then(doc => {
+            if (doc.exists) {
+                const userData = doc.data();
+                
+                // Populate the user info section
+                document.getElementById('user-name').querySelector('span').textContent = userData.name;
+                document.getElementById('user-email').querySelector('span').textContent = userData.email;
+                document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
+                document.getElementById('join-date').querySelector('span').textContent = userData.joinDate || 'MM/DD/YYYY';
+                document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
+                document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
+                document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
+                document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiryDate || 'MM/DD/YYYY';
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching user data:", error);
+        });
+
+    // Fetch user referral data from the UserReferral collection
+    db.collection('UserReferral').doc(userId).get()
+        .then(doc => {
+            if (doc.exists) {
+                const referralData = doc.data();
+                document.getElementById('referrals-count').querySelector('span').textContent = referralData.referralsCount || 0;
+                document.getElementById('referrals-earned').querySelector('span').textContent = `$${referralData.earned || 0}`;
+                document.getElementById('referrals-pending').textContent = referralData.pending || 0;
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching referral data:", error);
+        });
+
+    // Fetch obituary data from the Obituaries collection
+    db.collection('Obituaries').where('userId', '==', userId).get()
+        .then(querySnapshot => {
+            const obituaryData = querySnapshot.docs.map(doc => doc.data());
+            const totalObituaries = obituaryData.length;
+            const totalGifts = obituaryData.reduce((sum, obit) => sum + (obit.gifts || 0), 0);
+
+            document.getElementById('total-Obituaries').textContent = totalObituaries;
+            document.getElementById('total-Obituaries-gifts').textContent = `$${totalGifts}`;
+
+            // Dynamically add obituary history to the section
+            const obituaryHistory = document.getElementById('user-Obituaries');
+            obituaryHistory.innerHTML = ''; // Clear previous content
+            obituaryData.forEach(obit => {
+                const obituaryElement = document.createElement('div');
+                obituaryElement.classList.add('history-item');
+                obituaryElement.innerHTML = `<p><strong>Obituary ID:</strong> ${obit.id} | <strong>Title:</strong> ${obit.title}</p>`;
+                obituaryHistory.appendChild(obituaryElement);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching obituary data:", error);
+        });
+
+    // Fetch video resume data from the VideoResume collection
+    db.collection('VideoResume').where('userId', '==', userId).get()
+        .then(querySnapshot => {
+            const videoResumeData = querySnapshot.docs.map(doc => doc.data());
+            const totalVideoResumes = videoResumeData.length;
+            const totalLikes = videoResumeData.reduce((sum, resume) => sum + (resume.likes || 0), 0);
+            const totalViews = videoResumeData.reduce((sum, resume) => sum + (resume.views || 0), 0);
+            const totalGifts = videoResumeData.reduce((sum, resume) => sum + (resume.gifts || 0), 0);
+
+            document.getElementById('total-video-reels').textContent = videoResumeData.length;
+            document.getElementById('total-video-reel-likes').textContent = totalLikes;
+            document.getElementById('total-video-reel-views').textContent = totalViews;
+            document.getElementById('total-video-reel-gifts').textContent = `$${totalGifts}`;
+            document.getElementById('total-video-resumes').textContent = totalVideoResumes;
+
+            // Dynamically add video resume history to the section
+            const videoReelHistory = document.getElementById('user-video-reels');
+            videoReelHistory.innerHTML = ''; // Clear previous content
+            videoResumeData.forEach(resume => {
+                const resumeElement = document.createElement('div');
+                resumeElement.classList.add('history-item');
+                resumeElement.innerHTML = `<p><strong>Video Resume ID:</strong> ${resume.id} | <strong>Title:</strong> ${resume.title}</p>`;
+                videoReelHistory.appendChild(resumeElement);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching video resume data:", error);
+        });
+}
+
+
+
+// Wait for the DOM to fully load before adding event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  // User Information Section
+  document.getElementById('view-user-profile').addEventListener('click', updateUserProfile);
+
+  // Membership Section
+  document.getElementById('view-membership').addEventListener('click', changeMembershipPlan);
+
+  // Payment Plan Section
+  document.getElementById('payment-month-to-month').addEventListener('click', selectMonthlyPlan);
+  document.getElementById('payment-yearly').addEventListener('click', selectYearlyPlan);
+  document.getElementById('make-payment-btn').addEventListener('click', makePayment);
+
+  // Referral Program Section
+  document.getElementById('copy-referral-code-btn').addEventListener('click', copyReferralCode);
+  document.getElementById('view-referral').addEventListener('click', viewReferrals);
+
+  // Obituary Management Section
+  document.getElementById('view-obituary-account').addEventListener('click', viewObituaryAccount);
+  document.getElementById('view-create-obituary').addEventListener('click', createNewObituary);
+
+  // Video Reels Management Section
+  document.getElementById('view-video-reels-account').addEventListener('click', viewVideoReelsAccount);
+  document.getElementById('create-new-video-reel').addEventListener('click', createNewVideoReel);
+
+  // Transactions Section
+  document.getElementById('confirmPayout').addEventListener('click', confirmPayout);
+
+  // Notifications Section
+  document.getElementById('job-application-notifications').addEventListener('click', jobApplicationNotifications);
+  document.getElementById('new-job-listings-notifications').addEventListener('click', newJobListingsNotifications);
+  document.getElementById('membership-expiry-notifications').addEventListener('click', membershipExpiryNotifications);
+  document.getElementById('gift-received-notifications').addEventListener('click', giftNotifications);
+  document.getElementById('resume-views-notifications').addEventListener('click', resumeViewsNotifications);
+  document.getElementById('recommendations-notifications').addEventListener('click', recommendationsNotifications);
+  document.getElementById('obituary-engagement-notifications').addEventListener('click', obituaryEngagementNotifications);
+  document.getElementById('reel-analytics-notifications').addEventListener('click', reelAnalyticsNotifications);
+  document.getElementById('payment-status-notifications').addEventListener('click', paymentStatusNotifications);
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function createTransactionElement(doc, transactionData) {
     const transactionElement = document.createElement("div");
