@@ -143,7 +143,6 @@ font-size: 1rem;
 #Main-Nav_bar #profileDropdown.active,
 #Main-Nav_bar #profileDropdown:not(:disabled):not(.disabled):active,
   .show>.btn-outline-primary.dropdown-toggle {
-    padding: 0;
     color: #fff;
     background-color: transparent;
     margin: 0;
