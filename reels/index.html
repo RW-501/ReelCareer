@@ -803,6 +803,12 @@ body {
 .comment-avatar {
     width: 50px;
 }
+
+
+.reel-video-area {
+  width: 100px;
+  height: 100px;
+}
 </style>
 
 
@@ -847,14 +853,14 @@ body {
   <!-- Hidden Video Upload Input -->
   <input type="file" class="reel-video-input" accept="video/*" hidden>
 
+  <div class="d-flex">
   <!-- Video Select Button and Preview Side-by-Side -->
-  <div class="d-flex align-items-center mb-3">
+  <div class="reel-video-area d-flex align-items-center mb-3">
     <button class="btn btn-secondary me-3 select-video-btn">Select Video</button>
     <video class="reel-video-preview flex-grow-1" controls hidden></video>
   </div>
 
   <!-- Video Content/Description -->
-  <div class="d-flex">
     <textarea class="content form-control reel-video-content me-3" placeholder="Write a description..."></textarea>
   </div>
 
