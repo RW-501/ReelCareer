@@ -190,65 +190,33 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
 window.postReelFunction = postReelFunction;
 
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
-    const dragDropArea = document.getElementById("drag-drop-area");
-    const fileInput = document.getElementById("reel-video-input");
-    const videoPreviewContainer = document.getElementById("video-preview-container");
-    const videoPreview = document.getElementById("video-preview");
-    const uploadButton = document.getElementById("reel-video-btn");
-    const uploadStatus = document.getElementById("upload-status");
+    const fileInput = document.querySelector(".reel-video-input");
+    const selectVideoButton = document.querySelector(".select-video-btn");
+    const uploadButton = document.querySelector(".reel-video-btn");
 
     let uploadedFile = null;
 
-    // Drag and Drop Event Listeners
-    dragDropArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dragDropArea.classList.add("dragging");
-    });
-
-    dragDropArea.addEventListener("dragleave", () => {
-        dragDropArea.classList.remove("dragging");
-    });
-
-    dragDropArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dragDropArea.classList.remove("dragging");
-        handleFileSelection(e.dataTransfer.files[0]);
-    });
-
-    dragDropArea.addEventListener("click", () => {
+    // Select Video Button Event
+    selectVideoButton.addEventListener("click", () => {
         fileInput.click();
     });
 
     fileInput.addEventListener("change", (e) => {
-        handleFileSelection(e.target.files[0]);
+        const file = e.target.files[0];
+        if (!file || file.type.split("/")[0] !== "video") {
+            alert("Please select a valid video file.");
+            return;
+        }
+        uploadedFile = file;
+        alert(`Selected video: ${file.name}`);
     });
 
-    // Function to Handle File Selection
-    function handleFileSelection(file) {
-        if (!file || file.type.split("/")[0] !== "video") {
-            uploadStatus.textContent = "Please select a valid video file.";
-            return;
-        }
-
-        uploadedFile = file;
-        const fileURL = URL.createObjectURL(file);
-
-        videoPreview.src = fileURL;
-        videoPreviewContainer.hidden = false;
-        uploadStatus.textContent = "Video ready for upload.";
-    }
-
-    // Upload Button Event Listener
     uploadButton.addEventListener("click", async () => {
         if (!uploadedFile) {
-            uploadStatus.textContent = "No video selected.";
+            alert("No video selected.");
             return;
         }
-
-        uploadStatus.textContent = "Uploading...";
 
         try {
             const userID = auth.currentUser?.uid || "defaultUser";
@@ -259,15 +227,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const videoURL = await uploadVideoResume(userID, videoData);
             if (videoURL) {
-                const description = document.getElementById("reel-video-content").value.trim();
+                const description = document.querySelector(".reel-video-content").value.trim();
                 await postReelFunction(description, videoURL);
-                uploadStatus.textContent = "Video uploaded successfully!";
+                alert("Video uploaded successfully!");
             } else {
-                uploadStatus.textContent = "Failed to upload the video.";
+                alert("Failed to upload the video.");
             }
         } catch (error) {
             console.error(error);
-            uploadStatus.textContent = "Error uploading the video. Please try again.";
+            alert("Error uploading the video. Please try again.");
         }
     });
 });

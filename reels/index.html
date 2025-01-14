@@ -844,27 +844,19 @@ body {
 <div class="reel-upload-container card p-4 shadow-lg">
   <h3 class="mb-3">Share Your Reel</h3>
 
-  <!-- Drag and Drop Area -->
-  <div class="drag-drop-box" data-reel-id="drag-drop-area">
-    <p class="drag-text">Drag & Drop your video here or click to select</p>
-    <input type="file" class="reel-video-input" accept="video/*" hidden>
-  </div>
+  <!-- Hidden Video Upload Input -->
+  <input type="file" class="reel-video-input" accept="video/*" hidden>
 
-  <!-- Video Preview -->
-  <div class="video-preview my-3" data-reel-id="video-preview-container" hidden>
-    <video controls class="w-100 rounded reel-video-preview"></video>
-  </div>
+  <!-- Video Select Button -->
+  <button class="btn btn-secondary w-100 mb-2 select-video-btn">Select Video</button>
 
   <!-- Video Content/Description -->
   <textarea class="content form-control my-2 reel-video-content" placeholder="Write a description..."></textarea>
 
-  <!-- Tags -->
-  <input type="text" class="form-control my-2 reel-tags-input" placeholder="Enter tags (comma-separated)">
-
-  <!-- Action Buttons -->
+  <!-- Action Button -->
   <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
-  <div class="text-success mt-2 reel-upload-status"></div>
 </div>
+
 
 
           <section id="video-reel-container" class="video-reel-container">
