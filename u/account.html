@@ -960,70 +960,77 @@ const profileCompletionChart = new Chart(ctx, {
     }
 
     // Fetch obituary data from the Obituaries collection
-    db.collection('A_Obituaries').where('userID', '==', userId).get()
-        .then(querySnapshot => {
-            const obituaryData = querySnapshot.docs.map(doc => doc.data());
-            console.log("obituaryData  ",obituaryData);
-            
-            const totalObituaries = obituaryData.length;
-            const totalGifts = obituaryData.reduce((sum, obit) => sum + (obit.gifts || 0), 0);
+  
+// Fetch obituary data
+const fetchObituaryData = async () => {
+  try {
+    const obituaryQuery = query(collection(db, 'A_Obituaries'), where('userID', '==', userId));
+    const querySnapshot = await getDocs(obituaryQuery);
+    const obituaryData = querySnapshot.docs.map(doc => doc.data());
 
-            document.getElementById('total-Obituaries').textContent = totalObituaries;
-            document.getElementById('total-Obituaries-gifts').textContent = `$${totalGifts}`;
+    console.log("obituaryData", obituaryData);
+    
+    const totalObituaries = obituaryData.length;
+    const totalGifts = obituaryData.reduce((sum, obit) => sum + (obit.gifts || 0), 0);
 
-            // Dynamically add obituary history to the section
-            const obituaryHistory = document.getElementById('user-Obituaries');
-            obituaryHistory.innerHTML = ''; // Clear previous content
-            obituaryData.forEach(obit => {
-                const obituaryElement = document.createElement('div');
-                obituaryElement.classList.add('history-item');
-                obituaryElement.innerHTML = `<p><strong>Obituary ID:</strong> ${obit.id} | <strong>Title:</strong> ${obit.title}</p>`;
-                obituaryHistory.appendChild(obituaryElement);
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching obituary data:", error);
-        });
+    document.getElementById('total-Obituaries').textContent = totalObituaries;
+    document.getElementById('total-Obituaries-gifts').textContent = `$${totalGifts}`;
 
-    // Fetch video resume data from the VideoResume collection
-    db.collection('VideoResumes').where('userID', '==', userId).get()
-        .then(querySnapshot => {
-            const videoResumeData = querySnapshot.docs.map(doc => doc.data());
-            const totalVideoResumes = videoResumeData.length;
-            const totalLikes = videoResumeData.reduce((sum, resume) => sum + (resume.likes || 0), 0);
-            const totalViews = videoResumeData.reduce((sum, resume) => sum + (resume.views || 0), 0);
+    const obituaryHistory = document.getElementById('user-Obituaries');
+    obituaryHistory.innerHTML = '';
+    obituaryData.forEach(obit => {
+      const obituaryElement = document.createElement('div');
+      obituaryElement.classList.add('history-item');
+      obituaryElement.innerHTML = `<p><strong>Obituary ID:</strong> ${obit.id} | <strong>Title:</strong> ${obit.title}</p>`;
+      obituaryHistory.appendChild(obituaryElement);
+    });
+  } catch (error) {
+    console.error("Error fetching obituary data:", error);
+  }
+};
 
-            let gifts = resume.gifts;
-            const totalGifts = videoResumeData.reduce((sum, resume) => sum + (gifts.length || 0), 0);
-            const totalLoves = videoResumeData.reduce((sum, resume) => sum + (resume.loves || 0), 0);
-            const totalShares = videoResumeData.reduce((sum, resume) => sum + (resume.shares || 0), 0);
+// Fetch video resume data
+const fetchVideoResumeData = async () => {
+  try {
+    const videoResumeQuery = query(collection(db, 'VideoResumes'), where('userID', '==', userId));
+    const querySnapshot = await getDocs(videoResumeQuery);
+    const videoResumeData = querySnapshot.docs.map(doc => doc.data());
 
-            document.getElementById('total-video-reels').textContent = videoResumeData.length;
-            document.getElementById('total-video-reel-likes').textContent = totalLikes;
-            document.getElementById('total-video-reel-views').textContent = totalViews;
-            document.getElementById('total-video-reel-gifts').textContent = `$${totalGifts}`;
-            document.getElementById('total-video-resumes').textContent = totalVideoResumes;
+    const totalVideoResumes = videoResumeData.length;
+    const totalLikes = videoResumeData.reduce((sum, resume) => sum + (resume.likes || 0), 0);
+    const totalViews = videoResumeData.reduce((sum, resume) => sum + (resume.views || 0), 0);
+    const totalGifts = videoResumeData.reduce((sum, resume) => sum + ((resume.gifts || []).length || 0), 0);
+    const totalLoves = videoResumeData.reduce((sum, resume) => sum + (resume.loves || 0), 0);
+    const totalShares = videoResumeData.reduce((sum, resume) => sum + (resume.shares || 0), 0);
 
-            // Dynamically add video resume history to the section
-            const videoReelHistory = document.getElementById('user-video-reels');
-            videoReelHistory.innerHTML = ''; // Clear previous content
-            videoResumeData.forEach(resume => {
-                const resumeElement = document.createElement('div');
-                resumeElement.classList.add('history-item');
-                resumeElement.innerHTML = `<p><strong>Title:</strong> ${resume.videoResumeCaptions}</p> <p><strong>Video created Date:</strong> ${resume.createdAt} </p>`;
-                videoReelHistory.appendChild(resumeElement);
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching video resume data:", error);
-        });
+    document.getElementById('total-video-reels').textContent = totalVideoResumes;
+    document.getElementById('total-video-reel-likes').textContent = totalLikes;
+    document.getElementById('total-video-reel-views').textContent = totalViews;
+    document.getElementById('total-video-reel-gifts').textContent = `$${totalGifts}`;
+    document.getElementById('total-video-resumes').textContent = totalVideoResumes;
 
+    const videoReelHistory = document.getElementById('user-video-reels');
+    videoReelHistory.innerHTML = '';
+    videoResumeData.forEach(resume => {
+      const resumeElement = document.createElement('div');
+      resumeElement.classList.add('history-item');
+      resumeElement.innerHTML = `<p><strong>Title:</strong> ${resume.videoResumeCaptions}</p> <p><strong>Video created Date:</strong> ${resume.createdAt}</p>`;
+      videoReelHistory.appendChild(resumeElement);
+    });
+  } catch (error) {
+    console.error("Error fetching video resume data:", error);
+  }
+};
 
-        const referralLink = `https://reelcareer.co/referral/?r=${userID}`;
-        console.log("referralLink  ",referralLink);
+// Referral link
+const referralLink = `https://reelcareer.co/referral/?r=${userId}`;
+console.log("referralLink", referralLink);
+document.getElementById('referral-code').value = referralLink;
 
-            // Display the referral link
-            document.getElementById('referral-code').value = referralLink;
+// Initialize fetch functions
+fetchObituaryData();
+fetchVideoResumeData();
+
 }
 
 
