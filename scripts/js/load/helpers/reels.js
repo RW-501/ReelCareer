@@ -71,7 +71,7 @@ let videoData = [];
 
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
-    const userID = auth.currentUser?.uid || userDataSaved.userID;
+    const userID = auth.currentUser.uid || userDataSaved.userID;
 
     if (!userID) {
         showToast('No User Info');
