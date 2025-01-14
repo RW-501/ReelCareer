@@ -65,13 +65,12 @@ function extractHashtags(caption) {
 
 
 let videoData = [];
-
-// Post the video resume dataasync function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
+async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
-    const userID = auth.currentUser.uid || userDataSaved.userID;
+    const userID = auth.currentUser?.uid || userDataSaved.userID;
 
     if (!userID) {
         showToast('No User Info');
@@ -148,10 +147,10 @@ let videoData = [];
         console.error("Error saving user data:", error);
         showToast("There was an error posting your resume reel. Please try again later.");
     }
+}
 
+window.postReelFunction = postReelFunction;
 
-
-    
 const fileInput = document.querySelector(".reel-video-input");
 const selectVideoButton = document.querySelector(".select-video-btn");
 const uploadButton = document.querySelector(".reel-video-btn");
