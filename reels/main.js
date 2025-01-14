@@ -99,7 +99,8 @@ function handleComments(docId, commentsBtn) {
       controlsPlay.classList.remove("fade-out");
     });
   }
-  
+  window.addVideoEndListener = addVideoEndListener;
+
   // Function to toggle Mute/Unmute
   function toggleMute(video, muteButton) {
     // Toggle mute state
