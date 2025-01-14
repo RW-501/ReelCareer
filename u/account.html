@@ -747,10 +747,10 @@ async function populateUserInfo(userId) {
             document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
             document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
             document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
-            document.getElementById('join-date').querySelector('span').textContent = userData.joinDate || 'MM/DD/YYYY';
+            document.getElementById('join-date').textContent = `Join Date: ${userData.joinDate || 'MM/DD/YYYY'}`;
             document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
             document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
-            document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
+          document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
             document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
 
             function updateMembershipStatus(userData) {
