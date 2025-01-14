@@ -61,7 +61,9 @@ document.getElementById("signup-form")?.addEventListener("submit", async (e) => 
       // After linking, the user ID will be updated to the email/password account ID
     }
 
-    await saveUserLoginState(user, true); // Update database and local storage
+
+    const joinedDate = new Date();  // Store the current date as the joined date
+    await saveUserLoginState(user, true, joinedDate); // Pass joined date to saveUserLoginState
   } catch (error) {
     console.error("Error during sign up:", error);
     showToast(error.message, 'error');

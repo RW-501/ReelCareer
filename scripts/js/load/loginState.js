@@ -18,7 +18,7 @@ import {
 
 
 // Function to update or create user information in Firestore
-const saveUserLoginState = async (user) => {
+const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) => {
     try {
       //console.log(" User info: ", user);
 
@@ -106,7 +106,8 @@ const saveUserLoginState = async (user) => {
         profilePicture: user.photoURL || profilePic,
         membershipType: userDataSaved.membershipType || "free",
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
-  
+        joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
+
     
   
         tags: tagArray || "",
