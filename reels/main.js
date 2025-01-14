@@ -15,7 +15,7 @@ function handleComments(docId, commentsBtn) {
       inputContainer.classList.toggle("hidden");
     }, 1000); // 2 seconds delay
   }
-  
+  window.handleComments = handleComments;
   
   
   function renderTags(tags, videoTags) {
@@ -66,7 +66,8 @@ function handleComments(docId, commentsBtn) {
       }
     }, 1000); // 2 seconds delay
   }
-  
+  window.togglePlay = togglePlay;
+
   
   // Listener for when the video ends
   function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
@@ -91,7 +92,8 @@ function handleComments(docId, commentsBtn) {
           ? '<i class="fa fa-volume-mute"></i>'
           : '<i class="fa fa-volume-up"></i>';
   }
-  
+  window.toggleMute = toggleMute;
+
   // Function to handle Fullscreen
   function toggleFullscreen(video, fullscreenButton) {
     if (video.requestFullscreen) {
@@ -102,7 +104,8 @@ function handleComments(docId, commentsBtn) {
       video.msRequestFullscreen();
     }
   }
-  
+  window.toggleFullscreen = toggleFullscreen;
+
   
   
   
@@ -117,7 +120,8 @@ function handleComments(docId, commentsBtn) {
       window.location = "https://reelcareer.co/views/auth";
   
   }
-  
+  window.handleJoinUsBtn = handleJoinUsBtn;
+
   
   function addToShortlist(docId, currentUid) {
     const userID = auth.currentUser.uid;
@@ -141,7 +145,8 @@ function handleComments(docId, commentsBtn) {
       showToast("Please log in to add to shortlist.");
     }
   }
-  
+  window.addToShortlist = addToShortlist;
+
   
   
   // Function to increment view count
@@ -157,7 +162,8 @@ function handleComments(docId, commentsBtn) {
           console.error("Error updating view count: ", error);
       }
   }
-  
+  window.incrementViewCount = incrementViewCount;
+
   // Function to handle likes
   async function handleLike(docId, likeButton) {
       const videoRef = doc(db, "VideoResumes", docId);
@@ -175,6 +181,9 @@ function handleComments(docId, commentsBtn) {
           console.error("Error updating like count: ", error);
       }
   }
+  window.handleLike = handleLike;
+
+
   async function handleShareCount(docId, shareButton) {
       const videoRef = doc(db, "VideoResumes", docId);
   
@@ -191,6 +200,10 @@ function handleComments(docId, commentsBtn) {
           console.error("Error updating like count: ", error);
       }
   }
+  window.handleShareCount = handleShareCount;
+
+
+
   // Function to format video duration to HH:MM:SS
   function formatDuration(duration) {
     const seconds = Math.floor(duration % 60);
@@ -205,7 +218,8 @@ function handleComments(docId, commentsBtn) {
       .filter((part) => part !== "00") // Remove leading zeros if hours are zero
       .join(":");
   }
-  
+  window.formatDuration = formatDuration;
+
   
   // Native Share Function
   function handleShare(docId, videoUrl) {
@@ -222,7 +236,8 @@ function handleComments(docId, commentsBtn) {
           alert("Sharing not supported on this device.");
       }
   }
-  
+  window.handleShare = handleShare;
+
   // Add Comment Functionality
   async function addComment(docId, parentCommentId = null) {
       const inputId = parentCommentId
@@ -300,7 +315,8 @@ function handleComments(docId, commentsBtn) {
           });
       });
   }
-  
+  window.fetchComments = fetchComments;
+
   /*
   loadedComments.delete(docId); // To reload comments for a single video
   loadedComments.clear();       // To reload comments for all videos
@@ -362,7 +378,8 @@ function handleComments(docId, commentsBtn) {
           });
       }
   }
-  
+  window.renderComment = renderComment;
+
   
   
   
@@ -481,6 +498,9 @@ function handleComments(docId, commentsBtn) {
   
       }
   }
+  window.submitReport = submitReport;
+
+
   function openReportModal(videoId) {
     document.getElementById('currentVideoId').innerText = videoId;
       document.getElementById('reportJobModal').style.display = 'block'; // No need for !important
@@ -514,9 +534,7 @@ function handleComments(docId, commentsBtn) {
           modal.style.display = 'none'; // No need for !important
       });
   }
-  window.closeReportModal = closeReportModal;
   
-  window.submitReport = submitReport;
   
   
   
