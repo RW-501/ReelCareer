@@ -418,12 +418,14 @@ function loadPageScripts() {
     }
 
 
-
-        // Load trackers.js as a module
-        loadScript('https://reelcareer.co/scripts/js/load/helpers/reels.js', { defer: true, type: 'module' }, () => {
+    setTimeout(() => {
+        // Load Reels.js as a module
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/reels.js', 
+        { defer: true, type: 'module' }, () => {
             logExecutionTime('Reels Script', performance.now());
         });
-
+    }, 500); // 500ms delay
+    
 
 }
 
