@@ -205,6 +205,40 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+
+
+#profileComplete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#profileCompletionChart {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+#profileCompletionList {
+    width: 100%;
+    max-width: 400px;
+    list-style-type: none;
+    padding: 0;
+}
+
+#profileCompletionList li {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+
+
+
+
+
+
 }    
   </style>
   
@@ -265,7 +299,9 @@
 
       <section id="user-info-section" class="content-card">
         <h3>User Information</h3>
-        <div class="account-card">
+        <div id="user-main-info" class="flex-wrap">
+
+        <div id="userMainInfo" class="account-card">
           <p id="user-name" class="user-detail"><strong>Name:</strong> <span>User Name</span></p>
           <p id="user-display-name" class="user-detail"><strong>Display Name:</strong> <span>Display Name</span></p>
           <p id="user-email" class="user-detail"><strong>Email:</strong> <span>user@example.com</span></p>
@@ -282,6 +318,20 @@
           <p id="user-membershipType" class="user-detail"><strong>Membership Type:</strong> Basic</p>
           <p id="user-membershipExpiryDate" class="user-detail"><strong>Membership Expiry:</strong> MM/DD/YYYY</p>
         </div>
+        <div id="userMainInfoStats" class="account-card">
+
+          <div id="profileComplete">
+            <canvas id="profileCompletionChart"></canvas>
+            <div id="profileCompletionList">
+              <h3>Profile Completion Status</h3>
+              <ul id="profile-completion-items">
+                <!-- List of complete/incomplete fields will be inserted here -->
+              </ul>
+            </div>
+          </div>
+          
+
+          </div>
         <button id="view-user-profile" class="btn action-btn" aria-label="Update User Profile">Update Profile</button>
       </section>
       
@@ -659,6 +709,7 @@ function paymentStatusNotifications() {
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     
 
@@ -731,7 +782,6 @@ function formatTimestamp(timestamp) {
 // Function to fetch and populate dynamic info
 async function populateUserInfo(userId) {
     try {
-        // Fetch user data from the Users collection
         const userDocRef = doc(db, 'Users', userId);
         const userDoc = await getDoc(userDocRef);
 
@@ -739,19 +789,83 @@ async function populateUserInfo(userId) {
             const userData = userDoc.data();
             console.log("userData", userData);
 
-            // Populate the user info section
+            // Populate user details (existing code)
             document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
             document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
             document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
             document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
             document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
             document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
-            document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
             document.getElementById('join-date').textContent = `Join Date: ${userData.joinDate || 'MM/DD/YYYY'}`;
             document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
             document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
-          document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
+            document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
             document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
+
+            // Define the profile fields and their status
+            const profileFields = [
+                { field: 'name', label: 'Name' },
+                { field: 'displayName', label: 'Display Name' },
+                { field: 'email', label: 'Email' },
+                { field: 'phoneNumber', label: 'Phone Number' },
+                { field: 'ipAddress', label: 'IP Address' },
+                { field: 'verified', label: 'Verified' },
+                { field: 'joinDate', label: 'Join Date' },
+                { field: 'loginMethod', label: 'Login Method' },
+                { field: 'lastLogin', label: 'Last Login' },
+                { field: 'membershipType', label: 'Membership Type' },
+                { field: 'membershipExpiry', label: 'Membership Expiry Date' }
+            ];
+
+            // Count completed fields
+            let completedFields = 0;
+            profileFields.forEach(field => {
+                if (userData[field.field]) completedFields++;
+            });
+
+            // Calculate the profile completion percentage
+            const totalFields = profileFields.length;
+            const profileCompletionPercentage = Math.round((completedFields / totalFields) * 100);
+
+            // Render the pie chart
+            const ctx = document.getElementById('profileCompletionChart').getContext('2d');
+            const profileCompletionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Completed', 'Incomplete'],
+                    datasets: [{
+                        data: [profileCompletionPercentage, 100 - profileCompletionPercentage],
+                        backgroundColor: ['#4caf50', '#f44336'],
+                        borderColor: ['#fff', '#fff'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `${tooltipItem.label}: ${tooltipItem.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Render the profile completion list
+            const profileCompletionList = document.getElementById('profile-completion-items');
+            profileCompletionList.innerHTML = ''; // Clear the previous list
+
+            profileFields.forEach(field => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${field.label}: ${userData[field.field] ? 'Complete' : 'Incomplete'}`;
+                listItem.style.color = userData[field.field] ? '#4caf50' : '#f44336';
+                profileCompletionList.appendChild(listItem);
+            });
+        
+
 
             function updateMembershipStatus(userData) {
                 const membershipDueDate = new Date(userData.membershipExpiry); // Ensure it's a Date object
