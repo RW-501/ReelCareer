@@ -807,5 +807,6 @@ function handleComments(docId, commentsBtn) {
         updateButtonState,
         sendMessage,
         setRecipientName,
-        toggleSendButton 
+        toggleSendButton ,
+        
       };
