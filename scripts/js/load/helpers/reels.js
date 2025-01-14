@@ -61,23 +61,27 @@ async function uploadVideoResume(userID, videoData) {
 
 // Function to extract hashtags and store them in an array
 function extractHashtags(caption) {
-    const regex = /#\w+/g;
-    const hashtags = caption.match(regex) || [];
+    const stopWords = new Set(["a", "an", "the", "and", "or", "but", "if", "then", "else", "of", "to", "in", "on", "with", "by", "for", "at", "from", "into", "over", "after", "before", "under", "about",
+         "above", "below", "is", "was", "were", "be", "has", "had", "do", "does", "did", "not",
+          "this", "that", "these", "those", "it", "its", "my", "your", "our", "their", "his",
+           "her", "him", "he", "she", "they", "we", "you", "i"]);
+
+    // Extract words that start with '#' or treat entire caption if no hashtags
+    const words = caption.match(/#\w+|\b\w+\b/g) || [];
     
-    if (hashtags.length < 2) {
-        showToast("Please add at least two hashtags.");
-        return []; // Return an empty array if validation fails
+    // Filter out stop words, remove hashtags, and limit to 15 unique tags
+    const filteredTags = words
+        .map(word => word.replace(/^#/, '').toLowerCase()) // Remove '#' and convert to lowercase
+        .filter(word => word && !stopWords.has(word)) // Filter out stop words
+        .slice(0, 15); // Limit to 15 words
+
+    if (filteredTags.length === 0) {
+        showToast("No valid tags found, using processed keywords as tags.");
     }
 
-    // Validate hashtags (optional)
-    const invalidHashtags = hashtags.filter(tag => !/^#[a-zA-Z0-9_]+$/.test(tag));
-    if (invalidHashtags.length > 0) {
-        showToast("Hashtags must only contain letters, numbers, or underscores.");
-        return []; // Return an empty array if invalid hashtags are found
-    }
-
-    return hashtags.map(tag => tag.toLowerCase());  // Convert to lowercase for consistency
+    return Array.from(new Set(filteredTags));  // Ensure tags are unique
 }
+
 
 
 let videoData;
