@@ -300,6 +300,10 @@
         <div class="account-card">
           <button id="payment-month-to-month" class="btn payment-option" aria-label="Select Monthly Plan">Monthly Plan</button>
           <button id="payment-yearly" class="btn payment-option" aria-label="Select Yearly Plan">Yearly Plan</button>
+          <p id="user-membershipDuedate" class="user-detail"><strong>Due Date:</strong> MM/DD/YYYY</p>
+          <p id="user-membershipTimeLeft" class="user-detail"><strong>0 Days Left</strong></p>
+
+      
           <div id="payment-history" class="history-container" aria-live="polite">
             <!-- Payment history dynamically inserted here -->
           </div>
@@ -451,6 +455,25 @@
         <!-- Toolbar buttons will be injected here -->
     </div>
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
       </main>
       
       <script>
@@ -528,10 +551,8 @@ function createNewVideoReel() {
 
 }
 
-function confirmPayout() {
-  console.log('Payout confirmed');
-  // Add logic for confirming the payout
-}
+
+ 
 
 function jobApplicationNotifications() {
   console.log('Job application updates notifications triggered');
@@ -738,6 +759,41 @@ function populateUserInfo(userId) {
                 document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
                 document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
          
+                function updateMembershipStatus(userData) {
+    const membershipDueDate = new Date(userData.membershipExpiry); // Ensure it's a Date object
+    const currentDate = new Date();
+    const timeLeft = Math.ceil((membershipDueDate - currentDate) / (1000 * 60 * 60 * 24)); // Calculate days left
+
+    const dueDateElement = document.getElementById('membershipDueDate').querySelector('span');
+    const timeLeftElement = document.getElementById('membershipTimeLeft').querySelector('span');
+    const paymentButton = document.getElementById('make-payment-btn');
+
+    // Format date as 'MM/DD/YYYY'
+    const formattedDueDate = membershipDueDate instanceof Date && !isNaN(membershipDueDate) 
+        ? membershipDueDate.toLocaleDateString('en-US') 
+        : 'MM/DD/YYYY';
+
+    // Display formatted due date
+    dueDateElement.textContent = formattedDueDate;
+
+    // Display time left or fallback text
+    timeLeftElement.textContent = timeLeft >= 0 ? `${timeLeft} day${timeLeft !== 1 ? 's' : ''} left` : 'Expired';
+
+    // Apply visual cues for expiring or expired membership
+    if (timeLeft <= 3 && timeLeft > 0) {
+        timeLeftElement.style.color = 'orange'; // Warning color for imminent expiration
+        paymentButton.style.color = 'orange';
+    } else if (timeLeft <= 0) {
+        timeLeftElement.style.color = 'red'; // Critical color for expired membership
+        paymentButton.style.color = 'red';
+        alert("Your membership has expired. Please renew to continue enjoying premium features.");
+    } else {
+        timeLeftElement.style.color = 'green'; // Positive status for valid membership
+        paymentButton.style.color = 'green';
+    }
+}
+
+
               }
         })
         .catch(error => {
@@ -801,6 +857,8 @@ getDocs(referralQuery).then(snapshot => {
     db.collection('A_Obituaries').where('userID', '==', userId).get()
         .then(querySnapshot => {
             const obituaryData = querySnapshot.docs.map(doc => doc.data());
+            console.log("obituaryData  ",obituaryData);
+            
             const totalObituaries = obituaryData.length;
             const totalGifts = obituaryData.reduce((sum, obit) => sum + (obit.gifts || 0), 0);
 
@@ -856,6 +914,8 @@ getDocs(referralQuery).then(snapshot => {
 
 
         const referralLink = `https://reelcareer.co/referral/?r=${userID}`;
+        console.log("referralLink  ",referralLink);
+
             // Display the referral link
             document.getElementById('referral-code').value = referralLink;
 }
@@ -1195,7 +1255,6 @@ async function confirmPayout() {
     } else {
         await createPayoutTransaction(requestedAmount, availableAmount);
         showToast("Payout request confirmed. Your payout is being processed.", 'success');
-        closeModal();
     }
 }
 
@@ -1317,13 +1376,6 @@ async function processPayoutTransaction(contact, contact2, transactionData, tran
     }
 }
 
-
-// Function to close the payout modal
-function closeModal() {
-  document.getElementById("payout-modal").classList.remove('open');
-}
-
-window.closeModal = closeModal;
 
 
 
