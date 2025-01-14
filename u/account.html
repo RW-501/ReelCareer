@@ -879,8 +879,8 @@ const profileCompletionChart = new Chart(ctx, {
                 const currentDate = new Date();
                 const timeLeft = Math.ceil((membershipDueDate - currentDate) / (1000 * 60 * 60 * 24)); // Calculate days left
 
-                const dueDateElement = document.getElementById('membershipDueDate').querySelector('span');
-                const timeLeftElement = document.getElementById('membershipTimeLeft').querySelector('span');
+                const dueDateElement = document.getElementById('user-membershipDuedate').querySelector('span');
+                const timeLeftElement = document.getElementById('user-membershipTimeLeft').querySelector('span');
                 const paymentButton = document.getElementById('make-payment-btn');
 
                 // Format date as 'MM/DD/YYYY'
