@@ -379,7 +379,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
 // Fetch Video Resumes with optional tag filter
 async function fetchVideoResumes(page = 1, tagFilter = "") {
     const videoContainer = document.getElementById("video-reel-container");
@@ -393,11 +392,29 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
     }
 
     try {
-            // Fetch video resumes from the local JSON file
-            const response = await fetch('reels/json/videoReels.json');
-            const data = await response.json();
-            if (data && data.length > 0) {
-                data.forEach(videoData => {
+        // Fetch video resumes from the local JSON file
+        const response = await fetch('reels/json/videoReels.json');
+        
+        // Log the response to make sure we get it
+        console.log("Response received:", response);
+
+        const data = await response.json();
+        
+        // Log the fetched data
+        console.log("Fetched data:", data);
+
+        if (data && data.length > 0) {
+            // Filter out obituaries/celebrating content
+            const filteredData = data.filter(videoData => {
+                const isObituary = videoData.tags && videoData.tags.includes('obituary') || videoData.tags.includes('celebrating');
+                if (isObituary) {
+                    console.log("Excluding obituary/celebrating video:", videoData.id);
+                }
+                return !isObituary;
+            });
+
+            if (filteredData.length > 0) {
+                filteredData.forEach(videoData => {
                     videoDataArray.push({
                         id: videoData.id || '',
                         userID: videoData.userID || '',
@@ -418,18 +435,20 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                         timestamp: videoData.timestamp || ''
                     });
                 });
+                console.log("Filtered and processed video data:", videoDataArray);
                 renderVideos(videoDataArray, videoContainer);
             } else {
-                videoContainer.innerHTML = "<p>No video resumes available.</p>";
+                videoContainer.innerHTML = "<p>No video resumes available after filtering obituaries.</p>";
             }
-       
+        } else {
+            videoContainer.innerHTML = "<p>No video resumes available.</p>";
+        }
         
     } catch (error) {
         console.error("Error fetching video resumes: ", error);
         videoContainer.innerHTML = "<p>Error loading videos. Please refresh the page or try again later.</p>";
     }
 }
-
 
 
      let page = 1;
