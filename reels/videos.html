@@ -480,15 +480,17 @@ function renderVideos(docs, container) {
         }
 
         // Check if 'doc' has the 'data' method (to confirm it's a Firestore snapshot)
-        if (typeof doc.data === "function") {
-            const videoData = doc.data();
+        if (doc.exists && typeof doc.data === "function") {
+          const videoData = doc.data();
             console.log("docId", docId);
             console.log("videoData", videoData);
 
             
-            let reelUserID = videoData.userID || '';
-            let profilePicture = videoData.profilePicture || '';
-            let displayName = videoData.displayName || '';
+            let reelUserID = videoData.userID || 'Unknown User';
+let profilePicture = videoData.profilePicture || 'https://path/to/default/image.png';
+let displayName = videoData.displayName || 'Anonymous';
+let position = videoData.position || 'No position specified';
+let location = videoData.location || 'Location not available';
 
             // Build the video card dynamically with real data
             const videoCard = document.createElement("div");
@@ -496,12 +498,12 @@ function renderVideos(docs, container) {
             videoCard.dataset.docId = docId; // Add dataset attribute
             videoCard.dataset.timestamp = videoData.timestamp;
             videoCard.dataset.tags = videoData.tags || ''; // For search functionality
-            videoCard.dataset.displayName = videoData.displayName || '';
-            videoCard.dataset.position = videoData.position || '';
-            videoCard.dataset.location = videoData.location || '';
+            videoCard.dataset.displayName = displayName || '';
+            videoCard.dataset.position = position || '';
+            videoCard.dataset.location = location || '';
             videoCard.dataset.verified = videoData.verified || '';
-            videoCard.dataset.reelUserID = videoData.createdByID || '';
-            videoCard.dataset.profilePicture = videoData.profilePicture || '';
+            videoCard.dataset.reelUserID = videoData.createdByID || reelUserID || '';
+            videoCard.dataset.profilePicture = profilePicture || '';
             videoCard.dataset.duration = videoData.duration || 0;
             videoCard.dataset.likes = videoData.likes || 0;
             videoCard.dataset.loves = videoData.loves || 0;
@@ -515,8 +517,8 @@ videoCard.innerHTML = `
   <div id="videoCard_${docId}" class="video-card">
     <div class="user-info">
       <div class="user-info-left">
-        <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
-             alt="${videoData.displayName}" 
+        <img src="${profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
+             alt="${displayName}" 
              class="profile-img lazy-image">
 
       </div>
@@ -525,9 +527,9 @@ videoCard.innerHTML = `
 
         <div class="user-details">
           <div class="name-badge">
-          <a href="${videoData.profileURL}" aria-label="View ${videoData.displayName}'s profile">
+          <a href="${videoData.profileURL}" aria-label="View ${displayName}'s profile">
             <h3 class="user-name">
-              ${videoData.displayName || 'Anonymous'}
+              ${displayName || 'Anonymous'}
             </h3>
           </a>
 <small class="badge ${videoData.verified ? 'badge-verified' : ''}">
@@ -535,7 +537,7 @@ videoCard.innerHTML = `
 </small>
           </div>
 
-          <p class="job-title">${videoData.position || ''}</p>
+          <p class="job-title">${position || ''}</p>
         </div>
            
       <div class="interaction-buttons">
@@ -555,8 +557,8 @@ videoCard.innerHTML = `
     </div>
     
     <div class="video-container">
-      <video id="video_${docId}" class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
-        <source src="${videoData.videoResumeURL}" type="video/mp4">
+      <video id="video_${docId}" class="video-element" ${videoMuted} poster="${thumbnailURL || ''}">
+        <source src="${videoResumeURL}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
 
@@ -599,7 +601,7 @@ videoCard.innerHTML = `
     </div>
 
     <div class="caption-container">
-      <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
+      <p class="video-caption">${videoResumeCaptions || ''}</p>
     </div>
     <div class="tags-container">
     </div>
