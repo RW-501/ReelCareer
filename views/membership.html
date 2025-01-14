@@ -147,50 +147,15 @@
 
     <!-- Membership Upgrade Options -->
     <div class="card">
-        <div class="card-header">
-            <h4>Available Membership Plans</h4>
-        </div>
-        <div class="card-body">
-            <div class="flex-wrap">
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <h5>Free Membership</h5>
-                        </div>
-                        <div class="card-body">
-                            <h6>Price: $0</h6>
-                            <p>Basic access to job listings.</p>
-                            <button id="paypal-button-container-free" class="btn btn-primary" onclick="upgradeMembership('free')">Start Free Membership</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <h5>Basic Premium Membership</h5>
-                        </div>
-                        <div class="card-body">
-                            <h6>Price: $9.99/month</h6>
-                            <p>Access to premium job listings and features.</p>
-                            <button id="paypal-button-container-basic" class="btn btn-primary" onclick="upgradeMembership('basic')">Unlock Benefits</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <h5>Pro Premium Membership</h5>
-                        </div>
-                        <div class="card-body">
-                            <h6>Price: $19.99/month</h6>
-                            <p>All features of Basic Premium plus additional benefits.</p>
-                            <button  id="paypal-button-container-pro" class="btn btn-primary" onclick="upgradeMembership('pro')">Unlock Benefits</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="card-header">
+          <h4>Available Membership Plans</h4>
+      </div>
+      <div class="card-body">
+          <div class="row justify-content-center">
+              <div id="membership-plans" class="d-flex flex-wrap"></div>
+          </div>
+      </div>
+  </div>
 
     
     
@@ -353,8 +318,53 @@ import {
   storage, collection, deleteObject, auth, analytics, deleteDoc, getDownloadURL
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+// Function to generate membership cards dynamically
+function renderMembershipPlans(containerId, plans) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';  // Clear previous content
+    
+    for (let key in plans) {
+        const { price, description, benefits } = plans[key];
+        const card = `
+            <div class="col-md-4 mb-3">
+                <div class="card text-center shadow-sm">
+                    <div class="card-header">
+                        <h5>${description}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6>Price: $${price.toFixed(2)}</h6>
+                        <p>${benefits}</p>
+                        <button class="btn btn-primary" onclick="upgradeMembership('${key}')">
+                            ${price === 0 ? 'Start Free Membership' : 'Unlock Benefits'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', card);
+    }
+}
+const membershipSubscriptions = {
+    basic_Subscription: { price: 9.99, description: 'Basic Subscription Premium Membership (Monthly)' },
+    pro_Subscription: { price: 15.99, description: 'Pro Subscription Premium Membership (Monthly)' },
+};
 
+const membershipPlans = {
+        free: { price: 0, description: 'Free Membership', benefits: 'Basic access to job listings.' },
+        basic: { price: 9.99, description: 'Basic Premium Membership (Monthly)', benefits: 'Access to premium job listings and features.' },
+        pro: { price: 19.99, description: 'Pro Premium Membership (Monthly)', benefits: 'All Basic Premium features plus additional benefits.' },
+        basic_Yearly: { price: 79.99, description: 'Basic Yearly Premium Membership (Save 2 Months)', benefits: 'Annual savings with premium job access.' },
+        pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)', benefits: 'Annual savings with pro-level access.' }
+    };
+// Render standard and subscription plans
+renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
 
+function upgradeMembership(planKey) {
+    const allPlans = { ...membershipPlans, ...membershipSubscriptions };
+    const { description, price } = allPlans[planKey];
+    alert(`You selected ${description} for $${price.toFixed(2)}. Payment integration will follow.`);
+    // Implement PayPal integration or payment handling here.
+}
 
 
 
