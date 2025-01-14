@@ -190,7 +190,6 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
 window.postReelFunction = postReelFunction;
 
 
-document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.querySelector(".reel-video-input");
     const selectVideoButton = document.querySelector(".select-video-btn");
     const uploadButton = document.querySelector(".reel-video-btn");
@@ -238,4 +237,3 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Error uploading the video. Please try again.");
         }
     });
-});
