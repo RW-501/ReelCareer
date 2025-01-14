@@ -729,124 +729,119 @@ function formatTimestamp(timestamp) {
 
 
 // Function to fetch and populate dynamic info
-function populateUserInfo(userId) {
+async function populateUserInfo(userId) {
+    try {
+        // Fetch user data from the Users collection
+        const userDocRef = doc(db, 'Users', userId);
+        const userDoc = await getDoc(userDocRef);
 
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log("userData", userData);
 
-    // Fetch user data from the Users collection
-    db.collection('Users').doc(userId).get()
-        .then(doc => {
-            if (doc.exists) {
-                const userData = doc.data();
-                console.log("userData ",userData);
+            // Populate the user info section
+            document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
+            document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
+            document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
+            document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
+            document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
+            document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
+            document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
+            document.getElementById('join-date').querySelector('span').textContent = userData.joinDate || 'MM/DD/YYYY';
+            document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
+            document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
+            document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
+            document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
 
-                
-                // Populate the user info section
-                document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
-      document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
-      document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
-      document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
-      document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
-      document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
-   document.getElementById('userID-profile').value = userId; // Assuming the user ID is the same as in the URL or session
-                document.getElementById('join-date').querySelector('span').textContent = userData.joinDate || 'MM/DD/YYYY';
-                document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
-                document.getElementById('lastLogin-date').querySelector('span').textContent = userData.lastLogin || 'MM/DD/YYYY';
-                document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
-                document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = userData.membershipExpiry || 'MM/DD/YYYY';
-         
-                function updateMembershipStatus(userData) {
-    const membershipDueDate = new Date(userData.membershipExpiry); // Ensure it's a Date object
-    const currentDate = new Date();
-    const timeLeft = Math.ceil((membershipDueDate - currentDate) / (1000 * 60 * 60 * 24)); // Calculate days left
+            function updateMembershipStatus(userData) {
+                const membershipDueDate = new Date(userData.membershipExpiry); // Ensure it's a Date object
+                const currentDate = new Date();
+                const timeLeft = Math.ceil((membershipDueDate - currentDate) / (1000 * 60 * 60 * 24)); // Calculate days left
 
-    const dueDateElement = document.getElementById('membershipDueDate').querySelector('span');
-    const timeLeftElement = document.getElementById('membershipTimeLeft').querySelector('span');
-    const paymentButton = document.getElementById('make-payment-btn');
+                const dueDateElement = document.getElementById('membershipDueDate').querySelector('span');
+                const timeLeftElement = document.getElementById('membershipTimeLeft').querySelector('span');
+                const paymentButton = document.getElementById('make-payment-btn');
 
-    // Format date as 'MM/DD/YYYY'
-    const formattedDueDate = membershipDueDate instanceof Date && !isNaN(membershipDueDate) 
-        ? membershipDueDate.toLocaleDateString('en-US') 
-        : 'MM/DD/YYYY';
+                // Format date as 'MM/DD/YYYY'
+                const formattedDueDate = membershipDueDate instanceof Date && !isNaN(membershipDueDate) 
+                    ? membershipDueDate.toLocaleDateString('en-US') 
+                    : 'MM/DD/YYYY';
 
-    // Display formatted due date
-    dueDateElement.textContent = formattedDueDate;
+                // Display formatted due date
+                dueDateElement.textContent = formattedDueDate;
 
-    // Display time left or fallback text
-    timeLeftElement.textContent = timeLeft >= 0 ? `${timeLeft} day${timeLeft !== 1 ? 's' : ''} left` : 'Expired';
+                // Display time left or fallback text
+                timeLeftElement.textContent = timeLeft >= 0 ? `${timeLeft} day${timeLeft !== 1 ? 's' : ''} left` : 'Expired';
 
-    // Apply visual cues for expiring or expired membership
-    if (timeLeft <= 3 && timeLeft > 0) {
-        timeLeftElement.style.color = 'orange'; // Warning color for imminent expiration
-        paymentButton.style.color = 'orange';
-    } else if (timeLeft <= 0) {
-        timeLeftElement.style.color = 'red'; // Critical color for expired membership
-        paymentButton.style.color = 'red';
-        alert("Your membership has expired. Please renew to continue enjoying premium features.");
-    } else {
-        timeLeftElement.style.color = 'green'; // Positive status for valid membership
-        paymentButton.style.color = 'green';
+                // Apply visual cues for expiring or expired membership
+                if (timeLeft <= 3 && timeLeft > 0) {
+                    timeLeftElement.style.color = 'orange'; // Warning color for imminent expiration
+                    paymentButton.style.color = 'orange';
+                } else if (timeLeft <= 0) {
+                    timeLeftElement.style.color = 'red'; // Critical color for expired membership
+                    paymentButton.style.color = 'red';
+                    alert("Your membership has expired. Please renew to continue enjoying premium features.");
+                } else {
+                    timeLeftElement.style.color = 'green'; // Positive status for valid membership
+                    paymentButton.style.color = 'green';
+                }
+            }
+
+            updateMembershipStatus(userData);
+        }
+
+        // Fetch user referral data from the UserReferral collection
+        let pendingReferral = 0;
+        let referralEarned = 0;
+        let completedReferral = 0;
+
+        const referralQuery = query(collection(db, 'UserReferral'), where('referredBy', '==', userId));
+        const referralSnapshot = await getDocs(referralQuery);
+
+        if (referralSnapshot.empty) {
+            console.log("No referrals found.");
+        } else {
+            referralSnapshot.forEach(doc => {
+                const referralData = doc.data();
+                const referredUser = referralData.referredUser;
+                const referType = referralData.referType;
+                const referMembershipBool = referralData.referMembershipBool;
+                const referObituariesBool = referralData.referObituariesBool;
+                const status = referralData.status;
+
+                // Count pending referrals for membership and obituaries
+                if (status === "pending") {
+                    if (referObituariesBool) {
+                        pendingReferral += 1;
+                    }
+                    if (referMembershipBool) {
+                        pendingReferral += 1;
+                    }
+                }
+
+                // Count completed referrals for membership and obituaries
+                if (status === "complete") {
+                    if (referObituariesBool) {
+                        completedReferral += 1;
+                    }
+                    if (referMembershipBool) {
+                        completedReferral += 1;
+                    }
+                }
+            });
+
+            // Referral earnings calculation (completed referrals + bonus)
+            referralEarned = completedReferral * 5;
+
+            // Update the DOM with referral data
+            let referralsCount = referralSnapshot.size; // Using snapshot.size for number of documents
+            document.getElementById('referrals-count').querySelector('span').textContent = referralsCount || 0;
+            document.getElementById('referrals-earned').querySelector('span').textContent = `$${referralEarned || 0}`;
+            document.getElementById('referrals-pending').textContent = pendingReferral || 0;
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
     }
-}
-
-
-              }
-        })
-        .catch(error => {
-            console.error("Error fetching user data:", error);
-        });
-
-    // Fetch user referral data from the UserReferral collection
-    let pendingReferral = 0;
-let referralEarned = 0;
-let completedReferral = 0;
-
-const referralQuery = query(collection(db, 'UserReferral'), where('referredBy', '==', userID));
-
-getDocs(referralQuery).then(snapshot => {
-  if (snapshot.empty) {
-    console.log("No referrals found.");
-  } else {
-    snapshot.forEach(doc => {
-      const referralData = doc.data();
-      const referredUser = referralData.referredUser;
-      const referType = referralData.referType;
-      const referMembershipBool = referralData.referMembershipBool;
-      const referObituariesBool = referralData.referObituariesBool;
-      const status = referralData.status;
-
-      // Count pending referrals for membership and obituaries
-      if (status === "pending") {
-        if (referObituariesBool) {
-          pendingReferral += 1;
-        }
-        if (referMembershipBool) {
-          pendingReferral += 1;
-        }
-      }
-
-      // Count completed referrals for membership and obituaries
-      if (status === "complete") {
-        if (referObituariesBool) {
-          completedReferral += 1;
-        }
-        if (referMembershipBool) {
-          completedReferral += 1;
-        }
-      }
-    });
-
-    // Referral earnings calculation (completed referrals + bonus)
-    referralEarned = completedReferral * 5;
-
-    // Update the DOM with referral data
-    let referralsCount = snapshot.size; // Using snapshot.size for number of documents
-    document.getElementById('referrals-count').querySelector('span').textContent = referralsCount || 0;
-    document.getElementById('referrals-earned').querySelector('span').textContent = `$${referralEarned || 0}`;
-    document.getElementById('referrals-pending').textContent = pendingReferral || 0;
-  }
-}).catch(error => {
-  console.error("Error fetching referral data:", error);
-});
 
     // Fetch obituary data from the Obituaries collection
     db.collection('A_Obituaries').where('userID', '==', userId).get()
