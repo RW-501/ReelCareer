@@ -501,6 +501,11 @@ function renderVideos(docs, container) {
 
     docs.forEach((doc) => {
         const docId = doc.id; // Firestore Document ID
+
+        console.log("Rendering doc:", docs);
+
+
+
         // Check if this video is already in the container
         if (container.querySelector(`[data-doc-id="${docId}"]`)) {
             console.log(`Video with docId ${docId} already rendered. Skipping.`);
@@ -508,7 +513,7 @@ function renderVideos(docs, container) {
         }
 
         // Check if 'doc' has the 'data' method (to confirm it's a Firestore snapshot)
-        if (doc.exists && typeof doc.data === "function") {
+        if (doc.exists ) {
           const videoData = doc.data();
             console.log("docId", docId);
             console.log("videoData", videoData);
@@ -784,7 +789,7 @@ if (playOverlay) {
    //  fetchComments(docId);
 
   } else {
-            console.error("Invalid document snapshot:", doc);
+            console.error("Invalid data snapshot:", doc);
         }
     });
 }
