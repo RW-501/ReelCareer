@@ -2186,3 +2186,11 @@ background-color: transparent;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+
+.reel-video-area video, .reel-video-area {
+  width: 25%;
+  height: auto;
+  scale: .9;
+}
