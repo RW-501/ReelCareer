@@ -394,7 +394,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
 
     try {
             // Fetch video resumes from the local JSON file
-            const response = await fetch('reels/jSON/videoReels.json');
+            const response = await fetch('reels/json/videoReels.json');
             const data = await response.json();
             if (data && data.length > 0) {
                 data.forEach(videoData => {

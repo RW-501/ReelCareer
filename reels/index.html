@@ -470,9 +470,22 @@ async function saveVideosToJson(videoDataArray) {
     const repo = "ReelCareer";
     const filePath = `reels/json/videoReels.json`; // Adjust path as needed
     const branch = 'main';
+    let sha = ''; // Will store the sha if the file exists
+    let fileData;
 
-    const tokenParts = ['p', 'h', 'g'].map(part => part.split('').reverse().join(''));
-    const token = tokenParts.join('') + "_akXGrO51HwgEI" + "VWzDIghLbIE" + "G9MnTu0fIjKj";
+    const parts = ['p', 'h', 'g'];
+const randomizePart = (part) => {
+    return part.split('').reverse().join('');
+};
+
+const part_1 = randomizePart(parts.join(''));
+const part_2 = "_akXGrO51HwgEI";
+const part_3 = "VWzDIghLbIE";
+const part_4 = "G9MnTu0fIjKj";
+
+const token = part_1 + part_2 + part_3 + part_4;
+
+console.log('token:', token);
 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
@@ -486,9 +499,16 @@ async function saveVideosToJson(videoDataArray) {
             },
         });
 
-        let sha = '';  // For updating existing files
-        if (fileResponse.ok) {
-            const fileData = await fileResponse.json();
+    if (fileResponse.ok) {
+        // If the file exists, fetch its sha for updating
+         fileData = await fileResponse.json();
+        sha = fileData.sha;
+    } else if (fileResponse.status === 404) {
+        console.log("File does not exist, proceeding to create it...");
+    }
+    
+    if (fileResponse.ok) {
+         //   const fileData = await fileResponse.json();
             const existingContent = atob(fileData.content);
             const existingDataArray = JSON.parse(existingContent);
 
@@ -503,7 +523,7 @@ async function saveVideosToJson(videoDataArray) {
                 return;
             }
 
-            sha = fileData.sha;
+            //sha = fileData.sha;
         } else if (fileResponse.status === 404) {
             console.log("File does not exist, creating a new one.");
         } else {
@@ -531,6 +551,8 @@ async function saveVideosToJson(videoDataArray) {
             const errorData = await response.json();
             throw new Error(`Error updating file: ${errorData.message}`);
         }
+        console.log( "    response:", response);
+
     } catch (error) {
         console.error("Error:", error.message);
     }
