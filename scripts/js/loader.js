@@ -424,7 +424,7 @@ function loadPageScripts() {
         { defer: true, type: 'module' }, () => {
             logExecutionTime('Reels Script', performance.now());
         });
-    }, 500); // 500ms delay
+    }, 1000); // 500ms delay
     
 
 }
