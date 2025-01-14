@@ -1,0 +1,727 @@
+    
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-reel-container {
+      padding: 10px;
+    }
+  
+    .video-card {
+      width: 100%;
+    }
+  
+    .user-info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .user-name {
+      font-size: 1.3rem;
+    }
+  
+    .job-title {
+      font-size: 1rem;
+    }
+  
+    .message-button, .add-user-button, .connect-button, .share-btn, .comments-btn {
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  
+    .video-container {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .video-card {
+      padding: 10px;
+    }
+  }
+  /* Base styles */
+  
+  
+  .user-info {
+      display: flex;
+      padding: 10px;
+      gap: 10px;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+  
+  .user-info-right {
+      display: grid;
+      gap: .5rem;
+      width: 50%;
+      align-content: stretch;
+      justify-content: space-between;
+  }
+  
+  
+  
+  .user-info-left {
+      display: grid;
+      gap: .5rem;
+      width: 50%;
+      align-content: stretch;
+      justify-content: space-between;
+  }
+  
+  
+  
+  .badge {
+    align-items: center;
+  
+    font-size: 0.8rem;
+    font-weight: bold;
+  
+    text-transform: uppercase;
+  }
+  
+  .badge-verified {
+    color: #555;
+  
+  }
+  
+  .badge-verified i {
+    margin-right: 4px;
+    font-size: 1rem;
+  }
+  
+  .profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .user-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .name-badge {
+    display: flex;
+  }
+  .job-title {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  
+  
+  
+  /* Video Reel Container */
+  .video-reel-container {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      background-color: transparent;
+      position: relative;
+      padding: 10px;
+      border-radius: 10px;
+      display: grid;
+      gap: 1rem;
+  }
+  
+  
+  
+  
+  .video-player {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+  }
+  
+  .video-reel-container .video-card .video-title {
+    padding: 10px;
+    font-weight: bold;
+    background-color: rgb(143, 192, 220);
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  /* Video Card Styles */
+  
+  
+  .video-card {
+      background-color: #e3ebf0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      /* padding: 0.5rem; */
+      border: aliceblue solid;
+  
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+  }
+  
+  .video-post {
+    width: 400px;
+      height: auto;
+      margin: auto;
+  }
+  
+  
+  .video-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .video-container {
+      position: relative;
+      width: 400px;
+      height: 650px;
+  }
+  .video-element {
+      width: 400px;
+      height: 650px;
+      background-color: #000;
+      margin: auto;
+      position: relative;
+  }
+  
+  
+  .tags-container {
+  display: block;
+  
+  }
+  
+  
+  .tags-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: baseline;
+      margin: .2rem;
+      align-content: flex-end;
+      gap: .2rem;
+  }
+  
+  .interaction-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: .2rem;
+      padding: .2rem;
+  }
+  
+  
+  .video-tags {
+  display: block;
+  
+  }
+  
+  
+  
+  
+  
+  
+  .controls-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 10px;
+      bottom: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      flex-wrap: nowrap;
+      justify-content: space-evenly;
+  }
+  
+  .actions {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px;
+  }
+  
+  .action-btn {
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+  }
+  
+  .action-btn:hover {
+    color: #84bbd9;
+  }
+  
+  .video-details {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: .5rem;
+      color: #84bbd9;
+  }
+  .video-details p {
+      margin: 0;
+      font-size: 14px;
+  }
+  
+  .video-upload-section {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  .caption-container {
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .video-caption {
+    margin: 0;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /* Play Overlay */
+  .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+  }
+  .play-overlay:hover {
+    color: #84bbd9;
+  }
+  
+  
+  .realCareerVidLogo {
+      color: #639ad4;
+      font-size: 1.5rem;
+      font-weight: 700;
+      -webkit-text-stroke: thin;
+      font-size: 1rem;
+      font-variant: small-caps;
+      margin: .5rem;
+      opacity: .5;
+  }
+  
+  
+  .reportVideoBtn {
+      position: absolute;
+      top: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      right: 0;
+      left: 0;
+      margin: auto;
+  }
+  
+  .reportVideoBtn:hover {
+    color: #ad1b33;
+  }
+  
+  /* Mute & Full-Screen Buttons */
+  .mute-toggle, .fullscreen-toggle {
+    position: absolute;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .mute-toggle {
+    left: 10px;
+  }
+  
+  .fullscreen-toggle {
+    right: 10px;
+  }
+  
+  .mute-toggle:hover, .fullscreen-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Views Icon */
+  .video-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    font-size: 0.9rem;
+  }
+  
+  .video-details p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .fa-play-circle, .fa-clock {
+    color: #639ad4;
+  }
+  
+  
+  
+  /* Slide Up Animation */
+  .slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  /* Slide Down Animation */
+  .slide-down {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  /* Fade Out Animation */
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  /* Bring elements back */
+  .controls {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  
+  
+  
+  
+  
+  
+  #Main-Nav_bar {
+    display: none;
+    visibility: hidden;
+  }
+  
+  
+  
+  .comment-section {
+      font-family: Arial, sans-serif;
+      margin: .5rem;
+  }
+  
+  .comment-input-container,
+  .reply-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+  }
+  
+  .comment-input-container input,
+  .reply-input-container input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+  
+  .comment-input-container button, .reply-input-container button {
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: center;
+      height: max-content;
+      margin: auto;
+  }
+  .comment-container .comment-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+  }
+  
+  .comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+  }
+  
+  .comment-content {
+      flex: 1;
+      padding: .5rem;
+      width: 100%;
+      margin: .5rem;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+  }
+  
+  .reply-text-area {
+      border-radius: 10px;
+      min-height: min-content;
+      background-color: #ffffff;
+      width: 100%;
+      padding: .5rem;
+  }
+  
+  .comment-name {
+      font-weight: bold;
+      text-decoration: none;
+      color: #333;
+  }
+  
+  .reply-btn {
+      background: none;
+      border: none;
+      color: #abcee2;
+      cursor: pointer;
+      font-size: 0.9em;
+      margin-top: 5px;
+  }
+  .reply-to-container {
+      font: status-bar;
+  }
+  .reply-commenter-area {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+  }
+  
+  
+  .reply-btn-area {
+  display: grid;
+  }
+  
+  .reply-send-area {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem;
+  }
+  /* General Styling */
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #main-content {
+    padding: 20px;
+  
+    border-radius: 10px;
+  }
+  
+  /* Search Area Styling */
+  .search-area {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #search-input {
+    padding: 10px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  #search-input:focus {
+    outline: none;
+    border-color: rgb(132, 173, 234);
+  }
+  
+  
+  /* Modal Styling */
+  .modal-content {
+    background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+    border-radius: 10px;
+  }
+  
+  .modal-header {
+    background-color: rgb(132, 173, 234);
+    color: #fff;
+  }
+  
+  .modal-header .close {
+    color: #fff;
+    font-size: 24px;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+  
+  /* Form Styling */
+  #sendMessageForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #sendMessageForm .message-input-area {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 150px;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  
+  
+  /* Report Modal Styling */
+  #reportJobModal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+  
+  #reportJobModal .modal-content {
+      height: 90%;
+      width: 80%;
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 10px;
+      background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+  }
+  
+  #reportForm .checkbox-group {
+    margin-bottom: 15px;
+  }
+  
+  #reportForm input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  #reportForm textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+  }
+  
+  #reportForm .btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgb(132, 173, 234);
+    color: white;
+    border-radius: 5px;
+  }
+  
+  #reportForm .btn:hover {
+    background-color: rgb(143, 192, 220);
+  }
+  
+  #closeReportModalButton {
+    background-color: #777;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  #closeReportModalButton:hover {
+    background-color: #555;
+  }
+  
+  /* Modal Success/Failure Message Styling */
+  #reportStatusMessage {
+    margin-top: 20px;
+    color: green; /* For success messages */
+  }
+  .hidden {
+      display: none;
+  }
+  .show {
+      display: block;
+  }
+  
+  #breadcrumb-nav {
+    width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+  
+  }
+  
+  .comment-avatar {
+      width: 50px;
+  }
+  
