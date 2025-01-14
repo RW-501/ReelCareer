@@ -321,8 +321,9 @@
         </div>
         <div id="userMainInfoStats" class="account-card">
 
-          <div id="profileComplete">
-            <canvas id="profileCompletionChart"></canvas>
+          <div id="profileComplete" style="width: 500px; height: 500px; margin: auto;">
+            <canvas id="profileCompletionChart" width="500" height="500"></canvas>
+        
             <div id="profileCompletionList">
               <h3>Profile Completion Status</h3>
               <ul id="profile-completion-items">
@@ -830,30 +831,30 @@ async function populateUserInfo(userId) {
 
             // Render the pie chart
             const ctx = document.getElementById('profileCompletionChart').getContext('2d');
-            const profileCompletionChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Completed', 'Incomplete'],
-                    datasets: [{
-                        data: [profileCompletionPercentage, 100 - profileCompletionPercentage],
-                        backgroundColor: ['#4caf50', '#f44336'],
-                        borderColor: ['#fff', '#fff'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-                                }
-                            }
-                        }
+const profileCompletionChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Completed', 'Incomplete'],
+        datasets: [{
+            data: [profileCompletionPercentage, 100 - profileCompletionPercentage],
+            backgroundColor: ['#4caf50', '#f44336'],
+            borderColor: ['#fff', '#fff'],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: false, // Disable responsiveness to respect custom dimensions
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return `${tooltipItem.label}: ${tooltipItem.raw}%`;
                     }
                 }
-            });
+            }
+        }
+    }
+});
 
             // Render the profile completion list
             const profileCompletionList = document.getElementById('profile-completion-items');
