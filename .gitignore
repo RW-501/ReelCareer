@@ -67,3 +67,10 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+
+# Exclude obituaries/celebrating folder
+obituaries/celebrating/
+
+# Exclude reels/jSON/videoReels.json file
+reels/jSON/videoReels.json
