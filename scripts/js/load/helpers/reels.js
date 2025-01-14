@@ -64,7 +64,7 @@ function extractHashtags(caption) {
 }
 
 
-let videoData = [];
+let videoData;
 async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
@@ -84,7 +84,7 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
     }
 
     try {
-        const videoData = {
+         videoData = {
             duration: videoDuration,
             name: `${userID}-${new Date().toISOString()}-reel.mp4`,
             file: uploadedFile,
