@@ -162,7 +162,7 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
         const updatedUserData = { ...userDataSaved, videoResumeData: { reelID, videoResumeURL } };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
 
-        showToast("Your Resume Reel is live. @[Video Resume] ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true);
+        showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
     } catch (error) {
         console.error("Error saving user data:", error);
         showToast("There was an error posting your resume reel. Please try again later.");

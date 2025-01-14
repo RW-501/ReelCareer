@@ -677,26 +677,33 @@
             <div class="card-body">
               <h5>Video Resumes</h5>
 
+
 <!-- Video Upload Card Component --> 
-<div class="reel-upload-container card p-4 shadow-lg">
+<div class="reel-upload-container">
   <h3 class="mb-3">Share Your Reel</h3>
+
+
+<!-- Progress Bar Container -->
+<div class="progress mb-3" style="height: 20px;">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
+</div>
 
   <!-- Hidden Video Upload Input -->
   <input type="file" class="reel-video-input" accept="video/*" hidden>
 
+  <div class="d-flex">
   <!-- Video Select Button and Preview Side-by-Side -->
-  <div class="d-flex align-items-center mb-3">
-    <button class="btn btn-secondary me-3 select-video-btn">Select Video</button>
-    <video class="reel-video-preview flex-grow-1" controls hidden></video>
+  <div class="reel-video-area">
+    <button class="select-video-btn">Select Video</button>
+    <video class="reel-video-preview" controls hidden></video>
   </div>
 
   <!-- Video Content/Description -->
-  <div class="d-flex">
-    <textarea class="content form-control reel-video-content me-3" placeholder="Write a description..."></textarea>
+    <textarea class="reel-video-content" placeholder="Write a description..."></textarea>
   </div>
 
   <!-- Action Button -->
-  <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
+  <button class="reel-video-btn">Post Video</button>
 </div>
 
 
