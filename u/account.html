@@ -773,12 +773,18 @@ function paymentStatusNotifications() {
 
 // Utility: Format Timestamp
 function formatTimestamp(timestamp) {
+  if (!timestamp || typeof timestamp.seconds !== 'number' || typeof timestamp.nanoseconds !== 'number') {
+    console.error('Invalid timestamp format:', timestamp);
+    return 'Invalid date';  // Graceful fallback if timestamp is incorrect
+  }
+
   // Convert Firebase Timestamp to milliseconds
   const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
 
   // Format the date as MM/DD/YYYY
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
+
 
 
 // Function to fetch and populate dynamic info
