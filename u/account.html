@@ -369,7 +369,7 @@
           <p class="info-text">* Payouts are available via Visa Gift Card through Amazon. Processing time is 2-3 business days.</p>
           <p class="info-text">* For more information on payout options, <a href="/u/payout" id="view-payout">view payout details</a>.</p>
 
-          <button onclick="confirmPayout()" class="btn action-btn confirm-btn" aria-label="Process Payout">Process Payout</button>
+          <button id="confirmPayout" class="btn action-btn confirm-btn" aria-label="Process Payout">Process Payout</button>
         </div>
       </section>
       
@@ -1252,6 +1252,7 @@ async function confirmPayout() {
         showToast("Payout request confirmed. Your payout is being processed.", 'success');
     }
 }
+window.confirmPayout = confirmPayout;
 
 // Create payout transaction (refactored)
 async function createPayoutTransaction(amount, availableAmount) {
@@ -1296,7 +1297,6 @@ async function viewTransactions() {
 
 
   showToast(`Total available payout: $${availableAmount.toFixed(2)}`, 'success');
-  document.getElementById("payout-modal").classList.add('open');
 
   if (!requestPayoutBool) {
     showToast("Request can only be made once every 7 days", 'error');
@@ -1313,7 +1313,6 @@ window.viewTransactions = viewTransactions;
 viewTransactions();
 
 
-window.confirmPayout = confirmPayout;
 
 
 
