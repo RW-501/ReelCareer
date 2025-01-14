@@ -772,7 +772,7 @@ function paymentStatusNotifications() {
 // Utility: Format Timestamp
 function formatTimestamp(timestamp) {
   if (!timestamp || typeof timestamp.seconds !== 'number' || typeof timestamp.nanoseconds !== 'number') {
-    console.error('Invalid timestamp format:', timestamp);
+ //   console.error('Invalid timestamp format:', timestamp);
     return 'Invalid date';  // Graceful fallback if timestamp is incorrect
   }
 
