@@ -732,11 +732,6 @@ function formatTimestamp(timestamp) {
 function populateUserInfo(userId) {
 
 
-
-
-    // Reference to the Firebase collections
-    const db = firebase.firestore();
-    
     // Fetch user data from the Users collection
     db.collection('Users').doc(userId).get()
         .then(doc => {
