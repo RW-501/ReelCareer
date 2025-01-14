@@ -16,22 +16,38 @@ getUserId // Export the function
 // Upload Video Resume to Firebase Storage
 async function uploadVideoResume(userID, videoData) {
     try {
-        // Ensure 'storage' is properly initialized
- //       const storageInstance = getStorage(); // Use Firebase's getStorage method
-
-        // Create a storage reference dynamically based on userID and file name
         const fileRef = ref(storage, `videoResumes/${userID}/${videoData.name}`);
 
-        // Upload the file to Firebase Storage
-        const snapshot = await uploadBytes(fileRef, videoData.file);
+        // Monitor progress using uploadBytesResumable
+        const uploadTask = uploadBytesResumable(fileRef, videoData.file);
+        const progressBar = document.getElementById("uploadProgressBar");
 
-        // Get the download URL for the uploaded file
-        return await getDownloadURL(snapshot.ref);
+        // Listen for state changes
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Calculate and update progress
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressBar.textContent = `${Math.floor(progress)}%`;
+            },
+            (error) => {
+                console.error("Error uploading video resume:", error);
+                throw new Error('Failed to upload video resume.');
+            },
+            async () => {
+                // When upload is complete
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                progressBar.style.width = '100%';
+                progressBar.textContent = 'Upload Complete!';
+                return downloadURL;
+            }
+        );
     } catch (error) {
         console.error("Error uploading video resume:", error);
-        throw new Error('Failed to upload video resume.'); // Handle this in the calling function
+        showToast('Failed to upload video resume.');
     }
 }
+
 
 
 
