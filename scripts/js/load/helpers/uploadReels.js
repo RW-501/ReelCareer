@@ -153,15 +153,27 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
         const reelID = reelDocRef.id;
-
+        
         const userDocRef = doc(db, "Users", userID);
         await updateDoc(userDocRef, {
-            videoResumeData: { reelID, videoResumeURL, createdAt: new Date(), status: 'posted' },
+            videoResumeData: arrayUnion({
+                reelID: reelID,
+                videoResumeURL: videoResumeURL,
+                createdAt: new Date(),
+                status: 'posted'
+            })
         });
-
-        const updatedUserData = { ...userDataSaved, videoResumeData: { reelID, videoResumeURL } };
+        
+        // Update local storage with the new array of video resume data
+        const updatedUserData = {
+            ...userDataSaved,
+            videoResumeData: [
+                ...(userDataSaved.videoResumeData || []), // Keep existing entries if available
+                { reelID, videoResumeURL, createdAt: new Date(), status: 'posted' }
+            ]
+        };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
-
+        
         showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
     } catch (error) {
         console.error("Error saving user data:", error);
