@@ -1297,6 +1297,9 @@ async function calculateTotalPayout() {
         const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
         const transactionSnapshot = await getDocs(transactionsQuery);
         
+        if(!transactionSnapshot){
+          return;
+        }
         const sortedTransactions = transactionSnapshot.docs.sort((a, b) => {
             return new Date(b.data().requestDate) - new Date(a.data().requestDate);
         });
