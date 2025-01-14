@@ -416,6 +416,15 @@ function loadPageScripts() {
             logExecutionTime('censorWord Script', performance.now());
         });
     }
+
+
+
+        // Load trackers.js as a module
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/reels.js', { defer: true, type: 'module' }, () => {
+            logExecutionTime('Reels Script', performance.now());
+        });
+
+
 }
 
 // Initialize page scripts after DOMContentLoaded

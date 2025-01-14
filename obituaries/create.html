@@ -548,7 +548,39 @@ main {
                     <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
                     <div id="videoPreview"></div>
 
+
+                    <div id="reel-video-container-area">
+
+<!-- Video Upload Card Component -->
+<div class="reel-upload-container card p-4 shadow-lg">
+    <h3 class="mb-3">Share Your Reel</h3>
+  
+    <!-- Drag and Drop Area -->
+    <div class="drag-drop-box" data-reel-id="drag-drop-area">
+      <p class="drag-text">Drag & Drop your video here or click to select</p>
+      <input type="file" class="reel-video-input" accept="video/*" hidden>
+    </div>
+  
+    <!-- Video Preview -->
+    <div class="video-preview my-3" data-reel-id="video-preview-container" hidden>
+      <video controls class="w-100 rounded reel-video-preview"></video>
+    </div>
+  
+    <!-- Video Content/Description -->
+    <textarea class="content form-control my-2 reel-video-content" placeholder="Write a description..."></textarea>
+  
+    <!-- Tags -->
+    <input type="text" class="form-control my-2 reel-tags-input" placeholder="Enter tags (comma-separated)">
+  
+    <!-- Action Buttons -->
+    <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
+    <div class="text-success mt-2 reel-upload-status"></div>
+  </div>
+  
+  
                     <div id="video-resume-list"></div>
+                </div>
+
 
                 </div>
                     
