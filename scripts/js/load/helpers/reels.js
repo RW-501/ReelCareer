@@ -32,14 +32,46 @@ async function uploadVideoResume(userID, videoData) {
         throw new Error('Failed to upload video resume.'); // Handle this in the calling function
     }
 }
-let videoData = [];
-// Post the video resume data
-async function postReelFunction(videoResumeCaption, tagID ) {
-    let videoResumeURL = '';
-    // Fetch required data
-   
-    const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
 
+
+
+
+
+
+
+
+
+
+
+// Function to extract hashtags and store them in an array
+function extractHashtags(caption) {
+    const regex = /#\w+/g;
+    const hashtags = caption.match(regex) || [];
+    
+    if (hashtags.length < 2) {
+        showToast("Please add at least two hashtags.");
+        return []; // Return an empty array if validation fails
+    }
+
+    // Validate hashtags (optional)
+    const invalidHashtags = hashtags.filter(tag => !/^#[a-zA-Z0-9_]+$/.test(tag));
+    if (invalidHashtags.length > 0) {
+        showToast("Hashtags must only contain letters, numbers, or underscores.");
+        return []; // Return an empty array if invalid hashtags are found
+    }
+
+    return hashtags.map(tag => tag.toLowerCase());  // Convert to lowercase for consistency
+}
+
+
+let videoData = [];
+
+// Post the video resume data
+async function postReelFunction(videoResumeCaptions, videoURL) {
+    let videoResumeURL = '';
+    
+    // Fetch required data
+    const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
     const userID = auth.currentUser.uid || userDataSaved.userID;
     console.log("userID: ", userID);
@@ -51,29 +83,37 @@ async function postReelFunction(videoResumeCaption, tagID ) {
         return;
     }
 
-    const videoResumeCaptions = document.getElementById(videoResumeCaption).value.trim();
-    const tagsInput = document.getElementById(tagID).value.trim();
-    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+    const tags = extractHashtags(videoResumeCaptions);  // Extract hashtags from the caption
 
     // Validate tags
-    if (!tagsInput.includes(',')) {
+    if (!tags.includes(',')) {
         showToast("Please add at least two tags.");
         return; // Prevent form submission if validation fails
     }
 
     try {
-        // Capture video from canvas using MediaRecorder
-  
+        // Create a hidden video element to get the duration
+        const videoElement = document.createElement('video');
+        videoElement.src = videoURL; // Set the video URL
 
-      downloadButton.disabled = true;
-      postReelButton.disabled = true;
-  
-      
+        // Wait for the video metadata to be loaded to get the duration
+        await new Promise((resolve, reject) => {
+            videoElement.onloadedmetadata = () => {
+                resolve(); // Resolve the promise when metadata is loaded
+            };
+            videoElement.onerror = (error) => {
+                reject("Error loading video metadata");
+            };
+        });
 
-         videoData = {
-            duration: videoPlayer.duration, // Ensure videoPlayer is initialized
+        // Now that the video is loaded, get its duration
+        const videoDuration = videoElement.duration; // Get video duration
+        console.log("Video Duration:", videoDuration);
+
+        videoData = {
+            duration: videoDuration, // Store the video duration
             name: `${userID}-${new Date().toISOString()}-reel.mp4`, // Use .webm or .mp4 as appropriate
-            file: uploadedFile, // The video data itself
+            file: videoURL, // The video data itself
             fileType: "video/mp4", // Ensure this matches the file type
         };
 
@@ -85,14 +125,15 @@ async function postReelFunction(videoResumeCaption, tagID ) {
         return; // Stop further processing if upload fails
     }
 
-    if(!videoResumeURL){
-      console.error('Error during video capture or upload:', error);
+    if (!videoResumeURL) {
+        console.error('Error during video capture or upload:', error);
         showToast('Failed to upload video resume. Please try again.', "error");
         return; // Stop further processing if upload fails
     }
+
     // Construct video resume data
     const videoResumeData = {
-      createdByID: userID || '',
+        createdByID: userID || '',
         displayName: userDataSaved.displayName || '',
         publicProfile: userDataSaved.publicProfile || true,
         profilePicture: userDataSaved.profilePicture || '',
@@ -103,7 +144,6 @@ async function postReelFunction(videoResumeCaption, tagID ) {
         position: userDataSaved.position || '',
         tags: tags,
         videoResumeCaptions,
-
         videoResumeURL,
         videoResumeFileName: videoData.name || '',
         duration: videoData.duration || '',
@@ -134,12 +174,8 @@ async function postReelFunction(videoResumeCaption, tagID ) {
 
         // Optionally update localStorage with the new data
         const updatedUserData = { ...userDataSaved, videoResumeData: { reelID, videoResumeURL } };
-
-
         const userDataEcode = setUserData(updatedUserData);
-
         localStorage.setItem('userData', userDataEcode);
-
 
         console.log("Your Resume Reel has been posted successfully!");
 
@@ -152,10 +188,6 @@ async function postReelFunction(videoResumeCaption, tagID ) {
 }
 
 window.postReelFunction = postReelFunction;
-
-
-
-
 
 
 
