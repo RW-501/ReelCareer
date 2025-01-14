@@ -1289,8 +1289,10 @@ function getGenericTransactionDetails(transactionData, fee, netAmount) {
 }
 
 // Calculate the total payout (refactored)
+
 async function calculateTotalPayout() {
     try {
+        // Reference to the collection
         const transactionsRef = collection(db, 'A_Transactions');
         const transactionsQuery = query(transactionsRef, where('userID', '==', userID));
         const transactionSnapshot = await getDocs(transactionsQuery);
@@ -1335,6 +1337,7 @@ async function calculateTotalPayout() {
         return 0;
     }
 }
+
 
 window.calculateTotalPayout = calculateTotalPayout;
 
