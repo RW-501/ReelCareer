@@ -361,12 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
 });
 
-function upgradeMembership(planKey) {
-    const allPlans = { ...membershipPlans, ...membershipSubscriptions };
-    const { description, price } = allPlans[planKey];
-    alert(`You selected ${description} for $${price.toFixed(2)}. Payment integration will follow.`);
-    // Implement PayPal integration or payment handling here.
-}
+
 
 
 
@@ -677,8 +672,15 @@ function isMembershipUpgrade(currentMembership, newMembershipType) {
 }
 
 
+
 // Upgrade/Downgrade Button Click
 async function upgradeMembership(newMembershipType) {
+    const allPlans = { ...membershipPlans, ...membershipSubscriptions };
+    const { description, price } = allPlans[newMembershipType];
+
+    showToast(`You selected ${description} for $${price.toFixed(2)}. Payment integration will follow.`);
+
+
   const userDataSaved = getUserData() || {};
   const userID = userDataSaved.userID;
 
