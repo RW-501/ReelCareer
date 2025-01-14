@@ -21,6 +21,19 @@ import {
 const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) => {
     try {
       //console.log(" User info: ", user);
+  // Fetch user provider data
+  const providerData = user.providerData.length > 0 ? user.providerData[0].providerId : 'unknown';
+
+  // Optional: Map providerId to a more human-readable format
+  const providerMap = {
+    'password': 'Email/Password',
+    'google.com': 'Google',
+    'phone': 'Phone Number',
+    'anonymous': 'Anonymous',
+    // Add more as needed
+  };
+
+  const loginProvider = providerMap[providerData] || providerData;
 
    
   let jobArray = [], tagArray = [];
@@ -107,6 +120,7 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
         membershipType: userDataSaved.membershipType || "free",
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
+        loginProvider,  // Add login provider to user data
 
     
   
