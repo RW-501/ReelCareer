@@ -386,6 +386,12 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
     const videoDataArray = [];
 
     console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
+    
+    if(!tagFilter){
+    // Save the current video page number to localStorage
+    localStorage.setItem('videoPageNumber', page);
+    }
+
 
     try {
         let videosQuery;
@@ -862,7 +868,12 @@ window.onload = async function () {
         const lastBreadcrumb_join = document.getElementById("lastBreadcrumb_join");
 
   
-        
+            // Retrieve the saved video page number from localStorage
+    const savedPageNumber = localStorage.getItem('videoPageNumber');
+
+// Use the saved page number if available, or default to 1
+const videoPageNumber = savedPageNumber ? parseInt(savedPageNumber, 10) : 1;
+
 
         if (!userId) {
             console.log("No user.");
@@ -873,7 +884,8 @@ window.onload = async function () {
 
             breadcrumbTitleActive.style.display = "none";
 
-            fetchVideoResumes(1, ''); // Call with empty userId
+// Call fetchVideoResumes with the retrieved page number
+fetchVideoResumes(videoPageNumber, '');
         }else{
           document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName || "User"}`;
 
@@ -885,8 +897,8 @@ window.onload = async function () {
           breadcrumbTitleActive.style.display = "block";
           breadcrumbTitleActive.innerText = userDataSaved.displayName || "User";
 
-        // Fetch video resumes for valid userId
-        fetchVideoResumes(1, userId);
+// Call fetchVideoResumes with the retrieved page number
+        fetchVideoResumes(videoPageNumber, userId);
         }
 
 
