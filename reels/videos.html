@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore video resumes from job seekers. Browse candidates' video profiles and interact with them.">
+  
+  <meta name="keywords" content="new tik tok, tik tok, tik tok, new tiktok, career blog, job search tips, career advice, job market insights, employment tips, career growth, resume tips, interview advice, professional development, job seekers">
+  <meta name="author" content="ReelCareer">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="en">
+  <meta name="geo.region" content="US-TX">
+  <meta name="geo.placename" content="Dallas, Texas">
+
+  <!-- Title optimized for Video Reel page -->
+  <title>Video Reel - Job Board | ReelCareer</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Video Reel - Job Board | ReelCareer">
+  <meta property="og:description" content="Browse job seekers' video resumes, interact with candidates, and find the right fit for your company.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.reelcareer.co/reels">
+  <meta property="og:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
+  <meta property="og:site_name" content="ReelCareer">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ReelCareer">
+  <meta name="twitter:title" content="Video Reel - Job Board | ReelCareer">
+  <meta name="twitter:description" content="Explore video resumes from job seekers and find the perfect candidate for your role on ReelCareer.">
+  <meta name="twitter:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
+
+  <!-- Canonical Tag for SEO -->
+  <link rel="canonical" href="https://www.reelcareer.co/reels">
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
+
+  <!-- 32x32 Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.ReelCareer.co/images/favicons/favicon-32x32.png">
+
+  <!-- 16x16 Favicon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.ReelCareer.co/images/favicons/favicon-16x16.png">
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.ReelCareer.co/images/favicons/apple-touch-icon.png">
+
+  <!-- Android Favicon (192x192) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="https://www.ReelCareer.co/images/favicons/android-chrome-192x192.png">
+
+  <!-- Chrome Favicon (512x512) -->
+  <link rel="icon" type="image/png" sizes="512x512" href="https://www.ReelCareer.co/images/favicons/android-chrome-512x512.png">
+
+
+   
+   
+
+<link
+rel="stylesheet"
+href="https://reelcareer.co/reels/reelsCSS.css"
+/>
+
+<!-- Main Script Loader -->
+    <script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+
+
+</head>
+
+
+<body>
+    
+    <nav></nav>
+
+    <nav id="breadcrumb-nav" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a id="homeBreadcrumb_a" href="https://reelcareer.co">Home</a></li>
+         
+          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a  href="https://reelcareer.co/u">Profile</a></li>
+          <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
+         
+          <li id="lastBreadcrumb_create" class="breadcrumb-item"><a  href="https://reelcareer.co/u/create">Create Reel</a></li>
+          <li id="lastBreadcrumb_join" class="breadcrumb-item"><a  href="https://reelcareer.co/views/auth">Join us</a></li>
+          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
+        </ol>
+    </nav>
+
+
+
+      <main id="main-content">
+      
+     
+        
+          <div class="search-area">
+            <input type="text" id="search-input" placeholder="Search videos by tag..." />
+        </div>
+        
+
+<!-- Video Upload Card Component --> 
+<div class="reel-upload-container card p-4 shadow-lg">
+  <h3 class="mb-3">Share Your Reel</h3>
+
+
+<!-- Progress Bar Container -->
+<div class="progress mb-3" style="height: 20px;">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
+</div>
+
+  <!-- Hidden Video Upload Input -->
+  <input type="file" class="reel-video-input" accept="video/*" hidden>
+
+  <div class="d-flex">
+  <!-- Video Select Button and Preview Side-by-Side -->
+  <div class="reel-video-area d-flex align-items-center mb-3">
+    <button class="btn btn-secondary me-3 select-video-btn">Select Video</button>
+    <video class="reel-video-preview flex-grow-1" controls hidden></video>
+  </div>
+
+  <!-- Video Content/Description -->
+    <textarea class="content form-control reel-video-content me-3" placeholder="Write a description..."></textarea>
+  </div>
+
+  <!-- Action Button -->
+  <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
+</div>
+
+
+
+
+          <section id="video-reel-container" class="video-reel-container">
+            <!-- Repeat similar structure for other video cards -->
+
+     
+            
+          </div>
+
+
+
+
+
+      
+    </main>
+
+    <div id="currentVideoId" hidden></div>
+
+
+
+    <div class="modal" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="sendMessageModalLabel">
+              <span id="recipient-name">Send Message</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="sendMessageForm">
+              <!-- Editable Message Area -->
+              <div class="message-input-attachment-btn-wrap">
+                <label for="message-content-editable">Message</label>
+
+                <div class="message-input-area">
+                <div
+                  id="message-content-editable"
+                  class="message-content-area"
+                  contenteditable="true"
+                  data-placeholder="Type your message here..."
+                ></div>
+
+
+
+                </div>
+
+    
+              </div>
+
+
+
+
+
+
+
+                <!-- Hidden Textarea to Sync Content -->
+                <textarea id="message-content" class="d-none"></textarea>
+  
+    
+   
+    
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="reportJobModal" class="modal" role="dialog" aria-labelledby="reportJobTitle"> 
+      <div class="modal-content">
+        <span class="close" aria-label="Close" onclick="closeReportModal()">&times;</span>
+        <form id="reportForm">
+          <h2 id="reportTitle">Report Video</h2>
+          <p>Please select the reason(s) for reporting this video:</p>
+    
+          <div class="checkbox-group">
+            <input type="checkbox" id="spam" name="reason" value="Spam">
+            <label for="spam">Spam or misleading content</label><br>
+    
+            <input type="checkbox" id="scam" name="reason" value="Scam">
+            <label for="scam">Fraudulent or scam content</label><br>
+    
+            <input type="checkbox" id="offensive" name="reason" value="Offensive Content">
+            <label for="offensive">Offensive, harmful, or abusive content</label><br>
+    
+            <input type="checkbox" id="violence" name="reason" value="Violence or Hate Speech">
+            <label for="violence">Violence, hate speech, or harassment</label><br>
+    
+            <input type="checkbox" id="illegal" name="reason" value="Illegal Content">
+            <label for="illegal">Illegal content</label><br>
+    
+            <input type="checkbox" id="nudity" name="reason" value="Explicit Content">
+            <label for="nudity">Explicit or adult content</label><br>
+    
+            <input type="checkbox" id="other" name="reason" value="Other">
+            <label for="other">Other (please specify below)</label><br>
+          </div>
+    
+          <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
+    
+          <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
+        </form>
+    
+        <!-- Success/Error message placeholder -->
+        <div id="reportStatusMessage" class="mt-3"></div>
+    
+        <!-- Close button, initially hidden -->
+        <button id="closeReportModalButton" type="button" class="btn btn-secondary mt-3" style="display: none;" onclick="closeReportJobModal()">Close</button>
+      </div>
+    </div>
+    
+
+
+
+    <!-- Footer -->
+    <footer id="dynamic-footer">
+<div class="footerMainContainer text-center">
+<p class="footerSocialMedia"></p>
+<nav class="footerNavContainer">
+
+<div class="footerNavItems">
+<h5>General</h5>
+<a href="/" title="ReelCareer - #1 Job Board - Find a job today">ReelCareer</a><a href="/views/about" title="About ReelCareer - Who We Are and Our Mission">About ReelCareer</a><a href="/views/contact" title="Contact ReelCareer - Get in Touch for Support and Inquiries">Contact Us</a><a href="/job-listings" title="Job Listings - Search and Apply for Job Openings">Job Listings</a><a href="/membership" title="Membership - Unlock Premium Features and Job Opportunities">Membership</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Legal</h5>
+<a href="/views/privacy" title="Privacy Policy - How We Protect Your Data">Privacy Policy</a><a href="/views/terms" title="Terms of Use - Website User Agreement and Guidelines">Terms of Use</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Content</h5>
+<a href="/views/blogs" title="ReelCareer Blog - Career Advice, News, and Insights">Blogs</a><a href="/views/news" title="ReelCareer News - Latest Updates and Industry Trends">News</a><a href="/views/Personality-&-Trait-Tests" title="Personality & Trait Tests - Discover Your Strengths and Work Style">Personality & Trait Tests</a><a href="/reels" title="Video Reels - Showcase Your Resume with a Personal Touch">Video Reels</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Support</h5>
+<a href="/views/faq" title="Frequently Asked Questions - Get Answers to Common Queries">FAQs</a><a href="/bot" title="Chat Bot - Get Instant Assistance with Your Job Search">Chat Bot</a><a href="/support" title="Support - Get Help with Your Job Search and Account">Support</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Marketing</h5>
+<a href="/views/referral" title="Join the ReelCareer Affiliate Program and Earn Rewards">Affiliate Program</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Admin</h5>
+<a href="/backend/dashboard" title="Admin Dashboard - Manage Users, Jobs, and Content">Admin</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Features</h5>
+<a href="/jobs/city" title="City Jobs - Find Career Opportunities by Location">City Jobs</a><a href="/jobs/state" title="State Jobs - Explore Job Listings by State">State Jobs</a><a href="/jobs/locations" title="Job Locations - Browse Jobs in Your Area">Job Locations</a>
+</div>
+</nav>
+<p class="footerCopyWrite">© 2024 ReelCareer</p>
+
+</div>
+<button id="backToTop" title="Go to top">↑</button>
+
+</footer>
+
+    
+
+    
+
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot ,
+  facebookProvider,
+  getUserId // Export the function
+    } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+
+
+
+
+    let userId = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+    async function initializeUserId() {
+        try {
+            // Wait for the Firebase Auth state to initialize
+            await auth.onAuthStateChanged((user) => {
+                if (user) {
+                     userId = user.uid; // Access the user ID
+                    console.log("User ID:", userId);
+
+                    // You can call your functions that require userId here
+                } else {
+                    console.error("No user is signed in.");
+                    // Handle the case where the user is not signed in
+                }
+            });
+        } catch (error) {
+            console.error("Error initializing user ID:", error);
+        }
+    }
+
+    initializeUserId(); // Call the function to initialize user ID
+
+  });
+
+
+  let postsPerPage = 10;
+let lastVisibleDoc = null;
+let searchingByTag = false; // Track if search mode is active
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded event fired");
+
+ 
+
+    // Search videos by tag
+    const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("input", (e) => {
+        const searchQuery = e.target.value.trim().toLowerCase();
+        console.log("Search input changed:", searchQuery);
+
+        if (searchQuery) {
+            searchingByTag = true;
+            console.log("Searching by tag:", searchQuery);
+            fetchVideoResumes(1, searchQuery);
+        } else {
+            searchingByTag = false;
+            console.log("Not searching by tag");
+            fetchVideoResumes();
+        }
+    });
+
+    // Infinite Scroll
+    window.addEventListener("scroll", () => {
+       // console.log("Window scrolled:", window.innerHeight + window.scrollY);
+        if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+            !searchingByTag
+        ) {
+            console.log("Fetching more videos due to scroll");
+         //   fetchVideoResumes();
+        }
+    });
+});
+
+// Fetch Video Resumes with optional tag filter
+async function fetchVideoResumes(page = 1, tagFilter = "") {
+    const videoContainer = document.getElementById("video-reel-container");
+    const videoDataArray = [];
+
+    console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
+
+    if (!tagFilter) {
+        // Save the current video page number to localStorage
+        localStorage.setItem('videoPageNumber', page);
+    }
+
+    try {
+            // Fetch video resumes from the local JSON file
+            const response = await fetch('reels/jSON/videoReels.json');
+            const data = await response.json();
+            if (data && data.length > 0) {
+                data.forEach(videoData => {
+                    videoDataArray.push({
+                        id: videoData.id || '',
+                        userID: videoData.userID || '',
+                        profilePicture: videoData.profilePicture || '',
+                        displayName: videoData.displayName || '',
+                        position: videoData.position || '',
+                        location: videoData.location || '',
+                        verified: videoData.verified || false,
+                        duration: videoData.duration || 0,
+                        likes: videoData.likes || 0,
+                        loves: videoData.loves || 0,
+                        views: videoData.views || 0,
+                        profileURL: videoData.profileURL || '',
+                        thumbnailURL: videoData.thumbnailURL || '',
+                        videoResumeURL: videoData.videoResumeURL || '',
+                        videoResumeCaptions: videoData.videoResumeCaptions || '',
+                        tags: videoData.tags || [],
+                        timestamp: videoData.timestamp || ''
+                    });
+                });
+                renderVideos(videoDataArray, videoContainer);
+            } else {
+                videoContainer.innerHTML = "<p>No video resumes available.</p>";
+            }
+       
+        
+    } catch (error) {
+        console.error("Error fetching video resumes: ", error);
+        videoContainer.innerHTML = "<p>Error loading videos. Please refresh the page or try again later.</p>";
+    }
+}
+
+
+
+     let page = 1;
+let currentPage = 1;
+let totalPosts = 0; // Track total number of posts
+let firstVisibleDoc = null; // For backward navigation
+
+
+
+// Fetch Video Resumes from Firestore
+// Render Video Posts
+function renderVideos(docs, container) {
+
+  console.log("Rendering videos:", docs.length);
+
+let videoMuted = '';
+  const mutePreference = localStorage.getItem('videoMutePreference');
+    // Set video mute state based on saved preference
+    if (mutePreference === "true") {
+        videoMuted = "mute";
+    } else {
+        videoMuted = "";
+    }
+    docs.forEach((doc) => {
+            const docId = doc.id; // Firestore Document ID
+        // Check if this video is already in the container
+        if (container.querySelector(`[data-doc-id="${docId}"]`)) {
+            console.log(`Video with docId ${docId} already rendered. Skipping.`);
+            return; // Skip rendering this video
+        }
+
+        const videoData = doc.data();
+
+            console.log("docId   ",docId);
+            console.log("videoData   ",videoData);
+
+            
+            let reelUserID = videoData.userID || '';
+            let profilePicture = videoData.profilePicture || '';
+            let displayName = videoData.displayName || '';
+
+            // Build the video card dynamically with real data
+            const videoCard = document.createElement("div");
+            videoCard.className = "video-post";
+            videoCard.dataset.docId = docId; // Add dataset attribute
+            videoCard.dataset.timestamp = videoData.timestamp;
+            videoCard.dataset.tags = videoData.tags || ''; // For search functionality
+            videoCard.dataset.displayName = videoData.displayName || '';
+            videoCard.dataset.position = videoData.position || '';
+            videoCard.dataset.location = videoData.location || '';
+            videoCard.dataset.verified = videoData.verified || '';
+            videoCard.dataset.reelUserID = videoData.createdByID || '';
+            videoCard.dataset.profilePicture = videoData.profilePicture || '';
+            videoCard.dataset.duration = videoData.duration || 0;
+            videoCard.dataset.likes = videoData.likes || 0;
+            videoCard.dataset.loves = videoData.loves || 0;
+            videoCard.dataset.createdByID = videoData.createdByID || '';
+            videoCard.dataset.views = videoData.views || '';
+            videoCard.dataset.profileURL = videoData.profileURL || '';
+            generateVideoSchema(videoData, docId);
+
+let videoDuration = parseFloat(videoData.duration.toFixed(2));
+videoCard.innerHTML = `
+  <div id="videoCard_${docId}" class="video-card">
+    <div class="user-info">
+      <div class="user-info-left">
+        <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
+             alt="${videoData.displayName}" 
+             class="profile-img lazy-image">
+
+      </div>
+      <div class="user-info-right">
+
+
+        <div class="user-details">
+          <div class="name-badge">
+          <a href="${videoData.profileURL}" aria-label="View ${videoData.displayName}'s profile">
+            <h3 class="user-name">
+              ${videoData.displayName || 'Anonymous'}
+            </h3>
+          </a>
+<small class="badge ${videoData.verified ? 'badge-verified' : ''}">
+  ${videoData.verified ? '<i class="fa fa-check-circle"></i>' : ''}
+</small>
+          </div>
+
+          <p class="job-title">${videoData.position || ''}</p>
+        </div>
+           
+      <div class="interaction-buttons">
+        <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
+          <i class="fa fa-envelope"></i> Message
+        </button>
+        <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
+          <i class="fa fa-user-plus"></i> Connect
+        </button>
+
+      </div>
+    
+
+  
+ 
+      </div>
+    </div>
+    
+    <div class="video-container">
+      <video id="video_${docId}" class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
+        <source src="${videoData.videoResumeURL}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Custom Controls -->
+      <div  class="controls-top"  data-doc-id="${docId}">
+      <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
+        <i class="${videoMuted ? 'fa fa-volume-mute' : 'fa fa-volume-up' }"></i>
+      </button>
+
+
+        <button class="reportVideoBtn" data-doc-id="${docId}" aria-label="Report Video">
+          <i class="fa fa-flag"></i> 
+        </button>
+      <button class="fullscreen-toggle" aria-label="Enter Full Screen">
+        <i class="fa fa-expand"></i>
+      </button>
+      
+      </div>
+
+      <div class="play-overlay controls-play"   data-doc-id="${docId}">
+        <i class="fa fa-play"></i>
+      </div>
+
+          <div class="controls-container controls-bottom"  data-doc-id="${docId}">
+      <div class="actions">
+        <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
+          <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+        </button>
+
+
+<div class="realCareerVidLogo action-btn ">ReelCareer</div>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="extra-container">
+      <div class="video-Extra">${videoData.videoResume || videoData.videoJobPost}</div>
+    
+    </div>
+
+    <div class="caption-container">
+      <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
+    </div>
+    <div class="tags-container">
+    </div>
+
+    <div class="video-details">
+      <p class="views-count" aria-label="${videoData.views || 0} views">
+        <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
+      </p>
+            <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
+        <i class="fa fa-clock"></i> ${videoDuration || '--:--'}
+      </p>
+              <button class="add-user-button" data-doc-id="${docId}"  aria-label="Add to Shortlist">
+          <i class="fa fa-plus"></i> Shortlist
+        </button>
+
+        <button class="share-btn" data-doc-id="${docId}" aria-label="Share Video">
+          <i class="fa fa-share-alt"></i> 
+        </button>
+        <button class="comments-btn" data-doc-id="${docId}" aria-label="Video Comments">
+          <i class="fas fa-comment"></i> </i> 
+        </button>
+
+    </div>
+
+
+
+    <!-- Comment Section -->
+<div id="comment-section-${docId}" class="comment-section ">
+    <div class="comment-input-container">
+        <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." aria-label="Add a comment" />
+        <button class="btn btn-primary add-comment-btn" onclick="addComment('${docId}')" aria-label="Post Comment">
+            <i class="fa fa-paper-plane"></i> 
+        </button>
+    </div>
+    <div id="comments-container-${docId}" class="comments-container hidden"></div>
+</div>
+
+  </div>
+`;
+
+
+container.appendChild(videoCard);
+
+
+//console.log("Rendering video doc:", doc.data());
+
+
+
+
+        // Add tags
+        const tagsContainer = videoCard.querySelector(".tags-container");
+        if (videoData.tags && Array.isArray(videoData.tags)) {
+            videoData.tags.forEach((tag) => {
+                const tagButton = document.createElement("button");
+                tagButton.textContent = tag;
+                tagButton.onclick = () => fetchVideoResumes(1, tag);
+                tagsContainer.appendChild(tagButton);
+            });
+        }
+
+
+        
+
+            // Add event listeners for buttons
+       
+            
+
+            const messageButton = videoCard.querySelector(".message-button");
+            const connectButton = videoCard.querySelector(".connect-button");
+
+            const addUserButton = videoCard.querySelector(".add-user-button");
+            const likeButton = videoCard.querySelector(".like-btn");
+            const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
+
+
+            // Mute toggle functionality
+            reportVideoBtn.addEventListener("click", () => openReportModal(docId));
+
+            // Other button actions
+            addUserButton.addEventListener("click", () => addToShortlist(docId));
+
+  
+            connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
+            messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName,connectButton));
+ 
+            
+
+
+
+// After appending videoCard to container
+const shareButton = videoCard.querySelector(".share-btn");
+const commentButton = videoCard.querySelector(".add-comment-btn");
+const commentsBtn = videoCard.querySelector(".comments-btn");
+
+// Event Listeners
+commentsBtn.addEventListener("click", () => handleComments(docId, commentsBtn));
+likeButton.addEventListener("click", () => handleLike(docId, likeButton));
+shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
+commentButton.addEventListener("click", () => addComment(docId));
+
+// Increment view count when video is played
+const videoElement = videoCard.querySelector(".video-element");
+videoElement.addEventListener("play", () => incrementViewCount(docId));
+
+const videos = videoCard.querySelectorAll(".video-element"); 
+console.log("videos ",videos);
+
+
+
+
+
+
+
+
+
+const muteButton = videoCard.querySelector(".mute-toggle");
+  const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
+
+  const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
+
+if (videoCardM_ID) {
+  // Scope everything inside the specific card
+  const controlsTop = videoCardM_ID.querySelector(".controls-top");
+  const controlsPlay = videoCardM_ID.querySelector(".controls-play");
+  const controlsBottom = videoCardM_ID.querySelector(".controls-bottom");
+
+  const video = videoCardM_ID.querySelector("video"); // Fix: Scoped to the card itself
+
+  const container = videoCardM_ID; // The card container itself
+
+ // Inside the video card loop
+const playOverlay = videoCard.querySelector(".play-overlay");
+
+if (playOverlay) {
+  // Attach the play event only to the play overlay
+  playOverlay.addEventListener("click", () => {
+    togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+  });
+}
+
+  // Mute/Unmute
+  muteButton.addEventListener("click", () => toggleMute(video, muteButton));
+
+  // Fullscreen Toggle
+  fullscreenButton.addEventListener("click", () => toggleFullscreen(video));
+
+
+
+  //addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+}
+
+   //  fetchComments(docId);
+
+    });
+
+
+}
+
+   
+function generateVideoSchema(videoData, docId) {
+    // Convert Firebase Timestamp to JavaScript Date
+    const uploadDate = videoData.createdAt 
+        ? new Date(videoData.createdAt.seconds * 1000) // Convert seconds to milliseconds
+        : new Date(); // Fallback to current date if createdAt is missing
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": videoData.name || "Video Resume",
+        "description": videoData.videoResumeCaptions || "",
+        "thumbnailUrl": videoData.thumbnailURL || "",
+        "contentUrl": videoData.videoResumeURL,
+        "uploadDate": uploadDate.toISOString(), // Call toISOString on a valid Date object
+        "duration": videoData.duration || "",
+        "interactionStatistic": {
+            "@type": "InteractionCounter",
+            "interactionType": { "@type": "http://schema.org/WatchAction" },
+            "userInteractionCount": videoData.views || 0
+        }
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }  
+    
+
+    
+
+    
+
+// Retrieve and populate form inputs for tabs
+window.onload = async function () {
+    try {
+        userId = await getUserId(); // Attempt to fetch user ID
+        if (!userId) {
+         //   throw new Error("User ID is null or undefined.");
+        }
+    } catch (error) {
+      //  console.error("Error fetching user ID:", error);
+        userId = null; // Explicitly set userId to null if it fails
+    }
+
+    const userDataSaved = getUserData() || [];
+
+    setTimeout(() => {
+        console.log("Module User We outside:", userId);
+        console.log("userDataSaved We outside:", userDataSaved);
+
+   
+
+        // DOM elements
+        const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+   
+        
+        const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+
+        const lastBreadcrumb_messages = document.getElementById("lastBreadcrumb_messages");
+        const lastBreadcrumb_profile = document.getElementById("lastBreadcrumb_profile");
+        const lastBreadcrumb_last_create = document.getElementById("lastBreadcrumb_create");
+        const lastBreadcrumb_join = document.getElementById("lastBreadcrumb_join");
+
+  
+            // Retrieve the saved video page number from localStorage
+    const savedPageNumber = localStorage.getItem('videoPageNumber');
+
+// Use the saved page number if available, or default to 1
+const videoPageNumber = savedPageNumber ? parseInt(savedPageNumber, 10) : 1;
+
+
+        if (!userId) {
+            console.log("No user.");
+            lastBreadcrumb_messages.style.display = "none";
+            lastBreadcrumb_profile.style.display = "none";
+            lastBreadcrumb_last_create.style.display = "none";
+            lastBreadcrumb_join.style.display = "block";
+
+            breadcrumbTitleActive.style.display = "none";
+
+// Call fetchVideoResumes with the retrieved page number
+fetchVideoResumes(videoPageNumber, '');
+        }else{
+          document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName || "User"}`;
+
+          lastBreadcrumb_messages.style.display = "block";
+          lastBreadcrumb_profile.style.display = "block";
+          lastBreadcrumb_last_create.style.display = "block";
+          lastBreadcrumb_join.style.display = "none";
+
+          breadcrumbTitleActive.style.display = "block";
+          breadcrumbTitleActive.innerText = userDataSaved.displayName || "User";
+
+// Call fetchVideoResumes with the retrieved page number
+        fetchVideoResumes(videoPageNumber, userId);
+        }
+
+
+
+
+
+
+    }, 300);
+};
+
+      
+
+
+
+
+
+
+    </script>
+
+
+    
+</body>
+</html>
