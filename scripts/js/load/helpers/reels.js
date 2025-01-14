@@ -204,16 +204,16 @@ window.postReelFunction = postReelFunction;
     fileInput.addEventListener("change", (e) => {
         const file = e.target.files[0];
         if (!file || file.type.split("/")[0] !== "video") {
-            alert("Please select a valid video file.");
+            showToast("Please select a valid video file.");
             return;
         }
         uploadedFile = file;
-        alert(`Selected video: ${file.name}`);
+        showToast(`Selected video: ${file.name}`);
     });
 
     uploadButton.addEventListener("click", async () => {
         if (!uploadedFile) {
-            alert("No video selected.");
+            showToast("No video selected.");
             return;
         }
 
@@ -228,12 +228,12 @@ window.postReelFunction = postReelFunction;
             if (videoURL) {
                 const description = document.querySelector(".reel-video-content").value.trim();
                 await postReelFunction(description, videoURL);
-                alert("Video uploaded successfully!");
+                showToast("Video uploaded successfully!");
             } else {
-                alert("Failed to upload the video.");
+                showToast("Failed to upload the video.");
             }
         } catch (error) {
             console.error(error);
-            alert("Error uploading the video. Please try again.");
+            showToast("Error uploading the video. Please try again.");
         }
     });
