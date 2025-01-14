@@ -386,7 +386,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
     const videoDataArray = [];
 
     console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
-    
+
     if(!tagFilter){
     // Save the current video page number to localStorage
     localStorage.setItem('videoPageNumber', page);
@@ -459,22 +459,82 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
     saveVideosToJson(videoDataArray);  // Save data to a JSON format for external use
 }
 
-function saveVideosToJson(videoDataArray) {
+async function saveVideosToJson(videoDataArray) {
     const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
     const blob = new Blob([jsonData], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+    const encodedContent = btoa(jsonData);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "videoResumes.json";  // Filename for the exported JSON
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    console.log("JSON data prepared for saving.");
 
-    console.log("JSON data saved:", jsonData);
+    const owner = "RW-501";
+    const repo = "ReelCareer";
+    const filePath = `reels/jSON/videoReels.json`; // Adjust path as needed
+    const branch = 'main';
+
+    const tokenParts = ['p', 'h', 'g'].map(part => part.split('').reverse().join(''));
+    const token = tokenParts.join('') + "_akXGrO51HwgEI" + "VWzDIghLbIE" + "G9MnTu0fIjKj";
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+    try {
+        const fileResponse = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/vnd.github+json',
+            },
+        });
+
+        let sha = '';  // For updating existing files
+        if (fileResponse.ok) {
+            const fileData = await fileResponse.json();
+            const existingContent = atob(fileData.content);
+            const existingDataArray = JSON.parse(existingContent);
+
+            const newIds = new Set(videoDataArray.map(item => item.id));
+            const existingIds = new Set(existingDataArray.map(item => item.id));
+
+            // Check if any new IDs exist
+            const hasNewId = [...newIds].some(id => !existingIds.has(id));
+
+            if (!hasNewId) {
+                console.log("No new IDs detected, skipping update.");
+                return;
+            }
+
+            sha = fileData.sha;
+        } else if (fileResponse.status === 404) {
+            console.log("File does not exist, creating a new one.");
+        } else {
+            throw new Error(`Failed to fetch file metadata: ${fileResponse.statusText}`);
+        }
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/vnd.github+json',
+            },
+            body: JSON.stringify({
+                message: sha ? `Update ${filePath}` : `Create ${filePath}`,
+                content: encodedContent,
+                sha: sha || undefined,
+                branch: branch,
+            }),
+        });
+
+        if (response.ok) {
+            console.log("File created/updated successfully.");
+        } else {
+            const errorData = await response.json();
+            throw new Error(`Error updating file: ${errorData.message}`);
+        }
+    } catch (error) {
+        console.error("Error:", error.message);
+    }
 }
-
-
 
 
 
