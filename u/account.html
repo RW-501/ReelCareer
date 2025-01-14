@@ -1014,7 +1014,7 @@ const fetchVideoResumeData = async () => {
     videoResumeData.forEach(resume => {
       const resumeElement = document.createElement('div');
       resumeElement.classList.add('history-item');
-      resumeElement.innerHTML = `<p><strong>Title:</strong> ${resume.videoResumeCaptions}</p> <p><strong>Video created Date:</strong> ${resume.createdAt}</p>`;
+      resumeElement.innerHTML = `<p><strong>Title:</strong> ${resume.videoResumeCaptions}</p> <p><strong>Video created Date:</strong> ${formatTimestamp(resume.createdAt)}</p>`;
       videoReelHistory.appendChild(resumeElement);
     });
   } catch (error) {
