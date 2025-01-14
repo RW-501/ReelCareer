@@ -1,3 +1,20 @@
+const style = document.createElement('style');
+style.innerHTML = `
+  html {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+`;
+document.head.appendChild(style);
+
+window.addEventListener('load', function() {
+    // Wait for 2 seconds before starting the fade-in effect
+    setTimeout(function() {
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';  // Fade in effect
+    }, 2000); // 2000ms = 2 seconds
+});
 
 
 
@@ -172,6 +189,9 @@ function preLoadPageScripts() {
 
 
 
+    // Load FontAwesome CSS
+    loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+    logExecutionTime('FontAwesome CSS', performance.now());
 
 
         // Load Toast Notifications after <main> is available
@@ -229,9 +249,6 @@ function preLoadPageScripts() {
     loadStylesheet("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
     logExecutionTime('Bootstrap CSS', performance.now());
 
-    // Load FontAwesome CSS
-    loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
-    logExecutionTime('FontAwesome CSS', performance.now());
 
     // Load Main CSS
     loadStylesheet("https://reelcareer.co/scripts/css/main.css");
@@ -255,19 +272,6 @@ function preLoadPageScripts() {
 }
 
 preLoadPageScripts();
-
-
-// Call waitForElement to check for the 'main' element
-//waitForElement('main', () => {
-    // Hide the body initially
- //   document.body.style.visibility = 'hidden';
-//});
-
-// Wait for the page to load
-window.addEventListener('load', function() {
-    // Once the page is fully loaded, make the body visible
-    document.body.style.visibility = 'visible';
-});
 
 
 
