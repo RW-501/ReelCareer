@@ -82,6 +82,7 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
         showToast('No User Info');
         return;
     }
+    console.log("userID:", userID);
 
     const tags = extractHashtags(videoResumeCaptions);  // Extract hashtags from the caption
 
@@ -90,6 +91,7 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
         showToast("Please add at least two tags.");
         return; // Prevent form submission if validation fails
     }
+    console.log("tags:", tags);
 
     try {
         // Create a hidden video element to get the duration
@@ -116,6 +118,7 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
             file: videoURL, // The video data itself
             fileType: "video/mp4", // Ensure this matches the file type
         };
+        console.log("videoData:", videoData);
 
         // Upload the video file and get the download URL
         videoResumeURL = await uploadVideoResume(userID, videoData);
