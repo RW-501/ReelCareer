@@ -404,11 +404,11 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
         console.log("Fetched data:", data);
 
         if (data && data.length > 0) {
-            // Filter out obituaries/celebrating content
+            // Filter out  content
             const filteredData = data.filter(videoData => {
                 const isObituary = videoData.tags && videoData.tags.includes('obituary') || videoData.tags.includes('celebrating');
                 if (isObituary) {
-                    console.log("Excluding obituary/celebrating video:", videoData.id);
+                    console.log("Excluding video:", videoData.id);
                 }
                 return !isObituary;
             });
@@ -459,31 +459,31 @@ let firstVisibleDoc = null; // For backward navigation
 
 
 // Fetch Video Resumes from Firestore
-// Render Video Posts
 function renderVideos(docs, container) {
+    console.log("Rendering videos:", docs.length);
 
-  console.log("Rendering videos:", docs.length);
-
-let videoMuted = '';
-  const mutePreference = localStorage.getItem('videoMutePreference');
+    let videoMuted = '';
+    const mutePreference = localStorage.getItem('videoMutePreference');
     // Set video mute state based on saved preference
     if (mutePreference === "true") {
         videoMuted = "mute";
     } else {
         videoMuted = "";
     }
+
     docs.forEach((doc) => {
-            const docId = doc.id; // Firestore Document ID
+        const docId = doc.id; // Firestore Document ID
         // Check if this video is already in the container
         if (container.querySelector(`[data-doc-id="${docId}"]`)) {
             console.log(`Video with docId ${docId} already rendered. Skipping.`);
             return; // Skip rendering this video
         }
 
-        const videoData = doc.data();
-
-            console.log("docId   ",docId);
-            console.log("videoData   ",videoData);
+        // Check if 'doc' has the 'data' method (to confirm it's a Firestore snapshot)
+        if (typeof doc.data === "function") {
+            const videoData = doc.data();
+            console.log("docId", docId);
+            console.log("videoData", videoData);
 
             
             let reelUserID = videoData.userID || '';
@@ -753,9 +753,10 @@ if (playOverlay) {
 
    //  fetchComments(docId);
 
+  } else {
+            console.error("Invalid document snapshot:", doc);
+        }
     });
-
-
 }
 
    
