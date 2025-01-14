@@ -3,7 +3,7 @@ style.innerHTML = `
   html {
     visibility: hidden;
     opacity: 0;
-    transition: opacity 2s ease-in-out;
+    transition: opacity 1s ease-in-out;
   }
 `;
 document.head.appendChild(style);
@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
     setTimeout(function() {
         document.documentElement.style.visibility = 'visible';
         document.documentElement.style.opacity = '1';  // Fade in effect
-    }, 2000); // 2000ms = 2 seconds
+    }, 1000); // 2000ms = 2 seconds
 });
 
 
