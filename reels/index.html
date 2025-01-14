@@ -840,21 +840,23 @@ body {
         </div>
         
 
-<!-- Video Upload Card Component -->
+<!-- Video Upload Card Component --> 
 <div class="reel-upload-container card p-4 shadow-lg">
   <h3 class="mb-3">Share Your Reel</h3>
 
   <!-- Hidden Video Upload Input -->
   <input type="file" class="reel-video-input" accept="video/*" hidden>
 
-  <!-- Video Select Button -->
-  <button class="btn btn-secondary w-100 mb-2 select-video-btn">Select Video</button>
-
-  <!-- Video Preview -->
-  <video class="reel-video-preview mb-3" controls hidden></video>
+  <!-- Video Select Button and Preview Side-by-Side -->
+  <div class="d-flex align-items-center mb-3">
+    <button class="btn btn-secondary me-3 select-video-btn">Select Video</button>
+    <video class="reel-video-preview flex-grow-1" controls hidden></video>
+  </div>
 
   <!-- Video Content/Description -->
-  <textarea class="content form-control my-2 reel-video-content" placeholder="Write a description..."></textarea>
+  <div class="d-flex">
+    <textarea class="content form-control reel-video-content me-3" placeholder="Write a description..."></textarea>
+  </div>
 
   <!-- Action Button -->
   <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
