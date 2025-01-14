@@ -513,7 +513,7 @@ function renderVideos(docs, container) {
         }
 
         // Check if 'doc' has the 'data' method (to confirm it's a Firestore snapshot)
-        if (doc.exists ) {
+        if (doc) {
           const videoData = doc.data();
             console.log("docId", docId);
             console.log("videoData", videoData);
