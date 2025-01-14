@@ -308,10 +308,8 @@
           <p id="user-phone" class="user-detail"><strong>Phone Number:</strong> <span>(123) 456-7890</span></p>
           <p id="user-ip-address" class="user-detail"><strong>IP Address:</strong> <span>000.000.0.1</span></p>
           <p id="user-verified" class="user-detail"><strong>Verified:</strong> <span>Yes</span></p>
-          <div class="mb-3">
-            <label for="userID-profile" class="form-label">User ID</label>
-            <input type="text" class="form-control" id="userID-profile" disabled value="12345" aria-describedby="userIDHelp">
-          </div>
+          <p id="user-userID" class="user-detail"><strong>User ID:</strong> <span>12354</span></p>
+  
           <p id="join-date" class="user-detail"><strong>Join Date:</strong> MM/DD/YYYY</p>
           <p id="loggedin-method" class="user-detail"><strong>Logged in with:</strong> <span>email</span></p>
           <p id="lastLogin-date" class="user-detail"><strong>Last Login:</strong> <span>MM/DD/YYYY</span></p>
@@ -803,6 +801,7 @@ async function populateUserInfo(userId) {
             document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
             document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
             document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
+            document.getElementById('user-userID').querySelector('span').textContent = userData.userID || "12345";
             document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
             document.getElementById('join-date').textContent = `Join Date: ${formatTimestamp(userData.joinDate) || 'MM/DD/YYYY'}`;
             document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
