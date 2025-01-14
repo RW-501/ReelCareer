@@ -357,7 +357,9 @@ const membershipPlans = {
         pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)', benefits: 'Annual savings with pro-level access.' }
     };
 // Render standard and subscription plans
-renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
+document.addEventListener('DOMContentLoaded', () => {
+    renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
+});
 
 function upgradeMembership(planKey) {
     const allPlans = { ...membershipPlans, ...membershipSubscriptions };
