@@ -430,11 +430,20 @@ async function getUserIP() {
 function initializePayPalButtons() {
   const membershipButtons = {
     free: { price: 0, description: 'Free Membership' },
-    basic: { price: 9.99, description: 'Basic Premium Membership' },
-    pro: { price: 19.99, description: 'Pro Premium Membership' }
-  };
+    basic: { price: 9.99, description: 'Basic Premium Membership (Monthly)' },
+    pro: { price: 19.99, description: 'Pro Premium Membership (Monthly)' },
 
-  ["free", "basic", "premium"].forEach(type => {
+    basic_Yearly: { price: 79.99, description: 'Basic Yearly Premium Membership (Save 2 Months)' },
+    pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)' }
+};
+
+const membershipSubscriptionButtons = {
+    basic_Subscription: { price: 9.99, description: 'Basic Subscription Premium Membership (Monthly)' },
+    pro_Subscription: { price: 15.99, description: 'Pro Subscription Premium Membership (Monthly)' },
+};
+
+
+  ["free", "basic", "pro", "basic_Yearly", "pro_Yearly"  ].forEach(type => {
     paypal.Buttons({
       style: {
         layout: 'vertical',
@@ -469,23 +478,60 @@ function initializePayPalButtons() {
       }
     }).render(`#paypal-button-container-${type}`);
   });
+
+
+ 
+  ["basic_Subscription", "pro_Subscription"].forEach(type => {
+    paypal.Buttons({
+      style: {
+        layout: 'vertical',
+        color: 'blue',
+        shape: 'rect',
+        label: 'subscribe'
+      },
+      createSubscription: (data, actions) => {
+        // Create a subscription plan for recurring payments
+        return actions.subscription.create({
+          plan_id: createSubscriptionPlan(membershipSubscriptionButtons[type].price)
+        });
+      },
+      onApprove: async (data, actions) => {
+        // Capture the subscription once approved
+        const subscription = await actions.subscription.get();
+        console.log('Subscription Approved:', subscription);
+
+        const userDataSaved = getUserData() || {};
+        const userID = userDataSaved.userID;
+        if (userID) {
+          await updateMembership(userID, type, subscription.id); // Update the membership status and store subscription ID
+        } else {
+          showToast("User not logged in.");
+        }
+      },
+      onError: err => {
+        console.error('PayPal error:', err);
+        showToast("Payment error. Please try again.");
+      }
+    }).render(`#paypal-button-container-${type}`);
+  });
 }
 
-
-
-
-function isMembershipUpgrade(currentMembership, newMembershipType) {
-  const membershipLevels = ["free", "basic", "premium"]; // Define membership levels in order
-  const currentIndex = membershipLevels.indexOf(currentMembership.toLowerCase());
-  const newIndex = membershipLevels.indexOf(newMembershipType.toLowerCase());
-  return newIndex > currentIndex; // Upgrade if new membership has a higher index
+// Create a PayPal Subscription Plan
+function createSubscriptionPlan(price) {
+  // Create a subscription plan in PayPal via their API (normally done via a server-side process)
+  // For the sake of example, let's assume you have predefined plan IDs for the subscription types
+  if (price === 9.99) {
+    return "basic-monthly-plan-id";  // Use actual PayPal plan IDs here
+  } else if (price === 15.99) {
+    return "pro-monthly-plan-id";  // Use actual PayPal plan IDs here
+  }
+  return "";
 }
 
+// Update Membership Function (Handling Subscription ID)
+async function updateMembership(userID, newMembershipType, subscriptionID) {
 
-// Update Membership
-async function updateMembership(userID, newMembershipType) {
-
-    const container = document.getElementById(`paypal-button-container-${newMembershipType}`);
+  const container = document.getElementById(`paypal-button-container-${newMembershipType}`);
   if (container) {
     container.scrollIntoView({ behavior: 'smooth' });
   }
@@ -498,25 +544,25 @@ async function updateMembership(userID, newMembershipType) {
       const currentData = userSnapshot.data();
       const currentMembership = currentData.membershipType || "free";
 
-      if (currentMembership === newMembershipType) {
-        return;
-      }
-  
+      // Proceed only if the membership is different
+      if (currentMembership !== newMembershipType) {
+        // Update user's membership
+        await updateDoc(userDocRef, {
+          membershipType: newMembershipType,
+          subscriptionID: subscriptionID,  // Store the PayPal subscription ID
+          membershipExpiryDate: calculateExpiryDate(), // Calculate the expiry date based on subscription
+          membershipUpdatedAt: serverTimestamp(),
+        });
   // Determine the type of change: upgrade or downgrade
   const isUpgrade = isMembershipUpgrade(currentMembership, newMembershipType);
-  const transactionType = isUpgrade ? "upgrade" : "downgrade";
+  let transactionType = isUpgrade ? "upgrade" : "downgrade";
+  if(subscriptionID){
+    transactionType = "Subscription";
+  }
 
-await updateDoc(userDocRef, {
-    membershipType: newMembershipType,
-    updatedAt: serverTimestamp(),
-    membershipExpiryDate: expiryDate // Store the calculated date
-});
-
-
-
-  // Record the transaction
-  await addDoc(collection(db, "A_Transactions"), {
-    userID: userID,
+        // Record the transaction
+        await addDoc(collection(db, "A_Transactions"), {
+          userID: userID,
     userIP: await getUserIP(),
     currentMembership: currentMembership,
     newMembershipType: newMembershipType,
@@ -526,9 +572,11 @@ await updateDoc(userDocRef, {
     timestamp: serverTimestamp(),
     status: "complete",
     createdDate: new Date().toISOString(),
-  });
+          subscriptionID: subscriptionID,
+        });
 
-  showToast(`Membership updated to ${newMembershipType} successfully.`);
+
+        showToast(`Membership updated to ${newMembershipType} successfully.`);
 
   
 // Referral logic - Get the referrer and reward
@@ -589,7 +637,7 @@ if (userReferralDoc.exists()) {
 
 
 
-
+      }
 
     } else {
         showToast("User not found.");
@@ -599,6 +647,26 @@ if (userReferralDoc.exists()) {
   }
 }
 window.updateMembership = updateMembership;
+
+
+
+// Calculate Subscription Expiry Date (Based on Monthly Subscription)
+function calculateExpiryDate() {
+  const now = new Date();
+  now.setMonth(now.getMonth() + 1);  // Add 1 month for monthly subscriptions
+  return now;
+}
+
+
+
+function isMembershipUpgrade(currentMembership, newMembershipType) {
+  const membershipLevels = ["free", "basic", "pro", "basic_Yearly", "pro_Yearly"]; // Define membership levels in order
+  const currentIndex = membershipLevels.indexOf(currentMembership.toLowerCase());
+  const newIndex = membershipLevels.indexOf(newMembershipType.toLowerCase());
+  return newIndex > currentIndex; // Upgrade if new membership has a higher index
+}
+
+
 // Upgrade/Downgrade Button Click
 async function upgradeMembership(newMembershipType) {
   const userDataSaved = getUserData() || {};
@@ -629,6 +697,14 @@ function calculateMembershipCost(membershipType) {
       return 9.99;
     case "pro":
       return 19.99;
+      case "basic_Yearly":
+      return 79.99;    
+      case "pro_Yearly":
+      return 149.99;
+    case "basic_Subscription":
+      return 9.99;
+    case "pro_Subscription":
+      return 15.99;
     default:
       return 0;
   }
