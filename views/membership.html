@@ -509,9 +509,11 @@ const membershipSubscriptionButtons = {
         }
       },
       onError: err => {
-        console.error('PayPal error:', err);
-        showToast("Payment error. Please try again.");
-      }
+  console.error('PayPal error:', err);
+  const errorMessage = err.message || "Payment error. Please try again.";
+  showToast(errorMessage);
+}
+
     }).render(`#paypal-button-container-${type}`);
   });
 }
@@ -548,11 +550,12 @@ async function updateMembership(userID, newMembershipType, subscriptionID) {
       if (currentMembership !== newMembershipType) {
         // Update user's membership
         await updateDoc(userDocRef, {
-          membershipType: newMembershipType,
-          subscriptionID: subscriptionID,  // Store the PayPal subscription ID
-          membershipExpiryDate: calculateExpiryDate(), // Calculate the expiry date based on subscription
-          membershipUpdatedAt: serverTimestamp(),
-        });
+  membershipType: newMembershipType,
+  subscriptionID: subscriptionID || null,
+  membershipExpiryDate: calculateExpiryDate(),
+  membershipUpdatedAt: serverTimestamp(),
+});
+
   // Determine the type of change: upgrade or downgrade
   const isUpgrade = isMembershipUpgrade(currentMembership, newMembershipType);
   let transactionType = isUpgrade ? "upgrade" : "downgrade";
@@ -588,17 +591,10 @@ const userReferralDocRef = doc(db, 'UserReferral', userID);
 const userReferralDoc = await getDoc(userReferralDocRef);
 
 if (userReferralDoc.exists()) {
-    const userReferralDocRef = doc(db, 'UserReferral', userID);
-const userReferralDoc = await getDoc(userReferralDocRef);
+  const userReferralData = userReferralDoc.data();
+  const { referredBy, referMembershipBool, referObituariesBool } = userReferralData;
 
-if (userReferralDoc.exists()) {
-    const userReferralData = userReferralDoc.data();
-    const referredUserID = userReferralData.referredBy;
-    const referMembershipBool = userReferralData.referMembershipBool;
-    const referObituariesBool = userReferralData.referObituariesBool;
-
-    // Check if the user was referred and the referral type is 'joined'
-    if (userReferralData.referObituariesBool === 'pending' && userReferralData.referType === 'joined') {
+  if (referObituariesBool === 'pending' && referType === 'joined') {
         // Add the referral reward for the referrer
         await addDoc(collection(db, "A_Transactions"), {
             userID: referredUserID,  // The user receiving the referral reward
@@ -627,9 +623,7 @@ if (userReferralDoc.exists()) {
         
         console.log("Referral reward processed and referObituariesBool updated to active.");
     }
-} else {
-    console.log("No referral data found for the user.");
-}
+
 
 } else {
     console.log("No referral data found for the user.");
@@ -651,9 +645,13 @@ window.updateMembership = updateMembership;
 
 
 // Calculate Subscription Expiry Date (Based on Monthly Subscription)
-function calculateExpiryDate() {
+function calculateExpiryDate(membershipType) {
   const now = new Date();
-  now.setMonth(now.getMonth() + 1);  // Add 1 month for monthly subscriptions
+  if (membershipType === "basic_Yearly" || membershipType === "pro_Yearly") {
+    now.setFullYear(now.getFullYear() + 1);  // Add 1 year for yearly subscriptions
+  } else {
+    now.setMonth(now.getMonth() + 1);  // Add 1 month for monthly subscriptions
+  }
   return now;
 }
 
