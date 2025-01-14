@@ -189,10 +189,11 @@ async function postReelFunction(videoResumeCaptions, videoURL) {
 
 window.postReelFunction = postReelFunction;
 
-
+document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.querySelector(".reel-video-input");
     const selectVideoButton = document.querySelector(".select-video-btn");
     const uploadButton = document.querySelector(".reel-video-btn");
+    const videoPreview = document.querySelector(".reel-video-preview");
 
     let uploadedFile = null;
 
@@ -208,6 +209,9 @@ window.postReelFunction = postReelFunction;
             return;
         }
         uploadedFile = file;
+        selectVideoButton.style.display = "none"; // Hide the select button
+        videoPreview.src = URL.createObjectURL(file); // Set video preview source
+        videoPreview.hidden = false; // Show the video preview
         showToast(`Selected video: ${file.name}`);
     });
 
@@ -237,3 +241,4 @@ window.postReelFunction = postReelFunction;
             showToast("Error uploading the video. Please try again.");
         }
     });
+});
