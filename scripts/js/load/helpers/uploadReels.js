@@ -240,7 +240,8 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             ...userDataSaved,
             videoResumeData: [
                 ...(userDataSaved.videoResumeData || []), // Keep existing entries if available
-                { reelID, videoResumeURL, createdAt: new Date(), status: 'posted' }
+                { reelID, videoResumeURL, tags, createdAt: new Date(),
+                     status: 'posted',  reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
             ]
         };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
