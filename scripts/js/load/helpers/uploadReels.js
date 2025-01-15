@@ -172,7 +172,8 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
                 reelID: reelID,
                 videoResumeURL: videoResumeURL,
                 createdAt: new Date(),
-                status: 'posted'
+                status: 'posted',
+                videoURL: `https://reelcareer.co/reels/?r=${reelID}`
             })
         });
         

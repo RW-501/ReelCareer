@@ -504,9 +504,11 @@ async function loadVideoReels(userID) {
 
     querySnapshot.forEach(doc => {
         const reel = doc.data();
+
+        let videoResumeURL = `lllllll${doc.id}`;
         const row = `
             <tr>
-                <td><a href="${reel.videoResumeURL}" target="_blank">View Video</a></td>
+                <td><a href="${videoResumeURL}" target="_blank">View Video</a></td>
                 <td>${reel.tags.join(', ') || 'N/A'}</td>
                 <td>${reel.status}</td>
                 <td>${reel.views}</td>
