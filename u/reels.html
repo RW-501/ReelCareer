@@ -499,6 +499,11 @@ input[type="checkbox"]:hover {
 
             <section id="analytics">
                 <h2>Analytics</h2>
+
+                <div>
+                    <h3>Total Reels</h3>
+                    <p id="total-reels">0</p>
+                </div>
                 <div class="stats">
                     <div>
                         <h3>Total Views</h3>
@@ -751,6 +756,7 @@ input[type="checkbox"]:hover {
 
 
 <div id="analytics-container" class="modal-content">
+    
     <div class="analytics-item">
       <span class="analytics-label">Views</span>
       <span id="reel-views" class="analytics-value">0</span>
@@ -978,6 +984,7 @@ async function loadAnalytics(userID) {
         totalReach += reel.reach || 0;
     });
     
+    document.getElementById('total-reels').textContent = querySnapshot.length || 0;
     document.getElementById('total-uniqueViews').textContent = totalUniqueViews;
     document.getElementById('total-views').textContent = totalViews;
     document.getElementById('total-likes').textContent = totalLikes;
