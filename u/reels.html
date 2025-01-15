@@ -416,14 +416,18 @@ button {
         <option value="review" disabled>Review</option>
     </select>
 
-    <label for="reelResume">Resume</label>
-    <input type="text" id="reelResume" name="reelResume" />
 
     <label for="location">Location</label>
     <input type="text" id="location" name="location" />
 
-    <label for="thumbnailURL">Thumbnail URL</label>
-    <input type="text" id="thumbnailURL" name="thumbnailURL" />
+    <label for="thumbnailUpload">Thumbnail</label>
+    <div id="thumbnailPreviewContainer" style="cursor: pointer;">
+        <img id="thumbnailPreview" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Thumbnail Preview" style="width: 150px; height: 150px; border: 1px solid #ccc;" />
+    </div>
+    <input type="file" id="thumbnailUpload" name="thumbnailUpload" accept="image/*" style="display: none;" />
+    <input type="hidden" id="thumbnailURL" name="thumbnailURL" />
+    
+    
 
     <label for="endingCard">Ending Card</label>
     <input type="text" id="endingCard" name="endingCard" />
@@ -440,6 +444,8 @@ button {
     <label for="relatedProducts">Related Products (comma-separated)</label>
     <input type="text" id="relatedProducts" name="relatedProducts" />
 
+    <label for="reelResume">Resume</label>
+    <input type="text" id="reelResume" name="reelResume" />
 
     </div>
 
@@ -621,8 +627,9 @@ async function loadAnalytics(userID) {
     document.getElementById('total-shares').textContent = totalShares;
 }
 
+let reelID = '';
 async function handleEdit(event) {
-    const reelID = event.target.dataset.id;
+     reelID = event.target.dataset.id;
 
     const reelRef = doc(db, "VideoResumes", reelID);
     const reelSnap = await getDoc(reelRef);
@@ -753,6 +760,55 @@ async function handleEdit(event) {
         showToast('Video reel not found.');
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+const thumbnailUpload = document.getElementById('thumbnailUpload');
+const thumbnailPreview = document.getElementById('thumbnailPreview');
+const thumbnailURLInput = document.getElementById('thumbnailURL');
+const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
+
+// Trigger file input when clicking the preview image
+thumbnailPreviewContainer.addEventListener('click', () => {
+    thumbnailUpload.click();
+});
+
+// Handle file selection and upload
+thumbnailUpload.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            thumbnailPreview.src = e.target.result; // Set preview image source
+        };
+        reader.readAsDataURL(file); // Read file as data URL
+
+        try {
+            const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
+            const storageRef = ref(storage, fileName);
+            await uploadBytes(storageRef, file); // Upload file to Firebase
+            const downloadURL = await getDownloadURL(storageRef); // Get the download URL
+            
+            thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
+            alert('Thumbnail uploaded successfully.');
+        } catch (error) {
+            console.error('Error uploading thumbnail:', error);
+            alert('Failed to upload thumbnail. Please try again.');
+        }
+    }
+});
+
+
 
 
 async function handleDelete(event) {

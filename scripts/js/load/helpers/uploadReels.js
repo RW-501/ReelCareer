@@ -16,7 +16,7 @@ getUserId // Export the function
 // Upload Video Resume to Firebase Storage
 async function uploadVideoResume(userID, videoData) {
     try {
-        const fileRef = ref(storage, `videoResumes/${userID}/${videoData.name}`);
+        const fileRef = ref(storage, `users/${userID}/reels/${videoData.name}`);
         const uploadTask = uploadBytesResumable(fileRef, videoData.file);
         const progressBar = document.getElementById("uploadProgressBar");
 
@@ -170,7 +170,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         tags,
         videoResumeCaptions,
         videoResumeTitle,
-        thumbnailURL,
+        thumbnailURL, // https://reelcareer.co/images/sq_logo_n_BG_sm.png
         videoResumeURL,
         videoResumeFileName: videoData.name,
         duration: videoData.duration,

@@ -1354,7 +1354,8 @@
         const userDataSaved = getUserData() || [];
         // Firebase storage reference
         const storage = getStorage();
-        const storageRef = ref(storage, `profilePictures/${userDataSaved.userID}/${file.name}`);
+
+        const storageRef = ref(storage, `users/${userId}/profilePictures/${file.name}`);
         // Upload file
         const snapshot = await uploadBytes(storageRef, file);
         // console.log("File uploaded successfully:", snapshot);
@@ -2105,7 +2106,9 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         // Ensure 'storage' is properly initialized
         const storageInstance = getStorage(); // Use Firebase's getStorage method
         // Create a storage reference dynamically based on conversationID and file name
-        const fileRef = ref(storageInstance, `messages/${conversationID}/${file.name}`);
+        const recipientID = document.getElementById('recipient-id').value;
+        const fileRef = ref(storageInstance, `users/${recipientID}/messages/${conversationID}/${file.name}`);
+
         // Upload the file to Firebase Storage
         const snapshot = await uploadBytes(fileRef, file);
         // Get the download URL for the uploaded file

@@ -1360,7 +1360,9 @@ document.getElementById('preview-button').click();
     const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
 
     // Now upload the modified image to Firebase Storage
-    const photoRef = ref(storage, 'obituaries/' + pageName + '.jpg'); // Use a unique name (e.g., timestamp)
+
+    const photoRef = ref(storage, `users/${userId}/obituaries/${pageName}.jpg`);
+
     await uploadBytes(photoRef, canvasBlob);
      mainPhotoUrl = await getDownloadURL(photoRef);
 

@@ -2598,9 +2598,10 @@ async function uploadAttachment(conversationID, file) {
     try {
         // Ensure 'storage' is properly initialized
         const storageInstance = getStorage(); // Use Firebase's getStorage method
+        const recipientID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-recipientID');
 
         // Create a storage reference dynamically based on conversationID and file name
-        const fileRef = ref(storageInstance, `messages/${conversationID}/${file.name}`);
+        const fileRef = ref(storageInstance, `users/${recipientID}/messages/${conversationID}/${file.name}`);
 
         // Upload the file to Firebase Storage
         const snapshot = await uploadBytes(fileRef, file);

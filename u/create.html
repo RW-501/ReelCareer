@@ -1726,7 +1726,7 @@ async function uploadVideoResume(userID, videoData) {
         const storageInstance = getStorage(); // Use Firebase's getStorage method
 
         // Create a storage reference dynamically based on userID and file name
-        const fileRef = ref(storageInstance, `videoResumes/${userID}/${videoData.name}`);
+        const fileRef = ref(storage, `users/${userID}/reels/${videoData.name}`);
 
         // Upload the file to Firebase Storage
         const snapshot = await uploadBytes(fileRef, videoData.file);

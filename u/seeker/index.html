@@ -1603,7 +1603,7 @@ if (uploadBool){
 const storage = getStorage();  // This should be defined once globally.
 
     // Create a storage reference and upload the file with progress tracking
-    const storageRef = ref(storage, `users/${userId}/files/${file.name}`);
+    const storageRef = ref(storage, `users/${userId}/resumes/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
