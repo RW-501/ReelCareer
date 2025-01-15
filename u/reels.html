@@ -1036,7 +1036,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
 
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
-reelData.tags.forEach(tag => {
+reelData.reelCategories.forEach(tag => {
   const tagElement = document.createElement('div');
   tagElement.className = 'tag';
   tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
