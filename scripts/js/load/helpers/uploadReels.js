@@ -182,45 +182,55 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
 }
 
 window.postReelFunction = postReelFunction;
-
-const fileInput = document.querySelector(".reel-video-input");
-const selectVideoButton = document.querySelector(".select-video-btn");
-const uploadButton = document.querySelector(".reel-video-btn");
-const videoPreview = document.querySelector(".reel-video-preview");
-
-let uploadedFile = null;
-let videoDuration = 0;
-
-selectVideoButton.addEventListener("click", () => fileInput.click());
-
-fileInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file || file.type.split("/")[0] !== "video") {
+function initializeVideoUploadHandlers() {
+    const fileInput = document.querySelector(".reel-video-input");
+    const selectVideoButton = document.querySelector(".select-video-btn");
+    const uploadButton = document.querySelector(".reel-video-btn");
+    const videoPreview = document.querySelector(".reel-video-preview");
+  
+    if (!fileInput || !selectVideoButton || !uploadButton || !videoPreview) {
+      console.error("One or more video upload elements not found.");
+      return;
+    }
+  
+    let uploadedFile = null;
+    let videoDuration = 0;
+  
+    selectVideoButton.addEventListener("click", () => fileInput.click());
+  
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file || file.type.split("/")[0] !== "video") {
         showToast("Please select a valid video file.");
         return;
-    }
-    uploadedFile = file;
-    const videoElement = document.createElement('video');
-    videoElement.src = URL.createObjectURL(file);
-    videoElement.onloadedmetadata = () => {
+      }
+      uploadedFile = file;
+      const videoElement = document.createElement('video');
+      videoElement.src = URL.createObjectURL(file);
+      videoElement.onloadedmetadata = () => {
         videoDuration = videoElement.duration;
         videoPreview.src = videoElement.src;
         videoPreview.hidden = false;
         showToast(`Selected video: ${file.name}`);
-    };
-});
-
-uploadButton.addEventListener("click", async () => {
-    if (!uploadedFile) {
+      };
+    });
+  
+    uploadButton.addEventListener("click", async () => {
+      if (!uploadedFile) {
         showToast("No video selected.");
         return;
-    }
-
-    try {
+      }
+  
+      try {
         const description = document.querySelector(".reel-video-content").value.trim();
         await postReelFunction(description, URL.createObjectURL(uploadedFile), uploadedFile, videoDuration);
-    } catch (error) {
+      } catch (error) {
         console.error("Upload error:", error);
         showToast("Error uploading the video. Please try again.");
-    }
-});
+      }
+    });
+  }
+  window.initializeVideoUploadHandlers = initializeVideoUploadHandlers;
+  
+  // Call this function once the popup is created or relevant DOM is ready
+  
