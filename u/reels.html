@@ -662,10 +662,31 @@ input[type="checkbox"]:hover {
     
         <div class="reel-groups">
             <label for="tagsSET-reelCategories">
-                Categories <small class="text-muted">(Add a tag and press Enter)</small>
+                Categories <small class="text-muted">(Add up to 3 Categories)</small>
             </label>
+
+            <div id="categories-container"> 
+                <button class="category-btn" data-category="Web Development">Web Development</button>
+                <button class="category-btn" data-category="Graphic Design">Graphic Design</button>
+                <button class="category-btn" data-category="Digital Marketing">Digital Marketing</button>
+                <button class="category-btn" data-category="Public Speaking">Public Speaking</button>
+                <button class="category-btn" data-category="Fitness Training">Fitness Training</button>
+                <button class="category-btn" data-category="Financial Analysis">Financial Analysis</button>
+                <button class="category-btn" data-category="Illustration">Illustration</button>
+                <button class="category-btn" data-category="Video Editing">Video Editing</button>
+                <button class="category-btn" data-category="Sports Coaching">Sports Coaching</button>
+                <button class="category-btn" data-category="Photography">Photography</button>
+                <button class="category-btn" data-category="Entertainment">Entertainment</button>
+                <button class="category-btn" data-category="Sports">Sports</button>
+                <button class="category-btn" data-category="Travel">Travel</button>
+              </div>
+              
+              
+              
+              <input type="text" id="input_tagsContainerSET-main" placeholder="Selected Category">
+              
             <div id="tagsContainerSET-reelCategories">
-                <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., JavaScript, Management)">
+                <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., Design, Travel)">
             </div>
         </div>
     
@@ -1044,7 +1065,49 @@ if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.
 }
 
 }
+// Function to disable/enable buttons and input based on comma count
+function checkCommaCount() {
+  const input = document.getElementById('input_tagsContainerSET-reelCategories');
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const commaCount = (input.value.match(/,/g) || []).length;
 
+  if (commaCount >= 2) {
+    // Disable buttons and prevent more characters in input
+    categoryButtons.forEach(button => button.disabled = true);
+    input.disabled = true;
+  } else {
+    // Enable buttons and allow input if commas are less than 2
+    categoryButtons.forEach(button => button.disabled = false);
+    input.disabled = false;
+  }
+}
+
+// Event listener for category button clicks
+document.querySelectorAll('.category-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const category = this.getAttribute('data-category');
+    const input = document.getElementById('input_tagsContainerSET-reelCategories');
+    
+    // Add the category to the input field (with a comma)
+    input.value += (input.value ? ',' : '') + category;
+
+    // Trigger the "keyup" event (simulate enter)
+    const event = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      keyCode: 13
+    });
+    input.dispatchEvent(event);
+
+    // After adding the category, check for the comma count
+    checkCommaCount();
+  });
+});
+
+// Event listener for input changes to check comma count dynamically
+document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
+  checkCommaCount();
+});
 
 async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
  
