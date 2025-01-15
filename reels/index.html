@@ -430,6 +430,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                 videoDataArray.push({
                     id: doc.id,
                     userID: videoData.userID || '',
+                    userID: videoData.userID || '',
                     profilePicture: videoData.profilePicture || '',
                     displayName: videoData.displayName || '',
                     position: videoData.position || '',
@@ -441,6 +442,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                     views: videoData.views || 0,
                     profileURL: videoData.profileURL || '',
                     thumbnailURL: videoData.thumbnailURL || '',
+                    videoResumeTitle: videoData.videoResumeTitle || '',
                     videoResumeURL: videoData.videoResumeURL || '',
                     videoResumeCaptions: videoData.videoResumeCaptions || '',
                     tags: videoData.tags || [],
@@ -617,6 +619,7 @@ let videoMuted = '';
             videoCard.dataset.views = videoData.views || '';
             videoCard.dataset.profileURL = videoData.profileURL || '';
             videoCard.dataset.videosrc = videoData.videoResumeURL || '';
+            videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || '';
             generateVideoSchema(videoData, docId);
             
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
@@ -705,7 +708,7 @@ videoCard.innerHTML = `
     </div>
 
     <div class="extra-container">
-      <div class="video-Extra">${videoData.videoResume || videoData.videoJobPost || "Resume Content Area Coming Soon"}</div>
+      <div class="video-Extra">${videoData.videoResumeTitle ||  "Resume Content Area Coming Soon"}</div>
     
     </div>
 

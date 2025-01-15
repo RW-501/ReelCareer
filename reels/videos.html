@@ -521,6 +521,7 @@ let thumbnailURL = videoData.thumbnailURL || 'https://reelcareer.co/images/sq_lo
             videoCard.dataset.views = videoData.views || '';
             videoCard.dataset.profileURL = videoData.profileURL || '';
             videoCard.dataset.videosrc = videoData.videoResumeURL || '';
+            videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || '';
             generateVideoSchema(videoData, docId);
 
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
@@ -609,7 +610,7 @@ videoCard.innerHTML = `
     </div>
 
     <div class="extra-container">
-      <div class="video-Extra">${videoData.videoResume || videoData.videoJobPost || "Resume Content Area Coming Soon"}</div>
+      <div class="video-Extra">${videoData.videoResumeTitle ||  "Resume Content Area Coming Soon"}</div>
     
     </div>
 
