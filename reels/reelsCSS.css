@@ -1,4 +1,7 @@
     
+main {
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .video-reel-container {
@@ -183,13 +186,12 @@
       height: 650px;
   }
   .video-element {
-      width: 400px;
-      height: 650px;
-      background-color: #000;
-      margin: auto;
-      position: relative;
-  }
-  
+    width: 400px;
+    height: 650px;
+    background-color: #e3ebf0;
+    margin: auto;
+    position: relative;
+}
   
   .tags-container {
   display: block;
@@ -725,3 +727,20 @@
       width: 50px;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
