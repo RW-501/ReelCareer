@@ -1101,10 +1101,7 @@ document.querySelectorAll('.category-btn').forEach(button => {
   });
 });
 
-// Event listener for input changes to check comma count dynamically
-document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
-  checkCommaCount();
-});
+
 
 async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
  
@@ -1268,7 +1265,10 @@ if(reelData.reelCategories){
 
 }
 
-
+// Event listener for input changes to check comma count dynamically
+document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
+  checkCommaCount();
+});
 
 let updatedRelatedProductsBool = false;
 
