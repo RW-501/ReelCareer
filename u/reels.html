@@ -597,6 +597,7 @@ async function loadVideoReels(userID) {
                 <td>${reel.views}</td>
                 <td>
                     <button class="btn edit-btn" data-id="${doc.id}">Edit</button>
+                    <button class="btn analytics-btn" data-id="${doc.id}">Analytics</button>
                     <button class="btn delete-btn" data-id="${doc.id}">Delete</button>
                 </td>
             </tr>
@@ -605,8 +606,15 @@ async function loadVideoReels(userID) {
     });
 
     // Attach event listeners for edit and delete buttons
-    document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', handleEdit));
-    document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
+    document.querySelectorAll('.edit-btn').forEach(btn => 
+    btn.addEventListener('click', (event) => handleReels('edit', event))
+);
+
+document.querySelectorAll('.analytics-btn').forEach(btn => 
+    btn.addEventListener('click', (event) => handleReels('analytics', event))
+);
+
+document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
 }
 
 async function loadAnalytics(userID) {
@@ -628,8 +636,8 @@ async function loadAnalytics(userID) {
 }
 
 let reelID = '';
-async function handleEdit(event) {
-     reelID = event.target.dataset.id;
+async function handleReels(action, event) {
+    reelID = event.target.dataset.id;
 
     const reelRef = doc(db, "VideoResumes", reelID);
     const reelSnap = await getDoc(reelRef);
@@ -637,9 +645,20 @@ async function handleEdit(event) {
     if (reelSnap.exists()) {
         const reelData = reelSnap.data();
         
+
+        if (action === 'edit') {
+        console.log(`Editing reel with ID: ${reelID}`);
+        // Implement edit functionality
+    } else if (action === 'analytics') {
+        console.log(`Viewing analytics for reel with ID: ${reelID}`);
+        // Implement analytics functionality
+    }
+
+
+
         // Populate modal with reel data
         document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
-        document.getElementById('status').value = reelData.status || 'posted';
+        document.getElementById('status').value = reelData.status || 'Posted';
 
 
 
