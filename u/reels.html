@@ -281,13 +281,15 @@ button {
 
 .tags {
     background-color: #8a8a8a;
-    color: rgb(69, 69, 69);
+    color: rgb(255 255 255);
     border: none;
-    padding: 10px 15px;
-    font-size: 1rem;
+    padding: 5px 10px;
+    font-size: 1.5rem;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+    display: table-caption;
+    margin: .5rem;
 }
 
 #editReelForm {
@@ -370,6 +372,38 @@ input[type="checkbox"]:hover {
     border-radius: 8px;
     }
 }    
+
+
+
+
+
+.analytics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.analytics-item {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.analytics-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
   </style>
   
 </head>
@@ -455,10 +489,7 @@ input[type="checkbox"]:hover {
                         <h3>Total Comments</h3>
                         <p id="total-comments">0</p>
                     </div>
-                    <div>
-                        <h3>Total Reported</h3>
-                        <p id="total-reported">0</p>
-                    </div>
+
                     <div>
                         <h3>Total Shortlisted</h3>
                         <p id="total-shortList">0</p>
@@ -659,6 +690,62 @@ input[type="checkbox"]:hover {
 </form>
 
 
+
+
+<div class="analytics-container">
+    <div class="analytics-item">
+      <span class="analytics-label">Views</span>
+      <span id="reel-views" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Likes</span>
+      <span id="reel-likes" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Shares</span>
+      <span id="reel-shares" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Gifts</span>
+      <span id="reel-gifts" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Comments</span>
+      <span id="reel-comments" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Shortlisted</span>
+      <span id="reel-shortList" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Saved</span>
+      <span id="reel-saved" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Loves</span>
+      <span id="reel-loves" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Watch Time</span>
+      <span id="reel-watchTime" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Engagements</span>
+      <span id="reel-engagements" class="analytics-value">0</span>
+    </div>
+    <div class="analytics-item">
+      <span class="analytics-label">Reach</span>
+      <span id="reel-reach" class="analytics-value">0</span>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
       </main>
       
       <script>
@@ -819,7 +906,6 @@ async function loadAnalytics(userID) {
         totalShares += reel.shares || 0;
         totalGifts += (reel.gifts ? reel.gifts.length : 0);  // Assuming gifts is an array
         totalComments += reel.comments || 0;
-        totalReported += reel.reported || 0;
         totalShortList += reel.shortList || 0;
         totalSaved += reel.saved || 0;
         totalLoves += reel.loves || 0;
@@ -833,7 +919,6 @@ async function loadAnalytics(userID) {
     document.getElementById('total-shares').textContent = totalShares;
     document.getElementById('total-gifts').textContent = totalGifts;
     document.getElementById('total-comments').textContent = totalComments;
-    document.getElementById('total-reported').textContent = totalReported;
     document.getElementById('total-shortList').textContent = totalShortList;
     document.getElementById('total-saved').textContent = totalSaved;
     document.getElementById('total-loves').textContent = totalLoves;
@@ -1157,6 +1242,17 @@ if (isEligible_updatedEndingCardBool) {
 
 
 
+document.getElementById('reel-views').textContent = reelData.views;
+document.getElementById('reel-likes').textContent = reelData.likes;
+document.getElementById('reel-shares').textContent = reelData.shares;
+document.getElementById('reel-gifts').textContent = reelData.gifts;
+document.getElementById('reel-comments').textContent = reelData.comments;
+document.getElementById('reel-shortList').textContent = reelData.shortList;
+document.getElementById('reel-saved').textContent = reelData.saved;
+document.getElementById('reel-loves').textContent = reelData.loves;
+document.getElementById('reel-watchTime').textContent = reelData.watchTime;
+document.getElementById('reel-engagements').textContent = reelData.engagements;
+document.getElementById('reel-reach').textContent = reelData.reach;
 
 
 
