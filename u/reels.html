@@ -367,7 +367,7 @@ button {
 
 
 
-<div id="reel-main-data">
+<section id="reel-main-data">
     <label for="videoResumeTitle">Title</label>
     <input type="text" id="videoResumeTitle" name="title" />
 
@@ -389,22 +389,39 @@ button {
     <label for="duration">duration</label>
     <input type="text" id="duration" name="duration" disabled/>
 
+    <div>
+        <label>
+          <input type="checkbox" id="isBoostedPost" />
+          Boosted Post 
+          <span id="boostedCostInfo">(Cost: 1 Boosted Credit)</span>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" id="isSponsoredPost" />
+          Sponsored Post 
+          <span id="sponsoredCostInfo">(Cost: $5)</span>
+        </label>
+      </div>
+      
 
-</div>
+</section>
 
 
 
-<div id="reel-changeable-data">
+<section id="reel-changeable-data">
+    <label><input type="checkbox" id="isPublic" checked/> Public</label>
 
     <label for="videoResumeCaptions">Captions</label>
     <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
 
  
-    <div class="mb-3">
+    <div class="reel-groups">
         <label for="tagsSET-main">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
         <div id="tagsContainerSET-main">
-          <input type="text" class="form-control" id="tagsSET-main" placeholder="(e.g., JavaScript, Management)">
-        </div>
+        <input type="text" class="form-control" id="tagsSET-main" placeholder="(e.g., JavaScript, Management)">
+    </div>
+</div>
 
 
 
@@ -430,41 +447,67 @@ button {
     
 
     <label for="endingCard">Ending Card</label>
-    <input type="text" id="endingCard" name="endingCard" />
+    <input type="text" id="endingCard" name="endingCard"  />
 
     <label for="relatedURL">Related URL</label>
-    <input type="text" id="relatedURL" name="relatedURL" />
+    <input type="url" id="relatedURL" name="relatedURL" />
 
-    <label for="relatedReels">Related Reels (comma-separated)</label>
-    <input type="text" id="relatedReels" name="relatedReels" />
 
-    <label for="reelCategories">Reel Categories (comma-separated)</label>
-    <input type="text" id="reelCategories" name="reelCategories" />
 
-    <label for="relatedProducts">Related Products (comma-separated)</label>
-    <input type="text" id="relatedProducts" name="relatedProducts" />
+
+
+    <div class="reel-groups">
+        <label for="relatedReels">Related Reels</label>    
+        <div id="relatedReelsListContainer">
+            <div id="relatedReelsList"></div>
+        </div>
+</div>
+
+
+    
+
+
+    <div class="reel-groups">
+        <label for="tagsSET-reelCategories">Categories <small class="text-muted">(Add a tag and press Enter)</small></label>
+        <div id="tagsContainerSET-reelCategories">
+        <input type="text" class="form-control" id="tagsSET-reelCategories" placeholder="(e.g., JavaScript, Management)">
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<label for="relatedProducts">Related Products</label>
+<button id="addProductButton" type="button" class="btn btn-secondary">Add Product</button>
+<div id="productListContainer"></div>
+
+
+
+
+
 
     <label for="reelResume">Resume</label>
     <input type="text" id="reelResume" name="reelResume" />
 
-    </div>
+    </section>
 
 
 
-    <label><input type="checkbox" id="relatedURLBool" /> relatedURLBool</label>
+
     <label><input type="checkbox" id="relatedProductsBool" /> relatedProductsBool</label>
     <label><input type="checkbox" id="endingCardBool" /> endingCardBool</label>
 
     <label><input type="checkbox" id="notificationsBool" /> Enable Notifications</label>
     <label><input type="checkbox" id="commentsBool" checked/> Allow Comments</label>
-    <label><input type="checkbox" id="locationBool" checked/> Show Location</label>
     <label><input type="checkbox" id="giftsBool" /> Enable Gifts</label>
     <label><input type="checkbox" id="viewsBool" checked /> Show Views</label>
     <label><input type="checkbox" id="likesBool" checked /> Show Likes</label>
     <label><input type="checkbox" id="lovesBool" checked/> Show Loves</label>
-    <label><input type="checkbox" id="isPublic" checked/> Public</label>
-    <label><input type="checkbox" id="isBoostedPost" /> Boosted Post</label>
-    <label><input type="checkbox" id="isSponsoredPost" /> Sponsored Post</label>
+
 
     <button type="button" id="saveChangesBtn">Save Changes</button>
 </form>
@@ -635,6 +678,18 @@ async function loadAnalytics(userID) {
     document.getElementById('total-shares').textContent = totalShares;
 }
 
+
+
+
+
+
+
+
+
+
+let relatedReelsArray = [];
+let relatedProductsArray = [];
+
 let reelID = '';
 async function handleReels(action, event) {
     reelID = event.target.dataset.id;
@@ -670,7 +725,8 @@ async function handleReels(action, event) {
       badgeClass: "tag-primary" // Custom badge class for general tags
     });
 
-    
+    console.log("generalTags  ",generalTags);
+
         document.getElementById('tagsSET-main').value = reelData.tags || "";
 
         const tagsContainer = document.getElementById('tagsContainerSET-main');
@@ -681,6 +737,124 @@ async function handleReels(action, event) {
                 ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
           tagsContainer.appendChild(tagElement);
         });
+
+  
+   
+
+        const generalTags_reelCategories = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-reelCategories",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+        document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
+
+const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
+reelData.tags.forEach(tag => {
+  const tagElement = document.createElement('div');
+  tagElement.className = 'tag';
+  tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+        ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+  tagsContainer_reelCategories.appendChild(tagElement);
+});
+        
+
+
+
+const relatedReelsList = document.getElementById('relatedReelsList');
+
+// Check if reelData and relatedReels are valid arrays
+if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.relatedReels.length === 0) {
+    relatedReelsList.innerHTML = '<li>No related Reels found.</li>';
+} else {
+    reelData.relatedReels.forEach(videoData => {
+        const card = document.createElement('div');
+        card.id = `video-${videoData.reelID}`;
+        card.classList.add("profileVideoCard");
+        card.innerHTML = `
+            <div class="vidioCard_thumbnail">
+                <video 
+                  src="${videoData.videoResumeURL}" 
+                  class="card-img-top video-player" 
+                  id="video-${videoData.reelID}">
+                </video>
+                <button class="btn btn-primary btn-block" id="add-video-btn-${videoData.reelID}">
+                    Add Related Video
+                </button>
+            </div>
+        `;
+
+        relatedReelsList.appendChild(card);
+
+        // Button functionality to toggle related video
+        const addButton = document.getElementById(`add-video-btn-${videoData.reelID}`);
+        addButton.addEventListener('click', () => {
+            const reelID = videoData.reelID;
+
+            const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
+            if (index !== -1) {
+                relatedReelsArray.splice(index, 1); // Remove if already added
+                addButton.innerHTML = "Add Related Video";
+            } else {
+                relatedReelsArray.push({
+                    reelID: videoData.reelID,
+                    reelTitle: videoData.videoResumeTitle,
+                    videoUrl: videoData.videoResumeURL,
+                    reelURL: videoData.reelURL,
+                    reelTags: videoData.tags,
+                    reelcreatedDate: new Date(videoData.createdAt)
+                });
+                addButton.innerHTML = "Remove Related Video";
+            }
+        });
+    });
+}
+
+
+
+const addProductButton = document.getElementById('addProductButton');
+const productListContainer = document.getElementById('productListContainer');
+
+addProductButton.addEventListener('click', () => {
+    if (relatedProductsArray.length >= 4) {
+        alert('You can only add up to 4 products.');
+        return;
+    }
+    
+    const productIndex = relatedProductsArray.length;
+    const productDiv = document.createElement('div');
+    productDiv.classList.add('product-entry');
+    productDiv.id = `product-${productIndex}`;
+    productDiv.innerHTML = `
+        <div>
+            <label for="productName-${productIndex}">Product Name:</label>
+            <input type="text" id="productName-${productIndex}" placeholder="Product Name" required>
+        </div>
+        <div>
+            <label for="productCost-${productIndex}">Cost:</label>
+            <input type="text" id="productCost-${productIndex}" placeholder="Product Cost" required>
+        </div>
+        <div>
+            <label for="productLink-${productIndex}">Link:</label>
+            <input type="url" id="productLink-${productIndex}" placeholder="Product URL" required>
+        </div>
+        <button type="button" class="btn btn-danger remove-product-btn" data-index="${productIndex}">Remove</button>
+    `;
+
+    productListContainer.appendChild(productDiv);
+    relatedProductsArray.push({ name: '', cost: '', link: '' });
+
+    const removeButton = productDiv.querySelector('.remove-product-btn');
+    removeButton.addEventListener('click', () => {
+        productListContainer.removeChild(productDiv);
+        relatedProductsArray.splice(productIndex, 1);
+    });
+});
+
+
+
+
+
+
+
 
 
 
@@ -698,38 +872,112 @@ async function handleReels(action, event) {
         // Save changes button
         document.getElementById('saveChangesBtn').onclick = async () => {
      
-
-
+    const tagsInput_main = document.getElementById('tagsSET-main').value.trim();
+    const updatedTags = tagsInput_main ? tagsInput_main.split(",").map(item => item.toLowerCase().trim()) : [];
+   
+  
+    const tagsInput_reelCategories = document.getElementById('tagsSET-reelCategories').value.trim();
+    const updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
+   
     const updatedTitle = document.getElementById('videoResumeTitle').value;
     const updatedCaptions = document.getElementById('videoResumeCaptions').value;
-    const updatedTags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+
     const updatedStatus = document.getElementById('status').value;
     const updatedReelResume = document.getElementById('reelResume').value;
-    const updatedLocation = document.getElementById('location').value;
     const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
-    const updatedEndingCard = document.getElementById('endingCard').value;
-    const updatedRelatedURL = document.getElementById('relatedURL').value;
-    const updatedRelatedReels = document.getElementById('relatedReels').value.split(',').map(reel => reel.trim());
-    const updatedReelCategories = document.getElementById('reelCategories').value.split(',').map(cat => cat.trim());
-    const updatedRelatedProducts = document.getElementById('relatedProducts').value.split(',').map(product => product.trim());
-    const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
 
-    const updatedRelatedURLBool = document.getElementById('relatedURLBool').checked;
+
+    const updatedEndingCard = document.getElementById('endingCard').value;
+
+const updatedRelatedURL = document.getElementById('relatedURL').value;
+const updatedLocation = document.getElementById('location').value;
+
+// Set booleans based on whether values exist
+const updatedRelatedURLBool = updatedRelatedURL ? true : false;
+const updatedLocationBool = updatedLocation ? true : false;
+
+
+
     const updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
     const updatedEndingCardBool = document.getElementById('endingCardBool').checked;
 
+
+    const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
+
     const updatedCommentsBool = document.getElementById('commentsBool').checked;
-    const updatedLocationBool = document.getElementById('locationBool').checked;
     const updatedGiftsBool = document.getElementById('giftsBool').checked;
     const updatedViewsBool = document.getElementById('viewsBool').checked;
     const updatedLikesBool = document.getElementById('likesBool').checked;
     const updatedLovesBool = document.getElementById('lovesBool').checked;
     const updatedIsPublic = document.getElementById('isPublic').checked;
-    const updatedIsBoostedPost = document.getElementById('isBoostedPost').checked;
+
+
+
+
+
+    async function checkMembershipAndBalance(checkType, checkedBool) {
+ 
+    // Assume userData contains membership type and balance information
+    const userData = await getUserData(); // Assume this function retrieves user data from your database
+
+    const membershipType = userData.membershipType; // 'basic', 'premium', etc.
+    const userBalance = userData.balance; // User's balance to check against
+
+    // Set the prices for boosted and sponsored posts
+    const boostedPostCost = 10; // Example cost for a boosted post
+    const sponsoredPostCost = 20; // Example cost for a sponsored post
+
+    // Check if the user has sufficient balance and membership for boosted and sponsored posts
+    let message = '';
+
+    if(checkedBool){
+        if (checkType == "BoostedPost" && (membershipType == 'free' ||  userBalance < boostedPostCost)) {
+        message += 'You do not have sufficient membership or balance for a boosted post.\n';
+    }
+
+    if (checkType == "SponsoredPost" && (membershipType !== 'free' || userBalance < sponsoredPostCost)) {
+        message += 'You do not have sufficient membership or balance for a sponsored post.\n';
+    }
+
+    // Show a message or prevent submission if any post is not possible
+    if (message) {
+        alert(message);
+        return false; // Stop further actions (e.g., form submission) if not eligible
+    }
+
+}
+
+
+    // Allow further actions if the user is eligible
+    return true;
+}
+
+   // Get the checked status of the post types
+   const updatedIsBoostedPost = document.getElementById('isBoostedPost').checked;
+
+   const isEligible_updatedIsBoostedPost = await checkMembershipAndBalance("BoostedPost", updatedIsBoostedPost );
+    if (isEligible_updatedIsBoostedPost) {
+        // Proceed with the form submission or other logic
+        console.log('User is eligible for the selected posts');
+    }else{
+        updatedIsBoostedPost = false;
+        return;
+    }
+
     const updatedIsSponsoredPost = document.getElementById('isSponsoredPost').checked;
 
-            //
-            try {
+
+
+    const isEligible_updatedIsSponsoredPost = await checkMembershipAndBalance("SponsoredPost", updatedIsSponsoredPost);
+    if (isEligible_updatedIsSponsoredPost) {
+        // Proceed with the form submission or other logic
+        console.log('User is eligible for the selected posts');
+    }else{
+        updatedIsSponsoredPost = false;
+        return;
+    }
+    
+    try {
                 await updateDoc(reelRef, {
                     videoResumeTitle: updatedTitle,
                     videoResumeCaptions: updatedCaptions,
@@ -744,9 +992,9 @@ async function handleReels(action, event) {
             endingCardBool: updatedEndingCardBool,
 
             relatedURL: updatedRelatedURL,
-            relatedReels: updatedRelatedReels,
+            relatedReels: relatedReelsArray,
             reelCategories: updatedReelCategories,
-            relatedProducts: updatedRelatedProducts,
+            relatedProducts: relatedProductsArray,
             notifcationsBool: updatedNotificationsBool,
             commentsBool: updatedCommentsBool,
             locationBool: updatedLocationBool,
