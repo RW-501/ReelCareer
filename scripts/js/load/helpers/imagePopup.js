@@ -68,12 +68,12 @@ console.log("mediaSrc  ",mediaSrc);
     // Add functionality to the "More Videos" button
     const viewProfileButton = overlay.querySelector(".view-profile-button");
     viewProfileButton.addEventListener("click", () => {
-        window.location.href = `/u/?u=${idURL}`;
+        window.location.href = `https://reelcareer.co/u/?u=${idURL}`;
     });
 
     const viewVideoButton = overlay.querySelector(".view-video-button");
     viewVideoButton.addEventListener("click", () => {
-        window.location.href = `/u/?u=${idURL}`;
+        window.location.href = `https://reelcareer.co/reels/?r=${idURL}`;
     });
 
 };

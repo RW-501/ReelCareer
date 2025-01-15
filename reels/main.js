@@ -794,9 +794,11 @@ function handleComments(docId, commentsBtn) {
       const loves = videoCard.dataset.loves;
       const userID = videoCard.dataset.userId; // 'user-i-d' becomes 'userId'
       const views = videoCard.dataset.views;
+      const videoResumeTitle = videoCard.dataset.videoResumeTitle;
   
       // Log the retrieved data
       console.log({
+        videoResumeTitle,
         docId,
         timestamp,
         tags,
@@ -900,6 +902,9 @@ function createVideoUploadPopup() {
                 cursor: pointer;
                     color: red;
             }
+                    #uploadProgressBar {
+                    disply:none;
+                    }
             .progress {
                 height: 20px;
                 margin-bottom: 15px;
@@ -909,6 +914,14 @@ function createVideoUploadPopup() {
                 padding: 10px;
                 margin-top: 10px;
             }
+                .reel-video-title {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
             .reel-video-content {
                 margin-top: 15px;
                 width: 100%;
@@ -930,22 +943,23 @@ function createVideoUploadPopup() {
     overlay.id = "reel-upload-container";
 
     // Set the inner content of the overlay
-    overlay.innerHTML = `
-      <div class="video-upload-popup">
-        <button class="close-button">&times;</button>
-        <h3>Share Your Reel</h3>
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
-        </div>
-        <input type="file" class="reel-video-input" accept="video/*" hidden>
-        <div class="reel-video-area">
-          <button class="select-video-btn btn btn-secondary">Select Video</button>
-          <video class="reel-video-preview" controls hidden></video>
-        </div>
-        <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
-        <button class="reel-video-btn btn btn-primary">Post Video</button>
-      </div>
-    `;
+overlay.innerHTML = `
+<div class="video-upload-popup">
+  <button class="close-button">&times;</button>
+  <h3>Share Your Reel</h3>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
+  </div>
+  <input type="text" class="reel-video-title form-control" placeholder="Enter an title for your reel..." maxlength="100">
+  <input type="file" class="reel-video-input" accept="video/*" hidden>
+  <div class="reel-video-area">
+    <button class="select-video-btn btn btn-secondary">Select Video</button>
+    <video class="reel-video-preview" controls hidden></video>
+  </div>
+  <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
+  <button class="reel-video-btn btn btn-primary">Post Video</button>
+</div>
+`;
 
 
 // Append to body

@@ -97,7 +97,7 @@ function extractHashtags(caption) {
 
 
 let videoData;
-async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
+async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
@@ -147,6 +147,7 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
         position: userDataSaved.position || '',
         tags,
         videoResumeCaptions,
+        videoResumeTitle,
         videoResumeURL,
         videoResumeFileName: videoData.name,
         duration: videoData.duration,
@@ -241,7 +242,8 @@ function initializeVideoUploadHandlers() {
   
       try {
         const description = document.querySelector(".reel-video-content").value.trim();
-        await postReelFunction(description, URL.createObjectURL(uploadedFile), uploadedFile, videoDuration);
+        const title = document.querySelector(".reel-video-title").value.trim();
+        await postReelFunction(title, description, URL.createObjectURL(uploadedFile), uploadedFile, videoDuration);
       } catch (error) {
         console.error("Upload error:", error);
         showToast("Error uploading the video. Please try again.");
