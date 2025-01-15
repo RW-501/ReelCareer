@@ -808,83 +808,106 @@ function handleComments(docId, commentsBtn) {
 
 
 
-
-
-
-// Function to create a popup for video upload
+// Function to create a popup for video upload with dynamic styling
 function createVideoUploadPopup(targetId) {
+    // Inject styling if not already present
+    if (!document.getElementById("videoUploadStyles")) {
+        const style = document.createElement("style");
+        style.id = "videoUploadStyles";
+        style.textContent = `
+            .video-upload-popup-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 5000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .video-upload-popup {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                max-width: 500px;
+                width: 90%;
+                position: relative;
+            }
+            .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+            }
+            .progress {
+                height: 20px;
+                margin-bottom: 15px;
+            }
+            .select-video-btn, .reel-video-btn {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+            }
+            .reel-video-content {
+                margin-top: 15px;
+                width: 100%;
+                min-height: 80px;
+            }
+            .reel-video-preview {
+                width: 100%;
+                height: auto;
+                margin-top: 10px;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     // Create the overlay for the popup
     const overlay = document.createElement("div");
     overlay.className = "video-upload-popup-overlay";
-  
+
     // Set the inner content of the overlay
     overlay.innerHTML = `
       <div class="video-upload-popup">
-        <!-- Close Button -->
         <button class="close-button">&times;</button>
-        
-        <!-- Video Upload Card Component -->
-    <h3 class="mb-3">Share Your Reel</h3>
-  
-  
-  <!-- Progress Bar Container -->
-  <div class="progress mb-3" style="height: 20px;">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
-  </div>
-  
-    <!-- Hidden Video Upload Input -->
-    <input type="file" class="reel-video-input" accept="video/*" hidden>
-  
-    <div class="d-flex">
-    <!-- Video Select Button and Preview Side-by-Side -->
-    <div class="reel-video-area">
-      <button class="select-video-btn">Select Video</button>
-      <video class="reel-video-preview" controls hidden></video>
-    </div>
-  
-    <!-- Video Content/Description -->
-      <textarea class="reel-video-content" placeholder="Write a description..."></textarea>
-    </div>
-  
-    <!-- Action Button -->
-    <button class="reel-video-btn">Post Video</button>
+        <h3>Share Your Reel</h3>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
+        </div>
+        <input type="file" class="reel-video-input" accept="video/*" hidden>
+        <div class="reel-video-area">
+          <button class="select-video-btn btn btn-secondary">Select Video</button>
+          <video class="reel-video-preview" controls hidden></video>
+        </div>
+        <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
+        <button class="reel-video-btn btn btn-primary">Post Video</button>
       </div>
     `;
-  
+
     // Append the overlay to the target element
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      targetElement.appendChild(overlay);
+        targetElement.appendChild(overlay);
     } else {
-      console.error(`Element with ID '${targetId}' not found.`);
-      return;
+        console.error(`Element with ID '${targetId}' not found.`);
+        return;
     }
-  
-    // Add close button functionality
-    const closeButton = overlay.querySelector(".close-button");
-    closeButton.addEventListener("click", () => overlay.remove());
-  }
-  
-  
-window.createVideoUploadPopup = createVideoUploadPopup;
 
+    // Close button functionality
+    overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
+}
 
-  document.getElementById("showUploadPopup").addEventListener("click", function () {
+// Create a button with event listener
+document.body.innerHTML += '<button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button><div id="reel-upload-container"></div>';
+document.getElementById("showUploadPopup").addEventListener("click", () => {
     createVideoUploadPopup("reel-upload-container");
-  });
-  
-
-
-
-
-
-
-
-
-
-
-
-
+});
 
 
 
