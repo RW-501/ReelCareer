@@ -16,7 +16,7 @@ getUserId // Export the function
 let DELAY = 500;
 
 function handleComments(docId, commentsBtn) {
-    const inputContainer = document.getElementById(`comments-container-${docId}`);
+    const inputContainer = document.getElementById(`comments-section-${docId}`);
   
     // Check if the comments container is hidden
     if (inputContainer.classList.contains("hidden")) {
