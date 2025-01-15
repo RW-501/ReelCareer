@@ -1316,7 +1316,7 @@ thumbnailPreviewContainer.addEventListener('click', () => {
 // Handle file selection and upload
 thumbnailUpload.addEventListener('change', async (event) => {
     const file = event.target.files[0];
-    if (file) {
+    if (file && reelID) {
         const reader = new FileReader();
         reader.onload = function (e) {
             thumbnailPreview.src = e.target.result; // Set preview image source
