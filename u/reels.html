@@ -265,7 +265,7 @@ button {
     background-color: #dcdcdc85;
     border-radius: 8px;
     margin: .5rem;
-    padding: .2rem;
+    padding: 1rem;
 }
 .reel-groups label {
     display: inline-block;
@@ -464,180 +464,151 @@ input[type="text"],
 <!-- Edit Modal -->
 <form id="editReelForm">
 
+    <section id="reel-main-data">
 
-
-<section id="reel-main-data">
-
-<div class="reel-groups">
-    <label for="videoResumeTitle">Title</label>
-    <input type="text" id="videoResumeTitle" name="title" />
-</div>
-
-<div class="reel-groups">
-    <label for="reelID">reelID</label>
-    <input type="text" id="reelID" name="reelID" disabled/>
-</div>
-
-<div class="reel-groups">
-    <label for="videoResumeFileName">File Name</label>
-    <input type="text" id="videoResumeFileName" name="videoResumeFileName" disabled/>
-</div>
-
-<div class="reel-groups">
-    <label for="fileType">fileType</label>
-    <input type="text" id="fileType" name="fileType" disabled/>
-</div>
-
-<div class="reel-groups">
-    <label for="createdAt">createdAt</label>
-    <input type="text" id="createdAt" name="createdAt" disabled/>
-</div>
-
-    <div class="reel-groups">
-    <label for="reelURL">reelURL</label>
-    <input type="url" id="reelURL" name="reelURL" disabled/>
-</div>
-
-<div class="reel-groups">
-    <label for="duration">duration</label>
-    <input type="text" id="duration" name="duration" disabled/>
-</div>
-
-<div class="reel-groups">
-        <label>
-          <input type="checkbox" id="isBoostedPost" />
-          Boosted Post 
-          <span id="boostedCostInfo">(Cost: 1 Boosted Credit)</span>
-        </label>
-      </div>
-
-      <div class="reel-groups">
-        <label>
-          <input type="checkbox" id="isSponsoredPost" />
-          Sponsored Post 
-          <span id="sponsoredCostInfo">(Cost: $5)</span>
-        </label>
-      </div>
-      
-
-</section>
-
-
-
-<section id="reel-changeable-data">
-    <div class="reel-groups">
-    <label><input type="checkbox" id="isPublic" checked/> Public</label>
-</div>
-
-    <div class="reel-groups">
-    <label for="videoResumeCaptions">Captions</label>
-    <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
-</div>
- 
-    <div class="reel-groups">
-        <label for="tagsSET-main">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
-        <div id="tagsContainerSET-main">
-        <input type="text" class="form-control" id="tagsSET-main" placeholder="(e.g., JavaScript, Management)">
-    </div>
-</div>
-
-
-<div class="reel-groups">
-    <label for="status">Status</label>
-    <select id="status" name="status">
-        <option value="posted">Posted</option>
-        <option value="draft">Draft</option>
-        <option value="archived">Archived</option>
-        <option value="review" disabled>Review</option>
-    </select>
-</div>
-
-<div class="reel-groups">
-    <label for="location">Location</label>
-    <input type="text" id="location" name="location" />
-</div>
-
-    <div class="reel-groups">
-    <label for="thumbnailUpload">Thumbnail</label>
-    <div id="thumbnailPreviewContainer" style="cursor: pointer;">
-        <img id="thumbnailPreview" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Thumbnail Preview" style="width: 150px; height: 150px; border: 1px solid #ccc;" />
-    </div>
-    <input type="file" id="thumbnailUpload" name="thumbnailUpload" accept="image/*" style="display: none;" />
-    <input type="hidden" id="thumbnailURL" name="thumbnailURL" />
-    </div>
+        <div class="reel-groups">
+            <label for="videoResumeTitle">Title <small class="text-muted">(Provide a descriptive title for your video resume)</small></label>
+            <input type="text" id="videoResumeTitle" name="title" aria-label="Video Resume Title" placeholder="Enter title for your video resume" />
+        </div>
     
-    <div class="reel-groups">
-    <label for="relatedURL">Related URL</label>
-    <input type="url" id="relatedURL" name="relatedURL" />
-</div>
-
-
-    <div id="endingCardArea" class="reel-groups">
-    <label for="endingCard">Ending Card</label>
-    <input type="text" id="endingCard" name="endingCard"  />
-</div>
-
-
+        <div class="reel-groups">
+            <label for="reelID">Reel ID <small class="text-muted">(Auto-generated unique identifier)</small></label>
+            <input type="text" id="reelID" name="reelID" aria-label="Reel ID" disabled />
+        </div>
     
-<div class="reel-groups">
-    <label for="relatedReels">Related Reels</label>    
-    <div id="relatedReelsListContainer">
-        <div id="relatedReelsList"></div>
-    </div>
-</div>
-
-
-
-    <div id="relatedProductsArea" class="reel-groups">
-    <label for="relatedProducts">Related Products</label>
-    <button id="addProductButton" type="button" class="btn btn-secondary">Add Product</button>
-    <div id="productListContainer"></div>
-    </div>
+        <div class="reel-groups">
+            <label for="videoResumeFileName">File Name <small class="text-muted">(Uploaded file name)</small></label>
+            <input type="text" id="videoResumeFileName" name="videoResumeFileName" aria-label="File Name" disabled />
+        </div>
     
-
-
-
-
-
+        <div class="reel-groups">
+            <label for="fileType">File Type <small class="text-muted">(Format of the uploaded file)</small></label>
+            <input type="text" id="fileType" name="fileType" aria-label="File Type" disabled />
+        </div>
     
-
-
-    <div class="reel-groups">
-        <label for="tagsSET-reelCategories">Categories <small class="text-muted">(Add a tag and press Enter)</small></label>
-        <div id="tagsContainerSET-reelCategories">
-        <input type="text" class="form-control" id="tagsSET-reelCategories" placeholder="(e.g., JavaScript, Management)">
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-<div class="reel-groups">
-    <label for="reelResume">Resume</label>
-    <input type="text" id="reelResume" name="reelResume" />
-</div>
-
+        <div class="reel-groups">
+            <label for="createdAt">Created At <small class="text-muted">(Date of creation)</small></label>
+            <input type="text" id="createdAt" name="createdAt" aria-label="Creation Date" disabled />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="reelURL">Reel URL <small class="text-muted">(Direct link to your video reel)</small></label>
+            <input type="url" id="reelURL" name="reelURL" aria-label="Reel URL" disabled />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="duration">Duration <small class="text-muted">(Length of the video)</small></label>
+            <input type="text" id="duration" name="duration" aria-label="Duration" disabled />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="isBoostedPost">
+                Boosted Post <small id="boostedCostInfo">(Cost: 1 Boosted Credit)</small>
+            </label>
+            <input type="checkbox" id="isBoostedPost" aria-labelledby="boostedCostInfo" />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="isSponsoredPost">
+                Sponsored Post <small id="sponsoredCostInfo">(Cost: $5)</small>
+            </label>
+            <input type="checkbox" id="isSponsoredPost" aria-labelledby="sponsoredCostInfo" />
+        </div>
     </section>
-
-
-
+    
+    <section id="reel-changeable-data">
+        <div class="reel-groups">
+            <label for="isPublic">
+                Public <small class="text-muted">(Check to make it public)</small>
+            </label>
+            <input type="checkbox" id="isPublic" aria-label="Make Reel Public" checked />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="videoResumeCaptions">Captions <small class="text-muted">(Optional subtitles for your video)</small></label>
+            <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3" aria-label="Captions" placeholder="Add captions..."></textarea>
+        </div>
+    
+        <div class="reel-groups">
+            <label for="tagsSET-main">
+                Tags <small class="text-muted">(Add a tag and press Enter)</small>
+            </label>
+            <div id="tagsContainerSET-main">
+                <input type="text" id="tagsSET-main" class="form-control" aria-label="Tags Input" placeholder="(e.g., JavaScript, Management)">
+            </div>
+        </div>
+    
+        <div class="reel-groups">
+            <label for="status">Status <small class="text-muted">(Select the current state of your reel)</small></label>
+            <select id="status" name="status" aria-label="Reel Status">
+                <option value="posted">Posted</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
+                <option value="review" disabled>Review</option>
+            </select>
+        </div>
+    
+        <div class="reel-groups">
+            <label for="location">Location <small class="text-muted">(Where this reel is based)</small></label>
+            <input type="text" id="location" name="location" aria-label="Location" placeholder="Enter location" />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="thumbnailUpload">Thumbnail <small class="text-muted">(Upload or link a thumbnail image)</small></label>
+            <div id="thumbnailPreviewContainer" style="cursor: pointer;" aria-label="Thumbnail Preview">
+                <img id="thumbnailPreview" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Thumbnail Preview" style="width: 150px; height: 150px; border: 1px solid #ccc;" />
+            </div>
+            <input type="file" id="thumbnailUpload" name="thumbnailUpload" accept="image/*" style="display: none;" aria-label="Upload Thumbnail" />
+            <input type="hidden" id="thumbnailURL" name="thumbnailURL" />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="relatedURL">Related URL <small class="text-muted">(Link to related content)</small></label>
+            <input type="url" id="relatedURL" name="relatedURL" aria-label="Related URL" placeholder="Enter related URL" />
+        </div>
+    
+        <div id="endingCardArea" class="reel-groups">
+            <label for="endingCard">Ending Card <small class="text-muted">(Final message or credit)</small></label>
+            <input type="text" id="endingCard" name="endingCard" aria-label="Ending Card" placeholder="Enter ending card information" />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="relatedReels">Related Reels <small class="text-muted">(List of associated reels)</small></label>
+            <div id="relatedReelsListContainer">
+                <div id="relatedReelsList" aria-label="Related Reels List"></div>
+            </div>
+        </div>
+    
+        <div id="relatedProductsArea" class="reel-groups">
+            <label for="relatedProducts">Related Products <small class="text-muted">(Attach products linked to this reel)</small></label>
+            <button id="addProductButton" type="button" class="btn btn-secondary" aria-label="Add Product">Add Product</button>
+            <div id="productListContainer" aria-label="Product List"></div>
+        </div>
+    
+        <div class="reel-groups">
+            <label for="tagsSET-reelCategories">
+                Categories <small class="text-muted">(Add a tag and press Enter)</small>
+            </label>
+            <div id="tagsContainerSET-reelCategories">
+                <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., JavaScript, Management)">
+            </div>
+        </div>
+    
+        <div class="reel-groups">
+            <label for="reelResume">Resume <small class="text-muted">(Provide a link or upload your resume)</small></label>
+            <input type="text" id="reelResume" name="reelResume" aria-label="Reel Resume" placeholder="Link or upload resume" />
+        </div>
+    </section>
+    
     <div class="reel-groups-bools">
-    <label><input type="checkbox" id="notificationsBool" /> Enable Notifications</label>
-    <label><input type="checkbox" id="commentsBool" checked/> Allow Comments</label>
-    <label><input type="checkbox" id="giftsBool" /> Enable Gifts</label>
-    <label><input type="checkbox" id="viewsBool" checked /> Show Views</label>
-    <label><input type="checkbox" id="likesBool" checked /> Show Likes</label>
-    <label><input type="checkbox" id="lovesBool" checked/> Show Loves</label>
-</div>
-
-    <button type="button" id="saveChangesBtn">Save Changes</button>
+        <label><input type="checkbox" id="notificationsBool" aria-label="Enable Notifications" /> Enable Notifications <small class="text-muted">(Receive updates about this reel)</small></label>
+        <label><input type="checkbox" id="commentsBool" checked aria-label="Allow Comments" /> Allow Comments <small class="text-muted">(Enable viewers to comment)</small></label>
+        <label><input type="checkbox" id="giftsBool" aria-label="Enable Gifts" /> Enable Gifts <small class="text-muted">(Allow viewers to send gifts)</small></label>
+        <label><input type="checkbox" id="viewsBool" checked aria-label="Show Views" /> Show Views <small class="text-muted">(Display the number of views)</small></label>
+        <label><input type="checkbox" id="likesBool" checked aria-label="Show Likes" /> Show Likes <small class="text-muted">(Display the number of likes)</small></label>
+        <label><input type="checkbox" id="lovesBool" checked aria-label="Show Loves" /> Show Loves <small class="text-muted">(Display the number of loves)</small></label>
+    </div>
+        <button type="button" id="saveChangesBtn">Save Changes</button>
 </form>
 
 
