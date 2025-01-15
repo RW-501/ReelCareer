@@ -13,6 +13,8 @@ getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
+let DELAY = 500;
+
 function handleComments(docId, commentsBtn) {
     const inputContainer = document.getElementById(`comments-container-${docId}`);
   
@@ -24,7 +26,7 @@ function handleComments(docId, commentsBtn) {
     // Delay the toggle by 2 seconds (2000 milliseconds)
     setTimeout(() => {
       inputContainer.classList.toggle("hidden");
-    }, 1000); // 2 seconds delay
+    }, DELAY); // 2 seconds delay
   }
   window.handleComments = handleComments;
   
@@ -80,7 +82,7 @@ function handleComments(docId, commentsBtn) {
         controlsBottom.classList.remove("slide-down");
         controlsPlay.classList.remove("fade-out");
       }
-    }, 1000); // 2 seconds delay
+    }, DELAY); // 2 seconds delay
   }
   window.togglePlay = togglePlay;
   
@@ -139,8 +141,8 @@ function handleComments(docId, commentsBtn) {
     const userID = auth.currentUser.uid;
   
     // Example: Add the video to the user's shortlist (if they are logged in)
-    if (userId) {
-      const shortlistRef = collection(db, "Users", userId, "Shortlists");
+    if (userID) {
+      const shortlistRef = collection(db, "Users", userID, "Shortlists");
       addDoc(shortlistRef, {
         userID: currentUid,
         videoID: docId,
@@ -424,7 +426,7 @@ function handleComments(docId, commentsBtn) {
     // Delay the toggling of the reply input area by 1 second
     setTimeout(() => {
       replyInputArea.classList.remove("hidden");
-    }, 1000); // 1 second delay
+    }, DELAY); // 1 second delay
   }
   
   window.showReplyInput = showReplyInput;

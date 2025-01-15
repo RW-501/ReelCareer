@@ -731,8 +731,11 @@ main {
 
 
 
-
-
+.reply-commenter-area  img {
+    height: 100px;
+    width: 100px;
+    object-fit: scale-down;
+}
 
 
 
