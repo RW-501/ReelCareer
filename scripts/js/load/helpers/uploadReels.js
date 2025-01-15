@@ -17,10 +17,12 @@ getUserId // Export the function
 async function uploadVideoResume(userID, videoData) {
     try {
         const fileRef = ref(storage, `videoResumes/${userID}/${videoData.name}`);
-
-        // Monitor progress using uploadBytesResumable
         const uploadTask = uploadBytesResumable(fileRef, videoData.file);
         const progressBar = document.getElementById("uploadProgressBar");
+
+        if (progressBar) {
+            progressBar.style.display = 'block';  // Show progress bar at start
+        }
 
         // Listen for state changes
         uploadTask.on('state_changed',
@@ -32,6 +34,10 @@ async function uploadVideoResume(userID, videoData) {
             },
             (error) => {
                 console.error("Error uploading video resume:", error);
+                showToast('Failed to upload video resume.');
+                if (progressBar) {
+                    progressBar.style.display = 'none';  // Hide progress bar on error
+                }
                 throw new Error('Failed to upload video resume.');
             },
             async () => {
@@ -39,6 +45,11 @@ async function uploadVideoResume(userID, videoData) {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 progressBar.style.width = '100%';
                 progressBar.textContent = 'Upload Complete!';
+                setTimeout(() => {
+                    if (progressBar) {
+                        progressBar.style.display = 'none';  // Hide progress bar after completion
+                    }
+                }, 2000);  // Optional delay to let user see "Upload Complete!"
                 return downloadURL;
             }
         );
@@ -47,6 +58,7 @@ async function uploadVideoResume(userID, videoData) {
         showToast('Failed to upload video resume.');
     }
 }
+
 
 
 
@@ -174,6 +186,11 @@ async function postReelFunction(videoResumeCaptions, videoURL, uploadedFile, vid
         };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
         
+
+        const uploadContainer = document.getElementById("reel-upload-container");
+        if (uploadContainer) {
+            uploadContainer.remove();  // Remove the upload container
+        }
         showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
     } catch (error) {
         console.error("Error saving user data:", error);
@@ -231,6 +248,6 @@ function initializeVideoUploadHandlers() {
     });
   }
   window.initializeVideoUploadHandlers = initializeVideoUploadHandlers;
-  
+
   // Call this function once the popup is created or relevant DOM is ready
   

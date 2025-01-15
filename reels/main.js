@@ -895,6 +895,7 @@ function createVideoUploadPopup(targetId) {
                 border: none;
                 font-size: 24px;
                 cursor: pointer;
+                    color: red;
             }
             .progress {
                 height: 20px;
