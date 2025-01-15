@@ -1022,7 +1022,9 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
 const addProductButton = document.getElementById('addProductButton');
 const productListContainer = document.getElementById('productListContainer');
 
-addProductButton.addEventListener('click', () => {
+addProductButton.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent form submission
+
     if (relatedProductsArray.length >= 4) {
         alert('You can only add up to 4 products.');
         return;
@@ -1052,7 +1054,9 @@ addProductButton.addEventListener('click', () => {
     relatedProductsArray.push({ name: '', cost: '', link: '' });
 
     const removeButton = productDiv.querySelector('.remove-product-btn');
-    removeButton.addEventListener('click', () => {
+    removeButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent form submission
+
         productListContainer.removeChild(productDiv);
         relatedProductsArray.splice(productIndex, 1);
     });
@@ -1093,7 +1097,9 @@ if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.
 
         // Button functionality to toggle related video
         const addButton = document.getElementById(`add-video-btn-${videoData.reelID}`);
-        addButton.addEventListener('click', () => {
+        addButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent form submission
+
             const reelID = videoData.reelID;
 
             const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
@@ -1152,7 +1158,10 @@ document.querySelectorAll('.category-btn').forEach(button => {
       cancelable: true,
       keyCode: 13
     });
+    event.preventDefault(); // Prevent form submission
+
     input.dispatchEvent(event);
+    event.preventDefault(); // Prevent form submission
 
     // After adding the category, check for the comma count
     checkCommaCount();
