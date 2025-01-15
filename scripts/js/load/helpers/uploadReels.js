@@ -189,6 +189,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
         relatedReels: relatedReels,
         reelCatagories: [],
+        reelResume: [],
 
         relatedProductsBool: false,
         relatedProducts: [],

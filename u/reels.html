@@ -364,18 +364,60 @@ button {
 
 <!-- Edit Modal -->
 <form id="editReelForm">
+
+
+
+<div id="reel-main-data">
+    <label for="videoResumeTitle">Title</label>
+    <input type="text" id="videoResumeTitle" name="title" />
+
+    <label for="reelID">reelID</label>
+    <input type="text" id="reelID" name="reelID" disabled/>
+    
+    <label for="videoResumeFileName">File Name</label>
+    <input type="text" id="videoResumeFileName" name="videoResumeFileName" disabled/>
+
+    <label for="fileType">fileType</label>
+    <input type="text" id="fileType" name="fileType" disabled/>
+
+    <label for="createdAt">createdAt</label>
+    <input type="text" id="createdAt" name="createdAt" disabled/>
+
+    <label for="reelURL">reelURL</label>
+    <input type="url" id="reelURL" name="reelURL" disabled/>
+
+    <label for="duration">duration</label>
+    <input type="text" id="duration" name="duration" disabled/>
+
+
+</div>
+
+
+
+<div id="reel-changeable-data">
+
     <label for="videoResumeCaptions">Captions</label>
     <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
 
-    <label for="tags">Tags (comma-separated)</label>
-    <input type="text" id="tags" name="tags" />
+ 
+    <div class="mb-3">
+        <label for="tagsSET-main">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+        <div id="tagsContainerSET-main">
+          <input type="text" class="form-control" id="tagsSET-main" placeholder="(e.g., JavaScript, Management)">
+        </div>
+
+
 
     <label for="status">Status</label>
     <select id="status" name="status">
         <option value="posted">Posted</option>
         <option value="draft">Draft</option>
         <option value="archived">Archived</option>
+        <option value="review" disabled>Review</option>
     </select>
+
+    <label for="reelResume">Resume</label>
+    <input type="text" id="reelResume" name="reelResume" />
 
     <label for="location">Location</label>
     <input type="text" id="location" name="location" />
@@ -398,14 +440,23 @@ button {
     <label for="relatedProducts">Related Products (comma-separated)</label>
     <input type="text" id="relatedProducts" name="relatedProducts" />
 
+
+    </div>
+
+
+
+    <label><input type="checkbox" id="relatedURLBool" /> relatedURLBool</label>
+    <label><input type="checkbox" id="relatedProductsBool" /> relatedProductsBool</label>
+    <label><input type="checkbox" id="endingCardBool" /> endingCardBool</label>
+
     <label><input type="checkbox" id="notificationsBool" /> Enable Notifications</label>
-    <label><input type="checkbox" id="commentsBool" /> Allow Comments</label>
-    <label><input type="checkbox" id="locationBool" /> Show Location</label>
+    <label><input type="checkbox" id="commentsBool" checked/> Allow Comments</label>
+    <label><input type="checkbox" id="locationBool" checked/> Show Location</label>
     <label><input type="checkbox" id="giftsBool" /> Enable Gifts</label>
-    <label><input type="checkbox" id="viewsBool" checked /> Track Views</label>
-    <label><input type="checkbox" id="likesBool" checked /> Track Likes</label>
-    <label><input type="checkbox" id="lovesBool" /> Track Loves</label>
-    <label><input type="checkbox" id="isPublic" /> Public</label>
+    <label><input type="checkbox" id="viewsBool" checked /> Show Views</label>
+    <label><input type="checkbox" id="likesBool" checked /> Show Likes</label>
+    <label><input type="checkbox" id="lovesBool" checked/> Show Loves</label>
+    <label><input type="checkbox" id="isPublic" checked/> Public</label>
     <label><input type="checkbox" id="isBoostedPost" /> Boosted Post</label>
     <label><input type="checkbox" id="isSponsoredPost" /> Sponsored Post</label>
 
@@ -584,6 +635,30 @@ async function handleEdit(event) {
         document.getElementById('tags').value = reelData.tags ? reelData.tags.join(', ') : '';
         document.getElementById('status').value = reelData.status || 'posted';
 
+
+
+
+
+
+    const generalTags = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-main",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
+    const tags = reelData.tags; // No need to map since they're already strings
+      //   console.log("tags: ", tags);
+        document.getElementById('tagsSET-main').value = reelData.tags || "";
+        const tagsContainer = document.getElementById('tagsContainerSET-main');
+        reelData.tags.forEach(tag => {
+          const tagElement = document.createElement('div');
+          tagElement.className = 'tag';
+          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+                ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+          tagsContainer.appendChild(tagElement);
+        });
+
+
+
         const modal = document.getElementById('editModal');
         const closeBtn = document.querySelector('.close');
         
@@ -597,9 +672,14 @@ async function handleEdit(event) {
 
         // Save changes button
         document.getElementById('saveChangesBtn').onclick = async () => {
-            const updatedCaptions = document.getElementById('videoResumeCaptions').value;
+     
+
+
+    const updatedTitle = document.getElementById('videoResumeTitle').value;
+    const updatedCaptions = document.getElementById('videoResumeCaptions').value;
     const updatedTags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
     const updatedStatus = document.getElementById('status').value;
+    const updatedReelResume = document.getElementById('reelResume').value;
     const updatedLocation = document.getElementById('location').value;
     const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
     const updatedEndingCard = document.getElementById('endingCard').value;
@@ -608,6 +688,11 @@ async function handleEdit(event) {
     const updatedReelCategories = document.getElementById('reelCategories').value.split(',').map(cat => cat.trim());
     const updatedRelatedProducts = document.getElementById('relatedProducts').value.split(',').map(product => product.trim());
     const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
+
+    const updatedRelatedURLBool = document.getElementById('relatedURLBool').checked;
+    const updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
+    const updatedEndingCardBool = document.getElementById('endingCardBool').checked;
+
     const updatedCommentsBool = document.getElementById('commentsBool').checked;
     const updatedLocationBool = document.getElementById('locationBool').checked;
     const updatedGiftsBool = document.getElementById('giftsBool').checked;
@@ -621,12 +706,18 @@ async function handleEdit(event) {
             //
             try {
                 await updateDoc(reelRef, {
-            videoResumeCaptions: updatedCaptions,
-            tags: updatedTags,
+                    videoResumeTitle: updatedTitle,
+                    videoResumeCaptions: updatedCaptions,
+                    tags: updatedTags,
             status: updatedStatus,
             location: updatedLocation,
             thumbnailURL: updatedThumbnailURL,
+            reelResume: updatedReelResume,
             endingCard: updatedEndingCard,
+            relatedURLBool: updatedRelatedURLBool,
+            relatedProductsBool: updatedRelatedProductsBool,
+            endingCardBool: updatedEndingCardBool,
+
             relatedURL: updatedRelatedURL,
             relatedReels: updatedRelatedReels,
             reelCategories: updatedReelCategories,
@@ -643,12 +734,12 @@ async function handleEdit(event) {
             isSponsoredPost: updatedIsSponsoredPost,
             timestamp: serverTimestamp() // Update timestamp
         });
-                alert('Reel updated successfully.');
+        showToast('Reel updated successfully.');
                 modal.style.display = 'none';
                 loadVideoReels(await getUserId()); // Refresh the reel list
             } catch (error) {
                 console.error('Error updating reel:', error);
-                alert('Failed to update the reel. Please try again.');
+                showToast('Failed to update the reel. Please try again.');
             }
         };
 
@@ -659,7 +750,7 @@ async function handleEdit(event) {
             }
         };
     } else {
-        alert('Video reel not found.');
+        showToast('Video reel not found.');
     }
 }
 
@@ -670,7 +761,7 @@ async function handleDelete(event) {
     if (confirm('Are you sure you want to delete this video reel?')) {
         const reelRef = doc(db, "VideoResumes", reelID);
         await updateDoc(reelRef, { isDeleted: true }); // Soft delete
-        alert('Video reel marked as deleted.');
+        showToast('Video reel marked as deleted.');
         loadVideoReels(await getUserId());
     }
 }
