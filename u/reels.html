@@ -261,8 +261,28 @@ button {
     font-size: 16px;
 }
 
+    .reel-groups {
+        background-color: #fefefe;
+        border-radius: 8px;
+
+    }
     
-    
+    .reel-groups-bools {
+        margin: 5% auto;
+        display: grid;
+
+    border: 1px solid #888;
+
+    border-radius: 8px;
+    }
+
+        
+    .reel-groups-bools labels {
+        margin: 10% auto;
+    padding: 20px;
+ 
+    border-radius: 8px;
+    }
 }    
   </style>
   
@@ -410,11 +430,14 @@ button {
 
 
 <section id="reel-changeable-data">
+    <div class="reel-groups">
     <label><input type="checkbox" id="isPublic" checked/> Public</label>
+</div>
 
+    <div class="reel-groups">
     <label for="videoResumeCaptions">Captions</label>
     <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
-
+</div>
  
     <div class="reel-groups">
         <label for="tagsSET-main">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
@@ -424,7 +447,7 @@ button {
 </div>
 
 
-
+<div class="reel-groups">
     <label for="status">Status</label>
     <select id="status" name="status">
         <option value="posted">Posted</option>
@@ -432,36 +455,57 @@ button {
         <option value="archived">Archived</option>
         <option value="review" disabled>Review</option>
     </select>
+</div>
 
-
+<div class="reel-groups">
     <label for="location">Location</label>
     <input type="text" id="location" name="location" />
+</div>
 
+    <div class="reel-groups">
     <label for="thumbnailUpload">Thumbnail</label>
     <div id="thumbnailPreviewContainer" style="cursor: pointer;">
         <img id="thumbnailPreview" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Thumbnail Preview" style="width: 150px; height: 150px; border: 1px solid #ccc;" />
     </div>
     <input type="file" id="thumbnailUpload" name="thumbnailUpload" accept="image/*" style="display: none;" />
     <input type="hidden" id="thumbnailURL" name="thumbnailURL" />
+    </div>
     
-    
+    <div class="reel-groups">
+    <label for="relatedURL">Related URL</label>
+    <input type="url" id="relatedURL" name="relatedURL" />
+</div>
+
+
+    <div id="endingCardArea" class="reel-groups">
+    <label><input type="checkbox" id="endingCardBool" /> endingCardBool</label>
 
     <label for="endingCard">Ending Card</label>
     <input type="text" id="endingCard" name="endingCard"  />
-
-    <label for="relatedURL">Related URL</label>
-    <input type="url" id="relatedURL" name="relatedURL" />
-
-
-
-
-
-    <div class="reel-groups">
-        <label for="relatedReels">Related Reels</label>    
-        <div id="relatedReelsListContainer">
-            <div id="relatedReelsList"></div>
-        </div>
 </div>
+
+
+    
+<div class="reel-groups">
+    <label for="relatedReels">Related Reels</label>    
+    <div id="relatedReelsListContainer">
+        <div id="relatedReelsList"></div>
+    </div>
+</div>
+
+
+
+    <div id="relatedProductsArea" class="reel-groups">
+    <label><input type="checkbox" id="relatedProductsBool" /> relatedProductsBool</label>
+
+    <label for="relatedProducts">Related Products</label>
+    <button id="addProductButton" type="button" class="btn btn-secondary">Add Product</button>
+    <div id="productListContainer"></div>
+    </div>
+    
+
+
+
 
 
     
@@ -481,33 +525,26 @@ button {
 
 
 
-<label for="relatedProducts">Related Products</label>
-<button id="addProductButton" type="button" class="btn btn-secondary">Add Product</button>
-<div id="productListContainer"></div>
 
 
 
-
-
-
+<div class="reel-groups">
     <label for="reelResume">Resume</label>
     <input type="text" id="reelResume" name="reelResume" />
+</div>
 
     </section>
 
 
 
-
-    <label><input type="checkbox" id="relatedProductsBool" /> relatedProductsBool</label>
-    <label><input type="checkbox" id="endingCardBool" /> endingCardBool</label>
-
+    <div class="reel-groups-bools">
     <label><input type="checkbox" id="notificationsBool" /> Enable Notifications</label>
     <label><input type="checkbox" id="commentsBool" checked/> Allow Comments</label>
     <label><input type="checkbox" id="giftsBool" /> Enable Gifts</label>
     <label><input type="checkbox" id="viewsBool" checked /> Show Views</label>
     <label><input type="checkbox" id="likesBool" checked /> Show Likes</label>
     <label><input type="checkbox" id="lovesBool" checked/> Show Loves</label>
-
+</div>
 
     <button type="button" id="saveChangesBtn">Save Changes</button>
 </form>
@@ -691,74 +728,60 @@ let relatedReelsArray = [];
 let relatedProductsArray = [];
 
 let reelID = '';
-async function handleReels(action, event) {
-    reelID = event.target.dataset.id;
 
-    const reelRef = doc(db, "VideoResumes", reelID);
-    const reelSnap = await getDoc(reelRef);
 
-    if (reelSnap.exists()) {
-        const reelData = reelSnap.data();
-        
 
-        if (action === 'edit') {
-        console.log(`Editing reel with ID: ${reelID}`);
-        // Implement edit functionality
-    } else if (action === 'analytics') {
-        console.log(`Viewing analytics for reel with ID: ${reelID}`);
-        // Implement analytics functionality
+function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
+    // Logic to update the DOM with related products from relatedProductsArray
+    
+
+const addProductButton = document.getElementById('addProductButton');
+const productListContainer = document.getElementById('productListContainer');
+
+addProductButton.addEventListener('click', () => {
+    if (relatedProductsArray.length >= 4) {
+        alert('You can only add up to 4 products.');
+        return;
     }
+    
+    const productIndex = relatedProductsArray.length;
+    const productDiv = document.createElement('div');
+    productDiv.classList.add('product-entry');
+    productDiv.id = `product-${productIndex}`;
+    productDiv.innerHTML = `
+        <div>
+            <label for="productName-${productIndex}">Product Name:</label>
+            <input type="text" id="productName-${productIndex}" placeholder="Product Name" required>
+        </div>
+        <div>
+            <label for="productCost-${productIndex}">Cost:</label>
+            <input type="text" id="productCost-${productIndex}" placeholder="Product Cost" required>
+        </div>
+        <div>
+            <label for="productLink-${productIndex}">Link:</label>
+            <input type="url" id="productLink-${productIndex}" placeholder="Product URL" required>
+        </div>
+        <button type="button" class="btn btn-danger remove-product-btn" data-index="${productIndex}">Remove</button>
+    `;
 
+    productListContainer.appendChild(productDiv);
+    relatedProductsArray.push({ name: '', cost: '', link: '' });
 
-
-        // Populate modal with reel data
-        document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
-        document.getElementById('status').value = reelData.status || 'Posted';
-
-
-
-
-
-
-    const generalTags = createTagInputSystem({
-      tagsContainerId: "tagsContainerSET-main",
-      badgeClass: "tag-primary" // Custom badge class for general tags
+    const removeButton = productDiv.querySelector('.remove-product-btn');
+    removeButton.addEventListener('click', () => {
+        productListContainer.removeChild(productDiv);
+        relatedProductsArray.splice(productIndex, 1);
     });
-
-    console.log("generalTags  ",generalTags);
-
-        document.getElementById('tagsSET-main').value = reelData.tags || "";
-
-        const tagsContainer = document.getElementById('tagsContainerSET-main');
-        reelData.tags.forEach(tag => {
-          const tagElement = document.createElement('div');
-          tagElement.className = 'tag';
-          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-                ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
-          tagsContainer.appendChild(tagElement);
-        });
-
-  
-   
-
-        const generalTags_reelCategories = createTagInputSystem({
-      tagsContainerId: "tagsContainerSET-reelCategories",
-      badgeClass: "tag-primary" // Custom badge class for general tags
-    });
-        document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
-
-const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
-reelData.tags.forEach(tag => {
-  const tagElement = document.createElement('div');
-  tagElement.className = 'tag';
-  tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-        ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
-  tagsContainer_reelCategories.appendChild(tagElement);
 });
-        
 
 
 
+}
+
+function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
+    // Logic to update the DOM with related reels from relatedReelsArray
+
+    
 const relatedReelsList = document.getElementById('relatedReelsList');
 
 // Check if reelData and relatedReels are valid arrays
@@ -808,48 +831,185 @@ if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.
     });
 }
 
+}
 
 
-const addProductButton = document.getElementById('addProductButton');
-const productListContainer = document.getElementById('productListContainer');
+async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
+ 
+ // Assume userData contains membership type and balance information
+ const userData = await getUserData(); // Assume this function retrieves user data from your database
 
-addProductButton.addEventListener('click', () => {
-    if (relatedProductsArray.length >= 4) {
-        alert('You can only add up to 4 products.');
-        return;
+ const membershipType = userData.membershipType; // 'basic', 'premium', etc.
+ const userBalance = userData.balance; // User's balance to check against
+
+ // Set the prices for boosted and sponsored posts
+ const boostedPostCost = 10; // Example cost for a boosted post
+ const sponsoredPostCost = 20; // Example cost for a sponsored post
+
+ // Check if the user has sufficient balance and membership for boosted and sponsored posts
+ let message = '';
+
+ if(checkedBool){
+     if (checkType == "BoostedPost" && (membershipType == 'free' ||  userBalance < boostedPostCost)) {
+     message += 'You do not have sufficient membership or balance for a boosted post.\n';
+ }
+
+ if (checkType == "SponsoredPost" && (membershipType == 'free' || membershipType == 'basic' &&  userBalance < sponsoredPostCost)) {
+     message += 'You do not have sufficient membership or balance for a sponsored post.\n';
+ }
+ if (checkType == "RelatedProducts" && membershipType == 'free' || membershipType == 'basic') {
+     message += 'You do not have sufficient membership to add Related Products.\n';
+ }
+
+ if (checkType == "EndingCard" && membershipType == 'free') {
+     message += 'You do not have sufficient membership to add Ending Card.\n';
+ }
+
+ if(isChecking && message){
+
+    return false; // Stop further actions (e.g., form submission) if not eligible
+
+ }else{
+ // Show a message or prevent submission if any post is not possible
+ if (message) {
+     alert(message);
+     return false; // Stop further actions (e.g., form submission) if not eligible
+ }
+
+
+ }
+
+
+}
+
+
+ // Allow further actions if the user is eligible
+ return true;
+}
+
+
+async function handleReels(action, event) {
+    reelID = event.target.dataset.id;
+
+    const reelRef = doc(db, "VideoResumes", reelID);
+    const reelSnap = await getDoc(reelRef);
+
+    if (reelSnap.exists()) {
+        const reelData = reelSnap.data();
+        
+
+        if (action === 'edit') {
+        console.log(`Editing reel with ID: ${reelID}`);
+        // Implement edit functionality
+    } else if (action === 'analytics') {
+        console.log(`Viewing analytics for reel with ID: ${reelID}`);
+        // Implement analytics functionality
     }
-    
-    const productIndex = relatedProductsArray.length;
-    const productDiv = document.createElement('div');
-    productDiv.classList.add('product-entry');
-    productDiv.id = `product-${productIndex}`;
-    productDiv.innerHTML = `
-        <div>
-            <label for="productName-${productIndex}">Product Name:</label>
-            <input type="text" id="productName-${productIndex}" placeholder="Product Name" required>
-        </div>
-        <div>
-            <label for="productCost-${productIndex}">Cost:</label>
-            <input type="text" id="productCost-${productIndex}" placeholder="Product Cost" required>
-        </div>
-        <div>
-            <label for="productLink-${productIndex}">Link:</label>
-            <input type="url" id="productLink-${productIndex}" placeholder="Product URL" required>
-        </div>
-        <button type="button" class="btn btn-danger remove-product-btn" data-index="${productIndex}">Remove</button>
-    `;
 
-    productListContainer.appendChild(productDiv);
-    relatedProductsArray.push({ name: '', cost: '', link: '' });
 
-    const removeButton = productDiv.querySelector('.remove-product-btn');
-    removeButton.addEventListener('click', () => {
-        productListContainer.removeChild(productDiv);
-        relatedProductsArray.splice(productIndex, 1);
+
+
+
+// Populate fields with reel data
+document.getElementById('videoResumeTitle').value = reelData.videoResumeTitle || '';
+document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
+document.getElementById('tagsSET-main').value = reelData.tags ? reelData.tags.join(', ') : '';
+document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories ? reelData.reelCategories.join(', ') : '';
+document.getElementById('status').value = reelData.status || 'Posted';
+document.getElementById('reelResume').value = reelData.reelResume || '';
+document.getElementById('thumbnailURL').value = reelData.thumbnailURL || '';
+document.getElementById('endingCard').value = reelData.endingCard || '';
+document.getElementById('relatedURL').value = reelData.relatedURL || '';
+document.getElementById('location').value = reelData.location || '';
+
+// Set boolean checkboxes
+document.getElementById('relatedProductsBool').checked = reelData.relatedProductsBool || false;
+document.getElementById('endingCardBool').checked = reelData.endingCardBool || false;
+document.getElementById('notificationsBool').checked = reelData.notifcationsBool || false;
+document.getElementById('commentsBool').checked = reelData.commentsBool || true;
+document.getElementById('giftsBool').checked = reelData.giftsBool || false;
+document.getElementById('viewsBool').checked = reelData.viewsBool || true;
+document.getElementById('likesBool').checked = reelData.likesBool || true;
+document.getElementById('lovesBool').checked = reelData.lovesBool || true;
+document.getElementById('isPublic').checked = reelData.isPublic || true;
+document.getElementById('isBoostedPost').checked = reelData.isBoostedPost || false;
+document.getElementById('isSponsoredPost').checked = reelData.isSponsoredPost || false;
+
+// Populate related reels and related products arrays
+relatedReelsArray = reelData.relatedReels || [];
+relatedProductsArray = reelData.relatedProducts || [];
+
+// Update related products and related reels displays if necessary
+updateRelatedProductsDisplay(reelData, relatedProductsArray);
+updateRelatedReelsDisplay(reelData, relatedReelsArray);
+
+
+
+
+
+    const generalTags = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-main",
+      badgeClass: "tag-primary" // Custom badge class for general tags
     });
+
+    console.log("generalTags  ",generalTags);
+
+        document.getElementById('tagsSET-main').value = reelData.tags || "";
+
+        const tagsContainer = document.getElementById('tagsContainerSET-main');
+        reelData.tags.forEach(tag => {
+          const tagElement = document.createElement('div');
+          tagElement.className = 'tag';
+          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+                ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+          tagsContainer.appendChild(tagElement);
+        });
+
+  
+   
+
+        const generalTags_reelCategories = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-reelCategories",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+        document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
+
+const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
+reelData.tags.forEach(tag => {
+  const tagElement = document.createElement('div');
+  tagElement.className = 'tag';
+  tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+        ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+  tagsContainer_reelCategories.appendChild(tagElement);
 });
+        
 
 
+
+const updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
+
+const isEligible_RelatedProductsBool = await checkMembershipAndBalance("RelatedProducts", updatedRelatedProductsBool, true);
+if (isEligible_RelatedProductsBool) {
+    // Proceed with the form submission or other logic
+    console.log('User is eligible for the selected posts');
+}else{
+    document.getElementById('relatedProductsArea').style.display = "none";
+    updatedRelatedProductsBool = false;
+}
+
+
+
+const updatedEndingCardBool = document.getElementById('endingCardBool').checked;
+const updatedEndingCard = document.getElementById('endingCard').value;
+
+const isEligible_updatedEndingCardBool = await checkMembershipAndBalance("EndingCard", updatedEndingCardBool, true);
+if (isEligible_updatedEndingCardBool) {
+    // Proceed with the form submission or other logic
+    console.log('User is eligible for the selected posts');
+}else{
+    document.getElementById('endingCardArea').style.display = "none";
+    updatedEndingCardBool = false;
+}
 
 
 
@@ -869,6 +1029,15 @@ addProductButton.addEventListener('click', () => {
             modal.style.display = 'none';
         };
 
+
+
+
+
+
+
+
+
+
         // Save changes button
         document.getElementById('saveChangesBtn').onclick = async () => {
      
@@ -887,7 +1056,6 @@ addProductButton.addEventListener('click', () => {
     const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
 
 
-    const updatedEndingCard = document.getElementById('endingCard').value;
 
 const updatedRelatedURL = document.getElementById('relatedURL').value;
 const updatedLocation = document.getElementById('location').value;
@@ -898,9 +1066,7 @@ const updatedLocationBool = updatedLocation ? true : false;
 
 
 
-    const updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
-    const updatedEndingCardBool = document.getElementById('endingCardBool').checked;
-
+ 
 
     const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
 
@@ -914,43 +1080,6 @@ const updatedLocationBool = updatedLocation ? true : false;
 
 
 
-
-    async function checkMembershipAndBalance(checkType, checkedBool) {
- 
-    // Assume userData contains membership type and balance information
-    const userData = await getUserData(); // Assume this function retrieves user data from your database
-
-    const membershipType = userData.membershipType; // 'basic', 'premium', etc.
-    const userBalance = userData.balance; // User's balance to check against
-
-    // Set the prices for boosted and sponsored posts
-    const boostedPostCost = 10; // Example cost for a boosted post
-    const sponsoredPostCost = 20; // Example cost for a sponsored post
-
-    // Check if the user has sufficient balance and membership for boosted and sponsored posts
-    let message = '';
-
-    if(checkedBool){
-        if (checkType == "BoostedPost" && (membershipType == 'free' ||  userBalance < boostedPostCost)) {
-        message += 'You do not have sufficient membership or balance for a boosted post.\n';
-    }
-
-    if (checkType == "SponsoredPost" && (membershipType !== 'free' || userBalance < sponsoredPostCost)) {
-        message += 'You do not have sufficient membership or balance for a sponsored post.\n';
-    }
-
-    // Show a message or prevent submission if any post is not possible
-    if (message) {
-        alert(message);
-        return false; // Stop further actions (e.g., form submission) if not eligible
-    }
-
-}
-
-
-    // Allow further actions if the user is eligible
-    return true;
-}
 
    // Get the checked status of the post types
    const updatedIsBoostedPost = document.getElementById('isBoostedPost').checked;
@@ -966,8 +1095,6 @@ const updatedLocationBool = updatedLocation ? true : false;
 
     const updatedIsSponsoredPost = document.getElementById('isSponsoredPost').checked;
 
-
-
     const isEligible_updatedIsSponsoredPost = await checkMembershipAndBalance("SponsoredPost", updatedIsSponsoredPost);
     if (isEligible_updatedIsSponsoredPost) {
         // Proceed with the form submission or other logic
@@ -977,6 +1104,14 @@ const updatedLocationBool = updatedLocation ? true : false;
         return;
     }
     
+
+
+
+
+
+
+
+
     try {
                 await updateDoc(reelRef, {
                     videoResumeTitle: updatedTitle,
