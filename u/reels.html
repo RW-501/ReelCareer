@@ -639,7 +639,6 @@ async function handleEdit(event) {
         
         // Populate modal with reel data
         document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
-        document.getElementById('tags').value = reelData.tags ? reelData.tags.join(', ') : '';
         document.getElementById('status').value = reelData.status || 'posted';
 
 
@@ -652,9 +651,9 @@ async function handleEdit(event) {
       badgeClass: "tag-primary" // Custom badge class for general tags
     });
 
-    const tags = reelData.tags; // No need to map since they're already strings
-      //   console.log("tags: ", tags);
+    
         document.getElementById('tagsSET-main').value = reelData.tags || "";
+
         const tagsContainer = document.getElementById('tagsContainerSET-main');
         reelData.tags.forEach(tag => {
           const tagElement = document.createElement('div');
