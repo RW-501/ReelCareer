@@ -967,6 +967,12 @@ async function handleReels(action, event) {
 
 // Populate fields with reel data
 document.getElementById('videoResumeTitle').value = reelData.videoResumeTitle || '';
+document.getElementById('videoResumeFileName').value = reelData.videoResumeFileName || '';
+document.getElementById('reelID').value = reelData.reelID || '';
+document.getElementById('fileType').value = reelData.fileType || '';
+document.getElementById('createdAt').value = reelData.createdAt || '';
+document.getElementById('reelURL').value = reelData.reelURL || '';
+document.getElementById('duration').value = reelData.duration || '';
 document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
 document.getElementById('tagsSET-main').value = reelData.tags ? reelData.tags.join(', ') : '';
 document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories ? reelData.reelCategories.join(', ') : '';
