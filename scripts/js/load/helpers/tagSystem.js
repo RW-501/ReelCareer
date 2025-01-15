@@ -59,6 +59,7 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const tagsContainer = document.getElementById(tagsContainerId);
     tagsContainer.classList.add("tagsContainer"); // Ensure the class is added
 
+    
     // Search for the existing input within the container and hide it
     const existingInput = tagsContainer.querySelector("input[type='text']");
     if (existingInput) {
@@ -68,7 +69,8 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     // Create a temporary input to handle tag entries
     const tagInput = document.createElement("input");
     tagInput.type = "text";
-    tagInput.className = "form-control tagInput mt-2 noCopy";
+    tagInput.className = "form-control tagInput mt-2";
+    tagInput.id = `input_${tagsContainerId}`
     tagInput.placeholder = "Add a tag and press Enter";
     tagsContainer.appendChild(tagInput); // Append the new input to the container
     
@@ -102,7 +104,7 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
 
         const removeButton = document.createElement("button");
         removeButton.textContent = " x"; // Close button
-        removeButton.className = "ml-1 btn btn-sm tag"; // Styling for remove button
+        removeButton.className = "ml-1 btn btn-sm tag_btn"; // Styling for remove button
         removeButton.onclick = (e) => {
             tagsList.removeChild(tagElement);
             e.preventDefault(); // Prevent form submission
