@@ -259,9 +259,7 @@ function handleComments(docId, commentsBtn) {
       });
   
       // Update UI instantly
-      let likesCount = parseInt(shareButton.textContent) || 0;
-      shareButton++;
-      shareButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${shareButton}`;
+     
     } catch (error) {
       console.error("Error updating like count: ", error);
     }
@@ -285,23 +283,28 @@ function handleComments(docId, commentsBtn) {
   window.formatDuration = formatDuration;
   
   // Native Share Function
-  function handleShare(docId, videoUrl) {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "Check out this video resume!",
-          text: "Watch this professional video resume on ReelCareer.",
-          url: videoUrl
-        })
-        .then(
-          () => showToast("Video shared successfully"),
-          handleShareCount(docId, shareButton)
-        )
-        .catch((error) => console.error("Error sharing video: ", error));
+  async function handleShare(docId, shareButton, videoID, videoResumeCaptions, profilePicture) {
+    if (navigator.canShare && navigator.canShare({ files: [] })) {
+      const response = await fetch(profilePicture);
+      const blob = await response.blob();
+      const file = new File([blob], 'profile-picture.png', { type: blob.type });
+      
+      navigator.share({
+        title: "Check out this Reel on ReelCareer!",
+        text: videoResumeCaptions,
+        url: `https://reelcareer.co/reels/?r=${videoID}`,
+        files: [file]  // Including a file
+      })
+      .then(() => {
+        showToast("Video shared successfully");
+        handleShareCount(docId, shareButton);
+      })
+      .catch((error) => console.error("Error sharing video: ", error));
     } else {
-      alert("Sharing not supported on this device.");
+        showToast("Sharing images is not supported on this device.");
     }
   }
+  
   window.handleShare = handleShare;
   
   // Add Comment Functionality

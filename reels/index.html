@@ -811,7 +811,8 @@ const commentsBtn = videoCard.querySelector(".comments-btn");
 // Event Listeners
 commentsBtn.addEventListener("click", () => handleComments(docId, commentsBtn));
 likeButton.addEventListener("click", () => handleLike(docId, likeButton));
-shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
+shareButton.addEventListener("click", () => handleShare(docId, shareButton, docId,
+ videoData.videoResumeCaptions, videoData.profilePicture));
 commentButton.addEventListener("click", () => addComment(docId));
 
 // Increment view count when video is played
