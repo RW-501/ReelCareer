@@ -678,33 +678,14 @@
               <h5>Video Resumes</h5>
 
 
-<!-- Video Upload Card Component --> 
-<div class="reel-upload-container">
-  <h3 class="mb-3">Share Your Reel</h3>
+
+<!-- Trigger Button for Video Upload Popup -->
+<button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button>
+
+<!-- Target Container for the Popup -->
+<div id="reel-upload-container"></div>
 
 
-<!-- Progress Bar Container -->
-<div class="progress mb-3" style="height: 20px;">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
-</div>
-
-  <!-- Hidden Video Upload Input -->
-  <input type="file" class="reel-video-input" accept="video/*" hidden>
-
-  <div class="d-flex">
-  <!-- Video Select Button and Preview Side-by-Side -->
-  <div class="reel-video-area">
-    <button class="select-video-btn">Select Video</button>
-    <video class="reel-video-preview" controls hidden></video>
-  </div>
-
-  <!-- Video Content/Description -->
-    <textarea class="reel-video-content" placeholder="Write a description..."></textarea>
-  </div>
-
-  <!-- Action Button -->
-  <button class="reel-video-btn">Post Video</button>
-</div>
 
 
 
@@ -938,6 +919,16 @@
       facebookProvider,
       getUserId // Export the function
     } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+
+    
+    import {                 createVideoUploadPopup,
+
+         // Export the function
+    } from 'https://reelcareer.co/reels/main.js';
+
+
+
     //         const userId = auth.currentUser.uid;
     function showPrivateProfileMessage() {
       // Create a container div

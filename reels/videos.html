@@ -97,33 +97,12 @@ href="https://reelcareer.co/reels/reelsCSS.css"
         </div>
         
 
-<!-- Video Upload Card Component --> 
-<div class="reel-upload-container card p-4 shadow-lg">
-  <h3 class="mb-3">Share Your Reel</h3>
 
+<!-- Trigger Button for Video Upload Popup -->
+<button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button>
 
-<!-- Progress Bar Container -->
-<div class="progress mb-3" style="height: 20px;">
-  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
-</div>
-
-  <!-- Hidden Video Upload Input -->
-  <input type="file" class="reel-video-input" accept="video/*" hidden>
-
-  <div class="d-flex">
-  <!-- Video Select Button and Preview Side-by-Side -->
-  <div class="reel-video-area d-flex align-items-center mb-3">
-    <button class="btn btn-secondary me-3 select-video-btn">Select Video</button>
-    <video class="reel-video-preview flex-grow-1" controls hidden></video>
-  </div>
-
-  <!-- Video Content/Description -->
-    <textarea class="content form-control reel-video-content me-3" placeholder="Write a description..."></textarea>
-  </div>
-
-  <!-- Action Button -->
-  <button class="btn btn-primary w-100 reel-video-btn">Post Video</button>
-</div>
+<!-- Target Container for the Popup -->
+<div id="reel-upload-container"></div>
 
 
 
@@ -313,7 +292,8 @@ href="https://reelcareer.co/reels/reelsCSS.css"
 
 
 
-    import {         handleComments,
+    import {                 createVideoUploadPopup,
+      handleComments,
         renderTags,
         togglePlay,
         addVideoEndListener,

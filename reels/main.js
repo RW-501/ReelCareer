@@ -801,7 +801,95 @@ function handleComments(docId, commentsBtn) {
     });
   
 
+
+
+
+
+
+
+
+
+
+
+// Function to create a popup for video upload
+function createVideoUploadPopup(targetId) {
+    // Create the overlay for the popup
+    const overlay = document.createElement("div");
+    overlay.className = "video-upload-popup-overlay";
+  
+    // Set the inner content of the overlay
+    overlay.innerHTML = `
+      <div class="video-upload-popup">
+        <!-- Close Button -->
+        <button class="close-button">&times;</button>
+        
+        <!-- Video Upload Card Component -->
+    <h3 class="mb-3">Share Your Reel</h3>
+  
+  
+  <!-- Progress Bar Container -->
+  <div class="progress mb-3" style="height: 20px;">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="uploadProgressBar">0%</div>
+  </div>
+  
+    <!-- Hidden Video Upload Input -->
+    <input type="file" class="reel-video-input" accept="video/*" hidden>
+  
+    <div class="d-flex">
+    <!-- Video Select Button and Preview Side-by-Side -->
+    <div class="reel-video-area">
+      <button class="select-video-btn">Select Video</button>
+      <video class="reel-video-preview" controls hidden></video>
+    </div>
+  
+    <!-- Video Content/Description -->
+      <textarea class="reel-video-content" placeholder="Write a description..."></textarea>
+    </div>
+  
+    <!-- Action Button -->
+    <button class="reel-video-btn">Post Video</button>
+      </div>
+    `;
+  
+    // Append the overlay to the target element
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.appendChild(overlay);
+    } else {
+      console.error(`Element with ID '${targetId}' not found.`);
+      return;
+    }
+  
+    // Add close button functionality
+    const closeButton = overlay.querySelector(".close-button");
+    closeButton.addEventListener("click", () => overlay.remove());
+  }
+  
+  
+window.createVideoUploadPopup = createVideoUploadPopup;
+
+
+  document.getElementById("showUploadPopup").addEventListener("click", function () {
+    createVideoUploadPopup("reel-upload-container");
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     export { 
+        createVideoUploadPopup,
         handleComments,
         renderTags,
         togglePlay,
