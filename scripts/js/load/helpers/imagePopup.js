@@ -8,7 +8,7 @@
 
             const profileID = target.getAttribute("data-created-by-i-d");
             // Create the full-screen popup
-            createMediaPopup(videoSrc, profileID);
+            createMediaPopup(videoSrc, profileID,"video");
         }
  
   
@@ -18,12 +18,12 @@
             
             const profileID = target.getAttribute("data-id");
             // Create the full-screen popup
-            createMediaPopup(imageSrc, profileID);
+            createMediaPopup(imageSrc, profileID,"image");
         }
     });
   
 // Function to create the full-screen popup
-const createMediaPopup = (mediaSrc, idURL) => {
+const createMediaPopup = (mediaSrc, idURL, type) => {
     // Create the overlay
     const overlay = document.createElement("div");
     overlay.classList.add("fullscreen-popup");
@@ -32,9 +32,10 @@ const createMediaPopup = (mediaSrc, idURL) => {
     const isImage = /\.(jpg|jpeg|png|gif|bmp|webp)(\?.*)?$/i.test(mediaSrc);
     const isVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(mediaSrc);
     
+console.log("mediaSrc  ",mediaSrc);
 
     // If it's an image, create an image popup
-    if (isImage) {
+    if (isImage || type == "image") {
         overlay.innerHTML = `
             <img src="${mediaSrc}" class="popup-image" alt="Full-size image">
             <button class="close-button">&times;</button>
@@ -42,7 +43,7 @@ const createMediaPopup = (mediaSrc, idURL) => {
         `;
     }
     // If it's a video, create a video popup
-    else if (isVideo) {
+    else if (isVideo || type == "video") {
         overlay.innerHTML = `
             <video class="popup-video" controls autoplay>
                 <source src="${mediaSrc}" type="video/mp4">
