@@ -566,7 +566,7 @@ input[type="checkbox"]:hover {
             <input type="text" id="reelID" name="reelID" aria-label="Reel ID" disabled />
         </div>
     
-        <div class="reel-groups">
+        <div class="reel-groups" hidden>
             <label for="videoResumeFileName">File Name <small class="text-muted">(Uploaded file name)</small></label>
             <input type="text" id="videoResumeFileName" name="videoResumeFileName" aria-label="File Name" disabled />
         </div>
@@ -1231,9 +1231,9 @@ document.getElementById('videoResumeTitle').value = reelData.videoResumeTitle ||
 document.getElementById('videoResumeFileName').value = reelData.videoResumeFileName || '';
 document.getElementById('reelID').value = reelID || '';
 document.getElementById('fileType').value = reelData.fileType || '';
-document.getElementById('createdAt').value = reelData.createdAt || '';
+document.getElementById('createdAt').value = reelData.createdAt ? new Date(reelData.createdAt).toLocaleDateString() : '';
 document.getElementById('reelURL').value = reelData.reelURL || `https://reelcareer.co/reels/?r=${reelID}`;
-document.getElementById('duration').value = reelData.duration || '';
+document.getElementById('duration').value = reelData.duration ? Math.round(reelData.duration) : '';
 document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
 document.getElementById('tagsSET-main').value = reelData.tags ? reelData.tags.join(', ') : '';
 document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories ? reelData.reelCategories.join(', ') : '';
