@@ -1083,7 +1083,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         const tagsContainer = document.getElementById('tagsContainerSET-main');
         reelData.tags.forEach(tag => {
           const tagElement = document.createElement('div');
-          tagElement.className = 'tag';
+          tagElement.className = 'tags';
           tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
           tagsContainer.appendChild(tagElement);
@@ -1101,7 +1101,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
 reelData.reelCategories.forEach(tag => {
   const tagElement = document.createElement('div');
-  tagElement.className = 'tag';
+  tagElement.className = 'tags';
   tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
         ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
   tagsContainer_reelCategories.appendChild(tagElement);
