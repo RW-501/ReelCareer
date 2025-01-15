@@ -478,9 +478,13 @@ input[type="checkbox"]:hover {
                         <p id="total-views">0</p>
                     </div>
                     <div>
+                        <h3>Total Unique Views</h3>
+                        <p id="total-uniqueViews">0</p>
+                    </div>
+                    <div>
                         <h3>Total Likes</h3>
                         <p id="total-likes">0</p>
-                    </div>
+                 </div>
                     <div>
                         <h3>Total Shares</h3>
                         <p id="total-shares">0</p>
@@ -520,6 +524,7 @@ input[type="checkbox"]:hover {
                     </div>
                 </div>
             </section>
+            
             
             <section id="video-reels">
                 <h2>Your Reels</h2>
@@ -720,6 +725,10 @@ input[type="checkbox"]:hover {
       <span id="reel-views" class="analytics-value">0</span>
     </div>
     <div class="analytics-item">
+        <span class="analytics-label">Unique Views</span>
+        <span id="total-uniqueViews" class="analytics-value">0</span>
+      </div>
+    <div class="analytics-item">
       <span class="analytics-label">Likes</span>
       <span id="reel-likes" class="analytics-value">0</span>
     </div>
@@ -919,11 +928,12 @@ async function loadAnalytics(userID) {
     const reelsQuery = query(collection(db, "VideoResumes"), where("createdByID", "==", userID));
     const querySnapshot = await getDocs(reelsQuery);
 
-    let totalViews = 0, totalLikes = 0, totalShares = 0, totalGifts = 0, totalComments = 0, totalReported = 0, totalShortList = 0, totalSaved = 0, totalLoves = 0, totalWatchTime = 0, totalEngagements = 0, totalReach = 0;
+    let totalViews = 0, totalLikes = 0, totalUniqueViews = 0, totalShares = 0, totalGifts = 0, totalComments = 0, totalReported = 0, totalShortList = 0, totalSaved = 0, totalLoves = 0, totalWatchTime = 0, totalEngagements = 0, totalReach = 0;
 
     querySnapshot.forEach(doc => {
         const reel = doc.data();
         totalViews += reel.views || 0;
+        totalUniqueViews += reel.uniqueViews || 0;
         totalLikes += reel.likes || 0;
         totalShares += reel.shares || 0;
         totalGifts += (reel.gifts ? reel.gifts.length : 0);  // Assuming gifts is an array
@@ -935,7 +945,8 @@ async function loadAnalytics(userID) {
         totalEngagements += reel.engagements || 0;
         totalReach += reel.reach || 0;
     });
-
+    
+    document.getElementById('total-uniqueViews').textContent = totalUniqueViews;
     document.getElementById('total-views').textContent = totalViews;
     document.getElementById('total-likes').textContent = totalLikes;
     document.getElementById('total-shares').textContent = totalShares;
@@ -1319,6 +1330,7 @@ document.getElementById('reel-loves').textContent = reelData.loves || 0;
 document.getElementById('reel-watchTime').textContent = reelData.watchTime || 0;
 document.getElementById('reel-engagements').textContent = reelData.engagements || 0;
 document.getElementById('reel-reach').textContent = reelData.reach || 0;
+document.getElementById('reel-uniqueViews').textContent = reelData.uniqueViews || 0;
 
 
 

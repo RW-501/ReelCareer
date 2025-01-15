@@ -181,6 +181,11 @@ function handleComments(docId, commentsBtn) {
       const ipDocRef = doc(viewsCollection, userIP);
       const ipDocSnapshot = await getDoc(ipDocRef);
   
+            // Increment view count in the main document
+            await updateDoc(videoRef, {
+              views: increment(1) // Firestore increment
+            });
+
       if (ipDocSnapshot.exists()) {
         console.log("View already recorded for this IP.");
         return; // Prevent duplicate view increment
@@ -193,7 +198,7 @@ function handleComments(docId, commentsBtn) {
   
       // Increment view count in the main document
       await updateDoc(videoRef, {
-        views: increment(1) // Firestore increment
+        uniqueViews: increment(1) // Firestore increment
       });
       
       const videoCountButton = document.getElementById(`video-count_${docId}`);

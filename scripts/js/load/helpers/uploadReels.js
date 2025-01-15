@@ -178,6 +178,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         createdAt: new Date(),
         timestamp: serverTimestamp(),
         views: 0,
+        uniqueViews: 0,
         shares: 0,
         likes: 0,
         loves: 0,
