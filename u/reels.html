@@ -1308,17 +1308,18 @@ if (isEligible_updatedEndingCardBool) {
 
 
 
-document.getElementById('reel-views').textContent = reelData.views;
-document.getElementById('reel-likes').textContent = reelData.likes;
-document.getElementById('reel-shares').textContent = reelData.shares;
-document.getElementById('reel-gifts').textContent = reelData.gifts;
-document.getElementById('reel-comments').textContent = reelData.comments;
-document.getElementById('reel-shortList').textContent = reelData.shortList;
-document.getElementById('reel-saved').textContent = reelData.saved;
-document.getElementById('reel-loves').textContent = reelData.loves;
-document.getElementById('reel-watchTime').textContent = reelData.watchTime;
-document.getElementById('reel-engagements').textContent = reelData.engagements;
-document.getElementById('reel-reach').textContent = reelData.reach;
+document.getElementById('reel-views').textContent = reelData.views || 0;
+document.getElementById('reel-likes').textContent = reelData.likes || 0;
+document.getElementById('reel-shares').textContent = reelData.shares || 0;
+document.getElementById('reel-gifts').textContent = reelData.gifts || 0;
+document.getElementById('reel-comments').textContent = reelData.comments || 0;
+document.getElementById('reel-shortList').textContent = reelData.shortList || 0;
+document.getElementById('reel-saved').textContent = reelData.saved || 0;
+document.getElementById('reel-loves').textContent = reelData.loves || 0;
+document.getElementById('reel-watchTime').textContent = reelData.watchTime || 0;
+document.getElementById('reel-engagements').textContent = reelData.engagements || 0;
+document.getElementById('reel-reach').textContent = reelData.reach || 0;
+
 
 
 
