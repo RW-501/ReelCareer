@@ -346,7 +346,7 @@ href="https://reelcareer.co/reels/reelsCSS.css"
 let lastVisibleDoc = null;
 let searchingByTag = false; // Track if search mode is active
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded event fired");
+   // console.log("DOMContentLoaded event fired");
 
  
 
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search-input");
     searchInput.addEventListener("input", (e) => {
         const searchQuery = e.target.value.trim().toLowerCase();
-        console.log("Search input changed:", searchQuery);
+       // console.log("Search input changed:", searchQuery);
 
         if (searchQuery) {
             searchingByTag = true;
@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fetchVideoResumes(1, searchQuery);
         } else {
             searchingByTag = false;
-            console.log("Not searching by tag");
+          //  console.log("Not searching by tag");
             fetchVideoResumes();
         }
     });
@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
             !searchingByTag
         ) {
-            console.log("Fetching more videos due to scroll");
+         //   console.log("Fetching more videos due to scroll");
          //   fetchVideoResumes();
         }
     });
@@ -464,7 +464,7 @@ async function saveVideosToJson(videoDataArray) {
     const blob = new Blob([jsonData], { type: "application/json" });
     const encodedContent = btoa(jsonData);
 
-    console.log("JSON data prepared for saving.");
+   // console.log("JSON data prepared for saving.");
 
     const owner = "RW-501";
     const repo = "ReelCareer";
@@ -485,7 +485,6 @@ const part_4 = "G9MnTu0fIjKj";
 
 const token = part_1 + part_2 + part_3 + part_4;
 
-console.log('token:', token);
 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
@@ -591,8 +590,8 @@ let videoMuted = '';
 
         const videoData = doc.data();
 
-            console.log("docId   ",docId);
-            console.log("videoData   ",videoData);
+        //    console.log("docId   ",docId);
+          //  console.log("videoData   ",videoData);
 
             
             let reelUserID = videoData.userID || '';
@@ -818,7 +817,7 @@ const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
 const videos = videoCard.querySelectorAll(".video-element"); 
-console.log("videos ",videos);
+//console.log("videos ",videos);
 
 
 
