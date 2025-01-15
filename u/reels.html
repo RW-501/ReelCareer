@@ -608,7 +608,10 @@ input[type="text"],
         <label><input type="checkbox" id="likesBool" checked aria-label="Show Likes" /> Show Likes <small class="text-muted">(Display the number of likes)</small></label>
         <label><input type="checkbox" id="lovesBool" checked aria-label="Show Loves" /> Show Loves <small class="text-muted">(Display the number of loves)</small></label>
     </div>
-        <button type="button" id="saveChangesBtn">Save Changes</button>
+
+    <button type="button" id="saveChangesBtn">Save Changes</button>
+
+
 </form>
 
 
@@ -993,10 +996,10 @@ async function handleReels(action, event) {
 // Populate fields with reel data
 document.getElementById('videoResumeTitle').value = reelData.videoResumeTitle || '';
 document.getElementById('videoResumeFileName').value = reelData.videoResumeFileName || '';
-document.getElementById('reelID').value = reelData.reelID || '';
+document.getElementById('reelID').value = reelID || '';
 document.getElementById('fileType').value = reelData.fileType || '';
 document.getElementById('createdAt').value = reelData.createdAt || '';
-document.getElementById('reelURL').value = reelData.reelURL || '';
+document.getElementById('reelURL').value = reelData.reelURL || `https://reelcareer.co/reels/?r=${reelID}`;
 document.getElementById('duration').value = reelData.duration || '';
 document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
 document.getElementById('tagsSET-main').value = reelData.tags ? reelData.tags.join(', ') : '';
