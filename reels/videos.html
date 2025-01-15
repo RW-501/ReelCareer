@@ -624,7 +624,7 @@ videoCard.innerHTML = `
 
     <div class="video-details">
       <p class="views-count" aria-label="${videoData.views || 0} views">
-        <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
+        <i class="fa fa-play-circle"></i> <div id="video-count_${docId}">${videoData.views || 0}</div> views
       </p>
             <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
         <i class="fa fa-clock"></i> ${videoDuration || '--:--'}

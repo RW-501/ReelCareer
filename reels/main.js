@@ -164,23 +164,77 @@ function handleComments(docId, commentsBtn) {
   // Function to increment view count
   async function incrementViewCount(docId) {
     const videoRef = doc(db, "VideoResumes", docId);
-  
+    const viewsCollection = collection(db, `VideoResumes/${docId}/views`);
+    
     try {
+      // Fetch the user's IP address
+      const response = await fetch("https://api.ipify.org?format=json");
+      const data = await response.json();
+      const userIP = data.ip;
+  
+      if (!userIP) {
+        console.warn("Unable to retrieve IP address.");
+        return;
+      }
+  
+      // Check if this IP has already been recorded for this video
+      const ipDocRef = doc(viewsCollection, userIP);
+      const ipDocSnapshot = await getDoc(ipDocRef);
+  
+      if (ipDocSnapshot.exists()) {
+        console.log("View already recorded for this IP.");
+        return; // Prevent duplicate view increment
+      }
+  
+      // Record the unique view
+      await setDoc(ipDocRef, {
+        viewedAt: new Date()
+      });
+  
+      // Increment view count in the main document
       await updateDoc(videoRef, {
         views: increment(1) // Firestore increment
       });
+      
+      const videoCountButton = document.getElementById(`video-count_${docId}`);
+
+
+     // Update UI instantly
+     let viewCount = parseInt(videoCountButton.textContent) || 0;
+     viewCount++;
+     videoCountButton.innerHTML = `${viewCount}`;
+
       console.log("View count incremented");
     } catch (error) {
       console.error("Error updating view count: ", error);
     }
   }
+  
   window.incrementViewCount = incrementViewCount;
+  
   
   // Function to handle likes
   async function handleLike(docId, likeButton) {
+    const userID = auth.currentUser.uid; // Logged-in user ID
     const videoRef = doc(db, "VideoResumes", docId);
+    const likesCollection = collection(db, `VideoResumes/${docId}/likes`); // Subcollection to track unique likes
   
     try {
+      // Check if the user has already liked this video
+      const userLikeRef = doc(likesCollection, userID);
+      const userLikeSnapshot = await getDoc(userLikeRef);
+      
+      if (userLikeSnapshot.exists()) {
+        showToast("You already liked this video.");
+        return;
+      }
+      
+      // Add user ID to the likes subcollection to record the like
+      await setDoc(userLikeRef, {
+        likedAt: new Date()
+      });
+  
+      // Increment like count in the main document
       await updateDoc(videoRef, {
         likes: increment(1) // Firestore increment
       });
@@ -193,6 +247,7 @@ function handleComments(docId, commentsBtn) {
       console.error("Error updating like count: ", error);
     }
   }
+  
   window.handleLike = handleLike;
   
   async function handleShareCount(docId, shareButton) {
@@ -573,23 +628,14 @@ function handleComments(docId, commentsBtn) {
     });
   }
   
-  async function handleConnect(
-    docId,
-    connectButton,
-    viewProfilePicture,
-    viewUserID,
-    viewDisplayName
-  ) {
-    showToast(`connectButton post ID: ${docId}`);
+  async function handleConnect(docId, connectButton, viewProfilePicture, viewUserID, viewDisplayName) {
+    showToast(`Attempting to connect with user ID: ${viewUserID}`);
   
     try {
-      // Fetch required data
-      const userID = auth.currentUser.uid;
-  
-      //  const userId = getUserId(); // Logged-in user
+      const userID = auth.currentUser.uid; // Logged-in user ID
       const userDataSaved = (await getUserData()) || {};
       const toName = viewDisplayName;
-      const toProfilePicture = viewProfilePicture;
+      const toProfilePicture = viewProfilePicture || "https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png";
   
       // Validate inputs
       if (!userID || !viewUserID) {
@@ -602,38 +648,42 @@ function handleComments(docId, commentsBtn) {
         return;
       }
   
-      // Construct document ID
-      const docId = `${viewUserID}_${userId}`;
-      const connectionRef = doc(db, "Connections", docId);
+      // Construct document ID for the connection
+      const connectionDocId = `${viewUserID}_${userID}`;
+      const connectionRef = doc(db, "Connections", connectionDocId);
   
-      // Update button state
+      // Check if the connection already exists
+      const docSnapshot = await getDoc(connectionRef);
+      if (docSnapshot.exists()) {
+        showToast("You have already sent a connection request or are already connected.");
+        connectButton.innerText = "Pending";
+        return;
+      }
+  
+      // Disable button to prevent multiple submissions
       connectButton.disabled = true;
       connectButton.innerText = "Sending...";
   
-      // Prepare and save connection data
+      // Prepare connection data
       const connectionData = {
-        from: userId,
+        from: userID,
         to: viewUserID,
-        toProfilePicture:
-          toProfilePicture ||
-          "https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png",
+        toProfilePicture: toProfilePicture,
         toName: toName,
         toProfileURL: `https://reelcareer.co/u/?u=${viewUserID}`,
         toGroup: "Networking",
-  
         acceptDate: "",
-        participants: [userId, viewUserID], // Add this array
+        participants: [userID, viewUserID],
         status: "pending",
         createdAt: new Date(),
         fromGroup: "Networking",
         fromNote: "",
         fromName: userDataSaved.displayName,
-        fromProfilePicture:
-          userDataSaved.profilePicture ||
-          "https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png",
-        fromProfileURL: `https://reelcareer.co/u/?/u=${userId}`
+        fromProfilePicture: userDataSaved.profilePicture || "https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png",
+        fromProfileURL: `https://reelcareer.co/u/?u=${userID}`
       };
   
+      // Save connection data
       await setDoc(connectionRef, connectionData);
   
       // Update button and notify user
@@ -641,14 +691,15 @@ function handleComments(docId, commentsBtn) {
       showToast("Connection request sent!");
     } catch (error) {
       console.error("Error sending connection request:", error);
-  
       connectButton.innerText = "Connect";
       showToast("Error sending connection request. Please try again.");
     } finally {
       connectButton.disabled = false;
     }
   }
-  
+  window.handleConnect = handleConnect;
+
+
   // Utility Function: Update Button State
   function updateButtonState(button, text, disable = false) {
     button.innerText = text;
