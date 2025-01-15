@@ -1093,7 +1093,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         reelData.tags.forEach(tag => {
           const tagElement = document.createElement('div');
           tagElement.className = 'tags';
-          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+          tagElement.innerHTML = `<span class="badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
           tagsContainer.appendChild(tagElement);
         });
@@ -1111,8 +1111,8 @@ const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-r
 reelData.reelCategories.forEach(tag => {
   const tagElement = document.createElement('div');
   tagElement.className = 'tags';
-  tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-        ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+  tagElement.innerHTML = `<span class="badge tag-primary mr-1">
+        ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
   tagsContainer_reelCategories.appendChild(tagElement);
 });
         
