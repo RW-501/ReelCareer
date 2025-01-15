@@ -97,7 +97,7 @@ function extractHashtags(caption) {
 
 
 let videoData;
-async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL, uploadedFile, videoDuration) {
+async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
@@ -135,6 +135,23 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL,
         return;
     }
 
+    let relatedReels = [];
+
+    if (userDataSaved.videoResumeData && userDataSaved.videoResumeData.length > 0) {
+        relatedReels = userDataSaved.videoResumeData
+            .map(videoData => ({
+                reelID: videoData.reelID,
+                reelTitle: videoData.videoResumeTitle,
+                videoUrl: videoData.videoResumeURL,
+                reelURL: videoData.reelURL,
+                reelTags: videoData.tags,
+                reelcreatedDate: new Date(videoData.createdAt) // Ensure date is properly parsed
+            }))
+            .sort((a, b) => b.reelcreatedDate - a.reelcreatedDate) // Sort by date in descending order
+            .slice(0, 5); // Limit to the first 5 reels
+    }
+    
+
     const videoResumeData = {
         createdByID: userID,
         displayName: userDataSaved.displayName || '',
@@ -143,6 +160,11 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL,
         profileURL: `https://reelcareer.co/u/?u=${userID}`,
         membershipType: userDataSaved.membershipType || 'free',
         location: `${userlocationData.city || ''}, ${userlocationData.state || ''}`,
+        city: userlocationData.city || '',
+        state: userlocationData.state || '',
+        country: userlocationData.country || '',
+        zip: userlocationData.zip || '',
+
         verified: userDataSaved.verified || '',
         position: userDataSaved.position || '',
         tags,
@@ -160,6 +182,38 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL,
         likes: 0,
         loves: 0,
         gifts: [],
+        endingCardBool: false,
+        endingCard: '',
+        relatedURLBool: false,
+        relatedURL: '',
+
+        relatedReels: relatedReels,
+        reelCatagories: [],
+
+        relatedProductsBool: false,
+        relatedProducts: [],
+
+        watchTime: 0,
+        engagegments: 0,
+        reach: 0,
+        reported: 0,
+        
+        comments: 0,
+        shortList: 0,
+        saved: 0,
+        notifcationsBool: false,
+
+        isPinned: false,
+        commentsBool: true,
+        locationBool: true,
+
+        giftsBool: true,
+        viewsBool: true,
+        likesBool: true,
+        lovesBool: true,
+        isPublic: true,
+        isBoostedPost: false,
+        isSponsoredPost: false,
         status: 'posted',
         isDeleted: false,
     };
@@ -173,9 +227,10 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, videoURL,
             videoResumeData: arrayUnion({
                 reelID: reelID,
                 videoResumeURL: videoResumeURL,
+                tags: tags,
                 createdAt: new Date(),
                 status: 'posted',
-                videoURL: `https://reelcareer.co/reels/?r=${reelID}`
+                reelURL: `https://reelcareer.co/reels/?r=${reelID}`
             })
         });
         
@@ -244,7 +299,7 @@ function initializeVideoUploadHandlers() {
       try {
         const description = document.querySelector(".reel-video-content").value.trim();
         const title = document.querySelector(".reel-video-title").value.trim();
-        await postReelFunction(title, description, URL.createObjectURL(uploadedFile), uploadedFile, videoDuration);
+        await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
       } catch (error) {
         console.error("Upload error:", error);
         showToast("Error uploading the video. Please try again.");

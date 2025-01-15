@@ -283,7 +283,7 @@ function handleComments(docId, commentsBtn) {
   window.formatDuration = formatDuration;
   
   // Native Share Function
-  async function handleShare(docId, shareButton, videoID, videoResumeCaptions, profilePicture) {
+  async function handleShare(docId, shareButton, videoID, videoResumeTitle, profilePicture) {
     if (navigator.canShare && navigator.canShare({ files: [] })) {
       const response = await fetch(profilePicture);
       const blob = await response.blob();
@@ -291,7 +291,7 @@ function handleComments(docId, commentsBtn) {
       
       navigator.share({
         title: "Check out this Reel on ReelCareer!",
-        text: videoResumeCaptions,
+        text: videoResumeTitle,
         url: `https://reelcareer.co/reels/?r=${videoID}`,
         files: [file]  // Including a file
       })

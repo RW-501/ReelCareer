@@ -349,7 +349,7 @@ button {
                     <thead>
                         <tr>
                             <th>Video</th>
-                            <th>Tags</th>
+                            <th>Title</th>
                             <th>Status</th>
                             <th>Views</th>
                             <th>Actions</th>
@@ -363,28 +363,54 @@ button {
         </div>
 
 <!-- Edit Modal -->
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Edit Video Reel</h2>
-        <form id="editReelForm">
-            <label for="videoResumeCaptions">Captions</label>
-            <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
+<form id="editReelForm">
+    <label for="videoResumeCaptions">Captions</label>
+    <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3"></textarea>
 
-            <label for="tags">Tags (comma-separated)</label>
-            <input type="text" id="tags" name="tags" />
+    <label for="tags">Tags (comma-separated)</label>
+    <input type="text" id="tags" name="tags" />
 
-            <label for="status">Status</label>
-            <select id="status" name="status">
-                <option value="posted">Posted</option>
-                <option value="draft">Draft</option>
-                <option value="archived">Archived</option>
-            </select>
+    <label for="status">Status</label>
+    <select id="status" name="status">
+        <option value="posted">Posted</option>
+        <option value="draft">Draft</option>
+        <option value="archived">Archived</option>
+    </select>
 
-            <button type="button" id="saveChangesBtn">Save Changes</button>
-        </form>
-    </div>
-</div>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" />
+
+    <label for="thumbnailURL">Thumbnail URL</label>
+    <input type="text" id="thumbnailURL" name="thumbnailURL" />
+
+    <label for="endingCard">Ending Card</label>
+    <input type="text" id="endingCard" name="endingCard" />
+
+    <label for="relatedURL">Related URL</label>
+    <input type="text" id="relatedURL" name="relatedURL" />
+
+    <label for="relatedReels">Related Reels (comma-separated)</label>
+    <input type="text" id="relatedReels" name="relatedReels" />
+
+    <label for="reelCategories">Reel Categories (comma-separated)</label>
+    <input type="text" id="reelCategories" name="reelCategories" />
+
+    <label for="relatedProducts">Related Products (comma-separated)</label>
+    <input type="text" id="relatedProducts" name="relatedProducts" />
+
+    <label><input type="checkbox" id="notificationsBool" /> Enable Notifications</label>
+    <label><input type="checkbox" id="commentsBool" /> Allow Comments</label>
+    <label><input type="checkbox" id="locationBool" /> Show Location</label>
+    <label><input type="checkbox" id="giftsBool" /> Enable Gifts</label>
+    <label><input type="checkbox" id="viewsBool" checked /> Track Views</label>
+    <label><input type="checkbox" id="likesBool" checked /> Track Likes</label>
+    <label><input type="checkbox" id="lovesBool" /> Track Loves</label>
+    <label><input type="checkbox" id="isPublic" /> Public</label>
+    <label><input type="checkbox" id="isBoostedPost" /> Boosted Post</label>
+    <label><input type="checkbox" id="isSponsoredPost" /> Sponsored Post</label>
+
+    <button type="button" id="saveChangesBtn">Save Changes</button>
+</form>
 
 
       </main>
@@ -509,7 +535,7 @@ async function loadVideoReels(userID) {
         const row = `
             <tr>
                 <td><a href="${videoResumeURL}" target="_blank">View Video</a></td>
-                <td>${reel.tags.join(', ') || 'N/A'}</td>
+                <td>${reel.videoResumeTitle || 'N/A'}</td>
                 <td>${reel.status}</td>
                 <td>${reel.views}</td>
                 <td>
@@ -572,15 +598,51 @@ async function handleEdit(event) {
         // Save changes button
         document.getElementById('saveChangesBtn').onclick = async () => {
             const updatedCaptions = document.getElementById('videoResumeCaptions').value;
-            const updatedTags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
-            const updatedStatus = document.getElementById('status').value;
+    const updatedTags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+    const updatedStatus = document.getElementById('status').value;
+    const updatedLocation = document.getElementById('location').value;
+    const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
+    const updatedEndingCard = document.getElementById('endingCard').value;
+    const updatedRelatedURL = document.getElementById('relatedURL').value;
+    const updatedRelatedReels = document.getElementById('relatedReels').value.split(',').map(reel => reel.trim());
+    const updatedReelCategories = document.getElementById('reelCategories').value.split(',').map(cat => cat.trim());
+    const updatedRelatedProducts = document.getElementById('relatedProducts').value.split(',').map(product => product.trim());
+    const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
+    const updatedCommentsBool = document.getElementById('commentsBool').checked;
+    const updatedLocationBool = document.getElementById('locationBool').checked;
+    const updatedGiftsBool = document.getElementById('giftsBool').checked;
+    const updatedViewsBool = document.getElementById('viewsBool').checked;
+    const updatedLikesBool = document.getElementById('likesBool').checked;
+    const updatedLovesBool = document.getElementById('lovesBool').checked;
+    const updatedIsPublic = document.getElementById('isPublic').checked;
+    const updatedIsBoostedPost = document.getElementById('isBoostedPost').checked;
+    const updatedIsSponsoredPost = document.getElementById('isSponsoredPost').checked;
 
+            //
             try {
                 await updateDoc(reelRef, {
-                    videoResumeCaptions: updatedCaptions,
-                    tags: updatedTags,
-                    status: updatedStatus
-                });
+            videoResumeCaptions: updatedCaptions,
+            tags: updatedTags,
+            status: updatedStatus,
+            location: updatedLocation,
+            thumbnailURL: updatedThumbnailURL,
+            endingCard: updatedEndingCard,
+            relatedURL: updatedRelatedURL,
+            relatedReels: updatedRelatedReels,
+            reelCategories: updatedReelCategories,
+            relatedProducts: updatedRelatedProducts,
+            notifcationsBool: updatedNotificationsBool,
+            commentsBool: updatedCommentsBool,
+            locationBool: updatedLocationBool,
+            giftsBool: updatedGiftsBool,
+            viewsBool: updatedViewsBool,
+            likesBool: updatedLikesBool,
+            lovesBool: updatedLovesBool,
+            isPublic: updatedIsPublic,
+            isBoostedPost: updatedIsBoostedPost,
+            isSponsoredPost: updatedIsSponsoredPost,
+            timestamp: serverTimestamp() // Update timestamp
+        });
                 alert('Reel updated successfully.');
                 modal.style.display = 'none';
                 loadVideoReels(await getUserId()); // Refresh the reel list
