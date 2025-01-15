@@ -56,7 +56,7 @@ main {
   .user-info-right {
       display: grid;
       gap: .5rem;
-      width: 50%;
+      width: 75%;
       align-content: stretch;
       justify-content: space-between;
   }
@@ -66,7 +66,7 @@ main {
   .user-info-left {
       display: grid;
       gap: .5rem;
-      width: 50%;
+      width: 25%;
       align-content: stretch;
       justify-content: space-between;
   }
@@ -92,12 +92,8 @@ main {
     font-size: 1rem;
   }
   
-  .profile-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+  
+  
   
   .user-details {
     display: flex;
@@ -739,7 +735,12 @@ main {
 
 
 
-
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 
 
