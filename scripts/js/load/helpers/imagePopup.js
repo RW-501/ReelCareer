@@ -8,7 +8,7 @@
 
             const profileID = target.getAttribute("data-created-by-i-d");
             // Create the full-screen popup
-            createImagePopup(videoSrc, profileID);
+            createMediaPopup(videoSrc, profileID);
         }
  
   
@@ -18,7 +18,7 @@
             
             const profileID = target.getAttribute("data-id");
             // Create the full-screen popup
-            createImagePopup(imageSrc, profileID);
+            createMediaPopup(imageSrc, profileID);
         }
     });
   
