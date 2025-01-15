@@ -642,15 +642,18 @@ let videoMuted = '';
             videoCard.dataset.createdByID = videoData.createdByID || '';
             videoCard.dataset.views = videoData.views || '';
             videoCard.dataset.profileURL = videoData.profileURL || '';
+            videoCard.dataset.videosrc = videoData.videoResumeURL || '';
             generateVideoSchema(videoData, docId);
-
+            
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
 videoCard.innerHTML = `
   <div id="videoCard_${docId}" class="video-card">
     <div class="user-info">
       <div class="user-info-left">
-        <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
+        <img  src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
              alt="${videoData.displayName}" 
+             data-id="${videoData.createdByID}"
+             data-src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
              class="profile-img lazy-image">
 
       </div>
