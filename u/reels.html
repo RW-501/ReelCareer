@@ -377,7 +377,7 @@ input[type="checkbox"]:hover {
 
 
 
-.analytics-container {
+#analytics-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
@@ -546,6 +546,11 @@ input[type="checkbox"]:hover {
         </div>
 
 <!-- Edit Modal -->
+<div id="main-modal-container" class=".modal">
+    <div id="main-modal-close-btn" class=".close">Close</div>
+
+
+<div id="edit-container" class="modal-content">
 <form id="editReelForm">
 
     <section id="reel-main-data">
@@ -715,11 +720,11 @@ input[type="checkbox"]:hover {
 
 
 </form>
+</div>
 
 
 
-
-<div class="analytics-container">
+<div id="analytics-container" class="modal-content"></div>
     <div class="analytics-item">
       <span class="analytics-label">Views</span>
       <span id="reel-views" class="analytics-value">0</span>
@@ -772,7 +777,7 @@ input[type="checkbox"]:hover {
   
 
 
-
+</div>
 
 
 
@@ -1171,6 +1176,24 @@ async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
  return true;
 }
 
+function toggleContainers(action) {
+  const analyticsContainer = document.getElementById('analytics-container');
+  const editContainer = document.getElementById('edit-container');
+
+  if (action === 'edit') {
+    // Hide analytics container and show edit container
+    analyticsContainer.style.display = 'none';
+    editContainer.style.display = 'block';
+    // Implement edit functionality here
+  } else if (action === 'analytics') {
+    // Hide edit container and show analytics container
+    editContainer.style.display = 'none';
+    analyticsContainer.style.display = 'block';
+    // Implement analytics functionality here
+  }
+}
+
+
 
 async function handleReels(action, event) {
     reelID = event.target.dataset.id;
@@ -1182,14 +1205,22 @@ async function handleReels(action, event) {
         const reelData = reelSnap.data();
         
 
-        if (action === 'edit') {
-        console.log(`Editing reel with ID: ${reelID}`);
-        // Implement edit functionality
-    } else if (action === 'analytics') {
-        console.log(`Viewing analytics for reel with ID: ${reelID}`);
-        // Implement analytics functionality
-    }
+        function toggleContainers() {
+  const analyticsContainer = document.getElementById('analytics-container');
+  const editContainer = document.getElementById('edit-container');
 
+  // Check if the analytics-container is displayed as block
+  if (analyticsContainer.style.display === 'block' || window.getComputedStyle(analyticsContainer).display === 'block') {
+    // If it is, hide the edit-container
+    editContainer.style.display = 'none';
+  } else {
+    // If it's not, show the edit-container
+    editContainer.style.display = 'block';
+  }
+}
+
+
+toggleContainers(action);
 
 
 
@@ -1337,8 +1368,8 @@ document.getElementById('reel-uniqueViews').textContent = reelData.uniqueViews |
 
 
 
-        const modal = document.getElementById('editModal');
-        const closeBtn = document.querySelector('.close');
+        const modal = document.getElementById('main-modal-container');
+        const closeBtn = document.getElementById('main-modal-close-btn');
         
         // Show the modal
         modal.style.display = 'block';
