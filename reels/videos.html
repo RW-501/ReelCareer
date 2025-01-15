@@ -519,10 +519,11 @@ function renderVideos(docs, container) {
             console.log("videoData", videoData);
 
 let reelUserID = videoData.userID || 'Unknown User';
-let profilePicture = videoData.profilePicture || 'https://path/to/default/image.png';
+let profilePicture = videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
 let displayName = videoData.displayName || 'Anonymous';
 let position = videoData.position || 'No position specified';
 let location = videoData.location || 'Location not available';
+let thumbnailURL = videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
 
 // Build the video card dynamically with real data
             const videoCard = document.createElement("div");
@@ -544,7 +545,7 @@ let location = videoData.location || 'Location not available';
             videoCard.dataset.profileURL = videoData.profileURL || '';
             videoCard.dataset.videosrc = videoData.videoResumeURL || '';
             generateVideoSchema(videoData, docId);
-            
+
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
 videoCard.innerHTML = `
   <div id="videoCard_${docId}" class="video-card">
