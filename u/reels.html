@@ -361,8 +361,45 @@ button {
                         <h3>Total Shares</h3>
                         <p id="total-shares">0</p>
                     </div>
+                    <div>
+                        <h3>Total Gifts</h3>
+                        <p id="total-gifts">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Comments</h3>
+                        <p id="total-comments">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Reported</h3>
+                        <p id="total-reported">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Shortlisted</h3>
+                        <p id="total-shortList">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Saved</h3>
+                        <p id="total-saved">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Loves</h3>
+                        <p id="total-loves">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Watch Time</h3>
+                        <p id="total-watchTime">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Engagements</h3>
+                        <p id="total-engagegments">0</p>
+                    </div>
+                    <div>
+                        <h3>Total Reach</h3>
+                        <p id="total-reach">0</p>
+                    </div>
                 </div>
             </section>
+            
             <section id="video-reels">
                 <h2>Your Reels</h2>
                 <table>
@@ -701,18 +738,36 @@ async function loadAnalytics(userID) {
     const reelsQuery = query(collection(db, "VideoResumes"), where("createdByID", "==", userID));
     const querySnapshot = await getDocs(reelsQuery);
 
-    let totalViews = 0, totalLikes = 0, totalShares = 0;
+    let totalViews = 0, totalLikes = 0, totalShares = 0, totalGifts = 0, totalComments = 0, totalReported = 0, totalShortList = 0, totalSaved = 0, totalLoves = 0, totalWatchTime = 0, totalEngagements = 0, totalReach = 0;
 
     querySnapshot.forEach(doc => {
         const reel = doc.data();
         totalViews += reel.views || 0;
         totalLikes += reel.likes || 0;
         totalShares += reel.shares || 0;
+        totalGifts += (reel.gifts ? reel.gifts.length : 0);  // Assuming gifts is an array
+        totalComments += reel.comments || 0;
+        totalReported += reel.reported || 0;
+        totalShortList += reel.shortList || 0;
+        totalSaved += reel.saved || 0;
+        totalLoves += reel.loves || 0;
+        totalWatchTime += reel.watchTime || 0;  // Assuming watchTime is stored
+        totalEngagements += reel.engagements || 0;
+        totalReach += reel.reach || 0;
     });
 
     document.getElementById('total-views').textContent = totalViews;
     document.getElementById('total-likes').textContent = totalLikes;
     document.getElementById('total-shares').textContent = totalShares;
+    document.getElementById('total-gifts').textContent = totalGifts;
+    document.getElementById('total-comments').textContent = totalComments;
+    document.getElementById('total-reported').textContent = totalReported;
+    document.getElementById('total-shortList').textContent = totalShortList;
+    document.getElementById('total-saved').textContent = totalSaved;
+    document.getElementById('total-loves').textContent = totalLoves;
+    document.getElementById('total-watchTime').textContent = totalWatchTime;
+    document.getElementById('total-engagegments').textContent = totalEngagements;
+    document.getElementById('total-reach').textContent = totalReach;
 }
 
 
