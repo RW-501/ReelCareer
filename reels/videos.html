@@ -574,7 +574,7 @@ videoCard.innerHTML = `
     
     <div class="video-container">
       <video id="video_${docId}" class="video-element" ${videoMuted} poster="${thumbnailURL || ''}">
-        <source src="${videoResumeURL}" type="video/mp4">
+        <source src="${videoData.videoResumeURL}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
 
