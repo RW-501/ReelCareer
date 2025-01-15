@@ -261,23 +261,67 @@ button {
     font-size: 16px;
 }
 
-    .reel-groups {
-        background-color: #fefefe;
-        border-radius: 8px;
-
-    }
-    
-    .reel-groups-bools {
-        margin: 5% auto;
-        display: grid;
-
-    border: 1px solid #888;
-
+.reel-groups {
+    background-color: #dcdcdc85;
     border-radius: 8px;
-    }
+    margin: .5rem;
+    padding: .2rem;
+}
+.reel-groups label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    color: #86bcda;
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.tags {
+    background-color: #8a8a8a;
+    color: rgb(69, 69, 69);
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#editReelForm {
+input[type="text"],
+input[type="checkbox"],
+input[type="text"],
+ input[type="url"],
+ select, 
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f1f3f5;
+    color: #000;
+    transition: border 0.3s ease;
+}
+
+}
+.reel-groups-bools {
+    margin: 5% auto;
+    display: flex;
+    border: 1px solid #888;
+    border-radius: 8px;
+    align-content: stretch;
+    justify-content: space-between;
+    align-items: stretch;
+    justify-items: stretch;
+    grid-column-gap: 3rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+}
 
         
-    .reel-groups-bools labels {
+    .reel-groups-bools label {
         margin: 10% auto;
     padding: 20px;
  
@@ -425,35 +469,51 @@ button {
 
 
 <section id="reel-main-data">
+
+<div class="reel-groups">
     <label for="videoResumeTitle">Title</label>
     <input type="text" id="videoResumeTitle" name="title" />
+</div>
 
+<div class="reel-groups">
     <label for="reelID">reelID</label>
     <input type="text" id="reelID" name="reelID" disabled/>
-    
+</div>
+
+<div class="reel-groups">
     <label for="videoResumeFileName">File Name</label>
     <input type="text" id="videoResumeFileName" name="videoResumeFileName" disabled/>
+</div>
 
+<div class="reel-groups">
     <label for="fileType">fileType</label>
     <input type="text" id="fileType" name="fileType" disabled/>
+</div>
 
+<div class="reel-groups">
     <label for="createdAt">createdAt</label>
     <input type="text" id="createdAt" name="createdAt" disabled/>
+</div>
 
+    <div class="reel-groups">
     <label for="reelURL">reelURL</label>
     <input type="url" id="reelURL" name="reelURL" disabled/>
+</div>
 
+<div class="reel-groups">
     <label for="duration">duration</label>
     <input type="text" id="duration" name="duration" disabled/>
+</div>
 
-    <div>
+<div class="reel-groups">
         <label>
           <input type="checkbox" id="isBoostedPost" />
           Boosted Post 
           <span id="boostedCostInfo">(Cost: 1 Boosted Credit)</span>
         </label>
       </div>
-      <div>
+
+      <div class="reel-groups">
         <label>
           <input type="checkbox" id="isSponsoredPost" />
           Sponsored Post 
@@ -515,8 +575,6 @@ button {
 
 
     <div id="endingCardArea" class="reel-groups">
-    <label><input type="checkbox" id="endingCardBool" /> endingCardBool</label>
-
     <label for="endingCard">Ending Card</label>
     <input type="text" id="endingCard" name="endingCard"  />
 </div>
@@ -533,8 +591,6 @@ button {
 
 
     <div id="relatedProductsArea" class="reel-groups">
-    <label><input type="checkbox" id="relatedProductsBool" /> relatedProductsBool</label>
-
     <label for="relatedProducts">Related Products</label>
     <button id="addProductButton" type="button" class="btn btn-secondary">Add Product</button>
     <div id="productListContainer"></div>
@@ -984,8 +1040,7 @@ document.getElementById('relatedURL').value = reelData.relatedURL || '';
 document.getElementById('location').value = reelData.location || '';
 
 // Set boolean checkboxes
-//document.getElementById('relatedProductsBool').checked = reelData.relatedProductsBool || false;
-document.getElementById('endingCardBool').checked = reelData.endingCardBool || false;
+
 document.getElementById('notificationsBool').checked = reelData.notifcationsBool || false;
 document.getElementById('commentsBool').checked = reelData.commentsBool || true;
 document.getElementById('giftsBool').checked = reelData.giftsBool || false;
