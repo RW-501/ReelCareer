@@ -505,7 +505,7 @@ async function loadVideoReels(userID) {
     querySnapshot.forEach(doc => {
         const reel = doc.data();
 
-        let videoResumeURL = `lllllll${doc.id}`;
+        let videoResumeURL = `https://reelcareer.co/reels/?r=${doc.id}`;
         const row = `
             <tr>
                 <td><a href="${videoResumeURL}" target="_blank">View Video</a></td>

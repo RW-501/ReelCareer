@@ -39,7 +39,7 @@ console.log("mediaSrc  ",mediaSrc);
         overlay.innerHTML = `
             <img src="${mediaSrc}" class="popup-image" alt="Full-size image">
             <button class="close-button">&times;</button>
-            <button class="more-images-button">View Profile</button>
+            <button class="view-profile-button">View Profile</button>
         `;
     }
     // If it's a video, create a video popup
@@ -50,7 +50,7 @@ console.log("mediaSrc  ",mediaSrc);
                 Your browser does not support the video tag.
             </video>
             <button class="close-button">&times;</button>
-            <button class="more-images-button">View Profile</button>
+            <button class="view-video-button">View Profile</button>
         `;
     } else {
         // Handle unsupported media types
@@ -66,11 +66,16 @@ console.log("mediaSrc  ",mediaSrc);
     closeButton.addEventListener("click", () => overlay.remove());
 
     // Add functionality to the "More Videos" button
-    const moreVideosButton = overlay.querySelector(".more-images-button");
-    moreVideosButton.addEventListener("click", () => {
+    const viewProfileButton = overlay.querySelector(".view-profile-button");
+    viewProfileButton.addEventListener("click", () => {
         window.location.href = `/u/?u=${idURL}`;
-        // alert("Redirect to videos or perform another action here.");
     });
+
+    const viewVideoButton = overlay.querySelector(".view-video-button");
+    viewVideoButton.addEventListener("click", () => {
+        window.location.href = `/u/?u=${idURL}`;
+    });
+
 };
 
   window.createMediaPopup = createMediaPopup;
