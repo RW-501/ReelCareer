@@ -984,7 +984,7 @@ document.getElementById('relatedURL').value = reelData.relatedURL || '';
 document.getElementById('location').value = reelData.location || '';
 
 // Set boolean checkboxes
-document.getElementById('relatedProductsBool').checked = reelData.relatedProductsBool || false;
+//document.getElementById('relatedProductsBool').checked = reelData.relatedProductsBool || false;
 document.getElementById('endingCardBool').checked = reelData.endingCardBool || false;
 document.getElementById('notificationsBool').checked = reelData.notifcationsBool || false;
 document.getElementById('commentsBool').checked = reelData.commentsBool || true;
@@ -1047,12 +1047,15 @@ reelData.reelCategories.forEach(tag => {
 
 
 
-const updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
+let updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
 
 const isEligible_RelatedProductsBool = await checkMembershipAndBalance("RelatedProducts", updatedRelatedProductsBool, true);
 if (isEligible_RelatedProductsBool) {
     // Proceed with the form submission or other logic
     console.log('User is eligible for the selected posts');
+
+     updatedRelatedProductsBool = relatedProductsArray.length > 0 ? true : false;
+
 }else{
     document.getElementById('relatedProductsArea').style.display = "none";
     updatedRelatedProductsBool = false;
@@ -1060,13 +1063,15 @@ if (isEligible_RelatedProductsBool) {
 
 
 
-const updatedEndingCardBool = document.getElementById('endingCardBool').checked;
+let updatedEndingCardBool = document.getElementById('endingCardBool').checked;
 const updatedEndingCard = document.getElementById('endingCard').value;
 
 const isEligible_updatedEndingCardBool = await checkMembershipAndBalance("EndingCard", updatedEndingCardBool, true);
 if (isEligible_updatedEndingCardBool) {
     // Proceed with the form submission or other logic
     console.log('User is eligible for the selected posts');
+     updatedEndingCardBool = updatedEndingCard ? true : false;
+
 }else{
     document.getElementById('endingCardArea').style.display = "none";
     updatedEndingCardBool = false;
