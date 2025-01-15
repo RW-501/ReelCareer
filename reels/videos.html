@@ -512,20 +512,19 @@ function renderVideos(docs, container) {
             return; // Skip rendering this video
         }
 
-        // Check if 'doc' has the 'data' method (to confirm it's a Firestore snapshot)
+        // Now, 'doc' is an object, so you can access its properties directly
         if (doc) {
-          const videoData = doc.data();
+            const videoData = doc;  // Directly use doc, since it's no longer a Firestore snapshot
             console.log("docId", docId);
             console.log("videoData", videoData);
 
-            
-            let reelUserID = videoData.userID || 'Unknown User';
+let reelUserID = videoData.userID || 'Unknown User';
 let profilePicture = videoData.profilePicture || 'https://path/to/default/image.png';
 let displayName = videoData.displayName || 'Anonymous';
 let position = videoData.position || 'No position specified';
 let location = videoData.location || 'Location not available';
 
-            // Build the video card dynamically with real data
+// Build the video card dynamically with real data
             const videoCard = document.createElement("div");
             videoCard.className = "video-post";
             videoCard.dataset.docId = docId; // Add dataset attribute
@@ -676,7 +675,8 @@ videoCard.innerHTML = `
 `;
 
 
-container.appendChild(videoCard);
+        // Add the video card to the container
+        container.appendChild(videoCard);
 
 
 //console.log("Rendering video doc:", doc.data());
