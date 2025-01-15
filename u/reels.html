@@ -1117,7 +1117,9 @@ if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.
 
 }
 // Function to disable/enable buttons and input based on comma count
-function checkCommaCount() {
+function checkCommaCount(e) {
+    e.preventDefault(); // Prevent form submission
+
   const input = document.getElementById('input_tagsContainerSET-reelCategories');
   const categoryButtons = document.querySelectorAll('.category-btn');
   const commaCount = (input.value.match(/,/g) || []).length;
@@ -1135,7 +1137,9 @@ function checkCommaCount() {
 
 // Event listener for category button clicks
 document.querySelectorAll('.category-btn').forEach(button => {
-  button.addEventListener('click', function() {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent form submission
+
     const category = this.getAttribute('data-category');
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
     
