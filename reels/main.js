@@ -904,7 +904,6 @@ function createVideoUploadPopup(targetId) {
 }
 
 // Create a button with event listener
-document.body.innerHTML += '<button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button><div id="reel-upload-container"></div>';
 document.getElementById("showUploadPopup").addEventListener("click", () => {
     createVideoUploadPopup("reel-upload-container");
 });
