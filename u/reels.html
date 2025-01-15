@@ -681,10 +681,7 @@ input[type="checkbox"]:hover {
                 <button class="category-btn" data-category="Travel">Travel</button>
               </div>
               
-              
-              
-              <input type="text" id="input_tagsContainerSET-main" placeholder="Selected Category">
-              
+                            
             <div id="tagsContainerSET-reelCategories">
                 <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., Design, Travel)">
             </div>
@@ -1273,7 +1270,8 @@ if(reelData.reelCategories){
 
 
 
-let updatedRelatedProductsBool = document.getElementById('relatedProductsBool').checked;
+let updatedRelatedProductsBool = false;
+
 
 const isEligible_RelatedProductsBool = await checkMembershipAndBalance("RelatedProducts", updatedRelatedProductsBool, true);
 if (isEligible_RelatedProductsBool) {
@@ -1289,7 +1287,8 @@ if (isEligible_RelatedProductsBool) {
 
 
 
-let updatedEndingCardBool = document.getElementById('endingCardBool').checked;
+let updatedEndingCardBool = false;
+
 const updatedEndingCard = document.getElementById('endingCard').value;
 
 const isEligible_updatedEndingCardBool = await checkMembershipAndBalance("EndingCard", updatedEndingCardBool, true);
