@@ -863,7 +863,7 @@ function handleComments(docId, commentsBtn) {
 
 
 // Function to create a popup for video upload with dynamic styling
-function createVideoUploadPopup(targetId) {
+function createVideoUploadPopup() {
     // Inject styling if not already present
     if (!document.getElementById("videoUploadStyles")) {
         const style = document.createElement("style");
@@ -927,6 +927,8 @@ function createVideoUploadPopup(targetId) {
     const overlay = document.createElement("div");
     overlay.className = "video-upload-popup-overlay";
 
+    overlay.id = "reel-upload-container";
+
     // Set the inner content of the overlay
     overlay.innerHTML = `
       <div class="video-upload-popup">
@@ -945,14 +947,9 @@ function createVideoUploadPopup(targetId) {
       </div>
     `;
 
-    // Append the overlay to the target element
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-        targetElement.appendChild(overlay);
-    } else {
-        console.error(`Element with ID '${targetId}' not found.`);
-        return;
-    }
+
+// Append to body
+document.body.appendChild(overlay);
 
     // Close button functionality
     overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
@@ -960,7 +957,7 @@ function createVideoUploadPopup(targetId) {
 
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", () => {
-    createVideoUploadPopup("reel-upload-container");
+    createVideoUploadPopup();
 
     initializeVideoUploadHandlers();
 });
