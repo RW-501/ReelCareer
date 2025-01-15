@@ -280,7 +280,7 @@ button {
     font-weight: 400;
 }
 
-.tag {
+.tags {
     background-color: #8a8a8a;
     color: rgb(69, 69, 69);
     border: none;
@@ -1094,7 +1094,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
           const tagElement = document.createElement('div');
           tagElement.className = 'tags';
           tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-                ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+                ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
           tagsContainer.appendChild(tagElement);
         });
 
