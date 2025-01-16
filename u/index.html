@@ -1145,18 +1145,19 @@
         console.log("DOMContentLoaded");
 
         const user = auth.currentUser;
+        console.log("User:", user);
 
 if(!user){
   openPopupLogin();
   return;
 }
 userId = auth.currentUser.uid;
+console.log("userId:", userId);
 
 document.getElementById('userPageId').innerText = userId;
 
 
 
-      setTimeout(() => {
         console.log("Module User We outside:", userId);
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
@@ -1168,7 +1169,7 @@ document.getElementById('userPageId').innerText = userId;
           showUserDataNotFoundMessage();
           console.log("No user ID found in URL or session.");
         }
-      }, 300);
+
       } catch (error) {
         // console.error("Error fetching user ID:", error);
       }
