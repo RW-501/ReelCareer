@@ -1942,8 +1942,12 @@ const uniqueWebsites = websites.filter((site, index, self) =>
     });
     document.getElementById('connect-btn').addEventListener('click', async () => {
       try {
-        // Fetch required data
-        const userID = auth.currentUser.uid;
+        const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}        const userId = auth.currentUser.uid;
         //  const userId = getUserId(); // Logged-in user
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
@@ -1955,7 +1959,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
           showToast('User information is incomplete.');
           return;
         }
-        if (userID === userIdFromURL) {
+        if (userId === userIdFromURL) {
           showToast('You cannot connect with yourself.');
           return;
         }
