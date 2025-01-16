@@ -324,12 +324,11 @@ href="https://reelcareer.co/reels/reelsCSS.css"
             await auth.onAuthStateChanged((user) => {
                 if (user) {
                      userId = user.uid; // Access the user ID
-                    console.log("User ID:", userId);
+                   // console.log("User ID:", userId);
 
                     // You can call your functions that require userId here
                 } else {
-                    console.error("No user is signed in.");
-                    openPopupLogin();
+                 //   console.error("No user is signed in.");
                   
                   }
             });

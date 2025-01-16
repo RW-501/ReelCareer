@@ -368,7 +368,7 @@ function closePopupLogin() {
 window.openPopupLogin = openPopupLogin;
 
 // Initialize the popup when the page loads
-document.addEventListener('DOMContentLoaded', createPopupLogin);
+createPopupLogin();
 
 // Example call to open the popup from anywhere in main.js
 // openPopupLogin();
