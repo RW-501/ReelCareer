@@ -486,6 +486,12 @@ input[type="checkbox"]:hover {
 
 }
 
+#advanceAnalytics {
+    display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+
+}
 
   </style>
   
@@ -861,7 +867,7 @@ input[type="checkbox"]:hover {
     </div>
 
     <div id="advanceAnalyticsContaier">
-
+        <h3>Advanced Video Analytics</h3>
     <div id="advanceAnalytics"></div></div>
   </div>
   
@@ -1500,7 +1506,6 @@ function calculatePercentage(part, total) {
 // Populate advanced analytics
 const advancedAnalyticsDiv = document.getElementById('advanceAnalytics');
 advancedAnalyticsDiv.innerHTML = `
-  <h3>Advanced Video Analytics</h3>
   <div class="analytics-item">
     <strong>Total Views:</strong> ${reelData.views || 0}  
     <span class="small-text">(${calculatePercentage(reelData.uniqueViews, reelData.views)} unique)</span>
