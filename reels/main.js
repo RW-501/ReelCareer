@@ -803,11 +803,22 @@ function handleComments(docId, commentsBtn) {
   ) {
     setRecipientName(recipientName);
   
-    const senderID = auth.currentUser.uid;
   
     console.log("recipientName: ", recipientName);
     console.log("reelUserID: ", reelUserID);
+
+    const user = auth.currentUser;
+
+    if(user){
   
+    }else{
+  
+      openPopupLogin();
+    }
+    const senderID = auth.currentUser.uid;
+
+
+
     console.log("senderID: ", senderID);
   
     if (senderID !== reelUserID) {
