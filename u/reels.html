@@ -401,9 +401,16 @@ input[type="checkbox"]:hover {
 
 #analytics-container {
   display: grid;
+
+}
+
+#analytics {
+    display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
+
 }
+
 
 .analytics-item {
   padding: 1rem;
@@ -792,7 +799,8 @@ input[type="checkbox"]:hover {
 
 
 <div id="analytics-container" class="modal-content">
-    
+    <div id="analytics">
+
     <div class="analytics-item">
       <span class="analytics-label">Views</span>
       <span id="reel-views" class="analytics-value">0</span>
@@ -842,7 +850,9 @@ input[type="checkbox"]:hover {
       <span id="reel-reach" class="analytics-value">0</span>
     </div>
 
-    <div id="advanceAnalytics"></div>
+    <div id="advanceAnalyticsContaier">
+
+    <div id="advanceAnalytics"></div></div>
   </div>
   
 
