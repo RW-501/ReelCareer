@@ -818,9 +818,7 @@ function handleComments(docId, commentsBtn) {
 
     const user = auth.currentUser;
 
-    if(user){
-  
-    }else{
+    if(!user){
       openPopupLogin();
       return;
     }
@@ -1078,8 +1076,9 @@ document.body.appendChild(overlay);
 document.getElementById("showUploadPopup").addEventListener("click", () => {
   
   
+  const user = auth.currentUser;
 
-  if(getUserId){
+  if(user){
     createVideoUploadPopup();
 
     initializeVideoUploadHandlers();
