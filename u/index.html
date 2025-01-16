@@ -1142,6 +1142,7 @@
     const userIdFromURL = urlParams.get('u');
     document.addEventListener('DOMContentLoaded', async () => {
       try {
+        console.log("DOMContentLoaded");
 
         const user = auth.currentUser;
 
@@ -1175,6 +1176,7 @@ document.getElementById('userPageId').innerText = userId;
     // Retrieve and populate form inputs for tabs
     window.onload = async function() {
 
+      console.log("window.onload");
 
     };
     /*
