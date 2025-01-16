@@ -1186,6 +1186,15 @@ document.getElementById('userPageId').innerText = userId;
   const userName = document.getElementById("user-name").innerText;
 */
     function setUpUI() {
+
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+ userId = auth.currentUser.uid;
+
       lastBreadcrumb_1.style.display = "none";
       lastBreadcrumb_last.style.display = "none";
       lastBreadcrumb_a.href = `https://reelcareer.co/u?u=${userId}`;
@@ -1786,15 +1795,46 @@ const uniqueWebsites = websites.filter((site, index, self) =>
       }
     }
     window.toggleFullscreen = toggleFullscreen;
+
+
     async function handleLike(reelID, likeButton) {
-      const videoRef = doc(db, "VideoResumes", reelID);
-      try {
-        await updateDoc(videoRef, {
-          likes: increment(1) // Firestore increment
-        });
-        // Update UI instantly
-        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i>`;
-      } catch (error) {
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+ userID = auth.currentUser.uid;
+
+const videoRef = doc(db, "VideoResumes", docId);
+const likesCollection = collection(db, `VideoResumes/${docId}/likes`); // Subcollection to track unique likes
+
+try {
+  // Check if the user has already liked this video
+  const userLikeRef = doc(likesCollection, userID);
+  const userLikeSnapshot = await getDoc(userLikeRef);
+  
+  if (userLikeSnapshot.exists()) {
+    showToast("You already liked this video.");
+    return;
+  }
+  
+  // Add user ID to the likes subcollection to record the like
+  await setDoc(userLikeRef, {
+    likedAt: new Date()
+  });
+
+  // Increment like count in the main document
+  await updateDoc(videoRef, {
+    engagegments: increment(1), // Firestore increment
+    likes: increment(1) // Firestore increment
+  });
+
+  // Update UI instantly
+  let likesCount = parseInt(likeButton.textContent) || 0;
+  likesCount++;
+  likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+ } catch (error) {
         console.error("Error updating like count: ", error);
       }
     }
@@ -1907,8 +1947,15 @@ const uniqueWebsites = websites.filter((site, index, self) =>
     });
     document.getElementById('view-profile-btn').addEventListener('click', async () => {
       try {
-        const userId = await getUserId(); // Await the userId if getUserId is asynchronous
-        if (userId) {
+        const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userId = auth.currentUser.uid;
+
+if (userId) {
           window.location.href = `https://reelcareer.co/u?u=${userId}`;
         } else {
           showToast('User ID could not be retrieved. Please try again.');
@@ -1929,7 +1976,13 @@ const uniqueWebsites = websites.filter((site, index, self) =>
 
     document.getElementById('view-obituary-account-btn').addEventListener('click', async () => {
       try {
-        const userId = await getUserId(); // Await the userId if getUserId is asynchronous
+        const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userId = auth.currentUser.uid;
         if (userId) {
           window.location.href = `https://reelcareer.co/obituaries/?u=${userId}`;
         } else {
@@ -2003,7 +2056,13 @@ if(!user){
       }
     });
     async function checkConnection() {
-      const userID = auth.currentUser.uid;
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userID = auth.currentUser.uid;
       // const userID = document.getElementById("currentUserId").innerText;
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('u'); // Get profile user ID
@@ -2044,7 +2103,13 @@ if(!user){
     }
     // Send Message Button Handler
     document.getElementById('send-message-btn').addEventListener('click', () => {
-      const userId = getUserId(); // Logged-in user
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('u'); // Profile user
       let recipientName = document.getElementById('user-name').innerText;
@@ -2137,6 +2202,14 @@ if(!user){
     // Your form submission logic
     document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+
       // Gather recipient and sender data
       const recipientProfilePicture = document.getElementById('profilePic').src;
       const recipientName = document.getElementById('user-name').innerText;
