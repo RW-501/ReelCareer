@@ -1137,19 +1137,16 @@
     let userId;
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
 
-    
-    // Retrieve and populate form inputs for tabs
-    window.onload = async function() {
-
-      const user = auth.currentUser;
+        const user = auth.currentUser;
 
 if(!user){
   openPopupLogin();
   return;
 }
-
- userID = auth.currentUser.uid;
+const userID = auth.currentUser.uid;
 
 document.getElementById('userPageId').innerText = userID;
 
@@ -1168,6 +1165,14 @@ document.getElementById('userPageId').innerText = userID;
           console.log("No user ID found in URL or session.");
         }
       }, 300);
+      } catch (error) {
+        // console.error("Error fetching user ID:", error);
+      }
+    });
+    // Retrieve and populate form inputs for tabs
+    window.onload = async function() {
+
+
     };
     /*
   // Select the last breadcrumb anchor
