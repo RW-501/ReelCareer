@@ -1656,8 +1656,8 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         profileData.tags.forEach(tag => {
           const tagElement = document.createElement('div');
           tagElement.className = 'tag';
-          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-                ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+          tagElement.innerHTML = `<span class=" badge tag-primary mr-1">
+                ${tag}<button class="ml-1 btn btn-sm ">x</button></span>`;
           tagsContainer.appendChild(tagElement);
         });
       }
