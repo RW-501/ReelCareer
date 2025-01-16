@@ -1337,20 +1337,7 @@ async function handleReels(action, event) {
         const reelData = reelSnap.data();
         
 
-        function toggleContainers() {
-  const analyticsContainer = document.getElementById('analytics-container');
-  const editContainer = document.getElementById('edit-container');
-
-  // Check if the analytics-container is displayed as block
-  if (analyticsContainer.style.display === 'block' || window.getComputedStyle(analyticsContainer).display === 'block') {
-    // If it is, hide the edit-container
-    editContainer.style.display = 'none';
-  } else {
-    // If it's not, show the edit-container
-    editContainer.style.display = 'block';
-  }
-}
-
+        
 
 toggleContainers(action);
 
