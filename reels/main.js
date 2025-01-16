@@ -717,6 +717,15 @@ function handleComments(docId, commentsBtn) {
   }
   
   async function handleConnect(docId, connectButton, viewProfilePicture, viewUserID, viewDisplayName) {
+    
+    
+    if(!viewUserID){
+  
+      openPopupLogin();
+      return;
+    }
+
+   
     showToast(`Attempting to connect with user ID: ${viewUserID}`);
   
     try {
@@ -812,8 +821,8 @@ function handleComments(docId, commentsBtn) {
     if(user){
   
     }else{
-  
       openPopupLogin();
+      return;
     }
     const senderID = auth.currentUser.uid;
 
