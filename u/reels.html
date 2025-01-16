@@ -124,10 +124,17 @@ header p {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 45%;
 }
+#total-reels {
+    text-align: center;
 
+}
+
+#total-reels h3 {
+    text-align: center;
+
+}
 .stats h3 {
     font-size: 1.2rem;
-    color: #555;
 }
 
 .stats p {
@@ -500,7 +507,7 @@ input[type="checkbox"]:hover {
             <section id="analytics">
                 <h2>Analytics</h2>
 
-                <div>
+                <div id="total-reels-div">
                     <h3>Total Reels</h3>
                     <p id="total-reels">0</p>
                 </div>
@@ -984,7 +991,7 @@ async function loadAnalytics(userID) {
         totalReach += reel.reach || 0;
     });
     
-    document.getElementById('total-reels').textContent = querySnapshot.length || 0;
+    document.getElementById('total-reels').textContent = querySnapshot.size || 0;  // `size` is preferred for Firestore snapshots
     document.getElementById('total-uniqueViews').textContent = totalUniqueViews;
     document.getElementById('total-views').textContent = totalViews;
     document.getElementById('total-likes').textContent = totalLikes;
