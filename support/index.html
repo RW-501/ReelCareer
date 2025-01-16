@@ -335,13 +335,21 @@ document.getElementById('supportForm').addEventListener('submit', async function
     // Get the selected support topics (from the dropdown)
     const supportTopics = Array.from(document.getElementById('supportTopics').selectedOptions)
                                 .map(option => option.value);
-                                 
+                                const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userID = auth.currentUser.uid;
+
+
     const userDataSaved = getUserData() || {};
 
     try {
         // Adding the document to the Firestore collection
         await addDoc(collection(db, "SupportTickets"), {
-            submittedByUserID: userDataSaved.userID || '',  // You can replace this with dynamic user ID
+            submittedByUserID: userID || '',  // You can replace this with dynamic user ID
             submittedByUserName: userName,
             message: userIssue,
             reasons: supportTopics,  // Add the selected topics to the reasons array

@@ -734,7 +734,18 @@ function paymentStatusNotifications() {
         let pageName = '';
         document.addEventListener('DOMContentLoaded', async () => {
     try {
-        let userID = await getUserId(); // Await inside the function to ensure the user ID is fetched
+
+      const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userID = auth.currentUser.uid;
+
+
+
+     //   let userID = await getUserId(); // Await inside the function to ensure the user ID is fetched
         console.log("User ID fetched during DOMContentLoaded:", userID);
 
         if (!userID || userID.trim() === "") {

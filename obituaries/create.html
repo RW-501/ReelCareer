@@ -1199,14 +1199,13 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     console.log("No user signed in. Signing in anonymously...");
     
-    // Sign in anonymously if no user is logged in
-    signInAnonymously(auth)
-      .then(() => {
-        console.log("Signed in anonymously");
-      })
-      .catch((error) => {
-        console.error("Error signing in anonymously:", error);
-      });
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+     userID = auth.currentUser.uid;
   }
 });
 

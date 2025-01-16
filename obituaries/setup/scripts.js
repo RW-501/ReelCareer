@@ -524,6 +524,15 @@ function giftPopupBackBtn(){
 window.giftPopupBackBtn = giftPopupBackBtn;
 
 async function selectGift(giftType, price) {
+
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+
+    
   const back_button = document.getElementById('back-button');
   back_button.style.display = "block";
 

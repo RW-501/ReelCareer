@@ -540,6 +540,16 @@ function createSubscriptionPlan(price) {
 // Update Membership Function (Handling Subscription ID)
 async function updateMembership(userID, newMembershipType, subscriptionID) {
 
+  const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userID = auth.currentUser.uid;
+
+
+
   const container = document.getElementById(`paypal-button-container-${newMembershipType}`);
   if (container) {
     container.scrollIntoView({ behavior: 'smooth' });
