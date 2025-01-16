@@ -1355,7 +1355,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
       badgeClass: "tag-primary" // Custom badge class for general tags
     });
 
-    console.log("generalTags  ",generalTags);
+   // console.log("generalTags  ",generalTags);
 
         document.getElementById('tagsSET-main').value = reelData.tags || "";
 
@@ -1365,7 +1365,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
             reelData.tags.forEach(tag => {
          
                 tagElement_main.className = 'tags';
-                tagElement_main.innerHTML = `<span class="badge tag-primary mr-1">
+                tagElement_main.innerHTML += `<span class="badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
           tagsContainer.appendChild(tagElement_main);
         });
@@ -1388,14 +1388,14 @@ if(reelData.reelCategories){
     reelData.reelCategories.forEach(tag => {
         
         tagElement_reelCategories.className = 'tags';
-tagElement_reelCategories.innerHTML = `<span class="badge tag-primary mr-1">
+tagElement_reelCategories.innerHTML += `<span class="badge tag-primary mr-1">
         ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
   tagsContainer_reelCategories.appendChild(tagElement_reelCategories);
 });
         
 
 }
-console.log("generalTags_reelCategories  ",generalTags_reelCategories);
+//console.log("generalTags_reelCategories  ",generalTags_reelCategories);
 
 // Event listener for input changes to check comma count dynamically
 document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
