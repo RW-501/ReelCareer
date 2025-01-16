@@ -155,7 +155,14 @@ function updateFooter() {
         "title": "Referral Program - Earn Rewards by Referring Others to ReelCareer",
         "category": "Marketing",
         "order": 21
-    }
+    },
+    {
+      "url": "/videos",
+      "name": "Videos Fast",
+      "title": "Video Reels - Showcase Your Resume with a Personal Touch",
+      "category": "Content",
+      "order": 22
+  },
     
   ];
 
