@@ -1331,14 +1331,14 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         document.getElementById('tagsSET-main').value = reelData.tags || "";
 
         const tagsContainer = document.getElementById('tagsContainerSET-main');
+        const tagElement_main = document.querySelector(`.tagsList_tagsContainerSET-main`); 
         if(reelData.tags){
             reelData.tags.forEach(tag => {
-                const container = document.getElementById('tagsContainerSET-main');
-                const tagElement = document.querySelector(`.tagsList_tagsContainerSET-main`);          
-                tagElement.className = 'tags';
-          tagElement.innerHTML = `<span class="badge tag-primary mr-1">
+         
+             //   tagElement.className = 'tags';
+                tagElement_main.innerHTML = `<span class="badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
-          tagsContainer.appendChild(tagElement);
+          tagsContainer.appendChild(tagElement_main);
         });
         }
 
@@ -1353,16 +1353,15 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
 
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
+const tagElement_reelCategories = document.querySelector(`.tagsList_tagsContainerSET-reelCategories`);          
 
 if(reelData.reelCategories){
     reelData.reelCategories.forEach(tag => {
         
-const container = document.getElementById('tagsContainerSET-reelCategories');
-const tagElement = document.querySelector(`.tagsList_tagsContainerSET-reelCategories`);          
-tagElement.className = 'tags';
-  tagElement.innerHTML = `<span class="badge tag-primary mr-1">
+//tagElement.className = 'tags';
+tagElement_reelCategories.innerHTML = `<span class="badge tag-primary mr-1">
         ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
-  tagsContainer_reelCategories.appendChild(tagElement);
+  tagsContainer_reelCategories.appendChild(tagElement_reelCategories);
 });
         
 
