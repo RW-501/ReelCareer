@@ -495,6 +495,30 @@ input[type="checkbox"]:hover {
 #advanceAnalyticsContaier {
         margin-top: 1rem;
 }
+
+
+
+
+.videoElements {
+    display: block;
+    margin: auto;
+}
+
+
+
+
+
+.videoElements {
+    display: block;
+    margin: auto;
+}
+
+
+
+
+
+
+
   </style>
   
 </head>
@@ -644,6 +668,7 @@ input[type="checkbox"]:hover {
 
 <div id="edit-container" class="modal-content">
     <h3>Edit</h3>
+    <div id="videoReelArea-edit"></div>
 
 <form id="editReelForm">
 
@@ -820,6 +845,8 @@ input[type="checkbox"]:hover {
 
 <div id="analytics-container" class="modal-content">
     <h3>Analytics</h3>
+    <div id="videoReelArea-analytics"></div>
+
     <div id="analytics">
 
     <div class="analytics-item">
@@ -1309,6 +1336,25 @@ async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
  // Allow further actions if the user is eligible
  return true;
 }
+function populateVideoReels(videoSrc) {
+  // Create the video element with provided videoSrc
+  const videoElement = document.createElement('video');
+  videoElement.src = videoSrc;
+  videoElement.controls = true;
+  videoElement.width = 360; // Set width as needed
+  videoElement.height = 640; // Set height as needed
+  videoElement.className = 'videoElements';
+
+  // Clear and populate videoReelArea-analytics
+  const analyticsArea = document.getElementById('videoReelArea-analytics');
+  analyticsArea.innerHTML = '';  // Clear previous content
+  analyticsArea.appendChild(videoElement.cloneNode(true));  // Clone to preserve properties
+
+  // Clear and populate videoReelArea-edit
+  const editArea = document.getElementById('videoReelArea-edit');
+  editArea.innerHTML = '';  // Clear previous content
+  editArea.appendChild(videoElement.cloneNode(true));  // Clone to use the same video properties
+}
 
 function toggleContainers(action) {
   const analyticsContainer = document.getElementById('analytics-container');
@@ -1388,6 +1434,16 @@ document.getElementById('lovesBool').checked = reelData.lovesBool || true;
 document.getElementById('isPublic').checked = reelData.isPublic || true;
 document.getElementById('isBoostedPost').checked = reelData.isBoostedPost || false;
 document.getElementById('isSponsoredPost').checked = reelData.isSponsoredPost || false;
+
+
+populateVideoReels(reelData.videoResumeURL);
+
+
+
+
+
+
+
 
 // Populate related reels and related products arrays
 relatedReelsArray = reelData.relatedReels || [];
