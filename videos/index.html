@@ -399,7 +399,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
 
     try {
         // Fetch video resumes from the local JSON file
-        const response = await fetch('json/videoReels.json');
+        const response = await fetch('https://reelcareer.co/reels/json/videoReels.json');
         
         // Log the response to make sure we get it
         console.log("Response received:", response);
