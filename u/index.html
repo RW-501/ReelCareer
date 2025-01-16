@@ -1652,7 +1652,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         const tags = profileData.tags; // No need to map since they're already strings
       //   console.log("tags: ", tags);
         document.getElementById('tagsSET-profile').value = profileData.tags || "";
-        const tagsContainer = document.getElementById('tagsList');
+        const tagsContainer = document.querySelector('.tagsList');
         profileData.tags.forEach(tag => {
           const tagElement = document.createElement('div');
           tagElement.className = 'tag';
