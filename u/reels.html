@@ -812,6 +812,8 @@ input[type="checkbox"]:hover {
       <span class="analytics-label">Reach</span>
       <span id="reel-reach" class="analytics-value">0</span>
     </div>
+
+    <div id="advanceAnalytics"></div>
   </div>
   
 
@@ -1436,6 +1438,47 @@ document.getElementById('reel-uniqueViews').textContent = reelData.uniqueViews |
 
 
 
+// Helper function to format percentage safely
+function calculatePercentage(part, total) {
+  return total > 0 ? ((part / total) * 100).toFixed(2) + '%' : '0%';
+}
+
+// Populate advanced analytics
+const advancedAnalyticsDiv = document.getElementById('advanceAnalytics');
+advancedAnalyticsDiv.innerHTML = `
+  <h3>Advanced Video Analytics</h3>
+  <div class="analytics-item">
+    <strong>Total Views:</strong> ${reelData.views || 0}  
+    <span class="small-text">(${calculatePercentage(reelData.uniqueViews, reelData.views)} unique)</span>
+  </div>
+  <div class="analytics-item">
+    <strong>Engagement Rate:</strong> ${calculatePercentage(reelData.engagements, reelData.reach)} 
+  </div>
+  <div class="analytics-item">
+    <strong>Likes to Views:</strong> ${calculatePercentage(reelData.likes, reelData.views)} 
+  </div>
+  <div class="analytics-item">
+    <strong>Shares to Views:</strong> ${calculatePercentage(reelData.shares, reelData.views)} 
+  </div>
+  <div class="analytics-item">
+    <strong>Comments per 1,000 Views:</strong> ${(reelData.comments / (reelData.views / 1000 || 1)).toFixed(2)}
+  </div>
+  <div class="analytics-item">
+    <strong>Gift Engagement:</strong> ${reelData.gifts.length || 0} gifts received 
+  </div>
+  <div class="analytics-item">
+    <strong>Average Watch Time:</strong> ${formatWatchTime(Math.floor((reelData.watchTime || 0) / (reelData.views || 1)))} per view
+  </div>
+  <div class="analytics-item">
+    <strong>Saves:</strong> ${reelData.saved || 0} <span class="small-text">(${calculatePercentage(reelData.saved, reelData.views)} save rate)</span>
+  </div>
+  <div class="analytics-item">
+    <strong>Shortlists:</strong> ${reelData.shortList || 0}
+  </div>
+  <div class="analytics-item">
+    <strong>Love Reactions:</strong> ${reelData.loves || 0}
+  </div>
+`;
 
 
 
