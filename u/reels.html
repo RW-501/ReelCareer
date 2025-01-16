@@ -1285,7 +1285,7 @@ document.getElementById('videoResumeTitle').value = reelData.videoResumeTitle ||
 document.getElementById('videoResumeFileName').value = reelData.videoResumeFileName || '';
 document.getElementById('reelID').value = reelID || '';
 document.getElementById('fileType').value = reelData.fileType || '';
-document.getElementById('createdAt').value = reelData.createdAt ? new Date(reelData.createdAt).toLocaleDateString() : '';
+document.getElementById('createdAt').value = reelData.createdAt ? reelData.createdAt.toDate().toLocaleDateString() : '';
 document.getElementById('reelURL').value = reelData.reelURL || `https://reelcareer.co/reels/?r=${reelID}`;
 document.getElementById('duration').value = reelData.duration ? Math.round(reelData.duration) : '';
 document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
