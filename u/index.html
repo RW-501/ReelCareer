@@ -1102,6 +1102,9 @@
     // Async function to check the user profile (userData)
     async function checkUser(userIdFromURL) {
       try {
+
+        console.log("checkUser:", userIdFromURL);
+
         // Fetch profile information based on userId in the URL
         const profileDoc = doc(db, 'Users', userIdFromURL);
         const profileSnapshot = await getDoc(profileDoc);
