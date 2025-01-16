@@ -1398,6 +1398,8 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         const tagsContainer = document.getElementById('tagsContainerSET-main');
         const tagElement_main = document.getElementById(`tagsList_tagsContainerSET-main`); 
         if(reelData.tags){
+            tagElement_main.innerHTML = '';
+
             reelData.tags.forEach(tag => {
          
                 tagElement_main.className = 'tags';
@@ -1421,6 +1423,8 @@ const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-r
 const tagElement_reelCategories = document.getElementById(`tagsList_tagsContainerSET-reelCategories`);          
 
 if(reelData.reelCategories){
+    tagElement_reelCategories.innerHTML = '';
+
     reelData.reelCategories.forEach(tag => {
         
         tagElement_reelCategories.className = 'tags';
