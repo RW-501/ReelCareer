@@ -344,16 +344,26 @@ function createPopupLogin() {
 function openPopupLogin() {
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
-      popupContainer.style.visibility = 'visible';
+      popupContainer.style.visibility = 'visible'; // Ensure visibility is set
+      popupContainer.style.opacity = '0';         // Start with opacity 0
+      popupContainer.style.transition = 'opacity 0.5s ease-in-out'; // Add transition
+      setTimeout(() => {
+          popupContainer.style.opacity = '1';     // Fade in
+      }, 10); // Small delay to ensure transition works
   }
 }
 
 function closePopupLogin() {
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
-      popupContainer.style.visibility = 'hidden';
+      popupContainer.style.transition = 'opacity 0.5s ease-in-out'; // Add transition
+      popupContainer.style.opacity = '0';         // Fade out
+      setTimeout(() => {
+          popupContainer.style.visibility = 'hidden'; // Hide after fading out
+      }, 500); // Match the transition duration
   }
 }
+
 
 window.openPopupLogin = openPopupLogin;
 
