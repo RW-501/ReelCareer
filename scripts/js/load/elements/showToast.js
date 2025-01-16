@@ -1,13 +1,37 @@
 
 
+let toastNumber = 0;
+let toastQueue = []; // Queue to manage toast sequence
+let activeToasts = new Set(); // Set to track active toasts
 
+function showToast(message, type = 'info', duration = 3500,
+   link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
+  // Check if a toast with the same message and type is already active
+  const toastId = `toast_${toastNumber}`;
+  const toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
-function showToast(message, type = 'info', duration = 3500, link = null, confirm = false, linkTitle = 'Click Here') {
+  if (activeToasts.has(toastKey)) {
+    return; // Skip adding a duplicate toast
+  }
+
   const toast = document.createElement('div');
-  
+  toast.id = toastId;
+  toast.className = "mainShowToast";
+  toastNumber += 1;
+
+  // Add the toast to active toasts set
+  activeToasts.add(toastKey);
+
   // Accessibility (Screen Readers)
   toast.setAttribute('role', 'alert');
   toast.setAttribute('aria-live', 'assertive');
+  toast.setAttribute('duration', duration);
+  toast.setAttribute('type', type);
+  toast.setAttribute('message', message);
+  toast.setAttribute('link', link);
+  toast.setAttribute('confirm', confirm);
+  toast.setAttribute('linkTitle', linkTitle);
+  toast.setAttribute('progress', progress);
 
   // Styling for the toast
   toast.style.position = 'fixed';
@@ -20,7 +44,7 @@ function showToast(message, type = 'info', duration = 3500, link = null, confirm
   toast.style.zIndex = '9999';
   toast.style.fontFamily = 'Arial, sans-serif';
   toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease, bottom 0.3s ease';
-  
+
   // Fade-in effect
   toast.style.transform = 'translateY(20px)';
   toast.style.opacity = '0';
@@ -45,26 +69,57 @@ function showToast(message, type = 'info', duration = 3500, link = null, confirm
 
   // Format message with link if applicable
   if (link) {
-      message = `${message} <a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">${linkTitle}</a>`;
+    message = `${message} <a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">${linkTitle}</a>`;
+  }
+
+  let progressBarHTML = '';
+  if (progress !== null) {
+    progressBarHTML = `
+      <div style="width: 100%; background: rgba(255, 255, 255, 0.3); border-radius: 4px; margin-top: 8px;">
+        <div id="toastProgressBar" style="height: 4px; width: 0%; background: white; border-radius: 4px;"></div>
+      </div>
+    `;
   }
 
   // Structure toast message and buttons
-  toast.innerHTML = `  
+  toast.innerHTML = `
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
       <div style="display: flex; align-items: center; gap: 12px;">
         <span class="material-icons" style="color: white; font-size: 28px;">${type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info'}</span>
-        <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
+        <span style="font-size: 16px; font-weight: 500;">${message}</span>
+        ${progressBarHTML}
       </div>
-      ${confirm ? `
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">Confirm</button>
-      ` : `
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      `}
+      ${confirm ? 
+        `<button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">Confirm</button>` : 
+        `<button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>`
+      }
     </div>
   `;
 
-  // Append the toast to the body
+  // Append to the queue if there are active toasts
+  if (toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
+    toastQueue.push({ element: toast, toastKey });
+    return;
+  }
+
   document.body.appendChild(toast);
+
+
+// Set aria-label for close button
+const closeButton = toast.querySelector('button');
+closeButton.setAttribute('aria-label', 'Close toast');
+
+// Set aria-label for progress bar
+if (progress !== null) {
+  const progressBar = toast.querySelector("#toastProgressBar");
+  progressBar.setAttribute('role', 'progressbar');
+  progressBar.setAttribute('aria-valuenow', '0');
+  progressBar.setAttribute('aria-valuemin', '0');
+  progressBar.setAttribute('aria-valuemax', '100');
+}
+
+
+
 
   // Fade-in effect
   setTimeout(() => {
@@ -83,16 +138,43 @@ function showToast(message, type = 'info', duration = 3500, link = null, confirm
       toast.style.bottom = '-50px'; // Toast goes out of view
     }, duration); // Toast disappears after specified duration
 
+    if (progress !== null) {
+      const progressBar = toast.querySelector("#toastProgressBar");
+      return progressBar;
+    }
+
     // Remove toast from DOM after animation
     setTimeout(() => {
       if (toast.parentNode) {
         toast.parentNode.removeChild(toast);
       }
+
+      // If there are other toasts in the queue, show the next one
+      if (toastQueue.length > 0) {
+        activeToasts.delete(toastKey);
+        processNextToast();
+      }
+
     }, duration + 300); // Allow 0.3s for fade-out animation
   }
 }
 
   
+
+function processNextToast() {
+  if (toastQueue.length > 0) {
+    const nextToast = toastQueue.shift();
+    document.body.appendChild(nextToast);
+    showToast(nextToast.innerHTML, nextToast.getAttribute('type'), nextToast.getAttribute('duration'), nextToast.getAttribute('link'), nextToast.getAttribute('confirm'), nextToast.getAttribute('linkTitle'), nextToast.getAttribute('progress'));
+  }
+}
+
+
+
+
+
+
+
   // Function to dismiss toast manually
   function dismissToast(button) {
     const toast = button.closest('.toast');

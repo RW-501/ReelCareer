@@ -636,7 +636,21 @@ function restoreTimersOnPageLoad() {
 
 
 
+// Resume any upload on page load
+function resumeUploadProgress() {
+    const keys = Object.keys(localStorage).filter(key => key.startsWith('upload_'));
+    if (keys.length > 0) {
+        keys.forEach(key => {
+            const uploadData = JSON.parse(localStorage.getItem(key));
+            if (uploadData && uploadData.progress < 100) {
+                showToast(`Resuming upload for ${uploadData.name}: ${Math.floor(uploadData.progress)}%`);
+                uploadVideoResume(uploadData.userID, uploadData.videoData, key); // Resumes upload
+            }
+        });
+    }
+}
 
+window.addEventListener('load', resumeUploadProgress);
 
 
 // Restore timers when the page is loaded

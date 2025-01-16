@@ -14,43 +14,67 @@ getUserId // Export the function
 
 
 // Upload Video Resume to Firebase Storage
-async function uploadVideoResume(userID, videoData) {
+
+async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_${videoData.name}`) {
     try {
         const fileRef = ref(storage, `users/${userID}/reels/${videoData.name}`);
         const uploadTask = uploadBytesResumable(fileRef, videoData.file);
         const progressBar = document.getElementById("uploadProgressBar");
+        let progressToastBar;
 
         if (progressBar) {
-            progressBar.style.display = 'block';  // Show progress bar at start
+            progressBar.style.display = 'block';
+        }else{        
+             progressToastBar = showToast('Uploading video resume...', 'info', 0, null, false, null, 0);
         }
 
-        // Listen for state changes
         uploadTask.on('state_changed',
             (snapshot) => {
-                // Calculate and update progress
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                progressBar.style.width = `${progress}%`;
-                progressBar.textContent = `${Math.floor(progress)}%`;
+               
+               
+                if (progressBar) {
+                    progressBar.style.width = `${progress}%`;
+                    progressBar.textContent = `${Math.floor(progress)}%`;
+                    }else{        
+                        if (progressToastBar) {
+                            progressToastBar.style.width = `${progress}%`;
+                        }
+                }
+  
+                localStorage.setItem(uploadSessionKey, JSON.stringify({
+                    bytesTransferred: snapshot.bytesTransferred,
+                    totalBytes: snapshot.totalBytes,
+                    progress,
+                    name: videoData.name,
+                    userID,
+                    videoData
+                }));
+
+                navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
             },
             (error) => {
                 console.error("Error uploading video resume:", error);
                 showToast('Failed to upload video resume.');
+                localStorage.removeItem(uploadSessionKey);
                 if (progressBar) {
-                    progressBar.style.display = 'none';  // Hide progress bar on error
+                    progressBar.style.display = 'none';
                 }
-                throw new Error('Failed to upload video resume.');
             },
             async () => {
-                // When upload is complete
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 progressBar.style.width = '100%';
                 progressBar.textContent = 'Upload Complete!';
+                localStorage.removeItem(uploadSessionKey);
                 setTimeout(() => {
                     if (progressBar) {
-                        progressBar.style.display = 'none';  // Hide progress bar after completion
+                        progressBar.style.display = 'none';
                     }
-                }, 2000);  // Optional delay to let user see "Upload Complete!"
-                return downloadURL;
+                }, 2000);
+
+                // Update metadata when upload completes
+                await completeMetadataUpdate(userID, videoData, downloadURL);
+                showToast('Video uploaded successfully!', 'success');
             }
         );
     } catch (error) {
@@ -59,12 +83,128 @@ async function uploadVideoResume(userID, videoData) {
     }
 }
 
+window.uploadVideoResume = uploadVideoResume;
+
+async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
+    const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
+    const userDataSaved = getUserData() || {};
+    const tags = extractHashtags(videoData.captions);  // Ensure captions are passed in videoData
+    if (tags.length < 2) {
+        showToast("Please add at least two hashtags.");
+        return;
+    }
+
+    const relatedReels = userDataSaved.videoResumeData?.map(video => ({
+        reelID: video.reelID,
+        reelTitle: video.videoResumeTitle,
+        videoUrl: video.videoResumeURL,
+        reelURL: video.reelURL,
+        reelTags: video.tags,
+        reelcreatedDate: new Date(video.createdAt)
+    })).sort((a, b) => b.reelcreatedDate - a.reelcreatedDate).slice(0, 5) || [];
+
+    const videoResumeData = {
+        createdByID: userID,
+        displayName: userDataSaved.displayName || '',
+        publicProfile: userDataSaved.publicProfile ?? true,
+        profilePicture: userDataSaved.profilePicture || '',
+        profileURL: `https://reelcareer.co/u/?u=${userID}`,
+        membershipType: userDataSaved.membershipType || 'free',
+        location: `${userlocationData.city || ''}, ${userlocationData.state || ''}`,
+        city: userlocationData.city || '',
+        state: userlocationData.state || '',
+        country: userlocationData.country || '',
+        zip: userlocationData.zip || '',
+
+        verified: userDataSaved.verified || '',
+        position: userDataSaved.position || '',
+        tags,
+        videoResumeCaptions: videoData.videoResumeCaptions,
+        videoResumeTitle: videoData.videoResumeTitle,
+        thumbnailURL: 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
+        videoResumeURL,
+        videoResumeFileName: videoData.name,
+        duration: videoData.duration,
+        fileType: videoData.fileType,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        views: 0,
+        uniqueViews: 0,
+        shares: 0,
+        likes: 0,
+        loves: 0,
+        gifts: [],
+        endingCardBool: false,
+        endingCard: '',
+        relatedURLBool: false,
+        relatedURL: '',
+
+        relatedReels: relatedReels,
+        reelCatagories: [],
+        reelResume: [],
+
+        relatedProductsBool: false,
+        relatedProducts: [],
+
+        watchTime: 0,
+        engagegments: 0,
+        reach: 0,
+        reported: 0,
+        
+        comments: 0,
+        shortList: 0,
+        saved: 0,
+        notifcationsBool: false,
+
+        isPinned: false,
+        commentsBool: true,
+        locationBool: true,
+
+        giftsBool: true,
+        viewsBool: true,
+        likesBool: true,
+        lovesBool: true,
+        isPublic: true,
+        isBoostedPost: false,
+        isSponsoredPost: false,
+        status: 'posted',
+        isDeleted: false,
+    };
+
+
+    try {
+        const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
+        const reelID = reelDocRef.id;
+
+        const userDocRef = doc(db, "Users", userID);
+        await updateDoc(userDocRef, {
+            videoResumeData: arrayUnion({
+                reelID,
+                videoResumeURL,
+                tags,
+                createdAt: new Date(),
+                status: 'posted',
+                reelURL: `https://reelcareer.co/reels/?r=${reelID}`
+            })
+        });
+
+        const updatedUserData = {
+            ...userDataSaved,
+            videoResumeData: [
+                ...(userDataSaved.videoResumeData || []),
+                { reelID, videoResumeURL, tags, createdAt: new Date(), status: 'posted', reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
+            ]
+        };
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
+    } catch (error) {
+        console.error("Error updating metadata:", error);
+    }
+}
 
 
 
-
-
-
+window.handleVideoResumeUploadComplete = handleVideoResumeUploadComplete;
 
 
 
@@ -119,8 +259,14 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
          videoData = {
             duration: videoDuration,
             name: `${userID}-${new Date().toISOString()}-reel.mp4`,
+            videoResumeTitle: videoResumeTitle,
+            videoResumeCaptions: videoResumeCaptions,
+            videoDuration: videoDuration,
+            tags: tags,
+            userID: userID,
             file: uploadedFile,
             fileType: "video/mp4",
+
         };
 
         videoResumeURL = await uploadVideoResume(userID, videoData);
@@ -170,7 +316,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         tags,
         videoResumeCaptions,
         videoResumeTitle,
-        thumbnailURL, // https://reelcareer.co/images/sq_logo_n_BG_sm.png
+        thumbnailURL: 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
         videoResumeURL,
         videoResumeFileName: videoData.name,
         duration: videoData.duration,
@@ -246,13 +392,13 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             ]
         };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
-        
+        showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
+
 
         const uploadContainer = document.getElementById("reel-upload-container");
         if (uploadContainer) {
             uploadContainer.remove();  // Remove the upload container
         }
-        showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
     } catch (error) {
         console.error("Error saving user data:", error);
         showToast("There was an error posting your resume reel. Please try again later.");
@@ -260,6 +406,12 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 }
 
 window.postReelFunction = postReelFunction;
+
+
+
+
+
+
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
     const selectVideoButton = document.querySelector(".select-video-btn");
