@@ -1137,24 +1137,24 @@
     let userId;
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const user = auth.currentUser;
+
+    
+    // Retrieve and populate form inputs for tabs
+    window.onload = async function() {
+
+      const user = auth.currentUser;
 
 if(!user){
   openPopupLogin();
   return;
 }
-const userID = auth.currentUser.uid;
+
+ userID = auth.currentUser.uid;
 
 document.getElementById('userPageId').innerText = userID;
 
-      } catch (error) {
-        // console.error("Error fetching user ID:", error);
-      }
-    });
-    // Retrieve and populate form inputs for tabs
-    window.onload = async function() {
+
+
       setTimeout(() => {
       //  console.log("Module User We outside:", userId);
         // Ensure userIdFromURL is not null or undefined
