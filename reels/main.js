@@ -92,15 +92,56 @@ function handleComments(docId, commentsBtn) {
     controlsTop,
     controlsPlay,
     controlsBottom,
-    videoCard
+    videoCard,
+    docId
   ) {
-    video.addEventListener("ended", () => {
+    let totalWatchTime = 0;  // Track total watch time
+    let sessionStartTime = null;  // Record when the video starts playing
+  
+    function startTracking() {
+      sessionStartTime = new Date().getTime();  // Store the start time in milliseconds
+    }
+  
+    function stopTracking() {
+      if (sessionStartTime) {
+        const elapsed = (new Date().getTime() - sessionStartTime) / 1000;  // Calculate elapsed time in seconds
+        totalWatchTime += elapsed;  // Add to total watch time
+        sessionStartTime = null;  // Reset session start
+      }
+    }
+  
+    video.addEventListener("play", () => {
+      startTracking();
+    });
+  
+    video.addEventListener("pause", () => {
+      stopTracking();
+    });
+  
+    video.addEventListener("ended", async () => {
+      stopTracking();  // Ensure we capture the final segment of watch time
+  
       // Bring elements back when video stops
       controlsTop.classList.remove("slide-up");
       controlsBottom.classList.remove("slide-down");
       controlsPlay.classList.remove("fade-out");
+  
+      const videoRef = doc(db, "VideoResumes", docId);
+  
+      try {
+        await updateDoc(videoRef, {
+          watchTime: increment(Math.round(totalWatchTime))  // Use whole seconds for Firestore increment
+        });
+  
+        // Update UI instantly (if needed)
+        console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
+  
+      } catch (error) {
+        console.error("Error updating watch time: ", error);
+      }
     });
   }
+  
   window.addVideoEndListener = addVideoEndListener;
 
   // Function to toggle Mute/Unmute
@@ -137,28 +178,37 @@ function handleComments(docId, commentsBtn) {
   }
   window.handleJoinUsBtn = handleJoinUsBtn;
   
-  function addToShortlist(docId, currentUid) {
-    const userID = auth.currentUser.uid;
+  async function addToShortlist(videoId, currentUid) {
+    const userID = auth.currentUser?.uid;  // Use optional chaining for safety
   
-    // Example: Add the video to the user's shortlist (if they are logged in)
-    if (userID) {
-      const shortlistRef = collection(db, "Users", userID, "Shortlists");
-      addDoc(shortlistRef, {
-        userID: currentUid,
-        videoID: docId,
-        timestamp: new Date()
-      })
-        .then(() => {
-          showToast("Video added to your shortlist.");
-        })
-        .catch((error) => {
-          console.error("Error adding to shortlist: ", error);
-          showToast("Error adding video to shortlist.");
-        });
-    } else {
+    if (!userID) {
       showToast("Please log in to add to shortlist.");
+      return;
+    }
+  
+    try {
+      // Add video to user's shortlist
+      const shortlistRef = collection(db, "Users", userID, "Shortlists");
+      await addDoc(shortlistRef, {
+        userID: currentUid,
+        videoID: videoId,
+        timestamp: new Date()
+      });
+  
+      showToast("Video added to your shortlist.");
+  
+      // Update shortlist count in VideoResumes collection
+      const videoRef = doc(db, "VideoResumes", videoId);
+      await updateDoc(videoRef, {
+        shortList: increment(1)
+      });
+  
+    } catch (error) {
+      console.error("Error adding to shortlist: ", error);
+      showToast("Error adding video to shortlist.");
     }
   }
+  
   window.addToShortlist = addToShortlist;
   
   // Function to increment view count
@@ -198,6 +248,7 @@ function handleComments(docId, commentsBtn) {
   
       // Increment view count in the main document
       await updateDoc(videoRef, {
+        engagegments: increment(1), // Firestore increment
         uniqueViews: increment(1) // Firestore increment
       });
       
@@ -241,6 +292,7 @@ function handleComments(docId, commentsBtn) {
   
       // Increment like count in the main document
       await updateDoc(videoRef, {
+        engagegments: increment(1), // Firestore increment
         likes: increment(1) // Firestore increment
       });
   
@@ -260,13 +312,14 @@ function handleComments(docId, commentsBtn) {
   
     try {
       await updateDoc(videoRef, {
+        engagegments: increment(1), // Firestore increment
         share: increment(1) // Firestore increment
       });
   
       // Update UI instantly
      
     } catch (error) {
-      console.error("Error updating like count: ", error);
+      console.error("Error updating share count: ", error);
     }
   }
   window.handleShareCount = handleShareCount;
@@ -337,7 +390,19 @@ function handleComments(docId, commentsBtn) {
           parentCommentId: parentCommentId || null, // Track parent comment
           timestamp: serverTimestamp()
         });
+        const videoRef = doc(db, "VideoResumes", docId);
   
+        try {
+          await updateDoc(videoRef, {
+            engagegments: increment(1), // Firestore increment
+            comments: increment(1) // Firestore increment
+          });
+      
+          // Update UI instantly
+         
+        } catch (error) {
+          console.error("Error updating comment count: ", error);
+        }
         // Clear input and refresh comments
         commentInput.value = "";
         fetchComments(docId);
@@ -506,7 +571,8 @@ function handleComments(docId, commentsBtn) {
     const message = document.getElementById("reportMessage").value;
     const statusMessage = document.getElementById("reportStatusMessage");
     const closeButton = document.getElementById("closeReportModalButton");
-  
+  let videoId =  document.getElementById("currentVideoId").innerText;
+
     // Clear any previous messages
     statusMessage.innerHTML = "";
     statusMessage.className = "";
@@ -519,7 +585,7 @@ function handleComments(docId, commentsBtn) {
     }
     // Report Data to Firebase
     const reportData = {
-      videoId: document.getElementById("currentVideoId").innerText,
+      videoId: videoId,
       jobTitle: document.title,
       reasons: selectedReasons,
       message: message,
@@ -560,7 +626,7 @@ function handleComments(docId, commentsBtn) {
       group: "main",
       messageType: "support",
       contactLocation: "platform",
-      conversationID: `conversation_${jobID}_${userID}`,
+      conversationID: `conversation_${videoId}_${userID}`,
       content: followUpMessageContent.trim(),
       connectedBool: true,
       createdAt: new Date(),
@@ -592,6 +658,20 @@ function handleComments(docId, commentsBtn) {
       document.querySelector(
         '#reportJobForm button[type="button"]'
       ).disabled = true;
+
+      const videoRef = doc(db, "VideoResumes", videoId);
+  
+      try {
+        await updateDoc(videoRef, {
+          reported: increment(1) // Firestore increment
+        });
+    
+        // Update UI instantly
+       
+      } catch (error) {
+        console.error("Error updating reported count: ", error);
+      }
+
     } catch (error) {
       console.error("Error submitting report or follow-up message:", error);
   
