@@ -1146,9 +1146,11 @@
   
     });
 
-    function loadData(){
-      const user = auth.currentUser;
-        console.log("loadData User:", user);
+    function loadData() {
+   onAuthStateChanged(auth, (user) => {
+      if (user) {
+         console.log("loadData User:", user);
+         console.log("loadData User:", user);
 
 if(!user){
   openPopupLogin();
@@ -1173,9 +1175,13 @@ document.getElementById('userPageId').innerText = userId;
           console.log("No user ID found in URL or session.");
         }
 
-  
+        } else {
+         console.log("No user signed in.");
+      }
+   });
+}
+   
 
-    }
      
 
     setTimeout(() => {
