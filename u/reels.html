@@ -1500,8 +1500,12 @@ document.getElementById('reel-uniqueViews').textContent = reelData.uniqueViews |
 
 // Helper function to format percentage safely
 function calculatePercentage(part, total) {
-  return total > 0 ? ((part / total) * 100).toFixed(2) + '%' : '0%';
+  if (isNaN(part) || isNaN(total) || total === 0) {
+    return '0%'; // Return '0%' if part or total is NaN or total is 0
+  }
+  return ((part / total) * 100).toFixed(2) + '%';
 }
+
 
 // Populate advanced analytics
 const advancedAnalyticsDiv = document.getElementById('advanceAnalytics');
