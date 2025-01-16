@@ -424,7 +424,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                     videoDataArray.push({
                         id: videoData.id || '',
                         userID: videoData.userID || '',
-                        profilePicture: videoData.profilePicture || '',
+                        createdByID: videoData.createdByID || '',                        profilePicture: videoData.profilePicture || '',
                         displayName: videoData.displayName || '',
                         position: videoData.position || '',
                         location: videoData.location || '',
@@ -496,7 +496,8 @@ function renderVideos(docs, container) {
             console.log("docId", docId);
             console.log("videoData", videoData);
 
-let reelUserID = videoData.userID || 'Unknown User';
+            let reelUserID = videoData.userID || 'Unknown User';
+            let createdByID = videoData.createdByID || 'Unknown User';
 let profilePicture = videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
 let displayName = videoData.displayName || 'Anonymous';
 let position = videoData.position || 'No position specified';

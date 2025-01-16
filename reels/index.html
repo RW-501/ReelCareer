@@ -431,7 +431,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                 videoDataArray.push({
                     id: doc.id,
                     userID: videoData.userID || '',
-                    userID: videoData.userID || '',
+                    createdByID: videoData.createdByID || '',
                     profilePicture: videoData.profilePicture || '',
                     displayName: videoData.displayName || '',
                     position: videoData.position || '',
@@ -597,8 +597,8 @@ let videoMuted = '';
           //  console.log("videoData   ",videoData);
 
             
-            let reelUserID = videoData.userID || '';
-            let profilePicture = videoData.profilePicture || '';
+          let reelUserID = videoData.userID || 'Unknown User';
+          let createdByID = videoData.createdByID || 'Unknown User';            let profilePicture = videoData.profilePicture || '';
             let displayName = videoData.displayName || '';
 
             // Build the video card dynamically with real data

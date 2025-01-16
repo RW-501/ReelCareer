@@ -1056,9 +1056,19 @@ document.body.appendChild(overlay);
 
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", () => {
+  
+  
+  user = auth.currentUser;
+
+  if(user){
     createVideoUploadPopup();
 
     initializeVideoUploadHandlers();
+  }else{
+
+    openPopupLogin();
+  }
+
 });
 
 
