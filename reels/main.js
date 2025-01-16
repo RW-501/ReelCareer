@@ -179,13 +179,14 @@ function handleComments(docId, commentsBtn) {
   window.handleJoinUsBtn = handleJoinUsBtn;
   
   async function addToShortlist(videoId, currentUid) {
-    const userID = auth.currentUser?.uid;  // Use optional chaining for safety
-  
-    if (!userID) {
-      showToast("Please log in to add to shortlist.");
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
       return;
     }
-  
+    const userID = auth.currentUser.uid;  
+
     try {
       // Add video to user's shortlist
       const shortlistRef = collection(db, "Users", userID, "Shortlists");
@@ -271,7 +272,14 @@ function handleComments(docId, commentsBtn) {
   
   // Function to handle likes
   async function handleLike(docId, likeButton) {
-    const userID = auth.currentUser.uid; // Logged-in user ID
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+    const userID = auth.currentUser.uid;
+    
     const videoRef = doc(db, "VideoResumes", docId);
     const likesCollection = collection(db, `VideoResumes/${docId}/likes`); // Subcollection to track unique likes
   
@@ -373,8 +381,13 @@ function handleComments(docId, commentsBtn) {
     const commentInput = document.getElementById(inputId);
     const commentText = commentInput.value.trim();
     const userDataSaved = getUserData() || [];
-    const userID = auth.currentUser.uid;
-  
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+    const userID = auth.currentUser.uid;  
     if (commentText) {
       const commentsRef = collection(db, "VideoResumes", docId, "comments");
   
@@ -561,6 +574,15 @@ function handleComments(docId, commentsBtn) {
   
   async function submitReport() {
     const selectedReasons = [];
+
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+    const userID = auth.currentUser.uid;
+
     document
       .querySelectorAll('#reportJobForm input[type="checkbox"]:checked')
       .forEach((checkbox) => {
@@ -718,13 +740,12 @@ function handleComments(docId, commentsBtn) {
   
   async function handleConnect(docId, connectButton, viewProfilePicture, viewUserID, viewDisplayName) {
     
-    
-    if(!viewUserID){
-  
+    const user = auth.currentUser;
+
+    if(!user){
       openPopupLogin();
       return;
     }
-
    
     showToast(`Attempting to connect with user ID: ${viewUserID}`);
   
