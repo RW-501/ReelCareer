@@ -2194,3 +2194,43 @@ background-color: transparent;
   height: auto;
   scale: .9;
 }
+
+
+
+
+
+
+
+.tagsContainer { 
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  min-height: 40px;
+}
+
+.tagInput {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+}
+
+.tag {
+  background-color: #639ad4 ; 
+  color: white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin: 3px;
+  display: inline-flex;
+  align-items: center;
+      font-size: 1rem;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 5px;
+  cursor: pointer;
+}
