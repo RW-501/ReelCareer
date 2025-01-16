@@ -754,8 +754,9 @@ main .row {
                     // You can call your functions that require userId here
                 } else {
                     console.error("No user is signed in.");
-                    // Handle the case where the user is not signed in
-                }
+                    openPopupLogin();
+                  
+                  }
             });
         } catch (error) {
             console.error("Error initializing user ID:", error);

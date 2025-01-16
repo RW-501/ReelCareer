@@ -283,3 +283,80 @@ function redirectToLogin() {
   window.checkLogin = checkLogin;
   
 
+
+
+
+  // Create and inject the popup login structure
+function createPopupLogin() {
+  const popupContainer = document.createElement('div');
+  popupContainer.id = 'popup-login-container';
+  popupContainer.style.position = 'fixed';
+  popupContainer.style.top = '0';
+  popupContainer.style.left = '0';
+  popupContainer.style.width = '100%';
+  popupContainer.style.height = '100%';
+  popupContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  popupContainer.style.display = 'flex';
+  popupContainer.style.justifyContent = 'center';
+  popupContainer.style.alignItems = 'center';
+  popupContainer.style.zIndex = '1000';
+  popupContainer.style.visibility = 'hidden';
+
+  popupContainer.innerHTML = `
+      <div id="popup-login-content" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); width: 90%; max-width: 400px; position: relative;">
+          <span id="popup-login-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 18px;">&times;</span>
+          <form id="popup-login-form">
+              <h2>Log In</h2>
+              <input type="email" id="popup-login-email" placeholder="Email" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+              <div class="input-container">
+                  <input type="password" id="popup-login-password" placeholder="Password" required style="width: 100%; padding: 10px;">
+                  <span id="toggle-popup-login-password" style="cursor: pointer;">👁️</span>
+              </div>
+              <button type="submit" style="width: 100%; padding: 10px; background: #639ad4; color: white; border: none; border-radius: 4px; cursor: pointer;">Log In</button>
+          </form>
+      </div>
+  `;
+
+  document.body.appendChild(popupContainer);
+
+  // Close popup when the close button or outside is clicked
+  document.getElementById('popup-login-close').addEventListener('click', closePopupLogin);
+  popupContainer.addEventListener('click', function(event) {
+      if (event.target === popupContainer) closePopupLogin();
+  });
+
+  // Toggle password visibility
+  document.getElementById('toggle-popup-login-password').addEventListener('click', function() {
+      const passwordField = document.getElementById('popup-login-password');
+      passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+  });
+
+  // Form submit handler (example)
+  document.getElementById('popup-login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('popup-login-email').value;
+      const password = document.getElementById('popup-login-password').value;
+      alert(`Logging in with Email: ${email}`);
+      closePopupLogin();
+  });
+}
+
+function openPopupLogin() {
+  const popupContainer = document.getElementById('popup-login-container');
+  if (popupContainer) {
+      popupContainer.style.visibility = 'visible';
+  }
+}
+
+function closePopupLogin() {
+  const popupContainer = document.getElementById('popup-login-container');
+  if (popupContainer) {
+      popupContainer.style.visibility = 'hidden';
+  }
+}
+
+// Initialize the popup when the page loads
+document.addEventListener('DOMContentLoaded', createPopupLogin);
+
+// Example call to open the popup from anywhere in main.js
+// openPopupLogin();

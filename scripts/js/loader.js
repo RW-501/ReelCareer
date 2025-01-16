@@ -426,7 +426,7 @@ function loadPageScripts() {
         });
     }, 1000); // 500ms delay
     
-
+   
 }
 
 // Initialize page scripts after DOMContentLoaded

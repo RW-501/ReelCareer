@@ -871,7 +871,8 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
           } else {
             console.error("No user is signed in.");
-            // Handle the case where the user is not signed in
+            openPopupLogin();
+          
           }
         });
       } catch (error) {
