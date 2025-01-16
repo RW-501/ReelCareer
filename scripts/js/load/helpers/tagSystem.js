@@ -76,7 +76,7 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
-    tagsList.className = "mt-2 noCopy";
+    tagsList.className = "mt-2 tagsList";
     tagsList.id = "tagsList";
     tagsContainer.appendChild(tagsList); // Append the tags list to the container
 
