@@ -1146,14 +1146,14 @@ if(!user){
   openPopupLogin();
   return;
 }
- userID = auth.currentUser.uid;
+userId = auth.currentUser.uid;
 
 document.getElementById('userPageId').innerText = userID;
 
 
 
       setTimeout(() => {
-      //  console.log("Module User We outside:", userId);
+        console.log("Module User We outside:", userId);
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
           checkUser(userIdFromURL);
