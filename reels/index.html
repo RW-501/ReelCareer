@@ -931,10 +931,6 @@ window.onload = async function () {
         if (!userId) {
          //   throw new Error("User ID is null or undefined.");
         }
-    } catch (error) {
-      //  console.error("Error fetching user ID:", error);
-        userId = null; // Explicitly set userId to null if it fails
-    }
 
     const userDataSaved = getUserData() || [];
 
@@ -995,6 +991,12 @@ fetchVideoResumes(videoPageNumber, '');
 
 
     }, 300);
+
+  } catch (error) {
+      //  console.error("Error fetching user ID:", error);
+        userId = null; // Explicitly set userId to null if it fails
+    }
+
 };
 
       
