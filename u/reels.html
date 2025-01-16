@@ -98,7 +98,6 @@ header p {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
-    display: grid;
 }
 
 #analytics h2 {
@@ -1410,7 +1409,7 @@ if (isEligible_updatedEndingCardBool) {
 document.getElementById('reel-views').textContent = reelData.views || 0;
 document.getElementById('reel-likes').textContent = reelData.likes || 0;
 document.getElementById('reel-shares').textContent = reelData.shares || 0;
-document.getElementById('reel-gifts').textContent = reelData.gifts || 0;
+document.getElementById('reel-gifts').textContent = reelData.gifts.length || 0;
 document.getElementById('reel-comments').textContent = reelData.comments || 0;
 document.getElementById('reel-shortList').textContent = reelData.shortList || 0;
 document.getElementById('reel-saved').textContent = reelData.saved || 0;
