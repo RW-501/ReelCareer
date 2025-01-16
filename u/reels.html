@@ -1334,7 +1334,8 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         if(reelData.tags){
             reelData.tags.forEach(tag => {
                 const container = document.getElementById('tagsContainerSET-main');
-                const tagElement = container.querySelector('.tagsList');          tagElement.className = 'tags';
+                const tagElement = container.querySelector('.tagsList');          
+                tagElement.className = 'tags';
           tagElement.innerHTML = `<span class="badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm">x</button></span>`;
           tagsContainer.appendChild(tagElement);
