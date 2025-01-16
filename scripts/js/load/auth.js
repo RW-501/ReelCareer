@@ -355,6 +355,8 @@ function closePopupLogin() {
   }
 }
 
+window.openPopupLogin = openPopupLogin;
+
 // Initialize the popup when the page loads
 document.addEventListener('DOMContentLoaded', createPopupLogin);
 
