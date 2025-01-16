@@ -1139,8 +1139,15 @@
     const userIdFromURL = urlParams.get('u');
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        userId = await getUserId(); // Await here to properly set userId
-        document.getElementById('userPageId').innerText = userID;
+        const user = auth.currentUser;
+
+if(!user){
+  openPopupLogin();
+  return;
+}
+const userID = auth.currentUser.uid;
+
+document.getElementById('userPageId').innerText = userID;
 
       } catch (error) {
         // console.error("Error fetching user ID:", error);
