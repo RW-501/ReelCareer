@@ -204,7 +204,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
 
 
-window.handleVideoResumeUploadComplete = handleVideoResumeUploadComplete;
+window.completeMetadataUpdate = completeMetadataUpdate;
 
 
 
