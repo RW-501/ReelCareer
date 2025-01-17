@@ -1580,8 +1580,8 @@ if(tagElement_reelCategories.innerHTML == '' && reelData.reelCategories){
     tagElement_reelCategories.innerText = '';
     const tagsInputElement = document.getElementById('input_tagsContainerSET-reelCategories');
 
-    const tagsArray = reelData.reelCategories ? reelData.reelCategories.split(",").map(item => item.trim()) : [];
-    tagsInputElement.value = reelData.reelCategories || ""; // For fallback compatibility if it's a regular input field
+    
+    tagsInputElement.value = reelData.reelCategories; // For fallback compatibility if it's a regular input field
 
     reelData.reelCategories.forEach(tag => {
         
