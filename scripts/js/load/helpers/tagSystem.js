@@ -154,4 +154,4 @@ tagInput.addEventListener("focusout", () => {
 
 
 
-window.createTagInputSystem = createTagInputSystem ;
+window.createTagInputSystem  = createTagInputSystem  ;
