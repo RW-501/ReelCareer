@@ -177,6 +177,7 @@
             
         </div>
       <div class="controls">
+        <button id="changeStyleBtn">Change Style</button>
         <button id="changeLayoutBtn">Change Layout</button>
         <button id="changeTextBtn">Change Text</button>
         <button id="previewBtn">Preview</button>
@@ -191,6 +192,23 @@
         <!-- Toolbar buttons will be injected here -->
     </div>
     
+    <!-- Color Picker Pop-Up (Hidden by default) -->
+<div id="color-picker-popup" style="display:none;">
+  <div id="color-picker-area">
+      <label for="color-picker">Select Color:</label>
+      <input type="color" id="color-picker">
+      <div>
+          <span id="selected-div-id"></span>
+          <button id="body-color-button">Change Body Color</button>
+
+      </div>
+      <button id="close-popup">Close</button>
+  </div>
+</div>
+
+
+
+
     </main>
 
 
@@ -667,6 +685,7 @@ document.getElementById('category').addEventListener('change', function() {
 */
 
 
+const changeStyleBtn = document.getElementById('changeStyleBtn');
 
 const changeLayoutBtn = document.getElementById('changeLayoutBtn');
 const changeTextBtn = document.getElementById('changeTextBtn');
@@ -800,6 +819,12 @@ window.getSelectedObituary = getSelectedObituary;
 
 });
 
+// Change Style Mode
+changeStyleBtn.addEventListener('click', () => {
+  currentMode = 'Style';
+  breadcrumbText.textContent = 'Currently in Style Mode';
+  enableStyleEditing();
+});
 
 // Change Layout Mode
 changeLayoutBtn.addEventListener('click', () => {
@@ -865,6 +890,116 @@ saveBtn.addEventListener('click', async () => {
     saveBtn.style.visibility = 'hidden';
   }
 });
+
+
+
+
+function enableStyleEditing() {
+    removeEditingHighlights();
+
+    previewBtn.style.visibility = 'visible';
+    saveBtn.style.visibility = 'visible';
+
+    const changeableAreas = shadowRoot.querySelectorAll('.changeable-area');
+    changeableAreas.forEach(area => {
+        area.style.cursor = 'pointer';  // Set initial grab cursor
+        let areaID = area.id;
+
+        area.addEventListener('click', () => handleSelectedArea(areaID));
+        area.addEventListener('change', () => handleSelectedAreaChange(areaID));
+    });
+
+    const changeableTextDivs = shadowRoot.querySelectorAll('.changeable-text');
+    changeableTextDivs.forEach(div => {
+        div.addEventListener('click', () => handleSelectedArea(div.id));
+        div.addEventListener('change', () => handleSelectedAreaChange(div.id));
+    });
+}
+function formatID(areaID) {
+    // Capitalize the first letter of each word and replace hyphens with spaces
+    return areaID
+        .split('-') // Split by hyphen
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter
+        .join(' '); // Join back with spaces
+}
+function handleSelectedArea(areaID) {
+    console.log("area id selected: ", areaID);
+
+    // If the selected area is body, we need to handle it separately
+    if (areaID === 'body') {
+        const selectedDivId = document.getElementById('selected-div-id');
+        selectedDivId.textContent = `ID: Body`;
+
+        // Show the color picker popup
+        const colorPickerPopup = document.getElementById('color-picker-popup');
+        colorPickerPopup.style.display = 'block';
+
+        // Store the selected div ID (in this case, body)
+        colorPickerPopup.setAttribute('data-selected-id', 'body');
+    } else {
+        // Handle other areas
+        const colorPickerPopup = document.getElementById('color-picker-popup');
+        const selectedDivId = document.getElementById('selected-div-id');
+        selectedDivId.textContent = `ID: ${formatID(areaID)}`;
+        colorPickerPopup.style.display = 'block';
+
+        // Store the selected div ID in a data attribute
+        colorPickerPopup.setAttribute('data-selected-id', areaID);
+    }
+}
+
+
+function handleSelectedAreaChange(areaID) {
+    let dynamicStyle = document.getElementById('dynamic-style');
+    let colorPicker = document.getElementById('color-picker');
+
+    console.log("area id changed: ", areaID);
+
+    // Get the selected color
+    let selectedColor = colorPicker.value;
+
+    if (areaID === 'body') {
+        // Avoid duplication for body color change
+        let existingStyle = dynamicStyle.querySelector(`#body-style`);
+        
+        if (existingStyle) {
+            existingStyle.textContent = `body { background-color: ${selectedColor}; }`;  // Update the body color
+        } else {
+            // Create a new style element for body
+            let newStyle = document.createElement('style');
+            newStyle.id = `body-style`;
+            newStyle.textContent = `body { background-color: ${selectedColor}; }`;
+            dynamicStyle.appendChild(newStyle);
+        }
+    } else {
+        // Avoid duplication in the dynamic-style div for other areas
+        let existingStyle = dynamicStyle.querySelector(`#${areaID}-style`);
+        
+        if (existingStyle) {
+            existingStyle.textContent = `${areaID} { background-color: ${selectedColor}; }`;  // Update the existing style
+        } else {
+            // Create a new style element with the selected color for the specific area
+            let newStyle = document.createElement('style');
+            newStyle.id = `${areaID}-style`;
+            newStyle.textContent = `${areaID} { background-color: ${selectedColor}; }`;
+            dynamicStyle.appendChild(newStyle);
+        }
+    }
+}
+
+
+// Close the color picker popup
+document.getElementById('close-popup').addEventListener('click', () => {
+    const colorPickerPopup = document.getElementById('color-picker-popup');
+    colorPickerPopup.style.display = 'none'; // Hide the popup
+});
+
+document.getElementById('body-color-button').addEventListener('click', () => {
+    // Simulate clicking on the body, enabling the color picker for the body
+    handleSelectedArea('body');
+});
+
+
 
 // Handle drag start (grab the entire div, not just the inner element)
 function enableLayoutEditing() { 
