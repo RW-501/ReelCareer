@@ -22,8 +22,15 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   
 
    // Handle videoData based on doc existence
-   const videoData = doc.exists() ? doc.data() : doc; // Use doc.data() only if the document exists
-  
+   let videoData;
+
+   // Check if doc is a Firestore document snapshot
+   if (typeof doc === 'object' && doc !== null && typeof doc.exists === 'function' && doc.exists()) {
+     videoData = doc.data(); // Firestore document data
+   } else {
+     videoData = doc; // Assume JSON or plain object data
+   }
+     
       
   
       //    console.log("docId   ",docId);
