@@ -2210,6 +2210,61 @@ document.getElementById('preview-button').addEventListener('click', function () 
             <div id="obituary-section">
                 <div id="about-obituary" class="changeable-text">${about}</div>
             </div>
+
+    <div id="portfolio-section" class="changeable-area">
+  <h4>Portfolio</h4>
+  <p>Check out their portfolio: <a href="${portfolioLink}" target="_blank">${portfolioLink}</a></p>
+</div>
+
+<div id="references-section" class="changeable-area">
+  <h4>References</h4>
+  <ul>
+    ${references.map(reference => `<li>${reference}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="skills-section" class="changeable-area">
+  <h4>Skills</h4>
+  <ul>
+    ${skills.map(skill => `<li>${skill}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="causes-section" class="changeable-area">
+  <h4>Causes & Volunteer Work</h4>
+  <ul>
+    ${causes.map(cause => `<li>${cause}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="contributions-section" class="changeable-area">
+  <h4>Notable Contributions</h4>
+  <ul>
+    ${notableContributions.map(contribution => `<li>${contribution}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="achievements-section" class="changeable-area">
+  <h4>Achievements</h4>
+  <ul>
+    ${achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="education-section" class="changeable-area">
+  <h4>Education</h4>
+  <ul>
+    ${education.map(edu => `<li>${edu}</li>`).join('')}
+  </ul>
+</div>
+
+<div id="work-history-section" class="changeable-area">
+  <h4>Work History</h4>
+  <ul>
+    ${workHistory.map(work => `<li>${work}</li>`).join('')}
+  </ul>
+</div>
+
             <div id="dynamic-shareArea" class="changeable-area container"><div>Dynamic Share Area Placeholder</div></div>
             <div id="dynamic-interaction-area" class="changeable-area"><div>Dynamic Interaction Area Placeholder</div></div>
         </div>
