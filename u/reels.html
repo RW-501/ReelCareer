@@ -1526,9 +1526,9 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
         const tagsContainer = document.getElementById('tagsContainerSET-main');
         const tagElement_main = document.getElementById(`tagsList_tagsContainerSET-main`); 
-        tagsContainer.innerHTML = '';
 
         if(reelData.tags){
+            tagsContainer.innerHTML = '';
 
             reelData.tags.forEach(tag => {
          
@@ -1551,9 +1551,9 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
 const tagElement_reelCategories = document.getElementById(`tagsList_tagsContainerSET-reelCategories`);          
-tagsContainer_reelCategories.innerHTML = '';
 
 if(reelData.reelCategories){
+    tagsContainer_reelCategories.innerHTML = '';
 
     reelData.reelCategories.forEach(tag => {
         
