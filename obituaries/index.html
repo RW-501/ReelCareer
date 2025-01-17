@@ -413,6 +413,47 @@ function showAdmin() {
     // Append the new button to the container
     container.appendChild(newButton);
 }
+function generateObituarySchema(obituaryData, docId) {
+    // Convert Firebase Timestamp to JavaScript Date
+    const createdDate = obituaryData.datePublished 
+        ? new Date(obituaryData.datePublished.seconds * 1000) 
+        : new Date();
+
+    const lastUpdatedDate = obituaryData.dateModified 
+        ? new Date(obituaryData.dateModified.seconds * 1000) 
+        : createdDate;
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": obituaryData.pageName || `${obituaryData.name}'s Career Obituary`,
+        "url": `https://reelcareer.co/obituaries/${docId}`,
+        "description": obituaryData.about || `Celebrate the career and achievements of ${obituaryData.name}`,
+        "datePublished": createdDate.toISOString(),
+        "dateModified": lastUpdatedDate.toISOString(),
+        "author": {
+            "@type": "Person",
+            "name": obituaryData.name || "ReelCareer User",
+            "url": obituaryData.url || ""
+        },
+        "mainEntity": {
+            "@type": "Person",
+            "name": obituaryData.name,
+            "sameAs": obituaryData.socialLinks || [],
+            "jobTitle": obituaryData.profession || "Professional",
+            "worksFor": {
+                "@type": "Organization",
+                "name": obituaryData.company || ""
+            },
+            "knowsAbout": obituaryData.skills || []
+        },
+        "image": obituaryData.mainPhotoUrl || "https://reelcareer.co/images/default_obituary.png",
+        "potentialAction": {
+            "@type": "DonateAction",
+            "target":  obituaryData.url || ""
+        }
+    };
+}
 
 async function loadUserObituaries(userID) {
     const userRef = doc(db, "Users", userID);
@@ -750,6 +791,12 @@ function renderObituaries(obituaries) {
             <p>${aboutText.length > 80 ? aboutText.substring(0, 80) + '...' : aboutText}</p>
             <a href="${obituary.url}" class="button">View Obituary</a>
         `;
+
+        const schemaData = generateObituarySchema(obituary, "uniqueDocId123");
+const schemaScript = document.createElement('script');
+schemaScript.type = 'application/ld+json';
+schemaScript.text = JSON.stringify(schemaData);
+document.head.appendChild(schemaScript);
 
         container.appendChild(card);
     });
