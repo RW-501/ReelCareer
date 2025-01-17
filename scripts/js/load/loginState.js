@@ -117,6 +117,13 @@ const userID = user.uid;
    const reelsQuery = query(videoResumesRef, where("createdByID", "==", userID));
    
    let videoResumeData = [];
+ 
+   const connectionsRef = collection(db, 'Connections');
+const q = query(connectionsRef, where('participants', 'array-contains', userID));
+
+   const qConnectionSnapshot = await getDocs(q);
+   const connectionCount = qConnectionSnapshot.size; // Number of matching documents
+
    
    // Fetch the video resume data from Firestore
        const querySnapshot = await getDocs(reelsQuery);
@@ -148,11 +155,9 @@ const userID = user.uid;
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
         loginProvider,  // Add login provider to user data
-        videoResumeData: [
-          ...(userDataSaved.videoResumeData || []),
-          ...videoResumeData  // Append fetched video resumes
-        ],
-    
+        videoResumeData: videoResumeData,
+        contactsCount: connectionCount || 0,
+        videoResumeCount: videoResumeData.length || 0,
   
         tags: tagArray || "",
         jobInterest: jobArray  || "",
