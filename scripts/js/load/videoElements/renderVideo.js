@@ -407,3 +407,36 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   }
   
   window.getConnectedUserIds = getConnectedUserIds;
+
+
+
+
+  
+   
+function generateVideoSchema(videoData, docId) {
+    // Convert Firebase Timestamp to JavaScript Date
+    const uploadDate = videoData.createdAt 
+        ? new Date(videoData.createdAt.seconds * 1000) // Convert seconds to milliseconds
+        : new Date(); // Fallback to current date if createdAt is missing
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": videoData.name || "Video Resume",
+        "description": videoData.videoResumeCaptions || "",
+        "thumbnailUrl": videoData.thumbnailURL || "",
+        "contentUrl": videoData.videoResumeURL,
+        "uploadDate": uploadDate.toISOString(), // Call toISOString on a valid Date object
+        "duration": videoData.duration || "",
+        "interactionStatistic": {
+            "@type": "InteractionCounter",
+            "interactionType": { "@type": "http://schema.org/WatchAction" },
+            "userInteractionCount": videoData.views || 0
+        }
+    };
+}
+
+
+window.generateVideoSchema = generateVideoSchema;
+
+
