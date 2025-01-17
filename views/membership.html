@@ -764,26 +764,10 @@ function loadMemberFAQs() {
 
 
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Get the user ID from Firebase Auth and Firestore
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // Get user ID from Firebase
-            const userID = user.uid;
-            getLatestMembership(userID);
-
-  } else {
-    
-            console.log("User not signed in");
-        }
-    });
-});
-
 let userID = '';
+
+
         document.addEventListener('DOMContentLoaded', () => {
-// Call the fetch function when the page loads
-fetchObituaries();
 
   onAuthStateChanged(auth, async (user) => {
     
@@ -794,6 +778,7 @@ fetchObituaries();
   return;
 }else{
   userID = auth.currentUser.uid;
+  getLatestMembership(userID);
 
   initializePayPalButtons(userID); 
 
