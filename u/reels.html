@@ -1132,7 +1132,6 @@ let relatedProductsArray = [];
 let reelID = '';
 
 
-
 function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
     const addProductButton = document.getElementById('addProductButton');
     const productListContainer = document.getElementById('productListContainer');
@@ -1160,6 +1159,9 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
                 <div>
                     <label for="productImage-${index}">Image URL:</label>
                     <input type="url" id="productImage-${index}" placeholder="Product Image URL" value="${product.image || ''}" required>
+                    <div id="imagePreview-${index}" class="image-preview">
+                        ${product.image ? `<img src="${product.image}" alt="Product Image" style="max-width: 100px;">` : ''}
+                    </div>
                 </div>
                 <button type="button" class="btn btn-danger remove-product-btn" data-index="${index}">Remove</button>
             `;
@@ -1171,16 +1173,16 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
             const removeButton = productDiv.querySelector('.remove-product-btn');
             removeButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Remove the product from the array and update the DOM
-                relatedProductsArray.splice(index, 1);
-                renderProductList();
+                relatedProductsArray.splice(index, 1);  // Remove the product from the array
+                renderProductList();  // Re-render the list
             });
 
-            // Add event listeners to inputs to update array when values change
+            // Add event listeners to inputs to update array and DOM when values change
             const nameInput = productDiv.querySelector(`#productName-${index}`);
             const costInput = productDiv.querySelector(`#productCost-${index}`);
             const linkInput = productDiv.querySelector(`#productLink-${index}`);
             const imageInput = productDiv.querySelector(`#productImage-${index}`);
+            const imagePreview = productDiv.querySelector(`#imagePreview-${index}`);
 
             nameInput.addEventListener('input', () => {
                 relatedProductsArray[index].name = nameInput.value;
@@ -1193,6 +1195,11 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
             });
             imageInput.addEventListener('input', () => {
                 relatedProductsArray[index].image = imageInput.value;
+                if (imageInput.value) {
+                    imagePreview.innerHTML = `<img src="${imageInput.value}" alt="Product Image" style="max-width: 100px;">`;
+                } else {
+                    imagePreview.innerHTML = '';
+                }
             });
         });
     };
@@ -1201,7 +1208,7 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
     renderProductList();
 
     // Add event listener to the "Add Product" button
-    addProductButton.addEventListener('click', (e) => {
+    addProductButton.addEventListener('click', () => {
         if (relatedProductsArray.length >= 4) {
             alert('You can only add up to 4 products.');
             return;
@@ -1216,60 +1223,76 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
 }
 
 function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
-    // Logic to update the DOM with related reels from relatedReelsArray
+    const relatedReelsList = document.getElementById('relatedReelsList');
 
-    
-const relatedReelsList = document.getElementById('relatedReelsList');
+    // Clear the list before rendering
+    relatedReelsList.innerHTML = '';
 
-// Check if reelData and relatedReels are valid arrays
-if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.relatedReels.length === 0) {
-    relatedReelsList.innerHTML = '<li>No related Reels found.</li>';
-} else {
-    reelData.relatedReels.forEach(videoData => {
-        const card = document.createElement('div');
-        card.id = `video-${videoData.reelID}`;
-        card.classList.add("profileVideoCard");
-        card.innerHTML = `
-            <div class="vidioCard_thumbnail">
-                <video 
-                  src="${videoData.videoResumeURL}" 
-                  class="card-img-top video-player" 
-                  id="video-${videoData.reelID}">
-                </video>
-                <button class="btn btn-primary btn-block" id="add-video-btn-${videoData.reelID}">
-                    Add Related Video
-                </button>
-            </div>
-        `;
+    // Check if reelData and relatedReels are valid arrays
+    if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.relatedReels.length === 0) {
+        relatedReelsList.innerHTML = '<li>No related Reels found.</li>';
+    } else {
+        reelData.relatedReels.forEach(videoData => {
+            const card = document.createElement('div');
+            card.id = `video-${videoData.reelID}`;
+            card.classList.add("profileVideoCard");
+            card.innerHTML = `
+                <div class="vidioCard_thumbnail">
+                    <video 
+                      src="${videoData.videoResumeURL}" 
+                      class="card-img-top video-player" 
+                      controls
+                      id="video-${videoData.reelID}">
+                    </video>
+                    <button class="btn btn-primary btn-block add-remove-btn" id="add-video-btn-${videoData.reelID}">
+                        Add Related Video
+                    </button>
+                    <button class="btn btn-danger btn-block remove-video-btn" id="remove-video-btn-${videoData.reelID}">
+                        Remove Related Video
+                    </button>
+                </div>
+            `;
 
-        relatedReelsList.appendChild(card);
+            relatedReelsList.appendChild(card);
 
-        // Button functionality to toggle related video
-        const addButton = document.getElementById(`add-video-btn-${videoData.reelID}`);
-        addButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent form submission
+            // Add button functionality to toggle related video
+            const addButton = document.getElementById(`add-video-btn-${videoData.reelID}`);
+            const removeButton = document.getElementById(`remove-video-btn-${videoData.reelID}`);
 
-            const reelID = videoData.reelID;
+            addButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission
+                const reelID = videoData.reelID;
 
-            const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
-            if (index !== -1) {
-                relatedReelsArray.splice(index, 1); // Remove if already added
-                addButton.innerHTML = "Add Related Video";
-            } else {
-                relatedReelsArray.push({
-                    reelID: videoData.reelID,
-                    reelTitle: videoData.videoResumeTitle,
-                    videoUrl: videoData.videoResumeURL,
-                    reelURL: videoData.reelURL,
-                    reelTags: videoData.tags,
-                    reelcreatedDate: new Date(videoData.createdAt)
-                });
-                addButton.innerHTML = "Remove Related Video";
-            }
+                const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
+                if (index !== -1) {
+                    relatedReelsArray.splice(index, 1); // Remove if already added
+                    addButton.innerHTML = "Add Related Video";
+                } else {
+                    relatedReelsArray.push({
+                        reelID: videoData.reelID,
+                        reelTitle: videoData.videoResumeTitle,
+                        videoUrl: videoData.videoResumeURL,
+                        reelURL: videoData.reelURL,
+                        reelTags: videoData.tags,
+                        reelcreatedDate: new Date(videoData.createdAt)
+                    });
+                    addButton.innerHTML = "Remove Related Video";
+                }
+            });
+
+            // Remove button functionality to delete from the DOM and array
+            removeButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission
+                const reelID = videoData.reelID;
+
+                const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
+                if (index !== -1) {
+                    relatedReelsArray.splice(index, 1); // Remove from array
+                }
+                relatedReelsList.removeChild(card); // Remove from DOM
+            });
         });
-    });
-}
-
+    }
 }
 // Function to disable/enable buttons and input based on comma count
 function checkCommaCount(e) {
@@ -1503,8 +1526,9 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
         const tagsContainer = document.getElementById('tagsContainerSET-main');
         const tagElement_main = document.getElementById(`tagsList_tagsContainerSET-main`); 
+        tagElement_main.innerHTML = '';
+
         if(reelData.tags){
-            tagElement_main.innerHTML = '';
 
             reelData.tags.forEach(tag => {
          
@@ -1527,9 +1551,9 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
 const tagElement_reelCategories = document.getElementById(`tagsList_tagsContainerSET-reelCategories`);          
+tagElement_reelCategories.innerHTML = '';
 
 if(reelData.reelCategories){
-    tagElement_reelCategories.innerHTML = '';
 
     reelData.reelCategories.forEach(tag => {
         

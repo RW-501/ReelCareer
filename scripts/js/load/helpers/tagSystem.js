@@ -107,8 +107,8 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         removeButton.textContent = " x"; // Close button
         removeButton.className = "ml-1 btn btn-sm tag_btn"; // Styling for remove button
         removeButton.onclick = (e) => {
-            tagsList.removeChild(tagElement);
             e.preventDefault(); // Prevent form submission
+            tagsList.removeChild(tagElement);
 
             updateHiddenInput(); // Update existing input after removing tag
         };
