@@ -403,8 +403,8 @@ connectionTypeDropdown.addEventListener("change", (e) => {
 
 
 // Fetch Video Resumes with optional tag filter
-async function fetchVideoResumes(page = 1, tagFilter = "") {
-    const videoContainer = document.getElementById("video-reel-container");
+async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = false) {  
+  const videoContainer = document.getElementById("video-reel-container");
     const videoDataArray = [];
 
     console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
@@ -415,6 +415,25 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
     }
 
     try {
+
+
+      const user = auth.currentUser;
+
+if(!userId){
+  userId = auth.currentUser.uid; // Logged-in user ID
+
+}
+
+console.log("connectionType:", connectionType);
+console.log("includeConnected:", includeConnected);
+console.log("tagFilter:", tagFilter);
+
+
+        // Fetch connected user IDs if needed
+        const connectedUserIds = includeConnected ? await getConnectedUserIds(connectionType) : [];
+        console.log("Connected User IDs:", connectedUserIds);
+
+
         // Fetch video resumes from the local JSON file
         const response = await fetch('https://reelcareer.co/reels/json/videoReels.json');
         
@@ -460,7 +479,8 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                     });
                 });
                 console.log("Filtered and processed video data:", videoDataArray);
-                renderVideos(videoDataArray, videoContainer);
+                renderVideos(videoDataArray, videoContainer, connectedUserIds, userId);
+
             } else {
                 videoContainer.innerHTML = "<p>No video resumes available after filtering obituaries.</p>";
             }
