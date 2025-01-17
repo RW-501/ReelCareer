@@ -1508,7 +1508,7 @@ tagElement_reelCategories.innerHTML += `<span class="badge tag-primary mr-1">
   tagsContainer_reelCategories.appendChild(tagElement_reelCategories);
 });
         
-
+console.log("reelData.reelCategories  ",reelData.reelCategories);
 }
 //console.log("generalTags_reelCategories  ",generalTags_reelCategories);
 
@@ -1643,7 +1643,8 @@ advancedAnalyticsDiv.innerHTML = `
   
     const tagsInput_reelCategories = document.getElementById('tagsSET-reelCategories').value.trim();
     const updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
-   
+    console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
+
     const updatedTitle = document.getElementById('videoResumeTitle').value;
     const updatedCaptions = document.getElementById('videoResumeCaptions').value;
 
