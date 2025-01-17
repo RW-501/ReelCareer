@@ -1445,6 +1445,8 @@ function toggleContainers(action) {
       .filter((part) => part !== "00") // Remove leading zeros if hours are zero
       .join(":");
   }
+
+  
   const generalTags = createTagInputSystem({
       tagsContainerId: "tagsContainerSET-main",
       badgeClass: "tag-primary" // Custom badge class for general tags
@@ -1457,6 +1459,7 @@ function toggleContainers(action) {
       badgeClass: "tag-primary" // Custom badge class for general tags
     });
 
+    console.log("generalTags  ",generalTags);
 
 async function handleReels(action, event) {
     reelID = event.target.dataset.id;
@@ -1529,7 +1532,6 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 
 
-    console.log("generalTags  ",generalTags);
 
         document.getElementById('tagsSET-main').value = reelData.tags || "";
 
