@@ -77,7 +77,7 @@ function createNavbar() {
       },
       */
       {
-        href: "https://reelcareer.co/views/membership",
+        href: "https://reelcareer.co/membership",
         icon: "fa fa-user",
         text: "Membership",
         ariaLabel: "Go to membership page",
