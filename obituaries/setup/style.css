@@ -45,6 +45,11 @@ p {
     line-height: 1.6;
     margin: 20px 0;
 }
+
+.flex-wrap {
+    display: flex;
+    
+}
 .info-section, .message-form {
     margin: 20px 0;
     background: rgba(255, 255, 255, 0.1);
