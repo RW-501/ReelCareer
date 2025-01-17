@@ -2234,3 +2234,15 @@ background-color: transparent;
   margin-left: 5px;
   cursor: pointer;
 }
+
+
+#blogContainer .blog-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  row-gap: 0.5rem;
+  grid-column-gap: 1rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
