@@ -1304,6 +1304,27 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
 }
 
 
+// Function to collect input values from specified area
+// Function to collect input values from specified area
+function collectInputValues(areaId) {
+    let values = [];
+    document.querySelectorAll(`${areaId} input`).forEach(input => {
+        if (input.value.trim()) {
+            values.push(input.value.trim());
+        }
+    });
+    return values;
+}
+
+// Define the variables outside the function
+let achievements = collectInputValues('#achievements');
+let education = collectInputValues('#education');
+let workHistory = collectInputValues('#workArea');
+let causes = collectInputValues('#causesArea');
+let references = collectInputValues('#referencesArea');
+let skills = collectInputValues('#skillsArea');
+let notableContributions = collectInputValues('#notableContributionsArea');
+
 
 
 
@@ -1594,6 +1615,17 @@ document.getElementById('preview-button').click();
         let portfolioLink = document.getElementById('portfolioLink').value.trim();
 
 
+
+        // To update the variables later, you can call the function again
+achievements = collectInputValues('#achievements');
+education = collectInputValues('#education');
+workHistory = collectInputValues('#workArea');
+causes = collectInputValues('#causesArea');
+references = collectInputValues('#referencesArea');
+skills = collectInputValues('#skillsArea');
+notableContributions = collectInputValues('#notableContributionsArea');
+
+/* 
 // Capture Work History
 let achievements = [];
 document.querySelectorAll('#achievements input').forEach(input => {
@@ -1650,7 +1682,7 @@ document.querySelectorAll('#notableContributionsArea input').forEach(input => {
     }
 });
 
-
+ */
 
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
@@ -2175,11 +2207,42 @@ document.getElementById('preview-button').addEventListener('click', function () 
     let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
     validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
+
+    let profession =  document.getElementById('profession').value.trim();
+        let company =  document.getElementById('company').value.trim();
+        let portfolioLink = document.getElementById('portfolioLink').value.trim();
+
+
+// To update the variables later, you can call the function again
+achievements = collectInputValues('#achievements');
+education = collectInputValues('#education');
+workHistory = collectInputValues('#workArea');
+causes = collectInputValues('#causesArea');
+references = collectInputValues('#referencesArea');
+skills = collectInputValues('#skillsArea');
+notableContributions = collectInputValues('#notableContributionsArea');
+
+
+
+
+
     // Sanitize the input
     const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
 
     const formattedSunrise = formatDate(sunrise);
     const formattedSunset = formatDate(sunset);
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Start building the preview layout
     let previewContent = `
