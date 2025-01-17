@@ -920,15 +920,14 @@ container.appendChild(videoCard);
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
-            const giftButton = ''; //videoCard.querySelector(".gift-button");
+            const giftButton = videoCard.querySelector(".gift-button");
 
-
+            console.log("giftButton ",giftButton);
             // Mute toggle functionality
             reportVideoBtn.addEventListener("click", () => openReportModal(docId));
 
             // Other button actions
             addUserButton.addEventListener("click", () => addToShortlist(docId));
-            giftButton.addEventListener("click", () => handleSendGift(createdByID, displayName, videoTitle, docId, userId));
 
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,createdByID ,displayName));
@@ -971,6 +970,14 @@ const muteButton = videoCard.querySelector(".mute-toggle");
   const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
 
 if (videoCardM_ID) {
+
+
+  const giftButton = videoCardM_ID.querySelector(".gift-button");
+          //  giftButton.addEventListener("click", () => handleSendGift(createdByID, displayName, videoTitle, docId, userId));
+
+console.log("giftButton ",giftButton);
+
+
   // Scope everything inside the specific card
   const controlsTop = videoCardM_ID.querySelector(".controls-top");
   const controlsPlay = videoCardM_ID.querySelector(".controls-play");
