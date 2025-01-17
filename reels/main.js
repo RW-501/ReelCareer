@@ -116,13 +116,20 @@ function handleComments(docId, commentsBtn) {
   
     video.addEventListener("pause",  async () => {
       stopTracking();
+
+            // Bring elements back when video stops
+            controlsTop.classList.remove("slide-up");
+            controlsBottom.classList.remove("slide-down");
+            controlsPlay.classList.remove("fade-out");
+        
       const videoRef = doc(db, "VideoResumes", docId);
   
       try {
         await updateDoc(videoRef, {
           watchTime: increment(Math.round(totalWatchTime))  // Use whole seconds for Firestore increment
         });
-  
+        totalWatchTime = 0;  // Add to total watch time
+        sessionStartTime = null; 
         // Update UI instantly (if needed)
         console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
   
@@ -146,7 +153,8 @@ function handleComments(docId, commentsBtn) {
         await updateDoc(videoRef, {
           watchTime: increment(Math.round(totalWatchTime))  // Use whole seconds for Firestore increment
         });
-  
+        totalWatchTime = 0;  // Add to total watch time
+        sessionStartTime = null; 
         // Update UI instantly (if needed)
         console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
   
@@ -154,6 +162,25 @@ function handleComments(docId, commentsBtn) {
         console.error("Error updating watch time: ", error);
       }
     });
+
+
+
+
+
+
+
+
+    video.addEventListener("click", async () => {
+        if (video.paused) {
+//          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    
+
+
+
   }
   
   window.addVideoEndListener = addVideoEndListener;

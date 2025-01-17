@@ -252,7 +252,8 @@ function renderVideos(docs, container, connectedUserIds, userId) {
           handleSendGift(createdByID, displayName, videoTitle, docId, userId)
         );
       }
-  
+      console.log("giftButton: ", giftButton);
+
       if (reportVideoBtn) {
         reportVideoBtn.addEventListener("click", () => openReportModal(docId));
       }
