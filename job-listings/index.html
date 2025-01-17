@@ -1659,14 +1659,15 @@ loadRelatedBlogs();
     
    // Function to fetch similar jobs based on tags
 
-document.addEventListener("DOMContentLoaded", () => {
-  const generalTags = createTagInputSystem({
-        tagsContainerId: "tagsContainertagsSET-tag",
-        badgeClass: "tag-primary" // Custom badge class for general tags
-    });
-
+   document.addEventListener("DOMContentLoaded", () => {
+    // Set a timeout of 1 second (1000 ms) before executing the code
+    setTimeout(() => {
+        const generalTags = createTagInputSystem({
+            tagsContainerId: "tagsContainertagsSET-tag",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
+    }, 1000); // 1000 ms = 1 second
 });
-
 
 
   </script>
