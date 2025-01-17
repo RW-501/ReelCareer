@@ -1962,121 +1962,119 @@ let Content = `
 
   ${script} <!-- The script is correctly inserted here -->
 </head>
-<body> 
+<body vocab="https://schema.org/" typeof="WebPage">
   <header>
-    <div id="celebrating-header" class="changeable-text" role="heading" aria-level="1">Celebrating ${obituary.name}'s Journey</div>
+    <div id="celebrating-header" class="changeable-text" role="heading" aria-level="1">Celebrating <span property="name">${obituary.name}</span>'s Journey</div>
     <div id="life-transformation" class="changeable-text" role="heading" aria-level="2">A life of transformation and growth</div>
   </header>
   
   <main class="container" role="main">
-
     <div id="mainPhoto-area" class="changeable-area" role="figure" aria-labelledby="celebrating-header">
-        <img id="mainPhoto" src="${obituary.mainPhoto}" alt="Photo of ${obituary.name}" role="img" aria-describedby="journey-description">
+      <img id="mainPhoto" src="${obituary.mainPhoto}" alt="Photo of ${obituary.name}" role="img" aria-describedby="journey-description" property="image" />
+    </div>
+    
+    <div id="celebrating-life-header" class="changeable-area" role="heading" aria-level="3">Celebrating the Life of</div> 
+    <div id="name-header" class="changeable-area" role="heading" aria-level="3">
+      <span property="name">${obituary.name}</span>
+    </div>
+    
+    <div id="horizontal-rule" class="changeable-area" role="separator"></div>
+    
+    <div id="journey-description" class="changeable-area changeable-text" role="region" aria-labelledby="name-header">
+      Born in <span property="birthDate">${obituary.sunrise}</span>, <span property="name">${obituary.name}</span>'s journey inspires growth and transformation. Embrace this new beginning together.
+    </div>
+    
+    <div id="info-section" class="changeable-area" role="region" aria-labelledby="event-details-header">
+      <div id="event-details-header" class="changeable-text" role="heading" aria-level="4">Event Details</div>
+      <div id="event-date" class="changeable-text" aria-live="polite">
+        <strong>Date:</strong> <span property="deathDate">${obituary.sunset}</span>
       </div>
-      
-      <div id="celebrating-life-header" class="changeable-area" role="heading" aria-level="3">Celebrating the Life of</div> 
-      <div id="name-header" class="changeable-area" role="heading" aria-level="3">${obituary.name}</div>
-      
-      <div id="horizontal-rule" class="changeable-area" role="separator"></div>
-      
-      <div id="journey-description" class="changeable-area changeable-text" role="region" aria-labelledby="name-header">
-        Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.
+      <div id="event-location" class="changeable-text" aria-live="polite">
+        <strong>Services will be held:</strong> <span property="address">${obituary.location}</span>
       </div>
-      
-      <div id="info-section" class="changeable-area" role="region" aria-labelledby="event-details-header">
-        <div id="event-details-header" class="changeable-text" role="heading" aria-level="4">Event Details</div>
-        <div id="event-date" class="changeable-text" aria-live="polite"><strong>Date:</strong> ${obituary.sunset}</div>
-        <div id="event-location" class="changeable-text" aria-live="polite"><strong>Services will be held:</strong> ${obituary.location}</div>
-        <div id="thoughts-share" class="changeable-text" aria-live="polite">Share your thoughts using</div>
-        <div id="hashTag" class="changeable-text" aria-live="polite">${obituary.hashTag}</div>
-        <div id="social-link" class="changeable-text" aria-live="polite">${obituary.socialLinkName}: <a href="${obituary.socialLinks}" aria-label="Visit ${obituary.socialLinkName}">${obituary.socialLinks}</a></div>
+      <div id="thoughts-share" class="changeable-text" aria-live="polite">Share your thoughts using</div>
+      <div id="hashTag" class="changeable-text" aria-live="polite">${obituary.hashTag}</div>
+      <div id="social-link" class="changeable-text" aria-live="polite">
+        ${obituary.socialLinkName}: <a href="${obituary.socialLinks}" aria-label="Visit ${obituary.socialLinkName}" property="sameAs">${obituary.socialLinks}</a>
       </div>
+    </div>
 
-      <div id="media-section" class="changeable-area" role="region" aria-labelledby="media-section">
-        ${obituary.videoURL}
-      </div>
-      
-      <div id="obituary-section" class="changeable-area" role="region" aria-labelledby="about-obituary">
-        <div id="about-obituary" class="changeable-text" role="document">${obituary.about}</div>
-      </div>
-      
+    <div id="media-section" class="changeable-area" role="region" aria-labelledby="media-section">
+      <span property="video">${obituary.videoURL}</span>
+    </div>
+    
+    <div id="obituary-section" class="changeable-area" role="region" aria-labelledby="about-obituary">
+      <div id="about-obituary" class="changeable-text" role="document" property="description">${obituary.about}</div>
+    </div>
+    
+    <!-- Additional Sections with RDFa -->
+    <div id="portfolio-section" class="changeable-area" role="region">
+      <h4>Portfolio</h4>
+      <p>Check out their portfolio: <a href="${obituary.portfolioLink}" target="_blank" property="url">${obituary.portfolioLink}</a></p>
+    </div>
 
-                <!-- Portfolio Section -->
-                <div id="portfolio-section" class="changeable-area" role="region">
-                    <h4>Portfolio</h4>
-                    <p>Check out their portfolio: <a href="${obituary.portfolioLink}" target="_blank">${obituary.portfolioLink}</a></p>
-                </div>
+    <div id="references-section" class="changeable-area" role="region">
+      <h4>References</h4>
+      <ul>
+        ${obituary.references.map(reference => `<li>${reference}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- References Section -->
-                <div id="references-section" class="changeable-area" role="region">
-                    <h4>References</h4>
-                    <ul>
-                        ${obituary.references.map(reference => `<li>${reference}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="skills-section" class="changeable-area" role="region">
+      <h4>Skills</h4>
+      <ul>
+        ${obituary.skills.map(skill => `<li>${skill}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Skills Section -->
-                <div id="skills-section" class="changeable-area" role="region">
-                    <h4>Skills</h4>
-                    <ul>
-                        ${obituary.skills.map(skill => `<li>${skill}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="causes-section" class="changeable-area" role="region">
+      <h4>Causes & Volunteer Work</h4>
+      <ul>
+        ${obituary.causes.map(cause => `<li>${cause}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Causes Section -->
-                <div id="causes-section" class="changeable-area" role="region">
-                    <h4>Causes & Volunteer Work</h4>
-                    <ul>
-                        ${obituary.causes.map(cause => `<li>${cause}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="contributions-section" class="changeable-area" role="region">
+      <h4>Notable Contributions</h4>
+      <ul>
+        ${obituary.notableContributions.map(contribution => `<li>${contribution}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Notable Contributions Section -->
-                <div id="contributions-section" class="changeable-area" role="region">
-                    <h4>Notable Contributions</h4>
-                    <ul>
-                        ${obituary.notableContributions.map(notableContribution => `<li>${notableContribution}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="achievements-section" class="changeable-area" role="region">
+      <h4>Achievements</h4>
+      <ul>
+        ${obituary.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Achievements Section -->
-                <div id="achievements-section" class="changeable-area" role="region">
-                    <h4>Achievements</h4>
-                    <ul>
-                        ${obituary.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="education-section" class="changeable-area" role="region">
+      <h4>Education</h4>
+      <ul>
+        ${obituary.education.map(edu => `<li>${edu}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Education Section -->
-                <div id="education-section" class="changeable-area" role="region">
-                    <h4>Education</h4>
-                    <ul>
-                        ${obituary.education.map(edu => `<li>${edu}</li>`).join('')}
-                    </ul>
-                </div>
+    <div id="work-history-section" class="changeable-area" role="region">
+      <h4>Work History</h4>
+      <ul>
+        ${obituary.workHistory.map(work => `<li>${work}</li>`).join('')}
+      </ul>
+    </div>
 
-                <!-- Work History Section -->
-                <div id="work-history-section" class="changeable-area" role="region">
-                    <h4>Work History</h4>
-                    <ul>
-                        ${obituary.workHistory.map(work => `<li>${work}</li>`).join('')}
-                    </ul>
-                </div>
-
-
-      <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
-      <div id="dynamic-interaction-area" class="changeable-area" role="region"></div>
-        
-      <div id="dynamic-userInfo" class="nonChangeable" role="userinfo"></div>
-
-  </main> <!-- Closing main -->
-
+    <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
+    <div id="dynamic-interaction-area" class="changeable-area" role="region"></div>
+    
+    <div id="dynamic-userInfo" class="nonChangeable" role="userinfo"></div>
+  </main>
+  
   <div id="dynamic-footer" class="nonChangeable" role="contentinfo"></div>
   
   <div id="pageID" class="nonChangeable" aria-hidden="true">${pageID}</div>
   <div id="pageOwnerUserID" class="nonChangeable" aria-hidden="true">${obituary.userID}</div>
   <div id="pageName" class="nonChangeable" aria-hidden="true">${obituary.pageName}</div>
 </body>
+
 </html>
 `;
 
