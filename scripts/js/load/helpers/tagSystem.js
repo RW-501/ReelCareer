@@ -143,7 +143,7 @@ tagInput.addEventListener("focusout", () => {
     // Event listener to clear all tags
     clearTagsButton.addEventListener("click", (event) => {
       event.preventDefault();
-      
+      tagInput.innerHTML = ""; // Clear all tags
         tagsList.innerHTML = ""; // Clear all tags
         updateHiddenInput(); // Update existing input after clearing tags
     });
