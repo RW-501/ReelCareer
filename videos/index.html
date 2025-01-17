@@ -19,7 +19,7 @@
   <meta property="og:title" content="Video Reel - Job Board | ReelCareer">
   <meta property="og:description" content="Browse job seekers' video resumes, interact with candidates, and find the right fit for your company.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.reelcareer.co/reels">
+  <meta property="og:url" content="https://www.reelcareer.co/videos">
   <meta property="og:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
   <meta property="og:site_name" content="ReelCareer">
   <meta property="og:locale" content="en_US">
@@ -32,7 +32,7 @@
   <meta name="twitter:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
 
   <!-- Canonical Tag for SEO -->
-  <link rel="canonical" href="https://www.reelcareer.co/reels">
+  <link rel="canonical" href="https://www.reelcareer.co/videos">
 
   <!-- Standard Favicon -->
   <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
@@ -424,7 +424,8 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                     videoDataArray.push({
                         id: videoData.id || '',
                         userID: videoData.userID || '',
-                        createdByID: videoData.createdByID || '',                        profilePicture: videoData.profilePicture || '',
+                        createdByID: videoData.createdByID || '',                       
+                         profilePicture: videoData.profilePicture || '',
                         displayName: videoData.displayName || '',
                         position: videoData.position || '',
                         location: videoData.location || '',
