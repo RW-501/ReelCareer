@@ -692,18 +692,18 @@ let videoMuted = '';
         // Check if this video is already in the container
         if (container.querySelector(`[data-doc-id="${docId}"]`)) {
             console.log(`Video with docId ${docId} already rendered. Skipping.`);
-            //return; // Skip rendering this video
+            return; // Skip rendering this video
         }
 
         const videoData = doc.data();
 
         //    console.log("docId   ",docId);
-          //  console.log("videoData   ",videoData);
+            console.log("videoData   ",videoData);
 
             
           let reelUserID = videoData.userID || 'Unknown User';
        // Retrieve relevant data for the video
-       const createdByID = videoData.createdByID || 'Unknown User';
+       const createdByID = videoData.createdByID || '';
         const videoTitle = videoData.videoResumeTitle || 'Untitled Video';
         const thumbnailURL = videoData.thumbnailURL || '';
         const profilePicture = videoData.profilePicture || '';
