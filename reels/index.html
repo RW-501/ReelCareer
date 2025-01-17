@@ -453,7 +453,7 @@ async function getConnectedUserIds( connectionType = "all") {
 
 
 // Fetch Video Resumes with optional tag filter
-async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = true) {  
+async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = false) {  
     const videoContainer = document.getElementById("video-reel-container");
     const videoDataArray = [];
 
@@ -473,6 +473,9 @@ if(!userId){
 
 }
 
+console.log("connectionType:", connectionType);
+console.log("includeConnected:", includeConnected);
+console.log("tagFilter:", tagFilter);
 
 
         // Fetch connected user IDs if needed
