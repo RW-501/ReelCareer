@@ -790,9 +790,9 @@ function generateVideoSchema(videoData, docId) {
     return {
         "@context": "https://schema.org",
         "@type": "VideoObject",
-        "name": videoData.name || "Video Resume",
-        "description": videoData.videoResumeCaptions || "",
-        "thumbnailUrl": videoData.thumbnailURL || "",
+        "name": videoData.displayName || "Video Resume",
+        "description": videoData.videoResumeTitle || "",
+        "thumbnailUrl": videoData.thumbnailURL || "https://reelcareer.co/images/sq_logo_n_BG_sm.png",
         "contentUrl": videoData.videoResumeURL,
         "uploadDate": uploadDate.toISOString(), // Call toISOString on a valid Date object
         "duration": videoData.duration || "",
