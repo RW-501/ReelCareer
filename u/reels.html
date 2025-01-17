@@ -1264,7 +1264,7 @@ document.querySelectorAll('.category-btn').forEach(button => {
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
     
     // Add the category to the input field (with a comma)
-    input.value += (input.value ? ',' : '') + category;
+    input.value += (input.value ? ', ' : '') + category;
 
     // Trigger the "keyup" event (simulate enter)
     const event = new KeyboardEvent('keyup', {
