@@ -213,10 +213,18 @@ function handleComments(docId, commentsBtn) {
   window.addToShortlist = addToShortlist;
   
   // Function to increment view count
-  async function incrementViewCount(docId) {
+  async function incrementViewCount(docId, videoElement) {
     const videoRef = doc(db, "VideoResumes", docId);
     const viewsCollection = collection(db, `VideoResumes/${docId}/views`);
     
+
+      // Check if the video was already counted
+  if (videoElement.getAttribute('data-view-counted') === 'true') {
+    console.log("View already counted for this session.");
+    return;
+  }
+
+
     try {
       // Fetch the user's IP address
       const response = await fetch("https://api.ipify.org?format=json");
@@ -236,6 +244,8 @@ function handleComments(docId, commentsBtn) {
             await updateDoc(videoRef, {
               views: increment(1) // Firestore increment
             });
+  // Set attribute to prevent multiple counts in the same session
+    videoElement.setAttribute('data-view-counted', 'true');
 
       if (ipDocSnapshot.exists()) {
         console.log("View already recorded for this IP.");

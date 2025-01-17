@@ -312,7 +312,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   
       // Increment view count when video is played
       const videoElement = videoCard.querySelector(".video-element");
-      videoElement.addEventListener("play", () => incrementViewCount(docId));
+      videoElement.addEventListener("play", () => incrementViewCount(docId, videoElement));
   
       const videos = videoCard.querySelectorAll(".video-element");
       //console.log("videos ",videos);
