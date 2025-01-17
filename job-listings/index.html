@@ -1199,10 +1199,6 @@ if (auth.currentUser && !auth.currentUser.isAnonymous) {
   }
 }
 
-const generalTags = createTagInputSystem({
-        tagsContainerId: "tagsContainertagsSET-tag",
-        badgeClass: "tag-primary" // Custom badge class for general tags
-    });
 
 function collectJobDetails(uid) {
   return {
@@ -1664,6 +1660,10 @@ loadRelatedBlogs();
    // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
+  const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainertagsSET-tag",
+        badgeClass: "tag-primary" // Custom badge class for general tags
+    });
 
 });
 
