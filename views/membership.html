@@ -434,7 +434,7 @@ async function getUserIP() {
 
 
 // Initialize PayPal Buttons
-function initializePayPalButtons() {
+function initializePayPalButtons(userID) {
   const membershipButtons = {
     free: { price: 0, description: 'Free Membership' },
     basic: { price: 9.99, description: 'Basic Premium Membership (Monthly)' },
@@ -471,8 +471,8 @@ const membershipSubscriptionButtons = {
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
         console.log('Order Approved:', order);
-        const userDataSaved = getUserData() || {};
-        const userID = userDataSaved.userID;
+       // const userDataSaved = getUserData() || {};
+       // const userID = userDataSaved.userID;
         if (userID) {
           await updateMembership(userID, type);
         } else {
@@ -507,8 +507,8 @@ const membershipSubscriptionButtons = {
         const subscription = await actions.subscription.get();
         console.log('Subscription Approved:', subscription);
 
-        const userDataSaved = getUserData() || {};
-        const userID = userDataSaved.userID;
+       // const userDataSaved = getUserData() || {};
+      //  const userID = userDataSaved.userID;
         if (userID) {
           await updateMembership(userID, type, subscription.id); // Update the membership status and store subscription ID
         } else {
@@ -543,15 +543,6 @@ async function updateMembership(userID, newMembershipType, subscriptionID) {
 
 
 
-if(!userID){
-  const user = auth.currentUser;
-  if(!user){
-  openPopupLogin();
-  return;
-}else{
-  userID = auth.currentUser.uid;
-}
-}
 
 
 
@@ -789,10 +780,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+let userID = '';
+        document.addEventListener('DOMContentLoaded', () => {
+// Call the fetch function when the page loads
+fetchObituaries();
+
+  onAuthStateChanged(auth, async (user) => {
+    
+    
+  const user = auth.currentUser;
+  if(!user){
+  openPopupLogin();
+  return;
+}else{
+  userID = auth.currentUser.uid;
+
+  initializePayPalButtons(userID); 
+
+}
+
+ 
+
+  });
+
+
+});
 
 
 loadMemberFAQs();
-initializePayPalButtons(); 
 
 
 
