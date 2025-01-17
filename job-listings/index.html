@@ -1609,52 +1609,46 @@ function populateSearchBar() {
 
   // Return true if at least one value is populated
   return  tag || keywords || location || jobType || salaryRange ;
-}
-// On window load, populate search bar and fetch job listings
+}// On window load, populate search bar and fetch job listings
 window.onload = async function () {
-  const hasSearchParams = populateSearchBar();
- // console.log("hasSearchParams  ", hasSearchParams);
-
-  if (hasSearchParams) {
-
-   // console.log("hasSearchParams  TRUE");
-
-    // If there are search parameters, fetch based on them
-    if (typeof searchJobs === 'function') {
-      await searchJobs(); // Assumes this function exists
+  // Set a timeout of 1 second (1000 ms) before executing the code
+  setTimeout(async () => {
+    const hasSearchParams = populateSearchBar();
+    
+    if (hasSearchParams) {
+      // If there are search parameters, fetch based on them
+      if (typeof searchJobs === 'function') {
+        await searchJobs(); // Assumes this function exists
+      } else {
+        console.warn('searchJobs function not defined.');
+      }
     } else {
-      console.warn('searchJobs function not defined.');
+      // No search params, fetch general listings
+      if (typeof fetchJobListings === 'function' && typeof displayJobListings === 'function') {
+        const jobListings = await fetchJobListings();
+        displayJobListings(jobListings);
+      } else {
+        console.warn('fetchJobListings or displayJobListings function not defined.');
+      }
     }
-  } else {
-    // No search params, fetch general listings
-    if (typeof fetchJobListings === 'function' && typeof displayJobListings === 'function') {
-      const jobListings = await fetchJobListings();
-      displayJobListings(jobListings);
 
+    // Load saved filters if the function exists
+    if (typeof loadSavedFilers === 'function') {
+      loadSavedFilers();
     } else {
-      console.warn('fetchJobListings or displayJobListings function not defined.');
+      console.warn('loadSavedFilers function not defined.');
     }
-  }
 
-  // Optionally load saved filters
-  if (typeof loadSavedFilers === 'function') {
-    loadSavedFilers();
-  } else {
-    console.warn('loadSavedFilers function not defined.');
-  }  
-  
-  setTimeout(() => {
+    // Set up event listeners after loading the page
     document.getElementById('main-search-btn').addEventListener('click', searchJobs);
     document.getElementById('jobPostPopupCloseBtn').addEventListener('click', closeJobPostModal);
     document.getElementById('quickPostJobButton').addEventListener('click', openJobPostModal);
 
-loadRelatedBlogs();
+    // Load related blogs
+    loadRelatedBlogs();
 
-}, 500);
-
-
+  }, 1000); // 1000 ms = 1 second
 };
-
 
     
    // Function to fetch similar jobs based on tags
