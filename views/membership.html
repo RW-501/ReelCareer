@@ -540,13 +540,18 @@ function createSubscriptionPlan(price) {
 // Update Membership Function (Handling Subscription ID)
 async function updateMembership(userID, newMembershipType, subscriptionID) {
 
-  const user = auth.currentUser;
 
-if(!user){
+
+
+if(!userID){
+  const user = auth.currentUser;
+  if(!user){
   openPopupLogin();
   return;
+}else{
+  userID = auth.currentUser.uid;
 }
- userID = auth.currentUser.uid;
+}
 
 
 
