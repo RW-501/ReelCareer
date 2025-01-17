@@ -20,7 +20,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         return; // Skip rendering this video
       }
   
-      const videoData = doc.data();
+
+   // Handle videoData based on doc existence
+   const videoData = doc.exists() ? doc.data() : doc; // Use doc.data() only if the document exists
+  
+      
   
       //    console.log("docId   ",docId);
       //  console.log("videoData   ",videoData);
