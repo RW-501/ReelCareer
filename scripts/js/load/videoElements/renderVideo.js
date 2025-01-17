@@ -359,3 +359,51 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
 
   window.renderVideos = renderVideos;
+
+
+
+  async function getConnectedUserIds( connectionType = "all") {
+    try {
+      const connectionsRef = collection(db, 'Connections');
+      let q;
+      const user = auth.currentUser;
+  
+      if(!user){
+        openPopupLogin();
+        return;
+      }
+       userId = auth.currentUser.uid; // Logged-in user ID
+  
+  
+      // If a specific connection type is provided, filter by 'fromGroup' field
+      if (connectionType !== "all") {
+        q = query(
+          connectionsRef,
+          where('participants', 'array-contains', userId),
+          where('fromGroup', '==', connectionType) // Filter by the connection type (group)
+        );
+      } else {
+        // Fetch all connections (no filter by 'fromGroup')
+        q = query(connectionsRef, where('participants', 'array-contains', userId));
+      }
+  
+      const querySnapshot = await getDocs(q);
+      const connectedUserIds = [];
+  
+      // Extract user IDs from the 'participants' field (excluding the current userId)
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const otherUserId = data.participants.find((id) => id !== userId);
+        if (otherUserId) {
+          connectedUserIds.push(otherUserId);
+        }
+      });
+  
+      return connectedUserIds;
+    } catch (error) {
+      console.error('Error fetching connected users:', error);
+      return [];
+    }
+  }
+  
+  window.getConnectedUserIds = getConnectedUserIds;
