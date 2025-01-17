@@ -47,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
 async function fetchObituaries() {
     try {
       const snapshot = await getDocs(collection(db, "A_Obituaries"));
-      const obituaries = snapshot.docs.filter(doc => doc.data().member === "Obituary Member");
+      const obituaries = snapshot.docs();
       const obituaryList = document.getElementById("obituary-list");
       
       obituaries.forEach(doc => {
