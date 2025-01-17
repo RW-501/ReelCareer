@@ -114,8 +114,22 @@ function handleComments(docId, commentsBtn) {
       startTracking();
     });
   
-    video.addEventListener("pause", () => {
+    video.addEventListener("pause",  async () => {
       stopTracking();
+      const videoRef = doc(db, "VideoResumes", docId);
+  
+      try {
+        await updateDoc(videoRef, {
+          watchTime: increment(Math.round(totalWatchTime))  // Use whole seconds for Firestore increment
+        });
+  
+        // Update UI instantly (if needed)
+        console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
+  
+      } catch (error) {
+        console.error("Error updating watch time: ", error);
+      }
+      
     });
   
     video.addEventListener("ended", async () => {
