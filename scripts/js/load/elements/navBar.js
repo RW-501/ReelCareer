@@ -64,7 +64,7 @@ function createNavbar() {
       }, //https://reelcareer.co/obituaries
       {
         href: "https://reelcareer.co/obituaries",
-        icon: "fa fa-plus-circle",        
+        icon: "fa fa-pencil-alt",        
         text: "Career Obituaries",
         ariaLabel: "Create An Career Obituary"
       },
