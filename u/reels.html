@@ -1446,20 +1446,37 @@ function toggleContainers(action) {
       .join(":");
   }
 
+
+
+
+
+
+
+
+
 // Wait for the document to be fully loaded before initializing
 document.addEventListener("DOMContentLoaded", () => {
-    const generalTags = createTagInputSystem({
-        tagsContainerId: "tagsContainerSET-main",
-        badgeClass: "tag-primary" // Custom badge class for general tags
-    });
+    setTimeout(() => {
+        const generalTags = createTagInputSystem({
+            tagsContainerId: "tagsContainerSET-main",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
 
-    const generalTags_reelCategories = createTagInputSystem({
-        tagsContainerId: "tagsContainerSET-reelCategories",
-        badgeClass: "tag-primary" // Custom badge class for general tags
-    });
+        const generalTags_reelCategories = createTagInputSystem({
+            tagsContainerId: "tagsContainerSET-reelCategories",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
 
-    console.log("generalTags", generalTags);
+        console.log("generalTags", generalTags);
+    }, 1000); // 1-second delay
 });
+
+
+
+
+
+
+
 
 async function handleReels(action, event) {
     reelID = event.target.dataset.id;
