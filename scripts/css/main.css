@@ -2236,7 +2236,7 @@ background-color: transparent;
 }
 
 
-#blogContainer .blog-cards-container {
+.related-blogs .blog-cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
