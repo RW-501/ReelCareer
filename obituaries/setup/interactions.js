@@ -19,7 +19,7 @@ function renderInteractionsArea(firstName) {
   <div>
     <input type="text" id="guestName" placeholder="Your Name" required>
   </div>
-            <div class="flex-wrap">
+            <div class="rc-grid-center">
       <input type="checkbox" id="anonymousCheckbox">
     <label for="anonymousCheckbox">Submit as Anonymous</label>
   </div>

@@ -46,9 +46,11 @@ p {
     margin: 20px 0;
 }
 
-.flex-wrap {
-    display: flex;
-    
+.rc-grid-center {
+    display: grid;
+    align-items: center;
+    justify-content: space-evenly;
+    justify-items: center;
 }
 .info-section, .message-form {
     margin: 20px 0;

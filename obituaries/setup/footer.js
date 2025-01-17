@@ -5,22 +5,22 @@ function updateFooter() {
     // Footer links data (from JSON)
     const footerLinks = [
         {
-            "url": "/",
+            "url": "https://reelcareer.co",
             "name": "ReelCareer",
             "title": "ReelCareer - #1 Job Board - Find a job today",
         },
         {
-            "url": "/obituaries/create",
+            "url": "https://reelcareer.co/obituaries/create",
             "name": "Create Obituary",
             "title": "Create an obituary page - Let the world know your story.",
         },
         {
-            "url": "/obituaries",
+            "url": "https://reelcareer.co/obituaries",
             "name": "Obituaries",
             "title": "View more Obituaries.",
         },
         {
-            "url": "/about",
+            "url": "https://reelcareer.co/obituaries/about",
             "name": "About Obituaries",
             "title": "About Career Obituaries.",
         }
@@ -45,14 +45,14 @@ function updateFooter() {
         </footer>
 
         <div class="banner">
-            <p>Discover more opportunities at <a href="https://ReelCareer.co" target="_blank">ReelCareer.co</a></p>
+            <p>Discover more opportunities at <a href="https://reelcareer.co" target="_blank">ReelCareer.co</a></p>
         </div>
 
 <div class="section flowers-section">
     <h2>Why wait for the world to notice your impact?</h2>
     <p>Celebrate your career and achievements today. Create your personalized obituary page and let people give you your flowers while you're still here!</p>
     <div class="button">
-        <a href="https://ReelCareer.co/obituaries/create">Create Your Career Obituary</a>
+        <a href="https://reelcareer.co/obituaries/create">Create Your Career Obituary</a>
     </div>
 </div>
 
