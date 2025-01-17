@@ -1394,11 +1394,14 @@ function displayJobListings(jobListings) {
   const jobContainer = document.getElementById('featuredJobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
   
-  console.log("displayJobListings:", jobListings);
+  //console.log("displayJobListings:", jobListings);
 
   // Ensure jobListings is an array
   if (!Array.isArray(jobListings)) {
-    console.error('Error: jobListings is not defined or not an array:', jobListings);
+    const listings = jobListings.jobListings;  // Assuming jobListings is an object
+  
+    console.log("Displaying job:", listings);
+    createJobCard(listings ,jobContainer);
     return;
   }
 
