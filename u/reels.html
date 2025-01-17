@@ -1578,6 +1578,7 @@ const tagElement_reelCategories = document.getElementById(`tagsList_tagsContaine
 
 if(tagElement_reelCategories.innerHTML == '' && reelData.reelCategories){
     tagElement_reelCategories.innerText = '';
+    document.getElementById('input_tagsContainerSET-reelCategories').value = reelData.reelCategories.split(",").map(item => item.trim())  || "";
 
     reelData.reelCategories.forEach(tag => {
         
