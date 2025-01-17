@@ -322,9 +322,10 @@ import {
 function renderMembershipPlans(containerId, plans) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';  // Clear previous content
-    
+
     for (let key in plans) {
         const { price, description, benefits } = plans[key];
+        const buttonId = `paypal-button-container-${key}`;  // Unique PayPal button ID based on the plan key
         const card = `
             <div class="col-md-4 mb-3">
                 <div class="card text-center shadow-sm">
@@ -334,7 +335,7 @@ function renderMembershipPlans(containerId, plans) {
                     <div class="card-body">
                         <h6>Price: $${price.toFixed(2)}</h6>
                         <p>${benefits}</p>
-                        <button class="btn btn-primary" onclick="upgradeMembership('${key}')">
+                        <button id="${buttonId}" class="btn btn-primary" onclick="upgradeMembership('${key}')">
                             ${price === 0 ? 'Start Free Membership' : 'Unlock Benefits'}
                         </button>
                     </div>
@@ -342,26 +343,53 @@ function renderMembershipPlans(containerId, plans) {
             </div>
         `;
         container.insertAdjacentHTML('beforeend', card);
+
+        // Call function to render PayPal button for each plan
+        renderPayPalButton(buttonId, price, key);
     }
 }
+
+// Example function to render a PayPal button
+function renderPayPalButton(buttonId, price, planKey) {
+    if (price > 0) {
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: price.toFixed(2)
+                        },
+                        description: `Membership Plan: ${planKey}`
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert(`Transaction completed by ${details.payer.name.given_name} for the ${planKey} plan!`);
+                    // Handle post-transaction actions
+                });
+            }
+        }).render(`#${buttonId}`);  // Render PayPal button in the corresponding container
+    }
+}
+
 const membershipSubscriptions = {
     basic_Subscription: { price: 9.99, description: 'Basic Subscription Premium Membership (Monthly)' },
     pro_Subscription: { price: 15.99, description: 'Pro Subscription Premium Membership (Monthly)' },
 };
 
 const membershipPlans = {
-        free: { price: 0, description: 'Free Membership', benefits: 'Basic access to job listings.' },
-        basic: { price: 9.99, description: 'Basic Premium Membership (Monthly)', benefits: 'Access to premium job listings and features.' },
-        pro: { price: 19.99, description: 'Pro Premium Membership (Monthly)', benefits: 'All Basic Premium features plus additional benefits.' },
-        basic_Yearly: { price: 79.99, description: 'Basic Yearly Premium Membership (Save 2 Months)', benefits: 'Annual savings with premium job access.' },
-        pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)', benefits: 'Annual savings with pro-level access.' }
-    };
+    free: { price: 0, description: 'Free Membership', benefits: 'Basic access to job listings.' },
+    basic: { price: 9.99, description: 'Basic Premium Membership (Monthly)', benefits: 'Access to premium job listings and features.' },
+    pro: { price: 19.99, description: 'Pro Premium Membership (Monthly)', benefits: 'All Basic Premium features plus additional benefits.' },
+    basic_Yearly: { price: 79.99, description: 'Basic Yearly Premium Membership (Save 2 Months)', benefits: 'Annual savings with premium job access.' },
+    pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)', benefits: 'Annual savings with pro-level access.' }
+};
+
 // Render standard and subscription plans
 document.addEventListener('DOMContentLoaded', () => {
     renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
 });
-
-
 
 
 
