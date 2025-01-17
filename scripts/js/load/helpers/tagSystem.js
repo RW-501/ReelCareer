@@ -85,6 +85,8 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const clearTagsButton = document.createElement("button");
     clearTagsButton.className = "btn clearTagsButton mt-2";
     clearTagsButton.textContent = "Clear Tags";
+    clearTagsButton.id =  `clearTagsButton_${tagsContainerId}`;
+
     tagsContainer.appendChild(clearTagsButton); // Append the clear button below the tags list
 
     // Function to update the existing input with tags
@@ -105,6 +107,8 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
 
         const removeButton = document.createElement("button");
         removeButton.textContent = " x"; // Close button
+        removeButton.id =  `removeButton_${tagsContainerId}`;
+
         removeButton.className = "ml-1 btn btn-sm tag_btn"; // Styling for remove button
         removeButton.onclick = (e) => {
             e.preventDefault(); // Prevent form submission
