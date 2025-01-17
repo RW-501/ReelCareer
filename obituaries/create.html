@@ -1960,9 +1960,9 @@ let Content = `
     <div id="life-transformation" class="changeable-text" role="heading" aria-level="2">A life of transformation and growth</div>
   </header>
   
-  <main role="main">
-    <div class="container">
-      <div id="mainPhoto-area" class="changeable-area" role="figure" aria-labelledby="celebrating-header">
+  <main class="container" role="main">
+
+    <div id="mainPhoto-area" class="changeable-area" role="figure" aria-labelledby="celebrating-header">
         <img id="mainPhoto" src="${obituary.mainPhoto}" alt="Photo of ${obituary.name}" role="img" aria-describedby="journey-description">
       </div>
       
@@ -2057,11 +2057,10 @@ let Content = `
 
 
       <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
-      <div id="dynamic-interaction-area" role="region"></div>
+      <div id="dynamic-interaction-area" class="changeable-area" role="region"></div>
         
       <div id="dynamic-userInfo" class="nonChangeable" role="userinfo"></div>
 
-    </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
 
   <div id="dynamic-footer" class="nonChangeable" role="contentinfo"></div>
