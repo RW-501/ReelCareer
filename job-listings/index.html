@@ -1399,14 +1399,13 @@ function displayJobListings(jobs) {
 
   // Ensure jobListings is an array
   if (!Array.isArray(jobListings)) {
-     jobListings = jobListings.jobs;  // Assuming jobListings is an object
+     jobListings = jobs.jobListings;  // Assuming jobListings is an object
   }
 
   // Iterate over jobListings and create a card for each
   jobListings.forEach(job => {
     console.log("Displaying job:", job);
     createJobCard(job ,jobContainer); // Assuming createJobCard returns an HTML element or string
-   // jobContainer.innerHTML += jobCard; // Append job card to container
   });
 } 
 
