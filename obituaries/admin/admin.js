@@ -131,3 +131,10 @@ async function fetchTransactions() {
   
   window.fetchTransactions = fetchTransactions;
   
+
+  export {
+    fetchTransactions, fetchAnalytics, fetchObituaries
+    
+    
+    // Export the function
+  };

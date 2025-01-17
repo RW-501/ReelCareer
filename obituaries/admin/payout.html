@@ -5,7 +5,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Admin Dashboard</title>
-      <link rel="stylesheet" href="styles.css">
+
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
     </head>
     <body>
    
@@ -106,8 +109,14 @@ button {
   </div>
 
 
-  <script>
-// Import Firebase SDKs
+  <script type="module">
+    import {
+      fetchAnalytics // Export the function
+    } from 'https://reelcareer.co/obituaries/admin/admin.js';
+    // 
+    // 
+    
+    // Import Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { 
     getFirestore, collection, doc,query,orderBy  , setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp 

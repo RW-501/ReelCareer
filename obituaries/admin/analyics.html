@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analytics</title>
-  <link rel="stylesheet" href="styles.css">
+
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
 </head>
 <body>
 
@@ -42,7 +45,10 @@
     <p>&copy; 2025 ReelCareer. All Rights Reserved.</p>
   </footer>
 
-  <script src="admin.js">
+  <script type="module">
+    import {
+      fetchAnalytics // Export the function
+    } from 'https://reelcareer.co/obituaries/admin/admin.js';
     fetchAnalytics();
 
 </script></body>
