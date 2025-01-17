@@ -61,13 +61,21 @@ function createNavbar() {
         icon: "fa fa-video",
         text: "Reels",
         ariaLabel: "Go to reels page",
+      }, //https://reelcareer.co/obituaries
+      {
+        href: "https://reelcareer.co/obituaries",
+        icon: "fa fa-plus-circle",        
+        text: "Career Obituaries",
+        ariaLabel: "Create An Career Obituary"
       },
+      /*
       {
         href: "https://reelcareer.co/views/blogs",
         icon: "fa fa-pencil-alt",
         text: "Blogs",
         ariaLabel: "Go to blogs page",
       },
+      */
       {
         href: "https://reelcareer.co/views/membership",
         icon: "fa fa-user",
