@@ -580,71 +580,86 @@ main {
 
                
                 </div>
-
 <!-- Achievements -->
 <div class="inputArea" id="achievementsArea">
     <label for="achievements">Achievements:</label>
+    <p id="achievementsHint" class="visually-hidden">Enter notable achievements (e.g., Employee of the Month, Sales Record Holder).</p>
     <input type="text" id="achievements" placeholder="Enter achievements, separated by commas">
-    <button type="button" onclick="addAchievementField()">Add Achievement</button>
+    <button type="button" id="addAchievementField">Add Achievement</button>
 </div>
 
 <!-- Education -->
 <div class="inputArea" id="educationArea">
     <label for="educationDegree">Degree:</label>
+    <p id="educationDegreeHint" class="visually-hidden">Enter the degree earned (e.g., Bachelor of Science, Master of Arts).</p>
     <input type="text" id="educationDegree" placeholder="Enter degree (e.g., Bachelor of Science)">
+    
     <label for="educationInstitution">Institution:</label>
+    <p id="educationInstitutionHint" class="visually-hidden">Enter the name of the educational institution (e.g., Harvard University).</p>
     <input type="text" id="educationInstitution" placeholder="Enter institution name">
+    
     <label for="educationYear">Graduation Year:</label>
+    <p id="educationYearHint" class="visually-hidden">Enter the graduation year (e.g., 2023).</p>
     <input type="text" id="educationYear" placeholder="Enter graduation year">
-    <button type="button" onclick="addEducationField()">Add Education</button>
+    
+    <button type="button" id="addEducationField">Add Education</button>
 </div>
+
 <!-- Work History -->
 <div class="inputArea" id="workArea">
     <label for="workTitle">Job Title:</label>
+    <p id="workAreaHint" class="visually-hidden">Enter your job title (e.g., Software Engineer, Marketing Manager).</p>
     <input type="text" id="workTitle" placeholder="Enter job title">
+    
     <label for="workCompany">Company:</label>
+    <p id="workCompanyHint" class="visually-hidden">Enter the company name (e.g., Google, Microsoft).</p>
     <input type="text" id="workCompany" placeholder="Enter company name">
+    
     <label for="workDuration">Duration:</label>
+    <p id="workDurationHint" class="visually-hidden">Enter the duration of employment (e.g., January 2020 - June 2023).</p>
     <input type="text" id="workDuration" placeholder="Enter job duration">
-    <button type="button" onclick="addWorkField()">Add Work History</button>
+    
+    <button type="button" id="addWorkField">Add Work History</button>
 </div>
 
 <!-- Causes/Volunteer Work -->
 <div class="inputArea" id="causesArea">
     <label for="causes">Causes:</label>
+    <p id="causesHint" class="visually-hidden">Enter causes or volunteer activities (e.g., Animal Welfare, Environmental Cleanup).</p>
     <input type="text" id="causes" placeholder="Enter causes or volunteer work">
-    <button type="button" onclick="addCauseField()">Add Cause</button>
+    <button type="button" id="addCauseField">Add Cause</button>
 </div>
 
 <!-- Portfolio -->
 <div class="inputArea">
     <label for="portfolioLink">Portfolio Link:</label>
+    <p id="portfolioLinkHint" class="visually-hidden">Enter a link to your online portfolio (e.g., https://myportfolio.com).</p>
     <input type="url" id="portfolioLink" placeholder="Enter portfolio URL">
 </div>
 
 <!-- References -->
 <div class="inputArea" id="referencesArea">
     <label for="references">References:</label>
+    <p id="referencesHint" class="visually-hidden">Enter references (e.g., John Doe, Senior Manager at XYZ Corp).</p>
     <input type="text" id="references" placeholder="Enter references">
-    <button type="button" onclick="addReferenceField()">Add Reference</button>
+    <button type="button" id="addReferenceField">Add Reference</button>
 </div>
 
 <!-- Skills -->
 <div class="inputArea" id="skillsArea">
     <label for="skills">Skills:</label>
+    <p id="skillsHint" class="visually-hidden">Enter your skills (e.g., JavaScript, Project Management).</p>
     <input type="text" id="skills" placeholder="Enter skills">
-    <button type="button" onclick="addSkillField()">Add Skill</button>
+    <button type="button" id="addSkillField">Add Skill</button>
 </div>
 
 <!-- Notable Contributions -->
 <div class="inputArea" id="notableContributionsArea">
     <label for="notableContributions">Notable Contributions:</label>
+    <p id="notableContributionsHint" class="visually-hidden">Enter notable contributions (e.g., Developed a key feature that boosted sales).</p>
     <input type="text" id="notableContributions" placeholder="Enter notable contributions">
-    <button type="button" onclick="addNotableContributionField()">Add Notable Contribution</button>
+    <button type="button" id="addNotableContributionField">Add Notable Contribution</button>
 </div>
-
-
-
 
 
 
@@ -803,6 +818,100 @@ function addNotableContributionField() {
     newContribution.placeholder = 'Enter additional notable contribution';
     notableContributionsArea.appendChild(newContribution);
 }
+
+
+
+
+
+
+document.getElementById('addAchievementField').addEventListener('click', () => {
+/*     const achievementInput = document.getElementById('achievements').value;
+    if (achievementInput) {
+        console.log(`Achievement Added: ${achievementInput}`);
+        // Add logic to handle achievements
+        document.getElementById('achievements').value = ''; // Clear input
+    } */
+});
+
+document.getElementById('addEducationField').addEventListener('click', () => {
+/*     const degree = document.getElementById('educationDegree').value;
+    const institution = document.getElementById('educationInstitution').value;
+    const year = document.getElementById('educationYear').value;
+    if (degree && institution && year) {
+        console.log(`Education Added: ${degree} from ${institution}, ${year}`);
+        // Add logic to handle education
+        document.getElementById('educationDegree').value = '';
+        document.getElementById('educationInstitution').value = '';
+        document.getElementById('educationYear').value = '';
+    } */
+});
+
+document.getElementById('addWorkField').addEventListener('click', () => {
+/*     const title = document.getElementById('workTitle').value;
+    const company = document.getElementById('workCompany').value;
+    const duration = document.getElementById('workDuration').value;
+    if (title && company && duration) {
+        console.log(`Work History Added: ${title} at ${company}, ${duration}`);
+        // Add logic to handle work history
+        document.getElementById('workTitle').value = '';
+        document.getElementById('workCompany').value = '';
+        document.getElementById('workDuration').value = '';
+    } */
+});
+
+document.getElementById('addCauseField').addEventListener('click', () => {
+ /*    const causesInput = document.getElementById('causes').value;
+    if (causesInput) {
+        console.log(`Cause Added: ${causesInput}`);
+        // Add logic to handle causes
+        document.getElementById('causes').value = '';
+    } */
+});
+
+document.getElementById('addReferenceField').addEventListener('click', () => {
+/*     const referencesInput = document.getElementById('references').value;
+    if (referencesInput) {
+        console.log(`Reference Added: ${referencesInput}`);
+        // Add logic to handle references
+        document.getElementById('references').value = '';
+    } */
+});
+
+document.getElementById('addSkillField').addEventListener('click', () => {
+/*     const skillsInput = document.getElementById('skills').value;
+    if (skillsInput) {
+        console.log(`Skill Added: ${skillsInput}`);
+        // Add logic to handle skills
+        document.getElementById('skills').value = '';
+    } */
+});
+
+document.getElementById('addNotableContributionField').addEventListener('click', () => {
+/*         const contributionsInput = document.getElementById('notableContributions').value;
+        if (contributionsInput) {
+            console.log(`Notable Contribution Added: ${contributionsInput}`);
+            // Add logic to handle contributions
+            document.getElementById('notableContributions').value = '';
+        } */
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Function to fetch user IP and location details
 async function getUserDetails() {
@@ -1190,6 +1299,9 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
+
+
+
 
 
 // Show modal function
