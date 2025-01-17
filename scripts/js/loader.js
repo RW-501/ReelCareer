@@ -313,7 +313,10 @@ function loadPageScripts() {
 
 
 
-
+        // Load renderVideo Script
+        loadScript('https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js', { async: true }, () => {
+            logExecutionTime('renderVideo', performance.now());
+        });
 
     if (!currentPath.includes('obituaries')) {
         // Load Job Card Script
