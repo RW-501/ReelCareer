@@ -728,6 +728,7 @@ let videoMuted = '';
             const videoCard = document.createElement("div");
             videoCard.className = "video-post";
             videoCard.dataset.docId = docId; // Add dataset attribute
+            videoCard.dataset.doc.id = docId; // Add dataset attribute
             videoCard.dataset.timestamp = videoData.timestamp;
             videoCard.dataset.tags = videoData.tags || ''; // For search functionality
             videoCard.dataset.displayName = videoData.displayName || '';
