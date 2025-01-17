@@ -1578,7 +1578,10 @@ const tagElement_reelCategories = document.getElementById(`tagsList_tagsContaine
 
 if(tagElement_reelCategories.innerHTML == '' && reelData.reelCategories){
     tagElement_reelCategories.innerText = '';
-    document.getElementById('input_tagsContainerSET-reelCategories').value = reelData.reelCategories.split(",").map(item => item.trim())  || "";
+    const tagsInputElement = document.getElementById('input_tagsContainerSET-reelCategories');
+
+    const tagsArray = reelData.reelCategories ? reelData.reelCategories.split(",").map(item => item.trim()) : [];
+    tagsInputElement.value = reelData.reelCategories || ""; // For fallback compatibility if it's a regular input field
 
     reelData.reelCategories.forEach(tag => {
         
