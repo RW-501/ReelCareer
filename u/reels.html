@@ -1133,7 +1133,6 @@ let reelID = '';
 
 
 
-
 function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
     const addProductButton = document.getElementById('addProductButton');
     const productListContainer = document.getElementById('productListContainer');
@@ -1158,6 +1157,10 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
                     <label for="productLink-${index}">Link:</label>
                     <input type="url" id="productLink-${index}" placeholder="Product URL" value="${product.link}" required>
                 </div>
+                <div>
+                    <label for="productImage-${index}">Image URL:</label>
+                    <input type="url" id="productImage-${index}" placeholder="Product Image URL" value="${product.image || ''}" required>
+                </div>
                 <button type="button" class="btn btn-danger remove-product-btn" data-index="${index}">Remove</button>
             `;
 
@@ -1177,6 +1180,7 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
             const nameInput = productDiv.querySelector(`#productName-${index}`);
             const costInput = productDiv.querySelector(`#productCost-${index}`);
             const linkInput = productDiv.querySelector(`#productLink-${index}`);
+            const imageInput = productDiv.querySelector(`#productImage-${index}`);
 
             nameInput.addEventListener('input', () => {
                 relatedProductsArray[index].name = nameInput.value;
@@ -1187,6 +1191,9 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
             linkInput.addEventListener('input', () => {
                 relatedProductsArray[index].link = linkInput.value;
             });
+            imageInput.addEventListener('input', () => {
+                relatedProductsArray[index].image = imageInput.value;
+            });
         });
     };
 
@@ -1195,22 +1202,18 @@ function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
 
     // Add event listener to the "Add Product" button
     addProductButton.addEventListener('click', (e) => {
-        // Prevent form submission if within a form
-        // e.preventDefault();
-
         if (relatedProductsArray.length >= 4) {
             alert('You can only add up to 4 products.');
             return;
         }
 
         // Add a new product object to the array
-        relatedProductsArray.push({ name: '', cost: '', link: '' });
+        relatedProductsArray.push({ name: '', cost: '', link: '', image: '' });
 
         // Re-render the product list with the updated array
         renderProductList();
     });
 }
-
 
 function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
     // Logic to update the DOM with related reels from relatedReelsArray

@@ -2,7 +2,6 @@
 
 
 function renderVideos(docs, container, connectedUserIds, userId) {
-    console.log("Rendering videos:", docs.length);
   
     let videoMuted = "";
     const mutePreference = localStorage.getItem("videoMutePreference");
@@ -54,12 +53,19 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         console.log(`${displayName} is NOT connected to the logged-in user.`);
       }
   
+      console.log("videoData.relatedReels:", videoData.relatedReels);
+
+      console.log("videoData.endingCard:", videoData.endingCard);
+      console.log("videoData.relatedProducts:", videoData.relatedProducts);
+
       // Build the video card dynamically with real data
       const videoCard = document.createElement("div");
       videoCard.className = "video-post";
       videoCard.dataset.docId = docId; // Add dataset attribute
       videoCard.dataset.videoId = docId; // Add dataset attribute
       videoCard.dataset.timestamp = videoData.timestamp;
+      videoCard.dataset.reelCategories = videoData.reelCategories;
+      videoCard.dataset.relatedProductsBool = videoData.relatedProductsBool;
       videoCard.dataset.tags = videoData.tags || ""; // For search functionality
       videoCard.dataset.displayName = videoData.displayName || "";
       videoCard.dataset.isConnected = videoData.isConnected || "";
