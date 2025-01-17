@@ -15,14 +15,21 @@ let userID = '';
 
 // Listen for authentication state changes to get the user ID
 
-// Handle user authentication state change
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // The user is signed in
-     userID = user.uid;  // Use the user's unique ID
-    console.log('User ID:', userID);
-
-  }
+// Wait for the document to fully load
+document.addEventListener('DOMContentLoaded', () => {
+  // Set a timeout of 1 second before handling authentication state change
+  setTimeout(() => {
+    // Handle user authentication state change
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // The user is signed in
+        const userID = user.uid;  // Use the user's unique ID
+        console.log('User ID:', userID);
+      } else {
+        console.log('No user is signed in.');
+      }
+    });
+  }, 1000);  // 1-second delay
 });
 
 
