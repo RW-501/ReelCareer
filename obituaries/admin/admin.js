@@ -36,14 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // obituaries.js
 async function fetchObituaries() {
     try {
-      const snapshot = await getDocs(collection(db, "A_Obituaries"));
-      const obituaries = snapshot.docs();
-      const obituaryList = document.getElementById("obituary-list");
+      const snapshot = await getDocs(collection(db, "A_Obituaries"));  // Fetch all documents from the A_Obituaries collection
+      const obituaryList = document.getElementById("obituary-list");   // Target the obituary list table or container
+      console.log("fetchObituaries", snapshot.docs);  // Log the snapshot for debugging
       
-      obituaries.forEach(doc => {
-        const data = doc.data();
-        const row = document.createElement("tr");
+      snapshot.forEach(doc => {
+        const data = doc.data();  // Get document data
+        const row = document.createElement("tr");  // Create a table row element
         
+              console.log("data",data);
+
         row.innerHTML = `
           <td>${data.name}</td>
           <td>${data.category}</td>
