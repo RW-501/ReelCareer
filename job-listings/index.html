@@ -1390,19 +1390,16 @@ console.log("userlocationData:", userlocationData);
 }
 
 
-function displayJobListings(jobListings) {
+function displayJobListings(jobs) {
   const jobContainer = document.getElementById('featuredJobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
+  let jobListings = jobs;
   
-  //console.log("displayJobListings:", jobListings);
+  //console.log("displayJobListings:", jobs);
 
   // Ensure jobListings is an array
   if (!Array.isArray(jobListings)) {
-    const listings = jobListings.jobListings;  // Assuming jobListings is an object
-  
-    console.log("Displaying job:", listings);
-    createJobCard(listings ,jobContainer);
-    return;
+     jobListings = jobListings.jobs;  // Assuming jobListings is an object
   }
 
   // Iterate over jobListings and create a card for each

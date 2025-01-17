@@ -319,7 +319,7 @@ let cardCount = 0;
   `;
 
     }
-  console.log("createJobCard container  ", container);
+  //console.log("createJobCard container  ", container);
       
       jobCard.style.opacity = '0';
  
