@@ -1445,6 +1445,18 @@ function toggleContainers(action) {
       .filter((part) => part !== "00") // Remove leading zeros if hours are zero
       .join(":");
   }
+  const generalTags = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-main",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
+
+
+    const generalTags_reelCategories = createTagInputSystem({
+      tagsContainerId: "tagsContainerSET-reelCategories",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
 
 async function handleReels(action, event) {
     reelID = event.target.dataset.id;
@@ -1515,10 +1527,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 
 
-    const generalTags = createTagInputSystem({
-      tagsContainerId: "tagsContainerSET-main",
-      badgeClass: "tag-primary" // Custom badge class for general tags
-    });
+
 
     console.log("generalTags  ",generalTags);
 
@@ -1528,7 +1537,7 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
         const tagElement_main = document.getElementById(`tagsList_tagsContainerSET-main`); 
 
         if(tagElement_main.innerHTML == ''&& reelData.tags){
-          //  tagElement_main.innerText = '';
+            tagElement_main.innerText = '';
 
             reelData.tags.forEach(tag => {
          
@@ -1543,10 +1552,6 @@ updateRelatedReelsDisplay(reelData, relatedReelsArray);
   
         
 
-        const generalTags_reelCategories = createTagInputSystem({
-      tagsContainerId: "tagsContainerSET-reelCategories",
-      badgeClass: "tag-primary" // Custom badge class for general tags
-    });
         document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
 
 const tagsContainer_reelCategories = document.getElementById('tagsContainerSET-reelCategories');
