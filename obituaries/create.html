@@ -541,7 +541,6 @@ main {
                     </div>
             </div>
 
- 
                 <div class="inputArea">                   
                      <label for="video" aria-label="Enter video URL">Video (Optional)</label>
                     <p id="videoHint" class="visually-hidden">Optional: Provide a video URL (e.g., YouTube, Vimeo) related to the obituary.</p>
@@ -581,6 +580,75 @@ main {
 
                
                 </div>
+
+<!-- Achievements -->
+<div class="inputArea" id="achievementsArea">
+    <label for="achievements">Achievements:</label>
+    <input type="text" id="achievements" placeholder="Enter achievements, separated by commas">
+    <button type="button" onclick="addAchievementField()">Add Achievement</button>
+</div>
+
+<!-- Education -->
+<div class="inputArea" id="educationArea">
+    <label for="educationDegree">Degree:</label>
+    <input type="text" id="educationDegree" placeholder="Enter degree (e.g., Bachelor of Science)">
+    <label for="educationInstitution">Institution:</label>
+    <input type="text" id="educationInstitution" placeholder="Enter institution name">
+    <label for="educationYear">Graduation Year:</label>
+    <input type="text" id="educationYear" placeholder="Enter graduation year">
+    <button type="button" onclick="addEducationField()">Add Education</button>
+</div>
+<!-- Work History -->
+<div class="inputArea" id="workArea">
+    <label for="workTitle">Job Title:</label>
+    <input type="text" id="workTitle" placeholder="Enter job title">
+    <label for="workCompany">Company:</label>
+    <input type="text" id="workCompany" placeholder="Enter company name">
+    <label for="workDuration">Duration:</label>
+    <input type="text" id="workDuration" placeholder="Enter job duration">
+    <button type="button" onclick="addWorkField()">Add Work History</button>
+</div>
+
+<!-- Causes/Volunteer Work -->
+<div class="inputArea" id="causesArea">
+    <label for="causes">Causes:</label>
+    <input type="text" id="causes" placeholder="Enter causes or volunteer work">
+    <button type="button" onclick="addCauseField()">Add Cause</button>
+</div>
+
+<!-- Portfolio -->
+<div class="inputArea">
+    <label for="portfolioLink">Portfolio Link:</label>
+    <input type="url" id="portfolioLink" placeholder="Enter portfolio URL">
+</div>
+
+<!-- References -->
+<div class="inputArea" id="referencesArea">
+    <label for="references">References:</label>
+    <input type="text" id="references" placeholder="Enter references">
+    <button type="button" onclick="addReferenceField()">Add Reference</button>
+</div>
+
+<!-- Skills -->
+<div class="inputArea" id="skillsArea">
+    <label for="skills">Skills:</label>
+    <input type="text" id="skills" placeholder="Enter skills">
+    <button type="button" onclick="addSkillField()">Add Skill</button>
+</div>
+
+<!-- Notable Contributions -->
+<div class="inputArea" id="notableContributionsArea">
+    <label for="notableContributions">Notable Contributions:</label>
+    <input type="text" id="notableContributions" placeholder="Enter notable contributions">
+    <button type="button" onclick="addNotableContributionField()">Add Notable Contribution</button>
+</div>
+
+
+
+
+
+
+
 
 
         
@@ -657,7 +725,84 @@ main {
 let userID = '';
       
 
+// Add Achievement Field
+function addAchievementField() {
+    const achievementsArea = document.getElementById('achievementsArea');
+    const newAchievement = document.createElement('input');
+    newAchievement.type = 'text';
+    newAchievement.placeholder = 'Enter additional achievement';
+    achievementsArea.appendChild(newAchievement);
+}
 
+// Add Education Fields
+function addEducationField() {
+    const educationArea = document.getElementById('educationArea');
+    const newDegree = document.createElement('input');
+    newDegree.type = 'text';
+    newDegree.placeholder = 'Enter additional degree';
+    const newInstitution = document.createElement('input');
+    newInstitution.type = 'text';
+    newInstitution.placeholder = 'Enter additional institution';
+    const newYear = document.createElement('input');
+    newYear.type = 'text';
+    newYear.placeholder = 'Enter additional graduation year';
+    educationArea.appendChild(newDegree);
+    educationArea.appendChild(newInstitution);
+    educationArea.appendChild(newYear);
+}
+
+// Add Work History Fields
+function addWorkField() {
+    const workArea = document.getElementById('workArea');
+    const newWorkTitle = document.createElement('input');
+    newWorkTitle.type = 'text';
+    newWorkTitle.placeholder = 'Enter additional job title';
+    const newWorkCompany = document.createElement('input');
+    newWorkCompany.type = 'text';
+    newWorkCompany.placeholder = 'Enter additional company name';
+    const newWorkDuration = document.createElement('input');
+    newWorkDuration.type = 'text';
+    newWorkDuration.placeholder = 'Enter additional job duration';
+    workArea.appendChild(newWorkTitle);
+    workArea.appendChild(newWorkCompany);
+    workArea.appendChild(newWorkDuration);
+}
+
+// Add Causes Fields
+function addCauseField() {
+    const causesArea = document.getElementById('causesArea');
+    const newCause = document.createElement('input');
+    newCause.type = 'text';
+    newCause.placeholder = 'Enter additional cause';
+    causesArea.appendChild(newCause);
+}
+
+// Add References Fields
+function addReferenceField() {
+    const referencesArea = document.getElementById('referencesArea');
+    const newReference = document.createElement('input');
+    newReference.type = 'text';
+    newReference.placeholder = 'Enter additional reference';
+    referencesArea.appendChild(newReference);
+}
+
+// Add Skills Fields
+function addSkillField() {
+    const skillsArea = document.getElementById('skillsArea');
+    const newSkill = document.createElement('input');
+    newSkill.type = 'text';
+    newSkill.placeholder = 'Enter additional skill';
+    skillsArea.appendChild(newSkill);
+}
+
+// Add Notable Contributions Fields
+function addNotableContributionField() {
+    const notableContributionsArea = document.getElementById('notableContributionsArea');
+    const newContribution = document.createElement('input');
+    newContribution.type = 'text';
+    newContribution.placeholder = 'Enter additional notable contribution';
+    notableContributionsArea.appendChild(newContribution);
+}
 
 // Function to fetch user IP and location details
 async function getUserDetails() {
@@ -1329,6 +1474,68 @@ document.getElementById('preview-button').click();
         let socialLinkName = document.getElementById('socialLinkName').value.trim();
         let hashTag = document.getElementById('hashTag').value.trim();
         let gender =  document.getElementById('gender').value.trim();
+        let profession =  document.getElementById('profession').value.trim();
+        let company =  document.getElementById('company').value.trim();
+        let portfolioLink = document.getElementById('portfolioLink').value.trim();
+
+
+// Capture Work History
+let achievements = [];
+document.querySelectorAll('#achievements input').forEach(input => {
+    if (input.value.trim()) {
+        achievements.push(input.value.trim());
+    }
+});
+
+// Capture Work History
+let education = [];
+document.querySelectorAll('#education input').forEach(input => {
+    if (input.value.trim()) {
+        education.push(input.value.trim());
+    }
+});
+
+// Collect all values for Work History
+let workHistory = [];
+document.querySelectorAll('#workArea input').forEach(input => {
+    if (input.value.trim()) {
+        workHistory.push(input.value.trim());
+    }
+});
+
+// Collect all values for Causes
+let causes = [];
+document.querySelectorAll('#causesArea input').forEach(input => {
+    if (input.value.trim()) {
+        causes.push(input.value.trim());
+    }
+});
+
+// Collect all values for References
+let references = [];
+document.querySelectorAll('#referencesArea input').forEach(input => {
+    if (input.value.trim()) {
+        references.push(input.value.trim());
+    }
+});
+
+// Collect all values for Skills
+let skills = [];
+document.querySelectorAll('#skillsArea input').forEach(input => {
+    if (input.value.trim()) {
+        skills.push(input.value.trim());
+    }
+});
+
+// Collect all values for Notable Contributions
+let notableContributions = [];
+document.querySelectorAll('#notableContributionsArea input').forEach(input => {
+    if (input.value.trim()) {
+        notableContributions.push(input.value.trim());
+    }
+});
+
+
 
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
@@ -1376,35 +1583,50 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
         // Construct the obituary object
         const obituary = {
-            name: name,
-            searchableName: searchableName,
-            sunrise: formattedSunrise,
-            sunset: formattedSunset,
-            about: about,
-            location: location,
-            searchableLocation: searchableLocation,
-            category: category,
-            hashTag: validHashTag,
-            url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
-            pageName: pageName,
-            videoURL: videoURL,
-            socialLinkName: socialLinkName,
-            socialLinks: socialLinks,
-            mainPhoto: mainPhotoUrl,
-            profession: '',
-            company: '',
-            skills: '',
-            gender: gender,
-            datePublished: new Date(obituary.datePublished).toISOString(),  // Properly formatted date
-            dateModified: new Date(obituary.dateModified).toISOString(),    // Properly formatted date
-            timeStamp: new Date().toISOString(), // Using Date() for the current timestamp
-            userID: userID,
-            userIP: userIP,
-            gifts: [],
-            views: 0,
-            flowerCount: 0,
-            status: 'active', // Mark as active after payment
-        };
+    name: name,
+    searchableName: searchableName,
+    sunrise: formattedSunrise,
+    sunset: formattedSunset,
+    about: about,
+    location: location,
+    searchableLocation: searchableLocation,
+    category: category,
+    hashTag: validHashTag,
+    url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+    pageName: pageName,
+    videoURL: videoURL,
+    socialLinkName: socialLinkName,
+    socialLinks: socialLinks,
+    mainPhoto: mainPhotoUrl,
+    profession: profession,
+    company: company,
+    gender: gender,
+    datePublished: datePublished,
+    dateModified: dateModified,
+    timeStamp: timeStamp,
+    userID: userID,
+    userIP: userIP,
+    gifts: [],
+    views: 0,
+    uniqueViews: 0,
+    flowerCount: 0,
+    giftClicks: 0,
+    linkClick: 0,
+    flowerCount: 0,
+    status: 'active',
+
+    portfolio: portfolioLink,
+    references: references,
+    skills: skills,
+    causes: causes,
+    notableContributions: notableContributions,
+
+    achievements: achievements,
+
+    education: education,
+    workHistory: workHistory,
+};
+
 
         // Add transaction details to Firestore
       //  const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
@@ -1633,7 +1855,7 @@ let Content = `
         <div id="hashTag" class="changeable-text" aria-live="polite">${obituary.hashTag}</div>
         <div id="social-link" class="changeable-text" aria-live="polite">${obituary.socialLinkName}: <a href="${obituary.socialLinks}" aria-label="Visit ${obituary.socialLinkName}">${obituary.socialLinks}</a></div>
       </div>
-      
+
       <div id="media-section" class="changeable-area" role="region" aria-labelledby="media-section">
         ${obituary.videoURL}
       </div>
@@ -1642,6 +1864,70 @@ let Content = `
         <div id="about-obituary" class="changeable-text" role="document">${obituary.about}</div>
       </div>
       
+
+                <!-- Portfolio Section -->
+                <div id="portfolio-section" class="changeable-area" role="region">
+                    <h4>Portfolio</h4>
+                    <p>Check out their portfolio: <a href="${obituary.portfolioLink}" target="_blank">${obituary.portfolioLink}</a></p>
+                </div>
+
+                <!-- References Section -->
+                <div id="references-section" class="changeable-area" role="region">
+                    <h4>References</h4>
+                    <ul>
+                        ${obituary.references.map(reference => `<li>${reference}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Skills Section -->
+                <div id="skills-section" class="changeable-area" role="region">
+                    <h4>Skills</h4>
+                    <ul>
+                        ${obituary.skills.map(skill => `<li>${skill}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Causes Section -->
+                <div id="causes-section" class="changeable-area" role="region">
+                    <h4>Causes & Volunteer Work</h4>
+                    <ul>
+                        ${obituary.causes.map(cause => `<li>${cause}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Notable Contributions Section -->
+                <div id="contributions-section" class="changeable-area" role="region">
+                    <h4>Notable Contributions</h4>
+                    <ul>
+                        ${obituary.notableContributions.map(notableContribution => `<li>${notableContribution}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Achievements Section -->
+                <div id="achievements-section" class="changeable-area" role="region">
+                    <h4>Achievements</h4>
+                    <ul>
+                        ${obituary.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Education Section -->
+                <div id="education-section" class="changeable-area" role="region">
+                    <h4>Education</h4>
+                    <ul>
+                        ${obituary.education.map(edu => `<li>${edu}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <!-- Work History Section -->
+                <div id="work-history-section" class="changeable-area" role="region">
+                    <h4>Work History</h4>
+                    <ul>
+                        ${obituary.workHistory.map(work => `<li>${work}</li>`).join('')}
+                    </ul>
+                </div>
+
+
       <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
       <div id="dynamic-interaction-area" role="region"></div>
         
