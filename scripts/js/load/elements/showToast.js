@@ -163,12 +163,28 @@ if (progress !== null) {
 
 function processNextToast() {
   if (toastQueue.length > 0) {
-    const nextToast = toastQueue.shift();
-    document.body.appendChild(nextToast);
-    showToast(nextToast.innerHTML, nextToast.getAttribute('type'), nextToast.getAttribute('duration'), nextToast.getAttribute('link'), nextToast.getAttribute('confirm'), nextToast.getAttribute('linkTitle'), nextToast.getAttribute('progress'));
+    const nextToastObject = toastQueue.shift();
+    const { element, toastKey } = nextToastObject; // Destructure the object
+    
+    if (element instanceof HTMLElement) {
+      document.body.appendChild(element); // Correctly append the toast element
+      
+      // Use the element's attributes directly if needed for showToast
+      const message = element.getAttribute('message');
+      const type = element.getAttribute('type');
+      const duration = parseInt(element.getAttribute('duration'), 10);
+      const link = element.getAttribute('link');
+      const confirm = element.getAttribute('confirm') === 'true';
+      const linkTitle = element.getAttribute('linkTitle');
+      const progress = element.getAttribute('progress');
+      
+      showToast(message, type, duration, link, confirm, linkTitle, progress);
+      activeToasts.delete(toastKey);
+    } else {
+      console.error('Toast element is not of type HTMLElement.');
+    }
   }
 }
-
 
 
 
