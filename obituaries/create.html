@@ -1923,20 +1923,35 @@ let Content = `
   }
   <\/script>
 
-  <!-- Additional Structured Data for Better Rich Snippets -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Celebrating the Life of ${obituary.name}",
-    "description": "A detailed tribute page celebrating the life of ${obituary.name}, featuring stories, images, and reflections on their legacy.",
-    "url": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}"
+  <!-- Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://reelcareer.co"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Obituaries",
+      "item": "https://reelcareer.co/obituaries"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Celebrating ${obituary.name}",
+      "item": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}"
     }
-  }
-  <\/script>
+  ]
+}
+<\/script>
+
+
   ${script} <!-- The script is correctly inserted here -->
 </head>
 <body> 
