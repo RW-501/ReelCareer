@@ -737,7 +737,248 @@ function handleComments(docId, commentsBtn) {
       modal.style.display = "none"; // No need for !important
     });
   }
+  async function handleSendGift(createdByID, displayName, videoTitle, videoID, userId) {
+    const popupHtml = `
+      <div class="gift-popup-overlay" 
+           data-created-by-id="${createdByID}" 
+           data-display-name="${displayName}" 
+           data-video-title="${videoTitle}" 
+           data-video-id="${videoID}" 
+           data-user-id="${userId}">
+        <div class="gift-popup">
+          <h2>Send a Gift to ${displayName}</h2>
+          <p>Support this video: <strong>${videoTitle}</strong></p>
+          <div id="gift_choices">
+            <button onclick="selectGift('Coffee', 5)">☕ Coffee - $5</button>
+            <button onclick="selectGift('Lunch', 15)">🍴 Lunch - $15</button>
+            <button onclick="selectGift('Custom', 0)">💰 Custom Amount</button>
+          </div>
+          <div id="custom-amount-area" style="display: none;">
+            <label for="customAmount">Enter Custom Amount ($):</label>
+            <input type="text" id="customAmount" placeholder="Minimum $5">
+          </div>
+          <div id="payment-area" style="display: none;">
+            <p id="payment-info"></p>
+            <div id="paypal-button-container"></div>
+          </div>
+          <button id="back-button" style="display: none;" onclick="giftPopupBackBtn()">Back</button>
+          <button onclick="closeGiftPopup()">Close</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', popupHtml);
+  }
   
+  function closeGiftPopup() {
+    const popup = document.querySelector('.gift-popup-overlay');
+    if (popup) {
+      popup.remove();
+    }
+  }
+  
+  window.handleSendGift = handleSendGift;
+  window.closeGiftPopup = closeGiftPopup;
+  
+ 
+function giftPopupBackBtn(){
+  const gift_choices = document.getElementById('gift_choices');
+  const custom_amount_area = document.getElementById('custom-amount-area');
+  const payment_area = document.getElementById('payment-area');
+  const back_button = document.getElementById('back-button');
+
+  if(custom_amount_area.style.display = "block"){
+    gift_choices.style.display = "none";
+    custom_amount_area.style.display = "none";
+    payment_area.style.display = "none";
+    gift_choices.style.display = "block";
+    document.getElementById('customAmount').value = '';
+    back_button.style.display = "none";
+
+
+  }else
+  if(payment_area.style.display = "block"){
+    custom_amount_area.style.display = "none";
+    payment_area.style.display = "none";
+    gift_choices.style.display = "block";
+    document.getElementById('customAmount').value = '';
+    back_button.style.display = "none";
+
+  }else{
+    back_button.style.display = "none";
+    payment_area.style.display = "none";
+    gift_choices.style.display = "block";
+
+  }
+
+}
+window.giftPopupBackBtn = giftPopupBackBtn;
+
+async function selectGift(giftType, price) {
+
+
+
+
+    
+  const back_button = document.getElementById('back-button');
+  back_button.style.display = "block";
+
+  let paypalButtonContainer = document.getElementById('paypal-button-container');
+  paypalButtonContainer.innerHTML = '';
+  // Get the custom amount entered by the user
+  let customAmount = document.getElementById('customAmount').value.trim();
+
+  // Remove any non-numeric characters (e.g., '$', ',') and convert to a valid number
+  customAmount = customAmount.replace(/[^\d.-]/g, '');
+
+  // Convert to a number (will be NaN if invalid input is entered)
+  customAmount = parseFloat(customAmount);
+
+  const gift_choices = document.getElementById('gift_choices');
+  const custom_amount_area = document.getElementById('custom-amount-area');
+  const payment_area = document.getElementById('payment-area');
+  const payment_info = document.getElementById('payment-info');
+
+if(giftType == "custom" && !customAmount > 0){
+  custom_amount_area.style.display = "block";
+  gift_choices.style.display = "none";
+
+  return;
+}else{
+  custom_amount_area.style.display = "none";
+/// procecced
+}
+
+
+// If the custom amount is invalid or empty, use the selected price
+const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
+
+// Calculate the service fee (10%) and the amount the user will receive
+const serviceFee = amountToPay * 0.10;
+const amountToReceive = amountToPay - serviceFee;
+
+if (amountToPay < 5 || amountToPay == '') {
+  payment_info.innerHTML = ` 
+    <p><strong>Note:</strong> There is a minimum contribution of $5.00.</p>
+    Please choose a gift amount of at least $5.00 to proceed. 
+    <br>To continue, kindly adjust your contribution and try again.
+  `;
+  gift_choices.style.display = "none";
+  payment_area.style.display = "block";
+
+  return;
+}
+
+payment_info.innerHTML = `
+  You selected the ${giftType} gift with an amount of $${amountToPay}. 
+  A 10% service fee of $${serviceFee.toFixed(2)} will be deducted. 
+  <p>The user will receive $${amountToReceive.toFixed(2)}.</p>
+`;
+
+gift_choices.style.display = "none";
+payment_area.style.display = "block";
+
+  showToast(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
+
+  // Initialize PayPal Button
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: amountToPay.toFixed(2),
+          }
+        }]
+      });
+    },
+    onApprove: async function(data, actions) {
+      const details = await actions.order.capture();
+
+      // Handle successful payment (e.g., save to Firestore)
+      await handlePaymentSuccess(giftType, amountToPay, details);
+
+      // Optionally close the gift popup after payment is successful
+      closeGiftPopup();
+    },
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      showToast('There was an error with your payment. Please try again.');
+    }
+  }).render('#paypal-button-container'); // Render the PayPal button inside the container
+}
+window.selectGift = selectGift;
+
+// Handle payment success (save to Firestore) 
+async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
+  try {
+    const giftsRefs = collection(db, `VideoResumes/${videoID}/Gifts-Transactions`);
+    const transactionsRefs = collection(db, `A_Transactions`); // Corrected path
+
+    if(!userId){
+      userId = auth.currentUser.uid; // Logged-in user ID
+    }
+
+    const userIP = await getUserIP();
+
+    let createdByID, displayName, videoTitle, videoID;
+
+    const popup = document.querySelector('.gift-popup-overlay');
+    if (popup) {
+       createdByID = popup.dataset.createdById;
+       displayName = popup.dataset.displayName;
+       videoTitle = popup.dataset.videoTitle;
+       videoID = popup.dataset.videoId;
+           
+      console.log(createdByID, displayName, videoTitle, videoID, userId); // Logs the retrieved values
+    }
+    
+    if (!message) {
+      showToast("Please enter a message before submitting.");
+      return;
+    }
+
+    await addDoc(giftsRefs, {
+      giftType,
+      videoID,
+      amount: amountToPay,
+      paymentDetails,
+      status: "completed",
+      timestamp: serverTimestamp(),
+    });
+
+
+    await addDoc(transactionsRefs, {
+      giftType,
+      videoID,
+      url: `https://reelcareer.co/reels/?r=${videoID}`,
+      pageName,
+      paymentDetails,
+      withdraw_amount: 0,
+      note: `Credit to Account: Video: ${videoTitle}, Video ID: ${videoID}`,
+      transactionType: `credit`,
+      status: "active",
+      pageOwnerUserID: '',
+      videoOwnerUserID: createdByID,
+      userID: userId,
+      userIP: userIP,
+      amount: amountToPay,
+      timestamp: serverTimestamp(),
+    });
+
+    showToast("Thank you for your contribution!");
+  } catch (error) {
+    console.error("Error processing payment:", error);
+    showToast("There was an error processing your gift. Please try again.");
+  }
+}
+
+
+
+
+
+
+
+
   async function handleConnect(docId, connectButton, viewProfilePicture, viewUserID, viewDisplayName) {
     
     const user = auth.currentUser;

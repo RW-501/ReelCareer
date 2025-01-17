@@ -91,10 +91,19 @@ href="https://reelcareer.co/reels/reelsCSS.css"
       <main id="main-content">
       
      
-        
-          <div class="search-area">
-            <input type="text" id="search-input" placeholder="Search videos by tag..." />
-        </div>
+        <div class="search-area">
+          <input type="text" id="search-input" placeholder="Search videos by tag..." />
+          
+          <!-- Dropdown to select connection type -->
+          <select id="connection-type-dropdown" class="connection-type-dropdown">
+              <option value="">All Connections</option>
+              <option value="Networking">Networking</option>
+              <option value="Friends">Friends</option>
+              <option value="Family">Family</option>
+              <option value="Co-workers">Co-Workers</option>
+          </select>
+      </div>
+      
         
 <!-- Trigger Button for Video Upload Popup -->
 <button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button>
@@ -320,6 +329,8 @@ href="https://reelcareer.co/reels/reelsCSS.css"
 
     async function initializeUserId() {
         try {
+
+
             // Wait for the Firebase Auth state to initialize
             await auth.onAuthStateChanged((user) => {
                 if (user) {
@@ -345,27 +356,40 @@ href="https://reelcareer.co/reels/reelsCSS.css"
   let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false; // Track if search mode is active
-document.addEventListener("DOMContentLoaded", () => {
+//  document.addEventListener("DOMContentLoaded", () => {
    // console.log("DOMContentLoaded event fired");
 
  
 
     // Search videos by tag
     const searchInput = document.getElementById("search-input");
-    searchInput.addEventListener("input", (e) => {
-        const searchQuery = e.target.value.trim().toLowerCase();
-       // console.log("Search input changed:", searchQuery);
+const connectionTypeDropdown = document.getElementById("connection-type-dropdown");
 
-        if (searchQuery) {
-            searchingByTag = true;
-            console.log("Searching by tag:", searchQuery);
-            fetchVideoResumes(1, searchQuery);
-        } else {
-            searchingByTag = false;
-          //  console.log("Not searching by tag");
-            fetchVideoResumes();
-        }
-    });
+let connectionType = "";
+
+searchInput.addEventListener("input", (e) => {
+    const searchQuery = e.target.value.trim().toLowerCase();
+    // Trigger search by tag when there is an input
+    if (searchQuery) {
+        searchingByTag = true;
+        console.log("Searching by tag:", searchQuery);
+        fetchVideoResumes(1, searchQuery, connectionType);  // Pass connectionType along with the search query
+    } else {
+        searchingByTag = false;
+        console.log("Not searching by tag");
+        fetchVideoResumes(1, "", connectionType);  // Reset to show all videos
+    }
+});
+
+connectionTypeDropdown.addEventListener("change", (e) => {
+    connectionType = e.target.value; // Set connection type filter
+    console.log("Selected connection type:", connectionType);
+    fetchVideoResumes(1, "", connectionType);  // Fetch videos based on the new connection type
+
+
+});
+
+
 
     // Infinite Scroll
     window.addEventListener("scroll", () => {
@@ -378,33 +402,108 @@ document.addEventListener("DOMContentLoaded", () => {
          //   fetchVideoResumes();
         }
     });
-});
+//  });
+
+
+async function getConnectedUserIds( connectionType = "all") {
+  try {
+    const connectionsRef = collection(db, 'Connections');
+    let q;
+    const user = auth.currentUser;
+
+    if(!user){
+      openPopupLogin();
+      return;
+    }
+     userId = auth.currentUser.uid; // Logged-in user ID
+
+
+    // If a specific connection type is provided, filter by 'fromGroup' field
+    if (connectionType !== "all") {
+      q = query(
+        connectionsRef,
+        where('participants', 'array-contains', userId),
+        where('fromGroup', '==', connectionType) // Filter by the connection type (group)
+      );
+    } else {
+      // Fetch all connections (no filter by 'fromGroup')
+      q = query(connectionsRef, where('participants', 'array-contains', userId));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const connectedUserIds = [];
+
+    // Extract user IDs from the 'participants' field (excluding the current userId)
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const otherUserId = data.participants.find((id) => id !== userId);
+      if (otherUserId) {
+        connectedUserIds.push(otherUserId);
+      }
+    });
+
+    return connectedUserIds;
+  } catch (error) {
+    console.error('Error fetching connected users:', error);
+    return [];
+  }
+}
+
+
+
 
 // Fetch Video Resumes with optional tag filter
-async function fetchVideoResumes(page = 1, tagFilter = "") {
+async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = true) {  
     const videoContainer = document.getElementById("video-reel-container");
     const videoDataArray = [];
 
     console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
 
-    if(!tagFilter){
-    // Save the current video page number to localStorage
-    localStorage.setItem('videoPageNumber', page);
+    if (!tagFilter) {
+        // Save the current video page number to localStorage
+        localStorage.setItem('videoPageNumber', page);
     }
 
-
     try {
+
+      const user = auth.currentUser;
+
+if(!userId){
+  userId = auth.currentUser.uid; // Logged-in user ID
+
+}
+
+
+
+        // Fetch connected user IDs if needed
+        const connectedUserIds = includeConnected ? await getConnectedUserIds(connectionType) : [];
+        console.log("Connected User IDs:", connectedUserIds);
+
         let videosQuery;
         const videosRef = collection(db, "VideoResumes");
 
-        if (searchingByTag && tagFilter) {
+        if (tagFilter && searchingByTag) {
+            // Filter videos by tag and optionally by connected users
             videosQuery = query(
                 videosRef,
+                where("status", "==", "posted"),
                 where("tags", "array-contains", tagFilter),
+                ...(includeConnected && connectionType ? [where("createdByID", "in", connectedUserIds)] : []),
                 orderBy("timestamp", "desc"),
                 limit(postsPerPage)
             );
+        } else if (connectionType && includeConnected) {
+            // Fetch more videos for pagination and filter by connected users
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+                where("createdByID", "in", connectedUserIds),
+                orderBy("timestamp", "desc"),
+                startAfter(lastVisibleDoc),
+                limit(postsPerPage)
+            );
         } else if (lastVisibleDoc) {
+            // Fetch more videos for pagination, but without connection filtering
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
@@ -413,9 +512,11 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                 limit(postsPerPage)
             );
         } else {
+            // Fetch videos from all users (with or without connection filtering)
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+                ...(includeConnected ? [where("createdByID", "in", connectedUserIds)] : []),
                 orderBy("timestamp", "desc"),
                 limit(postsPerPage)
             );
@@ -449,7 +550,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                     timestamp: videoData.timestamp || ''
                 });
             });
-            renderVideos(querySnap.docs, videoContainer);
+            renderVideos(querySnap.docs, videoContainer, connectedUserIds, userId);
         } else if (page === 1) {
             videoContainer.innerHTML = "<p>No video resumes available.</p>";
         }
@@ -460,6 +561,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
 
     saveVideosToJson(videoDataArray);  // Save data to a JSON format for external use
 }
+
 
 async function saveVideosToJson(videoDataArray) {
     const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
@@ -570,7 +672,7 @@ let firstVisibleDoc = null; // For backward navigation
 
 // Fetch Video Resumes from Firestore
 // Render Video Posts
-function renderVideos(docs, container) {
+function renderVideos(docs, container, connectedUserIds, userId) {
 
   console.log("Rendering videos:", docs.length);
 
@@ -597,8 +699,27 @@ let videoMuted = '';
 
             
           let reelUserID = videoData.userID || 'Unknown User';
-          let createdByID = videoData.createdByID || 'Unknown User';            let profilePicture = videoData.profilePicture || '';
-            let displayName = videoData.displayName || '';
+       // Retrieve relevant data for the video
+       const createdByID = videoData.createdByID || 'Unknown User';
+        const videoTitle = videoData.videoResumeTitle || 'Untitled Video';
+        const thumbnailURL = videoData.thumbnailURL || '';
+        const profilePicture = videoData.profilePicture || '';
+        const displayName = videoData.displayName || 'Unknown';
+
+                   // Check if the logged-in user is connected to the user who posted the video
+        const isConnected = connectedUserIds.includes(createdByID);
+
+
+        // Additional logic based on connection status (if necessary)
+        if (isConnected) {
+            console.log(`${displayName} is connected to the logged-in user.`);
+        } else {
+            console.log(`${displayName} is NOT connected to the logged-in user.`);
+        }
+
+
+
+
 
             // Build the video card dynamically with real data
             const videoCard = document.createElement("div");
@@ -607,6 +728,7 @@ let videoMuted = '';
             videoCard.dataset.timestamp = videoData.timestamp;
             videoCard.dataset.tags = videoData.tags || ''; // For search functionality
             videoCard.dataset.displayName = videoData.displayName || '';
+            videoCard.dataset.isConnected = videoData.isConnected || '';
             videoCard.dataset.position = videoData.position || '';
             videoCard.dataset.location = videoData.location || '';
             videoCard.dataset.verified = videoData.verified || '';
@@ -653,12 +775,19 @@ videoCard.innerHTML = `
         </div>
            
       <div class="interaction-buttons">
-        <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
-          <i class="fa fa-envelope"></i> Message
-        </button>
-        <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
-          <i class="fa fa-user-plus"></i> Connect
-        </button>
+        ${isConnected ? 
+            `<button class="message-button" data-doc-id="${docId}" aria-label="Message User">
+                <i class="fa fa-envelope"></i> Message
+            </button>` 
+            : 
+            `<button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
+                <i class="fa fa-user-plus"></i> Connect
+            </button>`
+        }
+
+<button class="gift-button" data-doc-id="${docId}" aria-label="Send Gift to User">
+                <i class="fa fa-gift"></i> Send Gift
+            </button>
 
       </div>
     
@@ -787,6 +916,7 @@ container.appendChild(videoCard);
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
+            const giftButton = videoCard.querySelector(".gift-button");
 
 
             // Mute toggle functionality
@@ -794,6 +924,7 @@ container.appendChild(videoCard);
 
             // Other button actions
             addUserButton.addEventListener("click", () => addToShortlist(docId));
+            giftButton.addEventListener("click", () => handleSendGift(createdByID, displayName, videoTitle, docId, userId));
 
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,createdByID ,displayName));
@@ -986,7 +1117,7 @@ fetchVideoResumes(videoPageNumber, '');
           breadcrumbTitleActive.innerText = userDataSaved.displayName || "User";
 
 // Call fetchVideoResumes with the retrieved page number
-        fetchVideoResumes(videoPageNumber, userId);
+        fetchVideoResumes(videoPageNumber);
         }
 
 
