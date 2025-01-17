@@ -1133,56 +1133,84 @@ let reelID = '';
 
 
 
+
 function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
-    // Logic to update the DOM with related products from relatedProductsArray
-    
+    const addProductButton = document.getElementById('addProductButton');
+    const productListContainer = document.getElementById('productListContainer');
 
-const addProductButton = document.getElementById('addProductButton');
-const productListContainer = document.getElementById('productListContainer');
+    // Function to render the product list in DOM
+    const renderProductList = () => {
+        productListContainer.innerHTML = '';  // Clear the list before re-rendering
+        relatedProductsArray.forEach((product, index) => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product-entry');
+            productDiv.id = `product-${index}`;
+            productDiv.innerHTML = `
+                <div>
+                    <label for="productName-${index}">Product Name:</label>
+                    <input type="text" id="productName-${index}" placeholder="Product Name" value="${product.name}" required>
+                </div>
+                <div>
+                    <label for="productCost-${index}">Cost:</label>
+                    <input type="text" id="productCost-${index}" placeholder="Product Cost" value="${product.cost}" required>
+                </div>
+                <div>
+                    <label for="productLink-${index}">Link:</label>
+                    <input type="url" id="productLink-${index}" placeholder="Product URL" value="${product.link}" required>
+                </div>
+                <button type="button" class="btn btn-danger remove-product-btn" data-index="${index}">Remove</button>
+            `;
 
-addProductButton.addEventListener('click', (e) => {
-   // e.preventDefault(); // Prevent form submission
+            // Append the new product div to the container
+            productListContainer.appendChild(productDiv);
 
-    if (relatedProductsArray.length >= 4) {
-        alert('You can only add up to 4 products.');
-        return;
-    }
-    
-    const productIndex = relatedProductsArray.length;
-    const productDiv = document.createElement('div');
-    productDiv.classList.add('product-entry');
-    productDiv.id = `product-${productIndex}`;
-    productDiv.innerHTML = `
-        <div>
-            <label for="productName-${productIndex}">Product Name:</label>
-            <input type="text" id="productName-${productIndex}" placeholder="Product Name" required>
-        </div>
-        <div>
-            <label for="productCost-${productIndex}">Cost:</label>
-            <input type="text" id="productCost-${productIndex}" placeholder="Product Cost" required>
-        </div>
-        <div>
-            <label for="productLink-${productIndex}">Link:</label>
-            <input type="url" id="productLink-${productIndex}" placeholder="Product URL" required>
-        </div>
-        <button type="button" class="btn btn-danger remove-product-btn" data-index="${productIndex}">Remove</button>
-    `;
+            // Add event listener for the remove button
+            const removeButton = productDiv.querySelector('.remove-product-btn');
+            removeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Remove the product from the array and update the DOM
+                relatedProductsArray.splice(index, 1);
+                renderProductList();
+            });
 
-    productListContainer.appendChild(productDiv);
-    relatedProductsArray.push({ name: '', cost: '', link: '' });
+            // Add event listeners to inputs to update array when values change
+            const nameInput = productDiv.querySelector(`#productName-${index}`);
+            const costInput = productDiv.querySelector(`#productCost-${index}`);
+            const linkInput = productDiv.querySelector(`#productLink-${index}`);
 
-    const removeButton = productDiv.querySelector('.remove-product-btn');
-    removeButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent form submission
+            nameInput.addEventListener('input', () => {
+                relatedProductsArray[index].name = nameInput.value;
+            });
+            costInput.addEventListener('input', () => {
+                relatedProductsArray[index].cost = costInput.value;
+            });
+            linkInput.addEventListener('input', () => {
+                relatedProductsArray[index].link = linkInput.value;
+            });
+        });
+    };
 
-        productListContainer.removeChild(productDiv);
-        relatedProductsArray.splice(productIndex, 1);
+    // Render the initial list
+    renderProductList();
+
+    // Add event listener to the "Add Product" button
+    addProductButton.addEventListener('click', (e) => {
+        // Prevent form submission if within a form
+        // e.preventDefault();
+
+        if (relatedProductsArray.length >= 4) {
+            alert('You can only add up to 4 products.');
+            return;
+        }
+
+        // Add a new product object to the array
+        relatedProductsArray.push({ name: '', cost: '', link: '' });
+
+        // Re-render the product list with the updated array
+        renderProductList();
     });
-});
-
-
-
 }
+
 
 function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
     // Logic to update the DOM with related reels from relatedReelsArray
@@ -1702,7 +1730,46 @@ const updatedLocationBool = updatedLocation ? true : false;
     
 
 
+    let updatedRelatedProductsBool = false;
 
+
+const isEligible_RelatedProductsBool = await checkMembershipAndBalance("RelatedProducts", updatedRelatedProductsBool, true);
+if (isEligible_RelatedProductsBool) {
+    // Proceed with the form submission or other logic
+    console.log('User is eligible for the selected posts');
+
+     updatedRelatedProductsBool = relatedProductsArray.length > 0 ? true : false;
+
+if(updatedRelatedProductsBool){
+  //  relatedProductsArray.push({ name: '', cost: '', link: '' });
+
+}
+
+}else{
+    updatedRelatedProductsBool = false;
+    return;
+}
+
+
+
+let updatedEndingCardBool = false;
+
+let updatedEndingCard = document.getElementById('endingCard').value;
+
+const isEligible_updatedEndingCardBool = await checkMembershipAndBalance("EndingCard", updatedEndingCardBool, true);
+if (isEligible_updatedEndingCardBool) {
+    // Proceed with the form submission or other logic
+    console.log('User is eligible for the selected posts');
+     updatedEndingCardBool = updatedEndingCard ? true : false;
+
+     if(updatedEndingCardBool){
+         updatedEndingCard = document.getElementById('endingCard').value;
+
+}
+}else{
+    updatedEndingCardBool = false;
+    return;
+}
 
 
 

@@ -35,6 +35,7 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
 
   const loginProvider = providerMap[providerData] || providerData;
 
+const userID = user.uid;
    
   let jobArray = [], tagArray = [];
   
@@ -108,6 +109,32 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
    // console.log(" userTagInterest: ", userTagInterest);
    // console.log(" userJobInterest: ", userJobInterest);
   
+
+
+   const videoResumesRef = collection(db, "VideoResumes");
+
+   // Query to fetch video resumes where createdByID matches userID
+   const reelsQuery = query(videoResumesRef, where("createdByID", "==", userID));
+   
+   let videoResumeData = [];
+   
+   // Fetch the video resume data from Firestore
+       const querySnapshot = await getDocs(reelsQuery);
+       querySnapshot.forEach((doc) => {
+         // Assuming the document contains the necessary fields: reelID, videoResumeURL, tags
+         const data = doc.data();
+         videoResumeData.push({
+           reelID: data.reelID,
+           videoResumeURL: data.videoResumeURL,
+           tags: data.tags || [],  // Default to empty array if no tags
+           createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
+           status: data.status || 'posted', // Default to 'posted' if no status
+           reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
+         });
+       });
+
+
+
       let userData = {
         email: user.email || "Unknown",
         lastLogin: new Date(),
@@ -121,7 +148,10 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
         loginProvider,  // Add login provider to user data
-
+        videoResumeData: [
+          ...(userDataSaved.videoResumeData || []),
+          ...videoResumeData  // Append fetched video resumes
+        ],
     
   
         tags: tagArray || "",
