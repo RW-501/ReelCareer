@@ -300,6 +300,7 @@ let isAccountLocked = false;
         totalGiftAmountReceived: totalGiftAmountReceived,
 
         notificationPreferences: userDataSaved.notificationPreferences || [],
+        autoLogoutTime: userDataSaved.autoLogoutTime || 100000,
 
 
 
