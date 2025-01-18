@@ -790,35 +790,24 @@ function loadMemberFAQs() {
 
 
 let userID = '';
+setTimeout(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                openPopupLogin();
+                return;
+            } else {
+                userID = auth.currentUser.uid;
+                getLatestMembership(userID);
+                initializePayPalButtons(userID);
+            }
+            // Render standard and subscription plans
+            renderMembershipPlans('membership-plans', 
+                { ...membershipPlans, ...membershipSubscriptions });
+        });
+    });
+}, 1000);
 
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-  onAuthStateChanged(auth, async (user) => {
-    
-    
-  if(!user){
-  openPopupLogin();
-  return;
-}else{
-  userID = auth.currentUser.uid;
-  getLatestMembership(userID);
-
-  initializePayPalButtons(userID); 
-
-}
-// Render standard and subscription plans
-
-    renderMembershipPlans('membership-plans', 
-    { ...membershipPlans, ...membershipSubscriptions });
-
-
- 
-
-  });
-
-
-});
 
 
 loadMemberFAQs();
