@@ -732,40 +732,39 @@ function paymentStatusNotifications() {
         let userID = '';
         let pageID = '';
         let pageName = '';
-        document.addEventListener('DOMContentLoaded', async () => {
-    try {
+        setTimeout(() => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const user = auth.currentUser;
 
-      const user = auth.currentUser;
-
-if(!user){
-  openPopupLogin();
-  return;
-}
-const userID = auth.currentUser.uid;
-
-
-
-     //   let userID = await getUserId(); // Await inside the function to ensure the user ID is fetched
-        console.log("User ID fetched during DOMContentLoaded:", userID);
-
-        if (!userID || userID.trim() === "") {
-            const userDataSaved = getUserData() || []; // Assume getUserData() fetches stored user data
-            if (userDataSaved.length > 0) {
-                const user = userDataSaved[0];
-                userID = user.uid; // Retrieve the userID from the saved user object
-                console.log("Retrieved User ID from stored data:", userID);
-                populateUserInfo(userID); // Populate user info based on userID
-            } else {
-                console.warn('No user data found in storage.');
+            if (!user) {
+                openPopupLogin();
                 return;
             }
-        } else {
-            populateUserInfo(userID); // Directly populate user info if userID is valid
+            const userID = auth.currentUser.uid;
+
+            console.log("User ID fetched during DOMContentLoaded:", userID);
+
+            if (!userID || userID.trim() === "") {
+                const userDataSaved = getUserData() || []; // Assume getUserData() fetches stored user data
+                if (userDataSaved.length > 0) {
+                    const user = userDataSaved[0];
+                    userID = user.uid; // Retrieve the userID from the saved user object
+                    console.log("Retrieved User ID from stored data:", userID);
+                    populateUserInfo(userID); // Populate user info based on userID
+                } else {
+                    console.warn('No user data found in storage.');
+                    return;
+                }
+            } else {
+                populateUserInfo(userID); // Directly populate user info if userID is valid
+            }
+        } catch (error) {
+            console.error("Error checking page ownership:", error);
         }
-    } catch (error) {
-        console.error("Error checking page ownership:", error);
-    }
-});
+    });
+}, 1000);
+
 
         // Fetch user's IP address using an external service
         async function getUserIP() {
