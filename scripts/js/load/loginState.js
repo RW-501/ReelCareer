@@ -124,6 +124,9 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
    const qConnectionSnapshot = await getDocs(q);
    const connectionCount = qConnectionSnapshot.size; // Number of matching documents
 
+   const { email, uid, emailVerified, displayName, phoneNumber, photoURL } = user;
+
+  
    
    // Fetch the video resume data from Firestore
        const querySnapshot = await getDocs(reelsQuery);
@@ -133,9 +136,10 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
          videoResumeData.push({
            reelID: data.reelID,
            videoResumeURL: data.videoResumeURL,
+           videoResumeTitle: data.videoResumeTitle,
            reported: data.reported,
-           reported: data.reported,
-           reported: data.reported,
+           views: data.views,
+           watchTime: data.watchTime,
            tags: data.tags || [],  // Default to empty array if no tags
            createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
            status: data.status || 'posted', // Default to 'posted' if no status
@@ -143,92 +147,84 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
          });
        });
 
+// Make a copy of videoResumeData
+const sortedAndLimitedData = [...videoResumeData]
+  .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
+  .slice(0, 10); // Limit to 10 items
+
+// You can now use sortedAndLimitedData for further processing
+console.log(sortedAndLimitedData);
+const DEFAULT_MEMBERSHIP_DURATION_DAYS = 30;
+const MAX_SECURITY_FAIL_COUNT = 3;
+const VILATON_INCUMENT_1 = 1;
+const VILATON_INCUMENT_2 = 2;
+const VILATON_INCUMENT_3 = 3;
 
 
        let userAccountStatusCount = 0;
-       let userAccountStatus = "OK";
-       
-       if(userDataSaved.securityQuestionFailCount >= 3 ){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.loginMethod != loginProvider){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.reportedCount >= 3){
-        userAccountStatusCount += 2;
-       }
-       if(userDataSaved.email== '' &&  userDataSaved.phoneNumber == ''){
-        userAccountStatusCount += 3;
-       } 
 
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
+       
 
 
 let videoPostStatus = "OK";
        if(videoResumeData.reported <= 3){
-        userAccountStatusCount += 1;
+        userAccountStatusCount += VILATON_INCUMENT_1;
         videoPostStatus = "OK";
        }else if(videoResumeData.reported > 3 && videoResumeData.reported < 10){
-        userAccountStatusCount += 2;
+        userAccountStatusCount += VILATON_INCUMENT_2;
         videoPostStatus = "Warning";
        }else 
        if(videoResumeData.reported > 10){
-        userAccountStatusCount += 3;
+        userAccountStatusCount += VILATON_INCUMENT_3;
         videoPostStatus = "Restricted";
        }
 
 
+       const getUserAccountStatus = (userData, currentIP, loginProvider) => {
+      
+        if (userData.securityQuestionFailCount >= MAX_SECURITY_FAIL_COUNT) userAccountStatusCount += VILATON_INCUMENT_1;
+        if (userData.userIP !== currentIP) userAccountStatusCount += VILATON_INCUMENT_1;
+        if (userData.loginMethod !== loginProvider) userAccountStatusCount += VILATON_INCUMENT_1;
+        if (userData.obituaryReportCount >= MAX_SECURITY_FAIL_COUNT) userAccountStatusCount += VILATON_INCUMENT_2;
+        if (userData.reportedCount >= MAX_SECURITY_FAIL_COUNT) userAccountStatusCount += VILATON_INCUMENT_2;
+        if (!userData.email && !userData.phoneNumber) count += VILATON_INCUMENT_3;
+      
+        if (userAccountStatusCount <= 2) return "OK";
+        if (userAccountStatusCount <= 4) return "Warning";
+        return "Restricted";
+      };
+      
 
+      const userAccountStatus = getUserAccountStatus(userDataSaved, userIP, loginProvider);
 
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
-       }
-
-
-
-       if(userAccountStatusCount <= 2){
-        userAccountStatus = "OK";
-       }else if(userAccountStatusCount >= 3 && userAccountStatusCount <= 4){
-        userAccountStatus = "Warning";
-       }else if (userAccountStatusCount >= 4){
-        userAccountStatus = "Restricted";
+       if(userAccountStatus == "Restricted"){
+ 
         let link = "https://reelcareer.co/support";
 
         showToast(" Your Account have been Restricted, Please Contact Support ASAP", 'warning', 0,
           link, true, 'Support');
+        
        }
 
+
+
       let userData = {
-        email: user.email || "",
+        email: email || "",
         lastLogin: new Date(),
         ipAddress: userIP || "",
-        userID: user.uid || "",
-        verified: user.emailVerified || false,
+        userID: uid || "",
+        verified: emailVerified || false,
         loginMethod: loginProvider,  
         userAccountStatus:  userAccountStatus ||  'OK',
 
         reportedCount: userDataSaved.reportedCount || 0,
 
-        displayName: userDataSaved.displayName || user.displayName,
-        phoneNumber: userDataSaved.phoneNumber || user.phoneNumber || '',
-        profilePicture: userDataSaved.profilePicture || user.photoURL || profilePic,
+        displayName: userDataSaved.displayName || displayName,
+        phoneNumber: userDataSaved.phoneNumber || phoneNumber || '',
+        profilePicture: userDataSaved.profilePicture || photoURL || profilePic,
         membershipType: userDataSaved.membershipType || "free",
         membershipUpdatedAt: userDataSaved.membershipUpdatedAt || joinedDate,
-        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
+        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
 
         securityQuestions:userDataSaved.securityQuestions || [],
@@ -239,9 +235,11 @@ let videoPostStatus = "OK";
         memberType: userDataSaved.memberType || 0,
         subscriptionID: userDataSaved.subscriptionID || '',
         recruiterID: userDataSaved.recruiterID || '',
+
+        obituaryReportCount: userDataSaved.obituaryReportCount || 0,
         
 
-        videoResumeData: videoResumeData,
+        videoResumeData: sortedAndLimitedData,
         contactsCount: connectionCount || 0,
         videoResumeCount: videoResumeData.length || 0,
 
@@ -255,7 +253,7 @@ let videoPostStatus = "OK";
         tags: tagArray || "",
         jobInterest: jobArray  || "",
         publicProfile: userDataSaved.publicProfile || true,
-        resumeCount: userDataSaved.resumes?.length || 0, // Optional chaining prevents errors if `resumes` is undefined
+        resumeCount: userDataSaved.resumes?.length || 0,
         savedForLater: userDataSaved.savedJobs?.length || 0,
         userAppsCount: userDataSaved.userApps?.length || 0,
         jobPostsCount: userDataSaved.jobPosts?.length || 0,
@@ -311,7 +309,7 @@ let videoPostStatus = "OK";
 
 
     } catch (error) {
-      console.error("Error saving user login state:", error);
+      console.error("Failed to set user document:", error);
     }
   
   

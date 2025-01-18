@@ -416,6 +416,7 @@
 
             <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
             <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
+            <button class="btn btn-primary btn-block" id="report-profile-btn">Report Profile</button>
          
             <button class="btn btn-primary btn-block" id="view-obituary-account-btn">Career Obituary Account</button>
 
@@ -679,8 +680,7 @@
 
 
 
-<!-- Trigger Button for Video Upload Popup -->
-<button id="showUploadPopup" class="btn btn-success">Upload Your Reel</button>
+
 
 
 
@@ -690,7 +690,8 @@
               <div id="video-resume-list">
                 <!-- Video resume files will be dynamically listed here -->
               </div>
-              <button class="btn btn-primary btn-block mt-4" id="view-create-create-video-btn">Create Video Resumes</button>
+              <!-- Trigger Button for Video Upload Popup -->
+<button id="showUploadPopup" class="btn btn-primary btn-block mt-4" >Upload Your Reel</button>
             </div>
           </div>
         </div>
@@ -1300,6 +1301,7 @@ if(!user){
           document.getElementById('currentUserId').innerText = userId;
           document.getElementById('send-message-btn').style.display = 'block';
           document.getElementById('connect-btn').style.display = 'block';
+          document.getElementById('report-profile-btn').style.display = 'block';
           if (userId == userIdFromURL) {
             lastBreadcrumb_1.style.display = "block";
           }
@@ -1307,8 +1309,10 @@ if(!user){
           document.getElementById('send-message-btn').style.display = 'none';
           document.getElementById('connect-btn').style.display = 'none';
           document.getElementById('view-create-reel-btn').style.display = 'block';
+          document.getElementById('report-profile-btn').style.display = 'none';
 
 
+          
 
           
         }
@@ -1324,6 +1328,7 @@ if(!user){
         // checkUser(userId);
         document.getElementById('send-message-btn').style.display = 'none';
         document.getElementById('connect-btn').style.display = 'none';
+        document.getElementById('report-profile-btn').style.display = 'none';
         document.getElementById('view-create-reel-btn').style.display = 'none';
         document.getElementById('settings-profile-btn').style.display = 'none';
         document.getElementById('jobSeeker-btn').style.display = 'none';
@@ -1948,12 +1953,30 @@ try {
         profileCards.classList.toggle("hidden");
       }, 500); // 1 second delay
     });
+    document.getElementById('report-profile-btn').addEventListener('click', async () => {
+      const userPageId = document.getElementById('userPageId').innerText;
+
+      userID = auth.currentUser.uid;
+
+      showToast(`report-profile-btn clicked.by user ${userID}`);
+
+      // Add a 1-second delay before toggling visibility
+      setTimeout(() => {
+
+        showToast(`report-profile-btn Report page ${userPageId}`);
+
+      }, 500); // 1 second delay
+    });
+
+
+
+
     document.getElementById('view-messages-btn').addEventListener('click', async () => {
       window.location.href = 'https://reelcareer.co/u/messaging';
     });
-    document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
-      window.location.href = 'https://reelcareer.co/u/create';
-    });
+   
+    
+
     document.getElementById('digital-resume-link').addEventListener('click', async () => {
       window.location.href = 'https://reelcareer.co/u//u/seeker/';
     });

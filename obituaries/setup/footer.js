@@ -40,6 +40,9 @@ function updateFooter() {
                         ).join(" | ")}
                     </div>
                 </nav>
+                <button id="report-obituary-btn" class="btn btn-danger">
+  Report Obituary
+</button>
                 <p class="footerCopyWrite">&copy; ${currentYear} ReelCareer</p>
             </div>
         </footer>
@@ -47,6 +50,7 @@ function updateFooter() {
         <div class="banner">
             <p>Discover more opportunities at <a href="https://reelcareer.co" target="_blank">ReelCareer.co</a></p>
         </div>
+
 
 <div class="section flowers-section">
     <h2>Why wait for the world to notice your impact?</h2>

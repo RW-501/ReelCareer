@@ -71,7 +71,7 @@ const firstName = nameHeader.textContent.split(" ")[0];
 
 renderInteractionsArea(firstName);
 
-
+let pageOwnerUserID = '';
 
 
 const pageOwnerUser = document.getElementById("pageOwnerUserID"); // Assume input or hidden field for user ID
@@ -81,7 +81,7 @@ async function loadPageOwnerUserInfo(pageOwnerUser) {
     console.error("Page owner user ID not provided.");
     return;
   }
-const pageOwnerUserID = pageOwnerUser.innerText;
+ pageOwnerUserID = pageOwnerUser.innerText;
 
   try {
     const userRef = doc(db, "Users", pageOwnerUserID); // Reference to the user's document
@@ -930,3 +930,170 @@ anonymousCheckbox.addEventListener("change", () => {
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
+
+
+// Event listener for the Report Obituary button
+document.getElementById('report-obituary-btn').addEventListener('click', () => {
+  const reasons = prompt("Please enter the reason for reporting this obituary:");
+  if (reasons) {
+      reportObituary(reasons);
+  } else {
+      showToast("Report canceled. No reason provided.", "info");
+  }
+});
+
+// Function to handle reporting an obituary
+async function reportObituary(reason) {
+  try {
+
+    let pageOwnerName = nameHeader.innerText;
+    const pageURL = window.location.href;
+
+ // Prepare the data to increment the report count
+const reportObituary = {
+  obituaryReportCount: increment(1),  // Increment the report count by 1
+};
+
+// Reference the specific obituary document
+const obituaryRef = doc(db, `A_Obituaries`, pageID);  // Use `doc` instead of `collection`
+
+// Update the report count in the database
+await updateDoc(obituaryRef, reportObituary);
+
+// Reference the specific obituary document
+const usersRef = doc(db, `Users`, pageOwnerUserID);  // Use `doc` instead of `collection`
+
+// Update the report count in the database
+await updateDoc(usersRef, reportObituary);
+
+
+// Report Data to Firebase
+const reportData = {
+  obituaryId: pageID,
+  pageName: pageName,
+  pageOwnerUserID: pageOwnerUserID,
+  pageOwnerName: pageOwnerName,
+  pageURL,
+  reasons: selectedReasons,
+  message: message,
+  URL: window.location.href,
+  submittedAt: new Date().toISOString(),
+  timestamp: serverTimestamp(),
+  submittedBy: "user",
+  submittedByUserID:  auth.currentUser ? auth.currentUser.uid : 'anonymous',
+  submittedByUserName: userDataSaved.displayName || "User",
+  type: "User Obituary Report",
+  pageTitle: document.title,
+  status: "submitted"
+};
+
+// Create content for the follow-up message
+const reasonsContent =
+  selectedReasons.length > 0 ? `Reasons: ${selectedReasons.join(", ")}` : "";
+  const followUpMessageContent = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+      <p>Hello <strong>${pageOwnerName}</strong>,</p>
+      <p>Thank you for reporting an issue with <em>${reportData.pageName}</em>. Our support team will review the report soon.</p>
+      <p><strong>Reported Reasons:</strong> ${reasons}</p>
+      <p>We appreciate your effort in keeping ReelCareer safe.</p>
+      <p>Best regards,<br><strong>The ReelCareer Team</strong></p>
+    </div>
+  `;
+
+const reportedUserMessageContent = `
+<div style="font-family: Arial, sans-serif; line-height: 1.5;">
+  <p>Hello <strong>${userDataSaved.displayName}</strong>,</p>
+  <p>Your obituary page titled <em>${reportData.pageName}</em> has been reported by another user. Please review it to ensure it complies with our terms.</p>
+  <p><strong>Reported Reasons:</strong> ${reasons}</p>
+  <p>Our support team will review the case and take necessary action if required.</p>
+  <p>Best regards,<br><strong>The ReelCareer Team</strong></p>
+</div>
+`;
+
+// Follow-up Message Data
+const followUpMessage = {
+  recipientID: userID,
+  recipientName: userDataSaved.displayName || "User",
+  recipientProfileURL: `https://reelcareer.co/u/?u=${userID}`,
+  recipientProfilePicture: "",
+  recipientRead: false,
+  participants: ["000000", userID],
+  senderID: "000000", // Support account ID
+  senderName: "Support",
+  senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+  senderProfileURL: "https://reelcareer.co/support",
+  group: "main",
+  messageType: "support",
+  contactLocation: "platform",
+  conversationID: `conversation_${pageID}_${userID}`,
+  content: followUpMessageContent.trim(),
+  connectedBool: true,
+  createdAt: new Date(),
+  timestamp: serverTimestamp(),
+  contentType: "notification",
+  status: "unread",
+  attachments: ""
+};
+
+const reportedUserMessage = {
+  recipientID: videoCreaterID,
+  recipientName: videoCreaterDisplayName || "User",
+  recipientProfileURL: `https://reelcareer.co/u/?u=${videoCreaterID}`,
+  recipientProfilePicture: "",
+  recipientRead: false,
+  participants: ["000000", videoCreaterID],
+  senderID: "000000", // Support account ID
+  senderName: "Support",
+  senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+  senderProfileURL: "https://reelcareer.co/support",
+  group: "main",
+  messageType: "support",
+  contactLocation: "platform",
+  conversationID: `conversation_${pageID}_${videoCreaterID}`,
+  content: reportedUserMessageContent.trim(),
+  connectedBool: true,
+  createdAt: new Date(),
+  timestamp: serverTimestamp(),
+  contentType: "notification",
+  status: "unread",
+  attachments: ""
+};
+
+
+
+      // Submit the report
+      const reportRef = await addDoc(
+        collection(db, "SupportTickets"),
+        reportData
+      );
+      showToast(`Thank you for your report. We will review obituary ID: ${obituaryId}`, "success");
+  
+
+      // Send the Reported-User message
+      await addDoc(collection(db, "Messages"), reportedUserMessage)
+
+      // Send the follow-up message
+      await addDoc(collection(db, "Messages"), followUpMessage);
+
+
+
+
+
+
+
+
+
+
+
+      
+  } catch (error) {
+      console.error("Error reporting obituary:", error);
+      showToast("Failed to report obituary. Please try again later.", "error");
+  }
+}
+
+// Helper function to show notifications (toast)
+function showToast(message, type) {
+  // Basic implementation, replace with your styled toast notification system
+  alert(`${type.toUpperCase()}: ${message}`);
+}

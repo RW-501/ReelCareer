@@ -868,6 +868,14 @@ if (videoCard) {
       modal.style.display = "none"; // No need for !important
     });
   }
+
+
+
+
+
+
+
+  
   async function handleSendGift(createdByID, displayName, videoTitle, videoID, userId) {
     const popupHtml = `
       <div class="gift-popup-overlay" 
