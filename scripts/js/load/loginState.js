@@ -158,7 +158,7 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
        if(userDataSaved.userIP != userIP){
         userAccountStatusCount += 1;
        }
-       if(userDataSaved.email=userDataSaved.phoneNumber)
+       if(userDataSaved.email=userDataSaved.phoneNumber){
         userAccountStatusCount += 1;
        }
 
