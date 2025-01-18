@@ -387,10 +387,6 @@ const membershipPlans = {
     pro_Yearly: { price: 149.99, description: 'Pro Yearly Premium Membership (Save 3 Months)', benefits: 'Annual savings with pro-level access.' }
 };
 
-// Render standard and subscription plans
-document.addEventListener('DOMContentLoaded', () => {
-    renderMembershipPlans('membership-plans', { ...membershipPlans, ...membershipSubscriptions });
-});
 
 
 
@@ -766,7 +762,7 @@ function loadMemberFAQs() {
     const faqQuery = query(
         collection(db, 'ChatbotInteractions'),
         where('type', '==', 'FAQ'),
-        where('tags', 'array-contains', 'membership')
+        where('tags', 'array-contains-any', 'membership')
     );
 
     getDocs(faqQuery).then(snapshot => {
@@ -811,6 +807,11 @@ let userID = '';
   initializePayPalButtons(userID); 
 
 }
+// Render standard and subscription plans
+
+    renderMembershipPlans('membership-plans', 
+    { ...membershipPlans, ...membershipSubscriptions });
+
 
  
 
