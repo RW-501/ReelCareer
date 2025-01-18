@@ -180,6 +180,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         await updateDoc(userDocRef, {
             videoResumeData: arrayUnion({
                 reelID,
+                reported: 0,
                 videoResumeURL,
                 tags,
                 createdAt: new Date(),

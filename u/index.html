@@ -1469,7 +1469,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
       // Gather other user data
       const userData = {
         displayName: document.getElementById('usernameSET-profile').value.trim() || '',
-        phone: document.getElementById('phoneSET-profile').value.trim() || '',
+        phoneNumber: document.getElementById('phoneSET-profile').value.trim() || '',
         name: document.getElementById('nameSET-profile').value.trim() || '',
         bio: document.getElementById('bioSET-profile').value.trim() || '',
         location: document.getElementById('locationSET-profile').value.trim() || '',
@@ -1603,7 +1603,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         // Populate the Personal Information tab
         document.getElementById('usernameSET-profile').value = userData.displayName || "";
         document.getElementById('emailSET-profile').value = userData.email || "";
-        document.getElementById('phoneSET-profile').value = userData.phone || "";
+        document.getElementById('phoneSET-profile').value = userData.phoneNumber || "";
         document.getElementById('dobSET-profile').value = userData.dob || "";
         document.getElementById('locationSET-profile').value = userData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
         document.getElementById('nameSET-profile').value = userData.name || "";

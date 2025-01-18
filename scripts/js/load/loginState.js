@@ -133,7 +133,9 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
          videoResumeData.push({
            reelID: data.reelID,
            videoResumeURL: data.videoResumeURL,
-           videoResumeURL: data.videoResumeURL,
+           reported: data.reported,
+           reported: data.reported,
+           reported: data.reported,
            tags: data.tags || [],  // Default to empty array if no tags
            createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
            status: data.status || 'posted', // Default to 'posted' if no status
@@ -155,26 +157,58 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
        if(userDataSaved.loginMethod != loginProvider){
         userAccountStatusCount += 1;
        }
-       if(userDataSaved.userIP != userIP){
-        userAccountStatusCount += 1;
+       if(userDataSaved.reportedCount >= 3){
+        userAccountStatusCount += 2;
        }
-       if(userDataSaved.email=userDataSaved.phoneNumber){
-        userAccountStatusCount += 1;
-       }
+       if(userDataSaved.email== '' &&  userDataSaved.phoneNumber == ''){
+        userAccountStatusCount += 3;
+       } 
 
        if(userDataSaved.userIP != userIP){
         userAccountStatusCount += 1;
        }
+
+
+let videoPostStatus = "OK";
+       if(videoResumeData.reported <= 3){
+        userAccountStatusCount += 1;
+        videoPostStatus = "OK";
+       }else if(videoResumeData.reported > 3 && videoResumeData.reported < 10){
+        userAccountStatusCount += 2;
+        videoPostStatus = "Warning";
+       }else 
+       if(videoResumeData.reported > 10){
+        userAccountStatusCount += 3;
+        videoPostStatus = "Restricted";
+       }
+
+
+
+
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+
+
 
        if(userAccountStatusCount <= 2){
-        userAccountStatus += 1;
+        userAccountStatus = "OK";
        }else if(userAccountStatusCount >= 3 && userAccountStatusCount <= 4){
         userAccountStatus = "Warning";
        }else if (userAccountStatusCount >= 4){
-        userAccountStatus = "Resrited";
+        userAccountStatus = "Restricted";
         let link = "https://reelcareer.co/support";
 
-        showToast("Please Contact Support ASAP", 'warning', 0,
+        showToast(" Your Account have been Restricted, Please Contact Support ASAP", 'warning', 0,
           link, true, 'Support');
        }
 
@@ -183,24 +217,38 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
         lastLogin: new Date(),
         ipAddress: userIP || "",
         userID: user.uid || "",
-        displayName: userDataSaved.displayName || user.displayName,
         verified: user.emailVerified || false,
-        phoneNumber: user.phoneNumber || '',
-        profilePicture: user.photoURL || profilePic,
+        loginMethod: loginProvider,  
+        userAccountStatus:  userAccountStatus ||  'OK',
+
+        reportedCount: userDataSaved.reportedCount || 0,
+
+        displayName: userDataSaved.displayName || user.displayName,
+        phoneNumber: userDataSaved.phoneNumber || user.phoneNumber || '',
+        profilePicture: userDataSaved.profilePicture || user.photoURL || profilePic,
         membershipType: userDataSaved.membershipType || "free",
+        membershipUpdatedAt: userDataSaved.membershipUpdatedAt || joinedDate,
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
-        loginMethod: loginProvider,  // Add login provider to user data
-        videoResumeData: videoResumeData,
-        contactsCount: connectionCount || 0,
-        videoResumeCount: videoResumeData.length || 0,
+
         securityQuestions:userDataSaved.securityQuestions || [],
         securityQuestionFailCount:userDataSaved.securityQuestionFailCount || 0,
         securityQuestionResetTime:  userDataSaved.securityQuestionResetTime ||  '',
         accountBalance: userDataSaved.accountBalance || 0,
         accountBalanceUpadateDate:  userDataSaved.accountBalanceUpadateDate ||  new Date(),
-        userAccountStatus:  userAccountStatus ||  'OK',
         memberType: userDataSaved.memberType || 0,
+        subscriptionID: userDataSaved.subscriptionID || '',
+        recruiterID: userDataSaved.recruiterID || '',
+        
+
+        videoResumeData: videoResumeData,
+        contactsCount: connectionCount || 0,
+        videoResumeCount: videoResumeData.length || 0,
+
+        totalReelViews: userDataSaved.totalReelViews || 0,
+        videoPostStatus: videoPostStatus || "OK",
+
+        totalReelViews: userDataSaved.memberType || 0,
 
 
 

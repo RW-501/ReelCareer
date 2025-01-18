@@ -758,7 +758,7 @@ async function getUserContactDetails(transactionData) {
         
         const userData = userDoc.data();
         const userEmail = userData.email || "N/A";
-        const userPhone = userData.phone || "N/A";
+        const userPhone = userData.phoneNumber || "N/A";
 
         const confirmationText = `Would you like to send the payout details to this contact information?\nEmail: ${userEmail}\nPhone: ${userPhone}`;
 

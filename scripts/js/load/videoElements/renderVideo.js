@@ -77,13 +77,17 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.duration = videoData.duration || 0;
       videoCard.dataset.likes = videoData.likes || 0;
       videoCard.dataset.loves = videoData.loves || 0;
-      videoCard.dataset.createdByID = videoData.createdByID || "";
+      videoCard.dataset.reported = videoData.reported || 0;
       videoCard.dataset.views = videoData.views || "";
       videoCard.dataset.profileURL = videoData.profileURL || "";
       videoCard.dataset.videosrc = videoData.videoResumeURL || "";
+
       videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
+      videoCard.dataset.createdByID = videoData.createdByID || "";
+      videoCard.dataset.displayName = videoData.displayName || "";
+
       generateVideoSchema(videoData, docId);
-  
+      
       let videoDuration = parseFloat(videoData.duration.toFixed(2));
       videoCard.innerHTML = `
    <div id="videoCard_${docId}" class="video-card">
@@ -261,7 +265,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       console.log("giftButton: ", giftButton);
 
       if (reportVideoBtn) {
-        reportVideoBtn.addEventListener("click", () => openReportModal(docId));
+        reportVideoBtn.addEventListener("click", () => openReportModal(docId, videoData));
       }
   
       if (addUserButton) {

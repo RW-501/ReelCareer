@@ -623,11 +623,11 @@ function handleComments(docId, commentsBtn) {
   
   window.showReplyInput = showReplyInput;
   
-  async function submitReport() {
+  async function submitVideoReport() {
     const selectedReasons = [];
 
     const user = auth.currentUser;
-
+    
     if(!user){
       openPopupLogin();
       return;
@@ -645,6 +645,35 @@ function handleComments(docId, commentsBtn) {
     const statusMessage = document.getElementById("reportStatusMessage");
     const closeButton = document.getElementById("closeReportModalButton");
   let videoId =  document.getElementById("currentVideoId").innerText;
+// Assume docId is known
+const videoCard = document.getElementById(`videoCard_${videoId}`);
+
+
+// Declare variables for dataset values
+let docIdValue = '';
+let videoResumeTitle = '';
+let createdByID = '';
+let displayName = '';
+
+// Check if element exists
+if (videoCard) {
+    docIdValue = videoCard.dataset.videoId;
+    videoResumeTitle = videoCard.dataset.videoResumeTitle;
+    createdByID = videoCard.dataset.createdByID;
+    displayName = videoCard.dataset.displayName;
+
+    console.log('Doc ID:', docIdValue);
+    console.log('Video Resume Title:', videoResumeTitle);
+    console.log('Created By ID:', createdByID);
+    console.log('Display Name:', displayName);
+} else {
+    console.error(`Element with id videoCard_${videoId} not found.`);
+}
+
+
+
+
+
 
     // Clear any previous messages
     statusMessage.innerHTML = "";
@@ -659,7 +688,10 @@ function handleComments(docId, commentsBtn) {
     // Report Data to Firebase
     const reportData = {
       videoId: videoId,
-      jobTitle: document.title,
+      videoTitle: videoResumeTitle,
+      videoCreaterID: createdByID,
+      videoCreaterDisplayName: displayName,
+      videoURL: `https://reelcareer.co/reels/?r=${videoId}`,
       reasons: selectedReasons,
       message: message,
       URL: window.location.href,
@@ -668,7 +700,7 @@ function handleComments(docId, commentsBtn) {
       submittedBy: "user",
       submittedByUserID: userID,
       submittedByUserName: userDataSaved.displayName || "User",
-      type: "User Report",
+      type: "User Video Report",
       pageTitle: document.title,
       status: "submitted"
     };
@@ -676,13 +708,28 @@ function handleComments(docId, commentsBtn) {
     // Create content for the follow-up message
     const reasonsContent =
       selectedReasons.length > 0 ? `Reasons: ${selectedReasons.join(", ")}` : "";
-    const followUpMessageContent = `
-            Thank you for reporting this issue. Our support team will follow up shortly. 
-    
-            ${reasonsContent}
-    
-            From ReelCareer
-        `;
+      const followUpMessageContent = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+          <p>Hello <strong>${userDataSaved.displayName}</strong>,</p>
+          <p>Thank you for reporting the issue with the Reel <em>${reportData.videoTitle}</em>. Our support team will review your report and follow up with you shortly.</p>
+          <p><strong>Report Reasons:</strong> ${reasonsContent}</p>
+          <p>We appreciate your help in keeping ReelCareer a safe and professional platform.</p>
+          <p>Best regards,</p>
+          <p><strong>The ReelCareer Team</strong></p>
+      </div>
+  `;
+  
+  const reportedUserMessageContent = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+          <p>Hello <strong>${reportData.videoCreaterDisplayName}</strong>,</p>
+          <p>Your video titled <em>${reportData.videoTitle}</em> (ID: ${videoId}) has been reported by another user. Please review the content to ensure it complies with ReelCareer’s terms and guidelines.</p>
+          <p><strong>Reported Reasons:</strong> ${reasonsContent}</p>
+          <p>Our support team will review the report and take appropriate action if necessary.</p>
+          <p>Thank you for your cooperation.</p>
+          <p>Best regards,</p>
+          <p><strong>The ReelCareer Team</strong></p>
+      </div>
+  `;
   
     // Follow-up Message Data
     const followUpMessage = {
@@ -709,6 +756,35 @@ function handleComments(docId, commentsBtn) {
       attachments: ""
     };
   
+    const reportedUserMessage = {
+      recipientID: videoCreaterID,
+      recipientName: videoCreaterDisplayName || "User",
+      recipientProfileURL: `https://reelcareer.co/u/?u=${videoCreaterID}`,
+      recipientProfilePicture: "",
+      recipientRead: false,
+      participants: ["000000", videoCreaterID],
+      senderID: "000000", // Support account ID
+      senderName: "Support",
+      senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+      senderProfileURL: "https://reelcareer.co/support",
+      group: "main",
+      messageType: "support",
+      contactLocation: "platform",
+      conversationID: `conversation_${videoId}_${videoCreaterID}`,
+      content: reportedUserMessageContent.trim(),
+      connectedBool: true,
+      createdAt: new Date(),
+      timestamp: serverTimestamp(),
+      contentType: "notification",
+      status: "unread",
+      attachments: ""
+    };
+
+
+
+
+
+
     try {
       // Submit the report
       const reportRef = await addDoc(
@@ -717,6 +793,10 @@ function handleComments(docId, commentsBtn) {
       );
       showToast(`Report submitted with ID: ${reportRef.id}`);
   
+
+      // Send the Reported-User message
+      await addDoc(collection(db, "Messages"), reportedUserMessage)
+
       // Send the follow-up message
       await addDoc(collection(db, "Messages"), followUpMessage);
       console.log("Follow-up message sent successfully!");
@@ -754,10 +834,10 @@ function handleComments(docId, commentsBtn) {
     } finally {
     }
   }
-  window.submitReport = submitReport;
+  window.submitVideoReport = submitVideoReport;
   
-  function openReportModal(videoId) {
-    document.getElementById("currentVideoId").innerText = videoId;
+  function openReportModal(docId, videoData) {
+    document.getElementById("currentVideoId").innerText = docId;
     document.getElementById("reportJobModal").style.display = "block"; // No need for !important
   }
   
@@ -1422,7 +1502,7 @@ document.getElementById("showUploadPopup").addEventListener("click", () => {
         addComment,
         fetchComments,
         renderComment,
-        submitReport,
+        submitVideoReport,
         openReportModal,
         closeReportModal,
         handleConnect,
