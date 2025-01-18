@@ -312,6 +312,7 @@
   
           <p id="join-date" class="user-detail"><strong>Join Date:</strong> MM/DD/YYYY</p>
           <p id="loggedin-method" class="user-detail"><strong>Logged in with:</strong> <span>email</span></p>
+          <p id="security-questions" class="user-detail"><strong>Security Questions:</strong> <span>None</span></p>
           <p id="lastLogin-date" class="user-detail"><strong>Last Login:</strong> <span>MM/DD/YYYY</span></p>
 
           <p id="user-membershipType" class="user-detail"><strong>Membership Type:</strong> <span>Basic</span></p>
@@ -495,11 +496,13 @@
             <input type="password" id="new-password" class="form-control" placeholder="Enter new password" aria-describedby="newPasswordHelp">
             <button type="button" class="btn btn-danger" id="change-password-button" aria-label="Change Password">Change Password</button>
           </div>
+
           <div class="div-group">
             <p><strong>Reset Security Questions</strong></p>
             <p class="warning-text">Update your security questions for improved account recovery options.</p>
             <button type="button" class="btn btn-secondary" id="reset-security-questions" aria-label="Reset Security Questions">Reset Security Questions</button>
           </div>
+
           <div class="div-group">
             <p><strong>Delete Account</strong></p>
             <p class="warning-text">This action is permanent and cannot be undone.</p>
@@ -829,10 +832,20 @@ async function populateUserInfo(userId) {
             document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
             document.getElementById('join-date').textContent = `Join Date: ${formatTimestamp(userData.joinDate) || 'MM/DD/YYYY'}`;
             document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
+            document.getElementById('security-questions').querySelector('span').textContent = userData.securityQuestions ? userData.securityQuestions || "Active" : "None";
             document.getElementById('lastLogin-date').querySelector('span').textContent = formatTimestamp(userData.lastLogin) || 'MM/DD/YYYY';
             document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
             document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = formatTimestamp(userData.membershipExpiry) || 'MM/DD/YYYY';
 
+
+            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+            document.getElementById('user-videoResumeCount').innerHTML = userData.videoResumeCount || 0;
+            document.getElementById('user-accountBalance').innerHTML = userData.accountBalance || 0;
+            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+            
             // Define the profile fields and their status
             const profileFields = [
                 { field: 'name', label: 'Name' },
@@ -843,6 +856,7 @@ async function populateUserInfo(userId) {
                 { field: 'verified', label: 'Verified' },
                 { field: 'joinDate', label: 'Join Date' },
                 { field: 'loginMethod', label: 'Login Method' },
+                { field: 'securityQuestions', label: 'Security Questions' },
                 { field: 'lastLogin', label: 'Last Login' },
                 { field: 'membershipType', label: 'Membership Type' },
                 { field: 'membershipExpiry', label: 'Membership Expiry Date' }
@@ -896,6 +910,8 @@ const profileCompletionChart = new Chart(ctx, {
                 profileCompletionList.appendChild(listItem);
             });
         
+
+         
 
 
             function updateMembershipStatus(userData) {
@@ -1076,7 +1092,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Payment Plan Section
   document.getElementById('payment-month-to-month').addEventListener('click', selectMonthlyPlan);
   document.getElementById('payment-yearly').addEventListener('click', selectYearlyPlan);
-  document.getElementById('make-payment-btn').addEventListener('click', makePayment);
+
+  document.getElementById('make-payment-btn').addEventListener('click', () => {
+    verifySecurityQuestionPopup(() => {
+      confirmPayout(); // Your sensitive action function
+    });
+});
+
+
 
   // Referral Program Section
   document.getElementById('copy-referral-code-btn').addEventListener('click', copyReferralCode);
@@ -1091,7 +1114,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('create-new-video-reel').addEventListener('click', createNewVideoReel);
 
   // Transactions Section
-  document.getElementById('confirmPayout').addEventListener('click', confirmPayout);
+document.getElementById('confirmPayout').addEventListener('click', () => {
+    verifySecurityQuestionPopup(() => {
+      confirmPayout(); // Your sensitive action function
+    });
+});
 
   // Notifications Section
   document.getElementById('job-application-notifications').addEventListener('click', jobApplicationNotifications);
@@ -1107,6 +1134,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+document.getElementById('reset-security-questions').addEventListener('click', async () => {
+    const userDataEcode = localStorage.getItem('userData');
+    const userData = userDataEcode ? JSON.parse(atob(userDataEcode)) : {};
+
+    // Check for existing security questions
+    if (userData.securityQuestions && userData.securityQuestions.length > 0) {
+        const updateConfirmation = confirm('You already have security questions set. Do you want to update them?');
+        if (!updateConfirmation) return;
+    }
+
+    // Create a popup form for security questions
+    const popup = document.createElement('div');
+    popup.className = 'popup-container';
+    popup.innerHTML = `
+        <div class="popup-content">
+            <h3>Set Security Questions</h3>
+            <p>Please choose up to 3 security questions for account recovery.</p>
+            <label for="question1">Question 1:</label>
+            <input type="text" id="question1" placeholder="Enter your first security question" maxlength="100">
+            <label for="question2">Question 2:</label>
+            <input type="text" id="question2" placeholder="Enter your second security question" maxlength="100">
+            <label for="question3">Question 3:</label>
+            <input type="text" id="question3" placeholder="Enter your third security question" maxlength="100">
+            <button id="save-questions" class="btn btn-primary">Save Questions</button>
+            <button id="cancel-questions" class="btn btn-secondary">Cancel</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+    // Event listener for saving questions
+    document.getElementById('save-questions').addEventListener('click', async () => { 
+    const question1 = document.getElementById('question1').value.trim();
+    const question2 = document.getElementById('question2').value.trim();
+    const question3 = document.getElementById('question3').value.trim();
+
+    const securityQuestions = [question1, question2, question3].filter(q => q !== '');
+
+    if (securityQuestions.length === 0) {
+        alert('Please enter at least one security question.');
+        return;
+    }
+
+    try {
+        // Check Firebase Auth status
+        const user = auth.currentUser;
+        if (!user) {
+            showToast('Authentication error. Please log in again.', 'error');
+            openPopupLogin();
+            return;
+        }
+
+        // Retrieve user data from local storage or Firestore for the most up-to-date info
+        let userData = await getUserData() || {};
+        userData.securityQuestions = securityQuestions;
+        
+        // Synchronize user data with local storage
+        const userDataEncoded = setUserData(userData);
+        localStorage.setItem('userData', userDataEncoded);
+
+        // Save updated security questions to Firestore Users collection
+        const userDocRef = doc(db, "Users", user.uid);
+        await setDoc(userDocRef, { securityQuestions }, { merge: true });
+
+        showToast('Security questions updated successfully.', 'success');
+        document.body.removeChild(popup);
+    } catch (error) {
+        console.error('Error updating security questions:', error);
+        showToast('Failed to update security questions. Please try again.', 'error');
+    }
+});
+
+// Event listener for cancel button
+document.getElementById('cancel-questions').addEventListener('click', () => {
+    document.body.removeChild(popup);
+});
+
+});
 
 
 document.getElementById('clear-local-storage').addEventListener('click', () => {

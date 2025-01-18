@@ -133,6 +133,7 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
          videoResumeData.push({
            reelID: data.reelID,
            videoResumeURL: data.videoResumeURL,
+           videoResumeURL: data.videoResumeURL,
            tags: data.tags || [],  // Default to empty array if no tags
            createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
            status: data.status || 'posted', // Default to 'posted' if no status
@@ -142,8 +143,43 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
 
 
 
+       let userAccountStatusCount = 0;
+       let userAccountStatus = "OK";
+       
+       if(userDataSaved.securityQuestionFailCount >= 3 ){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.loginMethod != loginProvider){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+       if(userDataSaved.email=userDataSaved.phoneNumber)
+        userAccountStatusCount += 1;
+       }
+
+       if(userDataSaved.userIP != userIP){
+        userAccountStatusCount += 1;
+       }
+
+       if(userAccountStatusCount <= 2){
+        userAccountStatus += 1;
+       }else if(userAccountStatusCount >= 3 && userAccountStatusCount <= 4){
+        userAccountStatus = "Warning";
+       }else if (userAccountStatusCount >= 4){
+        userAccountStatus = "Resrited";
+        let link = "https://reelcareer.co/support";
+
+        showToast("Please Contact Support ASAP", 'warning', 0,
+          link, true, 'Support');
+       }
+
       let userData = {
-        email: user.email || "Unknown",
+        email: user.email || "",
         lastLogin: new Date(),
         ipAddress: userIP || "",
         userID: user.uid || "",
@@ -154,11 +190,20 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
         membershipType: userDataSaved.membershipType || "free",
         membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
-        loginProvider,  // Add login provider to user data
+        loginMethod: loginProvider,  // Add login provider to user data
         videoResumeData: videoResumeData,
         contactsCount: connectionCount || 0,
         videoResumeCount: videoResumeData.length || 0,
-  
+        securityQuestions:userDataSaved.securityQuestions || [],
+        securityQuestionFailCount:userDataSaved.securityQuestionFailCount || 0,
+        securityQuestionResetTime:  userDataSaved.securityQuestionResetTime ||  '',
+        accountBalance: userDataSaved.accountBalance || 0,
+        accountBalanceUpadateDate:  userDataSaved.accountBalanceUpadateDate ||  new Date(),
+        userAccountStatus:  userAccountStatus ||  'OK',
+        memberType: userDataSaved.memberType || 0,
+
+
+
         tags: tagArray || "",
         jobInterest: jobArray  || "",
         publicProfile: userDataSaved.publicProfile || true,

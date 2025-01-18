@@ -372,3 +372,107 @@ createPopupLogin();
 
 // Example call to open the popup from anywhere in main.js
 // openPopupLogin();
+
+
+
+
+async function verifySecurityQuestionPopup(nextAction) {
+  // Retrieve stored user data
+  const storedUserData = getUserData() || {};
+
+
+    // Check if user has security questions set
+    if (!storedUserData.securityQuestions || storedUserData.securityQuestions.length === 0) {
+        showToast('Please complete your account setup by setting security questions.', 'info');
+        openSecuritySetupPopup();
+        return;
+    }
+
+    // Select a random security question
+    const randomIndex = Math.floor(Math.random() * storedUserData.securityQuestions.length);
+    const randomQuestion = storedUserData.securityQuestions[randomIndex];
+
+    // Create popup for answering security question
+    const popup = document.createElement('div');
+    popup.className = 'popup-container';
+    popup.innerHTML = `
+        <div class="popup-content">
+            <h3>Security Verification</h3>
+            <p>Please answer the following security question:</p>
+            <p><strong>${randomQuestion}</strong></p>
+            <input type="text" id="securityAnswer" placeholder="Enter your answer" maxlength="100">
+            <button id="verifyAnswer" class="btn btn-primary">Verify</button>
+            <button id="cancelVerification" class="btn btn-secondary">Cancel</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+
+
+
+let securityQuestionFailCount = storedUserData.securityQuestionFailCount || 0;
+let securityQuestionResetTime = storedUserData.securityQuestionResetTime || null;
+
+// Event listener for verify button
+document.getElementById('verifyAnswer').addEventListener('click', () => {
+    const userAnswer = document.getElementById('securityAnswer').value.trim();
+    
+    if (userAnswer && userAnswer === userData.securityQuestions[randomIndex]) {
+        // Reset fail count on correct answer
+        securityQuestionFailCount = 0;
+        updateUserData({ securityQuestionFailCount });  // Save updated count
+        showToast('Security verification successful.', 'success');
+        document.body.removeChild(popup);
+        nextAction();  // Proceed with the action
+    } else {
+        securityQuestionFailCount += 1;
+        const now = new Date();
+
+        // Set reset time if limit reached
+        if (securityQuestionFailCount === 3) {
+            securityQuestionResetTime = new Date(now.getTime() + 3 * 60 * 60 * 1000); // 3 hours later
+            updateUserData({ securityQuestionFailCount, securityQuestionResetTime });
+        } else {
+            updateUserData({ securityQuestionFailCount });
+        }
+
+        if (securityQuestionResetTime && new Date() > new Date(securityQuestionResetTime)) {
+            // Reset fail count after reset time passes
+            securityQuestionFailCount = 0;
+            securityQuestionResetTime = null;
+            updateUserData({ securityQuestionFailCount, securityQuestionResetTime });
+        } else if (securityQuestionFailCount >= 3) {
+            showToast('Too many incorrect attempts. Please try again later.', 'error');
+            document.body.removeChild(popup);
+        } else {
+            showToast('Incorrect answer. Please try again.', 'error');
+        }
+    }
+});
+
+// Helper function to update and encode user data
+function updateUserData(data) {
+    const userData = { ...getUserData(), ...data };
+    const encodedData = setUserData(userData);
+    localStorage.setItem('userData', encodedData);
+}
+
+    // Event listener for cancel button
+    document.getElementById('cancelVerification').addEventListener('click', () => {
+        document.body.removeChild(popup);
+    });
+}
+
+
+window.verifySecurityQuestionPopup = verifySecurityQuestionPopup;
+
+
+function openSecuritySetupPopup() {
+  // Add your existing security question setup logic here
+  showToast('Redirecting to security setup...', 'info');
+  
+  setTimeout(() => {
+      window.location.href = 'https://reelcareer.co/u/account.html#reset-security-questions';
+  }, 3000); // 3-second delay before redirecting
+}
+
+

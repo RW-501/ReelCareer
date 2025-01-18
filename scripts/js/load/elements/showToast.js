@@ -4,6 +4,11 @@ let toastNumber = 0;
 let toastQueue = []; // Queue to manage toast sequence
 let activeToasts = new Set(); // Set to track active toasts
 
+/*
+showToast(message, 'warning', duration,
+  link, false, 'Click Here');
+*/
+
 function showToast(message, type = 'info', duration = 3500,
    link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
   // Check if a toast with the same message and type is already active
