@@ -1043,8 +1043,9 @@ console.log("referralLink", referralLink);
 document.getElementById('referral-code').value = referralLink;
 
 // Initialize fetch functions
-fetchObituaryData(userID);
+fetchObituaryData();
 fetchVideoResumeData();
+viewTransactions(userId);
 
 }
 
@@ -1449,7 +1450,6 @@ async function viewTransactions(userID) {
 
 window.viewTransactions = viewTransactions;
 
-viewTransactions();
 
 
 
