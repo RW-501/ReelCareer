@@ -320,7 +320,7 @@
         <div id="userMainInfoStats" class="account-card">
 
           <div id="profileComplete" style="width: 500px; height: auto; margin: auto;">
-            <canvas id="profileCompletionChart" width="500" height="500"></canvas>
+            <canvas id="profileCompletionChart" width="500" height="450"></canvas>
         
             <div id="profileCompletionList">
               <h5>Profile Completion Status</h5>
@@ -806,7 +806,6 @@ async function populateUserInfo(userId) {
     try {
         const userDocRef = doc(db, 'Users', userId);
         const userDoc = await getDoc(userDocRef);
-        console.log(`populateUserInfo userDoc ${userDoc}`);
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
