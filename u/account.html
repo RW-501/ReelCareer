@@ -478,9 +478,17 @@
       <section id="danger-section" class="content-card">
         <h3>Danger Zone</h3>
         <div id="danger-area">
+
+
+          <div class="div-group">
+            <p><strong>Clear Local Storage</strong></p>
+            <p class="warning-text">This will remove Saved ReelCareer data from your device, and Logout. </p>
+            <button type="button" class="btn btn-secondary" id="clear-local-storage" aria-label="Clear Local Storage">Reset Security Questions</button>
+          </div>
+
           <div class="div-group">
             <p><strong>Change Password</strong></p>
-            <p class="warning-text">This option is unavailable for users logged in with Google or Facebook.</p>
+            <p class="warning-text">This option is unavailable for users logged in with Google or Phone Login.</p>
             <label for="old-password" class="label">Old Password</label>
             <input type="password" id="old-password" class="form-control" placeholder="Enter old password" aria-describedby="oldPasswordHelp">
             <label for="new-password" class="label">New Password</label>
@@ -1101,6 +1109,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+document.getElementById('clear-local-storage').addEventListener('click', () => {
+    // Confirm the user's intention to clear local storage
+    const confirmation = confirm('Are you sure you want to clear all saved ReelCareer data and logout? This action cannot be undone.');
+    
+    if (confirmation) {
+        // Clear local storage
+        localStorage.clear();
+        
+        // Log the user out
+        if (auth) {
+            auth.signOut().then(() => {
+              showToast('Local storage cleared, and you have been logged out.');
+                // Redirect to the login page or homepage if necessary
+                window.location.href = 'views/auth';  // Change to your desired redirect page
+            }).catch((error) => {
+                console.error('Error logging out:', error);
+            });
+        } else {
+            showToast('Local storage cleared.');
+        }
+    }
+});
 
 
 
@@ -1112,18 +1142,18 @@ document.getElementById('delete-account').addEventListener('click', async () => 
         // Check if user ID is valid
         const userId = await getUserId(); // Await if getUserId is asynchronous
         if (!userId) {
-          alert('Invalid user ID. Please log in again.');
+          showToast('Invalid user ID. Please log in again.');
           return;
         }
         // Fetch current user status
         const userDoc = await getDoc(userDocRef);
         if (!userDoc.exists()) {
-          alert('User not found! Please contact support.');
+          showToast('User not found! Please contact support.');
           return;
         }
         const currentStatus = userDoc.data().status;
         if (!currentStatus) {
-          alert('Unable to retrieve account status. Please try again.');
+          showToast('Unable to retrieve account status. Please try again.');
           return;
         }
         const isCurrentlyActive = currentStatus === 'active';
@@ -1183,16 +1213,16 @@ document.getElementById('delete-account').addEventListener('click', async () => 
           }
         } catch (appError) {
           console.error('Error updating applications status:', appError);
-          alert('An error occurred while updating applications. Please try again later.');
+          showToast('An error occurred while updating applications. Please try again later.');
         }
         // Update button text
         const button = document.getElementById('deactivateAccountBtn-profile');
         button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
         // Notify user of successful update
-        alert(`Your account and related data have been successfully ${action}d.`);
+        showToast(`Your account and related data have been successfully ${action}d.`);
       } catch (error) {
         console.error('Error during toggle process:', error);
-        alert('An unexpected error occurred. Please try again later.');
+        showToast('An unexpected error occurred. Please try again later.');
       }
     });
   
