@@ -734,9 +734,14 @@ function paymentStatusNotifications() {
         let pageName = '';
 
         setTimeout(() => {
+          console.log(`setTimeout`);
+
     document.addEventListener('DOMContentLoaded', async () => {
+      console.log(`DOMContentLoaded `);
+
         try {
             const user = auth.currentUser;
+            console.log(`DOMContentLoaded ${user}`);
 
             if (!user) {
                 openPopupLogin();
