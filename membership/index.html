@@ -335,7 +335,8 @@ function renderMembershipPlans(containerId, plans) {
                     <div class="card-body">
                         <h6>Price: $${price.toFixed(2)}</h6>
                         <p>${benefits}</p>
-                        <button id="${buttonId}" class="btn btn-primary" onclick="upgradeMembership('${key}')">
+                        <div id="${buttonId}" class="mb-3"></div>
+                        <button class="btn btn-primary" onclick="upgradeMembership('${key}')">
                             ${price === 0 ? 'Start Free Membership' : 'Unlock Benefits'}
                         </button>
                     </div>
