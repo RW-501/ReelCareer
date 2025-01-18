@@ -1043,7 +1043,7 @@ console.log("referralLink", referralLink);
 document.getElementById('referral-code').value = referralLink;
 
 // Initialize fetch functions
-fetchObituaryData();
+fetchObituaryData(userID);
 fetchVideoResumeData();
 
 }
@@ -1300,7 +1300,7 @@ function getGenericTransactionDetails(transactionData, fee, netAmount) {
 
 // Calculate the total payout (refactored)
 
-async function calculateTotalPayout() {
+async function calculateTotalPayout(userID) {
     try {
         // Reference to the collection
         const transactionsRef = collection(db, 'A_Transactions');
@@ -1369,11 +1369,11 @@ function handleRequestCooldown(latestTransactionDate) {
 }
 
 // Confirm payout (refactored)
-async function confirmPayout() {
+async function confirmPayout(userID) {
     const MINIMUM_PAYOUT = 25;
     const requestedAmount = parseFloat(document.getElementById("requested-amount").value) || 0;
 
-    const availableAmount = await calculateTotalPayout();
+    const availableAmount = await calculateTotalPayout(userID);
 
     if (!requestPayoutBool) {
         showToast("Request can only be made once every 7 days", 'error');
@@ -1429,8 +1429,8 @@ let requestPayoutBool = false;
 
 
 
-async function viewTransactions() {
-  const availableAmount = await calculateTotalPayout();
+async function viewTransactions(userID) {
+  const availableAmount = await calculateTotalPayout(userID);
   document.getElementById("total-payout").textContent = availableAmount.toFixed(2);
 
 
