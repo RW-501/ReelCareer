@@ -246,7 +246,6 @@ let videoPostStatus = "OK";
         totalReelViews: userDataSaved.totalReelViews || 0,
         videoPostStatus: videoPostStatus || "OK",
 
-        totalReelViews: userDataSaved.memberType || 0,
 
 
 

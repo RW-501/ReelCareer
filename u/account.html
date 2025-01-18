@@ -301,24 +301,37 @@
         <h3>User Information</h3>
         <div id="user-main-info" class="flex-wrap">
 
-        <div id="userMainInfo" class="account-card">
-          <p id="user-name" class="user-detail"><strong>Name:</strong> <span>User Name</span></p>
-          <p id="user-display-name" class="user-detail"><strong>Display Name:</strong> <span>Display Name</span></p>
-          <p id="user-email" class="user-detail"><strong>Email:</strong> <span>user@example.com</span></p>
-          <p id="user-phone" class="user-detail"><strong>Phone Number:</strong> <span>(123) 456-7890</span></p>
-          <p id="user-ip-address" class="user-detail"><strong>IP Address:</strong> <span>000.000.0.1</span></p>
-          <p id="user-verified" class="user-detail"><strong>Verified:</strong> <span>Yes</span></p>
-          <p id="user-userID" class="user-detail"><strong>User ID:</strong> <span>12354</span></p>
-  
-          <p id="join-date" class="user-detail"><strong>Join Date:</strong> MM/DD/YYYY</p>
-          <p id="loggedin-method" class="user-detail"><strong>Logged in with:</strong> <span>email</span></p>
-          <p id="security-questions" class="user-detail"><strong>Security Questions:</strong> <span>None</span></p>
-          <p id="lastLogin-date" class="user-detail"><strong>Last Login:</strong> <span>MM/DD/YYYY</span></p>
+          <div id="userMainInfo" class="account-card">
+            <p id="user-name" class="user-detail"><strong>Name:</strong> <span>N/A</span></p>
+            <p id="user-display-name" class="user-detail"><strong>Display Name:</strong> <span>N/A</span></p>
+            <p id="user-email" class="user-detail"><strong>Email:</strong> <span>N/A</span></p>
+            <p id="user-phone" class="user-detail"><strong>Phone Number:</strong> <span>N/A</span></p>
+            <p id="user-ip-address" class="user-detail"><strong>IP Address:</strong> <span>N/A</span></p>
+            <p id="user-verified" class="user-detail"><strong>Verified:</strong> <span>No</span></p>
+            <p id="user-userID" class="user-detail"><strong>User ID:</strong> <span>12345</span></p>
+            
+            <p id="join-date" class="user-detail"><strong>Join Date:</strong> <span>MM/DD/YYYY</span></p>
+            <p id="loggedin-method" class="user-detail"><strong>Logged in with:</strong> <span>email</span></p>
+            <p id="security-questions" class="user-detail"><strong>Security Questions:</strong> <span>None</span></p>
+            <p id="lastLogin-date" class="user-detail"><strong>Last Login:</strong> <span>MM/DD/YYYY</span></p>
+          
+            <p id="user-membershipType" class="user-detail"><strong>Membership Type:</strong> <span>Basic</span></p>
+            <p id="user-membershipExpiryDate" class="user-detail"><strong>Membership Expiry:</strong><span>MM/DD/YYYY</span></p>
+          
+            <p id="user-contactsCount" class="user-detail"><strong>Contacts Count:</strong> <span>0</span></p>
+            <p id="user-videoResumeCount" class="user-detail"><strong>Video Resume Count:</strong> <span>0</span></p>
+            <p id="user-accountBalance" class="user-detail"><strong>Account Balance:</strong> <span>$0.00</span></p>
+            <p id="user-userAccountStatus" class="user-detail"><strong>Account Status:</strong> <span>Active</span></p>
+            <p id="user-totalReelViews" class="user-detail"><strong>Total Reel Views:</strong> <span>0</span></p>
+            <p id="user-videoPostStatus" class="user-detail"><strong>Video Post Status:</strong> <span>Inactive</span></p>
+            <p id="user-publicProfile" class="user-detail"><strong>Public Profile:</strong> <span>Enabled</span></p>
+          </div>
 
-          <p id="user-membershipType" class="user-detail"><strong>Membership Type:</strong> <span>Basic</span></p>
-          <p id="user-membershipExpiryDate" class="user-detail"><strong>Membership Expiry:</strong><span>MM/DD/YYYY</span></p>
-        </div>
-        <div id="userMainInfoStats" class="account-card">
+
+
+
+
+          <div id="userMainInfoStats" class="account-card">
 
           <div id="profileComplete" style="width: 500px; height: auto; margin: auto;">
             <canvas id="profileCompletionChart" width="500" height="400"></canvas>
@@ -822,29 +835,29 @@ async function populateUserInfo(userId) {
             const userData = userDoc.data();
             console.log("userData", userData);
 
-            // Populate user details (existing code)
-            document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
-            document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
-            document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
-            document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
-            document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
-            document.getElementById('user-userID').querySelector('span').textContent = userData.userID || "12345";
-            document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
-            document.getElementById('join-date').textContent = `Join Date: ${formatTimestamp(userData.joinDate) || 'MM/DD/YYYY'}`;
-            document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
-            document.getElementById('security-questions').querySelector('span').textContent = userData.securityQuestions ? userData.securityQuestions || "Active" : "None";
-            document.getElementById('lastLogin-date').querySelector('span').textContent = formatTimestamp(userData.lastLogin) || 'MM/DD/YYYY';
-            document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
-            document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = formatTimestamp(userData.membershipExpiry) || 'MM/DD/YYYY';
+       
+// Populate user data into HTML elements
+document.getElementById('user-name').querySelector('span').textContent = userData.name || 'N/A';
+document.getElementById('user-display-name').querySelector('span').textContent = userData.displayName || 'N/A';
+document.getElementById('user-email').querySelector('span').textContent = userData.email || 'N/A';
+document.getElementById('user-phone').querySelector('span').textContent = userData.phoneNumber || 'N/A';
+document.getElementById('user-ip-address').querySelector('span').textContent = userData.ipAddress || 'N/A';
+document.getElementById('user-userID').querySelector('span').textContent = userData.userID || 'N/A';
+document.getElementById('user-verified').querySelector('span').textContent = userData.verified ? 'Yes' : 'No';
+document.getElementById('join-date').querySelector('span').textContent = `Join Date: ${formatTimestamp(userData.joinDate)}`;
+document.getElementById('loggedin-method').querySelector('span').textContent = userData.loginMethod || 'email';
+document.getElementById('security-questions').querySelector('span').textContent = userData.securityQuestions || 'None';
+document.getElementById('lastLogin-date').querySelector('span').textContent = formatTimestamp(userData.lastLogin);
+document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
+document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = formatTimestamp(userData.membershipExpiry);
 
-
-            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
-            document.getElementById('user-videoResumeCount').innerHTML = userData.videoResumeCount || 0;
-            document.getElementById('user-accountBalance').innerHTML = userData.accountBalance || 0;
-            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
-            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
-            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
-            document.getElementById('user-contactsCount').innerHTML = userData.contactsCount || 0;
+document.getElementById('user-contactsCount').textContent = userData.contactsCount || 0;
+document.getElementById('user-videoResumeCount').textContent = userData.videoResumeCount || 0;
+document.getElementById('user-accountBalance').textContent = `$${userData.accountBalance.toFixed(2)}` || '$0.00';
+document.getElementById('user-userAccountStatus').textContent = userData.userAccountStatus || 'Inactive';
+document.getElementById('user-totalReelViews').textContent = userData.totalReelViews || 0;
+document.getElementById('user-videoPostStatus').textContent = userData.videoPostStatus || 'Inactive';
+document.getElementById('user-publicProfile').textContent = userData.publicProfile || 'Disabled';
             
             // Define the profile fields and their status
             const profileFields = [
