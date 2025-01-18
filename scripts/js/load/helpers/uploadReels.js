@@ -12,6 +12,7 @@ getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
+let videoData;
 
 // Upload Video Resume to Firebase Storage
 
@@ -157,13 +158,16 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         notifcationsBool: false,
 
         isPinned: false,
+        isPinnedReelCareer: false,
         commentsBool: true,
         locationBool: true,
+        videoPlacement: [],
 
         giftsBool: true,
         viewsBool: true,
         likesBool: true,
         lovesBool: true,
+
         isPublic: true,
         isBoostedPost: false,
         isSponsoredPost: false,
@@ -193,10 +197,19 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             ...userDataSaved,
             videoResumeData: [
                 ...(userDataSaved.videoResumeData || []),
-                { reelID, videoResumeURL, tags, createdAt: new Date(), status: 'posted', reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
+                { reelID, videoResumeURL, tags, isPublic: true, createdAt: new Date(), status: 'posted', reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
             ]
         };
-        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+
+        userData = setUserData(updatedUserData);
+        localStorage.setItem('userData', userData);
+
+        const uploadContainer = document.getElementById("reel-upload-container");
+        if (uploadContainer) {
+            uploadContainer.remove();  // Remove the upload container
+        }
+
+
         showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
     } catch (error) {
         console.error("Error updating metadata:", error);
@@ -237,7 +250,6 @@ function extractHashtags(caption) {
 
 
 
-let videoData;
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
@@ -282,128 +294,9 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         return;
     }
 
-    let relatedReels = [];
+    completeMetadataUpdate(userID, videoData, videoResumeURL);
 
-    if (userDataSaved.videoResumeData && userDataSaved.videoResumeData.length > 0) {
-        relatedReels = userDataSaved.videoResumeData
-            .map(videoData => ({
-                reelID: videoData.reelID,
-                reelTitle: videoData.videoResumeTitle,
-                videoUrl: videoData.videoResumeURL,
-                reelURL: videoData.reelURL,
-                reelTags: videoData.tags,
-                reelcreatedDate: new Date(videoData.createdAt) // Ensure date is properly parsed
-            }))
-            .sort((a, b) => b.reelcreatedDate - a.reelcreatedDate) // Sort by date in descending order
-            .slice(0, 5); // Limit to the first 5 reels
-    }
-    
-
-    const videoResumeData = {
-        createdByID: userID,
-        displayName: userDataSaved.displayName || '',
-        publicProfile: userDataSaved.publicProfile ?? true,
-        profilePicture: userDataSaved.profilePicture || '',
-        profileURL: `https://reelcareer.co/u/?u=${userID}`,
-        membershipType: userDataSaved.membershipType || 'free',
-        location: `${userlocationData.city || ''}, ${userlocationData.state || ''}`,
-        city: userlocationData.city || '',
-        state: userlocationData.state || '',
-        country: userlocationData.country || '',
-        zip: userlocationData.zip || '',
-
-        verified: userDataSaved.verified || '',
-        position: userDataSaved.position || '',
-        tags,
-        videoResumeCaptions,
-        videoResumeTitle,
-        thumbnailURL: 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
-        videoResumeURL,
-        videoResumeFileName: videoData.name,
-        duration: videoData.duration,
-        fileType: videoData.fileType,
-        createdAt: new Date(),
-        timestamp: serverTimestamp(),
-        views: 0,
-        uniqueViews: 0,
-        shares: 0,
-        likes: 0,
-        loves: 0,
-        gifts: [],
-        endingCardBool: false,
-        endingCard: '',
-        relatedURLBool: false,
-        relatedURL: '',
-
-        relatedReels: relatedReels,
-        reelCatagories: [],
-        reelResume: [],
-
-        relatedProductsBool: false,
-        relatedProducts: [],
-
-        watchTime: 0,
-        engagegments: 0,
-        reach: 0,
-        reported: 0,
-        
-        comments: 0,
-        shortList: 0,
-        saved: 0,
-        notifcationsBool: false,
-
-        isPinned: false,
-        commentsBool: true,
-        locationBool: true,
-
-        giftsBool: true,
-        viewsBool: true,
-        likesBool: true,
-        lovesBool: true,
-        isPublic: true,
-        isBoostedPost: false,
-        isSponsoredPost: false,
-        status: 'posted',
-        isDeleted: false,
-    };
-
-    try {
-        const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
-        const reelID = reelDocRef.id;
-        
-        const userDocRef = doc(db, "Users", userID);
-        await updateDoc(userDocRef, {
-            videoResumeData: arrayUnion({
-                reelID: reelID,
-                videoResumeURL: videoResumeURL,
-                tags: tags,
-                createdAt: new Date(),
-                status: 'posted',
-                reelURL: `https://reelcareer.co/reels/?r=${reelID}`
-            })
-        });
-        
-        // Update local storage with the new array of video resume data
-        const updatedUserData = {
-            ...userDataSaved,
-            videoResumeData: [
-                ...(userDataSaved.videoResumeData || []), // Keep existing entries if available
-                { reelID, videoResumeURL, tags, createdAt: new Date(),
-                     status: 'posted',  reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
-            ]
-        };
-        localStorage.setItem('userData', JSON.stringify(updatedUserData));
-        showToast("Your Resume Reel is live. ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
-
-
-        const uploadContainer = document.getElementById("reel-upload-container");
-        if (uploadContainer) {
-            uploadContainer.remove();  // Remove the upload container
-        }
-    } catch (error) {
-        console.error("Error saving user data:", error);
-        showToast("There was an error posting your resume reel. Please try again later.");
-    }
+   
 }
 
 window.postReelFunction = postReelFunction;

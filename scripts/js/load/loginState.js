@@ -138,9 +138,13 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
            videoResumeURL: data.videoResumeURL,
            videoResumeTitle: data.videoResumeTitle,
            reported: data.reported,
+           isPinned: data.isPinned,
+           isPublic: data.isPublic,
+           isSponsoredPost: data.isSponsoredPost,
            views: data.views,
            watchTime: data.watchTime,
            tags: data.tags || [],  // Default to empty array if no tags
+           gifts: data.gifts || [],  // Default to empty array if no gifts
            createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
            status: data.status || 'posted', // Default to 'posted' if no status
            reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
@@ -149,11 +153,26 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
 
 // Make a copy of videoResumeData
 const sortedAndLimitedData = [...videoResumeData]
-  .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
-  .slice(0, 10); // Limit to 10 items
+.filter(item => item.status === 'posted')  // Filter items with status 'posted'
+.sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
+.slice(0, 10); // Limit to 10 items
 
 // You can now use sortedAndLimitedData for further processing
 console.log(sortedAndLimitedData);
+
+
+
+let totalGiftAmountReceived = videoResumeData.gifts.length;
+
+
+
+
+
+
+
+
+
+
 const DEFAULT_MEMBERSHIP_DURATION_DAYS = 30;
 const MAX_SECURITY_FAIL_COUNT = 3;
 const VILATON_INCUMENT_1 = 1;
@@ -207,7 +226,6 @@ let videoPostStatus = "OK";
        }
 
 
-
       let userData = {
         email: email || "",
         lastLogin: new Date(),
@@ -216,36 +234,66 @@ let videoPostStatus = "OK";
         verified: emailVerified || false,
         loginMethod: loginProvider,  
         userAccountStatus:  userAccountStatus ||  'OK',
+        isAccountLocked: userDataSaved.isAccountLocked  || true,
 
         reportedCount: userDataSaved.reportedCount || 0,
 
         displayName: userDataSaved.displayName || displayName,
         phoneNumber: userDataSaved.phoneNumber || phoneNumber || '',
         profilePicture: userDataSaved.profilePicture || photoURL || profilePic,
-        membershipType: userDataSaved.membershipType || "free",
-        membershipUpdatedAt: userDataSaved.membershipUpdatedAt || joinedDate,
-        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
+
+        passwordLastChangedDate: userDataSaved.passwordLastChangedDate || joinedDate || new Date(), 
 
         securityQuestions:userDataSaved.securityQuestions || [],
         securityQuestionFailCount:userDataSaved.securityQuestionFailCount || 0,
         securityQuestionResetTime:  userDataSaved.securityQuestionResetTime ||  '',
+       
         accountBalance: userDataSaved.accountBalance || 0,
-        accountBalanceUpadateDate:  userDataSaved.accountBalanceUpadateDate ||  new Date(),
-        memberType: userDataSaved.memberType || 0,
+        accountBalanceUpdateDate:  userDataSaved.accountBalanceUpdateDate ||  new Date(),
+      
+        userRoles: userDataSaved.userRoles || ['jobSeeker'],
+        membershipType: userDataSaved.membershipType || "free",
+        membershipMonthCount: userDataSaved.membershipMonthCount || 0,
+        membershipStartDate: userDataSaved.membershipStartDate || joinedDate,
+        membershipUpdateDate: userDataSaved.membershipUpdateDate || joinedDate,
+        membershipRenewalDate: userDataSaved.membershipRenewalDate || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
+        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
+  
+        applicationsBoostCredits: userDataSaved.applicationsBoostCredits || 0,
+        profileBoostCredits: userDataSaved.profileBoostCredits || 0,
+     
+
+        companyPagesCount: userDataSaved.companyPagesCount || 0,
+        companyPages: userDataSaved.companyPages || [],
+
+        jobPostCredits: userDataSaved.jobPostCredits || 0,
+        sponsoredJobPostCredits: userDataSaved.sponsoredJobPostCredits || 0,
+
+        basicTrialUseBool: userDataSaved.basicTrialUseBool || false,
+        proTrialUseBool: userDataSaved.proTrialUseBool || false,
+
+        obituaryPageCredits: userDataSaved.obituaryPageCredits || 0,
+
+        boostUsageHistory: userDataSaved.boostUsageHistory || [],
+
         subscriptionID: userDataSaved.subscriptionID || '',
         recruiterID: userDataSaved.recruiterID || '',
 
         obituaryReportCount: userDataSaved.obituaryReportCount || 0,
         
 
-        videoResumeData: sortedAndLimitedData,
+        videoResumeData: videoResumeData,
         contactsCount: connectionCount || 0,
         videoResumeCount: videoResumeData.length || 0,
+
 
         totalReelViews: userDataSaved.totalReelViews || 0,
         videoPostStatus: videoPostStatus || "OK",
 
+        totalGiftAmountReceived: totalGiftAmountReceived,
+
+        notificationPreferences: userDataSaved.notificationPreferences || [],
 
 
 
@@ -269,9 +317,16 @@ let videoPostStatus = "OK";
       await setDoc(userDocRef, userData, { merge: true });
   
   
-  
-  
-   userData = setUserData(userData);
+
+      const updatedUserData = {
+        ...userData,
+        videoResumeData: sortedAndLimitedData
+    };
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+
+
+
+   userData = setUserData(updatedUserData);
   // console.log("userData   ",userData);
   
    localStorage.setItem('userData', userData);
