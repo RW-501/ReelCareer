@@ -733,15 +733,15 @@ function paymentStatusNotifications() {
         let pageID = '';
         let pageName = '';
 
-        setTimeout(() => {
-          console.log(`setTimeout`);
+      document.addEventListener('DOMContentLoaded', () => {
+  console.log(`DOMContentLoaded `);
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log(`DOMContentLoaded `);
+    setTimeout(async () => {
+        console.log('setTimeout started after DOMContentLoaded');
 
         try {
             const user = auth.currentUser;
-            console.log(`DOMContentLoaded ${user}`);
+            console.log(`User during setTimeout: ${user}`);
 
             if (!user) {
                 openPopupLogin();
@@ -749,7 +749,7 @@ function paymentStatusNotifications() {
             }
             const userID = auth.currentUser.uid;
 
-            console.log("User ID fetched during DOMContentLoaded:", userID);
+            console.log("User ID fetched during setTimeout:", userID);
 
             if (!userID || userID.trim() === "") {
                 const userDataSaved = getUserData() || []; // Assume getUserData() fetches stored user data
@@ -768,8 +768,8 @@ function paymentStatusNotifications() {
         } catch (error) {
             console.error("Error checking page ownership:", error);
         }
-    });
-}, 1000);
+    }, 1000);  // 1-second delay
+});
 
 
         // Fetch user's IP address using an external service
