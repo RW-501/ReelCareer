@@ -732,6 +732,7 @@ function paymentStatusNotifications() {
         let userID = '';
         let pageID = '';
         let pageName = '';
+
         setTimeout(() => {
     document.addEventListener('DOMContentLoaded', async () => {
         try {
@@ -800,6 +801,7 @@ async function populateUserInfo(userId) {
     try {
         const userDocRef = doc(db, 'Users', userId);
         const userDoc = await getDoc(userDocRef);
+        console.log(`populateUserInfo userDoc ${userDoc}`);
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
