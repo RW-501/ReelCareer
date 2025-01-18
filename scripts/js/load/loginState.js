@@ -184,7 +184,7 @@ const VILATON_INCUMENT_3 = 3;
 
        
 
-
+let videoPostRestriction = false;
 let videoPostStatus = "OK";
        if(videoResumeData.reported <= 3){
         userAccountStatusCount += VILATON_INCUMENT_1;
@@ -196,6 +196,7 @@ let videoPostStatus = "OK";
        if(videoResumeData.reported > 10){
         userAccountStatusCount += VILATON_INCUMENT_3;
         videoPostStatus = "Restricted";
+        videoPostRestriction = true;
        }
 
 
@@ -213,12 +214,14 @@ let videoPostStatus = "OK";
         return "Restricted";
       };
       
+let isAccountLocked = false;
 
       const userAccountStatus = getUserAccountStatus(userDataSaved, userIP, loginProvider);
 
        if(userAccountStatus == "Restricted"){
  
         let link = "https://reelcareer.co/support";
+        isAccountLocked = true;
 
         showToast(" Your Account have been Restricted, Please Contact Support ASAP", 'warning', 0,
           link, true, 'Support');
@@ -234,7 +237,11 @@ let videoPostStatus = "OK";
         verified: emailVerified || false,
         loginMethod: loginProvider,  
         userAccountStatus:  userAccountStatus ||  'OK',
-        isAccountLocked: userDataSaved.isAccountLocked  || true,
+        isAccountLocked: isAccountLocked  || false,
+        userAccountStatusCount: userAccountStatusCount,
+
+        videoPostStatus: videoPostStatus,
+        videoPostRestriction: videoPostRestriction,
 
         reportedCount: userDataSaved.reportedCount || 0,
 
@@ -289,7 +296,6 @@ let videoPostStatus = "OK";
 
 
         totalReelViews: userDataSaved.totalReelViews || 0,
-        videoPostStatus: videoPostStatus || "OK",
 
         totalGiftAmountReceived: totalGiftAmountReceived,
 
