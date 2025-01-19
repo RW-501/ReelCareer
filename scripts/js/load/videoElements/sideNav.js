@@ -75,7 +75,7 @@ function insertSidePanelContent() {
       `;
     }
   
-    document.addEventListener('DOMContentLoaded', () => {
+//    document.addEventListener('DOMContentLoaded', () => {
         insertSidePanelContent();
       
         // Cache popout sections
@@ -120,7 +120,7 @@ function insertSidePanelContent() {
             fetchVideoResumes(1, "", connectionType);
           }
         });
-      });
+    //  });
       
 
 
