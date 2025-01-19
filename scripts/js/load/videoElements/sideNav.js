@@ -60,12 +60,22 @@ function insertSidePanelContent() {
           <div id="connection-section" class="side-panel-popout">
      <h4>Connection</h4>
       <div class="side-panel-content">
+      <div id="side-panel-contacts">
+
+
+        </div>
+      <div class="side-panel-connection-btn">
+
         <button data-type="" class="connection-type-button">All Connections</button>
         <button data-type="Networking" class="connection-type-button">Networking</button>
         <button data-type="Friends" class="connection-type-button">Friends</button>
         <button data-type="Family" class="connection-type-button">Family</button>
         <button data-type="Co-workers" class="connection-type-button">Co-Workers</button>
-      </div>
+              </div>
+
+      
+      
+        </div>
 </div>
 
 

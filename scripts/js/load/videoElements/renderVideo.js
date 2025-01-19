@@ -497,3 +497,82 @@ window.generateVideoSchema = generateVideoSchema;
 
 
 
+function populateSidePanelContacts(connectedUserData) {
+  const sidePanelContacts = document.getElementById('side-panel-contacts');
+  sidePanelContacts.innerHTML = ''; // Reset content
+
+  // Inject CSS for contact styling
+  const style = document.createElement('style');
+  style.textContent = `
+    .contact-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .contact-profile-picture {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .contact-name {
+      flex-grow: 1;
+    }
+
+    .view-profile-button, .view-videos-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .view-profile-button:hover, .view-videos-button:hover {
+      background-color: #0056b3;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Iterate over connected user data
+  connectedUserData.forEach(user => {
+    const contactDiv = document.createElement('div');
+    contactDiv.className = 'contact-item';
+
+    const profileImg = document.createElement('img');
+    profileImg.src = user.profilePicture;
+    profileImg.alt = `${user.name}'s profile picture`;
+    profileImg.className = 'contact-profile-picture';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = user.name;
+    nameSpan.className = 'contact-name';
+
+    const viewProfileButton = document.createElement('a');
+    viewProfileButton.href = user.profileUrl;
+    viewProfileButton.textContent = 'View Profile';
+    viewProfileButton.className = 'view-profile-button';
+    viewProfileButton.target = '_blank';
+
+    const viewVideosButton = document.createElement('button');
+    viewVideosButton.textContent = 'View Videos';
+    viewVideosButton.className = 'view-videos-button';
+    viewVideosButton.onclick = () => {
+      console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
+    };
+
+    contactDiv.appendChild(profileImg);
+    contactDiv.appendChild(nameSpan);
+    contactDiv.appendChild(viewProfileButton);
+    contactDiv.appendChild(viewVideosButton);
+    sidePanelContacts.appendChild(contactDiv);
+  });
+}
+
+
+window.populateSidePanelContacts = populateSidePanelContacts;

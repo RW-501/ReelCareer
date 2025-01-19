@@ -442,10 +442,10 @@ console.log("tagFilter:", tagFilter);
         // Fetch connected user IDs if needed
         const connectedUserData = await getConnectedUserIds(connectionType);
 const connectedUserIds = connectedUserData.map(user => user.id);
-console.log("Connected User IDs:", connectedUserIds);
+
+populateSidePanelContacts(connectedUserData);
 
 
-console.log("Connected User IDs:", connectedUserData);
 
 
         // Fetch video resumes from the local JSON file
