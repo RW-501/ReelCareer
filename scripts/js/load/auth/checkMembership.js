@@ -572,10 +572,17 @@ function listUserBenefits() {
     let benefitsList = 'Your Membership Benefits:\n';
 
     benefits.forEach(benefit => {
-        benefitsList += `${benefit.name}: ${benefit.used} / ${benefit.limit} used\n`;
+        benefitsList += `
+            <div class="benefit-item">
+                <span class="benefit-name">${benefit.name}</span>: 
+                <span class="benefit-usage">${benefit.used}</span> / 
+                <span class="benefit-limit">${benefit.limit}</span> used
+            </div>
+        `;
     });
+    
 
-    showToast(benefitsList);
+   // showToast(benefitsList);
 
     return benefitsList;
 }
