@@ -440,8 +440,12 @@ console.log("tagFilter:", tagFilter);
 
 
         // Fetch connected user IDs if needed
-        const connectedUserIds =  await getConnectedUserIds(connectionType);
-        console.log("Connected User IDs:", connectedUserIds);
+        const connectedUserData = await getConnectedUserIds(connectionType);
+const connectedUserIds = connectedUserData.map(user => user.id);
+console.log("Connected User IDs:", connectedUserIds);
+
+
+console.log("Connected User IDs:", connectedUserIds);
 
 
         // Fetch video resumes from the local JSON file
