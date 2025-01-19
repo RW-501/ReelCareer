@@ -66,6 +66,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 progressBar.style.width = '100%';
                 progressBar.textContent = 'Upload Complete!';
+                
                 localStorage.removeItem(uploadSessionKey);
                 setTimeout(() => {
                     if (progressBar) {
@@ -76,6 +77,11 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 // Update metadata when upload completes
                 await completeMetadataUpdate(userID, videoData, downloadURL);
                 showToast('Video uploaded successfully!', 'success');
+
+
+                return downloadURL;  // Return the download URL
+
+
             }
         );
     } catch (error) {
@@ -271,7 +277,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
     try {
          videoData = {
             duration: videoDuration,
-            name: `${userID}-${new Date().toISOString()}-reel.mp4`,
+            name: uploadedFile.name || `${userID}-${new Date().toISOString()}-reel.mp4`,
             videoResumeTitle: videoResumeTitle,
             videoResumeCaptions: videoResumeCaptions,
             videoDuration: videoDuration,
@@ -294,7 +300,6 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         return;
     }
 
-    completeMetadataUpdate(userID, videoData, videoResumeURL);
 
    
 }
