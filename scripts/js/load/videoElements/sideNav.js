@@ -133,7 +133,23 @@ function insertSidePanelContent() {
       padding: 20px;
       border-radius: 10px;
     }
-  
+
+
+  #side-panel-popout-section {
+    display: grid;
+}
+
+.side-panel-popout {
+    display: none;
+
+}
+
+    #connection-section {
+    display: grid;
+    
+    }
+
+
     .side-panel-search {
       display: flex;
       align-items: center;
