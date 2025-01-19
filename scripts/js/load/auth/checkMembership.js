@@ -584,8 +584,6 @@ function listUserBenefits() {
 window.listUserBenefits = listUserBenefits;
 
 
-import { doc, getDoc, updateDoc } from "firebase/firestore"; 
-import { db } from './firebase-config';  // Ensure your db is initialized properly
 
 async function updateUserBenefits(userID, membershipType) {
     const newBenefits = membershipLimits[membershipType] || membershipLimits.free; // Default to 'free' if invalid
