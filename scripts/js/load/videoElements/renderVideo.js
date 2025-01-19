@@ -403,12 +403,12 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       if (connectionType !== "all") {
         q = query(
           connectionsRef,
-          where('participants', 'array-contains', userId),
+          where('participants', 'array-contains', [userId]),
           where('fromGroup', '==', connectionType) // Filter by the connection type (group)
         );
       } else {
         // Fetch all connections (no filter by 'fromGroup')
-        q = query(connectionsRef, where('participants', 'array-contains', userId));
+        q = query(connectionsRef, where('participants', 'array-contains', [userId]));
       }
       console.log('q getConnectedUserIds', q);
 

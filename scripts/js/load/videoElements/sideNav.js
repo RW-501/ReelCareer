@@ -83,7 +83,7 @@ function insertSidePanelContent() {
         // Add listeners for showing/hiding sections
         const togglePopout = (section) => {
 
-            console.log("section: ", section);
+          ///  console.log("section: ", section);
 
             const allPopouts = document.querySelectorAll('.side-panel-popout');
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
