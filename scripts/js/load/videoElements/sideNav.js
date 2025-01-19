@@ -78,6 +78,13 @@ function insertSidePanelContent() {
       `;
     }
   
+  // Close side panel if clicked outside
+  document.addEventListener('click', (event) => {
+    const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
+    if (!isClickInside && sidePanel.style.display !== 'none') {
+      sidePanel.style.display = 'none'; // Close the side panel
+    }
+  });
 
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
