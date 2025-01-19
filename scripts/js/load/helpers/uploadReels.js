@@ -233,6 +233,11 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 // Function to extract hashtags and store them in an array
 function extractHashtags(caption) {
+
+    if (!caption) {
+        console.error("Caption is undefined or null");
+        return [];  // Avoid further errors
+    }
     const stopWords = new Set(["a", "an", "the", "and", "or", "but", "if", "then", "else", "of", "to", "in", "on", "with", "by", "for", "at", "from", "into", "over", "after", "before", "under", "about",
          "above", "below", "is", "was", "were", "be", "has", "had", "do", "does", "did", "not",
           "this", "that", "these", "those", "it", "its", "my", "your", "our", "their", "his",
