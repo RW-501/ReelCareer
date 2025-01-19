@@ -82,7 +82,12 @@ function insertSidePanelContent() {
   document.addEventListener('click', (event) => {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
     if (!isClickInside && sidePanel.style.display !== 'none') {
-      sidePanel.style.display = 'none'; // Close the side panel
+    
+    
+        const allPopouts = document.querySelectorAll('.side-panel-popout');
+        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+     
+      //  sidePanel.style.display = 'none'; // Close the side panel
     }
   });
 
