@@ -52,7 +52,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     videoData
                 }));
 
-                navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
+              //  navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
             },
             (error) => {
                 console.error("Error uploading video resume:", error);
