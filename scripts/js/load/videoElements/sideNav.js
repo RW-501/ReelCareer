@@ -1,7 +1,76 @@
 
 let postsPerPage = 10;
 let lastVisibleDoc = null;
-let searchingByTag = false; // Track if search mode is active
+let searchingByTag = false; 
+
+
+
+
+
+
+
+function insertSidePanelContent() {
+    const sidePanel = document.getElementById('main-side-panel');
+    if (sidePanel) {
+      sidePanel.innerHTML = `
+        <nav id="side-nav" aria-label="Side Navigation">
+          <div class="side-panel-search">
+            <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search" />
+          </div>
+          <ul class="side-nav-list">
+            <li class="side-nav-item">
+              <button id="btn-home" class="side-nav-button">Home</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="showUploadPopup" class="side-nav-button">Upload Your Reel</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-profile" class="side-nav-button">Profile</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-messages" class="side-nav-button">Messages</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-create" class="side-nav-button">Create Reel</button>
+            </li>
+          </ul>
+          <div class="contacts-section">
+            <h4>Contacts</h4>
+            <select id="connection-type-dropdown" class="connection-type-dropdown">
+              <option value="">All Connections</option>
+              <option value="Networking">Networking</option>
+              <option value="Friends">Friends</option>
+              <option value="Family">Family</option>
+              <option value="Co-workers">Co-Workers</option>
+            </select>
+          </div>
+        </nav>
+      `;
+    }
+  }
+  
+
+  document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Track if search mode is active
 //  document.addEventListener("DOMContentLoaded", () => {
    // console.log("DOMContentLoaded event fired");
 
