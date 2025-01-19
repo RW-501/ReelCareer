@@ -65,7 +65,57 @@ href="https://reelcareer.co/reels/reelsCSS.css"
     <script src="https://reelcareer.co/scripts/js/loader.js"></script>
 
 
+<style>
 
+.side-panel {
+  width: 250px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+}
+
+.side-nav-list {
+  list-style: none;
+  padding: 0;
+}
+
+.side-nav-item {
+  margin-bottom: 10px;
+}
+
+.side-nav-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.side-nav-button:hover {
+  background-color: #0056b3;
+}
+
+.side-panel-search input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contacts-section h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.contacts-list {
+  list-style: none;
+  padding: 0;
+}
+
+</style>
 </head>
 
 
@@ -86,23 +136,50 @@ href="https://reelcareer.co/reels/reelsCSS.css"
         </ol>
     </nav>
 
+    <div id="body-main">
+      <aside id="side-panel" class="side-panel">
+        <nav id="side-nav" aria-label="Side Navigation">
+
+          <div class="side-panel-search">
+            <input type="text" id="search-input" placeholder="Search videos..."  aria-label="Search"/>
+        </div>
+
+          <ul class="side-nav-list">
+            <li class="side-nav-item">
+              <button id="btn-home" class="side-nav-button">Home</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-profile" class="side-nav-button">Profile</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-messages" class="side-nav-button">Messages</button>
+            </li>
+            <li class="side-nav-item">
+              <button id="btn-create" class="side-nav-button">Create Reel</button>
+            </li>
+          </ul>
+
+          <div class="contacts-section">
+            <h4>Contacts</h4>
+          <!-- Dropdown to select connection type -->
+          <select id="connection-type-dropdown" class="connection-type-dropdown">
+            <option value="">All Connections</option>
+            <option value="Networking">Networking</option>
+            <option value="Friends">Friends</option>
+            <option value="Family">Family</option>
+            <option value="Co-workers">Co-Workers</option>
+        </select>
+
+          </div>
+        </nav>
+      </aside>
+      
 
 
       <main id="main-content">
       
      
-        <div class="search-area">
-          <input type="text" id="search-input" placeholder="Search videos by tag..." />
-          
-          <!-- Dropdown to select connection type -->
-          <select id="connection-type-dropdown" class="connection-type-dropdown">
-              <option value="">All Connections</option>
-              <option value="Networking">Networking</option>
-              <option value="Friends">Friends</option>
-              <option value="Family">Family</option>
-              <option value="Co-workers">Co-Workers</option>
-          </select>
-      </div>
+  
       
         
 
@@ -126,6 +203,9 @@ href="https://reelcareer.co/reels/reelsCSS.css"
 
       
     </main>
+
+
+      </div>
 
     <div id="currentVideoId" hidden></div>
 
@@ -330,6 +410,7 @@ href="https://reelcareer.co/reels/reelsCSS.css"
 
     let userId = '';
 
+
     document.addEventListener('DOMContentLoaded', () => {
 
     async function initializeUserId() {
@@ -393,6 +474,48 @@ connectionTypeDropdown.addEventListener("change", (e) => {
 
 
 });
+
+
+
+
+
+document.getElementById('btn-home').addEventListener('click', () => {
+  window.location.href = 'https://reelcareer.co';
+});
+
+document.getElementById('btn-profile').addEventListener('click', () => {
+  window.location.href = 'https://reelcareer.co/u';
+});
+
+document.getElementById('btn-messages').addEventListener('click', () => {
+  window.location.href = 'https://reelcareer.co/u/messaging';
+});
+
+document.getElementById('btn-create').addEventListener('click', () => {
+  window.location.href = 'https://reelcareer.co/u/create';
+});
+
+
+
+/* 
+// Add contacts dynamically
+const contacts = ['John Doe', 'Jane Smith', 'Michael Brown'];
+const contactsList = document.getElementById('contactsList');
+contacts.forEach(contact => {
+  const listItem = document.createElement('li');
+  listItem.textContent = contact;
+  contactsList.appendChild(listItem);
+});
+ */
+
+
+
+
+
+
+
+
+
 
 
 
