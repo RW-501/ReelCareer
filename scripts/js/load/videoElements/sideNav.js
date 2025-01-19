@@ -89,14 +89,14 @@ function insertSidePanelContent() {
           section.style.display = 'block'; // Show only the selected section
         };
       
-        document.getElementById('btn-connection').addEventListener('click', () => {
-          togglePopout(connectionSection);
-        });
-      
+
         document.getElementById('search-icon').addEventListener('click', () => {
             togglePopout(searchSection);
         });
-      
+        document.getElementById('btn-connection').addEventListener('click', () => {
+            togglePopout(connectionSection);
+          });
+        
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
         document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
