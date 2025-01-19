@@ -423,7 +423,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         );
       } else {
         // Fetch all connections (no filter by 'fromGroup')
-        q = query(connectionsRef, where('participants', 'array-contains', userId));
+        q = query(connectionsRef, where('participants', 'in', [userId]));
       }
       console.log('q getConnectedUserIds', q);
   
