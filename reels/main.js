@@ -1473,6 +1473,9 @@ document.body.appendChild(overlay);
     overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", () => {
   
@@ -1487,6 +1490,8 @@ document.getElementById("showUploadPopup").addEventListener("click", () => {
 
     openPopupLogin();
   }
+
+});
 
 });
 

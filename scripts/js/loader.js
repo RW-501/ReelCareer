@@ -318,12 +318,28 @@ function loadPageScripts() {
             logExecutionTime('renderVideo', performance.now());
         });
 
-        if (currentPath.includes('reel') || currentPath.includes('videos')) {
+        if (currentPath.includes('reel') || currentPath.includes('videos') || currentPath.includes('u')) {
+            if (currentPath.includes('reel') || currentPath.includes('videos')){
 
         // Load renderVideo Script
         loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true }, () => {
             logExecutionTime('renderVideo', performance.now());
         });
+
+
+            }
+
+
+        if (currentPath.includes('u')){
+       // Load renderVideo Script
+       loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true }, () => {
+        logExecutionTime('renderVideo', performance.now());
+    });
+
+        }
+
+
+
     }
 
     if (!currentPath.includes('obituaries')) {
