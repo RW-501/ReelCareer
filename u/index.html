@@ -927,7 +927,7 @@
 
 
 
-    //         const userId = auth.currentUser.uid;
+    let userId;
     function showPrivateProfileMessage() {
       // Create a container div
       const container = document.createElement('div');
@@ -1138,7 +1138,6 @@
         console.error("Error fetching user data:", error);
       }
     }
-    let userId;
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
     document.addEventListener('DOMContentLoaded', async () => {
@@ -1830,14 +1829,14 @@ if(!user){
   openPopupLogin();
   return;
 }
- userID = auth.currentUser.uid;
+userId = auth.currentUser.uid;
 
 const videoRef = doc(db, "VideoResumes", docId);
 const likesCollection = collection(db, `VideoResumes/${docId}/likes`); // Subcollection to track unique likes
 
 try {
   // Check if the user has already liked this video
-  const userLikeRef = doc(likesCollection, userID);
+  const userLikeRef = doc(likesCollection, userId);
   const userLikeSnapshot = await getDoc(userLikeRef);
   
   if (userLikeSnapshot.exists()) {
