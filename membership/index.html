@@ -809,7 +809,7 @@ function loadMemberFAQs() {
     const faqQuery = query(
         collection(db, 'ChatbotInteractions'),
         where('type', '==', 'FAQ'),
-        where('tags', 'array-contains-any', 'membership')
+        where('tags', 'array-contains-any', ['membership','account','plans'])
     );
 
     getDocs(faqQuery).then(snapshot => {
