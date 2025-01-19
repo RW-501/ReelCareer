@@ -396,7 +396,9 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       }
        userId = auth.currentUser.uid; // Logged-in user ID
   
-  
+       console.log('userId getConnectedUserIds', userId);
+       console.log('connectionType getConnectedUserIds', connectionType);
+
       // If a specific connection type is provided, filter by 'fromGroup' field
       if (connectionType !== "all") {
         q = query(
@@ -408,7 +410,8 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         // Fetch all connections (no filter by 'fromGroup')
         q = query(connectionsRef, where('participants', 'array-contains', userId));
       }
-  
+      console.log('q getConnectedUserIds', q);
+
       const querySnapshot = await getDocs(q);
       const connectedUserIds = [];
   
