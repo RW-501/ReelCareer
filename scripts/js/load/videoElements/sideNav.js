@@ -76,7 +76,7 @@ function insertSidePanelContent() {
     }
   
 //    document.addEventListener('DOMContentLoaded', () => {
-        insertSidePanelContent();
+      //  insertSidePanelContent();
       
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
