@@ -147,3 +147,80 @@ function backToFundsAmount() {
 
 
 window.openFundsPopup = openFundsPopup;
+
+
+
+// Function to add money to the user's account and update transaction details
+async function addFundsToAccount(userID, amount) {
+    const userRef = doc(db, "Users", userID);
+    const transactionsRef = collection(db, "A_Transactions");
+  
+    try {
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data();
+      const currentBalance = userData.accountBalance || 0;
+  
+      const newBalance = currentBalance + amount;
+  
+      // Update user balance and balance update date
+      await updateDoc(userRef, {
+        accountBalance: newBalance,
+        accountBalanceUpdateDate: serverTimestamp()
+      });
+  
+      // Create a deposit transaction entry
+      const transactionData = {
+        userID,
+        transactionType: "deposit",
+        availableAmount: newBalance,
+        deposit_amount: amount,
+        fee: 0,  // No fee for deposits
+        netAmount: amount,  // Full amount added
+        note: `Deposit of $${amount}`,
+        status: "Completed",  // Mark as completed
+        timestamp: serverTimestamp(),
+      };
+  
+      await addDoc(transactionsRef, transactionData);
+  
+      showToast(`Successfully added $${amount} to your account. New balance is $${newBalance}.`);
+    } catch (error) {
+      console.error("Error adding funds: ", error);
+      showToast("There was an error processing your deposit. Please try again.");
+    }
+  }
+  
+  
+  
+  
+  
+  // Fetch the user's account balance and provide an option to add money
+async function getAccountBalance(userID) {
+    const userRef = doc(db, "Users", userID);
+    try {
+      const userDoc = await getDoc(userRef);
+      if (!userDoc.exists()) {
+        console.error("User not found!");
+        showToast("User account not found.");
+        return;
+      }
+  
+      const userData = userDoc.data();
+      const accountBalance = userData.accountBalance || 0;
+  
+      // Display popup for user to add money
+      const amountToAdd = prompt(`Your current account balance is $${accountBalance}.\nHow much would you like to add?`);
+  
+      if (amountToAdd && !isNaN(amountToAdd) && amountToAdd > 0) {
+        await addFundsToAccount(userID, parseFloat(amountToAdd));
+      } else {
+        showToast("Invalid amount entered.");
+      }
+    } catch (error) {
+      console.error("Error fetching account balance: ", error);
+      showToast("Unable to fetch account balance. Please try again later.");
+    }
+  }
+  
+  
+  
