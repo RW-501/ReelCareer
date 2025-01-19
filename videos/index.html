@@ -440,7 +440,7 @@ console.log("tagFilter:", tagFilter);
 
 
         // Fetch connected user IDs if needed
-        const connectedUserIds = includeConnected ? await getConnectedUserIds(connectionType) : [];
+        const connectedUserIds =  await getConnectedUserIds(connectionType);
         console.log("Connected User IDs:", connectedUserIds);
 
 

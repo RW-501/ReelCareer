@@ -397,24 +397,23 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
 
 
-  async function getConnectedUserIds( connectionType = "all") {
-
+  async function getConnectedUserIds(connectionType = "all") {
     console.log('userId getConnectedUserIds ??????????????????????????????');
-
+  
     try {
       const connectionsRef = collection(db, 'Connections');
       let q;
       const user = auth.currentUser;
   
-      if(!user){
+      if (!user) {
         openPopupLogin();
-        return;
+        return [];
       }
       let userId = auth.currentUser.uid; // Logged-in user ID
   
-       console.log('userId getConnectedUserIds', userId);
-       console.log('connectionType getConnectedUserIds', connectionType);
-
+      console.log('userId getConnectedUserIds', userId);
+      console.log('connectionType getConnectedUserIds', connectionType);
+  
       // If a specific connection type is provided, filter by 'fromGroup' field
       if (connectionType !== "all") {
         q = query(
@@ -427,25 +426,33 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         q = query(connectionsRef, where('participants', 'in', userId));
       }
       console.log('q getConnectedUserIds', q);
-
-      const querySnapshot = await getDocs(q);
-      const connectedUserIds = [];
   
-      // Extract user IDs from the 'participants' field (excluding the current userId)
+      const querySnapshot = await getDocs(q);
+      const connectedUserData = [];
+  
+      // Extract user IDs and other relevant data (name, profile URL, profile picture) from the 'participants' field
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         const otherUserId = data.participants.find((id) => id !== userId);
+  
         if (otherUserId) {
-          connectedUserIds.push(otherUserId);
+          const userData = {
+            id: otherUserId,
+            name: data.fromName === userId ? data.toName : data.fromName, // Get name of the connected user
+            profileUrl: data.fromProfileURL === userId ? data.toProfileURL : data.fromProfileURL, // Get the profile URL
+            profilePicture: data.fromProfilePicture === userId ? data.toProfilePicture : data.fromProfilePicture, // Get the profile picture
+          };
+          connectedUserData.push(userData);
         }
       });
   
-      return connectedUserIds;
+      return connectedUserData;
     } catch (error) {
       console.error('Error fetching connected users:', error);
       return [];
     }
   }
+  
   
   window.getConnectedUserIds = getConnectedUserIds;
 
