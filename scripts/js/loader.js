@@ -331,10 +331,8 @@ function loadPageScripts() {
 
 
         if (currentPath.includes('u')){
-       // Load renderVideo Script
-       loadScript('', { async: true }, () => {
-        logExecutionTime('renderVideo', performance.now());
-    });
+
+            
 
         }
 
