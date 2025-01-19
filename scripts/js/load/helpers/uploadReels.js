@@ -28,7 +28,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         }else{        
              progressToastBar = showToast('Uploading video resume...', 'info', 0, null, false, null, 0);
         }
-
+        console.log("uploadVideoResume userID: ", userID);
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -100,6 +100,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         showToast("Please add at least two hashtags.");
         return;
     }
+    console.log("completeMetadataUpdate userID: ", userID);
 
     const relatedReels = userDataSaved.videoResumeData?.map(video => ({
         reelID: video.reelID,
@@ -181,6 +182,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         isDeleted: false,
     };
 
+    console.log("videoResumeData: ", videoResumeData);
 
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
