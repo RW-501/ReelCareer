@@ -193,8 +193,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             videoResumeData: arrayUnion({
                 reelID,
                 reported: 0,
-                videoResumeURL,
-                tags,
+                videoResumeURL: videoData.videoResumeURL,
+                tags: videoData.tags,
                 createdAt: new Date(),
                 status: 'posted',
                 reelURL: `https://reelcareer.co/reels/?r=${reelID}`
@@ -205,7 +205,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             ...userDataSaved,
             videoResumeData: [
                 ...(userDataSaved.videoResumeData || []),
-                { reelID, videoResumeURL, tags, isPublic: true, createdAt: new Date(), status: 'posted', reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
+                { reelID, videoResumeURL: videoData.videoResumeURL, 
+                    tags: videoData.tags, isPublic: true, createdAt: new Date(), status: 'posted', reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
             ]
         };
 
