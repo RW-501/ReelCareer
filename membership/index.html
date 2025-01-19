@@ -806,9 +806,9 @@ function loadMemberFAQs() {
 
 
 let userID = '';
+document.addEventListener('DOMContentLoaded', () => {
 
 setTimeout(() => {
-    document.addEventListener('DOMContentLoaded', () => {
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 openPopupLogin();
@@ -827,8 +827,8 @@ setTimeout(() => {
             renderMembershipPlans('membership-plans', 
                 { ...membershipPlans, ...membershipSubscriptions });
         });
-    });
 }, 1000);
+});
 
 
 loadMemberFAQs();
