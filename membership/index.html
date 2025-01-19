@@ -141,8 +141,8 @@
         <div id="currentMembership" class="card-body">
             <p><strong>Current Plan:</strong> Basic Premium</p>
             <p><strong>Expiration Date:</strong> December 31, 2024</p>
-            <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
-        </div>
+            <div id="currentMembership-plan" class="d-flex flex-wrap"></div>
+          </div>
     </div>
 
     <!-- Membership Upgrade Options -->
@@ -805,8 +805,8 @@ function loadMemberFAQs() {
 }
 
 
-
 let userID = '';
+
 setTimeout(() => {
     document.addEventListener('DOMContentLoaded', () => {
         onAuthStateChanged(auth, async (user) => {
@@ -815,8 +815,13 @@ setTimeout(() => {
                 return;
             } else {
                 userID = auth.currentUser.uid;
-                getLatestMembership(userID);
+                await getLatestMembership(userID);
+                console.log('getLatestMembership:', userID);
+
+                const currentMembershipPlan = await listUserBenefits();
+                document.getElementById('currentMembership-plan').innerHTML = currentMembershipPlan;
                 initializePayPalButtons(userID);
+                console.log('initializePayPalButtons:', userID);
             }
             // Render standard and subscription plans
             renderMembershipPlans('membership-plans', 
@@ -824,7 +829,6 @@ setTimeout(() => {
         });
     });
 }, 1000);
-
 
 
 loadMemberFAQs();
