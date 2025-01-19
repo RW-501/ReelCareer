@@ -238,9 +238,13 @@ function extractHashtags(caption) {
           "this", "that", "these", "those", "it", "its", "my", "your", "our", "their", "his",
            "her", "him", "he", "she", "they", "we", "you", "i"]);
 
+
+           console.log("Upload extractHashtags:", caption);
+
     // Extract words that start with '#' or treat entire caption if no hashtags
     const words = caption.match(/#\w+|\b\w+\b/g) || [];
-    
+    console.log("words extractHashtags:", words);
+
     // Filter out stop words, remove hashtags, and limit to 15 unique tags
     const filteredTags = words
         .map(word => word.replace(/^#/, '').toLowerCase()) // Remove '#' and convert to lowercase
@@ -267,6 +271,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         showToast('No User Info');
         return;
     }
+    console.log("words videoResumeCaptions:", videoResumeCaptions);
 
     const tags = extractHashtags(videoResumeCaptions);
     if (tags.length < 2) {
