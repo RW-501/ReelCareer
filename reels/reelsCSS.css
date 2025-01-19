@@ -801,3 +801,10 @@ main {
   list-style: none;
   padding: 0;
 }
+
+
+#body-main {
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+}
