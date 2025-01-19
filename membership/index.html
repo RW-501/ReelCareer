@@ -842,6 +842,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 setTimeout(() => {
         onAuthStateChanged(auth, async (user) => {
+            // Render standard and subscription plans
+            renderMembershipPlans('membership-plans', 
+                { ...membershipPlans, ...membershipSubscriptions });
+
             if (!user) {
                 openPopupLogin();
                 return;
@@ -855,9 +859,7 @@ setTimeout(() => {
                 initializePayPalButtons(userID);
                 console.log('initializePayPalButtons:', userID);
             }
-            // Render standard and subscription plans
-            renderMembershipPlans('membership-plans', 
-                { ...membershipPlans, ...membershipSubscriptions });
+
         });
         loadMemberFAQs();
 
