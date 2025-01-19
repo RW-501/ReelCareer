@@ -544,6 +544,9 @@ function populateSidePanelContacts(connectedUserData) {
     const contactDiv = document.createElement('div');
     contactDiv.className = 'contact-item';
 
+
+    const viewProfileButton = document.createElement('a');
+
     const profileImg = document.createElement('img');
     profileImg.src = user.profilePicture;
     profileImg.alt = `${user.name}'s profile picture`;
@@ -553,10 +556,7 @@ function populateSidePanelContacts(connectedUserData) {
     nameSpan.textContent = user.name;
     nameSpan.className = 'contact-name';
 
-    const viewProfileButton = document.createElement('a');
     viewProfileButton.href = user.profileUrl;
-    viewProfileButton.textContent = 'View Profile';
-    viewProfileButton.className = 'view-profile-button';
     viewProfileButton.target = '_blank';
 
     const viewVideosButton = document.createElement('button');
@@ -566,8 +566,8 @@ function populateSidePanelContacts(connectedUserData) {
       console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
     };
 
-    contactDiv.appendChild(profileImg);
-    contactDiv.appendChild(nameSpan);
+    viewProfileButton.appendChild(profileImg);
+    viewProfileButton.appendChild(nameSpan);
     contactDiv.appendChild(viewProfileButton);
     contactDiv.appendChild(viewVideosButton);
     sidePanelContacts.appendChild(contactDiv);
