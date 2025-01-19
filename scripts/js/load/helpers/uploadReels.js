@@ -113,7 +113,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     const videoResumeData = {
         createdByID: userID,
         displayName: userDataSaved.displayName || '',
-        publicProfile: userDataSaved.publicProfile ?? true,
+        publicProfile: userDataSaved.publicProfile || true,
         profilePicture: userDataSaved.profilePicture || '',
         profileURL: `https://reelcareer.co/u/?u=${userID}`,
         membershipType: userDataSaved.membershipType || 'free',
