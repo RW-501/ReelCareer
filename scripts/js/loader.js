@@ -424,6 +424,10 @@ function loadPageScripts() {
             logExecutionTime('checkMembership Script', performance.now());
         });
 
+        
+        loadScript('https://reelcareer.co/scripts/js/load/auth/addFunds.js', { defer: true, type: 'module' }, () => {
+            logExecutionTime('addFunds Script', performance.now());
+        });
     setTimeout(() => {
         // Load uploadReels.js as a module
         loadScript('https://reelcareer.co/scripts/js/load/helpers/uploadReels.js', 

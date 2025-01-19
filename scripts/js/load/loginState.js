@@ -280,6 +280,12 @@ let isAccountLocked = false;
         basicTrialUseBool: userDataSaved.basicTrialUseBool || false,
         proTrialUseBool: userDataSaved.proTrialUseBool || false,
 
+        basicTrialStarDate: userDataSaved.basicTrialStarDate || '',
+        proTrialStartDate: userDataSaved.proTrialStartDate || '',
+
+
+
+        
         obituaryPageCredits: userDataSaved.obituaryPageCredits || 0,
         obituaryExtraSectionsLimit: userDataSaved.obituaryExtraSectionsLimit || 0,
        

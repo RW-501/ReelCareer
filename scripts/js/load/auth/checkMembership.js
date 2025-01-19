@@ -220,10 +220,93 @@ import {
   };
 
 
+  const featureCosts = {
+    postVideos: 5, // Cost in credits per video post
+    companyPages: 3, // Cost in credits per additional company page
+    jobPosts: 1, // Cost per job post
+    obituaryPagesCost: 25, // One-time cost for obituary pages
+    obituaryExtraSections: 3, // Cost for additional sections in obituary
+    digitalResumes: 2, // Cost per digital resume
+    savedJobs: 1, // Cost per saved job slot
+    applicationsBoost: 1, // Cost per application boost
+    profileBoost: 1, // Cost per profile boost
+    videoBoost: 2, // Cost per video boost
+    sponsoredVideos: 3, // Cost per sponsored video post
+    videoDuration: 10, // Additional cost per video minute
+    customEndCard: 5, // Cost for custom end card
+    relatedProducts: 1, // Cost for related products
+    storeProductListings: 1, // Cost per store product listing
+    storeBoostedProducts: 2, // Cost per boosted product
+    storeAdvanceAnalytics: 3, // Cost for store analytics
+    videoAdvanceAnalytics: 3, // Cost for video analytics
+    jobPostAdvanceAnalytics: 3, // Cost for job post analytics
+    obituaryAdvanceAnalytics: 3, // Cost for obituary analytics
+    applicationAdvanceAnalytics: 3, // Cost for application analytics
+  };
+  
 
+  const actionMap = {
+    companyPages: ['companyPagesCount', 'companyPages'],
+    obituaryExtraSections: ['obituaryExtraSectionsLimit', 'obituaryExtraSections'],
+    digitalResumes: ['resumeCount', 'digitalResumes'],
+    savedJobs: ['savedForLater', 'savedJobs'],
+    storeProductListings: ['storeProductListingsCount', 'storeProductListings'],
+    storeBoostedProducts: ['storeBoostedProductsCount', 'storeBoostedProducts'],
+    sponsoredVideos: ['sponsoredVideoPostCredits', 'sponsoredVideos'],
+    videoDuration: ['videoDurationLimit', 'videoDuration'],
+    customEndCard: ['customEndCardBool', 'customEndCard'],
+    relatedProductsBool: ['relatedProductsBool', 'relatedProductsBool'],
+    storeAdvanceAnalytics: ['storeAdvanceAnalyticsBool', 'storeAdvanceAnalytics'],
+    videoAdvanceAnalytics: ['videoAdvanceAnalyticsBool', 'videoAdvanceAnalytics'],
+    jobPostAdvanceAnalytics: ['jobPostAdvanceAnalyticsBool', 'jobPostAdvanceAnalytics'],
+    obituaryAdvanceAnalytics: ['obituaryAdvanceAnalyticsBool', 'obituaryAdvanceAnalytics'],
+    applicationAdvanceAnalytics: ['applicationAdvanceAnalyticsBool', 'applicationAdvanceAnalytics'],
+    postJob: ['jobPostCredits', 'jobPosts'],
+    boostApplication: ['applicationsBoostCredits', 'applicationsBoost'],
+    boostProfile: ['profileBoostCredits', 'profileBoost'],
+    addObituary: ['obituaryPageCredits', 'obituaryPages'],
+    videoBoost: ['videoBoostCredits', 'videoBoost'],
+    sponsoredJobPost: ['sponsoredJobPostCredits', 'sponsoredJobPost']
+};
 
-
-
+  async function purchaseExtraCredits(userID, feature, amount) {
+    const userRef = doc(db, "Users", userID);
+    try {
+      const userDoc = await getDoc(userRef);
+      if (!userDoc.exists()) {
+        console.error("User not found!");
+        return;
+      }
+  
+      const userDataSaved = userDoc.data();
+      const currentCredits = userDataSaved[feature] || 0;
+      
+      // Check if user has enough credits for the purchase
+      const creditCost = featureCosts[feature] * amount;
+      if (userDataSaved.accountBalance < creditCost) {
+        showToast("Insufficient balance for this purchase.");
+        return;
+      }
+  
+      // Deduct the credit cost from the user's balance
+      const updatedCredits = currentCredits + amount;
+      const updatedBalance = userDataSaved.accountBalance - creditCost;
+  
+      // Update the user's credits and balance in Firestore
+      await updateDoc(userRef, { 
+        [feature]: updatedCredits,
+        accountBalance: updatedBalance
+      });
+  
+      console.log(`Successfully purchased ${amount} extra ${feature} for ${creditCost} credits.`);
+      showToast(`Successfully purchased ${amount} extra ${feature} for ${creditCost} credits.`);
+  
+    } catch (error) {
+      console.error("Error purchasing extra credits: ", error);
+      showToast("There was an error purchasing extra credits. Please try again later.");
+    }
+  }
+  
 
 
 
@@ -272,53 +355,33 @@ function checkMembershipEligibility(action) {
         return false;
     }
 
-    function canPerformAction(feature, actionType) {
-        if (actionType.includes('video') && userCredits.videoPostRestriction) {
-            showToast("Your account is restricted from using video services.");
-            return false;
-        }
-        const limit = membershipLimits[membershipType]?.[actionType];
-        if (limit === undefined) {
-            showToast("Invalid action or membership type.");
-            return false;
-        }
-        if (userCredits[feature] >= limit) {
-            showToast(`Limit reached: ${limit} ${actionType.replace(/([A-Z])/g, ' $1').toLowerCase()}.`);
-            return false;
-        }
-        return true;
+    if (actionType.includes('video') && userCredits.videoPostRestriction) {
+        showToast("Your account is restricted from using video services.");
+        return false;
     }
 
-    const actionMap = {
-        companyPages: ['companyPagesCount', 'companyPages'],
-        obituaryExtraSections: ['obituaryExtraSectionsLimit', 'obituaryExtraSections'],
-        digitalResumes: ['resumeCount', 'digitalResumes'],
-        savedJobs: ['savedForLater', 'savedJobs'],
-        storeProductListings: ['storeProductListingsCount', 'storeProductListings'],
-        storeBoostedProducts: ['storeBoostedProductsCount', 'storeBoostedProducts'],
-        sponsoredVideos: ['sponsoredVideoPostCredits', 'sponsoredVideos'],
-        videoDuration: ['videoDurationLimit', 'videoDuration'],
-        customEndCard: ['customEndCardBool', 'customEndCard'],
-        relatedProductsBool: ['relatedProductsBool', 'relatedProductsBool'],
-        storeAdvanceAnalytics: ['storeAdvanceAnalyticsBool', 'storeAdvanceAnalytics'],
-        videoAdvanceAnalytics: ['videoAdvanceAnalyticsBool', 'videoAdvanceAnalytics'],
-        jobPostAdvanceAnalytics: ['jobPostAdvanceAnalyticsBool', 'jobPostAdvanceAnalytics'],
-        obituaryAdvanceAnalytics: ['obituaryAdvanceAnalyticsBool', 'obituaryAdvanceAnalytics'],
-        applicationAdvanceAnalytics: ['applicationAdvanceAnalyticsBool', 'applicationAdvanceAnalytics'],
-        postJob: ['jobPostCredits', 'jobPosts'],
-        boostApplication: ['applicationsBoostCredits', 'applicationsBoost'],
-        boostProfile: ['profileBoostCredits', 'profileBoost'],
-        addObituary: ['obituaryPageCredits', 'obituaryPages'],
-        videoBoost: ['videoBoostCredits', 'videoBoost'],
-        sponsoredJobPost: ['sponsoredJobPostCredits', 'sponsoredJobPost']
-    };
 
     if (actionMap[action]) {
-        return canPerformAction(...actionMap[action]);
+        const [creditField, feature] = actionMap[action];
+        const creditCost = featureCosts[feature] || 0;
+        const availableCredits = userCredits[creditField] || 0;
+        
+        if (availableCredits < creditCost) {
+          showToast(`Insufficient credits for ${feature}.`);
+          // Optionally, prompt to purchase extra credits
+          const userResponse = window.confirm(`You do not have enough credits for ${feature}. Would you like to purchase more credits?`);
+          if (userResponse) {
+            const extraCredits = prompt("How many extra credits would you like to purchase?");
+            if (extraCredits > 0) {
+              purchaseExtraCredits(userDataSaved.userID, feature, parseInt(extraCredits));
+            }
+          }
+          return false;
+        }
+      }
+    
+      return true;
     }
-    showToast("Action not recognized.");
-    return false;
-}
 
 window.checkMembershipEligibility = checkMembershipEligibility;
 
@@ -521,7 +584,8 @@ function listUserBenefits() {
 window.listUserBenefits = listUserBenefits;
 
 
-
+import { doc, getDoc, updateDoc } from "firebase/firestore"; 
+import { db } from './firebase-config';  // Ensure your db is initialized properly
 
 async function updateUserBenefits(userID, membershipType) {
     const newBenefits = membershipLimits[membershipType] || membershipLimits.free; // Default to 'free' if invalid
@@ -542,9 +606,9 @@ async function updateUserBenefits(userID, membershipType) {
         let newRenewalDate;
         let newExpiryDate;
 
-        // Check if the user is downgrading
+        // Handle upgrades and downgrades
         if (membershipType !== userDataSaved.membershipType) {
-            // If downgrading, the new membership should start after the current plan ends
+            // Downgrade case: The new membership should start after the current plan ends
             newStartDate = userDataSaved.membershipExpiry; // Start after current expiry
             newRenewalDate = new Date(newStartDate); // Set renewal to after the expiry
             newRenewalDate.setDate(newStartDate.getDate() + 30); // 30-day deadline from expiry
@@ -556,9 +620,16 @@ async function updateUserBenefits(userID, membershipType) {
             newExpiryDate = new Date(newRenewalDate); // Adjust based on your rules
         }
 
+        // Calculate accumulated credits for upgrades
+        let newMembershipMonthCount = userDataSaved.membershipMonthCount || 0;
+        if (membershipType !== userDataSaved.membershipType && membershipType !== 'free') {
+            // If upgrading, accumulate new month count and other credits
+            newMembershipMonthCount += 1; // Adding 1 month for the upgrade, adjust based on your rules
+        }
+
         const updatedData = {
             membershipType: membershipType,
-            membershipMonthCount: userDataSaved.membershipMonthCount || 0, // You can keep month count if needed
+            membershipMonthCount: newMembershipMonthCount,
             membershipStartDate: newStartDate,
             membershipUpdateDate: new Date(),
             membershipRenewalDate: newRenewalDate,
@@ -596,7 +667,6 @@ async function updateUserBenefits(userID, membershipType) {
         showToast("There was an error updating your benefits. Please try again later.");
     }
 }
-
 
 window.updateUserBenefits = updateUserBenefits;
 // Usage example:
