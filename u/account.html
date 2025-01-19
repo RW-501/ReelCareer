@@ -483,7 +483,7 @@
       
       <section id="faq-section" class="content-card">
         <h3>FAQs</h3>
-        <div id="faqs-area">
+        <div id="accountFAQ-area">
           <!-- FAQ content dynamically inserted here -->
         </div>
       </section>
@@ -788,6 +788,8 @@ function paymentStatusNotifications() {
             } else {
                 populateUserInfo(userID); // Directly populate user info if userID is valid
             }
+            loadMemberFAQs();
+
         } catch (error) {
             console.error("Error checking page ownership:", error);
         }
@@ -1109,6 +1111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     verifySecurityQuestionPopup(() => {
       confirmPayout(); // Your sensitive action function
     });
+
 });
 
 
@@ -1717,6 +1720,40 @@ function createToolbar(pageID, pageName) {
     toolbar.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
     toolbar.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
     toolbar.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
+}
+
+
+function loadMemberFAQs() {
+    const faqArea = document.getElementById('accountFAQ-area');
+    faqArea.innerHTML = ''; // Clear existing content
+
+    // Query to fetch FAQs from ChatbotInteractions collection
+    const faqQuery = query(
+        collection(db, 'ChatbotInteractions'),
+        where('type', '==', 'FAQ'),
+        where('tags', 'array-contains-any', ['transaction','account','payout','balance','funds'])
+    );
+
+    getDocs(faqQuery).then(snapshot => {
+        if (snapshot.empty) {
+            faqArea.innerHTML = '<p>No FAQs available for membership at the moment.</p>';
+        } else {
+            snapshot.forEach(doc => {
+                const faqData = doc.data();
+                const question = faqData.question;
+                const answer = faqData.answer;
+
+                const faqItem = `
+                    <p><strong>${question}</strong></p>
+                    <p>${answer}</p>
+                `;
+                faqArea.innerHTML += faqItem; // Append each FAQ to the area
+            });
+        }
+    }).catch(error => {
+        console.error('Error fetching FAQs:', error);
+        faqArea.innerHTML = '<p>Error loading FAQs. Please try again later.</p>';
+    });
 }
 
 
