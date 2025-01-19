@@ -92,6 +92,80 @@ function insertSidePanelContent() {
   });
   
 
+
+
+  const styleElement = document.createElement('style');
+  styleElement.textContent = `
+    #side-nav {
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  
+    .side-panel-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .search-icon {
+      color: #666;
+    }
+  
+    .side-nav-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+  
+    .side-nav-item {
+      margin-bottom: 15px;
+    }
+  
+    .side-nav-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+  
+    .side-nav-button i {
+      font-size: 20px;
+    }
+  
+    .side-nav-button:hover {
+      background-color: #007bff;
+      color: #fff;
+    }
+  
+    .contacts-section select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  `;
+  document.head.appendChild(styleElement);
+  
+
+
+
+
+
+
+
+
+
+
+
+
 /* 
 // Add contacts dynamically
 const contacts = ['John Doe', 'Jane Smith', 'Michael Brown'];
