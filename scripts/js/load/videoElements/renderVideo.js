@@ -563,6 +563,8 @@ function populateSidePanelContacts(connectedUserData) {
     viewVideosButton.className = 'view-videos-button';
     viewVideosButton.onclick = () => {
 
+      fetchVideoResumes(page = 1, tagFilter = "", '', '', true, user.id );
+
       console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
     };
 

@@ -405,7 +405,8 @@ let searchingByTag = false; // Track if search mode is active
 
 
 // Fetch Video Resumes with optional tag filter
-async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = false) {  
+async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, includeConnected = false,
+  contactOnly = false, contactID ) {  
     const videoContainer = document.getElementById("video-reel-container");
     const videoDataArray = [];
 
@@ -459,7 +460,17 @@ populateSidePanelContacts(connectedUserData);
                 startAfter(lastVisibleDoc),
                 limit(postsPerPage)
             );
-        } else if (lastVisibleDoc) {
+        } else if (contactOnly) {
+            // Fetch more videos for pagination, but without connection filtering
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+                where("createdByID", "==", contactID),
+                orderBy("timestamp", "desc"),
+                startAfter(lastVisibleDoc),
+                limit(postsPerPage)
+            );
+        } else  if (lastVisibleDoc) {
             // Fetch more videos for pagination, but without connection filtering
             videosQuery = query(
                 videosRef,
