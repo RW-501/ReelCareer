@@ -14,6 +14,10 @@ function insertSidePanelContent() {
             <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search" style="display: none;" />
             <ul id="search-suggestions" class="search-suggestions" style="display: none;"></ul>
           </div>
+
+          <div id="side-panel-group">
+
+
           <ul class="side-nav-list">
             <li class="side-nav-item">
               <button id="btn-home" class="side-nav-button"><i class="fas fa-home"></i><span class="btn-text"> Home</span></button>
@@ -37,6 +41,15 @@ function insertSidePanelContent() {
               <button id="btn-faq" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> FAQ</span></button>
             </li>
           </ul>
+
+          <div id="side-panel-topics">
+          <div > Popualer Topics</div>
+              <button id="btn-topics" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> Topics</span></button>
+
+</div>
+
+</div>
+
         </nav>
       `;
     }
@@ -83,6 +96,10 @@ function insertSidePanelContent() {
       gap: 10px;
     }
   
+    #side-panel-group {
+    display: flex;
+    
+    }
     .search-icon {
       color: #666;
       cursor: pointer;
