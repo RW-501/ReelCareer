@@ -50,8 +50,8 @@ function insertSidePanelContent() {
           <div > Popualer Topics</div>
             <ul id="search-suggestions" class="search-suggestions" style="display: none;"></ul>
                     </div>  
-            </div>
 
+                    
           <div id="connection-section" class="side-panel-popout">
      <h4>Connection</h4>
       <div class="connection-buttons">
@@ -63,6 +63,8 @@ function insertSidePanelContent() {
       </div>
 </div>
 
+
+</div>
 
 
 </div>
