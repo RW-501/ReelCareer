@@ -851,13 +851,13 @@ document.getElementById('lastLogin-date').querySelector('span').textContent = fo
 document.getElementById('user-membershipType').querySelector('span').textContent = userData.membershipType || 'Basic';
 document.getElementById('user-membershipExpiryDate').querySelector('span').textContent = formatTimestamp(userData.membershipExpiry);
 
-document.getElementById('user-contactsCount').textContent = userData.contactsCount || 0;
-document.getElementById('user-videoResumeCount').textContent = userData.videoResumeCount || 0;
-document.getElementById('user-accountBalance').textContent = `$${userData.accountBalance.toFixed(2)}` || '$0.00';
-document.getElementById('user-userAccountStatus').textContent = userData.userAccountStatus || 'Inactive';
-document.getElementById('user-totalReelViews').textContent = userData.totalReelViews || 0;
-document.getElementById('user-videoPostStatus').textContent = userData.videoPostStatus || 'Inactive';
-document.getElementById('user-publicProfile').textContent = userData.publicProfile || 'Disabled';
+document.getElementById('user-contactsCount').querySelector('span').textContent = userData.contactsCount || 0;
+document.getElementById('user-videoResumeCount').querySelector('span').textContent = userData.videoResumeCount || 0;
+document.getElementById('user-accountBalance').querySelector('span').textContent = `$${userData.accountBalance.toFixed(2)}` || '$0.00';
+document.getElementById('user-userAccountStatus').querySelector('span').textContent = userData.userAccountStatus || 'Inactive';
+document.getElementById('user-totalReelViews').querySelector('span').textContent = userData.totalReelViews || 0;
+document.getElementById('user-videoPostStatus').querySelector('span').textContent = userData.videoPostStatus || 'Inactive';
+document.getElementById('user-publicProfile').querySelector('span').textContent = userData.publicProfile || 'Disabled';
             
             // Define the profile fields and their status
             const profileFields = [
