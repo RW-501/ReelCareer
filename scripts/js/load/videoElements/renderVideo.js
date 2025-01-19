@@ -398,7 +398,6 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
 
   async function getConnectedUserIds(connectionType = "all") {
-    console.log('userId getConnectedUserIds ??????????????????????????????');
   
     try {
       const connectionsRef = collection(db, 'Connections');
@@ -411,9 +410,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       }
       let userId = auth.currentUser.uid; // Logged-in user ID
   
-      console.log('userId getConnectedUserIds', userId);
-      console.log('connectionType getConnectedUserIds', connectionType);
-  
+
       // If a specific connection type is provided, filter by 'fromGroup' field
       if (connectionType !== "all") {
         q = query(
