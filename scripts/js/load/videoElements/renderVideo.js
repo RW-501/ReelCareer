@@ -454,7 +454,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   }
   
   
-  window.getConnectedUserIds = getConnectedUserIds;
+  window.getConnectedUserIds  = getConnectedUserIds;
 
 
 

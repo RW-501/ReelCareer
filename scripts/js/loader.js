@@ -314,7 +314,7 @@ function loadPageScripts() {
 
 
         // Load renderVideo Script
-        loadScript('https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js', { async: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js', { async: true, type: 'module'}, () => {
             logExecutionTime('renderVideo', performance.now());
         });
 
