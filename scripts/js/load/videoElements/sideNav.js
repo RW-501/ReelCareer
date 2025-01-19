@@ -116,10 +116,6 @@ function insertSidePanelContent() {
         });
       });
       
-  
-
-
-
 
 
     window.addEventListener('resize', updateButtonTextVisibility);
@@ -229,34 +225,6 @@ function insertSidePanelContent() {
 
 
 
-
-  // Listeners for navigation
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
-    document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
-    document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
-    document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
-    document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
-    document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
-  });
-  
-  // Search and filter functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById("search-input");
-    const connectionTypeDropdown = document.getElementById("connection-type-dropdown");
-    let connectionType = "";
-  
-    searchInput.addEventListener("input", (e) => {
-      const searchQuery = e.target.value.trim().toLowerCase();
-      if (searchQuery) {
-        console.log("Searching by tag:", searchQuery);
-        fetchVideoResumes(1, searchQuery, connectionType);
-      } else {
-        fetchVideoResumes(1, "", connectionType);
-      }
-    });
-  
-});
 
 
 
