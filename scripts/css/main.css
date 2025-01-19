@@ -2190,13 +2190,22 @@ background-color: transparent;
 
 
 .reel-video-area video, .reel-video-area {
-  width: 25%;
   height: auto;
   scale: .9;
 }
 
 
-
+#reel-upload-container .video-upload-popup {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  height: 90%;
+  overflow-y: auto;
+}
 
 
 
