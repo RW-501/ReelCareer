@@ -50,13 +50,16 @@ function insertSidePanelContent() {
 
                       <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
      <h5>Suggestions</h5>
+               <div class="side-panel-content">
+
             <ul id="search-suggestions" class="search-suggestions" ></ul>
+            </div>
                     </div>  
 
                     
           <div id="connection-section" class="side-panel-popout">
      <h4>Connection</h4>
-      <div class="connection-buttons">
+      <div class="side-panel-content">
         <button data-type="" class="connection-type-button">All Connections</button>
         <button data-type="Networking" class="connection-type-button">Networking</button>
         <button data-type="Friends" class="connection-type-button">Friends</button>
@@ -91,7 +94,7 @@ function insertSidePanelContent() {
         };
       
 
-        document.getElementById('search-icon').addEventListener('click', () => {
+        document.getElementById('btn-search').addEventListener('click', () => {
             togglePopout(searchSection);
         });
         document.getElementById('btn-connection').addEventListener('click', () => {
@@ -149,6 +152,7 @@ function insertSidePanelContent() {
 
 .side-panel-popout {
     display: none;
+        margin: 1rem;
 
 }
 
@@ -222,7 +226,7 @@ function insertSidePanelContent() {
       color: #fff;
     }
   
-.connection-buttons {
+.side-panel-content {
     display: grid;
 
     gap: 10px;
