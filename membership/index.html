@@ -464,6 +464,8 @@ async function getLatestMembership(userID) {
       `;
 
       return membershipType;
+
+      
     } else {
       console.warn("No membership history found for user.");
       updateMembershipUI("free", "N/A");
@@ -482,7 +484,7 @@ function updateMembershipUI(membershipType, expiryDate) {
   membershipElement.innerHTML = `
     <p><strong>Current Plan:</strong> ${membershipType}</p>
     <p><strong>Expiration Date:</strong> ${expiryDate}</p>
-    <button class="btn btn-secondary" onclick="viewBenefits()">View Membership Benefits</button>
+            <div id="currentMembership-plan" class="d-flex flex-wrap"></div>
   `;
 }
 
@@ -857,7 +859,7 @@ setTimeout(() => {
             renderMembershipPlans('membership-plans', 
                 { ...membershipPlans, ...membershipSubscriptions });
         });
-        //loadMemberFAQs();
+        loadMemberFAQs();
 
 }, 1000);
 });
