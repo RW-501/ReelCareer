@@ -419,7 +419,9 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         q = query(
           connectionsRef,
           where('participants', 'array-contains', userId),
-          where('fromGroup', '==', connectionType) // Filter by the connection type (group)
+          where('status', '==', 'accepted'), // Filter by the connection type (group)
+          where('fromGroup', '==', connectionType), // Filter by the connection type (group)
+          where('toGroup', '==', connectionType) // Filter by the connection type (group)
         );
       } else {
         // Fetch all connections (no filter by 'fromGroup')
@@ -436,7 +438,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         const isFromCurrentUser = data.from === userId;
         const isToCurrentUser = data.to === userId;
       
-        if (isFromCurrentUser || isToCurrentUser) {
+        if ((isFromCurrentUser || isToCurrentUser) && data.status === "accepted") {
           const userData = {
             id: isFromCurrentUser ? data.to : data.from,  // Get the other user's ID
             name: isFromCurrentUser ? data.toName : data.fromName,  // Get the other user's name
@@ -563,7 +565,7 @@ function populateSidePanelContacts(connectedUserData) {
     viewVideosButton.textContent = 'View Videos';
     viewVideosButton.className = 'view-videos-button';
     viewVideosButton.onclick = () => {
-      
+
       console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
     };
 
