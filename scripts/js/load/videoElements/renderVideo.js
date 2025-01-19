@@ -433,18 +433,24 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       // Extract user IDs and other relevant data (name, profile URL, profile picture) from the 'participants' field
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const otherUserId = data.participants.find((id) => id !== userId);
-  
-        if (otherUserId) {
+        const isFromCurrentUser = data.from === userId;
+        const isToCurrentUser = data.to === userId;
+      
+        if (isFromCurrentUser || isToCurrentUser) {
           const userData = {
-            id: otherUserId,
-            name: data.fromName === userId ? data.toName : data.fromName, // Get name of the connected user
-            profileUrl: data.fromProfileURL === userId ? data.toProfileURL : data.fromProfileURL, // Get the profile URL
-            profilePicture: data.fromProfilePicture === userId ? data.toProfilePicture : data.fromProfilePicture, // Get the profile picture
+            id: isFromCurrentUser ? data.to : data.from,  // Get the other user's ID
+            name: isFromCurrentUser ? data.toName : data.fromName,  // Get the other user's name
+            profileUrl: isFromCurrentUser ? data.toProfileURL : data.fromProfileURL,  // Get the other user's profile URL
+            profilePicture: isFromCurrentUser ? data.toProfilePicture : data.fromProfilePicture,  // Get the other user's profile picture
+            acceptDate: data.acceptDate,  // Additional info
+            createdAt: data.createdAt,  // Connection creation date
+            status: data.status,  // Connection status
+            connectionGroup: isFromCurrentUser ? data.toGroup : data.fromGroup,  // Connection group
           };
           connectedUserData.push(userData);
         }
       });
+      
   
       return connectedUserData;
     } catch (error) {
