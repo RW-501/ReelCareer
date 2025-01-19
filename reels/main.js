@@ -1474,22 +1474,27 @@ document.body.appendChild(overlay);
 }
 
 
+
+
+
+function handleUserAuthentication() {
+  const user = auth.currentUser;
+
+  if (user) {
+    createVideoUploadPopup();
+    initializeVideoUploadHandlers();
+  } else {
+    openPopupLogin();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", () => {
   
   
-  const user = auth.currentUser;
-
-  if(user){
-    createVideoUploadPopup();
-
-    initializeVideoUploadHandlers();
-  }else{
-
-    openPopupLogin();
-  }
+  handleUserAuthentication();
 
 });
 
@@ -1499,6 +1504,7 @@ document.getElementById("showUploadPopup").addEventListener("click", () => {
 
     export { 
         createVideoUploadPopup,
+        handleUserAuthentication,
         handleComments,
         renderTags,
         togglePlay,
