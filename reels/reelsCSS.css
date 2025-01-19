@@ -748,3 +748,56 @@ main {
 
 
 }
+
+
+
+
+
+
+.side-panel {
+  width: 250px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+}
+
+.side-nav-list {
+  list-style: none;
+  padding: 0;
+}
+
+.side-nav-item {
+  margin-bottom: 10px;
+}
+
+.side-nav-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.side-nav-button:hover {
+  background-color: #0056b3;
+}
+
+.side-panel-search input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contacts-section h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.contacts-list {
+  list-style: none;
+  padding: 0;
+}
