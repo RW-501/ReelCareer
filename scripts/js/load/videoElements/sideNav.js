@@ -12,7 +12,6 @@ function insertSidePanelContent() {
           <div class="side-panel-search">
             <i id="search-icon" class="fas fa-search search-icon"></i>
             <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search" style="display: none;" />
-            <ul id="search-suggestions" class="search-suggestions" style="display: none;"></ul>
           </div>
 
           <div id="side-panel-group">
@@ -28,6 +27,10 @@ function insertSidePanelContent() {
             <li class="side-nav-item">
               <button id="btn-profile" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Profile</span></button>
             </li>
+                       
+            <li class="side-nav-item">
+              <button id="btn-connection" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text">Connection</span></button>
+            </li>
             <li class="side-nav-item">
               <button id="btn-messages" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text"> Messages</span></button>
             </li>
@@ -41,12 +44,26 @@ function insertSidePanelContent() {
               <button id="btn-faq" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> FAQ</span></button>
             </li>
           </ul>
+          <div id="side-panel-popout-section">
 
-          <div id="side-panel-topics">
+          <div id="search-section" class="side-panel-popout">
           <div > Popualer Topics</div>
-              <button id="btn-topics" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> Topics</span></button>
+            <ul id="search-suggestions" class="search-suggestions" style="display: none;"></ul>
+                    </div>  
+            </div>
 
+          <div id="connection-section" class="side-panel-popout">
+     <h4>Connection</h4>
+      <div class="connection-buttons">
+        <button data-type="" class="connection-type-button">All Connections</button>
+        <button data-type="Networking" class="connection-type-button">Networking</button>
+        <button data-type="Friends" class="connection-type-button">Friends</button>
+        <button data-type="Family" class="connection-type-button">Family</button>
+        <button data-type="Co-workers" class="connection-type-button">Co-Workers</button>
+      </div>
 </div>
+
+
 
 </div>
 
@@ -54,28 +71,57 @@ function insertSidePanelContent() {
       `;
     }
   
-    const searchIcon = document.getElementById('search-icon');
-    const searchInput = document.getElementById('search-input');
-    const searchSuggestions = document.getElementById('search-suggestions');
-  
-    searchIcon.addEventListener('click', () => {
-      searchInput.style.display = searchInput.style.display === 'none' ? 'block' : 'none';
-      searchInput.focus();
-    });
-  
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      searchSuggestions.style.display = query ? 'block' : 'none';
-      searchSuggestions.innerHTML = query ? `<li>Suggested: ${query} reel</li>` : '';
-    });
-  
-    const updateButtonTextVisibility = () => {
-      const isMobile = window.innerWidth <= 768;
-      document.querySelectorAll('.btn-text').forEach((text) => {
-        text.style.display = isMobile ? 'none' : 'inline';
+    document.addEventListener('DOMContentLoaded', () => {
+        insertSidePanelContent();
+      
+        // Cache popout sections
+        const searchSection = document.getElementById('search-section');
+        const connectionSection = document.getElementById('connection-section');
+      
+        // Add listeners for showing/hiding sections
+        const togglePopout = (section) => {
+          const allPopouts = document.querySelectorAll('.side-panel-popout');
+          allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+          section.style.display = 'block'; // Show only the selected section
+        };
+      
+        document.getElementById('btn-connection').addEventListener('click', () => {
+          togglePopout(connectionSection);
+        });
+      
+        document.getElementById('search-icon').addEventListener('click', () => {
+          searchSection.style.display = searchSection.style.display === 'none' ? 'block' : 'none';
+        });
+      
+        document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
+        document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
+        document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
+        document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
+        document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
+        document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
+        
+        // Search and filter functionality
+        const searchInput = document.getElementById("search-input");
+        const connectionTypeDropdown = document.getElementById("connection-type-dropdown");
+        let connectionType = "";
+      
+        searchInput.addEventListener("input", (e) => {
+          const searchQuery = e.target.value.trim().toLowerCase();
+          if (searchQuery) {
+            console.log("Searching by tag:", searchQuery);
+            fetchVideoResumes(1, searchQuery, connectionType);
+          } else {
+            fetchVideoResumes(1, "", connectionType);
+          }
+        });
       });
-    };
+      
   
+
+
+
+
+
     window.addEventListener('resize', updateButtonTextVisibility);
     updateButtonTextVisibility();
   }
@@ -156,12 +202,27 @@ function insertSidePanelContent() {
       color: #fff;
     }
   
-    .contacts-section select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
+.connection-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .connection-type-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #fff;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .connection-type-button:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
   `;
   document.head.appendChild(styleElement);
   
@@ -195,14 +256,7 @@ function insertSidePanelContent() {
       }
     });
   
-    connectionTypeDropdown.addEventListener("change", (e) => {
-      connectionType = e.target.value;
-      console.log("Selected connection type:", connectionType);
-      fetchVideoResumes(1, "", connectionType);
-    });
-  });
-  
-
+});
 
 
 
@@ -211,6 +265,15 @@ function insertSidePanelContent() {
 
 
 /* 
+
+   connectionTypeDropdown.addEventListener("change", (e) => {
+      connectionType = e.target.value;
+      console.log("Selected connection type:", connectionType);
+      fetchVideoResumes(1, "", connectionType);
+    });
+  });
+  
+
 // Add contacts dynamically
 const contacts = ['John Doe', 'Jane Smith', 'Michael Brown'];
 const contactsList = document.getElementById('contactsList');
