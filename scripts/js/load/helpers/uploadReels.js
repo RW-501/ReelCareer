@@ -95,7 +95,7 @@ window.uploadVideoResume = uploadVideoResume;
 async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
-    const tags = extractHashtags(videoData.captions);  // Ensure captions are passed in videoData
+    const tags = extractHashtags(videoData.videoResumeCaptions);  // Ensure captions are passed in videoData
     if (tags.length < 2) {
         showToast("Please add at least two hashtags.");
         return;
