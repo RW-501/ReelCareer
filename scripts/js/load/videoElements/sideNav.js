@@ -11,7 +11,6 @@ function insertSidePanelContent() {
         <nav id="side-nav" aria-label="Side Navigation">
           <div class="side-panel-search">
             <i id="search-icon" class="fas fa-search search-icon"></i>
-            <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search" style="display: none;" />
           </div>
 
           <div id="side-panel-group">
@@ -48,7 +47,10 @@ function insertSidePanelContent() {
 
           <div id="search-section" class="side-panel-popout">
           <div > Popualer Topics</div>
-            <ul id="search-suggestions" class="search-suggestions" style="display: none;"></ul>
+
+                      <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
+
+            <ul id="search-suggestions" class="search-suggestions" ></ul>
                     </div>  
 
                     
@@ -92,7 +94,7 @@ function insertSidePanelContent() {
         });
       
         document.getElementById('search-icon').addEventListener('click', () => {
-          searchSection.style.display = searchSection.style.display === 'none' ? 'block' : 'none';
+            togglePopout(searchSection);
         });
       
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
@@ -104,7 +106,6 @@ function insertSidePanelContent() {
         
         // Search and filter functionality
         const searchInput = document.getElementById("search-input");
-        const connectionTypeDropdown = document.getElementById("connection-type-dropdown");
         let connectionType = "";
       
         searchInput.addEventListener("input", (e) => {
