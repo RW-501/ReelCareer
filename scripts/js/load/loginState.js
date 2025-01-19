@@ -281,6 +281,21 @@ let isAccountLocked = false;
         proTrialUseBool: userDataSaved.proTrialUseBool || false,
 
         obituaryPageCredits: userDataSaved.obituaryPageCredits || 0,
+        obituaryExtraSectionsLimit: userDataSaved.obituaryExtraSectionsLimit || 0,
+       
+        videoBoostCredits: userDataSaved.videoBoostCredits || 0,
+        sponsoredVideoPostCredits: userDataSaved.sponsoredVideoPostCredits || 0,
+        videoDurationLimit: userDataSaved.videoDurationLimit || 60,
+        
+        customEndCardBool: userDataSaved.customEndCardBool || false,
+        relatedProductsBool: userDataSaved.relatedProductsBool || false,
+   
+        storeAdvanceAnalyticsBool: userDataSaved.storeAdvanceAnalyticsBool || false,
+        videoAdvanceAnalyticsBool: userDataSaved.videoAdvanceAnalyticsBool || false,
+        jobPostAdvanceAnalyticsBool: userDataSaved.jobPostAdvanceAnalyticsBool || false,
+        obituaryAdvanceAnalyticsBool: userDataSaved.obituaryAdvanceAnalyticsBool || false,
+        applicationAdvanceAnalyticsBool: userDataSaved.applicationAdvanceAnalyticsBool || false,
+        // Add other fields as needed for membership feature tracking
 
         boostUsageHistory: userDataSaved.boostUsageHistory || [],
 
@@ -302,6 +317,8 @@ let isAccountLocked = false;
         notificationPreferences: userDataSaved.notificationPreferences || [],
         autoLogoutTime: userDataSaved.autoLogoutTime || 100000,
 
+        storeProductListingsCount: userDataSaved.storeProductListingsCount || 0,
+        storeBoostedProductsCount: userDataSaved.storeBoostedProductsCount || 0,
 
 
         tags: tagArray || "",
