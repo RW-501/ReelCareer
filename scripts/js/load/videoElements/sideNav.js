@@ -46,10 +46,10 @@ function insertSidePanelContent() {
           <div id="side-panel-popout-section">
 
           <div id="search-section" class="side-panel-popout">
-          <div > Popualer Topics</div>
+     <h4>Search</h4>
 
                       <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
-
+     <h5>Suggestions</h5>
             <ul id="search-suggestions" class="search-suggestions" ></ul>
                     </div>  
 
