@@ -359,7 +359,14 @@ href="https://reelcareer.co/reels/reelsCSS.css"
          // Export the function
     } from 'https://reelcareer.co/reels/main.js';
 
-
+    import {      
+                 
+ 
+      
+                 // Export the function
+            } from 'https://reelcareer.co/scripts/js/load/videoElements/sideNav.js';
+        
+        
     let userId = '';
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -397,50 +404,6 @@ let searchingByTag = false; // Track if search mode is active
    // console.log("DOMContentLoaded event fired");
 
  
-
-    // Search videos by tag
-    const searchInput = document.getElementById("search-input");
-const connectionTypeDropdown = document.getElementById("connection-type-dropdown");
-
-let connectionType = "";
-
-searchInput.addEventListener("input", (e) => {
-    const searchQuery = e.target.value.trim().toLowerCase();
-    // Trigger search by tag when there is an input
-    if (searchQuery) {
-        searchingByTag = true;
-        console.log("Searching by tag:", searchQuery);
-        fetchVideoResumes(1, searchQuery, connectionType);  // Pass connectionType along with the search query
-    } else {
-        searchingByTag = false;
-        console.log("Not searching by tag");
-        fetchVideoResumes(1, "", connectionType);  // Reset to show all videos
-    }
-});
-
-connectionTypeDropdown.addEventListener("change", (e) => {
-    connectionType = e.target.value; // Set connection type filter
-    console.log("Selected connection type:", connectionType);
-    fetchVideoResumes(1, "", connectionType);  // Fetch videos based on the new connection type
-
-
-});
-
-
-
-    // Infinite Scroll
-    window.addEventListener("scroll", () => {
-       // console.log("Window scrolled:", window.innerHeight + window.scrollY);
-        if (
-            window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-            !searchingByTag
-        ) {
-         //   console.log("Fetching more videos due to scroll");
-         //   fetchVideoResumes();
-        }
-    });
-//  });
-
 
 
 
