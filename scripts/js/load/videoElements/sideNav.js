@@ -75,9 +75,7 @@ function insertSidePanelContent() {
       `;
     }
   
-//    document.addEventListener('DOMContentLoaded', () => {
-      //  insertSidePanelContent();
-      
+
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
@@ -120,13 +118,19 @@ function insertSidePanelContent() {
             fetchVideoResumes(1, "", connectionType);
           }
         });
-    //  });
-      
 
+        const updateButtonTextVisibility = () => {
+            const isMobile = window.innerWidth <= 768;
+            document.querySelectorAll('.btn-text').forEach((text) => {
+              text.style.display = isMobile ? 'none' : 'inline';
+            });
+          };
+        
+          window.addEventListener('resize', updateButtonTextVisibility);
+          updateButtonTextVisibility();
+        }
 
-    window.addEventListener('resize', updateButtonTextVisibility);
-    updateButtonTextVisibility();
-  }
+ 
   
   document.addEventListener('DOMContentLoaded', insertSidePanelContent);
   
