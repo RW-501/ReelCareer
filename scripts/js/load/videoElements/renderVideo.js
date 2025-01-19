@@ -385,6 +385,9 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
 
   async function getConnectedUserIds( connectionType = "all") {
+
+    console.log('userId getConnectedUserIds ??????????????????????????????');
+
     try {
       const connectionsRef = collection(db, 'Connections');
       let q;
@@ -394,7 +397,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         openPopupLogin();
         return;
       }
-       userId = auth.currentUser.uid; // Logged-in user ID
+      let userId = auth.currentUser.uid; // Logged-in user ID
   
        console.log('userId getConnectedUserIds', userId);
        console.log('connectionType getConnectedUserIds', connectionType);
