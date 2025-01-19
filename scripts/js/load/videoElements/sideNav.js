@@ -144,10 +144,8 @@ function insertSidePanelContent() {
 
 }
 
-    #connection-section {
-    display: grid;
-    
-    }
+
+
 
 
     .side-panel-search {
@@ -217,10 +215,10 @@ function insertSidePanelContent() {
     }
   
 .connection-buttons {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+
     gap: 10px;
-    margin-top: 10px;
+    margin: 10px;
   }
 
   .connection-type-button {
