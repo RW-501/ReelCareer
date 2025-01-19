@@ -355,23 +355,22 @@
         <div class="account-card">
           <p id="user-membershipType" class="user-detail"><strong>Type:</strong> <span>Basic</span></p>
           <p id="user-membershipExpiryDate" class="user-detail"><strong>Expires:</strong><span>MM/DD/YYYY</span></p>
-        </div>
-        <button id="view-membership" class="btn action-btn" aria-label="Change Membership Plan">Change Membership</button>
-      </section>
-      
-      <section id="payment-plan-section" class="content-card">
-        <h3>Payment Plan</h3>
-        <div class="account-card">
-          <button id="payment-month-to-month" class="btn payment-option" aria-label="Select Monthly Plan">Monthly Plan</button>
-          <button id="payment-yearly" class="btn payment-option" aria-label="Select Yearly Plan">Yearly Plan</button>
           <p id="user-membershipDuedate" class="user-detail"><strong>Due Date:</strong><span>MM/DD/YYYY</span></p>
           <p id="user-membershipTimeLeft" class="user-detail"><span>0</span><strong> Days Left</strong></p>
+
+        </div>
+
+        <div class="account-card">
+          <button id="payment-month-to-month" class="btn payment-option action-btn" aria-label="Select Monthly Plan">Monthly Plan</button>
+          <button id="payment-yearly" class="btn payment-option action-btn" aria-label="Select Yearly Plan">Yearly Plan</button>
 
       
           <div id="payment-history" class="history-container" aria-live="polite">
             <!-- Payment history dynamically inserted here -->
           </div>
         </div>
+        <button id="view-membership" class="btn action-btn" aria-label="Change Membership Plan">Change Membership</button>
+
         <button id="make-payment-btn" class="btn action-btn" aria-label="Make Payment">Make Payment</button>
       </section>
       
