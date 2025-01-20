@@ -499,21 +499,33 @@ function redirectToLogin() {
     document.getElementById("tab-login").addEventListener("click", () => {
       document.getElementById("login-form-section").style.display = "block";
       document.getElementById("signup-form-section").style.display = "none";
+    
+      // Update active class
+      document.getElementById("tab-login").classList.add("active");
+      document.getElementById("tab-signup").classList.remove("active");
     });
-  
+    
     document.getElementById("tab-signup").addEventListener("click", () => {
       document.getElementById("login-form-section").style.display = "none";
       document.getElementById("signup-form-section").style.display = "block";
+    
+      // Update active class
+      document.getElementById("tab-signup").classList.add("active");
+      document.getElementById("tab-login").classList.remove("active");
     });
-
+    
     document.getElementById('phoneLogin').addEventListener('click', function(event) {
       event.preventDefault();
       document.getElementById('social-login').style.display = 'none';
       document.getElementById('login-form-section').style.display = 'none';
       document.getElementById('signup-form-section').style.display = 'none';
       document.getElementById('phone-verification').style.display = 'block';
-  });
-  
+      
+      // Optional: Clear active state on tabs if applicable
+      document.getElementById("tab-login").classList.remove("active");
+      document.getElementById("tab-signup").classList.remove("active");
+    });
+    
 /*     document.getElementById("forgot-password-link").addEventListener("click", () => {
       const email = prompt("Enter your email address:");
       if (email) {
