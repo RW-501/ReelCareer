@@ -770,6 +770,21 @@ if (!currentPath.includes('u')){
   loadTopCategoriesWithVideos();
   
 
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      const allUserBtns = document.querySelectorAll('.side-user-btn');
+      allUserBtns.forEach((btns) => {
+        if (btns) btns.style.display = 'none';
+      });
+  
+      const joinArea = document.getElementById('btn-join-area');
+      if (joinArea) joinArea.style.display = 'block';
+    } else {
+      const joinArea = document.getElementById('btn-join-area');
+      if (joinArea) joinArea.style.display = 'block';
+    }
+  });
+  
 }
 
 
