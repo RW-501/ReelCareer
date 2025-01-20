@@ -254,7 +254,7 @@ function insertSidePanelContent() {
 
 /* Hover Styling */
 #search-input:hover {
-  border-color: #888; /* Darker border on hover */
+    border: #89bdda solid;
 }
 
 /* Placeholder Styling */
@@ -278,12 +278,7 @@ function insertSidePanelContent() {
   border-radius: 5px; /* Rounded corners */
 }
 
-/* Hover Effect */
-.btn-text:hover {
-  color: #fff; /* Text color changes to white on hover */
-  background-color: #007BFF; /* Button background turns blue on hover */
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
-}
+
 
 /* Active Effect */
 .btn-text:active {
@@ -306,7 +301,7 @@ function insertSidePanelContent() {
 
 
 
-#search-input:active {
+#search-input {
   transform: scale(0.98); /* Slight shrinking effect when clicked */
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
     border: #89bdda solid;
@@ -380,6 +375,13 @@ function insertSidePanelContent() {
     .side-nav-button:hover {
       background-color: #007bff;
       color: #fff;
+
+      /* Hover Effect */
+.btn-text {
+  color: #fff; /* Text color changes to white on hover */
+  background-color: #007BFF; /* Button background turns blue on hover */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+}
     }
   
 .side-panel-content {
