@@ -2192,6 +2192,56 @@ document.querySelector(".reel-video-input").click();
   
   
   
+const thumbnailUpload = document.getElementById('thumbnailUpload');
+const thumbnailPreview = document.getElementById('thumbnailPreview');
+const thumbnailURLInput = document.getElementById('thumbnailURL');
+const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
+
+// Trigger file input when clicking the preview image
+thumbnailPreviewContainer.addEventListener('click', () => {
+    thumbnailUpload.click();
+});
+
+// Handle file selection and upload
+thumbnailUpload.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (file && reelID) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            thumbnailPreview.src = e.target.result; // Set preview image source
+        };
+        reader.readAsDataURL(file); // Read file as data URL
+
+        try {
+            const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
+            const storageRef = ref(storage, fileName);
+            await uploadBytes(storageRef, file); // Upload file to Firebase
+            const downloadURL = await getDownloadURL(storageRef); // Get the download URL
+            
+            thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
+            alert('Thumbnail uploaded successfully.');
+        } catch (error) {
+            console.error('Error uploading thumbnail:', error);
+            alert('Failed to upload thumbnail. Please try again.');
+        }
+    }
+});
+
+
+const userDataSaved = getUserData() || {};
+
+let reelData = userDataSaved.videoResumeData;
+
+
+// Populate related reels and related products arrays
+relatedReelsArray = reelData.relatedReels || [];
+relatedProductsArray = reelData.relatedProducts || [];
+
+// Update related products and related reels displays if necessary
+updateRelatedProductsDisplay(reelData, relatedProductsArray);
+updateRelatedReelsDisplay(reelData, relatedReelsArray);
+
+
   
   
   
@@ -2420,56 +2470,6 @@ document.querySelectorAll('.category-btn').forEach(button => {
 });
 
 
-
-
-const thumbnailUpload = document.getElementById('thumbnailUpload');
-const thumbnailPreview = document.getElementById('thumbnailPreview');
-const thumbnailURLInput = document.getElementById('thumbnailURL');
-const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
-
-// Trigger file input when clicking the preview image
-thumbnailPreviewContainer.addEventListener('click', () => {
-    thumbnailUpload.click();
-});
-
-// Handle file selection and upload
-thumbnailUpload.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-    if (file && reelID) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            thumbnailPreview.src = e.target.result; // Set preview image source
-        };
-        reader.readAsDataURL(file); // Read file as data URL
-
-        try {
-            const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
-            const storageRef = ref(storage, fileName);
-            await uploadBytes(storageRef, file); // Upload file to Firebase
-            const downloadURL = await getDownloadURL(storageRef); // Get the download URL
-            
-            thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
-            alert('Thumbnail uploaded successfully.');
-        } catch (error) {
-            console.error('Error uploading thumbnail:', error);
-            alert('Failed to upload thumbnail. Please try again.');
-        }
-    }
-});
-
-
-const userDataSaved = getUserData() || {};
-
-let reelData = userDataSaved.videoResumeData;
-
-
-// Populate related reels and related products arrays
-relatedReelsArray = reelData.relatedReels || [];
-relatedProductsArray = reelData.relatedProducts || [];
-
-// Update related products and related reels displays if necessary
-updateRelatedProductsDisplay(reelData, relatedProductsArray);
-updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 
 
