@@ -343,7 +343,6 @@ function insertSidePanelContent() {
       margin-top: 5px;
       list-style: none;
       padding: 0;
-      border: 1px solid #ddd;
       border-radius: 5px;
     }
   
@@ -374,7 +373,7 @@ function insertSidePanelContent() {
     padding: .5rem;
     font-size: 16px;
     background: linear-gradient(271deg, #89bddb, transparent);
-    border: 1px solid #ddd;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
