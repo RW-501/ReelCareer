@@ -590,7 +590,6 @@ function initializeVideoUploadHandlers() {
     });
   }
   
-  createReelPopup();
 
 window.createReelPopup = createReelPopup;
 

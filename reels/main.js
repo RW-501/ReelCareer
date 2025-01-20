@@ -1495,6 +1495,7 @@ function createVideoUploadPopup() {
 
 // Append to body
 document.body.appendChild(overlay);
+createReelPopup();
 
     // Close button functionality
     overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
