@@ -355,7 +355,6 @@ let reelID = '';
             });
         }      
     
-        showToast('Video uploaded successfully!', 'success');
 
 
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
