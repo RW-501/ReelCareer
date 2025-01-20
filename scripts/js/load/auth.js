@@ -380,6 +380,7 @@ function redirectToLogin() {
       #google-login,
       #phoneLogin,
       #facebook-login,
+      #verifyCodeButton,
       #sendVerificationCode,
       #apple-login {
         width: 100%;
@@ -403,6 +404,7 @@ function redirectToLogin() {
   
 
 #sendVerificationCode,
+#verifyCodeButton,
       #phoneLogin {
     background: linear-gradient(271deg, #89bddb, transparent);
         color: white;
