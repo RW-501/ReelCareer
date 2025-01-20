@@ -282,13 +282,13 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         status: 'draft',
         isDeleted: false,
     };
-let reelID_2 = '';
+let reelID = '';
 
     console.log("videoResumeData: ", videoResumeData);
 
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
-        const reelID = reelDocRef.id;  // Get the reelID from Firestore document reference
+         reelID = reelDocRef.id;  // Get the reelID from Firestore document reference
 
         // Store the reelID in localStorage
         localStorage.setItem('reelID', reelID);
@@ -299,7 +299,7 @@ let reelID_2 = '';
     
             // Update videoResumeData object in Firestore
             await updateDoc(reelDocRef, {
-                reelID: reelID_2,
+                reelID: reelID,
                 reelURL: reelURL
             });
             console.log("Successfully updated reel document with: ", { reelID, reelURL });
@@ -313,7 +313,7 @@ let reelID_2 = '';
             const userDocRef = doc(db, "Users", userID);
             await updateDoc(userDocRef, {
                 videoResumeData: arrayUnion({
-                    reelID: reelID_2,
+                    reelID: reelID,
                     reported: 0,
 
                     videoResumeTitle: videoData.videoResumeTitle,
@@ -333,7 +333,7 @@ let reelID_2 = '';
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
                     tags: tags,
-                    reelID,
+                    reelID: reelID,
                     createdAt: createdAtDate,
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`,
@@ -347,7 +347,7 @@ let reelID_2 = '';
                 videoResumeData: [
                     ...(userDataSaved.videoResumeData || []),
                     {
-                        reelID: reelID_2,
+                        reelID: reelID,
                         videoResumeTitle: videoData.videoResumeTitle,
                         videoResumeURL: videoResumeURL,
                         tags: tags,
