@@ -290,6 +290,7 @@ function redirectToLogin() {
   function createPopupLogin() {
     const popupContainer = document.createElement('div');
     popupContainer.id = 'popup-login-container';
+    console.log(">>>>createPopupLogin>>>>>>>>>>>>>>>>>>>>>>>>>..");
 
     const styles = document.createElement('style');
     styles.innerHTML = `
@@ -498,8 +499,14 @@ function redirectToLogin() {
   }
   
 function openPopupLogin() {
+
+  console.log(">>>>openPopupLogin>>>>>>>>>>>>>>>>>>>>>>>>>..");
+
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
+
+    console.log(">>>>  here openPopupLogin>>>>>>>>..");
+
       popupContainer.style.visibility = 'visible'; // Ensure visibility is set
       popupContainer.style.opacity = '0';         // Start with opacity 0
       popupContainer.style.transition = 'opacity 0.5s ease-in-out'; // Add transition
@@ -522,6 +529,7 @@ function closePopupLogin() {
 
 
 window.openPopupLogin = openPopupLogin;
+window.closePopupLogin = closePopupLogin;
 
 // Initialize the popup when the page loads
 createPopupLogin();
