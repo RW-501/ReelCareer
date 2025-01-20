@@ -128,14 +128,22 @@ function insertSidePanelContent() {
           section.style.display = 'block'; // Show only the selected section
         };
       
-
-        document.getElementById('btn-search').addEventListener('click', () => {
+        function toggleButtonActive(button) {
+            const allButtons = document.querySelectorAll('.side-nav-button');
+            allButtons.forEach(btn => btn.classList.remove('active'));  // Remove 'active' from all buttons
+            button.classList.add('active');  // Add 'active' to the clicked button
+          }
+          
+          document.getElementById('btn-search').addEventListener('click', () => {
             togglePopout(searchSection);
-        });
-        document.getElementById('btn-connection').addEventListener('click', () => {
-            togglePopout(connectionSection);
+            toggleButtonActive(document.getElementById('btn-search'));
           });
-        
+          
+          document.getElementById('btn-connection').addEventListener('click', () => {
+            togglePopout(connectionSection);
+            toggleButtonActive(document.getElementById('btn-connection'));
+          });
+          
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
         document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
