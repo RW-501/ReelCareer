@@ -168,10 +168,9 @@ function insertSidePanelContent() {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
 
-  #showUploadPopup {
 
 
-  
+
   /* Basic Styling for the <i> tags */
 #showUploadPopup i {
   font-size: 24px; /* Icon size */
@@ -385,7 +384,7 @@ function insertSidePanelContent() {
 
 
 
-    }
+    
   `;
   document.head.appendChild(styleElement);
   
