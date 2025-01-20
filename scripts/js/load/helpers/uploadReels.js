@@ -575,7 +575,7 @@ function initializeVideoUploadHandlers() {
         </div>
       </div>
     `;
-    document.getElementById("reels-more-options-area").innerHTML = overlay.innerHTML;
+    document.getElementById("reels-more-options-area").appendChild(overlay);
 
   
     document.getElementById("goBackBtn").addEventListener("click", function() {
