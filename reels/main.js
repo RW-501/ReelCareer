@@ -2177,7 +2177,10 @@ document.querySelector(".reel-video-input").click();
           });
           showToast('Reel updated successfully.');
 
-  
+          const uploadContainer = document.getElementById("reel-upload-container");
+          if (uploadContainer) {
+             uploadContainer.remove();  // Remove the upload container
+          }
           
               } catch (error) {
                   console.error('Error updating reel:', error);

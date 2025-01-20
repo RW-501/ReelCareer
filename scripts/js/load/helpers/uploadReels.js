@@ -92,7 +92,15 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 // Update metadata when upload completes
                 await completeMetadataUpdate(userID, videoData, downloadURL);
                 showToast('Video uploaded successfully!', 'success');
-
+                const reelUploadContainer = document.getElementById('reel-upload-container');
+                if (!reelUploadContainer) {
+                    createVideoUploadPopup();
+                    document.getElementById("uploadArea").classList.add("hidden");
+                    document.getElementById("reels-more-options-area").classList.remove("hidden");
+                } else if (reelUploadContainer.style.display == "none") {
+                    reelUploadContainer.style.display = "block"; // Corrected assignment
+                }
+                
 
                 if (saveReelChangesBtn) {
                     saveReelChangesBtn.disabled = false;  // Disable the button
@@ -217,6 +225,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
         const reelID = reelDocRef.id;
+
 
 
     document.getElementById('reelID').innerText = reelID;
