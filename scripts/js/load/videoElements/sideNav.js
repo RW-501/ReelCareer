@@ -17,8 +17,10 @@ facebookProvider,
 getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-const user = auth.currentUser;
 
+const auth = getAuth();
+
+const user = auth.currentUser;
 
 function insertSidePanelContent() {
     const sidePanel = document.getElementById('main-side-panel');
@@ -112,7 +114,7 @@ function insertSidePanelContent() {
         </nav>
       `;
     }
-  
+
       if(!user){  
         const allUserBtns = document.querySelectorAll('.side-user-btn');
         allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all 
