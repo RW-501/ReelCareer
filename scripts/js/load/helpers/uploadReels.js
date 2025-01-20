@@ -407,11 +407,17 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
        // showToast("Please add at least two hashtags.");
        // return;
     }
+// Ensure videoResumeTitle is a string and get the first 10 characters
+const titleSnippet = videoResumeTitle.substring(0, 10);
+
+// Create the file name using the userID and the first 10 characters of the title
+const fileName = `${userID}-${titleSnippet}-reel.mp4`;
+
 
     try {
          videoData = {
             duration: videoDuration,
-            name: `${userID}-${new Date().toISOString()}-reel.mp4`,
+            name: fileName,
             videoResumeTitle: videoResumeTitle,
             videoResumeCaptions: videoResumeCaptions,
             videoDuration: videoDuration,
