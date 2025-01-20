@@ -402,7 +402,7 @@ function initializeVideoUploadHandlers() {
 
         console.error("selectVideoButton ?????????????//", e);
 
-
+        e.preventDefault(); 
         fileInput.click();
     });
 
