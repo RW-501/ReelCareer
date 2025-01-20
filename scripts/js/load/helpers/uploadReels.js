@@ -405,7 +405,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
     try {
          videoData = {
             duration: videoDuration,
-            name: uploadedFile.name || `${userID}-${new Date().toISOString()}-reel.mp4`,
+            name: uploadedFile.name,// || `${userID}-${new Date().toISOString()}-reel.mp4`,
             videoResumeTitle: videoResumeTitle,
             videoResumeCaptions: videoResumeCaptions,
             videoDuration: videoDuration,
