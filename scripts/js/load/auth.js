@@ -34,8 +34,30 @@ const user = getUserId;
       loader.remove();
     }
   };
+  function formatPhoneNumber(phoneNumber) {
+    // Remove all non-numeric characters except '+'
+    let cleanedNumber = phoneNumber.replace(/[^+\d]/g, "");
   
+    // Add +1 if it's missing
+    if (!cleanedNumber.startsWith("+")) {
+        cleanedNumber = `+1${cleanedNumber}`;
+    } else if (!cleanedNumber.startsWith("+1")) {
+        cleanedNumber = `+1${cleanedNumber.slice(1)}`; // Replace other country codes with +1
+    }
   
+    // Validate that the final format matches +1 followed by 10 digits
+    const phoneRegex = /^\+1\d{10}$/;
+    if (!phoneRegex.test(cleanedNumber)) {
+        throw new Error("Invalid phone number format. Use a 10-digit US number.");
+    }
+  
+    return cleanedNumber; // Return formatted phone number
+  }
+  // Global Variables
+  let confirmationResult; // Used to store the result of signInWithPhoneNumber
+  
+  function addAuthEventListener() {
+
   // Handle Signup Form Submission
 document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -91,28 +113,7 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   }
 });
  
-  function formatPhoneNumber(phoneNumber) {
-    // Remove all non-numeric characters except '+'
-    let cleanedNumber = phoneNumber.replace(/[^+\d]/g, "");
-  
-    // Add +1 if it's missing
-    if (!cleanedNumber.startsWith("+")) {
-        cleanedNumber = `+1${cleanedNumber}`;
-    } else if (!cleanedNumber.startsWith("+1")) {
-        cleanedNumber = `+1${cleanedNumber.slice(1)}`; // Replace other country codes with +1
-    }
-  
-    // Validate that the final format matches +1 followed by 10 digits
-    const phoneRegex = /^\+1\d{10}$/;
-    if (!phoneRegex.test(cleanedNumber)) {
-        throw new Error("Invalid phone number format. Use a 10-digit US number.");
-    }
-  
-    return cleanedNumber; // Return formatted phone number
-  }
-  // Global Variables
-  let confirmationResult; // Used to store the result of signInWithPhoneNumber
-  
+
   // Phone Login Function
  
 // Phone Login (same logic applies)
@@ -233,6 +234,8 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
       hideLoading();
     }
   });
+
+}
 
 
 // Check if user is logged in and handle admin area access
@@ -488,6 +491,13 @@ function redirectToLogin() {
       document.getElementById("login-form-section").style.display = "none";
       document.getElementById("signup-form-section").style.display = "block";
     });
+
+    document.getElementById('phoneLogin').addEventListener('click', function(event) {
+      event.preventDefault();
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('phone-login-form').style.display = 'block';
+  });
   
 /*     document.getElementById("forgot-password-link").addEventListener("click", () => {
       const email = prompt("Enter your email address:");
@@ -499,6 +509,9 @@ function redirectToLogin() {
           .finally(hideLoading);
       }
     }); */
+
+    addAuthEventListener();
+
   }
   
 function openPopupLogin() {
