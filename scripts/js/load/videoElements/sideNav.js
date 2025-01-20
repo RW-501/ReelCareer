@@ -25,7 +25,7 @@ function insertSidePanelContent() {
               <button id="btn-join" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Join</span></button>
             </li>
             <li class="side-nav-item side-user-btn">
-              <button id="showUploadPopup" class="side-nav-button"><i class="fas fa-upload"></i><span class="btn-text"> Upload Your Reel</span></button>
+              <button id="showUploadPopup" class="side-nav-button"><i class="fas fa-upload"></i><span class="btn-text"> Upload Reel</span></button>
             </li>
             <li class="side-nav-item side-user-btn">
               <button id="btn-profile" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Profile</span></button>
