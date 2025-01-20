@@ -284,7 +284,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     };
 let reelID = '';
 
-    console.log("videoResumeData: ", videoResumeData);
+   // console.log("videoResumeData: ", videoResumeData);
 
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
@@ -302,7 +302,7 @@ let reelID = '';
                 reelID: reelID,
                 reelURL: reelURL
             });
-            console.log("Successfully updated reel document with: ", { reelID, reelURL });
+       //    console.log("Successfully updated reel document with: ", { reelID, reelURL });
         
         } catch (error) {
 
@@ -324,7 +324,6 @@ let reelID = '';
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
                 })
             });
-            console.log("Successfully updated user data for userID: ", userID);
    
         } catch (error) {
             console.error("Error updating user document: ", error, {
@@ -359,8 +358,9 @@ let reelID = '';
                 ]
             };
         
+        
             let userData = setUserData(updatedUserData);
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('userData', userData);
             console.log("LocalStorage userData updated with: ", updatedUserData);
             showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
 
@@ -400,7 +400,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         showToast('No User Info');
         return;
     }
-    console.log("words videoResumeCaptions:", videoResumeCaptions);
+//    console.log("words videoResumeCaptions:", videoResumeCaptions);
 
     const tags = extractHashtags(videoResumeCaptions);
     if (tags.length < 2) {
