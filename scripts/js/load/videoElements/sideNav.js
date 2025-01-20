@@ -403,7 +403,7 @@ function insertSidePanelContent() {
     outline: none;
 }
 
-.embedded-Log {
+.embedded-Logo {
 padding: 1rem;
 margins: auto;
 
