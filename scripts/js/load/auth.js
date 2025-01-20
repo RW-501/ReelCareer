@@ -499,8 +499,8 @@ function redirectToLogin() {
     document.getElementById('phoneLogin').addEventListener('click', function(event) {
       event.preventDefault();
       document.getElementById('social-login').style.display = 'none';
-      document.getElementById('login-form').style.display = 'none';
-      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('login-form-section').style.display = 'none';
+      document.getElementById('signup-form-section').style.display = 'none';
       document.getElementById('phone-login-form').style.display = 'block';
   });
   
