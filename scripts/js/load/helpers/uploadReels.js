@@ -282,6 +282,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         status: 'draft',
         isDeleted: false,
     };
+let reelID_2 = '';
 
     console.log("videoResumeData: ", videoResumeData);
 
@@ -291,14 +292,15 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
 
 
-    document.getElementById('reelID').innerText = reelID;
+    document.getElementById('reelID').innerHTML = reelID;
+     reelID_2 = document.getElementById('reelID').innerHTML;  // This would be incorrect
 
             // Update the videoResumeData with the new reelID and generate the reelURL
             const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
     
             // Update videoResumeData object in Firestore
             await updateDoc(reelDocRef, {
-                reelID: reelID,
+                reelID: reelID_2,
                 reelURL: reelURL
             });
             console.log("Successfully updated reel document with: ", { reelID, reelURL });
@@ -312,7 +314,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             const userDocRef = doc(db, "Users", userID);
             await updateDoc(userDocRef, {
                 videoResumeData: arrayUnion({
-                    reelID: reelID,
+                    reelID: reelID_2,
                     reported: 0,
 
                     videoResumeTitle: videoData.videoResumeTitle,
@@ -346,7 +348,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 videoResumeData: [
                     ...(userDataSaved.videoResumeData || []),
                     {
-                        reelID,
+                        reelID: reelID_2,
                         videoResumeTitle: videoData.videoResumeTitle,
                         videoResumeURL: videoResumeURL,
                         tags: tags,
