@@ -434,11 +434,9 @@ margins: auto;
 
 
 body {
-
-    background: #0e0e0d;
-}
-    
-input {
+    background: black !important;
+} 
+#search-input {
     background: black;
     }
 
