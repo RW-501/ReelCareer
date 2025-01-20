@@ -214,6 +214,39 @@ function insertSidePanelContent() {
   font-style: italic;  /* Slightly italic placeholder */
 }
 
+/* Basic Button Styling */
+.btn-text {
+  background: transparent;
+  border: none;
+  color: #007BFF; /* Text color */
+  font-size: 16px;
+  font-weight: 600; /* Slightly bold text */
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover/active states */
+  text-transform: uppercase; /* Uppercase text for modern look */
+  letter-spacing: 1px; /* Add slight spacing between letters */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Hover Effect */
+.btn-text:hover {
+  color: #fff; /* Text color changes to white on hover */
+  background-color: #007BFF; /* Button background turns blue on hover */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+}
+
+/* Active Effect */
+.btn-text:active {
+  transform: scale(0.98); /* Slight shrinking effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
+}
+
+/* Focus Effect */
+.btn-text:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
+}
 
 
     .side-panel-search {
