@@ -158,6 +158,7 @@ function insertSidePanelContent() {
         document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
         document.getElementById('btn-join').addEventListener('click', () => {
 
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>..");
       openPopupLogin();
   
         });
