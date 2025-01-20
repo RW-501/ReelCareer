@@ -1477,12 +1477,6 @@ function createVideoUploadPopup() {
       </div>
     </div>
     `;
-    document.getElementById("reels-more-options-btn").addEventListener("click", function() {
-      // Hide upload area and show more options area
-      document.getElementById("uploadArea").classList.add("hidden");
-      document.getElementById("reels-more-options-area").classList.remove("hidden");
-    });
-    
 
     // Styling for the hidden class
     const style = document.createElement('style');
@@ -1496,6 +1490,13 @@ function createVideoUploadPopup() {
 // Append to body
 document.body.appendChild(overlay);
 createReelPopup();
+
+document.getElementById("reels-more-options-btn").addEventListener("click", function() {
+  // Hide upload area and show more options area
+  document.getElementById("uploadArea").classList.add("hidden");
+  document.getElementById("reels-more-options-area").classList.remove("hidden");
+});
+
 
     // Close button functionality
     overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
