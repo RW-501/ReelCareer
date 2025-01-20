@@ -453,7 +453,7 @@ function redirectToLogin() {
             <button id="apple-login" hidden>Continue with Apple</button>
           </div>
           <div>
-            <a href="#" id="forgot-password-link">Forgot Password?</a>
+            <a href="https://reelcareer.co/views/Forgot-Password" id="forgot-password-link">Forgot Password?</a>
           </div>
         </div>
         <div id="signup-form-section" style="display: none;">
