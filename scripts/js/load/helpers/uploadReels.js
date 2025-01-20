@@ -111,6 +111,15 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         reelcreatedDate: new Date(video.createdAt)
     })).sort((a, b) => b.reelcreatedDate - a.reelcreatedDate).slice(0, 5) || [];
 
+
+        // Searchable Title
+        const searchableVideoResumeTitle = videoData.videoResumeTitle
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
+            .split(" ")  // Split into words
+            .filter(Boolean);  // Remove empty strings
+
+
     const videoResumeData = {
         createdByID: userID,
         displayName: userDataSaved.displayName || '',
@@ -123,6 +132,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         state: userlocationData.state || '',
         country: userlocationData.country || '',
         zip: userlocationData.zip || '',
+        searchableVideoResumeTitle: searchableVideoResumeTitle,
 
         verified: userDataSaved.verified || '',
         position: userDataSaved.position || '',

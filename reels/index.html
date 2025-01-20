@@ -446,6 +446,8 @@ populateSidePanelContacts(connectedUserData);
                 videosRef,
                 where("status", "==", "posted"),
                 where("tags", "array-contains", tagFilter),
+                where("reelCategories", "array-contains", tagFilter),
+                where("searchableVideoResumeTitle", "array-contains", tagFilter),
                 ...(includeConnected && connectionType ? [where("createdByID", "in", connectedUserIds)] : []),
                 orderBy("timestamp", "desc"),
                 limit(postsPerPage)
