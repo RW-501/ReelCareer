@@ -768,7 +768,8 @@ const currentPath = window.location.pathname;
 if (!currentPath.includes('u')){
 
   loadTopCategoriesWithVideos();
-  
+  console.log("currentPath  ",currentPath);
+
 
   onAuthStateChanged(auth, (user) => {
     if (!user) {
@@ -781,7 +782,7 @@ if (!currentPath.includes('u')){
       if (joinArea) joinArea.style.display = 'block';
     } else {
       const joinArea = document.getElementById('btn-join-area');
-      if (joinArea) joinArea.style.display = 'block';
+      if (joinArea) joinArea.style.display = 'none';
     }
   });
   
