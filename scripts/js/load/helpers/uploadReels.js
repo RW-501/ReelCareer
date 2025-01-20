@@ -342,7 +342,6 @@ let reelID = '';
         
         try {
             const updatedUserData = {
-                ...userDataSaved,
                 videoResumeData: [
                     ...(userDataSaved.videoResumeData || []),
                     {
