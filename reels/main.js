@@ -1720,7 +1720,6 @@ display: none;
         <button id="reels-more-options-btn" class="btn btn-secondary">More Options</button>
         
       </div>
-      </div>
 
       <!-- More Options Area -->
       <div id="reels-more-options-area" class="hidden">
