@@ -288,7 +288,7 @@ let reelID = '';
                 reelID: reelID,
                 reelURL: reelURL
             });
-       //    console.log("Successfully updated reel document with: ", { reelID, reelURL });
+          console.log("Successfully updated reel document with: ", { reelID, reelURL });
         
         } catch (error) {
 
