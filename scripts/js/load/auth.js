@@ -425,7 +425,8 @@ function redirectToLogin() {
         }
       }
     `;
-  
+    document.body.appendChild(styles);
+
     popupContainer.innerHTML = `
       <div id="popup-login-content" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); width: 100%; max-width: 500px; position: relative;">
         <span id="popup-login-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px;">&times;</span>
