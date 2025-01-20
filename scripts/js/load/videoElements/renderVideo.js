@@ -601,6 +601,9 @@ async function loadTopCategoriesWithVideos() {
       .category-item {
         margin-bottom: 20px;
       }
+        .category-item-h3 {
+        font-size: 1.5rem;
+        }
       .video-preview {
         display: flex;
         align-items: center;
@@ -681,7 +684,7 @@ async function loadTopCategoriesWithVideos() {
 
     const categoryTitle = document.createElement('h3');
     categoryTitle.textContent = randomPhrase;
-    categoryDiv.className = 'category-item-h3';
+    categoryTitle.className = 'category-item-h3';
     categoryDiv.appendChild(categoryTitle);
 
     const videoContainer = document.createElement('div');
