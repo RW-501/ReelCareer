@@ -529,6 +529,8 @@ function redirectToLogin() {
       // Optional: Clear active state on tabs if applicable
       document.getElementById("tab-login").classList.remove("active");
       document.getElementById("tab-signup").classList.remove("active");
+      document.getElementById("phoneLogin").classList.add("active");
+
     });
     
 
