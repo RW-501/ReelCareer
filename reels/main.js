@@ -1712,14 +1712,17 @@ display: none;
 
 
 
-           </div>
 
       </div>
 
       <!-- More Options Area -->
       <div id="reels-more-options-area" class="hidden">
+
+
+              <div class="reel-groups">
         <div class="progress">
           <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
+        </div>
         </div>
 
 
