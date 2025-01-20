@@ -353,35 +353,38 @@ let reelID = '';
             console.error("Error setting or saving user data locally: ", error, {
                 updatedUserData
             });
-        }
-        
-        const uploadContainer = document.getElementById("reel-upload-container");
-        if (uploadContainer) {
-            console.log("Upload container found. Consider removing it if necessary.");
-            // uploadContainer.remove();  // Uncomment if you want to remove the upload container
-        }
-
-
-
+        }      
+    
         showToast('Video uploaded successfully!', 'success');
 
-        if (!uploadContainer) {
-            createVideoUploadPopup();
-            document.getElementById("uploadArea").classList.add("hidden");
-            document.getElementById("reels-more-options-area").classList.remove("hidden");
-        } else if (uploadContainer.style.display == "none") {
-            uploadContainer.style.display = "block"; // Corrected assignment
-        }else if  (uploadContainer.style.display == "block") {
-            document.getElementById("uploadArea").style.display = "none";
-            document.getElementById("reels-more-options-area").style.display = "block";
+
+        const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
+       
+       
+        if (document.getElementById('uploadArea') && document.getElementById('reels-more-options-area')) {
+            // Place your control logic here only if the elements are present
+            const uploadContainer = document.getElementById("reel-upload-container");
+            if (!uploadContainer) {
+                createVideoUploadPopup();
+                document.getElementById("uploadArea").classList.add("hidden");
+                document.getElementById("reels-more-options-area").classList.remove("hidden");
+            } else {
+                console.log("Upload container found. Consider removing it if necessary.");
+            }
+        
+            if (uploadContainer && uploadContainer.style.display === "none") {
+                uploadContainer.style.display = "block";
+            } else if (uploadContainer && uploadContainer.style.display === "block") {
+                document.getElementById("uploadArea").style.display = "none";
+                document.getElementById("reels-more-options-area").style.display = "block";
+            }
+        
+            if (saveReelChangesBtn) {
+                saveReelChangesBtn.disabled = false;
+                saveReelChangesBtn.innerText = `Save Changes`;
+            }
         }
         
-
-        if (saveReelChangesBtn) {
-            saveReelChangesBtn.disabled = false;  // Disable the button
-            saveReelChangesBtn.innerText = `Save Changes`;  // Update button text
-        }
-    
 }
 
 
