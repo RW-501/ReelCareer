@@ -681,18 +681,19 @@ async function loadTopCategoriesWithVideos() {
 
     const categoryTitle = document.createElement('h3');
     categoryTitle.textContent = randomPhrase;
+    categoryDiv.className = 'category-item-h3';
     categoryDiv.appendChild(categoryTitle);
 
     const videoContainer = document.createElement('div');
     videoContainer.className = 'video-preview';
 
     const thumbnail = document.createElement('img');
-    thumbnail.src = topVideo.thumbnailURL || 'default-thumbnail.jpg';
+    thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
     thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
     thumbnail.className = 'video-thumbnail';
 
     const videoTitle = document.createElement('span');
-    videoTitle.textContent = topVideo.videoResumeTitle || 'Untitled Video';
+    videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
     videoTitle.className = 'video-title';
 
     const videoLink = document.createElement('a');
@@ -700,7 +701,7 @@ async function loadTopCategoriesWithVideos() {
     videoLink.textContent = 'Watch Video';
     videoLink.target = '_blank';
     videoLink.className = 'watch-video-button';
-    videoLink.setAttribute('aria-label', `Watch video titled ${topVideo.videoResumeTitle || 'Untitled Video'}`);
+    videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
 
     videoContainer.appendChild(thumbnail);
     videoContainer.appendChild(videoTitle);
