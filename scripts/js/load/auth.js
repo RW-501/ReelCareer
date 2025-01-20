@@ -533,8 +533,16 @@ function redirectToLogin() {
 
     });
     
-
     
+    document.getElementById('sendVerificationCode').addEventListener('click', function(event) {
+      event.preventDefault();
+
+      
+      document.getElementById('phoneLogin').click();
+      
+  
+
+    });
 
 
 
