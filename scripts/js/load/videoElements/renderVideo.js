@@ -785,7 +785,7 @@ if (!currentPath.includes('u')){
       if (joinArea) joinArea.style.display = 'block';
     } else {
       const joinArea = document.getElementById('btn-join-area');
-      if (joinArea) joinArea.style.display = 'block';
+      if (joinArea) joinArea.style.display = 'none';
     }
   });
   
