@@ -200,7 +200,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     }
 
     
-    
+
 
       
 
@@ -304,6 +304,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             console.log("Successfully updated reel document with: ", { reelID, reelURL });
         
         } catch (error) {
+            console.log("error  : ", { reelID, reelURL });
+
             console.error("Error updating reel document: ", error);
         }
         
@@ -329,7 +331,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 videoData: {
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
-                    tags: videoData.tags
+                    tags: tags
                 }
             });
         }
