@@ -506,7 +506,8 @@ function initializeVideoUploadHandlers() {
             const title = document.querySelector(".reel-video-title").value.trim();
             await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
         } catch (error) {
-            console.error("Upload error:", error);
+
+            console.error("Upload error:");
             showToast("Error uploading the video. Please try again.");
         }
     });
