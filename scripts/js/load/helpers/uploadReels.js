@@ -132,7 +132,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
     const relatedReels = userDataSaved.videoResumeData?.map(video => ({
         reelID: video.reelID,
-        reelTitle: video.videoResumeTitle,
+        videoResumeTitle: video.videoResumeTitle || '',
         videoUrl: video.videoResumeURL,
         reelURL: video.reelURL,
         reelTags: video.tags,
@@ -246,6 +246,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             videoResumeData: arrayUnion({
                 reelID,
                 reported: 0,
+                videoResumeTitle: videoData.videoResumeTitle,
                 videoResumeURL: videoData.videoResumeURL,
                 tags: videoResumeData.tags,
                 createdAt: new Date(),
@@ -258,7 +259,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             ...userDataSaved,
             videoResumeData: [
                 ...(userDataSaved.videoResumeData || []),
-                { reelID, videoResumeURL: videoData.videoResumeURL, 
+                { reelID,videoResumeTitle: videoData.videoResumeTitle,
+                     videoResumeURL: videoData.videoResumeURL, 
                     tags: videoResumeData.tags, isPublic: true,
                      createdAt: new Date(), status: 'posted',
                       reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
