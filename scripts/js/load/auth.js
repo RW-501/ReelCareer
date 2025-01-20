@@ -380,6 +380,7 @@ function redirectToLogin() {
       #google-login,
       #phoneLogin,
       #facebook-login,
+      #sendVerificationCode,
       #apple-login {
         width: 100%;
         padding: 12px;
@@ -401,7 +402,7 @@ function redirectToLogin() {
       }
   
 
-
+#sendVerificationCode,
       #phoneLogin {
     background: linear-gradient(271deg, #89bddb, transparent);
         color: white;
@@ -501,7 +502,8 @@ function redirectToLogin() {
     document.getElementById("tab-login").addEventListener("click", () => {
       document.getElementById("login-form-section").style.display = "block";
       document.getElementById("signup-form-section").style.display = "none";
-    
+      document.getElementById('phone-verification').style.display = 'none';
+
       // Update active class
       document.getElementById("tab-login").classList.add("active");
       document.getElementById("tab-signup").classList.remove("active");
@@ -510,7 +512,8 @@ function redirectToLogin() {
     document.getElementById("tab-signup").addEventListener("click", () => {
       document.getElementById("login-form-section").style.display = "none";
       document.getElementById("signup-form-section").style.display = "block";
-    
+      document.getElementById('phone-verification').style.display = 'none';
+
       // Update active class
       document.getElementById("tab-signup").classList.add("active");
       document.getElementById("tab-login").classList.remove("active");
@@ -518,7 +521,7 @@ function redirectToLogin() {
     
     document.getElementById('phoneLogin').addEventListener('click', function(event) {
       event.preventDefault();
-      document.getElementById('social-login').style.display = 'none';
+     // document.getElementById('social-login').style.display = 'none';
       document.getElementById('login-form-section').style.display = 'none';
       document.getElementById('signup-form-section').style.display = 'none';
       document.getElementById('phone-verification').style.display = 'block';
@@ -528,16 +531,9 @@ function redirectToLogin() {
       document.getElementById("tab-signup").classList.remove("active");
     });
     
-/*     document.getElementById("forgot-password-link").addEventListener("click", () => {
-      const email = prompt("Enter your email address:");
-      if (email) {
-        showLoading();
-        sendPasswordResetEmail(auth, email)
-          .then(() => showToast("Password reset email sent.", "success"))
-          .catch((error) => showToast(`Error: ${error.message}`, "error"))
-          .finally(hideLoading);
-      }
-    }); */
+
+    
+
 
 
   }
