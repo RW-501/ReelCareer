@@ -114,8 +114,9 @@ function insertSidePanelContent() {
   
       if(!user){  
         const allUserBtns = document.querySelectorAll('.side-user-btn');
-        allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all popouts
-        document.getElementById('btn-join-area').style.display = 'none';
+        allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all 
+        
+        document.getElementById('btn-join-area').style.display = 'block';
 
       }else{
 
