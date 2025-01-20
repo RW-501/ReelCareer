@@ -18,9 +18,21 @@ getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
-const auth = getAuth();
-
-const user = auth.currentUser;
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      const allUserBtns = document.querySelectorAll('.side-user-btn');
+      allUserBtns.forEach((btns) => {
+        if (btns) btns.style.display = 'none';
+      });
+  
+      const joinArea = document.getElementById('btn-join-area');
+      if (joinArea) joinArea.style.display = 'block';
+    } else {
+      const joinArea = document.getElementById('btn-join-area');
+      if (joinArea) joinArea.style.display = 'block';
+    }
+  });
+  
 
 function insertSidePanelContent() {
     const sidePanel = document.getElementById('main-side-panel');
@@ -115,16 +127,8 @@ function insertSidePanelContent() {
       `;
     }
 
-      if(!user){  
-        const allUserBtns = document.querySelectorAll('.side-user-btn');
-        allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all 
-        
-        document.getElementById('btn-join-area').style.display = 'block';
-
-      }else{
-
-        document.getElementById('btn-join-area').style.display = 'block';
-      }
+  
+    
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
