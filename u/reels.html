@@ -1048,6 +1048,7 @@ async function loadVideoReels(userID) {
                     <button class="btn edit-btn" data-id="${doc.id}">Edit</button>
                     <button class="btn analytics-btn" data-id="${doc.id}">Analytics</button>
                     <button class="btn delete-btn" data-id="${doc.id}">Delete</button>
+                    <button class="btn delete-admin-btn" data-id="${doc.id}">Admin Delete</button>
                 </td>
             </tr>
         `;
@@ -1064,6 +1065,7 @@ document.querySelectorAll('.analytics-btn').forEach(btn =>
 );
 
 document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
+document.querySelectorAll('.delete-admin-btn').forEach(btn => btn.addEventListener('click', handleDeleteAdmin));
 }
 // Helper function to format time
 function formatWatchTime(seconds) {
@@ -1958,6 +1960,40 @@ await updateDoc(reelRef, {
         const reelList = document.getElementById('reel-list');
     reelList.innerHTML = ''; // Clear existing content
 
+        loadVideoReels(await getUserId());
+    }
+}
+
+
+async function handleDeleteAdmin(event) {
+    const reelID = event.target.dataset.id;
+    const videoUrl = event.target.dataset.videoUrl;  // Assuming this is passed via a data attribute
+
+    if (!reelID || !videoUrl) {
+        showToast('Invalid reel data provided for deletion.');
+        return;
+    }
+
+    if (confirm('Are you sure you want to delete this video reel?')) {
+        try {
+            // 1. Delete the video from Firebase Storage
+            const videoRef = ref(storage, videoUrl);
+            await deleteObject(videoRef);
+            showToast('Video file deleted successfully.');
+
+            // 2. Delete the reel document from Firestore
+            const reelRef = doc(db, "VideoResumes", reelID);
+            await deleteDoc(reelRef);  // Completely remove the document
+
+            showToast('Video reel deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting video reel:', error);
+            showToast('Failed to delete video reel. Please try again.', 'error');
+        }
+
+        // 3. Reload the video reels list
+        const reelList = document.getElementById('reel-list');
+        reelList.innerHTML = '';  // Clear existing content
         loadVideoReels(await getUserId());
     }
 }
