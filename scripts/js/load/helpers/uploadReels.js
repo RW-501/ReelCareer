@@ -21,12 +21,20 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         const fileRef = ref(storage, `users/${userID}/reels/${videoData.name}`);
         const uploadTask = uploadBytesResumable(fileRef, videoData.file);
         const progressBar = document.getElementById("uploadProgressBar");
+        const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
         let progressToastBar;
+
+
+        if (saveReelChangesBtn) {
+            saveReelChangesBtn.disabled = true;  // Disable the button
+            saveReelChangesBtn.innerText = 'Uploading video...';  // Update button text
+        }
+        
 
         if (progressBar) {
             progressBar.style.display = 'block';
         }else{        
-             progressToastBar = showToast('Uploading video resume...', 'info', 0, null, false, null, 0);
+             progressToastBar = showToast('Uploading video...', 'info', 0, null, false, null, 0);
         }
         console.log("uploadVideoResume userID: ", userID);
         uploadTask.on('state_changed',
@@ -37,10 +45,17 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 if (progressBar) {
                     progressBar.style.width = `${progress}%`;
                     progressBar.textContent = `${Math.floor(progress)}%`;
+
+
                     }else{        
                         if (progressToastBar) {
                             progressToastBar.style.width = `${progress}%`;
                         }
+                        if (saveReelChangesBtn) {
+                            saveReelChangesBtn.disabled = true;  // Disable the button
+                            saveReelChangesBtn.innerText = `Uploading video... ${progress}%`;  // Update button text
+                        }
+                        
                 }
   
                 localStorage.setItem(uploadSessionKey, JSON.stringify({
@@ -78,6 +93,11 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 await completeMetadataUpdate(userID, videoData, downloadURL);
                 showToast('Video uploaded successfully!', 'success');
 
+
+                if (saveReelChangesBtn) {
+                    saveReelChangesBtn.disabled = false;  // Disable the button
+                    saveReelChangesBtn.innerText = `Save Changes`;  // Update button text
+                }
 
                 return downloadURL;  // Return the download URL
 
@@ -294,7 +314,6 @@ function extractHashtags(caption) {
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
     let videoResumeURL = '';
 
-    const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
     const userID = auth.currentUser?.uid || userDataSaved.userID;
 

@@ -1751,21 +1751,7 @@ display: none;
             <input type="checkbox" id="isPublic" aria-label="Make Reel Public" checked />
           </div>
 
-          <!-- Captions Textarea -->
-          <div class="reel-groups">
-            <label for="videoResumeCaptions">Captions <small class="text-muted">(Optional subtitles for your video)</small></label>
-            <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3" aria-label="Captions" placeholder="Add captions..."></textarea>
-          </div>
 
-          <!-- Tags Section -->
-          <div class="reel-groups">
-            <label for="tagsSET-main">
-              Tags <small class="text-muted">(Add a tag and press Enter)</small>
-            </label>
-            <div id="tagsContainerSET-main">
-              <input type="text" id="tagsSET-main" class="form-control" aria-label="Tags Input" placeholder="(e.g., JavaScript, Management)">
-            </div>
-          </div>
 
           <!-- Status Dropdown -->
           <div class="reel-groups">
@@ -1854,11 +1840,17 @@ display: none;
         </section>
 
         <!-- Notification & Comments -->
-        <div class="reel-groups-bools">
-          <label><input type="checkbox" id="notificationsBool" aria-label="Enable Notifications" /> Enable Notifications <small class="text-muted">(Receive updates about this reel)</small></label>
-          <label><input type="checkbox" id="commentsBool" checked aria-label="Allow Comments" /> Allow Comments <small class="text-muted">(Enable viewers to comment)</small></label>
-          <label><input type="checkbox" id="giftsBool" aria-label="Enable Gifts" /> Enable Gifts <small class="text-muted">(Allow people to send gifts)</small></label>
-        </div>
+    <div class="reel-groups-bools">
+        <label><input type="checkbox" id="notificationsBool" aria-label="Enable Notifications" /> Enable Notifications <small class="text-muted">(Receive updates about this reel)</small></label>
+        <label><input type="checkbox" id="commentsBool" checked aria-label="Allow Comments" /> Allow Comments <small class="text-muted">(Enable viewers to comment)</small></label>
+        <label><input type="checkbox" id="giftsBool" aria-label="Enable Gifts" /> Enable Gifts <small class="text-muted">(Allow viewers to send gifts)</small></label>
+        <label><input type="checkbox" id="viewsBool" checked aria-label="Show Views" /> Show Views <small class="text-muted">(Display the number of views)</small></label>
+        <label><input type="checkbox" id="likesBool" checked aria-label="Show Likes" /> Show Likes <small class="text-muted">(Display the number of likes)</small></label>
+        <label><input type="checkbox" id="lovesBool" checked aria-label="Show Loves" /> Show Loves <small class="text-muted">(Display the number of loves)</small></label>
+    </div>
+
+      <button type="button" id="saveReelChangesBtn">Save Changes</button>
+
       </div>
     </div>
   `;
@@ -1895,6 +1887,222 @@ document.getElementById("reels-more-options-btn").addEventListener("click", func
 
     // Close button functionality
     overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
+
+
+
+
+
+
+    async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
+ 
+      // Assume userData contains membership type and balance information
+      const userData = await getUserData(); // Assume this function retrieves user data from your database
+     
+      const membershipType = userData.membershipType; // 'basic', 'premium', etc.
+      const userBalance = userData.balance; // User's balance to check against
+     
+      // Set the prices for boosted and sponsored posts
+      const boostedPostCost = 10; // Example cost for a boosted post
+      const sponsoredPostCost = 20; // Example cost for a sponsored post
+     
+      // Check if the user has sufficient balance and membership for boosted and sponsored posts
+      let message = '';
+     
+      if(checkedBool){
+          if (checkType == "BoostedPost" && (membershipType == 'free' ||  userBalance < boostedPostCost)) {
+          message += 'You do not have sufficient membership or balance for a boosted post.\n';
+      }
+     
+      if (checkType == "SponsoredPost" && (membershipType == 'free' || membershipType == 'basic' &&  userBalance < sponsoredPostCost)) {
+          message += 'You do not have sufficient membership or balance for a sponsored post.\n';
+      }
+      if (checkType == "RelatedProducts" && membershipType == 'free' || membershipType == 'basic') {
+          message += 'You do not have sufficient membership to add Related Products.\n';
+      }
+     
+      if (checkType == "EndingCard" && membershipType == 'free') {
+          message += 'You do not have sufficient membership to add Ending Card.\n';
+      }
+     
+      if(isChecking && message){
+     
+         return false; // Stop further actions (e.g., form submission) if not eligible
+     
+      }else{
+      // Show a message or prevent submission if any post is not possible
+      if (message) {
+          alert(message);
+          return false; // Stop further actions (e.g., form submission) if not eligible
+      }
+     
+     
+      }
+     
+     
+     }
+     
+     
+      // Allow further actions if the user is eligible
+      return true;
+     }
+
+    // Save changes button
+    document.getElementById('saveReelChangesBtn').onclick = async () => {
+     
+  
+  
+      const updatedStatus = document.getElementById('status').value;
+      const updatedReelResume = document.getElementById('reelResume').value;
+      const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
+  
+  
+  
+  const updatedRelatedURL = document.getElementById('relatedURL').value;
+  const updatedLocation = document.getElementById('location').value;
+  
+  // Set booleans based on whether values exist
+  const updatedRelatedURLBool = updatedRelatedURL ? true : false;
+  const updatedLocationBool = updatedLocation ? true : false;
+  
+  
+  
+   
+  
+      const updatedNotificationsBool = document.getElementById('notificationsBool').checked;
+  
+      const updatedCommentsBool = document.getElementById('commentsBool').checked;
+      const updatedGiftsBool = document.getElementById('giftsBool').checked;
+      const updatedViewsBool = document.getElementById('viewsBool').checked;
+      const updatedLikesBool = document.getElementById('likesBool').checked;
+      const updatedLovesBool = document.getElementById('lovesBool').checked;
+      const updatedIsPublic = document.getElementById('isPublic').checked;
+  
+  
+  
+  
+  
+     // Get the checked status of the post types
+     const updatedIsBoostedPost = document.getElementById('isBoostedPost').checked;
+  
+     const isEligible_updatedIsBoostedPost = await checkMembershipAndBalance("BoostedPost", updatedIsBoostedPost );
+      if (isEligible_updatedIsBoostedPost) {
+          // Proceed with the form submission or other logic
+          console.log('User is eligible for the selected posts');
+      }else{
+          updatedIsBoostedPost = false;
+          return;
+      }
+  
+      const updatedIsSponsoredPost = document.getElementById('isSponsoredPost').checked;
+  
+      const isEligible_updatedIsSponsoredPost = await checkMembershipAndBalance("SponsoredPost", updatedIsSponsoredPost);
+      if (isEligible_updatedIsSponsoredPost) {
+          // Proceed with the form submission or other logic
+          console.log('User is eligible for the selected posts');
+      }else{
+          updatedIsSponsoredPost = false;
+          return;
+      }
+      
+  
+  
+      let updatedRelatedProductsBool = false;
+  
+  
+  const isEligible_RelatedProductsBool = await checkMembershipAndBalance("RelatedProducts", updatedRelatedProductsBool, true);
+  if (isEligible_RelatedProductsBool) {
+      // Proceed with the form submission or other logic
+      console.log('User is eligible for the selected posts');
+  
+       updatedRelatedProductsBool = relatedProductsArray.length > 0 ? true : false;
+  
+  if(updatedRelatedProductsBool){
+    //  relatedProductsArray.push({ name: '', cost: '', link: '' });
+  
+  }
+  
+  }else{
+      updatedRelatedProductsBool = false;
+      return;
+  }
+  
+  
+  
+  let updatedEndingCardBool = false;
+  
+  let updatedEndingCard = document.getElementById('endingCard').value;
+  
+  const isEligible_updatedEndingCardBool = await checkMembershipAndBalance("EndingCard", updatedEndingCardBool, true);
+  if (isEligible_updatedEndingCardBool) {
+      // Proceed with the form submission or other logic
+      console.log('User is eligible for the selected posts');
+       updatedEndingCardBool = updatedEndingCard ? true : false;
+  
+       if(updatedEndingCardBool){
+           updatedEndingCard = document.getElementById('endingCard').value;
+  
+  }
+  }else{
+      updatedEndingCardBool = false;
+      return;
+  }
+  
+  
+  
+  
+  
+      try {
+
+        const reelRef = doc(db, "VideoResumes", reelID);
+
+                  await updateDoc(reelRef, {
+
+              status: updatedStatus,
+              location: updatedLocation,
+              thumbnailURL: updatedThumbnailURL,
+              reelResume: updatedReelResume,
+              endingCard: updatedEndingCard,
+              relatedURLBool: updatedRelatedURLBool,
+              relatedProductsBool: updatedRelatedProductsBool,
+              endingCardBool: updatedEndingCardBool,
+  
+              relatedURL: updatedRelatedURL,
+              relatedReels: relatedReelsArray,
+              reelCategories: updatedReelCategories,
+              relatedProducts: relatedProductsArray,
+              notifcationsBool: updatedNotificationsBool,
+              commentsBool: updatedCommentsBool,
+              locationBool: updatedLocationBool,
+              giftsBool: updatedGiftsBool,
+              viewsBool: updatedViewsBool,
+              likesBool: updatedLikesBool,
+              lovesBool: updatedLovesBool,
+              isPublic: updatedIsPublic,
+              isBoostedPost: updatedIsBoostedPost,
+              isSponsoredPost: updatedIsSponsoredPost,
+              timestamp: serverTimestamp() // Update timestamp
+          });
+          showToast('Reel updated successfully.');
+
+  
+          
+              } catch (error) {
+                  console.error('Error updating reel:', error);
+                  showToast('Failed to update the reel. Please try again.');
+              }
+          };
+  
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 
