@@ -489,7 +489,7 @@ function redirectToLogin() {
       document.getElementById("signup-form-section").style.display = "block";
     });
   
-    document.getElementById("forgot-password-link").addEventListener("click", () => {
+/*     document.getElementById("forgot-password-link").addEventListener("click", () => {
       const email = prompt("Enter your email address:");
       if (email) {
         showLoading();
@@ -498,17 +498,15 @@ function redirectToLogin() {
           .catch((error) => showToast(`Error: ${error.message}`, "error"))
           .finally(hideLoading);
       }
-    });
+    }); */
   }
   
 function openPopupLogin() {
 
-  console.log(">>>>openPopupLogin>>>>>>>>>>>>>>>>>>>>>>>>>..");
 
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
 
-    console.log(">>>>  here openPopupLogin>>>>>>>>..");
 
       popupContainer.style.visibility = 'visible'; // Ensure visibility is set
       popupContainer.style.opacity = '0';         // Start with opacity 0
