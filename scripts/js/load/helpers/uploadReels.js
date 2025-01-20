@@ -271,7 +271,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
        let  userData = setUserData(updatedUserData);
         localStorage.setItem('userData', userData);
-        console.log("userData userData: ", userData);
+        console.log("updatedUserData updatedUserData: ", updatedUserData);
 
         const uploadContainer = document.getElementById("reel-upload-container");
         if (uploadContainer) {
