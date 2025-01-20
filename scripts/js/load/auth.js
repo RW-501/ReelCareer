@@ -297,19 +297,22 @@ function redirectToLogin() {
     
     const popupStyles = document.createElement('style');
     popupStyles.innerHTML = `
-      #popup-login-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        visibility: hidden;
-      }
+element.style {
+    background: #c0e3f6;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 500px;
+    position: absolute;
+    overflow-y: auto;
+    height: 70%;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
       
       #popup-login-content {
         background: #ffffff;
@@ -346,12 +349,12 @@ function redirectToLogin() {
       }
   
       .login-tabs button.active {
-        background-color: #1a73e8;
+    background: linear-gradient(45deg, #91c1dd, #aed0e3);
         color: #fff;
       }
   
       .login-tabs button:not(.active):hover {
-        background-color: #e8f0fe;
+    background-color:rgb(142, 142, 143);
       }
   
       input[type="email"],
@@ -394,6 +397,13 @@ function redirectToLogin() {
         background-color: #357ae8;
       }
   
+
+
+      #phoneLogin {
+    background: linear-gradient(271deg, #89bddb, transparent);
+        color: white;
+      }
+
       button[type="submit"] {
         background-color: #1a73e8;
         color: white;
@@ -431,8 +441,7 @@ function redirectToLogin() {
     document.body.appendChild(popupStyles);
 
     popupContainer.innerHTML = `
-       <div id="popup-login-content" style="background: white;padding: 30px;border-radius: 12px;
-       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);width: 100%;max-width: 500px;position: relative;overflow-y: auto;height: 70%;">
+       <div id="popup-login-content">
        
        <span id="popup-login-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px;">&times;</span>
         <div class="login-tabs">
