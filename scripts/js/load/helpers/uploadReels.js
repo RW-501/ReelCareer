@@ -174,7 +174,14 @@ function extractHashtags(caption) {
 }
 
 
+    // Validate 'createdAt' timestamp
+    const createdAtDate = new Date();
+    if (isNaN(createdAtDate.getTime())) {
+        console.error("Invalid 'createdAt' Date");
+        throw new Error("Invalid Date Value for 'createdAt'");
+    }
 
+    
 
 
 async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
@@ -188,17 +195,10 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         videoUrl: video.videoResumeURL,
         reelURL: video.reelURL,
         reelTags: video.tags,
-        reelcreatedDate: new Date(video.createdAt)
+        reelcreatedDate: video.createdAt
     })).sort((a, b) => b.reelcreatedDate - a.reelcreatedDate).slice(0, 5) || [];
 
-    // Validate 'createdAt' timestamp
-    const createdAtDate = new Date();
-    if (isNaN(createdAtDate.getTime())) {
-        console.error("Invalid 'createdAt' Date");
-        throw new Error("Invalid Date Value for 'createdAt'");
-    }
 
-    
 
 
     
