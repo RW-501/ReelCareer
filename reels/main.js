@@ -1759,8 +1759,8 @@ display: none;
     <small id="reelDescriptionHelp" class="form-text text-muted">Provide a brief description. Add tags using # (e.g., #Marketing).</small>
 
     <button class="reel-video-btn btn btn-primary" aria-label="Post Video">Post Video</button>
-  </div>
-</div>
+
+    </div>
 
 
       <!-- More Options Area -->
