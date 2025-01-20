@@ -406,6 +406,10 @@ function initializeVideoUploadHandlers() {
 
 
   function createReelPopup() {
+
+    const overlay = document.createElement("div");
+    overlay.id = "reelsMoreOtionsArea";
+
     overlay.innerHTML = `
       <div class="video-upload-popup">
         <button class="close-button">&times;</button>
@@ -586,6 +590,7 @@ function initializeVideoUploadHandlers() {
     });
   }
   
+  createReelPopup();
 
 window.createReelPopup = createReelPopup;
 
