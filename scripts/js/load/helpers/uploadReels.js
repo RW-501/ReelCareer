@@ -439,6 +439,9 @@ const fileName = `${userID}-${titleSnippet}-reel.mp4`;
 
     if (!videoResumeURL) {
         showToast('Failed to upload video resume. Please try again.', "error");
+
+        console.error('Failed to upload video resume. Please try again', error);
+
         return;
     }
 
