@@ -405,7 +405,7 @@ function initializeVideoUploadHandlers() {
 
 
 
-  function createReelPopup(overlay) {
+  function createReelPopup() {
     overlay.innerHTML = `
       <div class="video-upload-popup">
         <button class="close-button">&times;</button>
@@ -587,7 +587,7 @@ function initializeVideoUploadHandlers() {
   }
   
 
-
+window.createReelPopup = createReelPopup;
 
 
 

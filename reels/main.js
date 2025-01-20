@@ -1477,7 +1477,7 @@ function createVideoUploadPopup() {
       </div>
     </div>
     `;
-    
+    createReelPopup();
     document.getElementById("reels-more-options-btn").addEventListener("click", function() {
       // Hide upload area and show more options area
       document.getElementById("uploadArea").classList.add("hidden");
