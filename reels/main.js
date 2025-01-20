@@ -1465,12 +1465,15 @@ function createVideoUploadPopup() {
         </div>
         <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
         <button class="reel-video-btn btn btn-primary">Post Video</button>
+
+
+
+        <!-- More Options Button -->
+        <hr>
+        <button id="reels-more-options-btn" class="btn btn-secondary">More Options</button>
+        
       </div>
 
-      <!-- More Options Button -->
-      <hr>
-      <button id="reels-more-options-btn" class="btn btn-secondary">More Options</button>
-      
       <!-- More Options Area -->
       <div id="reels-more-options-area" class="hidden">
         <button id="goBackBtn" class="btn btn-secondary">Go Back</button>
