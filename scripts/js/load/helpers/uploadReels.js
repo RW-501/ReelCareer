@@ -360,15 +360,18 @@ let reelID = '';
             console.log("Upload container found. Consider removing it if necessary.");
             // uploadContainer.remove();  // Uncomment if you want to remove the upload container
         }
+
+
+
         showToast('Video uploaded successfully!', 'success');
-        const reelUploadContainer = document.getElementById('reel-upload-container');
-        if (!reelUploadContainer) {
+
+        if (!uploadContainer) {
             createVideoUploadPopup();
             document.getElementById("uploadArea").classList.add("hidden");
             document.getElementById("reels-more-options-area").classList.remove("hidden");
-        } else if (reelUploadContainer.style.display == "none") {
-            reelUploadContainer.style.display = "block"; // Corrected assignment
-        }else if  (reelUploadContainer.style.display == "block") {
+        } else if (uploadContainer.style.display == "none") {
+            uploadContainer.style.display = "block"; // Corrected assignment
+        }else if  (uploadContainer.style.display == "block") {
             document.getElementById("uploadArea").style.display = "none";
             document.getElementById("reels-more-options-area").style.display = "block";
         }
