@@ -631,7 +631,7 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
-  const videoResumesRef = collection(firebaseDb, 'VideoResumes');
+  const videoResumesRef = collection(db, 'VideoResumes');
   const querySnapshot = await getDocs(videoResumesRef);
 
   const categoryMap = new Map();
