@@ -407,10 +407,10 @@ function initializeVideoUploadHandlers() {
 
   function createReelPopup() {
 
-    const overlay = document.createElement("div");
-    overlay.id = "reelsMoreOtionsArea";
+  //  const overlay = document.createElement("div");
+   // overlay.id = "reelsMoreOtionsArea";
 
-    overlay.innerHTML = `
+    overlay = `
       <div class="video-upload-popup">
         <button class="close-button">&times;</button>
         <h3>Share Your Reel</h3>
@@ -575,7 +575,7 @@ function initializeVideoUploadHandlers() {
         </div>
       </div>
     `;
-    document.getElementById("reels-more-options-area").appendChild(overlay);
+    document.getElementById("reels-more-options-area").innerHTML = overlay;
 
   
     document.getElementById("goBackBtn").addEventListener("click", function() {
