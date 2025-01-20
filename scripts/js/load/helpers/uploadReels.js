@@ -304,7 +304,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                     reported: 0,
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
-                    tags: videoData.tags,
+                    tags: tags,
                     createdAt: new Date(),
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
