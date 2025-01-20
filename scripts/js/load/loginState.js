@@ -406,12 +406,9 @@ let isAccountLocked = false;
             console.log("Fetched fresh user data from DB:", freshUserData);
             
             // Attempt to reset user data in local storage and update with fresh data
-            const updatedFreshData = {
-                ...freshUserData,
-                ...updatedUserData
-            };
+          
             
-            userData = setUserData(updatedFreshData);
+            userData = setUserData(freshUserData);
             localStorage.setItem('userData', userData);
             console.log("Successfully recovered and updated user data.");
 
