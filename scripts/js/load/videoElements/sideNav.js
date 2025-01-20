@@ -97,7 +97,7 @@ function insertSidePanelContent() {
 </div>
 
 
-  <div class="text-center m-auto">
+  <div class="text-center m-auto btn-text">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
 </div>
         </nav>
