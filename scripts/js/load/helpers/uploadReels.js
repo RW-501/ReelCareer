@@ -167,7 +167,7 @@ function extractHashtags(caption) {
         .slice(0, 15);  // Limit to 15 unique tags
 
     if (filteredTags.length === 0) {
-        showToast("No valid tags found, using processed keywords as tags.");
+        //showToast("No valid tags found, using processed keywords as tags.");
     }
 
     return Array.from(new Set(filteredTags));  // Ensure tags are unique
@@ -386,8 +386,8 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
     const tags = extractHashtags(videoResumeCaptions);
     if (tags.length < 2) {
-        showToast("Please add at least two hashtags.");
-        return;
+       // showToast("Please add at least two hashtags.");
+       // return;
     }
 
     try {
