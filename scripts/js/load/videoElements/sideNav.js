@@ -361,7 +361,7 @@ function insertSidePanelContent() {
       align-items: center;
       gap: 10px;
       width: 100%;
-      padding: 1.5rem;
+      padding: .5rem;
       font-size: 16px;
       background: #fff;
       border: 1px solid #ddd;
