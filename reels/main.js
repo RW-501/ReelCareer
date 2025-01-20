@@ -1716,7 +1716,7 @@ display: none;
       </div>
 
       <!-- More Options Area -->
-      <div id="reels-more-options-area" class="hidden">
+      <div id="reels-more-options-area" class="hidden" hidden>
 
 
               <div class="reel-groups">
