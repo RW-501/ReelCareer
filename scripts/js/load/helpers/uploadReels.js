@@ -93,7 +93,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 await completeMetadataUpdate(userID, videoData, downloadURL);
 
 
-                return downloadURL;  // Return the download URL
+               // return downloadURL;  // Return the download URL
 
 
             }
@@ -426,20 +426,17 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             fileType: "video/mp4",
         };
 
-        videoResumeURL = await uploadVideoResume(userID, videoData);
+       // videoResumeURL = await uploadVideoResume(userID, videoData);
+         await uploadVideoResume(userID, videoData);
     } catch (error) {
         console.error('Error during video capture or upload:', error);
         showToast('Failed to upload video resume. Please try again.', "error");
         return;
     }
 
-    if (!videoResumeURL) {
-        console.error('Failed to upload video resume. URL was not returned.');
-        showToast('Failed to upload video resume. Please try again.', "error");
-        return;
-    }
 
-    // Further processing or feedback after a successful upload can go here
+
+
 }
 
 window.postReelFunction = postReelFunction;
