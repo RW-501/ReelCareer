@@ -398,9 +398,10 @@ function insertSidePanelContent() {
 
 
 
-      #main-side-panel button:active {
-      border: #89bdda solid;
-      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+.side-nav-button.active {
+  background-color: #1a73e8;  /* Example Google-style blue color */
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
