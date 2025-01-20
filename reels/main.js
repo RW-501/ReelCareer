@@ -1678,7 +1678,6 @@ function createVideoUploadPopup() {
 
 .hidden {
 display: none;
-
 }
 
 
@@ -1713,7 +1712,8 @@ display: none;
 
 
 
-     
+           </div>
+
       </div>
 
       <!-- More Options Area -->
