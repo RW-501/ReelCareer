@@ -368,7 +368,7 @@ let reelID = '';
             document.getElementById("reels-more-options-area").classList.remove("hidden");
         } else if (reelUploadContainer.style.display == "none") {
             reelUploadContainer.style.display = "block"; // Corrected assignment
-        }else if  (reelUploadContainer.style.display == "none") {
+        }else if  (reelUploadContainer.style.display == "block") {
             document.getElementById("uploadArea").classList.add("hidden");
             document.getElementById("reels-more-options-area").classList.remove("hidden");
         }
