@@ -290,18 +290,139 @@ function redirectToLogin() {
   function createPopupLogin() {
     const popupContainer = document.createElement('div');
     popupContainer.id = 'popup-login-container';
-    popupContainer.style = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      visibility: hidden;
+
+    const styles = document.createElement('style');
+    styles.innerHTML = `
+      #popup-login-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        visibility: hidden;
+      }
+      
+      #popup-login-content {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+        animation: slideIn 0.3s ease-in-out;
+      }
+      
+      #popup-login-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 24px;
+        color: #757575;
+        transition: color 0.2s;
+      }
+      
+      #popup-login-close:hover {
+        color: #d32f2f;
+      }
+  
+      .login-tabs button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+  
+      .login-tabs button.active {
+        background-color: #1a73e8;
+        color: #fff;
+      }
+  
+      .login-tabs button:not(.active):hover {
+        background-color: #e8f0fe;
+      }
+  
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #c4c4c4;
+        border-radius: 5px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+  
+      input:focus {
+        border-color: #1a73e8;
+        box-shadow: 0 0 5px rgba(26, 115, 232, 0.3);
+      }
+  
+      button[type="submit"],
+      #google-login,
+      #phone-login,
+      #facebook-login,
+      #apple-login {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+  
+      #google-login {
+        background-color: #4285f4;
+        color: white;
+      }
+  
+      #google-login:hover {
+        background-color: #357ae8;
+      }
+  
+      button[type="submit"] {
+        background-color: #1a73e8;
+        color: white;
+      }
+  
+      button[type="submit"]:hover {
+        background-color: #155ab6;
+      }
+  
+      button:active {
+        transform: scale(0.98);
+      }
+  
+      #forgot-password-link {
+        color: #1a73e8;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+  
+      #forgot-password-link:hover {
+        color: #0c47a1;
+      }
+  
+      @keyframes slideIn {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
     `;
   
     popupContainer.innerHTML = `
@@ -321,8 +442,8 @@ function redirectToLogin() {
           <div class="social-login">
             <button id="google-login">Continue with Google</button>
             <button id="phone-login">Phone Login</button>
-            <button id="facebook-login">Continue with Facebook</button>
-            <button id="apple-login">Continue with Apple</button>
+            <button id="facebook-login" hidden>Continue with Facebook</button>
+            <button id="apple-login" hidden>Continue with Apple</button>
           </div>
           <div>
             <a href="#" id="forgot-password-link">Forgot Password?</a>
