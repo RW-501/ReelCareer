@@ -459,7 +459,7 @@ function initializeVideoUploadHandlers() {
             videoDuration = videoElement.duration;
             videoPreview.src = videoElement.src;
             videoPreview.hidden = false;
-            showToast(`Selected video: ${file.name}`);
+           // showToast(`Selected video: ${file.name}`);
         };
     });
 
