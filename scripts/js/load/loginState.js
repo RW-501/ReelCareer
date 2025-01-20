@@ -393,7 +393,41 @@ let isAccountLocked = false;
 
 
     } catch (error) {
+
       console.error("Failed to set user document:", error);
+
+      try {
+        // Attempt to retrieve the latest user data from the database
+        const userDocRef = doc(db, "Users", user.uid);
+        const userSnapshot = await getDoc(userDocRef);
+        
+        if (userSnapshot.exists()) {
+            const freshUserData = userSnapshot.data();
+            console.log("Fetched fresh user data from DB:", freshUserData);
+            
+            // Attempt to reset user data in local storage and update with fresh data
+            const updatedFreshData = {
+                ...freshUserData,
+                ...updatedUserData
+            };
+            
+            userData = setUserData(updatedFreshData);
+            localStorage.setItem('userData', userData);
+            console.log("Successfully recovered and updated user data.");
+
+
+
+        } else {
+            console.error("User data not found in the database.");
+        }
+    } catch (fetchError) {
+        console.error("Failed to fetch or update user data from the database:", fetchError);
+    } finally {
+        setTimeout(() => {
+            location.reload();  // Refresh the page after 1 second
+        }, 1000);
+    }
+   
     }
   
   
