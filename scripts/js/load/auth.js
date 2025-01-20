@@ -293,10 +293,10 @@ function redirectToLogin() {
   function createPopupLogin() {
     const popupContainer = document.createElement('div');
     popupContainer.id = 'popup-login-container';
-    console.log(">>>>createPopupLogin>>>>>>>>>>>>>>>>>>>>>>>>>..");
 
-    const styles = document.createElement('style');
-    styles.innerHTML = `
+    
+    const popupStyles = document.createElement('style');
+    popupStyles.innerHTML = `
       #popup-login-container {
         position: fixed;
         top: 0;
@@ -428,7 +428,7 @@ function redirectToLogin() {
         }
       }
     `;
-    document.body.appendChild(styles);
+    document.body.appendChild(popupStyles);
 
     popupContainer.innerHTML = `
        <div id="popup-login-content" style="background: white;padding: 30px;border-radius: 12px;
