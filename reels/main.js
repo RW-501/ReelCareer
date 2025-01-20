@@ -1632,20 +1632,18 @@ display: none;
 }
 
 
-  .video-upload-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+#reel-upload-container .video-upload-popup {
+    background: white;
     padding: 20px;
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-  }
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    height: 90%;
+    overflow-y: auto;
+    margin: auto;
+}
   .close-button {
     position: absolute;
     top: 15px;
@@ -1699,16 +1697,16 @@ display: none;
     border: 1px solid #ddd;
     border-radius: 5px;
   }
-  .reel-video-btn {
-    background: linear-gradient(90deg, #f39c12, #d35400);
+.reel-video-btn {
+    background: linear-gradient(90deg, #84adea, #cbdcf7);
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
+}
   .reel-video-btn:hover {
-    background: linear-gradient(90deg, #e67e22, #c0392b);
+    background: linear-gradient(90deg,rgb(106, 74, 220),rgb(119, 172, 232));
   }
   #thumbnailPreviewContainer {
     border-radius: 5px;
