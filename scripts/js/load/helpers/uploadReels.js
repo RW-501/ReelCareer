@@ -345,7 +345,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                         reelID,
                         videoResumeTitle: videoData.videoResumeTitle,
                         videoResumeURL: videoResumeURL,
-                        tags: videoData.tags,
+                        tags: tags,
                         isPublic: true,
                         createdAt: new Date(),
                         status: 'posted',
