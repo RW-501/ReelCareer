@@ -258,7 +258,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
         const uploadContainer = document.getElementById("reel-upload-container");
         if (uploadContainer) {
-            uploadContainer.remove();  // Remove the upload container
+           // uploadContainer.remove();  // Remove the upload container
         }
 
 
@@ -312,6 +312,8 @@ function extractHashtags(caption) {
 
 
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
+    document.getElementById("uploadArea").classList.add("hidden");
+    document.getElementById("reels-more-options-area").classList.remove("hidden");
     let videoResumeURL = '';
 
     const userDataSaved = getUserData() || {};

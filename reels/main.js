@@ -1701,9 +1701,7 @@ display: none;
       
       <!-- Upload Area -->
       <div class="upload-area" id="uploadArea">
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
-        </div>
+
         <input type="text" class="reel-video-title form-control" placeholder="Enter a title for your reel..." maxlength="100">
         <input type="file" class="reel-video-input" accept="video/*" hidden>
         <div class="reel-video-area">
@@ -1715,16 +1713,16 @@ display: none;
 
 
 
-        <!-- More Options Button -->
-        <hr>
-        <button id="reels-more-options-btn" class="btn btn-secondary">More Options</button>
-        
+     
       </div>
 
       <!-- More Options Area -->
       <div id="reels-more-options-area" class="hidden">
-        <button id="goBackBtn" class="btn btn-secondary">Go Back</button>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
+        </div>
 
+        
         <!-- Boosted Post Option -->
         <div class="reel-groups">
           <label for="isBoostedPost">
@@ -1867,22 +1865,12 @@ display: none;
 // Append to body
 document.body.appendChild(overlay);
 
-document.getElementById("goBackBtn").addEventListener("click", function() {
-  // Show upload area and hide more options area
-  document.getElementById("uploadArea").classList.remove("hidden");
-  document.getElementById("reels-more-options-area").classList.add("hidden");
-});
 
 
 document.querySelector(".select-video-btn").addEventListener("click", function() {
 document.querySelector(".reel-video-input").click();
 });
 
-document.getElementById("reels-more-options-btn").addEventListener("click", function() {
-  // Hide upload area and show more options area
-  document.getElementById("uploadArea").classList.add("hidden");
-  document.getElementById("reels-more-options-area").classList.remove("hidden");
-});
 
 
     // Close button functionality
