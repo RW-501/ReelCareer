@@ -244,7 +244,7 @@ function insertSidePanelContent() {
   transition: all 0.3s ease; /* Smooth transition */
   outline: none; /* Remove default outline */
   background-color: #fff;
-  
+
 }
 
 /* Focus Styling */
@@ -304,9 +304,8 @@ function insertSidePanelContent() {
 
 #search-input {
   transform: scale(0.98); /* Slight shrinking effect when clicked */
-  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
     border: #89bdda solid;
-      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
 
 
@@ -380,11 +379,14 @@ function insertSidePanelContent() {
       /* Hover Effect */
 .btn-text {
   color: #fff; /* Text color changes to white on hover */
-  background-color: #007BFF; /* Button background turns blue on hover */
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
     }
-  
+      .side-nav-button:active {
+      border: #89bdda solid;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+}
+
+
 .side-panel-content {
     display: grid;
 
