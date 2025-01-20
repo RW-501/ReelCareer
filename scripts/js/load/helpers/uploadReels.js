@@ -91,21 +91,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
 
                 // Update metadata when upload completes
                 await completeMetadataUpdate(userID, videoData, downloadURL);
-                showToast('Video uploaded successfully!', 'success');
-                const reelUploadContainer = document.getElementById('reel-upload-container');
-                if (!reelUploadContainer) {
-                    createVideoUploadPopup();
-                    document.getElementById("uploadArea").classList.add("hidden");
-                    document.getElementById("reels-more-options-area").classList.remove("hidden");
-                } else if (reelUploadContainer.style.display == "none") {
-                    reelUploadContainer.style.display = "block"; // Corrected assignment
-                }
-                
 
-                if (saveReelChangesBtn) {
-                    saveReelChangesBtn.disabled = false;  // Disable the button
-                    saveReelChangesBtn.innerText = `Save Changes`;  // Update button text
-                }
 
                 return downloadURL;  // Return the download URL
 
@@ -374,7 +360,21 @@ let reelID = '';
             console.log("Upload container found. Consider removing it if necessary.");
             // uploadContainer.remove();  // Uncomment if you want to remove the upload container
         }
+        showToast('Video uploaded successfully!', 'success');
+        const reelUploadContainer = document.getElementById('reel-upload-container');
+        if (!reelUploadContainer) {
+            createVideoUploadPopup();
+            document.getElementById("uploadArea").classList.add("hidden");
+            document.getElementById("reels-more-options-area").classList.remove("hidden");
+        } else if (reelUploadContainer.style.display == "none") {
+            reelUploadContainer.style.display = "block"; // Corrected assignment
+        }
+        
 
+        if (saveReelChangesBtn) {
+            saveReelChangesBtn.disabled = false;  // Disable the button
+            saveReelChangesBtn.innerText = `Save Changes`;  // Update button text
+        }
     
 }
 
