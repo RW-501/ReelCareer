@@ -446,12 +446,7 @@ function redirectToLogin() {
             <input type="password" id="login-password" placeholder="Password" required>
             <button type="submit">Log In</button>
           </form>
-          <div class="social-login">
-            <button id="google-login">Continue with Google</button>
-            <button id="phoneLogin">Phone Login</button>
-            <button id="facebook-login" hidden>Continue with Facebook</button>
-            <button id="apple-login" hidden>Continue with Apple</button>
-          </div>
+
           <div>
             <a href="https://reelcareer.co/views/Forgot-Password" id="forgot-password-link">Forgot Password?</a>
           </div>
@@ -464,6 +459,14 @@ function redirectToLogin() {
             <button type="submit">Sign Up</button>
           </form>
         </div>
+        <hr>
+             <div id="social-login" class="social-login">
+            <button id="google-login">Continue with Google</button>
+            <button id="phoneLogin">Phone Login</button>
+            <button id="facebook-login" hidden>Continue with Facebook</button>
+            <button id="apple-login" hidden>Continue with Apple</button>
+          </div>
+
         <div id="phone-verification" style="display: none;">
           <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
           <button id="sendVerificationCode">Send Verification Code</button>
@@ -495,6 +498,7 @@ function redirectToLogin() {
 
     document.getElementById('phoneLogin').addEventListener('click', function(event) {
       event.preventDefault();
+      document.getElementById('social-login').style.display = 'none';
       document.getElementById('login-form').style.display = 'none';
       document.getElementById('signup-form').style.display = 'none';
       document.getElementById('phone-login-form').style.display = 'block';
