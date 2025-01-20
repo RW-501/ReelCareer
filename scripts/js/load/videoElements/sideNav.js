@@ -167,6 +167,43 @@ function insertSidePanelContent() {
   
   const styleElement = document.createElement('style');
   styleElement.textContent = `
+
+  #showUploadPopup {
+
+
+  
+  /* Basic Styling for the <i> tags */
+#showUploadPopup i {
+  font-size: 24px; /* Icon size */
+  color: #333; /* Dark gray color for the icon */
+  transition: all 0.3s ease; /* Smooth transition for hover/active states */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  margin: 0 10px; /* Spacing between icons (if there are multiple) */
+  padding: 5px;
+  border-radius: 50%; /* Rounded icon appearance */
+  display: inline-block; /* Keeps the icon inline */
+}
+
+/* Hover Effect */
+#showUploadPopup i:hover {
+  color: #fff; /* Change icon color to white on hover */
+  background-color: #007BFF; /* Background turns blue on hover */
+  transform: scale(1.1); /* Slightly increase size on hover */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow on hover */
+}
+
+/* Active Effect */
+#showUploadPopup i:active {
+  transform: scale(0.98); /* Slight shrinking effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
+}
+
+/* Focus Effect */
+#showUploadPopup i:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
+}
+
     #side-nav {
       background-color: #f4f4f4;
       padding: 20px;
@@ -247,6 +284,15 @@ function insertSidePanelContent() {
   outline: none; /* Remove default outline */
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
 }
+
+
+
+
+
+
+
+
+
 
 
     .side-panel-search {
@@ -336,6 +382,10 @@ function insertSidePanelContent() {
     background-color: #007bff;
     color: #fff;
   }
+
+
+
+    }
   `;
   document.head.appendChild(styleElement);
   
