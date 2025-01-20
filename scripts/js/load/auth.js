@@ -298,32 +298,33 @@ function redirectToLogin() {
     const popupStyles = document.createElement('style');
     popupStyles.innerHTML = `
 #popup-login-container {
-    background: #c0e3f6;
+    background: #565656b8;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 500px;
-    position: absolute;
-    overflow-y: auto;
-    height: 70%;
+    position: fixed;
     margin: auto;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 50000;
 }
       
-      #popup-login-content {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        width: 100%;
-        max-width: 500px;
-        position: relative;
-        animation: slideIn 0.3s ease-in-out;
-      }
+#popup-login-content {
+    background: #d3e7ff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease-in-out;
+    height: 90%;
+}
       
       #popup-login-close {
         position: absolute;
