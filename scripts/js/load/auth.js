@@ -236,7 +236,7 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
   });
 
 }
-
+window.addAuthEventListener = addAuthEventListener;
 
 // Check if user is logged in and handle admin area access
 // Helper functions
@@ -476,7 +476,8 @@ function redirectToLogin() {
     `;
   
     document.body.appendChild(popupContainer);
-  
+    addAuthEventListener();
+
     const closePopup = document.getElementById("popup-login-close");
     closePopup.addEventListener("click", () => {
       popupContainer.style.visibility = "hidden";
@@ -510,7 +511,6 @@ function redirectToLogin() {
       }
     }); */
 
-    addAuthEventListener();
 
   }
   
