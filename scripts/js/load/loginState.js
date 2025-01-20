@@ -422,7 +422,7 @@ let isAccountLocked = false;
     } finally {
         setTimeout(() => {
             location.reload();  // Refresh the page after 1 second
-        }, 2000);
+        }, 1000);
     }
    
     }
