@@ -434,7 +434,10 @@ margins: auto;
   }
 
 
+body {
 
+    background: #0e0e0d;
+}
     
   `;
   document.head.appendChild(styleElement);
