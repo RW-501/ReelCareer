@@ -445,6 +445,7 @@ populateSidePanelContacts(connectedUserData);
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+                where("isPublic", "==", true),
                 where("tags", "array-contains", tagFilter),
                 where("reelCategories", "array-contains", tagFilter),
                 where("searchableVideoResumeTitle", "array-contains", tagFilter),
@@ -457,6 +458,7 @@ populateSidePanelContacts(connectedUserData);
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+                where("isPublic", "==", true),
                 where("createdByID", "in", connectedUserIds),
                 orderBy("timestamp", "desc"),
                 startAfter(lastVisibleDoc),
@@ -467,6 +469,7 @@ populateSidePanelContacts(connectedUserData);
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+                where("isPublic", "==", true),
                 where("createdByID", "==", contactID),
                 orderBy("timestamp", "desc"),
                 startAfter(lastVisibleDoc),
@@ -477,6 +480,7 @@ populateSidePanelContacts(connectedUserData);
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+                where("isPublic", "==", true),
                 orderBy("timestamp", "desc"),
                 startAfter(lastVisibleDoc),
                 limit(postsPerPage)
@@ -486,7 +490,8 @@ populateSidePanelContacts(connectedUserData);
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
-                ...(includeConnected ? [where("createdByID", "in", connectedUserIds)] : []),
+                where("isPublic", "==", true),
+            ...(includeConnected ? [where("createdByID", "in", connectedUserIds)] : []),
                 orderBy("timestamp", "desc"),
                 limit(postsPerPage)
             );
@@ -501,11 +506,19 @@ populateSidePanelContacts(connectedUserData);
                 videoDataArray.push({
                     id: doc.id,
                     userID: videoData.userID || '',
+                    reelID: videoData.reelID || '',
+                    reelURL: videoData.reelURL || '',
                     createdByID: videoData.createdByID || '',
                     profilePicture: videoData.profilePicture || '',
                     displayName: videoData.displayName || '',
                     position: videoData.position || '',
+
                     location: videoData.location || '',
+                    state: videoData.state || '',
+                    zip: videoData.zip || '',
+                    city: videoData.city || '',
+                    country: videoData.country || '',
+
                     verified: videoData.verified || false,
                     duration: videoData.duration || 0,
                     likes: videoData.likes || 0,
@@ -517,7 +530,42 @@ populateSidePanelContacts(connectedUserData);
                     videoResumeURL: videoData.videoResumeURL || '',
                     videoResumeCaptions: videoData.videoResumeCaptions || '',
                     tags: videoData.tags || [],
-                    timestamp: videoData.timestamp || ''
+                    timestamp: videoData.timestamp || '',
+                    
+                    engagegments: videoData.engagegments || 0,
+                    reach: videoData.reach || 0,
+                    relatedProducts: videoData.relatedProducts || [],
+                    reported: videoData.reported || 0,
+                    shares: videoData.shares || 0,
+                    shortList: videoData.shortList || 0,
+                    saved: videoData.saved || 0,
+
+                    endingCard: videoData.endingCard || '',
+                    relatedReels: videoData.relatedReels || [],
+                    relatedURL: videoData.relatedURL || '',
+                    searchableVideoResumeTitle: videoData.searchableVideoResumeTitle || [],
+                    uniqueViews: videoData.uniqueViews || 0,
+                    videoPlacement: videoData.videoPlacement || [],
+                    watchTime: videoData.watchTime || '',
+
+                    commentsBool: videoData.commentsBool || true,
+                    giftsBool: videoData.giftsBool || true,
+                    isPublic: videoData.isPublic || true,
+                    likesBool: videoData.likesBool || true,
+                    locationBool: videoData.locationBool || true,
+                    lovesBool: videoData.lovesBool || true,
+                    viewsBool: videoData.viewsBool || true,
+
+                    endingCardBool: videoData.endingCardBool || false,
+                    isBoostedPost: videoData.isBoostedPost || false,
+                    isDeleted: videoData.isDeleted || false,
+                    isPinned: videoData.isPinned || false,
+                    isPinnedReelCareer: videoData.isPinnedReelCareer || false,
+                    isSponsoredPost: videoData.isSponsoredPost || false,
+                    notifcationsBool: videoData.notifcationsBool || false,
+                    relatedProductsBool: videoData.relatedProductsBool || false,
+                    relatedURLBool: videoData.relatedURLBool || false,
+
                 });
             });
             renderVideos(querySnap.docs, videoContainer, connectedUserIds, userId);
