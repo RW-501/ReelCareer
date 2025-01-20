@@ -182,10 +182,6 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
     const tags = extractHashtags(videoData.videoResumeCaptions);  // Ensure captions are passed in videoData
-    if (tags.length < 2) {
-      //  showToast("Please add at least two hashtags.");
-     //   return;
-    }
 
     const relatedReels = userDataSaved.videoResumeData?.map(video => ({
         reelID: video.reelID,
@@ -196,10 +192,25 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         reelcreatedDate: new Date(video.createdAt)
     })).sort((a, b) => b.reelcreatedDate - a.reelcreatedDate).slice(0, 5) || [];
 
+    // Validate 'createdAt' timestamp
+    const createdAtDate = new Date();
+    if (isNaN(createdAtDate.getTime())) {
+        console.error("Invalid 'createdAt' Date");
+        throw new Error("Invalid Date Value for 'createdAt'");
+    }
+
+    
+    
+
+      
 
     const searchableVideoResumeTitle = removeStopWords(videoData.videoResumeTitle, stopWords);
 
-
+    if (tags.length < 2) {
+        //  showToast("Please add at least two hashtags.");
+       //   return;
+      }
+  
     const videoResumeData = {
         createdByID: userID,
         displayName: userDataSaved.displayName || '',
@@ -224,7 +235,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         videoResumeFileName: videoData.name,
         duration: videoData.duration,
         fileType: videoData.fileType,
-        createdAt: new Date(),
+        createdAt: createdAtDate,
         timestamp: serverTimestamp(),
         views: 0,
         uniqueViews: 0,
