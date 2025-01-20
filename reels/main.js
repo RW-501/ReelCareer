@@ -1436,6 +1436,250 @@ function createVideoUploadPopup() {
                 height: auto;
                 margin-top: 10px;
             }
+
+
+
+
+
+
+
+
+#reels-more-options-area {
+
+
+            button {
+              padding: 10px 20px;
+              font-size: 16px;
+          }
+          
+          .reel-groups {
+              background-color: #dcdcdc85;
+              border-radius: 8px;
+              margin: .5rem;
+              padding: 1rem;
+              display: grid;
+          
+              
+          }
+          .reel-groups label {
+              display: inline-block;
+              margin-bottom: .5rem;
+              color: #86bcda;
+              font-family: sans-serif;
+              font-size: 1rem;
+              font-weight: 400;
+          }
+          
+          
+          
+          #editReelForm {
+          input[type="text"],
+          input[type="checkbox"],
+          input[type="text"],
+           input[type="url"],
+           select, 
+            textarea {
+              width: 100%;
+              padding: 10px;
+              margin: 10px 0;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              background-color: #f1f3f5;
+              color: #000;
+              transition: border 0.3s ease;
+          }
+          
+          }
+          .reel-groups-bools {
+              margin: 5% auto;
+              display: flex;
+              border: 1px solid #888;
+              border-radius: 8px;
+              align-content: stretch;
+              justify-content: space-around;
+              align-items: stretch;
+              justify-items: stretch;
+              grid-column-gap: 3rem;
+              flex-direction: row;
+              flex-wrap: wrap;
+              padding: 1.5rem;
+          }
+          
+          #editReelForm {
+          
+          /* Modern checkbox styling */
+          input[type="checkbox"] {
+              -webkit-appearance: none; /* Remove default checkbox */
+              -moz-appearance: none;
+              appearance: none;
+              width: 1.5rem; /* Adjust size for modern look */
+              height: 1.5rem;
+              margin: 0 10px 0 0;
+              border: 2px solid #ddd; /* Border for custom design */
+              border-radius: 4px; /* Rounded corners */
+              background-color: #f1f3f5;
+              position: relative;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              color: #000;
+          
+          }
+          
+          input[type="checkbox"]:checked {
+              background-color: #007bff; /* Active color */
+              border-color: #007bff;
+          }
+          
+          input[type="checkbox"]:checked::after {
+              content: '';
+              position: absolute;
+              top: 4px; /* Adjust positioning of checkmark */
+              left: 4px;
+              width: 6px;
+              height: 10px;
+              border: solid white;
+              border-width: 0 2px 2px 0;
+              transform: rotate(45deg); /* Create a checkmark */
+          }
+          
+          input[type="checkbox"]:hover {
+              border-color: #0056b3; /* Hover effect */
+          }
+          
+          }
+              .reel-groups-bools label {
+           
+              border-radius: 8px;
+              }
+          }    
+          
+          
+          
+          
+          
+          #analytics-container {
+            width: 100%;
+          }
+          
+          #analytics {
+              display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+          
+          }
+          .modal-content h3 {
+              font-size: 1.75rem;
+              color: #83bad9;
+              text-shadow: -1px 1px 0px #9e9a9a;
+              font-weight: 800;
+          }
+          
+          .analytics-item {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+          
+          .analytics-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #6c757d;
+          }
+          
+          .analytics-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+          }
+          
+          
+          .category-btn {
+              margin: .2rem;
+          }
+          
+           
+          .tag  {
+              background-color: #8a8a8a;
+              color: rgb(255 255 255);
+              border: none;
+              padding: 5px 10px;
+              font-size: 1.5rem;
+              cursor: pointer;
+              border-radius: 5px;
+              transition: background-color 0.3s;
+              display: flex;
+              margin: .5rem;
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: space-between;
+              align-items: center;
+              align-content: stretch;
+          }
+          
+          
+          
+          
+          
+          .tags {
+              color: rgb(255 255 255);
+              border: none;
+              padding: 5px 10px;
+              font-size: 1.5rem;
+              cursor: pointer;
+              border-radius: 5px;
+              transition: background-color 0.3s;
+              display: table-caption;
+              margin: .5rem;
+          }
+          
+          
+          .tag-primary {
+              background-color: #8fbdec;
+          
+          }
+          
+          #advanceAnalytics {
+              display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+          
+          }
+          #advanceAnalyticsContaier {
+                  margin-top: 1rem;
+          }
+          
+          
+          
+          
+          .videoElements {
+              display: block;
+              margin: auto;
+          }
+          
+          
+          
+          
+          
+          .videoElements {
+              display: block;
+              margin: auto;
+          }
+          
+          
+          
+          
+          
+    }
+
+
+
+
+
+
+
         `;
         document.head.appendChild(style);
     }
