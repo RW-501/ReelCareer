@@ -482,11 +482,18 @@ function redirectToLogin() {
 
         <div id="phone-verification" style="display: none;">
           <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+              <div id="recaptcha-container"></div> <!-- For reCAPTCHA -->
           <button id="sendVerificationCode">Send Verification Code</button>
+
+    <!-- Code Verification Section -->
           <div id="verificationCodeGroup" style="display: none;">
-            <input type="text" id="verificationCode" placeholder="Enter Verification Code">
-            <button id="verifyCode">Verify Code</button>
+        <input type="text" id="verificationCode" placeholder="Enter Verification Code" required>
+            <button id="verifyCodeButton">Verify Code</button>
           </div>
+
+
+
+
         </div>
       </div>
     `;
