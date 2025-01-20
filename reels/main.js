@@ -1625,7 +1625,19 @@ function createVideoUploadPopup() {
           
     }
 
-
+#saveReelChangesBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: .5rem;
+    font-size: 16px;
+    background: linear-gradient(271deg, #89bddb, transparent);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
 
 .hidden {
 display: none;
@@ -1986,10 +1998,19 @@ document.body.appendChild(overlay);
       return true;
      }
 
+
+
+
+
+
+
+
     // Save changes button
     document.getElementById('saveReelChangesBtn').onclick = async () => {
      
-  
+      const tagsInput_reelCategories = document.getElementById('input_tagsContainerSET-reelCategories').value.trim();
+      const updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
+      console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
   
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
