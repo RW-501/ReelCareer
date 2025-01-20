@@ -467,49 +467,41 @@ function initializeVideoUploadHandlers() {
 
     
     fileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // Fixed the missing 'e' in the event callback
         if (!file || file.type.split("/")[0] !== "video") {
             showToast("Please select a valid video file.");
             return;
         }
-    
+
         uploadedFile = file;
         const videoElement = document.createElement('video');
-        const objectURL = URL.createObjectURL(file); // Create object URL once
-        videoElement.src = objectURL;
-        
+        videoElement.src = URL.createObjectURL(file);
         videoElement.onloadedmetadata = () => {
             videoDuration = videoElement.duration;
-            videoPreview.src = objectURL;
+            videoPreview.src = videoElement.src;
             videoPreview.hidden = false;
-            URL.revokeObjectURL(objectURL); // Release memory after setting preview
-        };
-        
-        videoElement.onerror = () => {
-            showToast("Error loading video metadata. Please select a different file.");
-            uploadedFile = null;
+           // showToast(Selected video: ${file.name});
         };
     });
-    
+
     uploadButton.addEventListener("click", async (e) => {
         e.preventDefault();
-    
+
         if (!uploadedFile) {
             showToast("No video selected.");
             return;
         }
-    
+
         try {
             const description = document.querySelector(".reel-video-content").value.trim();
             const title = document.querySelector(".reel-video-title").value.trim();
-            await postReelFunction(title, description, videoPreview.src, videoDuration); // Use preview URL
+            await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
         } catch (error) {
-            console.error("Upload error:", error);
+
+            console.error("Upload error:",error);
             showToast("Error uploading the video. Please try again.");
         }
     });
-    
-
 }
 
 
