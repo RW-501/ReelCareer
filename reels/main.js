@@ -1920,10 +1920,6 @@ document.body.appendChild(overlay);
 
 
 
-document.querySelector(".select-video-btn").addEventListener("click", function() {
-document.querySelector(".reel-video-input").click();
-});
-
 
 
     // Close button functionality

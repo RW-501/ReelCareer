@@ -382,23 +382,6 @@ window.postReelFunction = postReelFunction;
 
 
 
-function openVideoLoader(){
-
-    selectVideoButton.addEventListener("click", (e) => {
-
-        console.error("selectVideoButton ?????????????//", e);
-
-        e.preventDefault(); 
-
-
-        console.error("preventDefault ?????????????//", e);
-
-        fileInput.click();
-
-        console.error("fileInput ?????????????//", fileInput);
-
-    });
-}
 
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
@@ -414,7 +397,10 @@ function initializeVideoUploadHandlers() {
     let uploadedFile = null;
     let videoDuration = 0;
 
-     openVideoLoader();
+    selectVideoButton.addEventListener("click", (e) => {
+
+        fileInput.click();
+    });
 
 
     fileInput.addEventListener("change", (e) => {
