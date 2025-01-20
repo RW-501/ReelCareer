@@ -406,7 +406,8 @@ function insertSidePanelContent() {
 padding: 1rem;
 margins: auto;
 
-
+    user-select: none;
+    font-size: 1.75rem !important;
 }
 
 .side-panel-content {
