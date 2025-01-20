@@ -518,20 +518,21 @@ function populateSidePanelContacts(connectedUserData) {
       margin-right: 10px;
     }
 
-    .contact-name {
-      flex-grow: 1;
-    }
+.contact-name {
+    flex-grow: 1;
+    color: #86bbd9;
+}
 
-    .view-profile-button, .view-videos-button {
-      margin-left: 10px;
-      padding: 5px 10px;
-      border: none;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-      text-decoration: none;
-    }
+.view-profile-button, .view-videos-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #b7d1eb;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+}
 
     .view-profile-button:hover, .view-videos-button:hover {
       background-color: #0056b3;
@@ -602,6 +603,8 @@ async function loadTopCategoriesWithVideos() {
 .category-item {
     margin-bottom: 20px;
     padding: 1rem;
+    background: linear-gradient(153deg, #26449e14, #1d5b9e4f);
+    border-radius: 5%;
 }
         .category-item-h3 {
         font-size: 1.5rem;
@@ -624,15 +627,15 @@ async function loadTopCategoriesWithVideos() {
         font-weight: bold;
         margin-right: 10px;
       }
-      .watch-video-button {
-        padding: 5px 10px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        text-decoration: none;
-      }
+.watch-video-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #b7d1eb;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+}
       .watch-video-button:hover {
         background-color: #0056b3;
       }

@@ -345,7 +345,6 @@ function insertSidePanelContent() {
       padding: 0;
       border: 1px solid #ddd;
       border-radius: 5px;
-      background: #fff;
     }
   
     .search-suggestions li {
@@ -418,18 +417,19 @@ margins: auto;
     margin: 10px;
   }
 
-  .connection-type-button {
+.connection-type-button {
     padding: 8px 12px;
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    color: azure;
     cursor: pointer;
-    background: #fff;
+    background: linear-gradient(45deg, #91c1dd, #aed0e3);
     transition: background-color 0.3s, color 0.3s;
-  }
+}
 
   .connection-type-button:hover {
-    background-color: #007bff;
+    background-color:rgb(142, 142, 143);
     color: #fff;
   }
 
