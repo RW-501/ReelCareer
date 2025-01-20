@@ -101,6 +101,8 @@ function insertSidePanelContent() {
       if(!user){  
         const allUserBtns = document.querySelectorAll('.side-user-btn');
         allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all popouts
+        document.getElementById('search-section').style.display = 'none';
+
       }else{
 
         document.getElementById('search-section').style.display = 'block';
