@@ -399,7 +399,8 @@ function initializeVideoUploadHandlers() {
     selectVideoButton.addEventListener("click", () => fileInput.click());
   
     fileInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
+        e.preventDefault(); // Prevent the default form submission
+        const file = e.target.files[0];
       if (!file || file.type.split("/")[0] !== "video") {
         showToast("Please select a valid video file.");
         return;
