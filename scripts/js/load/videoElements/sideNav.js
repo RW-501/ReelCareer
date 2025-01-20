@@ -185,6 +185,34 @@ function insertSidePanelContent() {
 }
 
 
+/* Basic Styling */
+.search-input {
+  width: 300px;  /* Adjust to desired width */
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 20px;  /* Rounded corners */
+  transition: all 0.3s ease; /* Smooth transition */
+  outline: none; /* Remove default outline */
+  background-color: #fff;
+}
+
+/* Focus Styling */
+.search-input:focus {
+  border-color: #007BFF; /* Border turns blue when focused */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add subtle glow effect */
+}
+
+/* Hover Styling */
+.search-input:hover {
+  border-color: #888; /* Darker border on hover */
+}
+
+/* Placeholder Styling */
+.search-input::placeholder {
+  color: #aaa;  /* Lighter placeholder text */
+  font-style: italic;  /* Slightly italic placeholder */
+}
 
 
 

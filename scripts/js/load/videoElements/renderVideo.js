@@ -502,6 +502,8 @@ function populateSidePanelContacts(connectedUserData) {
   // Inject CSS for contact styling
   const style = document.createElement('style');
   style.textContent = `
+
+  
     .contact-item {
       display: flex;
       align-items: center;
@@ -591,7 +593,6 @@ window.populateSidePanelContacts = populateSidePanelContacts;
 async function loadTopCategoriesWithVideos() {
   const searchSuggestionsDiv = document.getElementById('search-suggestions');
   searchSuggestionsDiv.innerHTML = ''; // Clear any existing content
-  console.log('loadTopCategoriesWithVideos  ??????????????????/');
 
   // Avoid repeated style injection
   if (!document.getElementById('video-preview-style')) {
