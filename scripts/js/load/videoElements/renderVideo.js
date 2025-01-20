@@ -578,3 +578,181 @@ function populateSidePanelContacts(connectedUserData) {
 
 
 window.populateSidePanelContacts = populateSidePanelContacts;
+
+
+
+
+
+
+
+
+
+
+
+async function loadTopCategoriesWithVideos() {
+  const searchSuggestionsDiv = document.getElementById('search-suggestions');
+  searchSuggestionsDiv.innerHTML = ''; // Clear any existing content
+
+  // Avoid repeated style injection
+  if (!document.getElementById('video-preview-style')) {
+    const style = document.createElement('style');
+    style.id = 'video-preview-style';
+    style.textContent = `
+      .category-item {
+        margin-bottom: 20px;
+      }
+      .video-preview {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .video-thumbnail {
+        width: 80px;
+        height: 45px;
+        margin-right: 10px;
+      }
+      .video-title {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .watch-video-button {
+        padding: 5px 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .watch-video-button:hover {
+        background-color: #0056b3;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const videoResumesRef = collection(firebaseDb, 'VideoResumes');
+  const querySnapshot = await getDocs(videoResumesRef);
+
+  const categoryMap = new Map();
+  const topVideos = [];
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.isPublic && data.status === 'public' && !data.isDeleted) {
+      const rating = ((data.views * data.duration) / data.watchTime) * 0.7 + data.likes * 0.3;
+      topVideos.push({ ...data, rating });
+      if (data.reelCategories && data.reelCategories.length > 0) {
+        data.reelCategories.forEach((category) => {
+          if (!categoryMap.has(category)) {
+            categoryMap.set(category, []);
+          }
+          categoryMap.get(category).push({ ...data, rating });
+        });
+      }
+    }
+  });
+
+  const sortedCategories = Array.from(categoryMap.entries())
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 5);
+
+  const randomPhrases = [
+    "Explore the creative world of {category}",
+    "Top picks in {category}",
+    "Watch the best {category} reels",
+    "Trending now: {category} talent",
+    "See standout work in {category}"
+  ];
+
+  const fragment = document.createDocumentFragment();
+
+  sortedCategories.forEach(([category, videos]) => {
+    const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
+    const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+
+    if (!topVideo) {
+      console.warn('No top video found for category:', category);
+      return;
+    }
+
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category-item';
+
+    const categoryTitle = document.createElement('h3');
+    categoryTitle.textContent = randomPhrase;
+    categoryDiv.appendChild(categoryTitle);
+
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-preview';
+
+    const thumbnail = document.createElement('img');
+    thumbnail.src = topVideo.thumbnailURL || 'default-thumbnail.jpg';
+    thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
+    thumbnail.className = 'video-thumbnail';
+
+    const videoTitle = document.createElement('span');
+    videoTitle.textContent = topVideo.videoResumeTitle || 'Untitled Video';
+    videoTitle.className = 'video-title';
+
+    const videoLink = document.createElement('a');
+    videoLink.href = topVideo.videoResumeURL;
+    videoLink.textContent = 'Watch Video';
+    videoLink.target = '_blank';
+    videoLink.className = 'watch-video-button';
+    videoLink.setAttribute('aria-label', `Watch video titled ${topVideo.videoResumeTitle || 'Untitled Video'}`);
+
+    videoContainer.appendChild(thumbnail);
+    videoContainer.appendChild(videoTitle);
+    videoContainer.appendChild(videoLink);
+    categoryDiv.appendChild(videoContainer);
+
+    fragment.appendChild(categoryDiv);
+  });
+
+  searchSuggestionsDiv.appendChild(fragment);
+
+  if (sortedCategories.length === 0) {
+    const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
+    topRatedVideos.forEach((video) => {
+      const tagPhrase = `Discover amazing content with tags like: ${video.tags.join(', ')}`;
+      const videoDiv = document.createElement('div');
+      videoDiv.className = 'category-item';
+
+      const videoTitle = document.createElement('h3');
+      videoTitle.textContent = tagPhrase;
+      videoDiv.appendChild(videoTitle);
+
+      const videoContainer = document.createElement('div');
+      videoContainer.className = 'video-preview';
+
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.thumbnailURL || 'default-thumbnail.jpg';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.className = 'video-thumbnail';
+
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = video.videoResumeTitle || 'Untitled Video';
+      titleSpan.className = 'video-title';
+
+      const link = document.createElement('a');
+      link.href = video.videoResumeURL;
+      link.textContent = 'Watch Video';
+      link.target = '_blank';
+      link.className = 'watch-video-button';
+      link.setAttribute('aria-label', `Watch video titled ${video.videoResumeTitle || 'Untitled Video'}`);
+
+      videoContainer.appendChild(thumbnail);
+      videoContainer.appendChild(titleSpan);
+      videoContainer.appendChild(link);
+      videoDiv.appendChild(videoContainer);
+
+      fragment.appendChild(videoDiv);
+    });
+
+    searchSuggestionsDiv.appendChild(fragment);
+  }
+}
+
+loadTopCategoriesWithVideos();
+window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
