@@ -218,6 +218,9 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
         const reelID = reelDocRef.id;
 
+
+    document.getElementById('reelID').innerText = reelID;
+
             // Update the videoResumeData with the new reelID and generate the reelURL
     const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
 
@@ -226,7 +229,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         reelID: reelID,
         reelURL: reelURL
     });
-
+    
     console.log("videoResumeData: ", { ...videoResumeData, reelID, reelURL });
 
         const userDocRef = doc(db, "Users", userID);

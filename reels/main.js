@@ -1722,7 +1722,7 @@ display: none;
           <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
         </div>
 
-        
+
         <!-- Boosted Post Option -->
         <div class="reel-groups">
           <label for="isBoostedPost">
@@ -1848,6 +1848,7 @@ display: none;
     </div>
 
       <button type="button" id="saveReelChangesBtn">Save Changes</button>
+      <div id="reelID" hidden></div>
 
       </div>
     </div>
@@ -1942,7 +1943,8 @@ document.querySelector(".reel-video-input").click();
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
-  
+      const reelID = document.getElementById('reelID').innerText;
+
   
   
   const updatedRelatedURL = document.getElementById('relatedURL').value;
