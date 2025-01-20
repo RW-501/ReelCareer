@@ -1372,9 +1372,9 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 function createVideoUploadPopup() {
     // Inject styling if not already present
     if (!document.getElementById("videoUploadStyles")) {
-        const style = document.createElement("style");
-        style.id = "videoUploadStyles";
-        style.textContent = `
+        const uploadStyles = document.createElement("style");
+        uploadStyles.id = "videoUploadStyles";
+        uploadStyles.textContent = `
             .video-upload-popup-overlay {
                 position: fixed;
                 top: 0;
@@ -1683,7 +1683,7 @@ display: none;
 
 
         `;
-        document.head.appendChild(style);
+        document.body.appendChild(uploadStyles);
     }
 
     // Create the overlay for the popup
