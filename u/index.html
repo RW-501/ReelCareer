@@ -1734,7 +1734,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
     console.log("userData.videoResumeData: ", userData.videoResumeData);
 
     userData.videoResumeData.forEach(videoData => {
-        if (videoData.status === 'posted') {
+        if (videoData.status === 'posted' || videoData.isPublic === true) {
             const card = document.createElement('div');
             card.classList.add("profileVideoCard");
             card.innerHTML = `
