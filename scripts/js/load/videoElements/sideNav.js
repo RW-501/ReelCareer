@@ -244,6 +244,7 @@ function insertSidePanelContent() {
   transition: all 0.3s ease; /* Smooth transition */
   outline: none; /* Remove default outline */
   background-color: #fff;
+  
 }
 
 /* Focus Styling */
