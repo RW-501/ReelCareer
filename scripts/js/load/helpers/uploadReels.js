@@ -304,7 +304,6 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             console.log("Successfully updated reel document with: ", { reelID, reelURL });
         
         } catch (error) {
-           // console.log("error  : ", { reelID, reelURL });
 
             console.error("Error updating reel document: ", error);
         }
@@ -318,7 +317,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
                     tags: tags,
-                    createdAt: new Date(),
+                    createdAt: createdAtDate,
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
                 })
@@ -347,7 +346,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                         videoResumeURL: videoResumeURL,
                         tags: tags,
                         isPublic: true,
-                        createdAt: new Date(),
+                        createdAt: createdAtDate,
                         status: 'posted',
                         reelURL: `https://reelcareer.co/reels/?r=${reelID}`
                     }
