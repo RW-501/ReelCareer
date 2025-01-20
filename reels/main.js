@@ -1484,12 +1484,7 @@ function createVideoUploadPopup() {
       document.getElementById("reels-more-options-area").classList.remove("hidden");
     });
     
-    document.getElementById("goBackBtn").addEventListener("click", function() {
-      // Show upload area and hide more options area
-      document.getElementById("uploadArea").classList.remove("hidden");
-      document.getElementById("reels-more-options-area").classList.add("hidden");
-    });
-    
+
     // Styling for the hidden class
     const style = document.createElement('style');
     style.innerHTML = `

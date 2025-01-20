@@ -571,17 +571,15 @@ function initializeVideoUploadHandlers() {
         </div>
       </div>
     `;
-    document.getElementById("reels-more-options-btn").innerHTML = overlay;
-    // Event listeners
-    document.getElementById("reels-more-options-btn").addEventListener("click", function() {
-      document.getElementById("uploadArea").style.display = "none";
-      document.getElementById("reels-more-options-area").classList.remove("hidden");
-    });
+    document.getElementById("reels-more-options-area").innerHTML = overlay;
+
   
     document.getElementById("goBackBtn").addEventListener("click", function() {
-      document.getElementById("uploadArea").style.display = "block";
-      document.getElementById("reels-more-options-area").classList.add("hidden");
-    });
+        // Show upload area and hide more options area
+        document.getElementById("uploadArea").classList.remove("hidden");
+        document.getElementById("reels-more-options-area").classList.add("hidden");
+      });
+      
   
     document.querySelector(".select-video-btn").addEventListener("click", function() {
       document.querySelector(".reel-video-input").click();
