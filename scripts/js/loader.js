@@ -322,8 +322,8 @@ function loadPageScripts() {
             if (currentPath.includes('reel') || currentPath.includes('videos')){
 
         // Load renderVideo Script
-        loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true }, () => {
-            logExecutionTime('renderVideo', performance.now());
+        loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true, type: 'module' }, () => {
+            logExecutionTime('sideNav', performance.now());
         });
 
 
