@@ -1676,7 +1676,10 @@ function createVideoUploadPopup() {
 
 
 
+.hidden {
+display: none;
 
+}
 
 
 
