@@ -1857,13 +1857,18 @@ display: none;
     </div>
   `;
 
-    // Styling for the hidden class
+ /*    
+ 
+ // Styling for the hidden class
     const style = document.createElement('style');
     style.innerHTML = `
       .hidden {
         display: none;
       }
-    `;    
+          `;  
+      */
+
+    
 
 
 // Append to body
