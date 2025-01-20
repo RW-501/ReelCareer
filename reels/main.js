@@ -1991,7 +1991,7 @@ document.body.appendChild(overlay);
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
      // Retrieve the reelID from localStorage
-     reelID = localStorage.getItem('reelID');
+   let  reelID = localStorage.getItem('reelID');
 
   
   const updatedRelatedURL = document.getElementById('relatedURL').value;
@@ -2063,6 +2063,7 @@ document.body.appendChild(overlay);
       return;
   }
   
+
   
   
   let updatedEndingCardBool = false;

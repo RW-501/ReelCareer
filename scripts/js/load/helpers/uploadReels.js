@@ -495,7 +495,9 @@ function initializeVideoUploadHandlers() {
         };
     });
 
-    uploadButton.addEventListener("click", async () => {
+    uploadButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+
         if (!uploadedFile) {
             showToast("No video selected.");
             return;
