@@ -438,6 +438,11 @@ body {
     background: #0e0e0d;
 }
     
+input {
+    background: black;
+    }
+
+
   `;
   document.head.appendChild(styleElement);
   
