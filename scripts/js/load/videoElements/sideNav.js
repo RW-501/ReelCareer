@@ -381,7 +381,11 @@ function insertSidePanelContent() {
   color: #fff; /* Text color changes to white on hover */
 }
     }
-      .side-nav-button:active {
+
+
+
+
+      #main-side-panel button:active {
       border: #89bdda solid;
       box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
