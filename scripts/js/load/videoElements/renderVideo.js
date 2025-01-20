@@ -598,17 +598,21 @@ async function loadTopCategoriesWithVideos() {
     const style = document.createElement('style');
     style.id = 'video-preview-style';
     style.textContent = `
-      .category-item {
-        margin-bottom: 20px;
-      }
+.category-item {
+    margin-bottom: 20px;
+    padding: 1rem;
+}
         .category-item-h3 {
         font-size: 1.5rem;
         }
-      .video-preview {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-      }
+.video-preview {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
       .video-thumbnail {
         width: 80px;
         height: 45px;
