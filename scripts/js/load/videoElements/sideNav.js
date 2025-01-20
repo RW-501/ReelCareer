@@ -300,12 +300,18 @@ function insertSidePanelContent() {
 .side-nav-button:active {
   transform: scale(0.98); /* Slight shrinking effect when clicked */
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
-  outline: #007BFF; /* Button background turns blue on hover */
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+    border: #89bdda solid;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
 
 
 
+#search-input:active {
+  transform: scale(0.98); /* Slight shrinking effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
+    border: #89bdda solid;
+      box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+}
 
 
 
