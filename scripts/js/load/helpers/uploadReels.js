@@ -395,7 +395,8 @@ function initializeVideoUploadHandlers() {
       console.error("One or more video upload elements not found.");
       return;
     }
-  
+    console.log("33333333333333333333333333333333.");
+
     let uploadedFile = null;
     let videoDuration = 0;
   
@@ -408,6 +409,8 @@ function initializeVideoUploadHandlers() {
         showToast("Please select a valid video file.");
         return;
       }
+      console.log("444444444444444444444.");
+
       uploadedFile = file;
       const videoElement = document.createElement('video');
       videoElement.src = URL.createObjectURL(file);

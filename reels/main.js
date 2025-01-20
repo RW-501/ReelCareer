@@ -2431,15 +2431,20 @@ function handleUserAuthentication() {
   } else {
     openPopupLogin();
   }
+
+  console.log("22222222222222222222222222.");
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
 // Create a button with event listener
-document.getElementById("showUploadPopup").addEventListener("click", () => {
-  
+document.getElementById("showUploadPopup").addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent the default form submission
+
   
   handleUserAuthentication();
+  console.log("1111111111111111111111d.");
 
 });
 
