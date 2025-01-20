@@ -120,13 +120,71 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
 
 window.uploadVideoResume = uploadVideoResume;
 
+
+
+
+function removeStopWords(text, stopWordsSet) {
+    if (!text) {
+        console.error("No text provided to remove stop words.");
+        return [];
+    }
+
+    return text
+        .toLowerCase()  // Convert to lowercase
+        .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
+        .split(" ")  // Split into words
+        .filter(word => word && !stopWordsSet.has(word));  // Remove empty strings and stop words
+}
+
+// Usage
+const stopWords = new Set(["a", "an", "the", "and", "or", "but", "if", "then", "else", "of", "to", "in", "on", "with", "by", "for", "at", "from", "into", "over", "after", "before", "under", "about",
+     "above", "below", "is", "was", "were", "be", "has", "had", "do", "does", "did", "not",
+      "this", "that", "these", "those", "it", "its", "my", "your", "our", "their", "his",
+       "her", "him", "he", "she", "they", "we", "you", "i"]);
+
+
+
+
+// Function to extract hashtags and store them in an array
+function extractHashtags(caption) {
+    if (!caption) {
+        console.error("Caption is undefined or null");
+        return [];  // Avoid further errors
+    }
+
+  
+
+    console.log("Extracting hashtags from:", caption);
+
+    // Extract only words starting with '#'
+    const words = caption.match(/#\w+/g) || [];  // This pattern strictly matches hashtags
+    console.log("Hashtags found:", words);
+
+    // Filter out stop words and limit to 15 unique tags
+    const filteredTags = words
+        .map(word => word.slice(1).toLowerCase())  // Remove '#' and convert to lowercase
+        .filter(word => word && !stopWords.has(word))  // Filter out stop words
+        .slice(0, 15);  // Limit to 15 unique tags
+
+    if (filteredTags.length === 0) {
+        showToast("No valid tags found, using processed keywords as tags.");
+    }
+
+    return Array.from(new Set(filteredTags));  // Ensure tags are unique
+}
+
+
+
+
+
+
 async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
     const tags = extractHashtags(videoData.videoResumeCaptions);  // Ensure captions are passed in videoData
     if (tags.length < 2) {
-        showToast("Please add at least two hashtags.");
-        return;
+      //  showToast("Please add at least two hashtags.");
+     //   return;
     }
 
     const relatedReels = userDataSaved.videoResumeData?.map(video => ({
@@ -139,12 +197,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     })).sort((a, b) => b.reelcreatedDate - a.reelcreatedDate).slice(0, 5) || [];
 
 
-        // Searchable Title
-        const searchableVideoResumeTitle = videoData.videoResumeTitle
-            .toLowerCase()
-            .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
-            .split(" ")  // Split into words
-            .filter(Boolean);  // Remove empty strings
+    const searchableVideoResumeTitle = removeStopWords(videoData.videoResumeTitle, stopWords);
 
 
     const videoResumeData = {
@@ -314,40 +367,6 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 
 
-
-
-
-// Function to extract hashtags and store them in an array
-function extractHashtags(caption) {
-
-    if (!caption) {
-        console.error("Caption is undefined or null");
-        return [];  // Avoid further errors
-    }
-    const stopWords = new Set(["a", "an", "the", "and", "or", "but", "if", "then", "else", "of", "to", "in", "on", "with", "by", "for", "at", "from", "into", "over", "after", "before", "under", "about",
-         "above", "below", "is", "was", "were", "be", "has", "had", "do", "does", "did", "not",
-          "this", "that", "these", "those", "it", "its", "my", "your", "our", "their", "his",
-           "her", "him", "he", "she", "they", "we", "you", "i"]);
-
-
-           console.log("Upload extractHashtags:", caption);
-
-    // Extract words that start with '#' or treat entire caption if no hashtags
-    const words = caption.match(/#\w+|\b\w+\b/g) || [];
-    console.log("words extractHashtags:", words);
-
-    // Filter out stop words, remove hashtags, and limit to 15 unique tags
-    const filteredTags = words
-        .map(word => word.replace(/^#/, '').toLowerCase()) // Remove '#' and convert to lowercase
-        .filter(word => word && !stopWords.has(word)) // Filter out stop words
-        .slice(0, 15); // Limit to 15 words
-
-    if (filteredTags.length === 0) {
-        showToast("No valid tags found, using processed keywords as tags.");
-    }
-
-    return Array.from(new Set(filteredTags));  // Ensure tags are unique
-}
 
 
 
