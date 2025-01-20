@@ -297,7 +297,7 @@ function redirectToLogin() {
     
     const popupStyles = document.createElement('style');
     popupStyles.innerHTML = `
-element.style {
+#popup-login-container {
     background: #c0e3f6;
     padding: 30px;
     border-radius: 12px;
