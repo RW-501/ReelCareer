@@ -42,6 +42,11 @@ function insertSidePanelContent() {
             <li class="side-nav-item">
               <button id="btn-faq" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> FAQ</span></button>
             </li>
+
+        <li class="side-nav-item" >
+              <button id="btn-video-account" class="side-nav-button"><i class="fas fa-film"></i><span class="btn-text"> Video Account</span></button>
+            </li>
+
           </ul>
           <div id="side-panel-popout-section">
 
