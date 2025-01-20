@@ -501,7 +501,7 @@ function redirectToLogin() {
       document.getElementById('social-login').style.display = 'none';
       document.getElementById('login-form-section').style.display = 'none';
       document.getElementById('signup-form-section').style.display = 'none';
-      document.getElementById('phone-login-form').style.display = 'block';
+      document.getElementById('phone-verification').style.display = 'block';
   });
   
 /*     document.getElementById("forgot-password-link").addEventListener("click", () => {
