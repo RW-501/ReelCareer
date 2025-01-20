@@ -615,8 +615,8 @@ async function loadTopCategoriesWithVideos() {
     justify-content: space-around;
 }
       .video-thumbnail {
-        width: 80px;
-        height: 45px;
+        height: 80px;
+        width: 45px;
         margin-right: 10px;
       }
       .video-title {
