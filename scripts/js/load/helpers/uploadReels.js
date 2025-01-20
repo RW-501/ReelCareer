@@ -384,60 +384,59 @@ window.postReelFunction = postReelFunction;
 
 
 
-
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
     const selectVideoButton = document.querySelector(".select-video-btn");
     const uploadButton = document.querySelector(".reel-video-btn");
     const videoPreview = document.querySelector(".reel-video-preview");
-  
+
     if (!fileInput || !selectVideoButton || !uploadButton || !videoPreview) {
       console.error("One or more video upload elements not found.");
       return;
     }
-    console.log("33333333333333333333333333333333.");
 
     let uploadedFile = null;
     let videoDuration = 0;
-  
-    selectVideoButton.addEventListener("click", () => fileInput.click());
-  
-    fileInput.addEventListener("change", (e) => {
-        e.preventDefault(); // Prevent the default form submission
-        const file = e.target.files[0];
-      if (!file || file.type.split("/")[0] !== "video") {
-        showToast("Please select a valid video file.");
-        return;
-      }
-      console.log("444444444444444444444.");
 
-      uploadedFile = file;
-      const videoElement = document.createElement('video');
-      videoElement.src = URL.createObjectURL(file);
-      videoElement.onloadedmetadata = () => {
-        videoDuration = videoElement.duration;
-        videoPreview.src = videoElement.src;
-        videoPreview.hidden = false;
-        showToast(`Selected video: ${file.name}`);
-      };
+    selectVideoButton.addEventListener("click", () => {
+        fileInput.click();
     });
-  
+
+    fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0]; // Fixed the missing 'e' in the event callback
+        if (!file || file.type.split("/")[0] !== "video") {
+            showToast("Please select a valid video file.");
+            return;
+        }
+
+        uploadedFile = file;
+        const videoElement = document.createElement('video');
+        videoElement.src = URL.createObjectURL(file);
+        videoElement.onloadedmetadata = () => {
+            videoDuration = videoElement.duration;
+            videoPreview.src = videoElement.src;
+            videoPreview.hidden = false;
+            showToast(`Selected video: ${file.name}`);
+        };
+    });
+
     uploadButton.addEventListener("click", async () => {
-      if (!uploadedFile) {
-        showToast("No video selected.");
-        return;
-      }
-  
-      try {
-        const description = document.querySelector(".reel-video-content").value.trim();
-        const title = document.querySelector(".reel-video-title").value.trim();
-        await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
-      } catch (error) {
-        console.error("Upload error:", error);
-        showToast("Error uploading the video. Please try again.");
-      }
+        if (!uploadedFile) {
+            showToast("No video selected.");
+            return;
+        }
+
+        try {
+            const description = document.querySelector(".reel-video-content").value.trim();
+            const title = document.querySelector(".reel-video-title").value.trim();
+            await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
+        } catch (error) {
+            console.error("Upload error:", error);
+            showToast("Error uploading the video. Please try again.");
+        }
     });
-  }
+}
+
   window.initializeVideoUploadHandlers = initializeVideoUploadHandlers;
 
   // Call this function once the popup is created or relevant DOM is ready
