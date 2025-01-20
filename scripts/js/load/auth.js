@@ -372,7 +372,7 @@ function redirectToLogin() {
   
       button[type="submit"],
       #google-login,
-      #phone-login,
+      #phoneLogin,
       #facebook-login,
       #apple-login {
         width: 100%;
@@ -440,7 +440,7 @@ function redirectToLogin() {
           <button id="tab-signup">Sign Up</button>
         </div>
         <div id="login-form-section">
-          <form id="popup-login-form">
+          <form id="login-form">
             <h2>Log In</h2>
             <input type="email" id="login-email" placeholder="Email" required>
             <input type="password" id="login-password" placeholder="Password" required>
@@ -448,7 +448,7 @@ function redirectToLogin() {
           </form>
           <div class="social-login">
             <button id="google-login">Continue with Google</button>
-            <button id="phone-login">Phone Login</button>
+            <button id="phoneLogin">Phone Login</button>
             <button id="facebook-login" hidden>Continue with Facebook</button>
             <button id="apple-login" hidden>Continue with Apple</button>
           </div>
