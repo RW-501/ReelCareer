@@ -1556,46 +1556,6 @@ function createVideoUploadPopup() {
           
           
           
-          
-          #analytics-container {
-            width: 100%;
-          }
-          
-          #analytics {
-              display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-          
-          }
-          .modal-content h3 {
-              font-size: 1.75rem;
-              color: #83bad9;
-              text-shadow: -1px 1px 0px #9e9a9a;
-              font-weight: 800;
-          }
-          
-          .analytics-item {
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #f9f9f9;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          }
-          
-          .analytics-label {
-            display: block;
-            font-size: 0.9rem;
-            color: #6c757d;
-          }
-          
-          .analytics-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-          }
-          
-          
           .category-btn {
               margin: .2rem;
           }
@@ -1641,15 +1601,6 @@ function createVideoUploadPopup() {
           
           }
           
-          #advanceAnalytics {
-              display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-          
-          }
-          #advanceAnalyticsContaier {
-                  margin-top: 1rem;
-          }
           
           
           
@@ -1704,24 +1655,24 @@ display: none;
     border: none;
     cursor: pointer;
   }
-  .upload-area {
+.upload-area {
     padding: 10px;
-    border: 2px dashed #ccc;
+    border: 2px solid #ccc;
     border-radius: 10px;
     text-align: center;
-  }
+}
   .upload-area.drag-over {
     border-color: #3498db;
     background: rgba(52, 152, 219, 0.1);
   }
-  .select-video-btn {
+.select-video-btn {
     padding: 10px 20px;
-    background: linear-gradient(90deg, #3498db, #8e44ad);
+    background: linear-gradient(90deg, #3498db, #84adea);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
+}
   .select-video-btn:hover {
     background: linear-gradient(90deg, #2980b9, #71368a);
   }
