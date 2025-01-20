@@ -304,7 +304,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             console.log("Successfully updated reel document with: ", { reelID, reelURL });
         
         } catch (error) {
-            console.log("error  : ", { reelID, reelURL });
+           // console.log("error  : ", { reelID, reelURL });
 
             console.error("Error updating reel document: ", error);
         }
