@@ -287,60 +287,95 @@ function redirectToLogin() {
 
 
   // Create and inject the popup login structure
-function createPopupLogin() {
-  const popupContainer = document.createElement('div');
-  popupContainer.id = 'popup-login-container';
-  popupContainer.style.position = 'fixed';
-  popupContainer.style.top = '0';
-  popupContainer.style.left = '0';
-  popupContainer.style.width = '100%';
-  popupContainer.style.height = '100%';
-  popupContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  popupContainer.style.display = 'flex';
-  popupContainer.style.justifyContent = 'center';
-  popupContainer.style.alignItems = 'center';
-  popupContainer.style.zIndex = '1000';
-  popupContainer.style.visibility = 'hidden';
-
-  popupContainer.innerHTML = `
-      <div id="popup-login-content" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); width: 90%; max-width: 400px; position: relative;">
-          <span id="popup-login-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 18px;">&times;</span>
+  function createPopupLogin() {
+    const popupContainer = document.createElement('div');
+    popupContainer.id = 'popup-login-container';
+    popupContainer.style = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      visibility: hidden;
+    `;
+  
+    popupContainer.innerHTML = `
+      <div id="popup-login-content" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); width: 100%; max-width: 500px; position: relative;">
+        <span id="popup-login-close" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px;">&times;</span>
+        <div class="login-tabs">
+          <button id="tab-login" class="active">Log In</button>
+          <button id="tab-signup">Sign Up</button>
+        </div>
+        <div id="login-form-section">
           <form id="popup-login-form">
-              <h2>Log In</h2>
-              <input type="email" id="popup-login-email" placeholder="Email" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
-              <div class="input-container">
-                  <input type="password" id="popup-login-password" placeholder="Password" required style="width: 100%; padding: 10px;">
-                  <span id="toggle-popup-login-password" style="cursor: pointer;">👁️</span>
-              </div>
-              <button type="submit" style="width: 100%; padding: 10px; background: #639ad4; color: white; border: none; border-radius: 4px; cursor: pointer;">Log In</button>
+            <h2>Log In</h2>
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit">Log In</button>
           </form>
+          <div class="social-login">
+            <button id="google-login">Continue with Google</button>
+            <button id="phone-login">Phone Login</button>
+            <button id="facebook-login">Continue with Facebook</button>
+            <button id="apple-login">Continue with Apple</button>
+          </div>
+          <div>
+            <a href="#" id="forgot-password-link">Forgot Password?</a>
+          </div>
+        </div>
+        <div id="signup-form-section" style="display: none;">
+          <form id="signup-form">
+            <h2>Sign Up</h2>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+        <div id="phone-verification" style="display: none;">
+          <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+          <button id="sendVerificationCode">Send Verification Code</button>
+          <div id="verificationCodeGroup" style="display: none;">
+            <input type="text" id="verificationCode" placeholder="Enter Verification Code">
+            <button id="verifyCode">Verify Code</button>
+          </div>
+        </div>
       </div>
-  `;
-
-  document.body.appendChild(popupContainer);
-
-  // Close popup when the close button or outside is clicked
-  document.getElementById('popup-login-close').addEventListener('click', closePopupLogin);
-  popupContainer.addEventListener('click', function(event) {
-      if (event.target === popupContainer) closePopupLogin();
-  });
-
-  // Toggle password visibility
-  document.getElementById('toggle-popup-login-password').addEventListener('click', function() {
-      const passwordField = document.getElementById('popup-login-password');
-      passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-  });
-
-  // Form submit handler (example)
-  document.getElementById('popup-login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('popup-login-email').value;
-      const password = document.getElementById('popup-login-password').value;
-      alert(`Logging in with Email: ${email}`);
-      closePopupLogin();
-  });
-}
-
+    `;
+  
+    document.body.appendChild(popupContainer);
+  
+    const closePopup = document.getElementById("popup-login-close");
+    closePopup.addEventListener("click", () => {
+      popupContainer.style.visibility = "hidden";
+    });
+  
+    document.getElementById("tab-login").addEventListener("click", () => {
+      document.getElementById("login-form-section").style.display = "block";
+      document.getElementById("signup-form-section").style.display = "none";
+    });
+  
+    document.getElementById("tab-signup").addEventListener("click", () => {
+      document.getElementById("login-form-section").style.display = "none";
+      document.getElementById("signup-form-section").style.display = "block";
+    });
+  
+    document.getElementById("forgot-password-link").addEventListener("click", () => {
+      const email = prompt("Enter your email address:");
+      if (email) {
+        showLoading();
+        sendPasswordResetEmail(auth, email)
+          .then(() => showToast("Password reset email sent.", "success"))
+          .catch((error) => showToast(`Error: ${error.message}`, "error"))
+          .finally(hideLoading);
+      }
+    });
+  }
+  
 function openPopupLogin() {
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
