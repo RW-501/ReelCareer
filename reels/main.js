@@ -2428,7 +2428,6 @@ function handleUserAuthentication() {
     openPopupLogin();
   }
 
-  console.log("22222222222222222222222222.");
 
 }
 
@@ -2440,7 +2439,6 @@ document.getElementById("showUploadPopup").addEventListener("click", (e) => {
 
   
   handleUserAuthentication();
-  console.log("1111111111111111111111d.");
 
 });
 
