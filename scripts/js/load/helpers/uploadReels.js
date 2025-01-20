@@ -389,3 +389,15 @@ function initializeVideoUploadHandlers() {
 
   // Call this function once the popup is created or relevant DOM is ready
   
+
+
+
+
+
+
+
+
+
+
+
+  

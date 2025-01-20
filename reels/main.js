@@ -1447,23 +1447,56 @@ function createVideoUploadPopup() {
     overlay.id = "reel-upload-container";
 
     // Set the inner content of the overlay
-overlay.innerHTML = `
-<div class="video-upload-popup">
-  <button class="close-button">&times;</button>
-  <h3>Share Your Reel</h3>
-  <div class="progress">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
-  </div>
-  <input type="text" class="reel-video-title form-control" placeholder="Enter an title for your reel..." maxlength="100">
-  <input type="file" class="reel-video-input" accept="video/*" hidden>
-  <div class="reel-video-area">
-    <button class="select-video-btn btn btn-secondary">Select Video</button>
-    <video class="reel-video-preview" controls hidden></video>
-  </div>
-  <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
-  <button class="reel-video-btn btn btn-primary">Post Video</button>
-</div>
-`;
+    overlay.innerHTML = `
+    <div class="video-upload-popup">
+      <button class="close-button">&times;</button>
+      <h3>Share Your Reel</h3>
+      
+      <!-- Upload Area -->
+      <div class="upload-area" id="uploadArea">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" id="uploadProgressBar">0%</div>
+        </div>
+        <input type="text" class="reel-video-title form-control" placeholder="Enter a title for your reel..." maxlength="100">
+        <input type="file" class="reel-video-input" accept="video/*" hidden>
+        <div class="reel-video-area">
+          <button class="select-video-btn btn btn-secondary">Select Video</button>
+          <video class="reel-video-preview" controls hidden></video>
+        </div>
+        <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
+        <button class="reel-video-btn btn btn-primary">Post Video</button>
+      </div>
+    
+      <!-- More Options Button -->
+      <hr>
+      <button id="reels-more-options-btn" class="btn btn-secondary">More Options</button>
+      
+      <!-- More Options Area -->
+      <div id="reels-more-options-area" class="hidden">
+        <!-- More options content can be added here -->
+      </div>
+    </div>
+    `;
+    
+    document.getElementById("reels-more-options-btn").addEventListener("click", function() {
+      // Hide upload area and show more options area
+      document.getElementById("uploadArea").classList.add("hidden");
+      document.getElementById("reels-more-options-area").classList.remove("hidden");
+    });
+    
+    document.getElementById("goBackBtn").addEventListener("click", function() {
+      // Show upload area and hide more options area
+      document.getElementById("uploadArea").classList.remove("hidden");
+      document.getElementById("reels-more-options-area").classList.add("hidden");
+    });
+    
+    // Styling for the hidden class
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .hidden {
+        display: none;
+      }
+    `;    
 
 
 // Append to body

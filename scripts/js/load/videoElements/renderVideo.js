@@ -746,7 +746,7 @@ async function loadTopCategoriesWithVideos() {
       titleSpan.className = 'video-title';
 
       const link = document.createElement('a');
-      link.href = video.videoResumeURL;
+      link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
       link.textContent = 'Watch Video';
       link.target = '_blank';
       link.className = 'watch-video-button';
