@@ -229,11 +229,11 @@ function insertSidePanelContent() {
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
 }
 
-    #side-nav {
-      background-color: #f4f4f4;
-      padding: 20px;
-      border-radius: 10px;
-    }
+#side-nav {
+    background: linear-gradient(45deg, #8abddb, #e3ebf0);
+    padding: 20px;
+    border-radius: 10px;
+}
 
 
   #side-panel-popout-section {
@@ -385,9 +385,10 @@ function insertSidePanelContent() {
       font-size: 20px;
     }
   
-    .side-nav-button:hover {
-      background-color: #007bff;
-      color: #fff;
+.side-nav-button:hover {
+    background: linear-gradient(331deg, #e3ddf9, #88bdda);
+    color: #fff;
+
 
       /* Hover Effect */
 .btn-text {
