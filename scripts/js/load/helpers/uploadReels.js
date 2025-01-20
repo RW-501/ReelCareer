@@ -215,7 +215,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         isPublic: true,
         isBoostedPost: false,
         isSponsoredPost: false,
-        status: 'posted',
+        status: 'draft',
         isDeleted: false,
     };
 

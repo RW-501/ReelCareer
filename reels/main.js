@@ -2095,7 +2095,7 @@ document.body.appendChild(overlay);
 
                   await updateDoc(reelRef, {
 
-              status: updatedStatus,
+              status: updatedStatus || "posted",
               location: updatedLocation,
               thumbnailURL: updatedThumbnailURL,
               reelResume: updatedReelResume,
