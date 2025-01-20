@@ -377,6 +377,8 @@ let reelID = '';
             } else if (uploadContainer && uploadContainer.style.display === "block") {
                 document.getElementById("uploadArea").style.display = "none";
                 document.getElementById("reels-more-options-area").style.display = "block";
+                document.getElementById("uploadArea").classList.add("hidden");
+                document.getElementById("reels-more-options-area").classList.remove("hidden");
             }
         
             if (saveReelChangesBtn) {
