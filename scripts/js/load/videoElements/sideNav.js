@@ -134,6 +134,7 @@ function insertSidePanelContent() {
         document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
         document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
+        document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
         
         // Search and filter functionality
         const searchInput = document.getElementById("search-input");
