@@ -1713,6 +1713,10 @@ display: none;
     overflow: hidden;
   }
 
+
+  .hidden {
+  display: none;
+  }
         `;
         document.body.appendChild(uploadStyles);
     }
