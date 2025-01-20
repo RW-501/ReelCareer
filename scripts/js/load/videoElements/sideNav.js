@@ -92,12 +92,14 @@ function insertSidePanelContent() {
 
 </div>
 
+
+
+</div>
+
+
   <div class="text-center m-auto">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
 </div>
-
-</div>
-
         </nav>
       `;
     }
