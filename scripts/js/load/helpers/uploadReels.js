@@ -213,7 +213,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
         verified: userDataSaved.verified || '',
         position: userDataSaved.position || '',
-        tags,
+        tags: tags || [],
         videoResumeCaptions: videoData.videoResumeCaptions,
         videoResumeTitle: videoData.videoResumeTitle,
         thumbnailURL: 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
@@ -304,7 +304,7 @@ let reelID = '';
 
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
-                    tags: tags,
+                    tags: tags || [],
                     createdAt: createdAtDate,
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
@@ -317,7 +317,7 @@ let reelID = '';
                 videoData: {
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
-                    tags: tags,
+                    tags: tags || [],
                     reelID: reelID,
                     createdAt: createdAtDate,
                     status: 'posted',
@@ -334,7 +334,7 @@ let reelID = '';
                         reelID: reelID,
                         videoResumeTitle: videoData.videoResumeTitle,
                         videoResumeURL: videoResumeURL,
-                        tags: tags,
+                        tags: tags || [],
                         isPublic: true,
                         createdAt: createdAtDate,
                         status: 'posted',
@@ -391,8 +391,6 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 
 
-
-
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
     document.getElementById("uploadArea").classList.add("hidden");
     document.getElementById("reels-more-options-area").classList.remove("hidden");
@@ -405,32 +403,27 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
         showToast('No User Info');
         return;
     }
-//    console.log("words videoResumeCaptions:", videoResumeCaptions);
 
     const tags = extractHashtags(videoResumeCaptions);
     if (tags.length < 2) {
        // showToast("Please add at least two hashtags.");
-       // return;
+      //  return;
     }
-// Ensure videoResumeTitle is a string and get the first 10 characters
-const titleSnippet = videoResumeTitle.substring(0, 10);
 
-// Create the file name using the userID and the first 10 characters of the title
-const fileName = `${userID}-${titleSnippet}-reel.mp4`;
-
+    // Ensure videoResumeTitle is a string and trim extra spaces before taking the first 10 characters
+    const titleSnippet = videoResumeTitle.trim().substring(0, 10);
+    const fileName = `${userID}-${titleSnippet}-reel.mp4`;
 
     try {
-         videoData = {
+        const videoData = {
             duration: videoDuration,
             name: fileName,
-            videoResumeTitle: videoResumeTitle,
-            videoResumeCaptions: videoResumeCaptions,
-            videoDuration: videoDuration,
-            tags: tags,
-            userID: userID,
+            videoResumeTitle,
+            videoResumeCaptions,
+            tags: tags || [],
+            userID,
             file: uploadedFile,
             fileType: "video/mp4",
-
         };
 
         videoResumeURL = await uploadVideoResume(userID, videoData);
@@ -441,19 +434,15 @@ const fileName = `${userID}-${titleSnippet}-reel.mp4`;
     }
 
     if (!videoResumeURL) {
+        console.error('Failed to upload video resume. URL was not returned.');
         showToast('Failed to upload video resume. Please try again.', "error");
-
-        console.error('Failed to upload video resume. Please try again', error);
-
         return;
     }
 
-
-   
+    // Further processing or feedback after a successful upload can go here
 }
 
 window.postReelFunction = postReelFunction;
-
 
 
 
@@ -476,44 +465,53 @@ function initializeVideoUploadHandlers() {
         fileInput.click();
     });
 
-
+    
     fileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0]; // Fixed the missing 'e' in the event callback
+        const file = e.target.files[0];
         if (!file || file.type.split("/")[0] !== "video") {
             showToast("Please select a valid video file.");
             return;
         }
-
+    
         uploadedFile = file;
         const videoElement = document.createElement('video');
-        videoElement.src = URL.createObjectURL(file);
+        const objectURL = URL.createObjectURL(file); // Create object URL once
+        videoElement.src = objectURL;
+        
         videoElement.onloadedmetadata = () => {
             videoDuration = videoElement.duration;
-            videoPreview.src = videoElement.src;
+            videoPreview.src = objectURL;
             videoPreview.hidden = false;
-           // showToast(`Selected video: ${file.name}`);
+            URL.revokeObjectURL(objectURL); // Release memory after setting preview
+        };
+        
+        videoElement.onerror = () => {
+            showToast("Error loading video metadata. Please select a different file.");
+            uploadedFile = null;
         };
     });
-
+    
     uploadButton.addEventListener("click", async (e) => {
         e.preventDefault();
-
+    
         if (!uploadedFile) {
             showToast("No video selected.");
             return;
         }
-
+    
         try {
             const description = document.querySelector(".reel-video-content").value.trim();
             const title = document.querySelector(".reel-video-title").value.trim();
-            await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
+            await postReelFunction(title, description, videoPreview.src, videoDuration); // Use preview URL
         } catch (error) {
-
-            console.error("Upload error:");
+            console.error("Upload error:", error);
             showToast("Error uploading the video. Please try again.");
         }
     });
+    
+
 }
+
 
   window.initializeVideoUploadHandlers = initializeVideoUploadHandlers;
 
