@@ -1895,7 +1895,6 @@ display: none;
     </div>
 
       <button type="button" id="saveReelChangesBtn">Save Changes</button>
-      <div id="reel_ID" hidden></div>
 
       </div>
     </div>
@@ -1991,9 +1990,9 @@ document.body.appendChild(overlay);
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
-       reelID = document.getElementById('reelID').innerText;
+     // Retrieve the reelID from localStorage
+     reelID = localStorage.getItem('reelID');
 
-  
   
   const updatedRelatedURL = document.getElementById('relatedURL').value;
   const updatedLocation = document.getElementById('location').value;
@@ -2126,7 +2125,9 @@ document.body.appendChild(overlay);
           if (uploadContainer) {
              uploadContainer.remove();  // Remove the upload container
           }
-          
+          // Remove the reelID from localStorage
+localStorage.removeItem('reelID');
+
               } catch (error) {
                   console.error('Error updating reel:', error);
                   showToast('Failed to update the reel. Please try again.');

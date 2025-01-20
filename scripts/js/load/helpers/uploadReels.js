@@ -288,13 +288,12 @@ let reelID_2 = '';
 
     try {
         const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
-        const reelID = reelDocRef.id;
+        const reelID = reelDocRef.id;  // Get the reelID from Firestore document reference
 
-
-
-    document.getElementById('reel_ID').innerHTML = reelID;
-     reelID_2 = document.getElementById('reel_ID').innerHTML;  // This would be incorrect
-
+        // Store the reelID in localStorage
+        localStorage.setItem('reelID', reelID);
+        
+    
             // Update the videoResumeData with the new reelID and generate the reelURL
             const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
     
