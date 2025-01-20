@@ -631,7 +631,7 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
-  const videoResumesRef = collection(firebaseDb, 'VideoResumes');
+  const videoResumesRef = collection(db, 'VideoResumes');
   const querySnapshot = await getDocs(videoResumesRef);
 
   const categoryMap = new Map();
@@ -639,7 +639,7 @@ async function loadTopCategoriesWithVideos() {
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    if (data.isPublic && data.status === 'public' && !data.isDeleted) {
+    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
       const rating = ((data.views * data.duration) / data.watchTime) * 0.7 + data.likes * 0.3;
       topVideos.push({ ...data, rating });
       if (data.reelCategories && data.reelCategories.length > 0) {
