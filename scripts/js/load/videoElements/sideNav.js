@@ -32,7 +32,7 @@ function insertSidePanelContent() {
             </li>
                        
             <li class="side-nav-item side-user-btn">
-              <button id="btn-connection" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-video">Connection</span></button>
+              <button id="btn-connection" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text">Connection</span></button>
             </li>
             <li class="side-nav-item side-user-btn">
               <button id="btn-messages" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text"> Messages</span></button>
