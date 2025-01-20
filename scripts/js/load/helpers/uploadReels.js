@@ -128,7 +128,6 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         showToast("Please add at least two hashtags.");
         return;
     }
-    console.log("completeMetadataUpdate userID: ", userID);
 
     const relatedReels = userDataSaved.videoResumeData?.map(video => ({
         reelID: video.reelID,
@@ -241,27 +240,30 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     
     console.log("videoResumeData: ", { ...videoResumeData, reelID, reelURL });
 
+
+
         const userDocRef = doc(db, "Users", userID);
         await updateDoc(userDocRef, {
             videoResumeData: arrayUnion({
                 reelID,
                 reported: 0,
                 videoResumeTitle: videoData.videoResumeTitle,
-                videoResumeURL: videoData.videoResumeURL,
-                tags: videoResumeData.tags,
+                videoResumeURL: videoResumeURL,
+                tags: videoData.tags,
                 createdAt: new Date(),
                 status: 'posted',
                 reelURL: `https://reelcareer.co/reels/?r=${reelID}`
             })
         });
+        console.log("updatedUserData userID: ", userID);
 
         const updatedUserData = {
             ...userDataSaved,
             videoResumeData: [
                 ...(userDataSaved.videoResumeData || []),
                 { reelID,videoResumeTitle: videoData.videoResumeTitle,
-                     videoResumeURL: videoData.videoResumeURL, 
-                    tags: videoResumeData.tags, isPublic: true,
+                     videoResumeURL: videoResumeURL, 
+                    tags: videoData.tags, isPublic: true,
                      createdAt: new Date(), status: 'posted',
                       reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
             ]
@@ -269,6 +271,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
        let  userData = setUserData(updatedUserData);
         localStorage.setItem('userData', userData);
+        console.log("userData userData: ", userData);
 
         const uploadContainer = document.getElementById("reel-upload-container");
         if (uploadContainer) {
