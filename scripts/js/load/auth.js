@@ -298,7 +298,8 @@ function redirectToLogin() {
     const popupStyles = document.createElement('style');
     popupStyles.innerHTML = `
 #popup-login-container {
-display: none;
+    visibility: hidden;
+        opacity: 0;
     background: #565656b8;
     padding: 30px;
     border-radius: 12px;
