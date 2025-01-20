@@ -763,6 +763,14 @@ async function loadTopCategoriesWithVideos() {
     searchSuggestionsDiv.appendChild(fragment);
   }
 }
+const currentPath = window.location.pathname;
 
-loadTopCategoriesWithVideos();
+if (!currentPath.includes('u')){
+
+  loadTopCategoriesWithVideos();
+  
+
+}
+
+
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
