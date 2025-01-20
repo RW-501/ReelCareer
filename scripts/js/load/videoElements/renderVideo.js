@@ -614,11 +614,12 @@ async function loadTopCategoriesWithVideos() {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-      .video-thumbnail {
-        height: 80px;
-        width: 45px;
-        margin-right: 10px;
-      }
+.video-thumbnail {
+    height: 80px;
+    width: 45px;
+    margin-right: 10px;
+    object-fit: cover;
+}
       .video-title {
         font-weight: bold;
         margin-right: 10px;
@@ -700,10 +701,10 @@ async function loadTopCategoriesWithVideos() {
     thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
     thumbnail.className = 'video-thumbnail';
 
-    const videoTitle = document.createElement('span');
+/*     const videoTitle = document.createElement('span');
     videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
     videoTitle.className = 'video-title';
-
+ */
     const videoLink = document.createElement('a');
     videoLink.href = topVideo.videoResumeURL;
     videoLink.textContent = 'Watch Video';
@@ -712,7 +713,7 @@ async function loadTopCategoriesWithVideos() {
     videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
 
     videoContainer.appendChild(thumbnail);
-    videoContainer.appendChild(videoTitle);
+   // videoContainer.appendChild(videoTitle);
     videoContainer.appendChild(videoLink);
     categoryDiv.appendChild(videoContainer);
 
