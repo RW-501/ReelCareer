@@ -312,13 +312,13 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             const userDocRef = doc(db, "Users", userID);
             await updateDoc(userDocRef, {
                 videoResumeData: arrayUnion({
-                    reelID,
+                    reelID: reelID,
                     reported: 0,
 
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
                     tags: tags,
-                 //   createdAt: createdAtDate,
+                    createdAt: createdAtDate,
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
                 })
