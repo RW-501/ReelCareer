@@ -292,8 +292,8 @@ let reelID_2 = '';
 
 
 
-    document.getElementById('reelID').innerHTML = reelID;
-     reelID_2 = document.getElementById('reelID').innerHTML;  // This would be incorrect
+    document.getElementById('reel_ID').innerHTML = reelID;
+     reelID_2 = document.getElementById('reel_ID').innerHTML;  // This would be incorrect
 
             // Update the videoResumeData with the new reelID and generate the reelURL
             const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;

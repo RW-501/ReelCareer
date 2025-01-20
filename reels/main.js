@@ -1895,7 +1895,7 @@ display: none;
     </div>
 
       <button type="button" id="saveReelChangesBtn">Save Changes</button>
-      <div id="reelID" hidden></div>
+      <div id="reel_ID" hidden></div>
 
       </div>
     </div>
