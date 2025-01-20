@@ -382,21 +382,7 @@ window.postReelFunction = postReelFunction;
 
 
 
-
-
-function initializeVideoUploadHandlers() {
-    const fileInput = document.querySelector(".reel-video-input");
-    const selectVideoButton = document.querySelector(".select-video-btn");
-    const uploadButton = document.querySelector(".reel-video-btn");
-    const videoPreview = document.querySelector(".reel-video-preview");
-
-    if (!fileInput || !selectVideoButton || !uploadButton || !videoPreview) {
-      console.error("One or more video upload elements not found.");
-      return;
-    }
-
-    let uploadedFile = null;
-    let videoDuration = 0;
+function openVideoLoader(){
 
     selectVideoButton.addEventListener("click", (e) => {
 
@@ -412,6 +398,24 @@ function initializeVideoUploadHandlers() {
         console.error("fileInput ?????????????//", fileInput);
 
     });
+}
+
+function initializeVideoUploadHandlers() {
+    const fileInput = document.querySelector(".reel-video-input");
+    const selectVideoButton = document.querySelector(".select-video-btn");
+    const uploadButton = document.querySelector(".reel-video-btn");
+    const videoPreview = document.querySelector(".reel-video-preview");
+
+    if (!fileInput || !selectVideoButton || !uploadButton || !videoPreview) {
+      console.error("One or more video upload elements not found.");
+      return;
+    }
+
+    let uploadedFile = null;
+    let videoDuration = 0;
+
+     openVideoLoader();
+
 
     fileInput.addEventListener("change", (e) => {
         const file = e.target.files[0]; // Fixed the missing 'e' in the event callback
