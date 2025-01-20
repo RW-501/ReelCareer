@@ -177,7 +177,6 @@ function extractHashtags(caption) {
 
 
 
-
 async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
     const userDataSaved = getUserData() || {};
@@ -202,7 +201,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     
 
 
-      
+    
+
 
     const searchableVideoResumeTitle = removeStopWords(videoData.videoResumeTitle, stopWords);
 
@@ -314,23 +314,28 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 videoResumeData: arrayUnion({
                     reelID,
                     reported: 0,
+
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
                     tags: tags,
-                    createdAt: createdAtDate,
+                 //   createdAt: createdAtDate,
                     status: 'posted',
                     reelURL: `https://reelcareer.co/reels/?r=${reelID}`
                 })
             });
             console.log("Successfully updated user data for userID: ", userID);
-        
+   
         } catch (error) {
             console.error("Error updating user document: ", error, {
                 userID,
                 videoData: {
                     videoResumeTitle: videoData.videoResumeTitle,
                     videoResumeURL: videoResumeURL,
-                    tags: tags
+                    tags: tags,
+                    reelID,
+                    createdAt: createdAtDate,
+                    status: 'posted',
+                    reelURL: `https://reelcareer.co/reels/?r=${reelID}`,
                 }
             });
         }
