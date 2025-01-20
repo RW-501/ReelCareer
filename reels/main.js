@@ -1951,7 +1951,7 @@ document.querySelector(".reel-video-input").click();
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
-      const reelID = document.getElementById('reelID').innerText;
+       reelID = document.getElementById('reelID').innerText;
 
   
   
@@ -2104,6 +2104,274 @@ document.querySelector(".reel-video-input").click();
 }
 
 
+let relatedReelsArray = [];
+let relatedProductsArray = [];
+
+let reelID = '';
+
+
+function updateRelatedProductsDisplay(reelData, relatedProductsArray) {
+    const addProductButton = document.getElementById('addProductButton');
+    const productListContainer = document.getElementById('productListContainer');
+
+    // Function to render the product list in DOM
+    const renderProductList = () => {
+        productListContainer.innerHTML = '';  // Clear the list before re-rendering
+        relatedProductsArray.forEach((product, index) => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product-entry');
+            productDiv.id = `product-${index}`;
+            productDiv.innerHTML = `
+                <div>
+                    <label for="productName-${index}">Product Name:</label>
+                    <input type="text" id="productName-${index}" placeholder="Product Name" value="${product.name}" required>
+                </div>
+                <div>
+                    <label for="productCost-${index}">Cost:</label>
+                    <input type="text" id="productCost-${index}" placeholder="Product Cost" value="${product.cost}" required>
+                </div>
+                <div>
+                    <label for="productLink-${index}">Link:</label>
+                    <input type="url" id="productLink-${index}" placeholder="Product URL" value="${product.link}" required>
+                </div>
+                <div>
+                    <label for="productImage-${index}">Image URL:</label>
+                    <input type="url" id="productImage-${index}" placeholder="Product Image URL" value="${product.image || ''}" required>
+                    <div id="imagePreview-${index}" class="image-preview">
+                        ${product.image ? `<img src="${product.image}" alt="Product Image" style="max-width: 100px;">` : ''}
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger remove-product-btn" data-index="${index}">Remove</button>
+            `;
+
+            // Append the new product div to the container
+            productListContainer.appendChild(productDiv);
+
+            // Add event listener for the remove button
+            const removeButton = productDiv.querySelector('.remove-product-btn');
+            removeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                relatedProductsArray.splice(index, 1);  // Remove the product from the array
+                renderProductList();  // Re-render the list
+            });
+
+            // Add event listeners to inputs to update array and DOM when values change
+            const nameInput = productDiv.querySelector(`#productName-${index}`);
+            const costInput = productDiv.querySelector(`#productCost-${index}`);
+            const linkInput = productDiv.querySelector(`#productLink-${index}`);
+            const imageInput = productDiv.querySelector(`#productImage-${index}`);
+            const imagePreview = productDiv.querySelector(`#imagePreview-${index}`);
+
+            nameInput.addEventListener('input', () => {
+                relatedProductsArray[index].name = nameInput.value;
+            });
+            costInput.addEventListener('input', () => {
+                relatedProductsArray[index].cost = costInput.value;
+            });
+            linkInput.addEventListener('input', () => {
+                relatedProductsArray[index].link = linkInput.value;
+            });
+            imageInput.addEventListener('input', () => {
+                relatedProductsArray[index].image = imageInput.value;
+                if (imageInput.value) {
+                    imagePreview.innerHTML = `<img src="${imageInput.value}" alt="Product Image" style="max-width: 100px;">`;
+                } else {
+                    imagePreview.innerHTML = '';
+                }
+            });
+        });
+    };
+
+    // Render the initial list
+    renderProductList();
+
+    // Add event listener to the "Add Product" button
+    addProductButton.addEventListener('click', () => {
+        if (relatedProductsArray.length >= 4) {
+            alert('You can only add up to 4 products.');
+            return;
+        }
+
+        // Add a new product object to the array
+        relatedProductsArray.push({ name: '', cost: '', link: '', image: '' });
+
+        // Re-render the product list with the updated array
+        renderProductList();
+    });
+}
+
+function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
+    const relatedReelsList = document.getElementById('relatedReelsList');
+
+ 
+
+
+    // Clear the list before rendering
+    relatedReelsList.innerHTML = '';
+
+    // Check if reelData and relatedReels are valid arrays
+    if (!reelData.relatedReels || !Array.isArray(reelData.relatedReels) || reelData.relatedReels.length === 0) {
+        relatedReelsList.innerHTML = '<li>No related Reels found.</li>';
+    } else {
+        reelData.relatedReels.forEach(videoData => {
+            const card = document.createElement('div');
+            card.id = `video-${videoData.reelID}`;
+            card.classList.add("profileVideoCard");
+            card.innerHTML = `
+                <div class="vidioCard_thumbnail">
+                    <video 
+                      src="${videoData.videoResumeURL}" 
+                      class="card-img-top video-player" 
+                      controls
+                      id="video-${videoData.reelID}">
+                    </video>
+                    <button class="btn btn-primary btn-block add-remove-btn" id="add-video-btn-${videoData.reelID}">
+                        Add Related Video
+                    </button>
+                    <button class="btn btn-danger btn-block remove-video-btn" id="remove-video-btn-${videoData.reelID}">
+                        Remove Related Video
+                    </button>
+                </div>
+            `;
+
+            relatedReelsList.appendChild(card);
+
+            // Add button functionality to toggle related video
+            const addButton = document.getElementById(`add-video-btn-${videoData.reelID}`);
+            const removeButton = document.getElementById(`remove-video-btn-${videoData.reelID}`);
+
+            addButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission
+                const reelID = videoData.reelID;
+
+                const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
+                if (index !== -1) {
+                    relatedReelsArray.splice(index, 1); // Remove if already added
+                    addButton.innerHTML = "Add Related Video";
+                } else {
+                    relatedReelsArray.push({
+                        reelID: videoData.reelID,
+                        reelTitle: videoData.videoResumeTitle,
+                        videoUrl: videoData.videoResumeURL,
+                        reelURL: videoData.reelURL,
+                        reelTags: videoData.tags,
+                        reelcreatedDate: new Date(videoData.createdAt)
+                    });
+                    addButton.innerHTML = "Remove Related Video";
+                }
+            });
+
+            // Remove button functionality to delete from the DOM and array
+            removeButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent form submission
+                const reelID = videoData.reelID;
+
+                const index = relatedReelsArray.findIndex(reel => reel.reelID === reelID);
+                if (index !== -1) {
+                    relatedReelsArray.splice(index, 1); // Remove from array
+                }
+                relatedReelsList.removeChild(card); // Remove from DOM
+            });
+        });
+    }
+}
+// Function to disable/enable buttons and input based on comma count
+function checkCommaCount(e) {
+  //  e.preventDefault(); // Prevent form submission
+
+  const input = document.getElementById('input_tagsContainerSET-reelCategories');
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const commaCount = (input.value.match(/,/g) || []).length;
+
+  if (commaCount >= 2) {
+    // Disable buttons and prevent more characters in input
+    categoryButtons.forEach(button => button.disabled = true);
+    input.disabled = true;
+  } else {
+    // Enable buttons and allow input if commas are less than 2
+    categoryButtons.forEach(button => button.disabled = false);
+    input.disabled = false;
+  }
+}
+
+// Event listener for category button clicks
+document.querySelectorAll('.category-btn').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent form submission
+
+    const category = this.getAttribute('data-category');
+    const input = document.getElementById('input_tagsContainerSET-reelCategories');
+    
+    // Add the category to the input field (with a comma)
+    input.value += (input.value ? ', ' : '') + category;
+
+    // Trigger the "keyup" event (simulate enter)
+    const event = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      keyCode: 13
+    });
+    event.preventDefault(); // Prevent form submission
+
+    input.dispatchEvent(event);
+    event.preventDefault(); // Prevent form submission
+
+    // After adding the category, check for the comma count
+    checkCommaCount();
+  });
+});
+
+
+
+
+const thumbnailUpload = document.getElementById('thumbnailUpload');
+const thumbnailPreview = document.getElementById('thumbnailPreview');
+const thumbnailURLInput = document.getElementById('thumbnailURL');
+const thumbnailPreviewContainer = document.getElementById('thumbnailPreviewContainer');
+
+// Trigger file input when clicking the preview image
+thumbnailPreviewContainer.addEventListener('click', () => {
+    thumbnailUpload.click();
+});
+
+// Handle file selection and upload
+thumbnailUpload.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (file && reelID) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            thumbnailPreview.src = e.target.result; // Set preview image source
+        };
+        reader.readAsDataURL(file); // Read file as data URL
+
+        try {
+            const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
+            const storageRef = ref(storage, fileName);
+            await uploadBytes(storageRef, file); // Upload file to Firebase
+            const downloadURL = await getDownloadURL(storageRef); // Get the download URL
+            
+            thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
+            alert('Thumbnail uploaded successfully.');
+        } catch (error) {
+            console.error('Error uploading thumbnail:', error);
+            alert('Failed to upload thumbnail. Please try again.');
+        }
+    }
+});
+
+
+const userDataSaved = getUserData() || {};
+
+let reelData = userDataSaved.videoResumeData;
+
+
+// Populate related reels and related products arrays
+relatedReelsArray = reelData.relatedReels || [];
+relatedProductsArray = reelData.relatedProducts || [];
+
+// Update related products and related reels displays if necessary
+updateRelatedProductsDisplay(reelData, relatedProductsArray);
+updateRelatedReelsDisplay(reelData, relatedReelsArray);
 
 
 
