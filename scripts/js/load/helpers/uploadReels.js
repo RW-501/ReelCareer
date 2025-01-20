@@ -398,7 +398,11 @@ function initializeVideoUploadHandlers() {
     let uploadedFile = null;
     let videoDuration = 0;
 
-    selectVideoButton.addEventListener("click", () => {
+    selectVideoButton.addEventListener("click", (e) => {
+
+        console.error("selectVideoButton ?????????????//", e);
+
+
         fileInput.click();
     });
 
@@ -408,7 +412,6 @@ function initializeVideoUploadHandlers() {
             showToast("Please select a valid video file.");
             return;
         }
-        return;
 
         uploadedFile = file;
         const videoElement = document.createElement('video');
