@@ -424,7 +424,6 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         // Fetch all connections (no filter by 'fromGroup')
         q = query(connectionsRef, where('participants', 'array-contains', userId));
       }
-      console.log('q getConnectedUserIds', q);
   
       const querySnapshot = await getDocs(q);
       const connectedUserData = [];
@@ -592,6 +591,7 @@ window.populateSidePanelContacts = populateSidePanelContacts;
 async function loadTopCategoriesWithVideos() {
   const searchSuggestionsDiv = document.getElementById('search-suggestions');
   searchSuggestionsDiv.innerHTML = ''; // Clear any existing content
+  console.log('loadTopCategoriesWithVideos  ??????????????????/');
 
   // Avoid repeated style injection
   if (!document.getElementById('video-preview-style')) {
