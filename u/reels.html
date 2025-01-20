@@ -1946,7 +1946,13 @@ async function handleDelete(event) {
 // Assuming reelRef is a reference to the document you want to update
 await updateDoc(reelRef, { 
   isDeleted: true,
-  status: "deleted"
+  status: "deleted",
+  isPublic: false,
+  isPinned: false,
+  isSponsoredPost: false,
+  isBoostedPost: false,
+  isPinnedReelCareer: false,
+
 });
         showToast('Video reel marked as deleted.');
         const reelList = document.getElementById('reel-list');
