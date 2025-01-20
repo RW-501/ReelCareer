@@ -230,59 +230,82 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
     document.getElementById('reelID').innerText = reelID;
 
             // Update the videoResumeData with the new reelID and generate the reelURL
-    const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
-
-    // Now you can update the videoResumeData object with the new reelID and reelURL
-    await updateDoc(reelDocRef, {
-        reelID: reelID,
-        reelURL: reelURL
-    });
+            const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
     
-    console.log("videoResumeData: ", { ...videoResumeData, reelID, reelURL });
+            // Update videoResumeData object in Firestore
+            await updateDoc(reelDocRef, {
+                reelID: reelID,
+                reelURL: reelURL
+            });
+            console.log("Successfully updated reel document with: ", { reelID, reelURL });
+        
+        } catch (error) {
+            console.error("Error updating reel document: ", error);
+        }
+        
+        try {
+            const userDocRef = doc(db, "Users", userID);
+            await updateDoc(userDocRef, {
+                videoResumeData: arrayUnion({
+                    reelID,
+                    reported: 0,
+                    videoResumeTitle: videoData.videoResumeTitle,
+                    videoResumeURL: videoResumeURL,
+                    tags: videoData.tags,
+                    createdAt: new Date(),
+                    status: 'posted',
+                    reelURL: `https://reelcareer.co/reels/?r=${reelID}`
+                })
+            });
+            console.log("Successfully updated user data for userID: ", userID);
+        
+        } catch (error) {
+            console.error("Error updating user document: ", error, {
+                userID,
+                videoData: {
+                    videoResumeTitle: videoData.videoResumeTitle,
+                    videoResumeURL: videoResumeURL,
+                    tags: videoData.tags
+                }
+            });
+        }
+        
+        try {
+            const updatedUserData = {
+                ...userDataSaved,
+                videoResumeData: [
+                    ...(userDataSaved.videoResumeData || []),
+                    {
+                        reelID,
+                        videoResumeTitle: videoData.videoResumeTitle,
+                        videoResumeURL: videoResumeURL,
+                        tags: videoData.tags,
+                        isPublic: true,
+                        createdAt: new Date(),
+                        status: 'posted',
+                        reelURL: `https://reelcareer.co/reels/?r=${reelID}`
+                    }
+                ]
+            };
+        
+            let userData = setUserData(updatedUserData);
+            localStorage.setItem('userData', JSON.stringify(userData));
+            console.log("LocalStorage userData updated with: ", updatedUserData);
+            showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
 
-
-
-        const userDocRef = doc(db, "Users", userID);
-        await updateDoc(userDocRef, {
-            videoResumeData: arrayUnion({
-                reelID,
-                reported: 0,
-                videoResumeTitle: videoData.videoResumeTitle,
-                videoResumeURL: videoResumeURL,
-                tags: videoData.tags,
-                createdAt: new Date(),
-                status: 'posted',
-                reelURL: `https://reelcareer.co/reels/?r=${reelID}`
-            })
-        });
-        console.log("updatedUserData userID: ", userID);
-
-        const updatedUserData = {
-            ...userDataSaved,
-            videoResumeData: [
-                ...(userDataSaved.videoResumeData || []),
-                { reelID,videoResumeTitle: videoData.videoResumeTitle,
-                     videoResumeURL: videoResumeURL, 
-                    tags: videoData.tags, isPublic: true,
-                     createdAt: new Date(), status: 'posted',
-                      reelURL: `https://reelcareer.co/reels/?r=${reelID}` }
-            ]
-        };
-
-       let  userData = setUserData(updatedUserData);
-        localStorage.setItem('userData', userData);
-        console.log("updatedUserData updatedUserData: ", updatedUserData);
-
+        } catch (error) {
+            console.error("Error setting or saving user data locally: ", error, {
+                updatedUserData
+            });
+        }
+        
         const uploadContainer = document.getElementById("reel-upload-container");
         if (uploadContainer) {
-           // uploadContainer.remove();  // Remove the upload container
+            console.log("Upload container found. Consider removing it if necessary.");
+            // uploadContainer.remove();  // Uncomment if you want to remove the upload container
         }
 
-
-        showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
-    } catch (error) {
-        console.error("Error updating metadata:", error);
-    }
+    
 }
 
 
