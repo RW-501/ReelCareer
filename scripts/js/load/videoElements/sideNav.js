@@ -433,9 +433,6 @@ margins: auto;
   }
 
 
-body {
-    background: black !important;
-} 
 #search-input {
     background: black;
     }
@@ -455,6 +452,14 @@ body {
 
 
 /* 
+
+
+
+
+body {
+    background: black !important;
+} 
+
 
    connectionTypeDropdown.addEventListener("change", (e) => {
       connectionType = e.target.value;
