@@ -20,17 +20,21 @@ function insertSidePanelContent() {
             <li class="side-nav-item">
               <button id="btn-home" class="side-nav-button"><i class="fas fa-home"></i><span class="btn-text"> Home</span></button>
             </li>
-            <li class="side-nav-item">
+
+            <li class="side-nav-item"  id="btn-join-area" >
+              <button id="btn-join" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Join</span></button>
+            </li>
+            <li class="side-nav-item side-user-btn">
               <button id="showUploadPopup" class="side-nav-button"><i class="fas fa-upload"></i><span class="btn-text"> Upload Your Reel</span></button>
             </li>
-            <li class="side-nav-item">
+            <li class="side-nav-item side-user-btn">
               <button id="btn-profile" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Profile</span></button>
             </li>
                        
-            <li class="side-nav-item">
+            <li class="side-nav-item side-user-btn">
               <button id="btn-connection" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text">Connection</span></button>
             </li>
-            <li class="side-nav-item">
+            <li class="side-nav-item side-user-btn">
               <button id="btn-messages" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text"> Messages</span></button>
             </li>
             <li class="side-nav-item" hidden>
@@ -92,7 +96,15 @@ function insertSidePanelContent() {
         </nav>
       `;
     }
+      const user = auth.currentUser;
   
+      if(!user){  
+        const allUserBtns = document.querySelectorAll('.side-user-btn');
+        allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all popouts
+      }else{
+
+        document.getElementById('search-section').style.display = 'block';
+      }
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
@@ -135,7 +147,12 @@ function insertSidePanelContent() {
         document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
         document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
-        
+        document.getElementById('btn-join').addEventListener('click', () => {
+
+      openPopupLogin();
+  
+        });
+
         // Search and filter functionality
         const searchInput = document.getElementById("search-input");
         let connectionType = "";
