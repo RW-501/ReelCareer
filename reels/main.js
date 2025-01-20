@@ -1681,6 +1681,88 @@ display: none;
 }
 
 
+  .video-upload-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+  }
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .upload-area {
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .upload-area.drag-over {
+    border-color: #3498db;
+    background: rgba(52, 152, 219, 0.1);
+  }
+  .select-video-btn {
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .select-video-btn:hover {
+    background: linear-gradient(90deg, #2980b9, #71368a);
+  }
+  .progress {
+    margin: 10px 0;
+  }
+  .progress-bar {
+    width: 0%;
+    height: 20px;
+    background: linear-gradient(90deg, #16a085, #27ae60);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    animation: progress-animation 2s ease-in-out forwards;
+  }
+  @keyframes progress-animation {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .reel-video-btn {
+    background: linear-gradient(90deg, #f39c12, #d35400);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .reel-video-btn:hover {
+    background: linear-gradient(90deg, #e67e22, #c0392b);
+  }
+  #thumbnailPreviewContainer {
+    border-radius: 5px;
+    overflow: hidden;
+  }
 
         `;
         document.body.appendChild(uploadStyles);
@@ -1694,26 +1776,39 @@ display: none;
 
     // Set the inner content of the overlay
     overlay.innerHTML = `
-    <div class="video-upload-popup">
-      <button class="close-button">&times;</button>
-      <h3>Share Your Reel</h3>
-      
-      <!-- Upload Area -->
-      <div class="upload-area" id="uploadArea">
+<div class="video-upload-popup" aria-labelledby="videoUploadPopupLabel">
+  <button class="close-button" aria-label="Close Popup">&times;</button>
+  <h3 id="videoUploadPopupLabel">Share Your Reel</h3>
+  
+  <!-- Upload Area -->
+  <div class="upload-area" id="uploadArea">
+    
+    <label for="reelVideoTitle" aria-label="Video Title">
+      Title <small class="text-muted">(Maximum 100 characters)</small>
+    </label>
+    <input type="text" id="reelVideoTitle" class="reel-video-title form-control" placeholder="Enter a title for your reel..." maxlength="100" aria-describedby="reelTitleHelp">
+    <small id="reelTitleHelp" class="form-text text-muted">Give your reel an engaging title that reflects its content.</small>
 
-        <input type="text" class="reel-video-title form-control" placeholder="Enter a title for your reel..." maxlength="100">
-        <input type="file" class="reel-video-input" accept="video/*" hidden>
-        <div class="reel-video-area">
-          <button class="select-video-btn btn btn-secondary">Select Video</button>
-          <video class="reel-video-preview" controls hidden></video>
-        </div>
-        <textarea class="reel-video-content form-control" placeholder="Write a description..."></textarea>
-        <button class="reel-video-btn btn btn-primary">Post Video</button>
+    <label for="reelVideoInput" aria-label="Upload Video">
+      Video Upload
+    </label>
+    <input type="file" id="reelVideoInput" class="reel-video-input" accept="video/*" hidden aria-describedby="videoUploadHelp">
+    <div class="reel-video-area" aria-labelledby="selectVideoLabel">
+      <button id="selectVideoLabel" class="select-video-btn btn btn-secondary" aria-label="Select Video Button">Select Video</button>
+      <video id="reelVideoPreview" class="reel-video-preview" controls hidden aria-label="Video Preview"></video>
+    </div>
+    <small id="videoUploadHelp" class="form-text text-muted">Upload your video file here.</small>
 
+    <label for="reelVideoDescription" aria-label="Video Description">
+      Description <small class="text-muted">(Use # for tags)</small>
+    </label>
+    <textarea id="reelVideoDescription" class="reel-video-content form-control" placeholder="Write a description..." aria-describedby="reelDescriptionHelp"></textarea>
+    <small id="reelDescriptionHelp" class="form-text text-muted">Provide a brief description. Add tags using # (e.g., #Marketing).</small>
 
+    <button class="reel-video-btn btn btn-primary" aria-label="Post Video">Post Video</button>
+  </div>
+</div>
 
-
-      </div>
 
       <!-- More Options Area -->
       <div id="reels-more-options-area" class="hidden" hidden>
