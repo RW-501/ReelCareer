@@ -408,6 +408,7 @@ function initializeVideoUploadHandlers() {
             showToast("Please select a valid video file.");
             return;
         }
+        return;
 
         uploadedFile = file;
         const videoElement = document.createElement('video');
