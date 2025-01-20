@@ -115,11 +115,11 @@ function insertSidePanelContent() {
       if(!user){  
         const allUserBtns = document.querySelectorAll('.side-user-btn');
         allUserBtns.forEach((btns) => btns.style.display = 'none'); // Hide all popouts
-        document.getElementById('search-section').style.display = 'none';
+        document.getElementById('btn-join-area').style.display = 'none';
 
       }else{
 
-        document.getElementById('search-section').style.display = 'block';
+        document.getElementById('btn-join-area').style.display = 'block';
       }
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
