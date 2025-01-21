@@ -15,11 +15,8 @@ function showToast(message, type = 'info', duration = 3500,
   const toastId = `toast_${toastNumber}`;
   const toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
-  if (activeToasts.has(toastKey)) {
+  
 
-    
-    return; // Skip adding a duplicate toast
-  }
 
   const toast = document.createElement('div');
   toast.id = toastId;
@@ -103,11 +100,19 @@ function showToast(message, type = 'info', duration = 3500,
     </div>
   `;
 
-  // Append to the queue if there are active toasts
-  if (toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
+
+
+  if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast') ) {
+    console.log("Maximum capacity reached. Not adding new content.");
+
     toastQueue.push({ element: toast, toastKey });
-    return;
-  }
+
+    return; // Skip adding a duplicate toast
+
+} else {
+    // Logic to add content or elements into overlay
+    console.log("Content can be added since capacity is not full.");
+}
 
   document.body.appendChild(toast);
 
