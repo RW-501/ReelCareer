@@ -74,7 +74,7 @@ function insertSidePanelContent() {
         </div>  
 
                     
-  <div id="locaction-section" class="side-panel-popout">
+  <div id="location-section" class="side-panel-popout">
      <h4>Location</h4>
     <div class="side-panel-content">
 
