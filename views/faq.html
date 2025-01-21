@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const faqList = document.getElementById('faqList');
     const searchInput = document.getElementById('searchInput');
     const categorySelect = document.getElementById('categorySelect');
-    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === true;
     const ipAddress = await getUserIP();  // Function to get the user's IP
 
     faqList.innerHTML = '';  // Clear existing content

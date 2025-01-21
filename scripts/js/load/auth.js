@@ -258,7 +258,7 @@ function redirectToLogin() {
   }
   
   function checkLogin(user) {
-    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const isLoggedIn = localStorage.getItem('userLoggedIn') === true;
     const path = window.location.pathname;
   
     // Check if user is trying to access the backend/admin area

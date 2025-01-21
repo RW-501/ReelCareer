@@ -69,7 +69,7 @@ function initializeFirebase() {
         console.log("Module User ID: ", user.uid);
     
         // Store user ID and email in local storage
-        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userLoggedIn', true);
         localStorage.setItem('userID', user.uid);
         localStorage.setItem('userEmail', user.email);
     
@@ -109,7 +109,7 @@ function initializeFirebase() {
         userId = null;
     
         // Set userLoggedIn to false in local storage
-        localStorage.setItem('userLoggedIn', 'false');
+        localStorage.setItem('userLoggedIn', false);
       }
     });
     

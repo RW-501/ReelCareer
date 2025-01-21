@@ -396,7 +396,7 @@ let isAccountLocked = false;
       localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
   
   
-      localStorage.setItem("userLoggedIn", "true");
+      localStorage.setItem("userLoggedIn", true);
   
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
@@ -421,6 +421,7 @@ let isAccountLocked = false;
     } catch (error) {
 
       console.error("Failed to set user document:", error);
+      localStorage.setItem("userLoggedIn", false);
 
       try {
         // Attempt to retrieve the latest user data from the database
