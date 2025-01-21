@@ -262,6 +262,35 @@ function insertSidePanelContent() {
     background: linear-gradient(45deg, #8abddb, #e3ebf0);
     padding: 20px;
     border-radius: 10px;
+
+
+
+
+.side-nav-item i {
+    background-color: #e9ecef69;
+    border-radius: 25px;
+    text-align: center;
+    margin: 0;
+    display: grid;
+    align-content: space-between;
+    justify-content: space-around;
+    align-items: center;
+    justify-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+  .side-nav-item i {
+    color: white;
+}
+ .side-nav-item i:hover, i:focus {
+    background-color: none;
+    transform: scale(1.1);
+    color: #007bff;
+    background: transparent;
+}
+
+
 }
 
 
