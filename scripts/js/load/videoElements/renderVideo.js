@@ -946,10 +946,12 @@ function generateLocationList(data, locationMap) {
       thumbnail.className = 'video-thumbnail';
 
       const videoLink = document.createElement('a');
-      videoLink.href = video.videoResumeURL;
+      videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
       videoLink.textContent = 'Watch Video';
       videoLink.target = '_blank';
       videoLink.className = 'watch-video-button';
+      videoLink.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
+
 
       videoDiv.appendChild(thumbnail);
       videoDiv.appendChild(videoLink);
