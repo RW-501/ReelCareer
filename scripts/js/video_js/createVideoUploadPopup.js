@@ -383,6 +383,7 @@ display: none;
   #thumbnailPreviewContainer {
     border-radius: 5px;
     overflow: hidden;
+    margin: auto;
   }
 
 
@@ -498,11 +499,7 @@ display: none;
             <label for="thumbnailUpload">Thumbnail <small class="text-muted">(Upload or link a thumbnail image)</small></label>
             <div id="thumbnailPreviewContainer" style="cursor: pointer;" aria-label="Thumbnail Preview">
               <img id="thumbnailPreview" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Thumbnail Preview" style="width: 150px; height: 150px; border: 1px solid #ccc;" />
-                    <div id="thumbnailPreviewPickerSection">
-
-          
-          
-                        </div>
+                    <div id="thumbnailPreviewPickerSection"> </div>
 
           
               </div>

@@ -465,7 +465,13 @@ function createThumbnailPicker(file) {
     let thumbnailBlob = null;
     let videoDuration = 0;
 
-    videoElement.src = URL.createObjectURL(file);
+
+    if (file && file.type.startsWith('video/')) {
+        videoElement.src = URL.createObjectURL(file);
+    } else {
+        videoElement.src = file;
+    }
+    
     videoElement.id = "videoToUpload";
 
     videoElement.onloadedmetadata = () => {
@@ -514,6 +520,10 @@ function createThumbnailPicker(file) {
 
     return videoDuration;
 }
+
+window.createThumbnailPicker = createThumbnailPicker;
+
+
 
 
 function initializeVideoUploadHandlers() {
