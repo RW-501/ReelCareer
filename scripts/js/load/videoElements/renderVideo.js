@@ -847,7 +847,7 @@ const currentPath = window.location.pathname;
 if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
   loadTopCategoriesWithVideos();
-  console.log("currentPath  ",currentPath);
+  //console.log("currentPath  ",currentPath);
 
 
   onAuthStateChanged(auth, (user) => {
@@ -880,7 +880,7 @@ let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", stat
 
 if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
-  console.log("includes  ",currentPath);
+  //console.log("includes  ",currentPath);
 
   // Update the displayed local location using currentLocation object
   document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
