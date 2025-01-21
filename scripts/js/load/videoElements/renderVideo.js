@@ -936,6 +936,8 @@ function generateLocationList(data, locationMap) {
       locationContainer.appendChild(countryDiv);
     });
   }
+window.renderLocations = renderLocations;
+
 
   function renderStates(country, statesMap) {
     locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
@@ -951,6 +953,7 @@ function generateLocationList(data, locationMap) {
       locationContainer.appendChild(stateDiv);
     });
   }
+  window.renderStates = renderStates;
 
   function renderCities(country, state, citiesMap) {
     locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
@@ -962,6 +965,7 @@ function generateLocationList(data, locationMap) {
         console.log(`Selected Location: ${country} > ${state} > ${city}`);
         saveLocationToLocalStorage(country, state, city);
       });
+      window.renderCities = renderCities;
 
       const contentDiv = document.createElement('div');
       contentDiv.className = 'content';
