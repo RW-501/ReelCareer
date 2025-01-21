@@ -479,6 +479,7 @@ function initializeVideoUploadHandlers() {
 
     let uploadedFile = null;
     let videoDuration = 0;
+    let thumbnailBlob = null; // Variable to store thumbnail image
 
     selectVideoButton.addEventListener("click", (e) => {
 
@@ -496,16 +497,49 @@ function initializeVideoUploadHandlers() {
         
 
         uploadedFile = file;
-        const videoElement = document.createElement('video');
-        videoElement.src = URL.createObjectURL(file);
-        videoElement.onloadedmetadata = async () => {
-            videoDuration = videoElement.duration;
-            videoPreview.src = videoElement.src;
-            videoPreview.hidden = false;
-           // showToast(Selected video: ${file.name});
-        };
+      
+       
+        const thumbnailPreviewPickerSection = document.getElementById(`thumbnailPreviewPickerSection`);
+
+            const videoElement = document.createElement('video');
+            videoElement.src = URL.createObjectURL(file);
+            videoElement.id = "videoToUpload"
+            videoElement.onloadedmetadata = () => {
+                videoDuration = videoElement.duration;
+        
+                // Seek to the middle of the video
+                videoElement.currentTime = videoDuration / 2;
+        
+                videoElement.onseeked = () => {
+                    // Create a canvas element
+                    const canvas = document.createElement('canvas');
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+        
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+                    // Convert the canvas image to a Blob
+                    canvas.toBlob((blob) => {
+                        thumbnailBlob = blob; // Store the thumbnail blob
+                        showToast('Thumbnail captured successfully.');
+                        
+                        // Optional: Show thumbnail as preview
+                        const imgPreview = document.createElement('img');
+                        imgPreview.src = URL.createObjectURL(blob);
+
+                        
+                        thumbnailPreviewPickerSection.appendChild(imgPreview); // Append for visual confirmation
+                    }, 'image/jpeg'); // Change format if needed
+        
+                    videoPreview.src = videoElement.src; // Set video preview
+                    videoPreview.hidden = false;
+                };
+            };
     });
 
+
+        
     uploadButton.addEventListener("click", async (e) => {
         e.preventDefault();
 
