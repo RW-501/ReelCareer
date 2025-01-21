@@ -844,7 +844,7 @@ async function loadTopCategoriesWithVideos() {
 }
 const currentPath = window.location.pathname;
 
-if (currentPath.includes('reels') || currentPath.includes('videos')){
+if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
   loadTopCategoriesWithVideos();
   console.log("currentPath  ",currentPath);

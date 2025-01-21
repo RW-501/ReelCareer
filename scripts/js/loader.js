@@ -345,7 +345,7 @@ function loadPageScripts() {
 
     }
 
-    if (!currentPath.includes('obituaries')) {
+    if (!currentPath.includes('/obituaries/')) {
         // Load Job Card Script
         loadScript('https://reelcareer.co/scripts/js/load/elements/jobCard.js', { async: true }, () => {
             logExecutionTime('Job Card', performance.now());
@@ -368,7 +368,7 @@ function loadPageScripts() {
         logExecutionTime('uName Script', performance.now());
     });
 
-    if (!currentPath.includes('obituaries')) {
+    if (!currentPath.includes('/obituaries/')) {
     // Load interest.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
         logExecutionTime('Interest Script', performance.now());
@@ -420,9 +420,9 @@ function loadPageScripts() {
         logExecutionTime('chatBot Script', performance.now());
     });
 
-    if (!currentPath.includes('obituaries')) {
+    if (!currentPath.includes('/obituaries/')) {
     // Conditional: Load rollIn Script for specific user pages
-    if (currentPath.includes('u/')) {
+    if (currentPath.includes('/u/')) {
         waitForElement('main', () => {
             loadScript('https://reelcareer.co/scripts/js/load/functions/rollIn.js', { defer: true }, () => {
                 logExecutionTime('rollIn Script', performance.now());
@@ -433,9 +433,9 @@ function loadPageScripts() {
 
     // Conditional: Load trackers.js and censorWord.js for target pages
     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
-                         currentPath.includes('jobs') || currentPath.includes('reels') || currentPath.includes('views');
+                         currentPath.includes('/jobs/') || currentPath.includes('/reels/') || currentPath.includes('/videos/') || currentPath.includes('/views/');
     if (isTargetPage) {
-        if (!currentPath.includes('obituaries')) {
+        if (!currentPath.includes('/obituaries/')) {
         // Load trackers.js as a module
         loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('Trackers Script', performance.now());
