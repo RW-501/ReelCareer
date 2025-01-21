@@ -42,19 +42,19 @@
     "endingCard": "",
     "relatedReels": [
       {
-        "reelID": "2VYvoQrf3lhbxXGFrv1s",
+        "reelURL": "https://reelcareer.co/reels/?r=2VYvoQrf3lhbxXGFrv1s",
         "reelTags": [
           "intro",
           "hash",
           "tag"
         ],
-        "videoResumeTitle": "",
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-2025-01-19T10%3A33%3A28.554Z-reel.mp4?alt=media&token=b8a96411-6bd1-4e08-83e6-611bd69bfa0d",
         "reelcreatedDate": {
           "seconds": 1737282811,
           "nanoseconds": 459000000
         },
-        "reelURL": "https://reelcareer.co/reels/?r=2VYvoQrf3lhbxXGFrv1s"
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-2025-01-19T10%3A33%3A28.554Z-reel.mp4?alt=media&token=b8a96411-6bd1-4e08-83e6-611bd69bfa0d",
+        "videoResumeTitle": "",
+        "reelID": "2VYvoQrf3lhbxXGFrv1s"
       }
     ],
     "relatedURL": "",
@@ -177,9 +177,9 @@
     "reach": 0,
     "relatedProducts": [
       {
+        "name": "TEST Product",
         "link": "https://reelcareer.co/videos/",
-        "cost": "$25",
-        "name": "TEST Product"
+        "cost": "$25"
       }
     ],
     "reported": 0,
