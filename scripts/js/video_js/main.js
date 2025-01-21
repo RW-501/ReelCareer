@@ -2010,10 +2010,39 @@ document.body.appendChild(overlay);
     // Save changes button
     document.getElementById('saveReelChangesBtn').onclick = async () => {
      
+
+
+
+
+
+
+
+
+
       const tagsInput_reelCategories = document.getElementById('input_tagsContainerSET-reelCategories').value.trim();
       const updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
       console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
   
+
+
+      document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
+
+// Event listener for input changes to check comma count dynamically
+document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
+  checkCommaCount();
+});
+document.getElementById('clearTagsButton_tagsContainerSET-reelCategories').addEventListener('click', function() {
+    const tagsInputElement = document.getElementById('input_tagsContainerSET-reelCategories');
+    tagsInputElement.value = ''; // For fallback compatibility if it's a regular input field
+});
+
+
+
+
+
+
+
+
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
@@ -2399,22 +2428,37 @@ function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
 }
 // Function to disable/enable buttons and input based on comma count
 function checkCommaCount(e) {
-  //  e.preventDefault(); // Prevent form submission
-
   const input = document.getElementById('input_tagsContainerSET-reelCategories');
   const categoryButtons = document.querySelectorAll('.category-btn');
+  
+  // Allow input modification for Backspace, Delete, and other keys
+  const isSpecialKey = e.key === 'Backspace' || e.key === 'Delete';
+  
+  // Check comma count after the change
   const commaCount = (input.value.match(/,/g) || []).length;
 
   if (commaCount >= 2) {
-    // Disable buttons and prevent more characters in input
+    // Disable buttons and prevent further input if more than 2 commas are entered
     categoryButtons.forEach(button => button.disabled = true);
     input.disabled = true;
   } else {
-    // Enable buttons and allow input if commas are less than 2
+    // Enable buttons and input if comma count is below 2
     categoryButtons.forEach(button => button.disabled = false);
     input.disabled = false;
   }
+
+  // If a special key (Backspace or Delete) is pressed, allow the input to be updated
+  if (isSpecialKey) {
+    // Allow normal behavior for special keys without modifying comma count
+    return;
+  }
+
+  // Prevent other keys from entering if comma count exceeds limit
+  if (commaCount >= 2) {
+    e.preventDefault();
+  }
 }
+
 
 // Event listener for category button clicks
 document.querySelectorAll('.category-btn').forEach(button => {
