@@ -24,6 +24,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
         let progressToastBar;
 
+        console.log("uploadTask:", uploadTask); 
 
         if (saveReelChangesBtn) {
             saveReelChangesBtn.disabled = true;  // Disable the button
@@ -66,7 +67,12 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     userID,
                     videoData
                 }));
-
+                console.log("uploadSessionKey:",  bytesTransferred, snapshot.bytesTransferred,
+                    totalBytes, snapshot.totalBytes,
+                    progress,
+                    name, videoData.name,
+                    userID,
+                    videoData);
               //  navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
             },
             (error) => {
@@ -79,6 +85,8 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
             },
             async () => {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                console.log("Video URL:", downloadURL);
+
                 progressBar.style.width = '100%';
                 progressBar.textContent = 'Upload Complete!';
                 
@@ -428,7 +436,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             file: uploadedFile,
             fileType: "video/mp4",
         };
-
+        console.log("videoData:", videoData); 
        // videoResumeURL = await uploadVideoResume(userID, videoData);
          await uploadVideoResume(userID, videoData);
     } catch (error) {
@@ -467,11 +475,13 @@ function initializeVideoUploadHandlers() {
 
     
     fileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0]; // Fixed the missing 'e' in the event callback
+        const file = e.target.files[0];
         if (!file || file.type.split("/")[0] !== "video") {
+          //  console.log("Invalid file type:", file.type); // Check the file type
             showToast("Please select a valid video file.");
             return;
         }
+        
 
         uploadedFile = file;
         const videoElement = document.createElement('video');
