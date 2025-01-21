@@ -85,6 +85,7 @@ function insertSidePanelContent() {
   </div>
 
 
+  
 
 
   <div id="connection-section" class="side-panel-popout">
