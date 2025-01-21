@@ -102,10 +102,23 @@ function showToast(message, type = 'info', duration = 3500,
 
 
 
-  if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast') ) {
+  if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
     console.log("Maximum capacity reached. Not adding new content.");
-
+    console.log("Current toastKey:", toastKey);
+    console.log("Is toastKey in activeToasts:", activeToasts.has(toastKey));
+    console.log("Current toastQueue length:", toastQueue.length);
+    console.log("toastQueue content:", toastQueue);
+    console.log("Active .mainShowToast element:", document.querySelector('.mainShowToast'));
+    
     toastQueue.push({ element: toast, toastKey });
+  // Remove toast from DOM after animation
+  setTimeout(() => {
+    // If there are other toasts in the queue, show the next one
+    if (toastQueue.length > 0) {
+      processNextToast();
+    }
+  }, duration + 300); // Allow 0.3s for fade-out animation
+
 
     return; // Skip adding a duplicate toast
 
@@ -157,13 +170,8 @@ if (progress !== null) {
 
     // Remove toast from DOM after animation
     setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-
       // If there are other toasts in the queue, show the next one
       if (toastQueue.length > 0) {
-        activeToasts.delete(toastKey);
         processNextToast();
       }
 
@@ -174,10 +182,21 @@ if (progress !== null) {
   
 
 function processNextToast() {
-  if (toastQueue.length > 0) {
+    activeToasts.delete(toastKey);
+    if (toast.parentNode) {
+      toast.parentNode.removeChild(toast);
+    }
+    toast.remove();
+
     const nextToastObject = toastQueue.shift();
     const { element, toastKey } = nextToastObject; // Destructure the object
     
+
+
+
+
+
+
     if (element instanceof HTMLElement) {
       document.body.appendChild(element); // Correctly append the toast element
       
@@ -195,7 +214,7 @@ function processNextToast() {
     } else {
       console.error('Toast element is not of type HTMLElement.');
     }
-  }
+  
 }
 
 
