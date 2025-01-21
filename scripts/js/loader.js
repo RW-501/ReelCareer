@@ -50,6 +50,11 @@ const loadedScripts = new Set();
  */
 const currentPath = window.location.pathname;
 
+
+if(DEBUG === true){
+    console.log(`CurrentPath: ${currentPath}`);
+
+}
 /**
  * Logs the execution time and file size of a script and tracks overall page load statistics.
  * @param {string} scriptName - Name or URL of the script.
