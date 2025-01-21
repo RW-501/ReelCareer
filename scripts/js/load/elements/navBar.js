@@ -168,10 +168,10 @@ if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUp
         },
     
         {
-          title: "Create",
-          href: "https://reelcareer.co/u/create",
-          icon: "fa fa-plus-circle",
-          ariaLabel: "Create Content"
+          title: "Reels Dashboard",
+          href: "https://reelcareer.co/u/reels",
+          icon: "fas fa-film",
+          ariaLabel: "Go to Video Dashboard"
         },
         {
           title: "Messaging",
