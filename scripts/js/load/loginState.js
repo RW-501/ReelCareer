@@ -410,8 +410,8 @@ let isAccountLocked = false;
           
             localStorage.removeItem('userData');
 
-            userData = setUserData(freshUserData);
-            localStorage.setItem('userData', userData);
+           let  newUserData = setUserData(freshUserData);
+            localStorage.setItem('userData', newUserData);
             console.log("Successfully recovered and updated user data.");
 
 
