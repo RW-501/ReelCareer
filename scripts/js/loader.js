@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
 /**
  * Toggles debugging mode for logging script execution details.
  */
-const DEBUG = true;
+const DEBUG = false;
 
 /**
  * Tracks the number of loaded scripts.
