@@ -24,8 +24,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
         let progressToastBar;
 
-        console.log("uploadTask:", uploadTask); 
-        console.log("videoData.file:", videoData.file); 
+    
 
         if (saveReelChangesBtn) {
             saveReelChangesBtn.disabled = true;  // Disable the button
@@ -38,7 +37,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         }else{        
              progressToastBar = showToast('Uploading video...', 'info', 0, null, false, null, 0);
         }
-        console.log("uploadVideoResume userID: ", userID);
+
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -68,13 +67,8 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     userID,
                     videoData
                 }));
-                console.log("uploadSessionKey:",   snapshot.bytesTransferred,
-                     snapshot.totalBytes,
-                    progress,
-                     videoData.name,
-                    userID,
-                    videoData);
-              //  navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
+   
+                
             },
             (error) => {
                 console.error("Error uploading video resume:", error);
@@ -85,10 +79,10 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 }
             },
             async () => {
-                console.log("uploadTask.snapshot.ref:", uploadTask.snapshot.ref); 
+                //console.log("uploadTask.snapshot.ref:", uploadTask.snapshot.ref); 
 
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                console.log("Video URL:", downloadURL);
+              //  console.log("Video URL:", downloadURL);
 
                 progressBar.style.width = '100%';
                 progressBar.textContent = 'Upload Complete!';
@@ -448,8 +442,8 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             file: uploadedFile,
             fileType: "video/mp4",
         };
-        console.log("videoData:", videoData); 
-       // videoResumeURL = await uploadVideoResume(userID, videoData);
+    
+        
          await uploadVideoResume(userID, videoData);
     } catch (error) {
         console.error('Error during video capture or upload:', error);
@@ -516,7 +510,7 @@ function createThumbnailPicker(file, thumbnailPreviewPickerSectionId, thumbnailP
     };
 
 
-    return videoElement;
+    return videoDuration;
 }
 
 
@@ -562,14 +556,13 @@ function initializeVideoUploadHandlers() {
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file && file.type.startsWith('video/')) {
-                videoElement =  createThumbnailPicker(file, 'thumbnailPreviewPickerSection', 'thumbnailPreview');
+                videoDuration =  createThumbnailPicker(file, 'thumbnailPreviewPickerSection', 'thumbnailPreview');
             }
         });
         
 
 
 
-        videoDuration = videoElement.duration;
 
 
     });
@@ -583,9 +576,8 @@ function initializeVideoUploadHandlers() {
             showToast("No video selected.");
             return;
         }
-        console.log("uploadedFile:", uploadedFile); 
-        console.log("URL.createObjectURL(uploadedFile):", URL.createObjectURL(uploadedFile)); 
-
+     
+        
         try {
             const description = document.querySelector(".reel-video-content").value.trim();
             const title = document.querySelector(".reel-video-title").value.trim();
