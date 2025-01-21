@@ -628,49 +628,47 @@ async function saveVideosToJson(videoDataArray) {
             const existingContent = atob(fileData.content);
             const existingDataArray = JSON.parse(existingContent);
 
-            // Track the updated content
-            const updatedDataArray = existingDataArray.map(existingItem => {
-                const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
+// Track the updated content
+const updatedDataArray = existingDataArray.map(existingItem => {
+    const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
+    
+    if (updatedItem) {
+        // Check for differences in specific fields: views, isPublic
+        const viewsChanged = updatedItem.views !== existingItem.views;
+        const isPublicChanged = (updatedItem.isPublic ?? null) !== (existingItem.isPublic ?? null); // Handle undefined/null
+        if (viewsChanged || isPublicChanged) {
+            return { ...existingItem, ...updatedItem }; // Merge and update only when necessary
+        }
+    }
+    return existingItem; // Keep existing item if no relevant updates
+});
 
-                // If data exists with the same ID, compare and update if necessary
-                if (updatedItem && JSON.stringify(updatedItem) !== JSON.stringify(existingItem)) {
-                    return updatedItem; // Update the data
-                }
-
-                return existingItem; // No change, keep existing
-            });
-
-            // Add new videos that don't exist in the existing data
-            videoDataArray.forEach(item => {
-                if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
-                    updatedDataArray.push(item);
-                }
-            });
+// Add new videos that don't exist in the existing data
+videoDataArray.forEach(item => {
+    if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
+        updatedDataArray.push(item);
+    }
+});
 
 // Check if any updates were made
 if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
     console.log("Changes detected. Logging differences...");
+    
+    existingDataArray.forEach((existingItem, index) => {
+        const updatedItem = updatedDataArray[index];
+        if (JSON.stringify(existingItem) !== JSON.stringify(updatedItem)) {
+            console.log(`Difference found at index ${index}:`);
+            console.log("Existing Item:", existingItem);
+            console.log("Updated Item:", updatedItem);
+        }
+    });
 
-    // Compare arrays element by element to find and log differences
-    if (existingDataArray.length !== updatedDataArray.length) {
-        console.log("Length mismatch: Existing Length:", existingDataArray.length, "Updated Length:", updatedDataArray.length);
-    } else {
-        existingDataArray.forEach((existingItem, index) => {
-            const updatedItem = updatedDataArray[index];
-            if (JSON.stringify(existingItem) !== JSON.stringify(updatedItem)) {
-                console.log(`Difference found at index ${index}:`);
-                console.log("Existing Item:", existingItem);
-                console.log("Updated Item:", updatedItem);
-            }
-        });
-    }
-
-    // Encode the updated content
     const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
     await updateFile(url, updatedEncodedContent, sha, token);
 } else {
     console.log("No changes detected, skipping update.");
 }
+
 
         } else if (fileResponse.status === 404) {
             console.log("File does not exist, creating a new one.");
