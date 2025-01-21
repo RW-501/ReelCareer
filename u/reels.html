@@ -1048,7 +1048,7 @@ async function loadVideoReels(userID) {
                     <button class="btn edit-btn" data-id="${doc.id}">Edit</button>
                     <button class="btn analytics-btn" data-id="${doc.id}">Analytics</button>
                     <button class="btn delete-btn"   data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Delete</button>
-                    <button class="btn delete-admin-btn"  data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Admin Delete</button>
+                    <button class="btn delete-admin-btn"   data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Admin Delete</button>
                 </td>
             </tr>
         `;
@@ -1981,6 +1981,9 @@ thumbnailUpload.addEventListener('change', async (event) => {
 
 
 
+
+//             const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
+
 async function handleDelete(event) {
     const reelID = event.target.dataset.id;
 
@@ -2017,6 +2020,7 @@ async function handleDelete(event) {
 async function handleDeleteAdmin(event) {
     const reelID = event.target.dataset.id;
     const videoUrl = event.target.dataset.video_url;  // Assuming this is passed via a data attribute
+    const thumbnailURL = event.target.dataset.thumbnailURL;  // Assuming this is passed via a data attribute
 
     if (!reelID || !videoUrl) {
         showToast('Invalid reel data provided for deletion.');
@@ -2028,7 +2032,14 @@ async function handleDeleteAdmin(event) {
             // 1. Delete the video from Firebase Storage
             const videoRef = ref(storage, videoUrl);
             await deleteObject(videoRef);
+
             showToast('Video file deleted successfully.');
+
+            if (thumbnailURL) {
+            const thumbnailURLRef = ref(storage, thumbnailURL);
+            await deleteObject(thumbnailURLRef);
+            showToast(' thumbnailURL deleted successfully.');
+            }
 
             // 2. Delete the reel document from Firestore
             const reelRef = doc(db, "VideoResumes", reelID);
@@ -2037,8 +2048,11 @@ async function handleDeleteAdmin(event) {
             // 3. Remove the reelID from the user's videoResumeData field in Users collection
             const userDocRef = doc(db, "Users", userID);
             await updateDoc(userDocRef, {
-                videoResumeData: arrayRemove({ reelID: reelID })
-            });
+    videoResumeData: arrayRemove(
+        // Look for an object with the same `reelID`
+        { reelID: reelID }
+    )
+});
 
             showToast('Video reel deleted successfully.');
         } catch (error) {
