@@ -498,7 +498,7 @@ function initializeVideoUploadHandlers() {
         uploadedFile = file;
         const videoElement = document.createElement('video');
         videoElement.src = URL.createObjectURL(file);
-        videoElement.onloadedmetadata = () => {
+        videoElement.onloadedmetadata = async () => {
             videoDuration = videoElement.duration;
             videoPreview.src = videoElement.src;
             videoPreview.hidden = false;
@@ -513,11 +513,13 @@ function initializeVideoUploadHandlers() {
             showToast("No video selected.");
             return;
         }
+        console.log("uploadedFile:", uploadedFile); 
+        console.log("URL.createObjectURL(uploadedFile):", URL.createObjectURL(uploadedFile)); 
 
         try {
             const description = document.querySelector(".reel-video-content").value.trim();
             const title = document.querySelector(".reel-video-title").value.trim();
-            await postReelFunction(title, description, URL.createObjectURL(uploadedFile), videoDuration);
+            await postReelFunction(title, description, uploadedFile, videoDuration);
         } catch (error) {
 
             console.error("Upload error:",error);
