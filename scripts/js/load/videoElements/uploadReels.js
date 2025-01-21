@@ -458,9 +458,9 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 window.postReelFunction = postReelFunction;
 
-function createThumbnailPicker(file, thumbnailPreviewPickerSectionId, thumbnailPreviewId) {
-    const thumbnailPreviewPickerSection = document.getElementById(thumbnailPreviewPickerSectionId);
-    const thumbnailPreview = document.getElementById(thumbnailPreviewId); // Assume an image element for showing preview
+function createThumbnailPicker(file) {
+    const thumbnailPreviewPickerSection = document.getElementById('thumbnailPreviewPickerSection');
+    const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
     const videoElement = document.createElement('video');
     let thumbnailBlob = null;
 
@@ -545,25 +545,7 @@ function initializeVideoUploadHandlers() {
         
 
         uploadedFile = file;
-
-
-        let videoElement ;
-      
-       
-
-
-
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith('video/')) {
-                videoDuration =  createThumbnailPicker(file, 'thumbnailPreviewPickerSection', 'thumbnailPreview');
-            }
-        });
-        
-
-
-
-
+        videoDuration =  createThumbnailPicker(file);
 
     });
 
