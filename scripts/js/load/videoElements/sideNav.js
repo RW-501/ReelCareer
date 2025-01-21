@@ -80,12 +80,14 @@ function insertSidePanelContent() {
 
       <div id="side-panel-location"></div>
 
+      <div id="selectedLocation"></div>
+
       <div id="location-video-div"></div>
     </div>
   </div>
 
 
-  
+
 
 
   <div id="connection-section" class="side-panel-popout">
