@@ -25,6 +25,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
         let progressToastBar;
 
         console.log("uploadTask:", uploadTask); 
+        console.log("videoData.file:", videoData.file); 
 
         if (saveReelChangesBtn) {
             saveReelChangesBtn.disabled = true;  // Disable the button
@@ -84,6 +85,8 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 }
             },
             async () => {
+                console.log("uploadTask.snapshot.ref:", uploadTask.snapshot.ref); 
+
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                 console.log("Video URL:", downloadURL);
 
