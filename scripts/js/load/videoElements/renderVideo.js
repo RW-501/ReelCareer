@@ -879,12 +879,7 @@ let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", stat
   document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
   
 
-// Function to handle collapsible behavior
-function toggleCollapsible(event) {
-  const content = event.target.nextElementSibling;
-  event.target.classList.toggle('active');
-  content.style.display = content.style.display === 'block' ? 'none' : 'block';
-}
+
 
 // Function to store selected location in local storage
 function saveLocationToLocalStorage(country, state, city) {
@@ -900,75 +895,76 @@ function saveLocationToLocalStorage(country, state, city) {
 
 // Function to generate location hierarchy and render it
 function generateLocationList(data, locationMap) {
+
   
-
-  const savedLocation = JSON.parse(localStorage.getItem('selectedLocation'));
-  
-  if (savedLocation) {
-    currentLocation = savedLocation;  // Update currentLocation with the saved location
-    // Update UI to show the selected location
-    document.getElementById('selectedLocation').textContent = `${savedLocation.country} > ${savedLocation.state} > ${savedLocation.city}`;
-  } else if (currentLocation.city && currentLocation.state && currentLocation.country) {
-    // If the user has a valid location stored in sessionStorage, set it as the selected location
-    document.getElementById('selectedLocation').textContent = `${currentLocation.country} > ${currentLocation.state} > ${currentLocation.city}`;
-  }
-
-
-
-  // Populate location map
+  // Populate location map with grouped data
   data.forEach((doc) => {
     const { country, state, city } = doc.data();
-  
-    // Check that all values are complete (not null, empty, or 'Unknown')
-    if (country && state && city && country !== 'Unknown' && state !== 'Unknown' && city !== 'Unknown') {
-      const locationKey = `${country} > ${state} > ${city}`;
-  
-      // If the location is complete, add it to the map
-      if (!locationMap.has(locationKey)) {
-        locationMap.set(locationKey, []);
+    if (country && state && city) {
+      if (!locationMap.has(country)) {
+        locationMap.set(country, new Map());
       }
-      locationMap.get(locationKey).push(doc.data());
+      if (!locationMap.get(country).has(state)) {
+        locationMap.get(country).set(state, new Map());
+      }
+      locationMap.get(country).get(state).set(city, doc.data());
     }
   });
-  
 
-  const locationFragment = document.createDocumentFragment();
+  const locationContainer = document.getElementById('locationContainer');
+  locationContainer.innerHTML = ''; // Clear any existing content
 
-  locationMap.forEach((videos, locationKey) => {
-    const [country, state, city] = locationKey.split(' > ');
+  function createButton(text, className, location, onClick) {
+    const button = document.createElement('button');
+    button.className = className;
+    button.textContent = text;
+    button.addEventListener('click', onClick);
+    return button;
+  }
 
-    const locationDiv = document.createElement('div');
-    locationDiv.className = 'location-tab';
+  function renderLocations(countryMap) {
+    locationContainer.innerHTML = '';
+    countryMap.forEach((statesMap, country) => {
+      const countryDiv = document.createElement('div');
+      countryDiv.className = 'location-tab';
 
-    // Create collapsible button for each location level
-    const collapsibleButtons = document.createElement('div');
-    collapsibleButtons.id = 'collapsibleButtons';
+      const countryButton = createButton(country, 'collapsible-location', country, () => {
+        renderStates(country, statesMap);
+        saveLocationToLocalStorage(country, '', '');
+      });
+      countryDiv.appendChild(countryButton);
+      locationContainer.appendChild(countryDiv);
+    });
+  }
 
+  function renderStates(country, statesMap) {
+    locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
+    statesMap.forEach((citiesMap, state) => {
+      const stateDiv = document.createElement('div');
+      stateDiv.className = 'location-tab';
 
+      const stateButton = createButton(state, 'collapsible-location', state, () => {
+        renderCities(country, state, citiesMap);
+        saveLocationToLocalStorage(country, state, '');
+      });
+      stateDiv.appendChild(stateButton);
+      locationContainer.appendChild(stateDiv);
+    });
+  }
 
-    const collapsibleCountryButton = document.createElement('button');
-    collapsibleCountryButton.className = 'collapsible_location_btn';
-    collapsibleCountryButton.textContent = `${country} > `;
+  function renderCities(country, state, citiesMap) {
+    locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
+    citiesMap.forEach((video, city) => {
+      const cityDiv = document.createElement('div');
+      cityDiv.className = 'location-tab';
 
+      const cityButton = createButton(city, 'collapsible-location', city, () => {
+        console.log(`Selected Location: ${country} > ${state} > ${city}`);
+        saveLocationToLocalStorage(country, state, city);
+      });
 
-    const collapsibleStateButton = document.createElement('button');
-    collapsibleStateButton.className = 'collapsible_location_btn';
-    collapsibleStateButton.textContent = `${state} > `;
-
-
-    const collapsibleCityButton = document.createElement('button');
-    collapsibleCityButton.className = 'collapsible_location_btn';
-    collapsibleCityButton.textContent = `${city}`;
-
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'content';
-
-    // Display video content for the current location
-    videos.forEach((video) => {
-      const videoDiv = document.createElement('div');
-      videoDiv.className = 'video-preview';
-
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'content';
       const thumbnail = document.createElement('img');
       thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
       thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
@@ -981,44 +977,13 @@ function generateLocationList(data, locationMap) {
       videoLink.className = 'watch-video-button';
       videoLink.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
 
-      videoDiv.appendChild(thumbnail);
-      videoDiv.appendChild(videoLink);
-      contentDiv.appendChild(videoDiv);
+      contentDiv.appendChild(thumbnail);
+      contentDiv.appendChild(videoLink);
+      cityDiv.appendChild(cityButton);
+      cityDiv.appendChild(contentDiv);
+      locationContainer.appendChild(cityDiv);
     });
+  }
 
-    // Add click event to handle collapsible behavior and save location
-    collapsibleCityButton.addEventListener('click', function (event) {
-      toggleCollapsible(event);
-      saveLocationToLocalStorage(country, state, city);
-    });
-
-    collapsibleStateButton.addEventListener('click', function (event) {
-      toggleCollapsible(event);
-      saveLocationToLocalStorage(country, state, city);
-    });
-
-    collapsibleCountryButton.addEventListener('click', function (event) {
-      toggleCollapsible(event);
-      saveLocationToLocalStorage(country, state, city);
-    });
-
-
-    // If the current location matches this, highlight the button
-    if (country === currentLocation.country && state === currentLocation.state && city === currentLocation.city) {
-      collapsibleButton.classList.add('selected');  // Visually highlight the current selection
-    }
-
-
-    collapsibleButtons.appendChild(collapsibleCountryButton);
-    collapsibleButtons.appendChild(collapsibleStateButton);
-    collapsibleButtons.appendChild(collapsibleCityButton);
-
-
-    locationDiv.appendChild(collapsibleButtons);
-    locationDiv.appendChild(contentDiv);
-    locationFragment.appendChild(locationDiv);
-  });
-
-  document.getElementById('locationContainer').appendChild(locationFragment);
+  renderLocations(locationMap);  // Initial render for countries
 }
-
