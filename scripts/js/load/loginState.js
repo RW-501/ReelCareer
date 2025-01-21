@@ -438,6 +438,7 @@ let isAccountLocked = false;
            let  newUserData = setUserData(freshUserData);
             localStorage.setItem('userData', newUserData);
             console.log("Successfully recovered and updated user data.");
+            localStorage.setItem("userLoggedIn", true);
 
 
 
