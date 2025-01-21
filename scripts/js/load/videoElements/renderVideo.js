@@ -871,6 +871,8 @@ if (currentPath.includes('reels') || currentPath.includes('videos')){
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
+if (currentPath.includes('reels') || currentPath.includes('videos')){
+
 // Check if sessionStorage contains userLocation and set it
 const userLocation = sessionStorage.getItem("userLocation");
 let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
@@ -878,7 +880,7 @@ let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", stat
   // Update the displayed local location using currentLocation object
   document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
   
-
+}
 
 
 // Function to store selected location in local storage
