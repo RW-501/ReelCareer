@@ -2,16 +2,22 @@
   {
     "id": "sT4EanMdV0LC23d0xusK",
     "userID": "",
+    "reelID": "sT4EanMdV0LC23d0xusK",
+    "reelURL": "https://reelcareer.co/reels/?r=sT4EanMdV0LC23d0xusK",
     "createdByID": "ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI-pEwJSsYP9SExAOOUkcTdGUYCZPWTgHwOrLswkEFKmtkOc_Q=s96-c",
     "displayName": "Ron W.",
     "position": "",
     "location": "Red Oak, Texas",
+    "state": "Texas",
+    "zip": "75154",
+    "city": "Red Oak",
+    "country": "United States",
     "verified": true,
     "duration": 30.348481,
     "likes": 0,
     "loves": 0,
-    "views": 0,
+    "views": 5,
     "profileURL": "https://reelcareer.co/u/?u=ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "thumbnailURL": "https://reelcareer.co/images/sq_logo_n_BG_sm.png",
     "videoResumeTitle": "The title of the video",
@@ -25,7 +31,59 @@
     "timestamp": {
       "seconds": 1737370839,
       "nanoseconds": 534000000
-    }
+    },
+    "engagegments": 1,
+    "reach": 0,
+    "relatedProducts": [],
+    "reported": 0,
+    "shares": 0,
+    "shortList": 0,
+    "saved": 0,
+    "endingCard": "",
+    "relatedReels": [
+      {
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-2025-01-19T10%3A33%3A28.554Z-reel.mp4?alt=media&token=b8a96411-6bd1-4e08-83e6-611bd69bfa0d",
+        "videoResumeTitle": "",
+        "reelcreatedDate": {
+          "seconds": 1737282811,
+          "nanoseconds": 459000000
+        },
+        "reelURL": "https://reelcareer.co/reels/?r=2VYvoQrf3lhbxXGFrv1s",
+        "reelID": "2VYvoQrf3lhbxXGFrv1s",
+        "reelTags": [
+          "intro",
+          "hash",
+          "tag"
+        ]
+      }
+    ],
+    "relatedURL": "",
+    "searchableVideoResumeTitle": [
+      "the",
+      "title",
+      "of",
+      "the",
+      "video"
+    ],
+    "uniqueViews": 1,
+    "videoPlacement": [],
+    "watchTime": "",
+    "commentsBool": true,
+    "giftsBool": true,
+    "isPublic": true,
+    "likesBool": true,
+    "locationBool": true,
+    "lovesBool": true,
+    "viewsBool": true,
+    "endingCardBool": false,
+    "isBoostedPost": false,
+    "isDeleted": false,
+    "isPinned": false,
+    "isPinnedReelCareer": false,
+    "isSponsoredPost": false,
+    "notifcationsBool": false,
+    "relatedProductsBool": false,
+    "relatedURLBool": false
   },
   {
     "id": "3gx6WpU7jLC5lvYF8quP",
@@ -86,11 +144,17 @@
   {
     "id": "mneUI9j5R4yTKe63kwWy",
     "userID": "",
+    "reelID": "",
+    "reelURL": "",
     "createdByID": "ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocI-pEwJSsYP9SExAOOUkcTdGUYCZPWTgHwOrLswkEFKmtkOc_Q=s96-c",
     "displayName": "Ron W.",
     "position": "",
     "location": "Red Oak, Texas",
+    "state": "",
+    "zip": "",
+    "city": "",
+    "country": "",
     "verified": true,
     "duration": 30.348481,
     "likes": 1,
@@ -108,7 +172,43 @@
     "timestamp": {
       "seconds": 1737108163,
       "nanoseconds": 333000000
-    }
+    },
+    "engagegments": 0,
+    "reach": 0,
+    "relatedProducts": [
+      {
+        "cost": "$25",
+        "link": "https://reelcareer.co/videos/",
+        "name": "TEST Product"
+      }
+    ],
+    "reported": 0,
+    "shares": 0,
+    "shortList": 0,
+    "saved": 0,
+    "endingCard": "",
+    "relatedReels": [],
+    "relatedURL": "",
+    "searchableVideoResumeTitle": [],
+    "uniqueViews": 0,
+    "videoPlacement": [],
+    "watchTime": 541,
+    "commentsBool": true,
+    "giftsBool": true,
+    "isPublic": true,
+    "likesBool": true,
+    "locationBool": true,
+    "lovesBool": true,
+    "viewsBool": true,
+    "endingCardBool": false,
+    "isBoostedPost": false,
+    "isDeleted": false,
+    "isPinned": false,
+    "isPinnedReelCareer": false,
+    "isSponsoredPost": false,
+    "notifcationsBool": false,
+    "relatedProductsBool": true,
+    "relatedURLBool": false
   },
   {
     "id": "yExoQuM7AUeqfFPrSfNJ",
