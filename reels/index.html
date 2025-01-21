@@ -588,7 +588,7 @@ const owner = "RW-501";
     const branch = 'main';
     let sha = ''; // Will store the sha if the file exists
     let fileData;
-    
+
 async function saveVideosToJson(videoDataArray) {
     const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
     const blob = new Blob([jsonData], { type: "application/json" });
@@ -648,13 +648,28 @@ async function saveVideosToJson(videoDataArray) {
             });
 
             // Check if any updates were made
-            if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
-                // Encode the updated content
-                const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
-                await updateFile(url, updatedEncodedContent, sha, token);
-            } else {
-                console.log("No changes detected, skipping update.");
+if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
+    // Encode the updated content
+    const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
+    await updateFile(url, updatedEncodedContent, sha, token);
+} else {
+    // Compare arrays element by element to find and log differences
+    console.log("No changes detected, skipping update.");
+    
+    if (existingDataArray.length !== updatedDataArray.length) {
+        console.log("Length mismatch: Existing Length:", existingDataArray.length, "Updated Length:", updatedDataArray.length);
+    } else {
+        existingDataArray.forEach((existingItem, index) => {
+            const updatedItem = updatedDataArray[index];
+            if (JSON.stringify(existingItem) !== JSON.stringify(updatedItem)) {
+                console.log(`Difference found at index ${index}:`);
+                console.log("Existing Item:", existingItem);
+                console.log("Updated Item:", updatedItem);
             }
+        });
+    }
+}
+
         } else if (fileResponse.status === 404) {
             console.log("File does not exist, creating a new one.");
             await updateFile(url, encodedContent, sha, token);
