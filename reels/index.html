@@ -647,15 +647,11 @@ async function saveVideosToJson(videoDataArray) {
                 }
             });
 
-            // Check if any updates were made
+// Check if any updates were made
 if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
-    // Encode the updated content
-    const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
-    await updateFile(url, updatedEncodedContent, sha, token);
-} else {
+    console.log("Changes detected. Logging differences...");
+
     // Compare arrays element by element to find and log differences
-    console.log("No changes detected, skipping update.");
-    
     if (existingDataArray.length !== updatedDataArray.length) {
         console.log("Length mismatch: Existing Length:", existingDataArray.length, "Updated Length:", updatedDataArray.length);
     } else {
@@ -668,6 +664,12 @@ if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
             }
         });
     }
+
+    // Encode the updated content
+    const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
+    await updateFile(url, updatedEncodedContent, sha, token);
+} else {
+    console.log("No changes detected, skipping update.");
 }
 
         } else if (fileResponse.status === 404) {
