@@ -712,53 +712,10 @@ async function loadTopCategoriesWithVideos() {
     }
   });
 
-  const locationFragment = document.createDocumentFragment();
 
-  locationMap.forEach((videos, locationKey) => {
-    const [country, state, city] = locationKey.split(' > ');
+   // Assuming querySnapshot is already populated with the data
+   generateLocationList(querySnapshot, locationMap);
 
-    const locationDiv = document.createElement('div');
-    locationDiv.className = 'location-tab';
-
-    const collapsibleButton = document.createElement('button');
-    collapsibleButton.className = 'collapsible';
-    collapsibleButton.textContent = `${country} > ${state} > ${city}`;
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'content';
-
-    videos.forEach((video) => {
-      const videoDiv = document.createElement('div');
-      videoDiv.className = 'video-preview';
-
-      const thumbnail = document.createElement('img');
-      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
-      thumbnail.className = 'video-thumbnail';
-
-      const videoLink = document.createElement('a');
-      videoLink.href = video.videoResumeURL;
-      videoLink.textContent = 'Watch Video';
-      videoLink.target = '_blank';
-      videoLink.className = 'watch-video-button';
-
-      videoDiv.appendChild(thumbnail);
-      videoDiv.appendChild(videoLink);
-      contentDiv.appendChild(videoDiv);
-    });
-
-    collapsibleButton.addEventListener('click', function () {
-      this.classList.toggle('active');
-      const content = this.nextElementSibling;
-      content.style.display = content.style.display === 'block' ? 'none' : 'block';
-    });
-
-    locationDiv.appendChild(collapsibleButton);
-    locationDiv.appendChild(contentDiv);
-    locationFragment.appendChild(locationDiv);
-  });
-
-  locationDiv.appendChild(locationFragment);
 
 
   querySnapshot.forEach((doc) => {
@@ -905,3 +862,122 @@ if (!currentPath.includes('u')){
 
 
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
+
+
+// Check if sessionStorage contains userLocation and set it
+const userLocation = sessionStorage.getItem("userLocation");
+let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+// Function to handle collapsible behavior
+function toggleCollapsible(event) {
+  const content = event.target.nextElementSibling;
+  event.target.classList.toggle('active');
+  content.style.display = content.style.display === 'block' ? 'none' : 'block';
+}
+
+// Function to store selected location in local storage
+function saveLocationToLocalStorage(country, state, city) {
+  const locationData = { country, state, city };
+  localStorage.setItem("selectedLocation", JSON.stringify(locationData));
+
+  // Update currentLocation with the new selection
+  currentLocation = { country, state, city };
+
+  // Optionally, update the UI to reflect the new selected location (e.g., at the top of the page)
+  document.getElementById('selectedLocation').textContent = `${country} > ${state} > ${city}`;
+}
+
+// Function to generate location hierarchy and render it
+function generateLocationList(data, locationMap) {
+  
+
+  const savedLocation = JSON.parse(localStorage.getItem('selectedLocation'));
+  
+  if (savedLocation) {
+    currentLocation = savedLocation;  // Update currentLocation with the saved location
+    // Update UI to show the selected location
+    document.getElementById('selectedLocation').textContent = `${savedLocation.country} > ${savedLocation.state} > ${savedLocation.city}`;
+  } else if (currentLocation.city && currentLocation.state && currentLocation.country) {
+    // If the user has a valid location stored in sessionStorage, set it as the selected location
+    document.getElementById('selectedLocation').textContent = `${currentLocation.country} > ${currentLocation.state} > ${currentLocation.city}`;
+  }
+
+
+
+  // Populate location map
+  data.forEach((doc) => {
+    const { country, state, city } = doc.data();
+  
+    // Check that all values are complete (not null, empty, or 'Unknown')
+    if (country && state && city && country !== 'Unknown' && state !== 'Unknown' && city !== 'Unknown') {
+      const locationKey = `${country} > ${state} > ${city}`;
+  
+      // If the location is complete, add it to the map
+      if (!locationMap.has(locationKey)) {
+        locationMap.set(locationKey, []);
+      }
+      locationMap.get(locationKey).push(doc.data());
+    }
+  });
+  
+
+  const locationFragment = document.createDocumentFragment();
+
+  locationMap.forEach((videos, locationKey) => {
+    const [country, state, city] = locationKey.split(' > ');
+
+    const locationDiv = document.createElement('div');
+    locationDiv.className = 'location-tab';
+
+    const collapsibleButton = document.createElement('button');
+    collapsibleButton.className = 'collapsible';
+    collapsibleButton.textContent = `${country} > ${state} > ${city}`;
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'content';
+
+    videos.forEach((video) => {
+      const videoDiv = document.createElement('div');
+      videoDiv.className = 'video-preview';
+
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.className = 'video-thumbnail';
+
+      const videoLink = document.createElement('a');
+      videoLink.href = video.videoResumeURL;
+      videoLink.textContent = 'Watch Video';
+      videoLink.target = '_blank';
+      videoLink.className = 'watch-video-button';
+
+      videoDiv.appendChild(thumbnail);
+      videoDiv.appendChild(videoLink);
+      contentDiv.appendChild(videoDiv);
+    });
+
+    // Add click event to handle collapsible behavior
+    collapsibleButton.addEventListener('click', function () {
+      toggleCollapsible(event);
+      saveLocationToLocalStorage(country, state, city);
+    });
+
+    // If the current location matches this country, state, city, highlight it
+    if (country === currentLocation.country && state === currentLocation.state && city === currentLocation.city) {
+      collapsibleButton.classList.add('selected');  // Adding a class to visually highlight the current selection
+    }
+
+    locationDiv.appendChild(collapsibleButton);
+    locationDiv.appendChild(contentDiv);
+    locationFragment.appendChild(locationDiv);
+  });
+
+  document.getElementById('locationContainer').appendChild(locationFragment);
+
+
+
+
+
+}
+
+
