@@ -20,6 +20,16 @@ import {
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) => {
     try {
+
+
+      const popupLoginContainer = document.getElementById("popup-login-container");
+
+      if (popupLoginContainer) {
+          popupLoginContainer.remove();
+      }
+      
+
+
       //console.log(" User info: ", user);
   // Fetch user provider data
   const providerData = user.providerData.length > 0 ? user.providerData[0].providerId : 'unknown';
