@@ -888,18 +888,6 @@ if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 }
 
 
-// Function to store selected location in local storage
-function saveLocationToLocalStorage(country, state, city) {
-  const locationData = { country, state, city };
-  localStorage.setItem("selectedLocation", JSON.stringify(locationData));
-
-  // Update currentLocation with the new selection
-  currentLocation = { country, state, city };
-
-  // Optionally, update the UI to reflect the new selected location (e.g., at the top of the page)
-  document.getElementById('selectedLocation').textContent = `${country} > ${state} > ${city}`;
-}
-// Function to generate location hierarchy and render it
 function generateLocationList(data, locationMap) {
   // Populate location map with grouped data
   data.forEach((doc) => {
@@ -908,10 +896,12 @@ function generateLocationList(data, locationMap) {
       if (!locationMap.has(country)) {
         locationMap.set(country, new Map());
       }
-      if (!locationMap.get(country).has(state)) {
-        locationMap.get(country).get(state, new Map());
+      const countryMap = locationMap.get(country);
+      if (!countryMap.has(state)) {
+        countryMap.set(state, new Map());
       }
-      locationMap.get(country).get(state).set(city, doc.data());
+      const stateMap = countryMap.get(state);
+      stateMap.set(city, doc.data());
     }
   });
 
