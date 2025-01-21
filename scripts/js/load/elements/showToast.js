@@ -3,7 +3,7 @@
 let toastNumber = 0;
 let toastQueue = []; // Queue to manage toast sequence
 let activeToasts = new Set(); // Set to track active toasts
-
+let toastKey = '';
 /*
 showToast(message, 'warning', duration,
   link, false, 'Click Here');
