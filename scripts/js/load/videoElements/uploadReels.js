@@ -496,6 +496,7 @@ function createThumbnailPicker(file) {
                 canvas.toBlob((blob) => {
                     thumbnailBlob = blob; // Store blob for upload
                     thumbnailPreview.src = URL.createObjectURL(blob); // Update thumbnail image
+
                 }, 'image/png'); 
             };
         };

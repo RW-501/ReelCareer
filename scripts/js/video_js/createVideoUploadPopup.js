@@ -707,12 +707,13 @@ document.getElementById('clearTagsButton_tagsContainerSET-reelCategories').addEv
 
 
 
+const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
 
 
 
       const updatedStatus = document.getElementById('status').value;
       const updatedReelResume = document.getElementById('reelResume').value;
-      const updatedThumbnailURL = document.getElementById('thumbnailURL').value;
+      const updatedThumbnailURL = thumbnailPreview.src;
      // Retrieve the reelID from localStorage
    let  reelID = localStorage.getItem('reelID');
 
