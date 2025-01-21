@@ -872,7 +872,7 @@ window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 console.log("currentPath  ",currentPath);
 
-if (currentPath.includes('reels/') || currentPath.includes('videos/')){
+if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
   console.log("includes  ",currentPath);
 // Check if sessionStorage contains userLocation and set it

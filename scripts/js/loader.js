@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
 /**
  * Toggles debugging mode for logging script execution details.
  */
-const DEBUG = false;
+const DEBUG = true;
 
 /**
  * Tracks the number of loaded scripts.
@@ -254,7 +254,7 @@ function preLoadPageScripts() {
     loadStylesheet("https://reelcareer.co/scripts/css/main.css");
     logExecutionTime('Main CSS', performance.now());
 
-    if (currentPath.includes('obituaries')) {
+    if (currentPath.includes('/obituaries/')) {
         // Load obituaries CSS
         loadStylesheet("https://reelcareer.co/obituaries/style.css");
         logExecutionTime('Obituaries CSS', performance.now());
@@ -299,7 +299,7 @@ preLoadPageScripts();
  */
 function loadPageScripts() {
 
-    if (!currentPath.includes('obituaries')) {
+    if (!currentPath.includes('/obituaries/')) {
     // Load footer.js after <footer> is available
     loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: false }, () => {
         logExecutionTime('Footer', performance.now());
