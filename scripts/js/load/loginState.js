@@ -248,7 +248,7 @@ let isAccountLocked = false;
 
         displayName: userDataSaved.displayName || displayName,
         phoneNumber: userDataSaved.phoneNumber || phoneNumber || '',
-        profilePicture: userDataSaved.profilePicture || photoURL || profilePic,
+        profilePicture: userDataSaved.profilePicture || photoURL || profilePic || '',
         joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
 
         passwordLastChangedDate: userDataSaved.passwordLastChangedDate || joinedDate || new Date(), 
@@ -319,7 +319,7 @@ let isAccountLocked = false;
 
         totalReelViews: userDataSaved.totalReelViews || 0,
 
-        totalGiftAmountReceived: totalGiftAmountReceived,
+        totalGiftAmountReceived: totalGiftAmountReceived || 0,
 
         notificationPreferences: userDataSaved.notificationPreferences || [],
         autoLogoutTime: userDataSaved.autoLogoutTime || 100000,
@@ -408,7 +408,8 @@ let isAccountLocked = false;
             
             // Attempt to reset user data in local storage and update with fresh data
           
-            
+            localStorage.removeItem('userData');
+
             userData = setUserData(freshUserData);
             localStorage.setItem('userData', userData);
             console.log("Successfully recovered and updated user data.");
