@@ -929,6 +929,7 @@ function generateLocationList(data, locationMap) {
     const locationDiv = document.createElement('div');
     locationDiv.className = 'location-tab';
 
+    // Create collapsible button for each location level
     const collapsibleButton = document.createElement('button');
     collapsibleButton.className = 'collapsible';
     collapsibleButton.textContent = `${country} > ${state} > ${city}`;
@@ -936,6 +937,7 @@ function generateLocationList(data, locationMap) {
     const contentDiv = document.createElement('div');
     contentDiv.className = 'content';
 
+    // Display video content for the current location
     videos.forEach((video) => {
       const videoDiv = document.createElement('div');
       videoDiv.className = 'video-preview';
@@ -952,21 +954,21 @@ function generateLocationList(data, locationMap) {
       videoLink.className = 'watch-video-button';
       videoLink.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
 
-
       videoDiv.appendChild(thumbnail);
       videoDiv.appendChild(videoLink);
       contentDiv.appendChild(videoDiv);
     });
 
-    // Add click event to handle collapsible behavior
-    collapsibleButton.addEventListener('click', function () {
+    // Add click event to handle collapsible behavior and save location
+    collapsibleButton.addEventListener('click', function (event) {
       toggleCollapsible(event);
       saveLocationToLocalStorage(country, state, city);
+      updateLocationUI(country, state, city); // Update the UI with the selected location
     });
 
-    // If the current location matches this country, state, city, highlight it
+    // If the current location matches this, highlight the button
     if (country === currentLocation.country && state === currentLocation.state && city === currentLocation.city) {
-      collapsibleButton.classList.add('selected');  // Adding a class to visually highlight the current selection
+      collapsibleButton.classList.add('selected');  // Visually highlight the current selection
     }
 
     locationDiv.appendChild(collapsibleButton);
@@ -975,11 +977,16 @@ function generateLocationList(data, locationMap) {
   });
 
   document.getElementById('locationContainer').appendChild(locationFragment);
+}
 
+// Function to update UI and keep track of navigation between country, state, city
+function updateLocationUI(country, state, city) {
+  // Update currentLocation object and session storage
+  currentLocation = { country, state, city };
+  sessionStorage.setItem('userLocation', JSON.stringify(currentLocation));
 
-
-
-
+  // Update the displayed location
+  document.getElementById('currentLocationDisplay').textContent = `${country} > ${state} > ${city}`;
 }
 
 
