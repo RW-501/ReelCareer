@@ -325,6 +325,7 @@ let isAccountLocked = false;
         videoWatchHistory: userDataSaved.videoWatchHistory || [],            // History of videos watched used by the user
         videoWatchTime: userDataSaved.videoWatchTime || 0,            // Video duration limit for uploads
         videoWatchCount: userDataSaved.videoWatchCount || 0,            // Video videoWatchCount
+        videoInterest: userDataSaved.videoInterest || [],            // History of videos watched used by the user
 
         // Analytics and Reporting Features
         storeAdvanceAnalyticsBool: userDataSaved.storeAdvanceAnalyticsBool || false,  // Advanced analytics for store

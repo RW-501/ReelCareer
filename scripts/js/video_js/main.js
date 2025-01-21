@@ -338,6 +338,37 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
   // Set attribute to prevent multiple counts in the same session
     videoElement.setAttribute('data-view-counted', 'true');
 
+    
+// Extract video data from data attributes
+const videoData = {
+  videoId: videoElement.dataset.videoId,                          // Unique video ID
+  videoSrc: videoElement.dataset.videosrc,                        // Source URL of the video
+  videoResumeTitle: videoElement.dataset.videoResumeTitle,        // Video title
+  thumbnailURL: videoElement.dataset.thumbnailURL,                // Thumbnail image URL
+  reelURL: videoElement.dataset.reelURL,           
+                  // URL of the page containing the 
+                 
+   searchableTitle: videoElement.dataset.searchableVideoResumeTitle,                         
+   categories: videoElement.dataset.reelCategories,                       
+  tags: videoElement.dataset.tags    
+
+};
+
+
+
+
+
+const videoInterestEntry = {
+  searchableTitle: videoData.searchableTitle || "",
+  categories: videoData.categories || "",
+  tags: videoData.tags || "",
+  liked: false // Assuming this boolean is passed, set to true for testing
+};
+
+handleVideoInterestInput(videoInterestEntry);
+
+    getUserVideoInterest();
+
       if (ipDocSnapshot.exists()) {
         console.log("View already recorded for this IP.");
         return; // Prevent duplicate view increment
@@ -345,14 +376,8 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
   
 
 
-// Extract video data from data attributes
-const videoElement = {
-  videoId: videoCard.dataset.videoId,                          // Unique video ID
-  videoSrc: videoCard.dataset.videosrc,                        // Source URL of the video
-  videoResumeTitle: videoCard.dataset.videoResumeTitle,        // Video title
-  thumbnailURL: videoCard.dataset.thumbnailURL,                // Thumbnail image URL
-  reelURL: videoCard.dataset.reelURL                           // URL of the page containing the video
-};
+
+
 
 // Create a watch history entry for the video
 const videoWatchHistoryEntry = {
@@ -378,7 +403,7 @@ const updatedUserData = {
 
  localStorage.setItem('userData', userData);
 // Optional: Debug output for confirmation
-console.log("Updated userData with videoWatchHistory:", updatedUserData);
+console.log("Updated userData with videoWatchHistory:", videoWatchHistoryEntry);
 
 
 
@@ -414,7 +439,7 @@ console.log("Updated userData with videoWatchHistory:", updatedUserData);
   
 
   // Function to handle likes
-  async function handleLike(docId, likeButton) {
+  async function handleLike(docId, likeButton, videoElement) {
     const user = auth.currentUser;
 
     if(!user){
@@ -436,6 +461,31 @@ console.log("Updated userData with videoWatchHistory:", updatedUserData);
         return;
       }
       
+      // Extract video data from data attributes
+const videoData = {
+  videoId: videoElement.dataset.videoId,                          // Unique video ID
+  videoSrc: videoElement.dataset.videosrc,                        // Source URL of the video
+  videoResumeTitle: videoElement.dataset.videoResumeTitle,        // Video title
+  thumbnailURL: videoElement.dataset.thumbnailURL,                // Thumbnail image URL
+  reelURL: videoElement.dataset.reelURL,           
+                  // URL of the page containing the 
+                 
+   searchableTitle: videoElement.dataset.searchableVideoResumeTitle,                         
+   categories: videoElement.dataset.reelCategories,                       
+  tags: videoElement.dataset.tags    
+
+};
+
+
+
+const videoInterestEntry = {
+  searchableTitle: videoData.searchableTitle || "",
+  categories: videoData.categories || "",
+  tags: videoData.tags || "",
+  liked: true // Assuming this boolean is passed, set to true for testing
+};
+
+handleVideoInterestInput(videoInterestEntry);
       // Add user ID to the likes subcollection to record the like
       await setDoc(userLikeRef, {
         likedAt: new Date()

@@ -212,3 +212,108 @@ function handleJobInput(jobInput, action = "visit") {
   
   
   
+
+
+  /*
+  
+  ////////////////////////////////////////
+  /////////////////////    video  ////////////////////////////////////////////////////////////
+  
+  
+  
+  */
+
+
+
+
+
+  
+  /*
+  
+  ////////////////////////////////////////
+  /////////////////////    handleTagInput  ////////////////////////////////////////////////////////////
+  
+  
+  
+  */
+
+
+
+
+
+
+
+  
+  function handleVideoInterestInput({ searchableTitle, categories, tags, liked }) {
+    const inputTags = [
+      ...new Set([...(tags.split(',') || []), searchableTitle, categories].filter(Boolean).map(tag => tag.trim().toLowerCase()))
+    ];
+  
+    function isSimilarTag(tag1, tag2) {
+      return tag1.includes(tag2) || tag2.includes(tag1);
+    }
+  
+    function decayRanks(interests, decayFactor = 0.9) {
+      return interests.map(tag => ({
+        ...tag,
+        rank: Math.max(1, Math.floor(tag.rank * decayFactor))
+      }));
+    }
+  
+    function prioritizeTags(interests) {
+      return interests.sort((a, b) => b.rank - a.rank);
+    }
+  
+    let userVideoInterest = JSON.parse(localStorage.getItem('userVideoInterest')) || [];
+  
+    userVideoInterest = decayRanks(userVideoInterest);
+  
+    inputTags.forEach(tagInput => {
+      const existingIndex = userVideoInterest.findIndex(item => isSimilarTag(item.tag, tagInput));
+  
+      if (existingIndex !== -1) {
+        // If liked, increase rank more significantly
+        userVideoInterest[existingIndex].rank += liked ? 3 : 1;
+      } else {
+        // Add the new tag with a higher rank if liked
+        const newTag = { tag: tagInput, rank: liked ? 3 : 1 }; // Increase rank if liked
+        if (userVideoInterest.length >= 6) {
+          userVideoInterest = prioritizeTags(userVideoInterest);
+          userVideoInterest.pop(); // Remove least important tag
+        }
+        userVideoInterest.push(newTag);
+      }
+    });
+  
+    userVideoInterest = prioritizeTags(userVideoInterest);
+    userVideoInterest.forEach(item => (item.isLast = false));
+  
+    const lastAddedIndex = userVideoInterest.findIndex(item => inputTags.some(tag => isSimilarTag(item.tag, tag)));
+    if (lastAddedIndex !== -1) userVideoInterest[lastAddedIndex].isLast = true;
+  
+    localStorage.setItem('userVideoInterest', JSON.stringify(userVideoInterest));
+  
+    return userVideoInterest.map(item => item.tag);
+  }
+  
+  window.handleVideoInterestInput = handleVideoInterestInput;
+  
+  function getUserVideoInterest() {
+    const userVideoInterest = JSON.parse(localStorage.getItem('userVideoInterest')) || [];
+  
+    const filteredInterest = userVideoInterest
+      .map(item => item.tag.toLowerCase())
+      .filter(term => term.length > 2 && isNaN(term))
+      .slice(0, 15);
+  
+    console.log('User Video Interests:', filteredInterest);
+    return filteredInterest;
+  }
+  
+  window.getUserVideoInterest = getUserVideoInterest;
+  
+    
+  /*
+  const jobInterest = getUserJobInterest();
+  console.log('const jobInterest =', JSON.stringify(jobInterest));
+  */

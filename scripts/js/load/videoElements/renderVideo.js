@@ -75,6 +75,13 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const videoCard = document.createElement("div");
       videoCard.className = "video-post";
       videoCard.dataset.docId = docId; // Add dataset attribute
+      videoCard.dataset.thumbnailURL = videoData.thumbnailURL || "";
+      videoCard.dataset.reelURL = videoData.reelURL || "";
+      videoCard.dataset.videosrc = videoData.videoResumeURL || "";
+
+      videoCard.dataset.searchableVideoResumeTitle = videoData.searchableVideoResumeTitle || "";
+      videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
+
       videoCard.dataset.videoId = docId; // Add dataset attribute
       videoCard.dataset.timestamp = videoData.timestamp;
       videoCard.dataset.reelCategories = videoData.reelCategories;
@@ -93,13 +100,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.reported = videoData.reported || 0;
       videoCard.dataset.views = videoData.views || "";
       videoCard.dataset.profileURL = videoData.profileURL || "";
-      videoCard.dataset.videosrc = videoData.videoResumeURL || "";
 
-      videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
+
       videoCard.dataset.createdByID = videoData.createdByID || "";
       videoCard.dataset.displayName = videoData.displayName || "";
-      videoCard.dataset.thumbnailURL = videoData.thumbnailURL || "";
-      videoCard.dataset.reelURL = videoData.reelURL || "";
+
 
       generateVideoSchema(videoData, docId);
       
@@ -288,7 +293,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       }
   
       if (likeButton) {
-        likeButton.addEventListener("click", () => handleLike(docId, likeButton));
+        likeButton.addEventListener("click", () => handleLike(docId, likeButton, videoElement));
       }
   
       if (connectButton) {
