@@ -2176,7 +2176,8 @@ document.getElementById('clearTagsButton_tagsContainerSET-reelCategories').addEv
               isSponsoredPost: updatedIsSponsoredPost,
               timestamp: serverTimestamp() // Update timestamp
           });
-          showToast('Reel updated successfully.');
+          
+          showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
 
           const uploadContainer = document.getElementById("reel-upload-container");
           if (uploadContainer) {

@@ -347,7 +347,7 @@ let reelID = '';
             let userData = setUserData(updatedUserData);
             localStorage.setItem('userData', userData);
             console.log("LocalStorage userData updated with: ", updatedUserData);
-            showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
+            showToast('Reel Saved successfully.');
 
         } catch (error) {
             console.error("Error setting or saving user data locally: ", error, {
@@ -355,7 +355,6 @@ let reelID = '';
             });
         }      
     
-
 
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
        
