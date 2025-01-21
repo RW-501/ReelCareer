@@ -272,7 +272,7 @@ function insertSidePanelContent() {
     text-align: center;
     margin: 0;
     display: grid;
-    align-content: space-between;
+    align-content: space-around;
     justify-content: space-around;
     align-items: center;
     justify-items: center;
