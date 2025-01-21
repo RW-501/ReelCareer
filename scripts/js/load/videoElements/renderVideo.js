@@ -674,14 +674,32 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
-  const videoResumesRef = collection(db, 'VideoResumes');
-  const querySnapshot = await getDocs(videoResumesRef);
 
   const categoryMap = new Map();
   const topVideos = [];
-
-
   const locationMap = new Map();
+
+
+  
+  /*
+
+
+          const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
+        
+        // Log the response to make sure we get it
+        console.log("Response received:", response);
+
+        const data = await response.json();
+        
+
+        */
+
+        
+  const videoResumesRef = collection(db, 'VideoResumes');
+  const querySnapshot = await getDocs(videoResumesRef);
+
+
+
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
