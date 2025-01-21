@@ -2000,12 +2000,32 @@ async function handleDelete(event) {
             isBoostedPost: false,
             isPinnedReelCareer: false,
         });
+        try {
 
-        // Remove the reelID from the user's videoResumeData field in Users collection
-        const userDocRef = doc(db, "Users", userID);
+// 3. Get the current user document and filter out the videoResumeData
+const userDocRef = doc(db, "Users", userID);
+    const userDocSnapshot = await getDoc(userDocRef);
+
+    if (userDocSnapshot.exists()) {
+        const videoResumeData = userDocSnapshot.data().videoResumeData;
+
+        // Filter out the object with the matching reelID
+        const updatedVideoResumeData = videoResumeData.filter(video => video.reelID !== reelID);
+
+        // 4. Update the user document with the new videoResumeData array
         await updateDoc(userDocRef, {
-            videoResumeData: arrayRemove({ reelID: reelID })
+            videoResumeData: updatedVideoResumeData
         });
+
+        showToast('Video reel deleted successfully.');
+    } else {
+        showToast('User document not found.', 'error');
+    }
+} catch (error) {
+    console.error('Error deleting video reel:', error);
+    showToast('Failed to delete video reel. Please try again.', 'error');
+}
+
 
         showToast('Video reel marked as deleted.');
         
