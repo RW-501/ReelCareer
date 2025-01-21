@@ -452,7 +452,7 @@ function loadPageScripts() {
         });
     setTimeout(() => {
         // Load uploadReels.js as a module
-        loadScript('https://reelcareer.co/scripts/js/load/helpers/uploadReels.js', 
+        loadScript('https://reelcareer.co/scripts/js/load/videoElements/uploadReels.js', 
         { defer: true, type: 'module' }, () => {
             logExecutionTime('uploadReels Script', performance.now());
         });
