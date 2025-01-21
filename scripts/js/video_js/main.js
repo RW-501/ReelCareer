@@ -1828,8 +1828,10 @@ display: none;
           <!-- Location Input -->
           <div class="reel-groups">
             <label for="location">Location <small class="text-muted">(Where this reel is based)</small></label>
-            <input type="text" id="location" name="location" aria-label="Location" placeholder="Enter location" />
+            <input type="text" id="location" class="keywordInput location-input" name="location" aria-label="Location" placeholder="Location (e.g., State, City)" 
+            oninput="autoSuggest(this.value,'locationSuggestions')" />
           </div>
+
 
           <!-- Thumbnail Upload Section -->
           <div class="reel-groups">
