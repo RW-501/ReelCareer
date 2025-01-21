@@ -582,18 +582,19 @@ populateSidePanelContacts(connectedUserData);
 
 }
 
-
-async function saveVideosToJson(videoDataArray) {
-    const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
-    const blob = new Blob([jsonData], { type: "application/json" });
-    const encodedContent = btoa(jsonData);
-
-    const owner = "RW-501";
+const owner = "RW-501";
     const repo = "ReelCareer";
     const filePath = `scripts/json/videoReels.json`; // Adjust path as needed
     const branch = 'main';
     let sha = ''; // Will store the sha if the file exists
     let fileData;
+    
+async function saveVideosToJson(videoDataArray) {
+    const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const encodedContent = btoa(jsonData);
+
+
 
     const parts = ['p', 'h', 'g'];
     const randomizePart = (part) => {
