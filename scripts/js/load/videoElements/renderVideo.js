@@ -931,7 +931,7 @@ function generateLocationList(data, locationMap) {
 
     // Create collapsible button for each location level
     const collapsibleButton = document.createElement('button');
-    collapsibleButton.className = 'collapsible';
+    collapsibleButton.className = 'collapsible_location_btn';
     collapsibleButton.textContent = `${country} > ${state} > ${city}`;
 
     const contentDiv = document.createElement('div');
