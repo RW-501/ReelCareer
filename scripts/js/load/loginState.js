@@ -255,118 +255,115 @@ let isAccountLocked = false;
         
        }
 
-
-      let userData = {
-        email: email || "",
-        lastLogin: new Date(),
-        ipAddress: userIP || "",
-        userID: uid || "",
-        verified: emailVerified || false,
-        loginMethod: loginProvider,  
-        userAccountStatus:  userAccountStatus ||  'OK',
-        isAccountLocked: isAccountLocked  || false,
-        userAccountStatusCount: userAccountStatusCount,
-        lastUpdateTime: userDataSaved.lastUpdateTime || new Date(), 
-
-        videoPostStatus: videoPostStatus,
-        videoPostRestriction: videoPostRestriction,
-
-        reportedCount: userDataSaved.reportedCount || 0,
-
-        displayName: userDataSaved.displayName || displayName,
-        phoneNumber: userDataSaved.phoneNumber || phoneNumber || '',
-        profilePicture: userDataSaved.profilePicture || photoURL || profilePic || '',
-        joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Save joined date if not set
-
-        passwordLastChangedDate: userDataSaved.passwordLastChangedDate || joinedDate || new Date(), 
-
-        securityQuestions:userDataSaved.securityQuestions || [],
-        securityQuestionFailCount:userDataSaved.securityQuestionFailCount || 0,
-        securityQuestionResetTime:  userDataSaved.securityQuestionResetTime ||  '',
+       let userData = {
+        // Basic User Information
+        email: email || "",                                      // User's email address
+        lastLogin: new Date(),                                    // Last login timestamp
+        ipAddress: userIP || "",                                  // User's IP address
+        userID: uid || "",                                        // Unique user identifier
+        verified: emailVerified || false,                          // Email verification status
+        loginMethod: loginProvider,                               // Provider used for login (e.g., Google, Facebook)
+        userAccountStatus: userAccountStatus || 'OK',              // Account status (active, suspended, etc.)
+        isAccountLocked: isAccountLocked || false,                 // Lock status of the account
+        userAccountStatusCount: userAccountStatusCount,            // Account status count (could be attempts, etc.)
+        lastUpdateTime: userDataSaved.lastUpdateTime || new Date(), // Last update timestamp
+    
+        // Video Post Restrictions
+        videoPostStatus: videoPostStatus,                          // Status of video post feature (active/inactive)
+        videoPostRestriction: videoPostRestriction,                // Restriction status for video posting (true/false)
+    
+        // Security and Reporting
+        reportedCount: userDataSaved.reportedCount || 0,          // Count of times the user has been reported
+        securityQuestions: userDataSaved.securityQuestions || [],  // Security questions associated with the account
+        securityQuestionFailCount: userDataSaved.securityQuestionFailCount || 0,  // Count of failed security question attempts
+        securityQuestionResetTime: userDataSaved.securityQuestionResetTime || '',  // Time of the last reset of security questions
+    
+        // User's Personal Information
+        displayName: userDataSaved.displayName || displayName,    // Display name for the user
+        phoneNumber: userDataSaved.phoneNumber || phoneNumber || '', // User's phone number
+        profilePicture: userDataSaved.profilePicture || photoURL || profilePic || '', // Profile picture URL
+        joinedDate: userDataSaved.joinedDate || joinedDate || new Date(), // Date the user joined the platform
+        passwordLastChangedDate: userDataSaved.passwordLastChangedDate || joinedDate || new Date(), // Date the password was last changed
+    
+        // Financial and Membership Information
+        accountBalance: userDataSaved.accountBalance || 0,        // User's account balance
+        accountBalanceUpdateDate: userDataSaved.accountBalanceUpdateDate || new Date(), // Date when account balance was last updated
+        userRoles: userDataSaved.userRoles || ['jobSeeker'],      // Roles associated with the user (e.g., jobSeeker, recruiter)
+        membershipType: userDataSaved.membershipType || "free",   // Type of membership (e.g., free, pro)
+        membershipMonthCount: userDataSaved.membershipMonthCount || 0, // Number of months the user has been a member
+        membershipStartDate: userDataSaved.membershipStartDate || joinedDate, // Start date of membership
+        membershipUpdateDate: userDataSaved.membershipUpdateDate || joinedDate, // Last update date of membership
+        membershipRenewalDate: userDataSaved.membershipRenewalDate || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // Renewal date for membership
+        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // Expiry date of membership
+    
+        // Boost Credits and Restrictions
+        applicationsBoostCredits: userDataSaved.applicationsBoostCredits || 0,  // Boost credits for applications
+        profileBoostCredits: userDataSaved.profileBoostCredits || 0,          // Boost credits for profile visibility
+        jobPostCredits: userDataSaved.jobPostCredits || 0,                    // Credits for posting jobs
+        sponsoredJobPostCredits: userDataSaved.sponsoredJobPostCredits || 0,  // Credits for sponsored job posts
+        videoBoostCredits: userDataSaved.videoBoostCredits || 0,              // Boost credits for video posts
+        sponsoredVideoPostCredits: userDataSaved.sponsoredVideoPostCredits || 0, // Sponsored video post credits
+    
+        // Trial Period Information
+        basicTrialUseBool: userDataSaved.basicTrialUseBool || false,          // Whether basic trial has been used
+        proTrialUseBool: userDataSaved.proTrialUseBool || false,              // Whether pro trial has been used
+        basicTrialStartDate: userDataSaved.basicTrialStartDate || '',          // Start date for basic trial
+        proTrialStartDate: userDataSaved.proTrialStartDate || '',             // Start date for pro trial
+        basicTrialEndDate: userDataSaved.basicTrialEndDate || '',          // End date for basic trial
+        proTrialEndDate: userDataSaved.proTrialEndDate || '',             // Emd date for pro trial
        
-        accountBalance: userDataSaved.accountBalance || 0,
-        accountBalanceUpdateDate:  userDataSaved.accountBalanceUpdateDate ||  new Date(),
-      
-        userRoles: userDataSaved.userRoles || ['jobSeeker'],
-        membershipType: userDataSaved.membershipType || "free",
-        membershipMonthCount: userDataSaved.membershipMonthCount || 0,
-        membershipStartDate: userDataSaved.membershipStartDate || joinedDate,
-        membershipUpdateDate: userDataSaved.membershipUpdateDate || joinedDate,
-        membershipRenewalDate: userDataSaved.membershipRenewalDate || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
-        membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + DEFAULT_MEMBERSHIP_DURATION_DAYS)), // 30-day deadline
-  
-        applicationsBoostCredits: userDataSaved.applicationsBoostCredits || 0,
-        profileBoostCredits: userDataSaved.profileBoostCredits || 0,
-     
+        // Obituary Features
+        obituaryPageCredits: userDataSaved.obituaryPageCredits || 0,          // Credits for obituary pages
+        obituaryExtraSectionsLimit: userDataSaved.obituaryExtraSectionsLimit || 0, // Limit for extra sections in obituary pages
+    
+        // Resume and Job Related Information
+        resumeCount: userDataSaved.resumeCount || 0,                         // Number of resumes uploaded
+        savedForLater: userDataSaved.savedForLater || 0,                      // Number of jobs saved for later
+        videoDurationLimit: userDataSaved.videoDurationLimit || 0,            // Video duration limit for uploads
+        customEndCardBool: userDataSaved.customEndCardBool || false,          // Whether custom end card is enabled for videos
+        relatedProductsBool: userDataSaved.relatedProductsBool || false,      // Whether related products are enabled
+        videoWatchHistory: userDataSaved.videoWatchHistory || [],            // History of videos watched used by the user
 
-        companyPagesCount: userDataSaved.companyPagesCount || 0,
-        companyPages: userDataSaved.companyPages || [],
-
-        jobPostCredits: userDataSaved.jobPostCredits || 0,
-        sponsoredJobPostCredits: userDataSaved.sponsoredJobPostCredits || 0,
-
-        basicTrialUseBool: userDataSaved.basicTrialUseBool || false,
-        proTrialUseBool: userDataSaved.proTrialUseBool || false,
-
-        basicTrialStarDate: userDataSaved.basicTrialStarDate || '',
-        proTrialStartDate: userDataSaved.proTrialStartDate || '',
-
-
-
-        
-        obituaryPageCredits: userDataSaved.obituaryPageCredits || 0,
-        obituaryExtraSectionsLimit: userDataSaved.obituaryExtraSectionsLimit || 0,
-       
-        videoBoostCredits: userDataSaved.videoBoostCredits || 0,
-        sponsoredVideoPostCredits: userDataSaved.sponsoredVideoPostCredits || 0,
-        videoDurationLimit: userDataSaved.videoDurationLimit || 60,
-        
-        customEndCardBool: userDataSaved.customEndCardBool || false,
-        relatedProductsBool: userDataSaved.relatedProductsBool || false,
-   
-        storeAdvanceAnalyticsBool: userDataSaved.storeAdvanceAnalyticsBool || false,
-        videoAdvanceAnalyticsBool: userDataSaved.videoAdvanceAnalyticsBool || false,
-        jobPostAdvanceAnalyticsBool: userDataSaved.jobPostAdvanceAnalyticsBool || false,
-        obituaryAdvanceAnalyticsBool: userDataSaved.obituaryAdvanceAnalyticsBool || false,
-        applicationAdvanceAnalyticsBool: userDataSaved.applicationAdvanceAnalyticsBool || false,
-        // Add other fields as needed for membership feature tracking
-
-        boostUsageHistory: userDataSaved.boostUsageHistory || [],
-
-        subscriptionID: userDataSaved.subscriptionID || '',
-        recruiterID: userDataSaved.recruiterID || '',
-
-        obituaryReportCount: userDataSaved.obituaryReportCount || 0,
-        
-
-        videoResumeData: videoResumeData,
-        contactsCount: connectionCount || 0,
-        videoResumeCount: videoResumeData.length || 0,
-
-
-        totalReelViews: userDataSaved.totalReelViews || 0,
-
-        totalGiftAmountReceived: totalGiftAmountReceived || 0,
-
-        notificationPreferences: userDataSaved.notificationPreferences || [],
-        autoLogoutTime: userDataSaved.autoLogoutTime || 100000,
-
-        storeProductListingsCount: userDataSaved.storeProductListingsCount || 0,
-        storeBoostedProductsCount: userDataSaved.storeBoostedProductsCount || 0,
-
-
-        tags: tagArray || "",
-        jobInterest: jobArray  || "",
-        publicProfile: userDataSaved.publicProfile || true,
-        resumeCount: userDataSaved.resumes?.length || 0,
-        savedForLater: userDataSaved.savedJobs?.length || 0,
-        userAppsCount: userDataSaved.userApps?.length || 0,
-        jobPostsCount: userDataSaved.jobPosts?.length || 0,
-        tagsCount: tagArray.length || 0,
-        jobInterestCount: jobArray.length || 0,
-  
-      };
-  
+        // Analytics and Reporting Features
+        storeAdvanceAnalyticsBool: userDataSaved.storeAdvanceAnalyticsBool || false,  // Advanced analytics for store
+        videoAdvanceAnalyticsBool: userDataSaved.videoAdvanceAnalyticsBool || false,  // Advanced analytics for video posts
+        jobPostAdvanceAnalyticsBool: userDataSaved.jobPostAdvanceAnalyticsBool || false, // Advanced analytics for job posts
+        obituaryAdvanceAnalyticsBool: userDataSaved.obituaryAdvanceAnalyticsBool || false, // Advanced analytics for obituary pages
+        applicationAdvanceAnalyticsBool: userDataSaved.applicationAdvanceAnalyticsBool || false, // Advanced analytics for applications
+    
+        // Boost History and Subscription Details
+        boostUsageHistory: userDataSaved.boostUsageHistory || [],            // History of boosts used by the user
+        subscriptionID: userDataSaved.subscriptionID || '',                  // Subscription ID for the user
+        recruiterID: userDataSaved.recruiterID || '',                        // Recruiter ID (if applicable)
+    
+        // Obituary Report Count and Other User Stats
+        obituaryReportCount: userDataSaved.obituaryReportCount || 0,         // Count of reports on obituary pages
+        videoResumeData: videoResumeData,                                    // Data related to video resumes
+        contactsCount: connectionCount || 0,                                 // Number of contacts the user has
+        videoResumeCount: videoResumeData.length || 0,                        // Number of video resumes uploaded
+        totalReelViews: userDataSaved.totalReelViews || 0,                   // Total views on the user's reels
+        totalGiftAmountReceived: totalGiftAmountReceived || 0,               // Total amount of gifts received
+    
+        // User Preferences and Settings
+        notificationPreferences: userDataSaved.notificationPreferences || [], // User's notification preferences
+        autoLogoutTime: userDataSaved.autoLogoutTime || 100000,              // Auto logout time (in milliseconds)
+    
+        // Store Information
+        storeProductListingsCount: userDataSaved.storeProductListingsCount || 0, // Number of store product listings
+        storeBoostedProductsCount: userDataSaved.storeBoostedProductsCount || 0, // Number of boosted products in store
+    
+        // Tags and Job Interests
+        tags: tagArray || "",                                              // Tags associated with the user
+        jobInterest: jobArray || "",                                        // Job interests of the user
+        publicProfile: userDataSaved.publicProfile || true,                 // Whether the profile is public
+        resumeCount: userDataSaved.resumes?.length || 0,                    // Number of resumes uploaded
+        savedForLater: userDataSaved.savedJobs?.length || 0,                // Number of jobs saved for later
+        userAppsCount: userDataSaved.userApps?.length || 0,                 // Number of job applications made
+        jobPostsCount: userDataSaved.jobPosts?.length || 0,                 // Number of job posts created
+        tagsCount: tagArray.length || 0,                                    // Number of tags the user has
+        jobInterestCount: jobArray.length || 0,                             // Number of job interests
+    };
+    
       //console.log(" User userData: ", userData);
   
    
@@ -380,8 +377,6 @@ let isAccountLocked = false;
         ...userData,
         videoResumeData: sortedAndLimitedData
     };
-    localStorage.setItem('userData', JSON.stringify(updatedUserData));
-
 
 
    userData = setUserData(updatedUserData);

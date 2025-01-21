@@ -98,6 +98,8 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
       videoCard.dataset.createdByID = videoData.createdByID || "";
       videoCard.dataset.displayName = videoData.displayName || "";
+      videoCard.dataset.thumbnailURL = videoData.thumbnailURL || "";
+      videoCard.dataset.reelURL = videoData.reelURL || "";
 
       generateVideoSchema(videoData, docId);
       

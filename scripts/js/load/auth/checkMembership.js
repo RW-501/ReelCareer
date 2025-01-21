@@ -548,6 +548,7 @@ function listUserBenefits() {
             jobPostAdvanceAnalyticsBool: false,
             obituaryAdvanceAnalyticsBool: false,
             applicationAdvanceAnalyticsBool: false,
+
         },
         ...userDataSaved
     };

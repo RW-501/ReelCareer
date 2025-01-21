@@ -293,6 +293,48 @@ function handleComments(docId, commentsBtn) {
         return; // Prevent duplicate view increment
       }
   
+
+
+// Extract video data from data attributes
+const videoElement = {
+  videoId: videoCard.dataset.videoId,                          // Unique video ID
+  videoSrc: videoCard.dataset.videosrc,                        // Source URL of the video
+  videoResumeTitle: videoCard.dataset.videoResumeTitle,        // Video title
+  thumbnailURL: videoCard.dataset.thumbnailURL,                // Thumbnail image URL
+  reelURL: videoCard.dataset.reelURL                           // URL of the page containing the video
+};
+
+// Create a watch history entry for the video
+const videoWatchHistoryEntry = {
+  videoId: videoData.videoId || "",
+  title: videoData.videoResumeTitle || "",
+  src: videoData.videoSrc || "",
+  pageUrl: videoData.reelURL || "",
+  thumbnail: videoData.thumbnailURL || "",
+  watchTime: new Date()  // Timestamp to track when the video was watched
+};
+
+// Get existing watch history from userData or initialize it
+let videoWatchHistory = userData.videoWatchHistory || [];
+videoWatchHistory.push(videoWatchHistoryEntry);  // Add the new entry to the history
+
+// Update userData with the new watch history
+const updatedUserData = {
+  videoWatchHistory: videoWatchHistory  // Update the video watch history
+};
+
+// Save updated user data
+let userData = setUserData(updatedUserData);
+
+ localStorage.setItem('userData', userData);
+// Optional: Debug output for confirmation
+console.log("Updated userData with videoWatchHistory:", updatedUserData);
+
+
+
+
+
+
       // Record the unique view
       await setDoc(ipDocRef, {
         viewedAt: new Date()
@@ -320,7 +362,7 @@ function handleComments(docId, commentsBtn) {
   
   window.incrementViewCount = incrementViewCount;
   
-  
+
   // Function to handle likes
   async function handleLike(docId, likeButton) {
     const user = auth.currentUser;
