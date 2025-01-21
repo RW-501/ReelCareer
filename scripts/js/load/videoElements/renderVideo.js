@@ -870,9 +870,11 @@ if (currentPath.includes('reels') || currentPath.includes('videos')){
 
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
+console.log("currentPath  ",currentPath);
 
 if (currentPath.includes('reels/') || currentPath.includes('videos/')){
 
+  console.log("includes  ",currentPath);
 // Check if sessionStorage contains userLocation and set it
 const userLocation = sessionStorage.getItem("userLocation");
 let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
