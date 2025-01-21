@@ -137,39 +137,47 @@ const q = query(connectionsRef, where('participants', 'array-contains', userID))
    const { email, uid, emailVerified, displayName, phoneNumber, photoURL } = user;
 
   
+ 
    
-   // Fetch the video resume data from Firestore
-       const querySnapshot = await getDocs(reelsQuery);
-       querySnapshot.forEach((doc) => {
-         // Assuming the document contains the necessary fields: reelID, videoResumeURL, tags
-         const data = doc.data();
-         videoResumeData.push({
-           reelID: data.reelID,
-           videoResumeURL: data.videoResumeURL,
-           videoResumeTitle: data.videoResumeTitle,
-           reported: data.reported,
-           isPinned: data.isPinned,
-           isPublic: data.isPublic,
-           isSponsoredPost: data.isSponsoredPost,
-           views: data.views,
-           watchTime: data.watchTime,
-           tags: data.tags || [],  // Default to empty array if no tags
-           gifts: data.gifts || [],  // Default to empty array if no gifts
-           createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
-           status: data.status || 'posted', // Default to 'posted' if no status
-           reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
-         });
-       });
+const querySnapshot = await getDocs(reelsQuery);
+querySnapshot.forEach((doc) => {
+    // Assuming the document contains the necessary fields: reelID, videoResumeURL, tags
+    const data = doc.data();
+    
+    // Ensure videoResumeData is an array before pushing
+    if (Array.isArray(videoResumeData)) {
+        videoResumeData.push({
+            reelID: data.reelID,
+            videoResumeURL: data.videoResumeURL,
+            videoResumeTitle: data.videoResumeTitle,
+            reported: data.reported,
+            isPinned: data.isPinned,
+            isPublic: data.isPublic,
+            isSponsoredPost: data.isSponsoredPost,
+            views: data.views,
+            watchTime: data.watchTime,
+            tags: data.tags || [],  // Default to empty array if no tags
+            gifts: data.gifts || [],  // Default to empty array if no gifts
+            createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
+            status: data.status || 'posted', // Default to 'posted' if no status
+            reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
+        });
+    }
+});
 
-// Make a copy of videoResumeData
-const sortedAndLimitedData = [...videoResumeData]
-.filter(item => item.status === 'posted')  // Filter items with status 'posted'
-.sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
-.slice(0, 10); // Limit to 10 items
+// Ensure videoResumeData is an array before proceeding
+if (Array.isArray(videoResumeData)) {
+    // Make a copy of videoResumeData
+    const sortedAndLimitedData = [...videoResumeData]
+        .filter(item => item.status === 'posted')  // Filter items with status 'posted'
+        .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
+        .slice(0, 10); // Limit to 10 items
 
-// You can now use sortedAndLimitedData for further processing
-console.log(sortedAndLimitedData);
-
+    // You can now use sortedAndLimitedData for further processing
+    console.log(sortedAndLimitedData);
+} else {
+    console.error('videoResumeData is not an array.');
+}
 
 
 let totalGiftAmountReceived = videoResumeData.gifts.length;
