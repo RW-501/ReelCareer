@@ -421,7 +421,6 @@ let isAccountLocked = false;
     } catch (error) {
 
       console.error("Failed to set user document:", error);
-      localStorage.setItem("userLoggedIn", false);
 
       try {
         // Attempt to retrieve the latest user data from the database
@@ -444,12 +443,16 @@ let isAccountLocked = false;
 
         } else {
             console.error("User data not found in the database.");
+            localStorage.setItem("userLoggedIn", false);
+
         }
     } catch (fetchError) {
         console.error("Failed to fetch or update user data from the database:", fetchError);
+        localStorage.setItem("userLoggedIn", false);
+
     } finally {
         setTimeout(() => {
-            //  location.reload();  // Refresh the page after 1 second
+              location.reload();  // Refresh the page after 1 second
         }, 1000);
     }
    
