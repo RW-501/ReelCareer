@@ -1946,7 +1946,28 @@ try {
 
     async function loadVideoWatchHistory(userData) {
     const watchHistorySection = document.getElementById('watch-history-list');
+    const watchStatsContainer = document.getElementById('watch-stats');
+    
+    // Clear existing content
+    watchStatsContainer.innerHTML = '';
+    
+    // Create elements for modern styled div
+    const statsDiv = document.createElement('div');
+    statsDiv.className = 'watch-stats modern-card shadow-sm rounded-lg p-4';
 
+    statsDiv.innerHTML = `
+        <div class="stat-item">
+            <h3 class="stat-title">Total Watch Time</h3>
+            <p class="stat-value">${userData.videoWatchTime || 0} minutes</p>
+        </div>
+        <div class="stat-item">
+            <h3 class="stat-title">Total Videos Watched</h3>
+            <p class="stat-value">${userData.videoWatchCount || 0}</p>
+        </div>
+    `;
+
+    // Append the new stats card to the container
+    watchStatsContainer.appendChild(statsDiv);
     // Check if videoResumeData exists and is an array
     if (!userData.videoWatchHistory || !Array.isArray(userData.videoWatchHistory) || userData.videoWatchHistory.length === 0) {
       watchHistorySection.innerHTML = '<li>No video resumes found.</li>';
