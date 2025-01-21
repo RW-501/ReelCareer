@@ -221,7 +221,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         tags: tags || [],
         videoResumeCaptions: videoData.videoResumeCaptions,
         videoResumeTitle: videoData.videoResumeTitle,
-        thumbnailURL: 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
+        thumbnailURL: videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
         videoResumeURL,
         videoResumeFileName: videoData.name,
         duration: videoData.duration,
@@ -496,7 +496,7 @@ function createThumbnailPicker(file) {
                 canvas.toBlob((blob) => {
                     thumbnailBlob = blob; // Store blob for upload
                     thumbnailPreview.src = URL.createObjectURL(blob); // Update thumbnail image
-                }, 'image/jpeg'); 
+                }, 'image/png'); 
             };
         };
 

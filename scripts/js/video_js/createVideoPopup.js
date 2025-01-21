@@ -897,16 +897,16 @@ thumbnailUpload.addEventListener('change', async (event) => {
         reader.readAsDataURL(file); // Read file as data URL
 
         try {
-            const fileName = `users/${userID}/reels/${reelID}/thumbnail/${Date.now()}_${file.name}`; // Unique file name for storage
+            const fileName = `users/${userID}/reels/${reelID}/thumbnail.png`; // Unique file name for storage
             const storageRef = ref(storage, fileName);
             await uploadBytes(storageRef, file); // Upload file to Firebase
             const downloadURL = await getDownloadURL(storageRef); // Get the download URL
             
             thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
-            alert('Thumbnail uploaded successfully.');
+            showToast('Thumbnail uploaded successfully.');
         } catch (error) {
             console.error('Error uploading thumbnail:', error);
-            alert('Failed to upload thumbnail. Please try again.');
+            showToast('Failed to upload thumbnail. Please try again.');
         }
     }
 });

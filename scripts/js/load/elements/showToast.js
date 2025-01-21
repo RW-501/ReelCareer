@@ -16,6 +16,8 @@ function showToast(message, type = 'info', duration = 3500,
   const toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
   if (activeToasts.has(toastKey)) {
+
+    
     return; // Skip adding a duplicate toast
   }
 
