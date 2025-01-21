@@ -180,7 +180,16 @@ if (Array.isArray(videoResumeData)) {
 }
 
 
-let totalGiftAmountReceived = videoResumeData.gifts.length;
+let totalGiftAmountReceived = 0;
+
+// Check if gifts is an array and has length
+if (Array.isArray(videoResumeData.gifts)) {
+    totalGiftAmountReceived = videoResumeData.gifts.length;
+} else {
+    // Handle the case where gifts is undefined or not an array
+  //  console.warn('Gifts data is not available or not an array');
+}
+
 
 
 
