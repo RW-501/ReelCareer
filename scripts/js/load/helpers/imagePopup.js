@@ -24,9 +24,34 @@
   
 // Function to create the full-screen popup
 const createMediaPopup = (mediaSrc, idURL, type) => {
-    // Create the overlay
-    const overlay = document.createElement("div");
-    overlay.classList.add("fullscreen-popup");
+    let overlay = document.getElementById("fullscreen-popup");
+    
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.classList.add("fullscreen-popup");
+        overlay.id = "fullscreen-popup";
+        document.body.appendChild(overlay);
+
+        overlay.style.display = "block";
+        overlay.style.visibility = "visible";
+        overlay.style.opacity = 1;
+    } else {
+        // Ensure it is visible if it already exists
+        overlay.style.display = "block";
+        overlay.style.visibility = "visible";
+        overlay.style.opacity = 1;
+
+    }
+
+    // Set the capacity to 1 if relevant
+    const maxCapacity = 1;
+    const currentChildren = overlay.childElementCount;
+    if (currentChildren >= maxCapacity) {
+        console.log("Maximum capacity reached. Not adding new content.");
+    } else {
+        // Logic to add content or elements into overlay
+        console.log("Content can be added since capacity is not full.");
+    }
 
     // Determine whether the media is an image or video based on the file extension or MIME type
     const isImage = /\.(jpg|jpeg|png|gif|bmp|webp)(\?.*)?$/i.test(mediaSrc);
