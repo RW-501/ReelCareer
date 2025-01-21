@@ -650,13 +650,13 @@ async function saveVideosToJson(videoDataArray) {
             if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
                 // Encode the updated content
                 const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
-                await updateFile(url, updatedEncodedContent, sha);
+                await updateFile(url, updatedEncodedContent, sha, token);
             } else {
                 console.log("No changes detected, skipping update.");
             }
         } else if (fileResponse.status === 404) {
             console.log("File does not exist, creating a new one.");
-            await updateFile(url, encodedContent, sha);
+            await updateFile(url, encodedContent, sha, token);
         } else {
             throw new Error(`Failed to fetch file metadata: ${fileResponse.statusText}`);
         }
@@ -671,7 +671,7 @@ async function saveVideosToJson(videoDataArray) {
     }
 }
 
-async function updateFile(url, encodedContent, sha) {
+async function updateFile(url, encodedContent, sha, token) {
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
