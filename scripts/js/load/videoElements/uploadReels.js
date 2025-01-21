@@ -364,7 +364,6 @@ let reelID = '';
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
        
        
-        if (document.getElementById('uploadArea') && document.getElementById('reels-more-options-area')) {
             // Place your control logic here only if the elements are present
             const uploadContainer = document.getElementById("reel-upload-container");
             if (!uploadContainer) {
@@ -398,7 +397,7 @@ let reelID = '';
         }
 
 
-        }
+        
         
 }
 
