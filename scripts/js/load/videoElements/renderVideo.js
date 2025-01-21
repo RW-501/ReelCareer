@@ -871,7 +871,7 @@ if (currentPath.includes('reels') || currentPath.includes('videos')){
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
-if (currentPath.includes('reels') || currentPath.includes('videos')){
+if (currentPath.includes('reels/') || currentPath.includes('videos/')){
 
 // Check if sessionStorage contains userLocation and set it
 const userLocation = sessionStorage.getItem("userLocation");
