@@ -663,6 +663,13 @@
             Open Jobs
           </button>
         </li>
+        <li class="nav-item" role="presentation">
+          <button class="profile-tabs" id="watch-history-tab" data-bs-toggle="tab" data-bs-target="#watch-history-section" type="button" role="tab" aria-controls="watch-history-section" aria-selected="false">
+            Watch History
+          </button>
+        </li>
+
+
         <li class="nav-item" role="presentation" hidden>
           <button class="profile-tabs" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
             Companies
@@ -717,6 +724,20 @@
             </div>
           </div>
         </div>
+
+
+        <!-- Watch History Section -->
+        <div class="profile-pane " id="watch-history-section" role="tabpanel" aria-labelledby="watch-history-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5>Watch History</h5>
+              <div id="watch-history-list">
+                <!-- Open jobs will be dynamically listed here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <!-- Companies Section -->
         <div class="profile-pane " id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
@@ -1124,6 +1145,9 @@
             // await loadUserCompanies(userIdFromURL);
             await loadUserVideoResumes(userData);
             await loadSocialMedia(userData);
+            await loadVideoWatchHistory(userData);
+
+            *videoWatchHistory
           }
         } else {
           // Call this function when the user data is not found
