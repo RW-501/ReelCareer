@@ -463,12 +463,13 @@ function createThumbnailPicker(file) {
     const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
     const videoElement = document.createElement('video');
     let thumbnailBlob = null;
+    let videoDuration = 0;
 
     videoElement.src = URL.createObjectURL(file);
     videoElement.id = "videoToUpload";
 
     videoElement.onloadedmetadata = () => {
-        const videoDuration = videoElement.duration;
+         videoDuration = videoElement.duration;
 
         // Create range slider for custom seeking
         const slider = document.createElement('input');
@@ -527,7 +528,6 @@ function initializeVideoUploadHandlers() {
 
     let uploadedFile = null;
     let videoDuration = 0;
-    let thumbnailBlob = null; // Variable to store thumbnail image
 
     selectVideoButton.addEventListener("click", (e) => {
 
