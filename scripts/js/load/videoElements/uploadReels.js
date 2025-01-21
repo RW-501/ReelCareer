@@ -67,7 +67,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     userID,
                     videoData
                 }));
-                console.log("uploadSessionKey:",  bytesTransferred, snapshot.bytesTransferred,
+                console.log("uploadSessionKey:",   snapshot.bytesTransferred,
                      snapshot.totalBytes,
                     progress,
                      videoData.name,
