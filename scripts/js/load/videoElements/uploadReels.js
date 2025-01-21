@@ -74,7 +74,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 showToast('Failed to upload video resume.');
                 localStorage.removeItem(uploadSessionKey);
                 if (progressBar) {
-                    progressBar.style.display = 'none';
+                  //  progressBar.style.display = 'none';
                 }
             },
             async () => {
@@ -85,7 +85,7 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                 localStorage.removeItem(uploadSessionKey);
                 setTimeout(() => {
                     if (progressBar) {
-                        progressBar.style.display = 'none';
+                       // progressBar.style.display = 'none';
                     }
                 }, 2000);
 
