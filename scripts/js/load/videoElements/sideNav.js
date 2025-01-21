@@ -26,6 +26,11 @@ function insertSidePanelContent() {
             <li class="side-nav-item"  id="btn-join-area" >
               <button id="btn-join" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Join</span></button>
             </li>
+            
+            <li class="side-nav-item">
+              <button id="btn-location" class="side-nav-button"><i class="fas fa-map-marker-alt"></i><span class="btn-text">Locations</span></button>
+            </li>
+
             <li class="side-nav-item side-user-btn">
               <button id="showUploadPopup" class="side-nav-button"><i class="fas fa-upload"></i><span class="btn-text"> Upload Reel</span></button>
             </li>
@@ -54,45 +59,53 @@ function insertSidePanelContent() {
             </li>
 
           </ul>
-          <div id="side-panel-popout-section">
 
-          <div id="search-section" class="side-panel-popout">
-     <h4>Search</h4>
+<div id="side-panel-popout-section">
 
-                      <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
-     <h5>Suggestions</h5>
-               <div class="side-panel-content">
+        <div id="search-section" class="side-panel-popout">
+          <h4>Search</h4>
+          <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
+          <h5>Suggestions</h5>
 
-            <ul id="search-suggestions" class="search-suggestions" ></ul>
-            </div>
-                    </div>  
+          <div class="side-panel-content">
+          <ul id="search-suggestions" class="search-suggestions" ></ul>
+          </div>
+          
+        </div>  
 
                     
-          <div id="connection-section" class="side-panel-popout">
+  <div id="locaction-section" class="side-panel-popout">
+     <h4>Location</h4>
+    <div class="side-panel-content">
+
+      <div id="side-panel-location"></div>
+
+      <div id="location-video-div"></div>
+    </div>
+  </div>
+
+
+
+
+  <div id="connection-section" class="side-panel-popout">
      <h4>Connection</h4>
-      <div class="side-panel-content">
-      <div id="side-panel-contacts">
+    <div class="side-panel-content">
 
-
-        </div>
       <div class="side-panel-connection-btn">
-
         <button data-type="" class="connection-type-button">All Connections</button>
         <button data-type="Networking" class="connection-type-button">Networking</button>
         <button data-type="Friends" class="connection-type-button">Friends</button>
         <button data-type="Family" class="connection-type-button">Family</button>
         <button data-type="Co-workers" class="connection-type-button">Co-Workers</button>
-              </div>
+      </div>
 
-      
-      
-        </div>
+      <div id="side-panel-contacts"></div>
+
+    </div>
+  </div>
+
+
 </div>
-
-
-</div>
-
-
 
 </div>
 
@@ -103,7 +116,7 @@ function insertSidePanelContent() {
         </nav>
       `;
     }
-
+    
   
     
   // Close side panel if clicked outside
@@ -122,6 +135,7 @@ function insertSidePanelContent() {
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
+        const locationSection = document.getElementById('location-section');
       
         // Add listeners for showing/hiding sections
         const togglePopout = (section) => {
@@ -148,6 +162,14 @@ function insertSidePanelContent() {
             togglePopout(connectionSection);
             toggleButtonActive(document.getElementById('btn-connection'));
           });
+
+          document.getElementById('btn-location').addEventListener('click', () => {
+            togglePopout(locationSection);
+            toggleButtonActive(document.getElementById('btn-location'));
+          });
+
+
+
           
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');

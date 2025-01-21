@@ -593,13 +593,18 @@ window.populateSidePanelContacts = populateSidePanelContacts;
 
 async function loadTopCategoriesWithVideos() {
   const searchSuggestionsDiv = document.getElementById('search-suggestions');
+  const locationDiv = document.getElementById('location-video-div');
   searchSuggestionsDiv.innerHTML = ''; // Clear any existing content
+  locationDiv.innerHTML = ''; // Clear any existing content
 
   // Avoid repeated style injection
   if (!document.getElementById('video-preview-style')) {
     const style = document.createElement('style');
     style.id = 'video-preview-style';
     style.textContent = `
+
+    #main-side-panel {
+
 .category-item {
     margin-bottom: 20px;
     padding: 1rem;
@@ -639,6 +644,32 @@ async function loadTopCategoriesWithVideos() {
       .watch-video-button:hover {
         background-color: #0056b3;
       }
+              .location-tab {
+          margin-top: 10px;
+      }
+      .collapsible {
+          background-color: #f1f1f1;
+          color: #444;
+          cursor: pointer;
+          padding: 10px;
+          text-align: left;
+          border: none;
+          outline: none;
+          font-size: 1.2rem;
+          border-radius: 5px;
+          margin-bottom: 5px;
+      }
+      .collapsible.active {
+          background-color: #d3d3d3;
+      }
+      .content {
+          padding: 0 15px;
+          display: none;
+          overflow: hidden;
+      }
+
+  }
+
     `;
     document.head.appendChild(style);
   }
@@ -648,6 +679,69 @@ async function loadTopCategoriesWithVideos() {
 
   const categoryMap = new Map();
   const topVideos = [];
+
+
+  const locationMap = new Map();
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
+      const { country, state, city } = data;
+      const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+      if (!locationMap.has(locationKey)) {
+        locationMap.set(locationKey, []);
+      }
+      locationMap.get(locationKey).push(data);
+    }
+  });
+
+  const locationFragment = document.createDocumentFragment();
+
+  locationMap.forEach((videos, locationKey) => {
+    const [country, state, city] = locationKey.split(' > ');
+
+    const locationDiv = document.createElement('div');
+    locationDiv.className = 'location-tab';
+
+    const collapsibleButton = document.createElement('button');
+    collapsibleButton.className = 'collapsible';
+    collapsibleButton.textContent = `${country} > ${state} > ${city}`;
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'content';
+
+    videos.forEach((video) => {
+      const videoDiv = document.createElement('div');
+      videoDiv.className = 'video-preview';
+
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.className = 'video-thumbnail';
+
+      const videoLink = document.createElement('a');
+      videoLink.href = video.videoResumeURL;
+      videoLink.textContent = 'Watch Video';
+      videoLink.target = '_blank';
+      videoLink.className = 'watch-video-button';
+
+      videoDiv.appendChild(thumbnail);
+      videoDiv.appendChild(videoLink);
+      contentDiv.appendChild(videoDiv);
+    });
+
+    collapsibleButton.addEventListener('click', function () {
+      this.classList.toggle('active');
+      const content = this.nextElementSibling;
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+
+    locationDiv.appendChild(collapsibleButton);
+    locationDiv.appendChild(contentDiv);
+    locationFragment.appendChild(locationDiv);
+  });
+
+  locationDiv.appendChild(locationFragment);
+
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
