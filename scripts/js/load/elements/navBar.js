@@ -147,6 +147,7 @@ function createNavbar() {
 // Assuming getUserData() returns an object, not an array
 const userDataSaved = getUserData() || {};
 
+console.log("handleAuthStateChanged lastUpdateTime:", userDataSaved.lastUpdateTime);
 // Check if `lastUpdateTime` exists and if it’s more than 30 minutes old
 if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) > 30 * 60 * 1000) {
     // If lastUpdateTime is missing or more than 30 minutes have passed
