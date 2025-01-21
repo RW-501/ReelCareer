@@ -423,7 +423,7 @@ let isAccountLocked = false;
         console.error("Failed to fetch or update user data from the database:", fetchError);
     } finally {
         setTimeout(() => {
-            location.reload();  // Refresh the page after 1 second
+            //  location.reload();  // Refresh the page after 1 second
         }, 1000);
     }
    
