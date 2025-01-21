@@ -464,6 +464,60 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 window.postReelFunction = postReelFunction;
 
+function createThumbnailPicker(file, thumbnailPreviewPickerSectionId, thumbnailPreviewId) {
+    const thumbnailPreviewPickerSection = document.getElementById(thumbnailPreviewPickerSectionId);
+    const thumbnailPreview = document.getElementById(thumbnailPreviewId); // Assume an image element for showing preview
+    const videoElement = document.createElement('video');
+    let thumbnailBlob = null;
+
+    videoElement.src = URL.createObjectURL(file);
+    videoElement.id = "videoToUpload";
+
+    videoElement.onloadedmetadata = () => {
+        const videoDuration = videoElement.duration;
+
+        // Create range slider for custom seeking
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.min = '0';
+        slider.max = videoDuration.toString();
+        slider.step = '0.1';
+        slider.value = (videoDuration / 2).toString();
+        slider.id = 'thumbnailSlider';
+
+        thumbnailPreviewPickerSection.appendChild(slider);
+
+        const updateThumbnail = (time) => {
+            videoElement.currentTime = time;
+
+            videoElement.onseeked = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                
+                // Convert canvas to Blob and update preview
+                canvas.toBlob((blob) => {
+                    thumbnailBlob = blob; // Store blob for upload
+                    thumbnailPreview.src = URL.createObjectURL(blob); // Update thumbnail image
+                }, 'image/jpeg'); 
+            };
+        };
+
+        // Initialize with middle frame
+        updateThumbnail(videoDuration / 2);
+
+        // Add event listener for slider to update thumbnail
+        slider.addEventListener('input', (event) => {
+            const selectedTime = parseFloat(event.target.value);
+            updateThumbnail(selectedTime);
+        });
+    };
+
+
+    return videoElement;
+}
 
 
 function initializeVideoUploadHandlers() {
@@ -497,45 +551,27 @@ function initializeVideoUploadHandlers() {
         
 
         uploadedFile = file;
+
+
+        let videoElement ;
       
        
-        const thumbnailPreviewPickerSection = document.getElementById(`thumbnailPreviewPickerSection`);
 
-            const videoElement = document.createElement('video');
-            videoElement.src = URL.createObjectURL(file);
-            videoElement.id = "videoToUpload"
-            videoElement.onloadedmetadata = () => {
-                videoDuration = videoElement.duration;
-        
-                // Seek to the middle of the video
-                videoElement.currentTime = videoDuration / 2;
-        
-                videoElement.onseeked = () => {
-                    // Create a canvas element
-                    const canvas = document.createElement('canvas');
-                    canvas.width = videoElement.videoWidth;
-                    canvas.height = videoElement.videoHeight;
-        
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        
-                    // Convert the canvas image to a Blob
-                    canvas.toBlob((blob) => {
-                        thumbnailBlob = blob; // Store the thumbnail blob
-                        showToast('Thumbnail captured successfully.');
-                        
-                        // Optional: Show thumbnail as preview
-                        const imgPreview = document.createElement('img');
-                        imgPreview.src = URL.createObjectURL(blob);
 
-                        
-                        thumbnailPreviewPickerSection.appendChild(imgPreview); // Append for visual confirmation
-                    }, 'image/jpeg'); // Change format if needed
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('video/')) {
+                videoElement =  createThumbnailPicker(file, 'thumbnailPreviewPickerSection', 'thumbnailPreview');
+            }
+        });
         
-                    videoPreview.src = videoElement.src; // Set video preview
-                    videoPreview.hidden = false;
-                };
-            };
+
+
+
+        videoDuration = videoElement.duration;
+
+
     });
 
 
