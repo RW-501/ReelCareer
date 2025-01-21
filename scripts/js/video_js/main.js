@@ -2336,6 +2336,19 @@ localStorage.removeItem('reelID');
   
     
   
+          
+  setTimeout(() => {
+
+
+      const generalTags_reelCategories = createTagInputSystem({
+          tagsContainerId: "tagsContainerSET-reelCategories",
+          badgeClass: "tag-primary" // Custom badge class for general tags
+      });
+
+      console.log("generalTags_reelCategories", generalTags_reelCategories);
+  }, 1000); // 1-second delay
+
+  
   
   
 const thumbnailUpload = document.getElementById('thumbnailUpload');
