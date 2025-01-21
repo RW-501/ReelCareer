@@ -503,6 +503,7 @@ function populateSidePanelContacts(connectedUserData) {
   const style = document.createElement('style');
   style.textContent = `
 
+  #side-panel-contacts {
   
     .contact-item {
       display: flex;
@@ -537,6 +538,12 @@ function populateSidePanelContacts(connectedUserData) {
     .view-profile-button:hover, .view-videos-button:hover {
       background-color: #0056b3;
     }
+
+
+
+
+}
+    
   `;
   document.head.appendChild(style);
 

@@ -85,7 +85,7 @@ function insertSidePanelContent() {
       <div id="selectedLocation"></div>
       <div id="locationContainer"></div>
 
-      
+
       <div id="location-video-div"></div>
     </div>
   </div>
@@ -224,7 +224,7 @@ function insertSidePanelContent() {
   styleElement.textContent = `
 
 
-
+#body-main {
 
   /* Basic Styling for the <i> tags */
 #showUploadPopup i {
@@ -466,7 +466,7 @@ margins: auto;
     background: black;
     }
 
-
+      }
   `;
   document.head.appendChild(styleElement);
   
