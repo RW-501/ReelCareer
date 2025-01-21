@@ -1002,7 +1002,7 @@ input[type="checkbox"]:hover {
         let pageName = '';
         document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const userID = await getUserId(); // Ensure user ID is fetched
+         userID = await getUserId(); // Ensure user ID is fetched
         if (!userID) {
             console.warn('No user ID found. Redirecting to login...');
             window.location.href = '/login';
@@ -2021,8 +2021,9 @@ async function handleDeleteAdmin(event) {
     const reelID = event.target.dataset.id;
     const videoUrl = event.target.dataset.video_url;  // Assuming this is passed via a data attribute
     const thumbnailURL = event.target.dataset.thumbnailURL;  // Assuming this is passed via a data attribute
+   // const userID = auth.currentUser.uid;
 
-    if (!reelID || !videoUrl) {
+    if (!reelID || !videoUrl || !userID) {
         showToast('Invalid reel data provided for deletion.');
         return;
     }
@@ -2047,13 +2048,10 @@ async function handleDeleteAdmin(event) {
 
             // 3. Remove the reelID from the user's videoResumeData field in Users collection
             const userDocRef = doc(db, "Users", userID);
-            await updateDoc(userDocRef, {
-    videoResumeData: arrayRemove(
-        // Look for an object with the same `reelID`
-        { reelID: reelID }
-    )
-});
 
+        await updateDoc(userDocRef, {
+            videoResumeData: arrayRemove({ reelID: reelID })
+        });
             showToast('Video reel deleted successfully.');
         } catch (error) {
             console.error('Error deleting video reel:', error);
