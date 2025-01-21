@@ -731,6 +731,11 @@
           <div class="card">
             <div class="card-body">
               <h5>Watch History</h5>
+                            
+              <div id="watch-stats">
+                <!-- Open jobs will be dynamically listed here -->
+              </div>
+
               <div id="watch-history-list">
                 <!-- Open jobs will be dynamically listed here -->
               </div>
@@ -1147,7 +1152,6 @@
             await loadSocialMedia(userData);
             await loadVideoWatchHistory(userData);
 
-            *videoWatchHistory
           }
         } else {
           // Call this function when the user data is not found
@@ -1937,6 +1941,62 @@ try {
         blogsList.appendChild(listItem);
       });
     }
+
+
+
+    async function loadVideoWatchHistory(userData) {
+    const watchHistorySection = document.getElementById('watch-history-list');
+
+    // Check if videoResumeData exists and is an array
+    if (!userData.videoWatchHistory || !Array.isArray(userData.videoWatchHistory) || userData.videoWatchHistory.length === 0) {
+      watchHistorySection.innerHTML = '<li>No video resumes found.</li>';
+        return;
+    }
+
+    console.log("userData.videoWatchHistory: ", userData.videoWatchHistory);
+
+    const videoWatchHistory = userData.videoWatchHistory || [];
+
+// Clear any existing content before appending new history
+watchHistorySection.innerHTML = '';
+
+// Create and insert watch history entries
+videoWatchHistory.forEach((video) => {
+  const videoEntry = document.createElement('div');
+  videoEntry.className = 'watch-history-entry';
+
+  // Construct entry HTML
+  videoEntry.innerHTML = `
+    <div class="video-thumbnail">
+      <a href="${video.pageUrl}" target="_blank">
+        <img src="${video.thumbnail}" alt="${video.title}" />
+      </a>
+    </div>
+    <div class="video-details">
+      <h3><a href="${video.pageUrl}" target="_blank">${video.title}</a></h3>
+      <p><strong>Video ID:</strong> ${video.videoId}</p>
+      <p><strong>Source:</strong> <a href="${video.src}" target="_blank">Watch Video</a></p>
+      <p><strong>Watched on:</strong> ${new Date(video.watchTime).toLocaleString()}</p>
+    </div>
+  `;
+
+  // Append the entry to the section
+  watchHistorySection.appendChild(videoEntry);
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
     async function loadUserCompanies(userId) {
       const companiesRef = collection(db, 'Companies');
       const q = query(companiesRef, where("createdByID", "==", userId));

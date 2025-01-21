@@ -323,6 +323,8 @@ let isAccountLocked = false;
         customEndCardBool: userDataSaved.customEndCardBool || false,          // Whether custom end card is enabled for videos
         relatedProductsBool: userDataSaved.relatedProductsBool || false,      // Whether related products are enabled
         videoWatchHistory: userDataSaved.videoWatchHistory || [],            // History of videos watched used by the user
+        videoWatchTime: userDataSaved.videoWatchTime || 0,            // Video duration limit for uploads
+        videoWatchCount: userDataSaved.videoWatchCount || 0,            // Video videoWatchCount
 
         // Analytics and Reporting Features
         storeAdvanceAnalyticsBool: userDataSaved.storeAdvanceAnalyticsBool || false,  // Advanced analytics for store

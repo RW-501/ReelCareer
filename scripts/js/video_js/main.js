@@ -130,8 +130,11 @@ function handleComments(docId, commentsBtn) {
         });
         totalWatchTime = 0;  // Add to total watch time
         sessionStartTime = null; 
+
+        updateUserVideoWatchTime(totalWatchTime);
+
         // Update UI instantly (if needed)
-        console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
+      //  console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
   
       } catch (error) {
         console.error("Error updating watch time: ", error);
@@ -155,8 +158,10 @@ function handleComments(docId, commentsBtn) {
         });
         totalWatchTime = 0;  // Add to total watch time
         sessionStartTime = null; 
+
+        updateUserVideoWatchTime(totalWatchTime);
         // Update UI instantly (if needed)
-        console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
+       // console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
   
       } catch (error) {
         console.error("Error updating watch time: ", error);
@@ -164,8 +169,28 @@ function handleComments(docId, commentsBtn) {
     });
 
 
+    function updateUserVideoWatchTime(totalWatchTime){
+// Retrieve user data
+let userData = getUserData() || {};  // Default to an empty object if no data is found
+
+// Increment the videoWatchCount, initializing it if not already set
+userData.videoWatchTime = (userData.videoWatchTime || 0) + totalWatchTime;
+
+// Prepare updated user data object
+const updatedVideoWatchTimeUserData = {
+  videoWatchTime: userData.videoWatchTime
+};
+// Optionally, log updated user data
+console.log('updatedVideoWatchTimeUserData user data:', updatedVideoWatchTimeUserData);
+// Save updated user data
+userData = setUserData(updatedVideoWatchTimeUserData); // Assuming this function merges and stores data
+
+// Store userData back using custom setUserData function, no need for JSON.stringify
+localStorage.setItem('userData', userData);
 
 
+
+    }
 
 
 
@@ -267,6 +292,31 @@ function handleComments(docId, commentsBtn) {
 
 
     try {
+
+// Retrieve user data
+let userData = getUserData() || {};  // Default to an empty object if no data is found
+
+// Increment the videoWatchCount, initializing it if not already set
+userData.videoWatchCount = (userData.videoWatchCount || 0) + 1;
+
+// Prepare updated user data object
+const updatedVideoWatchCountUserData = {
+  videoWatchCount: userData.videoWatchCount
+};
+
+// Save updated user data
+userData = setUserData(updatedVideoWatchCountUserData); // Assuming this function merges and stores data
+
+// Store userData back using custom setUserData function, no need for JSON.stringify
+localStorage.setItem('userData', userData);
+
+// Optionally, log updated user data
+console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserData);
+
+
+
+
+
       // Fetch the user's IP address
       const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
@@ -324,7 +374,7 @@ const updatedUserData = {
 };
 
 // Save updated user data
-let userData = setUserData(updatedUserData);
+ userData = setUserData(updatedUserData);
 
  localStorage.setItem('userData', userData);
 // Optional: Debug output for confirmation
