@@ -1548,9 +1548,8 @@ function createVideoUploadPopup() {
                 cursor: pointer;
                     color: red;
             }
-                    #uploadProgressBar {
-                    disply:none;
-                    }
+                   
+            
             .progress {
                 height: 20px;
                 margin-bottom: 15px;
@@ -1839,6 +1838,9 @@ display: none;
     text-align: center;
     border-radius: 5px;
     animation: progress-animation 2s ease-in-out forwards;
+
+    padding: .5rem;
+
   }
   @keyframes progress-animation {
     from { width: 0%; }

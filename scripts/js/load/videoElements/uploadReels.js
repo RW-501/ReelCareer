@@ -68,9 +68,9 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     videoData
                 }));
                 console.log("uploadSessionKey:",  bytesTransferred, snapshot.bytesTransferred,
-                    totalBytes, snapshot.totalBytes,
+                     snapshot.totalBytes,
                     progress,
-                    name, videoData.name,
+                     videoData.name,
                     userID,
                     videoData);
               //  navigator.sendBeacon('/log-progress', JSON.stringify({ userID, progress }));
@@ -431,7 +431,8 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
     // Ensure videoResumeTitle is a string and trim extra spaces before taking the first 10 characters
     const titleSnippet = videoResumeTitle.trim().substring(0, 10);
-    const fileName = `${userID}-${titleSnippet}-reel.mp4`;
+    const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, '');
+    
 
     try {
         const videoData = {
