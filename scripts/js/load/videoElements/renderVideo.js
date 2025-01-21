@@ -870,14 +870,17 @@ if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
-console.log("currentPath  ",currentPath);
+
+
+// Check if sessionStorage contains userLocation and set it
+const userLocation = sessionStorage.getItem("userLocation");
+let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+/console.log("currentPath  ",currentPath);
 
 if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
   console.log("includes  ",currentPath);
-// Check if sessionStorage contains userLocation and set it
-const userLocation = sessionStorage.getItem("userLocation");
-let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
 
   // Update the displayed local location using currentLocation object
   document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
