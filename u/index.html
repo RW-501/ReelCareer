@@ -1104,14 +1104,14 @@
     async function checkUser(userIdFromURL) {
       try {
 
-        console.log("checkUser:", userIdFromURL);
+//console.log("checkUser:", userIdFromURL);
 
         // Fetch profile information based on userId in the URL
         const profileDoc = doc(db, 'Users', userIdFromURL);
         const profileSnapshot = await getDoc(profileDoc);
         if (profileSnapshot.exists()) {
           const userData = profileSnapshot.data();
-          console.log("User data fetched from Firestore:", userData);
+         // console.log("User data fetched from Firestore:", userData);
 
           document.getElementById('userPageId').innerText = userData.userID;
           // Check if the profile is public
@@ -1142,22 +1142,22 @@
     const userIdFromURL = urlParams.get('u');
     document.addEventListener('DOMContentLoaded', async () => {
 
-      console.log("DOMContentLoaded");
+     // console.log("DOMContentLoaded");
   
     });
 
     function loadData() {
    onAuthStateChanged(auth, (user) => {
       if (user) {
-         console.log("loadData User:", user);
-         console.log("loadData User:", user);
+       //  console.log("loadData User:", user);
+     
 
 if(!user){
   openPopupLogin();
   return;
 }
 userId = auth.currentUser.uid;
-console.log("userId:", userId);
+//console.log("userId:", userId);
 
 document.getElementById('userPageId').innerText = userId;
 
