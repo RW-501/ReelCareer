@@ -239,6 +239,7 @@ let isAccountLocked = false;
         userAccountStatus:  userAccountStatus ||  'OK',
         isAccountLocked: isAccountLocked  || false,
         userAccountStatusCount: userAccountStatusCount,
+        lastUpdateTime: userDataSaved.lastUpdateTime || new Date(), 
 
         videoPostStatus: videoPostStatus,
         videoPostRestriction: videoPostRestriction,

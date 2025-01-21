@@ -137,20 +137,24 @@ function createNavbar() {
   
   
 
-  
+
   // Helper function to handle authentication state changes
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
     if (user) {
-      const userDataSaved = getUserData() || [];
 
-      if (userDataSaved.length === 0) { // Check if the array is empty
-      
-          console.log("verifying user:", user.displayName);
-              
-          saveUserLoginState(user, true); // Save user state
-   
-      }
+
+// Assuming getUserData() returns an object, not an array
+const userDataSaved = getUserData() || {};
+
+// Check if `lastUpdateTime` exists and if it’s more than 30 minutes old
+if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) > 30 * 60 * 1000) {
+    // If lastUpdateTime is missing or more than 30 minutes have passed
+   // console.log("verifying user:", user.displayName);
+    
+    saveUserLoginState(user); // Save user state
+}
+
       
       
   
