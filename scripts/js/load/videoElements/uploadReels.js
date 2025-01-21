@@ -404,7 +404,15 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
     document.getElementById("uploadArea").classList.add("hidden");
-    document.getElementById("reels-more-options-area").classList.remove("hidden");
+    //document.getElementById("reels-more-options-area").classList.remove("hidden");
+    const reelsOptionsArea = document.getElementById("reels-more-options-area");
+    reelsOptionsArea.classList.remove("hidden");
+
+
+    if (reelsOptionsArea) {
+        reelsOptionsArea.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+   
     let videoResumeURL = '';
 
     const userDataSaved = getUserData() || {};
