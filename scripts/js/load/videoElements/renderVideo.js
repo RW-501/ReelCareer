@@ -899,11 +899,8 @@ function saveLocationToLocalStorage(country, state, city) {
   // Optionally, update the UI to reflect the new selected location (e.g., at the top of the page)
   document.getElementById('selectedLocation').textContent = `${country} > ${state} > ${city}`;
 }
-
 // Function to generate location hierarchy and render it
 function generateLocationList(data, locationMap) {
-
-  
   // Populate location map with grouped data
   data.forEach((doc) => {
     const { country, state, city } = doc.data();
@@ -912,7 +909,7 @@ function generateLocationList(data, locationMap) {
         locationMap.set(country, new Map());
       }
       if (!locationMap.get(country).has(state)) {
-        locationMap.get(country).set(state, new Map());
+        locationMap.get(country).get(state, new Map());
       }
       locationMap.get(country).get(state).set(city, doc.data());
     }
@@ -921,6 +918,7 @@ function generateLocationList(data, locationMap) {
   const locationContainer = document.getElementById('locationContainer');
   locationContainer.innerHTML = ''; // Clear any existing content
 
+  // Create a reusable button component for each location (country, state, city)
   function createButton(text, className, location, onClick) {
     const button = document.createElement('button');
     button.className = className;
@@ -929,6 +927,7 @@ function generateLocationList(data, locationMap) {
     return button;
   }
 
+  // Render the list of countries
   function renderLocations(countryMap) {
     locationContainer.innerHTML = '';
     countryMap.forEach((statesMap, country) => {
@@ -937,15 +936,14 @@ function generateLocationList(data, locationMap) {
 
       const countryButton = createButton(country, 'collapsible-location', country, () => {
         renderStates(country, statesMap);
-        saveLocationToLocalStorage(country, '', '');
+        saveLocationToLocalStorage(country, '', '', 'country');
       });
       countryDiv.appendChild(countryButton);
       locationContainer.appendChild(countryDiv);
     });
   }
-window.renderLocations = renderLocations;
 
-
+  // Render the list of states for a given country
   function renderStates(country, statesMap) {
     locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
     statesMap.forEach((citiesMap, state) => {
@@ -954,14 +952,14 @@ window.renderLocations = renderLocations;
 
       const stateButton = createButton(state, 'collapsible-location', state, () => {
         renderCities(country, state, citiesMap);
-        saveLocationToLocalStorage(country, state, '');
+        saveLocationToLocalStorage(country, state, '', 'state');
       });
       stateDiv.appendChild(stateButton);
       locationContainer.appendChild(stateDiv);
     });
   }
-  window.renderStates = renderStates;
 
+  // Render the list of cities for a given state
   function renderCities(country, state, citiesMap) {
     locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
     citiesMap.forEach((video, city) => {
@@ -970,30 +968,49 @@ window.renderLocations = renderLocations;
 
       const cityButton = createButton(city, 'collapsible-location', city, () => {
         console.log(`Selected Location: ${country} > ${state} > ${city}`);
-        saveLocationToLocalStorage(country, state, city);
+        saveLocationToLocalStorage(country, state, city, 'city');
+        renderVideos(video);  // Show videos related to this city
       });
-      window.renderCities = renderCities;
 
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'content';
-      const thumbnail = document.createElement('img');
-      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
-      thumbnail.className = 'video-thumbnail';
-
-      const videoLink = document.createElement('a');
-      videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
-      videoLink.textContent = 'Watch Video';
-      videoLink.target = '_blank';
-      videoLink.className = 'watch-video-button';
-      videoLink.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
-
-      contentDiv.appendChild(thumbnail);
-      contentDiv.appendChild(videoLink);
       cityDiv.appendChild(cityButton);
-      cityDiv.appendChild(contentDiv);
       locationContainer.appendChild(cityDiv);
     });
+  }
+
+  // Function to render the videos for a selected city
+  function renderVideos(video) {
+    locationContainer.innerHTML = `<button onclick="renderCities('${video.country}', '${video.state}', locationMap.get('${video.country}').get('${video.state}'))">Back to Cities</button>`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'content';
+    const thumbnail = document.createElement('img');
+    thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+    thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+    thumbnail.className = 'video-thumbnail';
+
+    const videoLink = document.createElement('a');
+    videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+    videoLink.textContent = 'Watch Video';
+    videoLink.target = '_blank';
+    videoLink.className = 'watch-video-button';
+    videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
+
+    contentDiv.appendChild(thumbnail);
+    contentDiv.appendChild(videoLink);
+    locationContainer.appendChild(contentDiv);
+  }
+
+  // Save selected location to localStorage for later use
+  function saveLocationToLocalStorage(country, state, city, type) {
+    let locationID = '';
+    if (type === 'country') {
+      locationID = country;
+    } else if (type === 'state') {
+      locationID = `${country}-${state}`;
+    } else if (type === 'city') {
+      locationID = `${country}-${state}-${city}`;
+    }
+    localStorage.setItem('selectedLocation', locationID);
   }
 
   renderLocations(locationMap);  // Initial render for countries
