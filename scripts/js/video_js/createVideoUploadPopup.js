@@ -604,7 +604,10 @@ document.body.appendChild(overlay);
 
 
     // Close button functionality
-    overlay.querySelector(".close-button").addEventListener("click", () => overlay.remove());
+    overlay.querySelector(".close-button").addEventListener("click", () => {
+      overlay.style.display = "none";
+    
+    });
 
 
 

@@ -368,16 +368,22 @@ let reelID = '';
             // Place your control logic here only if the elements are present
             const uploadContainer = document.getElementById("reel-upload-container");
             if (!uploadContainer) {
+
+                console.log("No Upload container found.");
+
                 createVideoUploadPopup();
                 document.getElementById("uploadArea").classList.add("hidden");
                 document.getElementById("reels-more-options-area").classList.remove("hidden");
             } else {
-                console.log("Upload container found. Consider removing it if necessary.");
-            }
+           
         
             if (uploadContainer && uploadContainer.style.display === "none") {
                 uploadContainer.style.display = "block";
+                console.log("Upload container found, It was hidden.");
+
             } else if (uploadContainer && uploadContainer.style.display === "block") {
+                console.log("Upload container found. and is open");
+
                 document.getElementById("uploadArea").style.display = "none";
                 document.getElementById("reels-more-options-area").style.display = "block";
                 document.getElementById("uploadArea").classList.add("hidden");
@@ -388,6 +394,10 @@ let reelID = '';
                 saveReelChangesBtn.disabled = false;
                 saveReelChangesBtn.innerText = `Save Changes`;
             }
+
+        }
+
+
         }
         
 }
