@@ -12,7 +12,10 @@ function insertSidePanelContent() {
       sidePanel.innerHTML = `
         <nav id="side-nav" aria-label="Side Navigation">
           <div class="side-panel-menu">
+
+           <button id="btn-menu" class="side-nav-button">
         <i id="menu-icon" class="fas fa-bars bar-icon"></i><span class="btn-text">Menu</span>
+    </button>
           </div>
 
           <div id="side-panel-group">
