@@ -411,13 +411,13 @@ function redirectToLogin() {
       }
 
       button[type="submit"] {
-        background-color: #1a73e8;
+    background: linear-gradient(45deg, #cce2ef, #c5dfed) !important;
+    background-color: transparent !important;
+    width: fit-content;
         color: white;
       }
   
-      button[type="submit"]:hover {
-        background-color: #155ab6;
-      }
+
   
       button:active {
         transform: scale(0.98);
