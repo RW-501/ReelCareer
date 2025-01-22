@@ -1,21 +1,18 @@
-
-
 let toastNumber = 0;
 let toastQueue = []; // Queue to manage toast sequence
 let activeToasts = new Set(); // Set to track active toasts
-/*
-showToast(message, 'warning', duration,
-  link, false, 'Click Here');
-*/
 
 function showToast(message, type = 'info', duration = 3500,
    link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
-  // Check if a toast with the same message and type is already active
   const toastId = `toast_${toastNumber}`;
   let toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
-  
-
+  // Check if the toast already exists in active toasts
+  if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
+    console.log("Maximum capacity reached. Not adding new content.");
+    console.log("Current toastKey:", toastKey);
+    return; // Skip adding a duplicate toast
+  }
 
   const toast = document.createElement('div');
   toast.id = toastId;
@@ -60,25 +57,14 @@ function showToast(message, type = 'info', duration = 3500,
   ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>'
   : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
 
-// Assuming `toast` is a valid element reference
-switch (type) {
-  case 'success':
-    toast.style.backgroundColor = '#4CAF50'; // Green for success
-    break;
-  case 'error':
-    toast.style.backgroundColor = '#F44336'; // Red for error
-    break;
-  case 'info':
-    toast.style.backgroundColor = '#2196F3'; // Blue for info
-    break;
-  case 'warning':
-    toast.style.backgroundColor = '#FF9800'; // Orange for warning
-    break;
-  default:
-    toast.style.backgroundColor = '#2196F3'; // Default to info
-}
+  switch (type) {
+    case 'success': toast.style.backgroundColor = '#4CAF50'; break;
+    case 'error': toast.style.backgroundColor = '#F44336'; break;
+    case 'info': toast.style.backgroundColor = '#2196F3'; break;
+    case 'warning': toast.style.backgroundColor = '#FF9800'; break;
+    default: toast.style.backgroundColor = '#2196F3'; break;
+  }
 
-  // Format message with link if applicable
   if (link) {
     message = `${message} <a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">${linkTitle}</a>`;
   }
@@ -92,7 +78,6 @@ switch (type) {
     `;
   }
 
-  // Structure toast message and buttons
   toast.innerHTML = `
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
       <div style="display: flex; align-items: center; gap: 12px;">
@@ -107,142 +92,46 @@ switch (type) {
     </div>
   `;
 
-
-
-  if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
-    console.log("Maximum capacity reached. Not adding new content.");
-    console.log("Current toastKey:", toastKey);
-    console.log("Is toastKey in activeToasts:", activeToasts.has(toastKey));
-    console.log("Current toastQueue length:", toastQueue.length);
-    console.log("toastQueue content:", toastQueue);
-    console.log("Active .mainShowToast element:", document.querySelector('.mainShowToast'));
-    
-    toastQueue.push({ element: toast, toastKey });
-  // Remove toast from DOM after animation
-  setTimeout(() => {
-    // If there are other toasts in the queue, show the next one
-    if (toastQueue.length > 0) {
-      processNextToast(toastKey);
-    }
-  }, duration + 300); // Allow 0.3s for fade-out animation
-
-
-    return; // Skip adding a duplicate toast
-
-} else {
-    // Logic to add content or elements into overlay
-    console.log("Content can be added since capacity is not full.");
-}
-
   document.body.appendChild(toast);
-
-
-// Set aria-label for close button
-const closeButton = toast.querySelector('button');
-closeButton.setAttribute('aria-label', 'Close toast');
-
-// Set aria-label for progress bar
-if (progress !== null) {
-  const progressBar = toast.querySelector("#toastProgressBar");
-  progressBar.setAttribute('role', 'progressbar');
-  progressBar.setAttribute('aria-valuenow', '0');
-  progressBar.setAttribute('aria-valuemin', '0');
-  progressBar.setAttribute('aria-valuemax', '100');
-}
-
-
-
-
-  // Fade-in effect
-  setTimeout(() => {
-    toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    toast.style.transform = 'translateY(0)';
-    toast.style.opacity = 1;
-    toast.style.bottom = '20px';
-  }, 10);
 
   // Automatically fade-out and remove the toast if not a confirmation toast
   if (!confirm) {
     setTimeout(() => {
       toast.style.opacity = 0;
       toast.style.transform = 'translateY(20px)';
-      toast.classList.add('fade-out'); // Add fade-out effect
-      toast.style.bottom = '-50px'; // Toast goes out of view
-    }, duration); // Toast disappears after specified duration
+      toast.classList.add('fade-out');
+      toast.style.bottom = '-50px';
+    }, duration);
 
-    if (progress !== null) {
-      const progressBar = toast.querySelector("#toastProgressBar");
-      return progressBar;
-    }
-
-    // Remove toast from DOM after animation
     setTimeout(() => {
-      // If there are other toasts in the queue, show the next one
-      if (toastQueue.length > 0) {
-        processNextToast(toastKey, toast);
-      }
-
-    }, duration + 300); // Allow 0.3s for fade-out animation
+      toast.remove();
+      activeToasts.delete(toastKey); // Remove from activeToasts
+      processNextToast(); // Process next toast in the queue
+    }, duration + 300); // Allow time for fade-out animation
   }
 }
 
-  window.showToast = showToast;
-
-  function processNextToast(toastKey, toast) {
-    // Remove the completed toast from activeToasts
-    activeToasts.delete(toastKey);
-
-    if (toast && toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-    }
-
-    // Safely remove toast element
-    if (toast) {
-        toast.remove();
-    }
-
-    // Get the next toast object from the queue
-    const nextToastObject = toastQueue.shift();
-    if (nextToastObject) {
-        const { element, toastKey: nextToastKey } = nextToastObject; // Destructure the object
-        
-        if (element instanceof HTMLElement) {
-            document.body.appendChild(element); // Correctly append the toast element
-
-            // Extract attributes for showToast
-            const message = element.getAttribute('message') || '';
-            const type = element.getAttribute('type') || 'info';
-            const duration = parseInt(element.getAttribute('duration'), 10) || 3000;
-            const link = element.getAttribute('link') || null;
-            const confirm = element.getAttribute('confirm') === 'true';
-            const linkTitle = element.getAttribute('linkTitle') || '';
-            const progress = element.getAttribute('progress') || null;
-
-            // Show the next toast and keep track
-            showToast(message, type, duration, link, confirm, linkTitle, progress);
-            activeToasts.add(nextToastKey);
-        } else {
-            console.error('Toast element is not of type HTMLElement.');
-        }
-    }
+// Process the next toast in the queue
+function processNextToast() {
+  if (toastQueue.length > 0) {
+    const nextToast = toastQueue.shift();
+    showToast(nextToast.message, nextToast.type, nextToast.duration, nextToast.link, nextToast.confirm, nextToast.linkTitle, nextToast.progress);
+  }
 }
 
-
-
-
-
-
-  // Function to dismiss toast manually
-  function dismissToast(button) {
-    const toast = button.closest('.mainShowToast');
-    if (toast) {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        toast.parentNode.removeChild(toast);
-      }, 300);
-    }
+function dismissToast(button) {
+  const toast = button.closest('.mainShowToast');
+  if (toast) {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      toast.remove();
+      activeToasts.delete(toast.id); // Make sure to remove from active toasts
+      processNextToast(); // Process next toast in the queue
+    }, 300);
   }
+}
+
   // Example usage: Replace alerts with showToast
   // showToast('This is a success message!', 'success');
   // showToast('This is an error message!', 'error');
