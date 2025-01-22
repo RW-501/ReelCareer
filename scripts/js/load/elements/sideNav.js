@@ -191,23 +191,7 @@ function insertSidePanelContent() {
 
           updateButtonTextVisibility();
 
-          
-      /*     document.querySelectorAll('.side-nav-item').forEach((item) => {
 
-            if(item.style.display = 'none'){
-              
-              item.style.display = 'block';
-
-            }else{
-              item.style.display = 'none';
-
-
-            }
-
-
-            
-          });
- */
           
         };
       
@@ -236,8 +220,13 @@ function insertSidePanelContent() {
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             toggleButtonActive(document.getElementById('btn-menu'));
-            togglePopout(menuSection);
 
+            
+            if(section.style.display = 'flex'){
+              section.style.display = 'none'
+            }else{
+              section.style.display = 'flex'
+            }
           });
           
           
