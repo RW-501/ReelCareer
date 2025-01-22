@@ -185,10 +185,16 @@ function insertSidePanelContent() {
 
             const allPopouts = document.querySelectorAll('.side-panel-popout');
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-          section.style.display = 'block'; // Show only the selected section
 
-          isSectionOpen = true;
+          if(section.style.display = 'block'){
+            section.style.display = 'none'
+            isSectionOpen = false;
 
+          }else{
+            section.style.display = 'block'; // Show only the selected section
+            isSectionOpen = true;
+
+          }
           updateButtonTextVisibility();
 
 
@@ -244,6 +250,7 @@ function insertSidePanelContent() {
           document.getElementById('btn-location').addEventListener('click', () => {
             togglePopout(locationSection);
             toggleButtonActive(document.getElementById('btn-location'));
+
           });
 
 
