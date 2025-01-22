@@ -11,7 +11,7 @@ function insertSidePanelContent() {
     if (sidePanel) {
       sidePanel.innerHTML = `
         <nav id="side-nav" aria-label="Side Navigation">
-          <div class="side-panel-menu">
+          <div id='btn-menu-area' class="side-panel-menu">
 
            <button id="btn-menu" class="side-nav-button">
         <i id="menu-icon" class="fas fa-bars bar-icon"></i><span class="btn-text">Menu</span>
@@ -329,6 +329,7 @@ function insertSidePanelContent() {
           const mainContent = document.getElementById("main-content");
           const mainSidePanel = document.getElementById("main-side-panel");
           const sidePanelGroup = document.getElementById("side-panel-group");
+          const menuBtn = document.getElementById("btn-menu-area");
 
             const isMobile = window.innerWidth <= 768;
             
@@ -337,6 +338,8 @@ function insertSidePanelContent() {
               mainSidePanel.style.width = '100%';
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
+              menuBtn.style.display = 'none';
+              
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
@@ -347,6 +350,7 @@ function insertSidePanelContent() {
 
 
             }else{
+              menuBtn.style.display = 'none';
 
               mainSidePanel.style.width = '39%';
               mainContent.style.width = '59%';
