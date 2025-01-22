@@ -14,7 +14,7 @@ function insertSidePanelContent() {
           <div id='btn-menu-area' class="side-panel-menu">
 
            <button id="btn-menu" class="side-nav-button">
-        <i id="menu-icon" class="fas fa-bars bar-icon"></i><span class="btn-text">Menu</span>
+        <i id="menu-icon" class="fas fa-bars bar-icon"></i><span class="menu-text">Menu</span>
     </button>
           </div>
 
@@ -562,6 +562,7 @@ if(isSectionOpen){
 }
 
 /* Basic Button Styling */
+.menu-text,
 .btn-text {
   background: transparent;
   border: none;
@@ -579,12 +580,14 @@ if(isSectionOpen){
 
 
 /* Active Effect */
+.menu-text:active,
 .btn-text:active {
   transform: scale(0.98); /* Slight shrinking effect when clicked */
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
 }
 
 /* Focus Effect */
+.menu-text:focus,
 .btn-text:focus {
   outline: none; /* Remove default outline */
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
