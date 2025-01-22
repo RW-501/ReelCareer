@@ -167,17 +167,21 @@ querySnapshot.forEach((doc) => {
 
 // Ensure videoResumeData is an array before proceeding
 if (Array.isArray(videoResumeData)) {
-    // Make a copy of videoResumeData
-    const sortedAndLimitedData = [...videoResumeData]
-        .filter(item => item.status === 'posted')  // Filter items with status 'posted'
-        .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
-        .slice(0, 10); // Limit to 10 items
+  // Make a copy of videoResumeData
+  const sortedAndLimitedData = [...videoResumeData]
+      .filter(item => {
+          // Skip items that are invalid or missing required properties
+          return item && item.status === 'posted' && item.createdAt;  // Check for valid status and createdAt
+      })
+      .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
+      .slice(0, 10); // Limit to 10 items
 
-    // You can now use sortedAndLimitedData for further processing
-    console.log(sortedAndLimitedData);
+  // You can now use sortedAndLimitedData for further processing
+  console.log(sortedAndLimitedData);
 } else {
-    console.error('videoResumeData is not an array.');
+  console.error('videoResumeData is not an array.');
 }
+
 
 
 let totalGiftAmountReceived = 0;
