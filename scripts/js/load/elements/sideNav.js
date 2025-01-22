@@ -202,6 +202,7 @@ function insertSidePanelContent() {
           
         };
         const menuSection = document.getElementById('side-panel-group');
+        const sideNavList = document.getElementById("side-nav-list");
 
 
         function toggleButtonActive(button) {
@@ -214,10 +215,10 @@ function insertSidePanelContent() {
           const isMobile = window.innerWidth <= 768;
             
           if (isMobile) {
-          if(menuSection.style.display !== 'none'){
-            menuSection.style.display = 'none'
+          if(sideNavList.style.display !== 'none'){
+            sideNavList.style.display = 'none'
           }else{
-            menuSection.style.display = 'block'
+            sideNavList.style.display = 'block'
           }
         }
       }
@@ -334,7 +335,8 @@ function insertSidePanelContent() {
         const updateButtonTextVisibility = () => {
           const mainContent = document.getElementById("main-content");
           const mainSidePanel = document.getElementById("main-side-panel");
-          const sidePanelGroup = document.getElementById("side-nav-list");
+          const sidePanelGroup = document.getElementById("side-panel-group");
+          const sideNavList = document.getElementById("side-nav-list");
           const menuBtn = document.getElementById("btn-menu-area");
 
           const isMobile = window.innerWidth <= 768;
