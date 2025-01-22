@@ -798,7 +798,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
 
 
-  
+  /* 
 function showToast(message, type = "success") {
   // Create a toast container (div)
   const toast = document.createElement("div");
@@ -833,7 +833,7 @@ function showToast(message, type = "success") {
 window.showToast = showToast;
 
 
-
+ */
 
 loadEntries();
 
@@ -1092,8 +1092,4 @@ const reportedUserMessage = {
   }
 }
 
-// Helper function to show notifications (toast)
-function showToast(message, type) {
-  // Basic implementation, replace with your styled toast notification system
-  alert(`${type.toUpperCase()}: ${message}`);
-}
+

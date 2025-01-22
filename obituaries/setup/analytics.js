@@ -285,7 +285,7 @@ function addToastStyles() {
 // Call the function to add the styles
 addToastStyles();
 
-  
+  /* 
 function showToast(message, type = "success") {
   // Create a toast container (div)
   const toast = document.createElement("div");
@@ -319,5 +319,5 @@ function showToast(message, type = "success") {
 
 window.showToast = showToast;
 
-
+ */
 
