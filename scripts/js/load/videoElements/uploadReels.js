@@ -475,11 +475,10 @@ function createThumbnailPicker(file) {
     let videoDuration = 0;
 
 
-    if (typeof input === 'string' && input.startsWith('http')) {
-        // Handle URL
-        videoElement.src = input;  // Directly use the URL
-    } else if (file && file.type && file.type.startsWith('video/')) {
+    if (file && file.type && file.type.startsWith('video/')) {
         videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
+    } else if (file) {
+        videoElement.src = file;  // Handle non-video file as a fallback
     } else {
         console.error('Invalid file provided to createThumbnailPicker.');
         return;  // Exit the function to avoid further errors
@@ -523,6 +522,7 @@ function createThumbnailPicker(file) {
                 }, 'image/png'); 
             };
         };
+
 
         // Initialize with middle frame
         updateThumbnail(videoDuration / 2);
