@@ -181,40 +181,43 @@ if (progress !== null) {
 
   window.showToast = showToast;
 
-function processNextToast(toastKey) {
+  function processNextToast(toastKey) {
+    // Remove the completed toast from activeToasts
     activeToasts.delete(toastKey);
-    if (toast.parentNode) {
-      toast.parentNode.removeChild(toast);
-    }
-    toast.remove();
 
+    if (toast && toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+    }
+
+    // Safely remove toast element
+    if (toast) {
+        toast.remove();
+    }
+
+    // Get the next toast object from the queue
     const nextToastObject = toastQueue.shift();
-    let { element, toastKey } = nextToastObject; // Destructure the object
-    
+    if (nextToastObject) {
+        const { element, toastKey: nextToastKey } = nextToastObject; // Destructure the object
+        
+        if (element instanceof HTMLElement) {
+            document.body.appendChild(element); // Correctly append the toast element
 
+            // Extract attributes for showToast
+            const message = element.getAttribute('message') || '';
+            const type = element.getAttribute('type') || 'info';
+            const duration = parseInt(element.getAttribute('duration'), 10) || 3000;
+            const link = element.getAttribute('link') || null;
+            const confirm = element.getAttribute('confirm') === 'true';
+            const linkTitle = element.getAttribute('linkTitle') || '';
+            const progress = element.getAttribute('progress') || null;
 
-
-
-
-
-    if (element instanceof HTMLElement) {
-      document.body.appendChild(element); // Correctly append the toast element
-      
-      // Use the element's attributes directly if needed for showToast
-      const message = element.getAttribute('message');
-      const type = element.getAttribute('type');
-      const duration = parseInt(element.getAttribute('duration'), 10);
-      const link = element.getAttribute('link');
-      const confirm = element.getAttribute('confirm') === 'true';
-      const linkTitle = element.getAttribute('linkTitle');
-      const progress = element.getAttribute('progress');
-      
-      showToast(message, type, duration, link, confirm, linkTitle, progress);
-      activeToasts.delete(toastKey);
-    } else {
-      console.error('Toast element is not of type HTMLElement.');
+            // Show the next toast and keep track
+            showToast(message, type, duration, link, confirm, linkTitle, progress);
+            activeToasts.add(nextToastKey);
+        } else {
+            console.error('Toast element is not of type HTMLElement.');
+        }
     }
-  
 }
 
 
