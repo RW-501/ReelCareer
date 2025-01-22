@@ -381,9 +381,10 @@ let isAccountLocked = false;
         videoResumeData: sortedAndLimitedData
     };
 
+    console.log("userData   ",userData);
 
    userData = setUserData(updatedUserData);
-   console.log("userData   ",userData);
+  console.log("userData   ",userData);
   
    localStorage.setItem('userData', userData);
   
@@ -397,7 +398,9 @@ let isAccountLocked = false;
   
   
       localStorage.setItem("userLoggedIn", true);
-  
+     
+     
+      setTimeout(() => {
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
 
@@ -408,15 +411,16 @@ let isAccountLocked = false;
  * Otherwise, redirects to "/u/" (profile page).
  */
       const lastPage = document.referrer; // Get the URL of the last visited page
-
-      if (lastPage && lastPage.includes("obituaries")) {
-        // Redirect to the obituaries page
-        window.location.href = "/obituaries";
-    } else {
-        // Redirect to the profile page
-     //   window.location.href = "/u/";
-    }
-
+   
+        if (lastPage && lastPage.includes("obituaries")) {
+            // Redirect to the obituaries page
+            window.location.href = "/obituaries";
+        } else {
+            // Redirect to the profile page
+            window.location.href = "/u/";
+        }
+    }, 60000); // 60000ms = 1 minute
+    
 
     } catch (error) {
 
