@@ -218,7 +218,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
         verified: userDataSaved.verified || '',
         rating: userDataSaved.rating || '',
-        
+
         tags: tags || [],
         videoResumeCaptions: videoData.videoResumeCaptions,
         videoResumeTitle: videoData.videoResumeTitle,
@@ -239,6 +239,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         endingCard: '',
         relatedURLBool: false,
         relatedURL: '',
+repeatViews: 0,
 
         relatedReels: relatedReels,
         reelCatagories: [],

@@ -298,6 +298,71 @@ localStorage.setItem('userData', userData);
   
   window.addToShortlist = addToShortlist;
   
+
+  function calculateVideoRating(videoCard) {
+    const views = parseInt(videoCard.dataset.views, 10) || 0;
+    const uniqueViews = parseInt(videoCard.dataset.uniqueViews, 10) || 0;
+    const repeatViews = parseInt(videoCard.dataset.repeatViews, 10) || 0;
+    const watchTime = parseInt(videoCard.dataset.watchTime, 10) || 0;
+    const engagements = parseInt(videoCard.dataset.engagegments, 10) || 0;
+    const duration = parseInt(videoCard.dataset.duration, 10) || 0;
+    const likes = parseInt(videoCard.dataset.likes, 10) || 0;
+    const reach = parseInt(videoCard.dataset.reach, 10) || 0;
+    const timestamp = parseInt(videoCard.dataset.timestamp, 10) || Date.now();
+  
+    // Dynamic time decay factor
+    const timeSincePosted = (Date.now() - timestamp) / (1000 * 60 * 60 * 24); // Days since posted
+    let decayFactor;
+    if (timeSincePosted <= 7) {
+      decayFactor = 1; // No decay for the first week
+    } else if (timeSincePosted <= 30) {
+      decayFactor = 0.98 ** timeSincePosted; // Slower decay for newer content
+    } else {
+      decayFactor = 0.95 ** timeSincePosted; // Faster decay for older content
+    }
+  
+    // Core metrics weighting (customizable)
+    const viewWeight = 0.2;
+    const uniqueViewWeight = 0.3;
+    const watchTimeWeight = 0.4;
+    const engagementWeight = 0.5;
+    const likeWeight = 0.4;
+    const reachWeight = 0.1;
+    const viewDurationWeight = 0.35;
+    const repeatViewWeight = 0.25; // Weight for repeat views
+  
+    // Engagement score
+    const engagementScore = engagements + likes * 1.5;
+    const viewScore = views + uniqueViews * 1.2;
+  
+    // Watch time ratio
+    const watchTimeRatio = duration > 0 ? watchTime / duration : 0;
+  
+    // New factor: views * duration / uniqueViews
+    const viewDurationRatio = uniqueViews > 0 ? (views * duration) / uniqueViews : 0;
+  
+    // Include repeat views factor
+    const repeatViewScore = repeatViews * repeatViewWeight;
+  
+    // Final rating formula
+    const baseRating = 
+      (viewScore * viewWeight) +
+      (watchTimeRatio * watchTimeWeight * 100) +
+      (engagementScore * engagementWeight) +
+      (reach * reachWeight) +
+      (viewDurationRatio * viewDurationWeight) +
+      repeatViewScore;
+  
+    // Apply time decay
+    const finalRating = baseRating * decayFactor;
+  
+    return Math.round(finalRating * 100) / 100; // Return rounded rating
+  }
+  
+
+
+
+
   // Function to increment view count
   async function incrementViewCount(docId, videoElement) {
     const videoRef = doc(db, "VideoResumes", docId);
@@ -351,15 +416,21 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
       const ipDocRef = doc(viewsCollection, userIP);
       const ipDocSnapshot = await getDoc(ipDocRef);
   
+
+        const videoCard = document.getElementById(`video-${docId}`);
+        const rating = calculateVideoRating(videoCard);
+  console.log('Video Rating:', rating);
+  
+
             // Increment view count in the main document
             await updateDoc(videoRef, {
-              views: increment(1) // Firestore increment
+              views: increment(1),
+              rating: rating 
             });
   // Set attribute to prevent multiple counts in the same session
     videoElement.setAttribute('data-view-counted', 'true');
 
 
-    const videoCard = document.getElementById(`video-${docId}`);
 
     console.log("videoCard:", videoCard);
 
@@ -396,6 +467,9 @@ handleVideoInterestInput(videoInterestEntry);
 
       if (ipDocSnapshot.exists()) {
         console.log("View already recorded for this IP.");
+        await updateDoc(videoRef, {
+          repeatViews: increment(1) // Firestore increment
+        });
         return; // Prevent duplicate view increment
       }
   

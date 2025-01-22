@@ -312,7 +312,24 @@ function handleJobInput(jobInput, action = "visit") {
   }
   
   window.getUserVideoInterest = getUserVideoInterest;
+
+
+
+  /*  const videoInterestEntry = {
+    searchableTitle: videoData.searchableTitle || [],
+    location: videoData.location || "",
+    rating: videoData.rating || 0,
+    duration: videoData.duration || 0,
+    categories: videoData.categories || [],
+    tags: videoData.tags || [],
+    liked: true // Assuming this boolean is passed, set to true for testing
+  };
+
+handleVideoInterestInput(videoInterestEntry);
+
+
   
+  */
     
   /*
   const jobInterest = getUserJobInterest();

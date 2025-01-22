@@ -85,25 +85,43 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
 
       videoCard.dataset.videoId = docId; // Add dataset attribute
-      videoCard.dataset.timestamp = videoData.timestamp;
       videoCard.dataset.reelCategories = videoData.reelCategories;
       videoCard.dataset.relatedProductsBool = videoData.relatedProductsBool;
       videoCard.dataset.tags = videoData.tags || ""; // For search functionality
       videoCard.dataset.displayName = videoData.displayName || "";
       videoCard.dataset.isConnected = videoData.isConnected || "";
+
+
+
+
+
+
+
+
       videoCard.dataset.rating = videoData.rating || 0;
 
 
+      videoCard.dataset.repeatViews = videoData.repeatViews || 0;
+      videoCard.dataset.views = videoData.views || 0;
+      videoCard.dataset.uniqueViews = videoData.uniqueViews || 0;
+      videoCard.dataset.watchTime = videoData.watchTime || 0;
+      videoCard.dataset.engagegments = videoData.engagegments || 0;
+
+      videoCard.dataset.duration = videoData.duration || 0;
+      videoCard.dataset.likes = videoData.likes || 0;
+
+      videoCard.dataset.timestamp = videoData.timestamp;
+
+      videoCard.dataset.reach = videoData.reach || 0;
+      
 
       videoCard.dataset.location = videoData.location || "";
       videoCard.dataset.verified = videoData.verified || "";
       videoCard.dataset.reelUserID = videoData.createdByID || "";
       videoCard.dataset.profilePicture = videoData.profilePicture || "";
-      videoCard.dataset.duration = videoData.duration || 0;
-      videoCard.dataset.likes = videoData.likes || 0;
+
       videoCard.dataset.loves = videoData.loves || 0;
       videoCard.dataset.reported = videoData.reported || 0;
-      videoCard.dataset.views = videoData.views || "";
       videoCard.dataset.profileURL = videoData.profileURL || "";
 
 
