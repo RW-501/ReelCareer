@@ -370,12 +370,6 @@ let isAccountLocked = false;
       //console.log(" User userData: ", userData);
   
    
-  
-      const userDocRef = doc(db, "Users", user.uid);
-      await setDoc(userDocRef, userData, { merge: true });
-  
-  
-
       const updatedUserData = {
         ...userData,
         videoResumeData: sortedAndLimitedData
@@ -383,15 +377,18 @@ let isAccountLocked = false;
 
     console.log("userData   ",userData);
 
-   userData = setUserData(updatedUserData);
-  console.log("userData   ",userData);
   
-   localStorage.setItem('userData', userData);
   
-   
-  //let newUserData = getUserData();
-  
-  //console.log("newUserData   ",newUserData);
+   const userDocRef = doc(db, "Users", userDataSaved.userID);
+   await setDoc(userDocRef, userData, {
+     merge: true
+   });
+   const userDataEcode = setUserData(updatedUserData);
+   localStorage.setItem('userData', userDataEcode);
+
+
+
+
   
       localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
       localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
