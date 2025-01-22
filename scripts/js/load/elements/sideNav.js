@@ -186,7 +186,7 @@ function insertSidePanelContent() {
             const allPopouts = document.querySelectorAll('.side-panel-popout');
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
 
-          if(section.style.display = 'block'){
+          if(section.style.display !== 'none'){
             section.style.display = 'none'
             isSectionOpen = false;
 
