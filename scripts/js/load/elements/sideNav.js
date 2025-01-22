@@ -271,9 +271,9 @@ function insertSidePanelContent() {
           const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
           const videoReelsSection = document.getElementById('video-reels');
           const mainAnalyticsSection = document.getElementById('main-analytics');
-      
+          let showingAccount = true; // Track which section is visible
+
           if (currentPath.includes('/u/reels')) {
-              let showingAccount = true; // Track which section is visible
       
               videoAccountButton.addEventListener('click', () => {
                   videoReelsSection.style.display = 'block';
