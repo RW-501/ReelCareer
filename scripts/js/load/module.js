@@ -141,7 +141,7 @@ async function getUserId() {
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
-import {  } from 'https://reelcareer.co/scripts/js/load/videoElements/sideNav.js';
+import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
 
 // Export Firestore, Storage, and Auth instances for use in other modules
 export {

@@ -323,15 +323,15 @@ function loadPageScripts() {
             logExecutionTime('renderVideo', performance.now());
         });
 
-     //   if (currentPath.includes('/reel/') || currentPath.includes('/videos/') || currentPath.includes('/u/')) {
+/*      //   if (currentPath.includes('/reel/') || currentPath.includes('/videos/') || currentPath.includes('/u/')) {
    //         if (currentPath.includes('/reel/') || currentPath.includes('/videos/')){
 
         // Load renderVideo Script
-        loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true, type: 'module' }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/sideNav.js', { async: true, type: 'module' }, () => {
             logExecutionTime('sideNav', performance.now());
         });
 
-
+ */
 
 
     if (!currentPath.includes('/obituaries/')) {

@@ -292,6 +292,12 @@ function insertSidePanelContent() {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
 
+#body-main {
+    display: flex;
+    width: 100%;
+    flex-flow: row;
+}
+
 
 #body-main {
 
