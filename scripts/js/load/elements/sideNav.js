@@ -386,6 +386,7 @@ function insertSidePanelContent() {
 if(isSectionOpen){
 
   menuBtn.style.display = 'none';
+  sideNavList.style.display = 'block';
 
   mainSidePanel.style.width = '39%';
   mainContent.style.width = '59%';
@@ -394,8 +395,9 @@ if(isSectionOpen){
     text.style.display = 'none';
   });
 }else{
+  menuBtn.style.display = 'block';
 
-  menuBtn.style.display = 'none';
+  sideNavList.style.display = 'block';
 
   mainSidePanel.style.width = '39%';
   mainContent.style.width = '59%';
