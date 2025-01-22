@@ -194,6 +194,10 @@ function insertSidePanelContent() {
               
               item.style.display = 'block';
 
+            }else{
+              item.style.display = 'none';
+
+
             }
 
 
