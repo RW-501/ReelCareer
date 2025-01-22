@@ -149,7 +149,7 @@ const userDataSaved = getUserData() || {};
 
 console.log("handleAuthStateChanged lastUpdateTime:", userDataSaved);
 // Check if `lastUpdateTime` exists and if it’s more than 30 minutes old
-if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) > 30 * 1 * 1000) {
+if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) < 30 * 1 * 1000) {
     // If lastUpdateTime is missing or more than 30 minutes have passed
     console.log("updating user:", user.displayName);
     
