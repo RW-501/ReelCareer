@@ -201,7 +201,8 @@ function insertSidePanelContent() {
 
           
         };
-      
+        const menuSection = document.getElementById('side-panel-group');
+
 
         function toggleButtonActive(button) {
           // Remove 'active' from all buttons
@@ -210,24 +211,19 @@ function insertSidePanelContent() {
       
           // Add 'active' to the clicked button
           button.classList.add('active');
-      /* 
-          // Close or hide all .side-nav-item divs
-          const allSideNavItems = document.querySelectorAll('.side-nav-item');
-          allSideNavItems.forEach(item => {
-              item.style.display = 'none';  // Hide all side-nav-item divs
-          });
-      
-          // Show the specific .side-nav-item div related to the clicked button
-          const targetDiv = document.querySelector(`#${button.dataset.target}`);  // Assuming each button has a 'data-target' attribute linking to the div's ID
-          if (targetDiv) {
-              targetDiv.style.display = 'block';  // Show the corresponding div
-          } */
+
+          if (isMobile) {
+          if(menuSection.style.display !== 'none'){
+            menuSection.style.display = 'none'
+          }else{
+            menuSection.style.display = 'block'
+          }
+        }
       }
       
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             toggleButtonActive(document.getElementById('btn-menu'));
-            const menuSection = document.getElementById('side-panel-group');
 
             
             if(menuSection.style.display !== 'none'){
