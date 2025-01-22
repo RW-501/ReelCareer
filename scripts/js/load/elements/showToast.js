@@ -50,7 +50,7 @@ function showToast(message, type = 'info', duration = 3500,
 
   // Fade-in effect
   toast.style.transform = 'translateY(20px)';
-  toast.style.opacity = '0';
+  toast.style.opacity = 1;
 
   const icon = type === 'error' 
   ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 

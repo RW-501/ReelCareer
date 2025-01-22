@@ -108,12 +108,12 @@ class ScrollEffectObserver {
       });
     }
   }
-  
+  /* 
   // Usage Example
   const scrollEffect = new ScrollEffectObserver({
     // Define the elements to observe: classes, IDs, and input types
     targets: ['.observer.fade-in-element', '#observer.slide-in-section',
-         'input.observe-input', 'video.observe-video', '.observer.custom-effect'],
+         'input.observe-input', 'video.video-player', '.observer.custom-effect'],
     effects: {
       'fade-in': { animation: 'fade-in', transition: 'opacity 0.6s ease-in', resetOnExit: true },
       'fade-out': { animation: 'fade-out', transition: 'opacity 0.6s ease-out', resetOnExit: false },
@@ -129,5 +129,26 @@ class ScrollEffectObserver {
     },
     rootMargin: '0px 0px -20% 0px',
     threshold: 0.25,
-  });
+  }); */
+
+
+
+
+
+
+
+
+
   
+  // Usage Example
+  const scrollEffect = new ScrollEffectObserver({
+    // Define the elements to observe: classes, IDs, and input types
+    targets: ['.observer.fade-in-element', '#observer.slide-in-section',
+         'input.observe-input', 'video.video-player', '.observer.custom-effect'],
+    effects: {
+      'play-video': { animation: 'play-video' },
+      'pause-video': { animation: 'pause-video', resetOnExit: true },
+    },
+    rootMargin: '0px 0px -20% 0px',
+    threshold: 0.25,
+  });
