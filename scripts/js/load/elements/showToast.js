@@ -53,23 +53,31 @@ function showToast(message, type = 'info', duration = 3500,
   toast.style.transform = 'translateY(20px)';
   toast.style.opacity = '0';
 
-  // Add dynamic styling for toast types
-  switch (type) {
-    case 'success':
-      toast.style.backgroundColor = '#4CAF50'; // Green for success
-      break;
-    case 'error':
-      toast.style.backgroundColor = '#F44336'; // Red for error
-      break;
-    case 'info':
-      toast.style.backgroundColor = '#2196F3'; // Blue for info
-      break;
-    case 'warning':
-      toast.style.backgroundColor = '#FF9800'; // Orange for warning
-      break;
-    default:
-      toast.style.backgroundColor = '#2196F3'; // Default to info
-  }
+  const icon = type === 'error' 
+  ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 
+  : type === 'success' 
+  ? '<i class="fas fa-check-circle" style="color: white; font-size: 28px;"></i>' 
+  : type === 'warning' 
+  ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>'
+  : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
+
+// Assuming `toast` is a valid element reference
+switch (type) {
+  case 'success':
+    toast.style.backgroundColor = '#4CAF50'; // Green for success
+    break;
+  case 'error':
+    toast.style.backgroundColor = '#F44336'; // Red for error
+    break;
+  case 'info':
+    toast.style.backgroundColor = '#2196F3'; // Blue for info
+    break;
+  case 'warning':
+    toast.style.backgroundColor = '#FF9800'; // Orange for warning
+    break;
+  default:
+    toast.style.backgroundColor = '#2196F3'; // Default to info
+}
 
   // Format message with link if applicable
   if (link) {
@@ -89,7 +97,7 @@ function showToast(message, type = 'info', duration = 3500,
   toast.innerHTML = `
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
       <div style="display: flex; align-items: center; gap: 12px;">
-        <span class="material-icons" style="color: white; font-size: 28px;">${type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info'}</span>
+        <span class="material-icons" style="color: white; font-size: 28px;">${icon}</span>
         <span style="font-size: 16px; font-weight: 500;">${message}</span>
         ${progressBarHTML}
       </div>
