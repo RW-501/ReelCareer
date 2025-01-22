@@ -175,7 +175,8 @@ function insertSidePanelContent() {
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
         const locationSection = document.getElementById('location-section');
-
+        const menuSection = document.getElementById('side-panel-group');
+        
       
         // Add listeners for showing/hiding sections
         const togglePopout = (section) => {
@@ -191,7 +192,7 @@ function insertSidePanelContent() {
           updateButtonTextVisibility();
 
           
-          document.querySelectorAll('.side-nav-item').forEach((item) => {
+      /*     document.querySelectorAll('.side-nav-item').forEach((item) => {
 
             if(item.style.display = 'none'){
               
@@ -206,7 +207,7 @@ function insertSidePanelContent() {
 
             
           });
-
+ */
           
         };
       
@@ -218,7 +219,7 @@ function insertSidePanelContent() {
       
           // Add 'active' to the clicked button
           button.classList.add('active');
-      
+      /* 
           // Close or hide all .side-nav-item divs
           const allSideNavItems = document.querySelectorAll('.side-nav-item');
           allSideNavItems.forEach(item => {
@@ -229,12 +230,13 @@ function insertSidePanelContent() {
           const targetDiv = document.querySelector(`#${button.dataset.target}`);  // Assuming each button has a 'data-target' attribute linking to the div's ID
           if (targetDiv) {
               targetDiv.style.display = 'block';  // Show the corresponding div
-          }
+          } */
       }
       
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             toggleButtonActive(document.getElementById('btn-menu'));
+            togglePopout(menuSection);
 
           });
           
@@ -361,11 +363,19 @@ function insertSidePanelContent() {
               mainContent.style.width = '59%';
               sidePanelGroup.style.display = 'flex';
 
+if(isSectionOpen){
+  document.querySelectorAll('.btn-text').forEach((text) => {
+    text.style.display = 'none';
+  });
 
+}else{
+  document.querySelectorAll('.btn-text').forEach((text) => {
+    text.style.display = 'inline';
+  });
 
-              document.querySelectorAll('.btn-text').forEach((text) => {
-                text.style.display = 'inline';
-              });
+}
+
+             
 
       
 
@@ -606,12 +616,11 @@ function insertSidePanelContent() {
 }
 
 #btn-menu {
-    display: block;
+    display: flex;
     text-align: right;
-
-    .btn-text {
-    display: block;
-    color: white;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
 }
 }
 
