@@ -334,6 +334,11 @@ function insertSidePanelContent() {
   outline: none; /* Remove default outline */
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
 }
+#main-side-panel {
+    width: fit-content;
+}
+
+
 
 #side-nav {
     background: linear-gradient(45deg, #8abddb, #e3ebf0);
