@@ -21,7 +21,7 @@ onAuthStateChanged(auth, (USER) => {
 const path = window.location.pathname;
   
 // Check if user is trying to access the backend/admin area
-const isBackendArea = path.includes('/backend');
+const isBackendArea = path.includes('/backend/');
 if (!isBackendArea) {
 handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
 }
@@ -149,7 +149,7 @@ const userDataSaved = getUserData() || {};
 
 console.log("handleAuthStateChanged lastUpdateTime:", userDataSaved);
 // Check if `lastUpdateTime` exists and if it’s more than 30 minutes old
-if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) > 30 * 60 * 1000) {
+if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) > 30 * 1 * 1000) {
     // If lastUpdateTime is missing or more than 30 minutes have passed
    // console.log("verifying user:", user.displayName);
     
