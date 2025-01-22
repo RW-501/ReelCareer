@@ -475,10 +475,13 @@ function createThumbnailPicker(file) {
     let videoDuration = 0;
 
 
-    if (file && file.type.startsWith('video/')) {
-        videoElement.src = URL.createObjectURL(file);
+    if (file && file.type && file.type.startsWith('video/')) {
+        videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
+    } else if (file) {
+        videoElement.src = file;  // Handle non-video file as a fallback
     } else {
-        videoElement.src = file;
+        console.error('Invalid file provided to createThumbnailPicker.');
+        return;  // Exit the function to avoid further errors
     }
     
     videoElement.id = "videoToUpload";
