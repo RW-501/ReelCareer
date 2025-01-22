@@ -12,9 +12,9 @@ function insertSidePanelContent() {
       sidePanel.innerHTML = `
         <nav id="side-nav" aria-label="Side Navigation">
           <div class="side-panel-search">
-           <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"><span class="btn-text"> Search</span></i></button>
+           <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
           </div>
-   
+
           <div id="side-panel-group">
 
 
