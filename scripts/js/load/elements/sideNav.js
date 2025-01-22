@@ -339,8 +339,8 @@ function insertSidePanelContent() {
 }
 
 #main-content {
-width: auto;
-
+    max-width: 74%;
+    display: block;
 }
 
 
