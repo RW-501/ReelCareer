@@ -157,14 +157,14 @@ if (progress !== null) {
   setTimeout(() => {
     toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     toast.style.transform = 'translateY(0)';
-    toast.style.opacity = '1';
+    toast.style.opacity = 1;
     toast.style.bottom = '20px';
   }, 10);
 
   // Automatically fade-out and remove the toast if not a confirmation toast
   if (!confirm) {
     setTimeout(() => {
-      toast.style.opacity = '0';
+      toast.style.opacity = 0;
       toast.style.transform = 'translateY(20px)';
       toast.classList.add('fade-out'); // Add fade-out effect
       toast.style.bottom = '-50px'; // Toast goes out of view
