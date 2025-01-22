@@ -185,6 +185,8 @@ function insertSidePanelContent() {
             const allPopouts = document.querySelectorAll('.side-panel-popout');
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
 
+
+          
           if(section.style.display !== 'none'){
             section.style.display = 'none'
             isSectionOpen = false;
@@ -352,27 +354,34 @@ function insertSidePanelContent() {
               });
 
 
-
-
+  
 
 
             }else{
-              menuBtn.style.display = 'none';
 
-              mainSidePanel.style.width = '39%';
-              mainContent.style.width = '59%';
-              sidePanelGroup.style.display = 'block';
+
+
+
+
 
 if(isSectionOpen){
   document.querySelectorAll('.btn-text').forEach((text) => {
     text.style.display = 'none';
   });
+  menuBtn.style.display = 'none';
 
+  mainSidePanel.style.width = '39%';
+  mainContent.style.width = '59%';
+  sidePanelGroup.style.display = 'flex';
 }else{
   document.querySelectorAll('.btn-text').forEach((text) => {
     text.style.display = 'inline';
   });
+  menuBtn.style.display = 'none';
 
+  mainSidePanel.style.width = '39%';
+  mainContent.style.width = '59%';
+  sidePanelGroup.style.display = 'block';
 }
 
              
