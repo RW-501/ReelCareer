@@ -299,68 +299,76 @@ localStorage.setItem('userData', userData);
   window.addToShortlist = addToShortlist;
   
 
+
+
+
+
   function calculateVideoRating(videoCard) {
-    const views = parseInt(videoCard.dataset.views, 10) || 0;
-    const uniqueViews = parseInt(videoCard.dataset.uniqueViews, 10) || 0;
-    const repeatViews = parseInt(videoCard.dataset.repeatViews, 10) || 0;
-    const watchTime = parseInt(videoCard.dataset.watchTime, 10) || 0;
-    const engagements = parseInt(videoCard.dataset.engagegments, 10) || 0;
-    const duration = parseInt(videoCard.dataset.duration, 10) || 0;
-    const likes = parseInt(videoCard.dataset.likes, 10) || 0;
-    const reach = parseInt(videoCard.dataset.reach, 10) || 0;
-    const timestamp = parseInt(videoCard.dataset.timestamp, 10) || Date.now();
+    // Extracting and parsing relevant data attributes from the video card element
+    const views = parseInt(videoCard.dataset.views, 10) || 0; // Total number of views, default to 0 if not provided
+    const uniqueViews = parseInt(videoCard.dataset.uniqueViews, 10) || 0; // Unique views count, default to 0
+    const repeatViews = parseInt(videoCard.dataset.repeatViews, 10) || 0; // Repeat views count, default to 0
+    const watchTime = parseInt(videoCard.dataset.watchTime, 10) || 0; // Total watch time in seconds, default to 0
+    const engagements = parseInt(videoCard.dataset.engagements, 10) || 0; // Total engagements (likes, comments, etc.), default to 0
+    const duration = parseInt(videoCard.dataset.duration, 10) || 0; // Video duration in seconds, default to 0
+    const likes = parseInt(videoCard.dataset.likes, 10) || 0; // Total number of likes, default to 0
+    const reach = parseInt(videoCard.dataset.reach, 10) || 0; // Total reach (number of unique viewers), default to 0
   
-    // Dynamic time decay factor
-    const timeSincePosted = (Date.now() - timestamp) / (1000 * 60 * 60 * 24); // Days since posted
+    // Handle timestamps for time decay calculations
+    const createdAt = new Date(videoCard.dataset.createdAt).getTime(); // Convert 'createdAt' date to milliseconds
+    const timestamp = videoCard.dataset.timestamp ? 
+      new Date(parseInt(videoCard.dataset.timestamp, 10)).getTime() : Date.now(); // Convert 'timestamp' to milliseconds, default to current time if not available
+  
+    // Calculate the number of days since the video was posted
+    const timeSincePosted = (Date.now() - (createdAt || timestamp)) / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+  
+    // Define the time decay factor based on how many days have passed since posting
     let decayFactor;
     if (timeSincePosted <= 7) {
-      decayFactor = 1; // No decay for the first week
+      decayFactor = 1; // No decay for content posted within the first 7 days
     } else if (timeSincePosted <= 30) {
-      decayFactor = 0.98 ** timeSincePosted; // Slower decay for newer content
+      decayFactor = 0.98 ** timeSincePosted; // Gradual decay for content between 8 and 30 days old
     } else {
-      decayFactor = 0.95 ** timeSincePosted; // Faster decay for older content
+      decayFactor = 0.95 ** timeSincePosted; // Faster decay for content older than 30 days
     }
   
-    // Core metrics weighting (customizable)
-    const viewWeight = 0.2;
-    const uniqueViewWeight = 0.3;
-    const watchTimeWeight = 0.4;
-    const engagementWeight = 0.5;
-    const likeWeight = 0.4;
-    const reachWeight = 0.1;
-    const viewDurationWeight = 0.35;
-    const repeatViewWeight = 0.25; // Weight for repeat views
+    // Define weightings for different engagement metrics (customizable)
+    const viewWeight = 0.2; // Weight assigned to total views
+    const watchTimeWeight = 0.4; // Weight assigned to watch time
+    const engagementWeight = 0.5; // Weight assigned to total engagements
+    const reachWeight = 0.1; // Weight assigned to reach
+    const viewDurationWeight = 0.35; // Weight assigned to view-to-duration ratio
+    const repeatViewWeight = 0.25; // Weight assigned to repeat views
   
-    // Engagement score
-    const engagementScore = engagements + likes * 1.5;
-    const viewScore = views + uniqueViews * 1.2;
+    // Calculate engagement and view scores
+    const engagementScore = engagements + likes * 1.5; // Engagement score considers likes with a higher weight
+    const viewScore = views + uniqueViews * 1.2; // View score gives additional weight to unique views
   
-    // Watch time ratio
-    const watchTimeRatio = duration > 0 ? watchTime / duration : 0;
+    // Calculate watch time ratio (portion of video watched)
+    const watchTimeRatio = duration > 0 ? watchTime / duration : 0; // Avoid division by zero
   
-    // New factor: views * duration / uniqueViews
-    const viewDurationRatio = uniqueViews > 0 ? (views * duration) / uniqueViews : 0;
+    // Calculate view-duration ratio: how long viewers stay per unique view
+    const viewDurationRatio = uniqueViews > 0 ? (views * duration) / uniqueViews : 0; // Avoid division by zero
   
-    // Include repeat views factor
-    const repeatViewScore = repeatViews * repeatViewWeight;
+    // Calculate repeat view score
+    const repeatViewScore = repeatViews * repeatViewWeight; // Weight repeat views separately
   
-    // Final rating formula
+    // Combine all metrics into a base rating using the defined weights
     const baseRating = 
-      (viewScore * viewWeight) +
-      (watchTimeRatio * watchTimeWeight * 100) +
-      (engagementScore * engagementWeight) +
-      (reach * reachWeight) +
-      (viewDurationRatio * viewDurationWeight) +
-      repeatViewScore;
+      (viewScore * viewWeight) + // Weighted view score
+      (watchTimeRatio * watchTimeWeight * 100) + // Weighted watch time ratio
+      (engagementScore * engagementWeight) + // Weighted engagement score
+      (reach * reachWeight) + // Weighted reach
+      (viewDurationRatio * viewDurationWeight) + // Weighted view-duration ratio
+      repeatViewScore; // Add repeat view score
   
-    // Apply time decay
+    // Apply the time decay factor to the base rating
     const finalRating = baseRating * decayFactor;
   
-    return Math.round(finalRating * 100) / 100; // Return rounded rating
+    // Return the final rating, rounded to two decimal places
+    return Math.round(finalRating * 100) / 100;
   }
   
-
-
 
 
   // Function to increment view count

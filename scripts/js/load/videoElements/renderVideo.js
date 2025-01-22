@@ -111,10 +111,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.likes = videoData.likes || 0;
 
       videoCard.dataset.timestamp = videoData.timestamp;
+      videoCard.dataset.createdAt = videoData.createdAt;
 
       videoCard.dataset.reach = videoData.reach || 0;
       
-
+      
       videoCard.dataset.location = videoData.location || "";
       videoCard.dataset.verified = videoData.verified || "";
       videoCard.dataset.reelUserID = videoData.createdByID || "";
