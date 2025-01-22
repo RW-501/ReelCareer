@@ -383,7 +383,7 @@ let isAccountLocked = false;
 
 
    userData = setUserData(updatedUserData);
-  // console.log("userData   ",userData);
+   console.log("userData   ",userData);
   
    localStorage.setItem('userData', userData);
   
@@ -401,7 +401,7 @@ let isAccountLocked = false;
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
 
-
+return;
       /**
  * Redirects the user based on the last visited page.
  * If the last page contains "obituaries," redirects to "/obituaries."
