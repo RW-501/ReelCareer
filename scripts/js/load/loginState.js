@@ -401,7 +401,7 @@ let isAccountLocked = false;
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
 
-return;
+
       /**
  * Redirects the user based on the last visited page.
  * If the last page contains "obituaries," redirects to "/obituaries."
@@ -414,7 +414,7 @@ return;
         window.location.href = "/obituaries";
     } else {
         // Redirect to the profile page
-        window.location.href = "/u/";
+     //   window.location.href = "/u/";
     }
 
 
