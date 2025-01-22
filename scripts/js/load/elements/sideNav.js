@@ -334,7 +334,7 @@ function insertSidePanelContent() {
         const updateButtonTextVisibility = () => {
           const mainContent = document.getElementById("main-content");
           const mainSidePanel = document.getElementById("main-side-panel");
-          const sidePanelGroup = document.getElementById("side-panel-group");
+          const sidePanelGroup = document.getElementById("side-nav-list");
           const menuBtn = document.getElementById("btn-menu-area");
 
           const isMobile = window.innerWidth <= 768;
