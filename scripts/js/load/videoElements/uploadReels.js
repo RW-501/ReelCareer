@@ -503,6 +503,7 @@ function createThumbnailPicker(file) {
 
         const updateThumbnail = (time) => {
             videoElement.currentTime = time;
+            videoElement.crossOrigin = 'anonymous'; // Enable cross-origin support
 
             videoElement.onseeked = () => {
                 const canvas = document.createElement('canvas');
