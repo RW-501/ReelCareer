@@ -323,8 +323,8 @@ function loadPageScripts() {
             logExecutionTime('renderVideo', performance.now());
         });
 
-        if (currentPath.includes('/reel/') || currentPath.includes('/videos/') || currentPath.includes('/u/')) {
-            if (currentPath.includes('/reel/') || currentPath.includes('/videos/')){
+     //   if (currentPath.includes('/reel/') || currentPath.includes('/videos/') || currentPath.includes('/u/')) {
+   //         if (currentPath.includes('/reel/') || currentPath.includes('/videos/')){
 
         // Load renderVideo Script
         loadScript('https://reelcareer.co/scripts/js/load/videoElements/sideNav.js', { async: true, type: 'module' }, () => {
@@ -332,18 +332,7 @@ function loadPageScripts() {
         });
 
 
-            }
 
-
-        if (currentPath.includes('/u/')){
-
-            
-
-        }
-
-
-
-    }
 
     if (!currentPath.includes('/obituaries/')) {
         // Load Job Card Script
@@ -455,6 +444,9 @@ function loadPageScripts() {
         loadScript('https://reelcareer.co/scripts/js/load/auth/addFunds.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('addFunds Script', performance.now());
         });
+
+
+
     setTimeout(() => {
         // Load uploadReels.js as a module
         loadScript('https://reelcareer.co/scripts/js/load/videoElements/uploadReels.js', 
