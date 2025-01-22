@@ -418,6 +418,7 @@ let isAccountLocked = false;
         }
     }, 60000); // 60000ms = 1 minute
     
+return;
 
     } catch (error) {
 
