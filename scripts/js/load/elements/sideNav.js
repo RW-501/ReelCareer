@@ -22,7 +22,7 @@ function insertSidePanelContent() {
 
     
 
-          <ul class="side-nav-list">
+          <ul id='side-nav-list' class="side-nav-list">
 
       <div class="side-nav-list">
            <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
