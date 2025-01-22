@@ -154,7 +154,9 @@ function insertSidePanelContent() {
     
         const allPopouts = document.querySelectorAll('.side-panel-popout');
         allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-     
+        isSectionOpen = false;
+        updateButtonTextVisibility();
+
       //  sidePanel.style.display = 'none'; // Close the side panel
     }
   });
