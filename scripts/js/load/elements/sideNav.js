@@ -593,10 +593,13 @@ function insertSidePanelContent() {
 }
 
 #side-panel-menu {
-    text-align: right;
     font: menu;
         color: white;
 
+    text-align: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 #btn-menu {
