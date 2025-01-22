@@ -285,6 +285,7 @@ function insertSidePanelContent() {
 
         const updateButtonTextVisibility = () => {
           const mainContent = document.getElementById("main-content");
+          const mainSidePanel = document.getElementById("main-side-panel");
           const sidePanelGroup = document.getElementById("side-panel-group");
 
             const isMobile = window.innerWidth <= 768;
@@ -293,8 +294,15 @@ function insertSidePanelContent() {
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
+              mainSidePanel.style.width = '100%';
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
+
+
+
+
+
+
 
             }else{
               document.querySelectorAll('.btn-text').forEach((text) => {
