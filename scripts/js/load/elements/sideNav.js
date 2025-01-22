@@ -172,6 +172,8 @@ function insertSidePanelContent() {
             const allPopouts = document.querySelectorAll('.side-panel-popout');
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
           section.style.display = 'block'; // Show only the selected section
+
+          updateButtonTextVisibility();
         };
       
         function toggleButtonActive(button) {
@@ -275,12 +277,27 @@ function insertSidePanelContent() {
         });
 
         const updateButtonTextVisibility = () => {
+          const mainContent = document.getElementById("main-content");
+
             const isMobile = window.innerWidth <= 768;
-            document.querySelectorAll('.btn-text').forEach((text) => {
-              text.style.display = isMobile ? 'none' : 'inline';
-            });
+
+            if (sidePanel.style.display !== 'none' && isMobile) {
+              document.querySelectorAll('.btn-text').forEach((text) => {
+                text.style.display = 'inline';
+              });
+
+            }else {
+
+
+              document.querySelectorAll('.btn-text').forEach((text) => {
+                text.style.display = isMobile ? 'none' : 'inline';
+              });
+
+            }
+
+
           };
-        
+          
           window.addEventListener('resize', updateButtonTextVisibility);
           updateButtonTextVisibility();
         }
