@@ -341,11 +341,11 @@ function insertSidePanelContent() {
             const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
+              menuBtn.style.display = 'block';
 
               mainSidePanel.style.width = '100%';
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
-              menuBtn.style.display = 'none';
               
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
