@@ -356,17 +356,13 @@ function insertSidePanelContent() {
 
 
 
-             if(isSectionOpen) {
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
 
-             }else{
-              document.querySelectorAll('.btn-text').forEach((text) => {
-                text.style.display = 'none';
-              });
+      
 
-             }
+             
 
 
 
