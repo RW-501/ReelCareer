@@ -115,7 +115,7 @@ function showToast(message, type = 'info', duration = 3500,
   setTimeout(() => {
     // If there are other toasts in the queue, show the next one
     if (toastQueue.length > 0) {
-      processNextToast();
+      processNextToast(toastKey);
     }
   }, duration + 300); // Allow 0.3s for fade-out animation
 
@@ -172,7 +172,7 @@ if (progress !== null) {
     setTimeout(() => {
       // If there are other toasts in the queue, show the next one
       if (toastQueue.length > 0) {
-        processNextToast();
+        processNextToast(toastKey);
       }
 
     }, duration + 300); // Allow 0.3s for fade-out animation
@@ -181,7 +181,7 @@ if (progress !== null) {
 
   
 
-function processNextToast() {
+function processNextToast(toastKey) {
     activeToasts.delete(toastKey);
     if (toast.parentNode) {
       toast.parentNode.removeChild(toast);
