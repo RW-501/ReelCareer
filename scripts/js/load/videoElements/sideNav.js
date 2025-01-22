@@ -2,7 +2,7 @@
 let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false; 
-
+const currentPath = window.location.pathname;
 
 
 
@@ -57,6 +57,26 @@ function insertSidePanelContent() {
         <li class="side-nav-item side-user-btn">
               <button id="btn-video-account" class="side-nav-button"><i class="fas fa-film"></i><span class="btn-text"> Video Account</span></button>
             </li>
+
+
+
+<li class="side-nav-item side-user-btn">
+    <button id="btn-video-analytics" class="side-nav-button">
+        <i class="fas fa-eye"></i><span class="btn-text"> Reels Analytics</span>
+    </button>
+</li>
+
+<li class="side-nav-item side-user-btn">
+    <button id="btn-video-watchHistory" class="side-nav-button">
+        <i class="fas fa-history"></i><span class="btn-text">  Watch History</span>
+    </button>
+</li>
+
+
+
+
+
+
 
           </ul>
 
@@ -176,7 +196,8 @@ function insertSidePanelContent() {
           });
 
 
-
+          const currentUrl = window.location.href;
+          console.log("currentUrl   ",currentUrl);
           
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
@@ -184,7 +205,55 @@ function insertSidePanelContent() {
         document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
         document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
-        document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
+
+        console.log("currentPath: ", currentPath)
+        if (currentPath.includes('/u/reels')){
+
+          const videoAccount = document.getElementById('btn-video-account');
+          const videoAnalytics = document.getElementById('btn-video-analytics');
+
+          const videoReelsSection = document.getElementById('video-reels');
+          const mainAnalyticsSection = document.getElementById('main-analytics');
+          
+          let showingAccount = true; // Track which section is visible
+      
+          videoAccount.addEventListener('click', () => {
+                  if (showingAccount) {
+                    videoReelsSection.style.display = 'block';
+                    mainAnalyticsSection.style.display = 'none';
+                    showingAccount = false;
+                  }
+                    });
+
+                    videoAnalytics.addEventListener('click', () => {
+                      if (showingAccount) {
+                        videoReelsSection.style.display = 'none';
+                        mainAnalyticsSection.style.display = 'block';
+                        showingAccount = true;
+                      }
+                        });
+
+
+                  
+                  console.log(`Switched to: ${showingAccount ? 'Video Reels' : 'Main Analytics'}`);
+               
+              
+
+        }else{
+          document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
+
+
+        document.getElementById('btn-video-analytics').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
+        }
+        
+        if (currentUrl == 'https://reelcareer.co/u/'){
+
+// click id watch-history-tab
+        }else{
+        document.getElementById('btn-video-watchHistory').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/#watch-history-tab');
+        }
+       
+       
         document.getElementById('btn-join').addEventListener('click', () => {
 
       openPopupLogin();
@@ -550,6 +619,7 @@ contacts.forEach(contact => {
 
     // Infinite Scroll
     window.addEventListener("scroll", () => {
+      if (currentPath.includes('/reel/') || currentPath.includes('/videos/')){
        // console.log("Window scrolled:", window.innerHeight + window.scrollY);
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
@@ -558,6 +628,7 @@ contacts.forEach(contact => {
          //   console.log("Fetching more videos due to scroll");
          //   fetchVideoResumes();
         }
+      }
     });
 //  });
 
