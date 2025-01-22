@@ -17,7 +17,7 @@
     "duration": 0,
     "likes": 0,
     "loves": 0,
-    "views": 5,
+    "views": 6,
     "profileURL": "https://reelcareer.co/u/?u=ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "thumbnailURL": "https://reelcareer.co/images/sq_logo_n_BG_sm.png",
     "videoResumeTitle": "The title of the video",
@@ -38,47 +38,47 @@
     "endingCard": "",
     "relatedReels": [
       {
-        "reelcreatedDate": {
-          "seconds": 1737441892,
-          "nanoseconds": 676000000
-        },
-        "reelURL": "https://reelcareer.co/reels/?r=ziRNgBr9VEH61Qqc56n3",
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-The%20title%20-reel.mp4?alt=media&token=5447be98-c272-485c-bfe2-2affba663fef",
         "reelTags": [],
         "reelID": "ziRNgBr9VEH61Qqc56n3",
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-The%20title%20-reel.mp4?alt=media&token=5447be98-c272-485c-bfe2-2affba663fef",
+        "reelcreatedDate": {
+          "nanoseconds": 676000000,
+          "seconds": 1737441892
+        },
+        "reelURL": "https://reelcareer.co/reels/?r=ziRNgBr9VEH61Qqc56n3",
         "videoResumeTitle": "The title of the video"
       },
       {
+        "reelcreatedDate": "2025-01-21T11:29:12.182Z",
+        "reelURL": "https://reelcareer.co/reels/?r=hh4q6AspgmIgG2mf7ute",
+        "videoResumeTitle": "The title of the video",
         "reelTags": [],
         "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-The%20title%20-reel.mp4?alt=media&token=6a259a33-c0df-4f3d-8932-7b3495a73c7c",
-        "reelURL": "https://reelcareer.co/reels/?r=hh4q6AspgmIgG2mf7ute",
-        "reelcreatedDate": "2025-01-21T11:29:12.182Z",
-        "reelID": "hh4q6AspgmIgG2mf7ute",
+        "reelID": "hh4q6AspgmIgG2mf7ute"
+      },
+      {
+        "reelcreatedDate": "2025-01-21T12:11:10.513Z",
+        "reelID": "Kzb6rDgzWhQSMpCy3c6y",
+        "reelURL": "https://reelcareer.co/reels/?r=Kzb6rDgzWhQSMpCy3c6y",
+        "reelTags": [],
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-The%20title%20-reel.mp4?alt=media&token=cdc99b18-f581-4b8d-84ac-5fb55020b4ef",
         "videoResumeTitle": "The title of the video"
       },
       {
-        "reelTags": [],
-        "videoResumeTitle": "The title of the video",
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-The%20title%20-reel.mp4?alt=media&token=cdc99b18-f581-4b8d-84ac-5fb55020b4ef",
-        "reelcreatedDate": "2025-01-21T12:11:10.513Z",
-        "reelID": "Kzb6rDgzWhQSMpCy3c6y",
-        "reelURL": "https://reelcareer.co/reels/?r=Kzb6rDgzWhQSMpCy3c6y"
-      },
-      {
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-Thetitle-reel.mp4?alt=media&token=c34761d1-e714-4d56-9722-3a635cd0290c",
+        "reelURL": "https://reelcareer.co/reels/?r=n6gEzZBtfSgwPiaNrBzR",
         "reelID": "n6gEzZBtfSgwPiaNrBzR",
-        "videoResumeTitle": "The title of the video",
         "reelcreatedDate": "2025-01-21T12:39:07.521Z",
-        "reelTags": [],
-        "reelURL": "https://reelcareer.co/reels/?r=n6gEzZBtfSgwPiaNrBzR"
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-Thetitle-reel.mp4?alt=media&token=c34761d1-e714-4d56-9722-3a635cd0290c",
+        "videoResumeTitle": "The title of the video",
+        "reelTags": []
       },
       {
-        "reelTags": [],
         "reelID": "Yg2Isujf1V4i4BlQCaeU",
-        "reelURL": "https://reelcareer.co/reels/?r=Yg2Isujf1V4i4BlQCaeU",
-        "videoResumeTitle": "The title of the video",
         "reelcreatedDate": "2025-01-21T13:12:01.076Z",
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-Thetitle-reel.mp4?alt=media&token=15793b6f-626c-4002-b2ed-de0581542690"
+        "videoResumeTitle": "The title of the video",
+        "reelURL": "https://reelcareer.co/reels/?r=Yg2Isujf1V4i4BlQCaeU",
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2-Thetitle-reel.mp4?alt=media&token=15793b6f-626c-4002-b2ed-de0581542690",
+        "reelTags": []
       }
     ],
     "relatedURL": "",
@@ -88,7 +88,7 @@
     ],
     "uniqueViews": 1,
     "videoPlacement": [],
-    "watchTime": 111,
+    "watchTime": 135,
     "commentsBool": true,
     "giftsBool": true,
     "isPublic": true,
