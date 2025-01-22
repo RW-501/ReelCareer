@@ -74,6 +74,8 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       // Build the video card dynamically with real data
       const videoCard = document.createElement("div");
       videoCard.className = "video-post";
+      videoCard.id = `video-${docId}`;
+
       videoCard.dataset.docId = docId; // Add dataset attribute
       videoCard.dataset.thumbnailURL = videoData.thumbnailURL || "";
       videoCard.dataset.reelURL = videoData.reelURL || "";

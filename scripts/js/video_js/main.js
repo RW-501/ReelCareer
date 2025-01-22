@@ -358,27 +358,24 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
   // Set attribute to prevent multiple counts in the same session
     videoElement.setAttribute('data-view-counted', 'true');
 
-    console.log("videoElement:", videoElement);
+
+    const videoCard = document.getElementById(`video-${docId}`);
+
+    console.log("videoCard:", videoCard);
 
 // Extract video data from data attributes
 const videoData = {
-  videoId: videoElement.dataset.videoId,                          // Unique video ID
-  videoSrc: videoElement.dataset.videosrc,                        // Source URL of the video
-  videoResumeTitle: videoElement.dataset.videoResumeTitle,        // Video title
-  thumbnailURL: videoElement.dataset.thumbnailURL,                // Thumbnail image URL
-  reelURL: videoElement.dataset.reelURL,           
-                  // URL of the page containing the 
-                 
-   searchableTitle: videoElement.dataset.searchableVideoResumeTitle,                         
-   categories: videoElement.dataset.reelCategories,                       
-  tags: videoElement.dataset.tags    
-
+  videoId: videoCard.dataset.videoId,                          // Unique video ID
+  videoSrc: videoCard.dataset.videosrc,                        // Source URL of the video
+  videoResumeTitle: videoCard.dataset.videoResumeTitle,        // Video title
+  thumbnailURL: videoCard.dataset.thumbnailURL,                // Thumbnail image URL
+  reelURL: videoCard.dataset.reelURL,                          // URL of the page containing the video
+  searchableTitle: videoCard.dataset.searchableVideoResumeTitle, // Searchable title for the video resume
+  categories: videoCard.dataset.reelCategories,                // Categories associated with the video
+  tags: videoCard.dataset.tags                                 // Tags associated with the video
 };
 
-
 console.log("videoData:", videoData);
-
-
 
 const videoInterestEntry = {
   searchableTitle: videoData.searchableTitle || "",
@@ -484,21 +481,22 @@ console.log("Updated userData with videoWatchHistory:", videoWatchHistoryEntry);
       }
       
       // Extract video data from data attributes
-const videoData = {
-  videoId: videoElement.dataset.videoId,                          // Unique video ID
-  videoSrc: videoElement.dataset.videosrc,                        // Source URL of the video
-  videoResumeTitle: videoElement.dataset.videoResumeTitle,        // Video title
-  thumbnailURL: videoElement.dataset.thumbnailURL,                // Thumbnail image URL
-  reelURL: videoElement.dataset.reelURL,           
-                  // URL of the page containing the 
-                 
-   searchableTitle: videoElement.dataset.searchableVideoResumeTitle,                         
-   categories: videoElement.dataset.reelCategories,                       
-  tags: videoElement.dataset.tags    
+      const videoCard = document.getElementById(`video-${docId}`);
 
-};
-
-
+      console.log("videoCard:", videoCard);
+  
+  // Extract video data from data attributes
+  const videoData = {
+    videoId: videoCard.dataset.videoId,                          // Unique video ID
+    videoSrc: videoCard.dataset.videosrc,                        // Source URL of the video
+    videoResumeTitle: videoCard.dataset.videoResumeTitle,        // Video title
+    thumbnailURL: videoCard.dataset.thumbnailURL,                // Thumbnail image URL
+    reelURL: videoCard.dataset.reelURL,                          // URL of the page containing the video
+    searchableTitle: videoCard.dataset.searchableVideoResumeTitle, // Searchable title for the video resume
+    categories: videoCard.dataset.reelCategories,                // Categories associated with the video
+    tags: videoCard.dataset.tags                                 // Tags associated with the video
+  };
+  
 
 const videoInterestEntry = {
   searchableTitle: videoData.searchableTitle || "",
