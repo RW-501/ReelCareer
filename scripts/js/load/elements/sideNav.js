@@ -338,7 +338,7 @@ function insertSidePanelContent() {
     width: fit-content;
 }
 
-#main-side-panel {
+#main-content {
 width: auto;
 
 }
