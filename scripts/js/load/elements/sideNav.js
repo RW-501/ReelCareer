@@ -447,7 +447,7 @@ function insertSidePanelContent() {
     border-radius: 10px;
 
 
-
+.side-panel-menu  i,
          .side-nav-button i,
 .side-nav-item i {
     background-color: #e9ecef69;
@@ -463,10 +463,13 @@ function insertSidePanelContent() {
     height: 2.5rem;
 }
 
+.side-panel-menu  i,
         .side-nav-button i,
   .side-nav-item i {
     color: white;
 }
+
+.side-panel-menu  i:hover, i:focus,
         .side-nav-button i:hover, i:focus,
  .side-nav-item i:hover, i:focus {
     background-color: none;
@@ -589,6 +592,10 @@ function insertSidePanelContent() {
       box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
 
+#side-panel-menu {
+    text-align: right;
+    font: menu;
+}
 
 #btn-menu {
     display: block;
