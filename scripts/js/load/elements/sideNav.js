@@ -361,7 +361,7 @@ function insertSidePanelContent() {
 
               mainSidePanel.style.width = '39%';
               mainContent.style.width = '59%';
-              sidePanelGroup.style.display = 'flex';
+              sidePanelGroup.style.display = 'block';
 
 if(isSectionOpen){
   document.querySelectorAll('.btn-text').forEach((text) => {
