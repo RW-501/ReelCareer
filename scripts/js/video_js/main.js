@@ -125,6 +125,9 @@ function handleComments(docId, commentsBtn) {
         const elapsed = (new Date().getTime() - sessionStartTime) / 1000;  // Calculate elapsed time in seconds
         totalWatchTime += elapsed;  // Add to total watch time
         sessionStartTime = null;  // Reset session start
+
+        updateUserVideoWatchTime(totalWatchTime);
+
       }
     }
   
@@ -139,7 +142,7 @@ function handleComments(docId, commentsBtn) {
             controlsTop.classList.remove("slide-up");
             controlsBottom.classList.remove("slide-down");
             controlsPlay.classList.remove("fade-out");
-        
+
       const videoRef = doc(db, "VideoResumes", docId);
   
       try {
@@ -149,7 +152,6 @@ function handleComments(docId, commentsBtn) {
         totalWatchTime = 0;  // Add to total watch time
         sessionStartTime = null; 
 
-        updateUserVideoWatchTime(totalWatchTime);
 
         // Update UI instantly (if needed)
       //  console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
@@ -167,7 +169,7 @@ function handleComments(docId, commentsBtn) {
       controlsTop.classList.remove("slide-up");
       controlsBottom.classList.remove("slide-down");
       controlsPlay.classList.remove("fade-out");
-  
+
       const videoRef = doc(db, "VideoResumes", docId);
   
       try {
@@ -177,7 +179,6 @@ function handleComments(docId, commentsBtn) {
         totalWatchTime = 0;  // Add to total watch time
         sessionStartTime = null; 
 
-        updateUserVideoWatchTime(totalWatchTime);
         // Update UI instantly (if needed)
        // console.log(`Total watch time: ${Math.round(totalWatchTime)} seconds`);
   
