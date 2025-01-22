@@ -147,16 +147,18 @@ function createNavbar() {
 // Assuming getUserData() returns an object, not an array
 const userDataSaved = getUserData() || {};
 
-console.log("handleAuthStateChanged lastUpdateTime:", userDataSaved);
-// Check if `lastUpdateTime` exists and if it’s more than 30 minutes old
-if (!userDataSaved.lastUpdateTime || (new Date() - new Date(userDataSaved.lastUpdateTime)) < 30 * 1 * 1000) {
-    // If lastUpdateTime is missing or more than 30 minutes have passed
-    console.log("updating user:", user.displayName);
-    
-    saveUserLoginState(user); // Save user state
+
+
+const lastUpdateTimestamp = userDataSaved.lastUpdateTime;
+const lastUpdateDate = new Date((lastUpdateTimestamp.seconds * 1000) + (lastUpdateTimestamp.nanoseconds / 1000000));
+console.log("handleAuthStateChanged lastUpdateTime:", lastUpdateDate);
+
+if (!lastUpdateDate || (new Date() - lastUpdateDate) < 30 * 1 * 1000) {
+  console.log("updating user:", user.displayName);
+
+  saveUserLoginState(user); // Save user state
 }
 
-      
       
   
       const dropdownMenuItems = [
