@@ -514,9 +514,12 @@ function createThumbnailPicker(file) {
                 
                 // Convert canvas to Blob and update preview
                 canvas.toBlob((blob) => {
-                    thumbnailBlob = blob; // Store blob for upload
-                    thumbnailPreview.src = URL.createObjectURL(blob); // Update thumbnail image
-
+                    if (blob) {
+                        thumbnailBlob = blob;  // Store blob for upload
+                        thumbnailPreview.src = URL.createObjectURL(blob);  // Update thumbnail image
+                    } else {
+                        console.error('Failed to create thumbnail blob.');
+                    }
                 }, 'image/png'); 
             };
         };
