@@ -365,23 +365,26 @@ function insertSidePanelContent() {
 
 
 if(isSectionOpen){
-  document.querySelectorAll('.btn-text').forEach((text) => {
-    text.style.display = 'none';
-  });
+
   menuBtn.style.display = 'none';
 
   mainSidePanel.style.width = '39%';
   mainContent.style.width = '59%';
   sidePanelGroup.style.display = 'flex';
-}else{
   document.querySelectorAll('.btn-text').forEach((text) => {
-    text.style.display = 'inline';
+    text.style.display = 'none';
   });
+}else{
+
   menuBtn.style.display = 'none';
 
   mainSidePanel.style.width = '39%';
   mainContent.style.width = '59%';
   sidePanelGroup.style.display = 'block';
+  document.querySelectorAll('.btn-text').forEach((text) => {
+    text.style.display = 'inline';
+  });
+
 }
 
              
