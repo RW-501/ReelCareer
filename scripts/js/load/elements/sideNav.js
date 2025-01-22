@@ -344,7 +344,7 @@ function insertSidePanelContent() {
 
 
 
-        #btn-search .search-icon,
+         .side-panel-search i,
 .side-nav-item i {
     background-color: #e9ecef69;
     border-radius: 25px;
@@ -359,11 +359,11 @@ function insertSidePanelContent() {
     height: 2.5rem;
 }
 
-        #btn-search .search-icon,
+        .side-panel-search i,
   .side-nav-item i {
     color: white;
 }
-        #btn-search .search-icon,
+        .side-panel-search i:hover, i:focus,
  .side-nav-item i:hover, i:focus {
     background-color: none;
     transform: scale(1.1);
