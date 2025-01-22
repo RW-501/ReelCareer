@@ -151,7 +151,7 @@ const userDataSaved = getUserData() || {};
 
 const lastUpdateTimestamp = userDataSaved.lastUpdateTime;
 const lastUpdateDate = new Date((lastUpdateTimestamp.seconds * 1000) + (lastUpdateTimestamp.nanoseconds / 1000000));
-console.log("handleAuthStateChanged lastUpdateTime:", lastUpdateDate);
+//console.log("handleAuthStateChanged lastUpdateTime:", lastUpdateDate);
 
 if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 10000 * 1000) {
   console.log("updating user:", user.displayName);

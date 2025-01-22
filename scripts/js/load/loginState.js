@@ -385,7 +385,7 @@ let isAccountLocked = false;
         videoResumeData: sortedAndLimitedData
     };
 
-    console.log("userData   ",userData);
+   // console.log("userData   ",userData);
 
   
    const userDocRef = doc(db, "Users", userDataSaved.userID);
