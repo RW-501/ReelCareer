@@ -193,6 +193,7 @@ let userData = getUserData() || {};  // Default to an empty object if no data is
 
 // Increment the videoWatchCount, initializing it if not already set
 userData.videoWatchTime = (userData.videoWatchTime || 0) + totalWatchTime;
+console.log('totalWatchTime:', totalWatchTime);
 
 // Prepare updated user data object
 const updatedVideoWatchTimeUserData = {
