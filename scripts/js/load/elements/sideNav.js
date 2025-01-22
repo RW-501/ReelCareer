@@ -391,7 +391,7 @@ if(isSectionOpen){
   mainContent.style.width = '59%';
   sidePanelGroup.style.display = 'flex';
   document.querySelectorAll('.btn-text').forEach((text) => {
-    text.style.display = 'none';
+    text.style.display = 'inline';
   });
 }else{
 
