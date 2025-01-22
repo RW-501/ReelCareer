@@ -590,6 +590,15 @@ function insertSidePanelContent() {
 }
 
 
+#btn-menu {
+    display: block;
+    text-align: right;
+
+    .btn-text {
+    display: block;
+    color: white;
+}
+}
 
 
     .side-panel-search {
