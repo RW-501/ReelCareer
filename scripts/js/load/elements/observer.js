@@ -13,10 +13,14 @@ class ScrollEffectObserver {
   
     // Function to apply the effect when an element enters or exits the viewport
     applyEffect(entry) {
-      const target = entry.target;
-      const effectType = target.dataset.effect;  // Get the effect type from the data attribute
-      const effectOptions = this.effects[effectType] || {};  // Get the effect options from the provided configuration
-  
+        const target = entry.target;
+        const effectType = target.dataset.effect;  // Get the effect type from the data attribute
+        console.log("Target Element:", target);  // Log the target element
+        console.log("Effect Type:", effectType);  // Log the effect type
+        
+        const effectOptions = this.effects[effectType] || {};  // Get the effect options from the provided configuration
+        console.log("Effect Options:", effectOptions);  // Log the effect options
+        
       if (entry.isIntersecting) {
         // When the element is in the viewport
         target.style.transition = effectOptions.transition || 'all 0.8s ease';  // Set the default transition if none is provided
@@ -143,8 +147,7 @@ class ScrollEffectObserver {
   // Usage Example
   const scrollEffect = new ScrollEffectObserver({
     // Define the elements to observe: classes, IDs, and input types
-    targets: ['.observer.fade-in-element', '#observer.slide-in-section',
-         'input.observe-input', 'video.video-player', '.observer.custom-effect'],
+    targets: [ 'video'],
     effects: {
       'play-video': { animation: 'play-video' },
       'pause-video': { animation: 'pause-video', resetOnExit: true },
