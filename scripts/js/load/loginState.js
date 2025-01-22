@@ -388,8 +388,6 @@ let isAccountLocked = false;
     console.log("userData   ",userData);
 
   
-    setTimeout( async ( )=> {
-  
    const userDocRef = doc(db, "Users", userDataSaved.userID);
    await setDoc(userDocRef, userData, {
      merge: true
@@ -420,15 +418,18 @@ let isAccountLocked = false;
  */
       const lastPage = document.referrer; // Get the URL of the last visited page
    
+      if(isNewUser){
+
         if (lastPage && lastPage.includes("obituaries")) {
-            // Redirect to the obituaries page
-            window.location.href = "/obituaries";
-        } else {
-            // Redirect to the profile page
-            window.location.href = "/u/";
-        }
+          // Redirect to the obituaries page
+          window.location.href = "/obituaries";
+      } else {
+          // Redirect to the profile page
+          window.location.href = "/u/";
+      }
+      }
+  
     
-  }, 60000); // 60000ms = 1 minute
     
 }, 200); // 60000ms = 1 minute
 
