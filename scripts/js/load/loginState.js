@@ -378,6 +378,7 @@ let isAccountLocked = false;
     console.log("userData   ",userData);
 
   
+    setTimeout( async ( )=> {
   
    const userDocRef = doc(db, "Users", userDataSaved.userID);
    await setDoc(userDocRef, userData, {
@@ -416,9 +417,10 @@ let isAccountLocked = false;
             // Redirect to the profile page
             window.location.href = "/u/";
         }
-    }, 60000); // 60000ms = 1 minute
     
-return;
+  }, 60000); // 60000ms = 1 minute
+    
+}, 200); // 60000ms = 1 minute
 
     } catch (error) {
 
