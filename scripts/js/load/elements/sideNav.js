@@ -291,14 +291,14 @@ function insertSidePanelContent() {
             const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
-              document.querySelectorAll('.btn-text').forEach((text) => {
-                text.style.display = 'inline';
-              });
+
               mainSidePanel.style.width = '100%';
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
 
-
+              document.querySelectorAll('.btn-text').forEach((text) => {
+                text.style.display = 'inline';
+              });
 
 
 
