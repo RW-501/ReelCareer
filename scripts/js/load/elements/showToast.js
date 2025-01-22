@@ -11,6 +11,10 @@ function showToast(message, type = 'info', duration = 3500,
   if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
     console.log("Maximum capacity reached. Not adding new content.");
     console.log("Current toastKey:", toastKey);
+
+     // Add the toast to toastQueue  set
+     toastQueue.add(toastKey);
+
     return; // Skip adding a duplicate toast
   }
 
