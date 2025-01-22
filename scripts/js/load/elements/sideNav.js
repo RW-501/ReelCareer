@@ -378,7 +378,32 @@ function insertSidePanelContent() {
         margin: 1rem;
 
 }
-
+  #main-content {
+    padding: 20px;
+  
+    border-radius: 10px;
+  }
+  
+  /* Search Area Styling */
+  .search-area {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #side-panel-search-input {
+    padding: 10px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  #side-panel-search-input:focus {
+    outline: none;
+    border-color: rgb(132, 173, 234);
+  }
+  
 
 /* Basic Styling */
 #side-panel-search-input {
@@ -389,7 +414,7 @@ function insertSidePanelContent() {
   border-radius: 20px;  /* Rounded corners */
   transition: all 0.3s ease; /* Smooth transition */
   outline: none; /* Remove default outline */
-  background-color: #fff;
+  background-color: black;
 
 }
 
