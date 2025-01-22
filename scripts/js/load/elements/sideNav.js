@@ -196,7 +196,6 @@ function insertSidePanelContent() {
             isSectionOpen = true;
 
           }
-          updateButtonTextVisibility();
 
 
           
@@ -221,6 +220,8 @@ function insertSidePanelContent() {
             sideNavList.style.display = 'block'
           }
         }
+        updateButtonTextVisibility();
+
       }
       
 
@@ -237,18 +238,37 @@ function insertSidePanelContent() {
           
           
           document.getElementById('btn-search').addEventListener('click', () => {
-            togglePopout(searchSection);
+
+            if(searchSection.style.display == "block"){
+              searchSection.style.display == "none"
+              isSectionOpen = false;
+
+            }else{
+              togglePopout(searchSection);
+            }
             toggleButtonActive(document.getElementById('btn-search'));
 
           });
           
           document.getElementById('btn-connection').addEventListener('click', () => {
-            togglePopout(connectionSection);
+            if(connectionSection.style.display == "block"){
+              connectionSection.style.display == "none"
+              isSectionOpen = false;
+
+            }else{
+              togglePopout(connectionSection);
+            }
             toggleButtonActive(document.getElementById('btn-connection'));
           });
 
           document.getElementById('btn-location').addEventListener('click', () => {
-            togglePopout(locationSection);
+            if(locationSection.style.display == "block"){
+              locationSection.style.display == "none"
+              isSectionOpen = false;
+
+            }else{
+              togglePopout(locationSection);
+            }
             toggleButtonActive(document.getElementById('btn-location'));
 
           });
