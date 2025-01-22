@@ -586,18 +586,13 @@ const owner = "RW-501";
     const branch = 'main';
     let sha = ''; // Will store the sha if the file exists
     let fileData;
-
-async function saveVideosToJson(videoDataArray) {
+    async function saveVideosToJson(videoDataArray) {
     const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
     const blob = new Blob([jsonData], { type: "application/json" });
     const encodedContent = btoa(jsonData);
 
-
-
     const parts = ['p', 'h', 'g'];
-    const randomizePart = (part) => {
-        return part.split('').reverse().join('');
-    };
+    const randomizePart = (part) => part.split('').reverse().join('');
 
     const part_1 = randomizePart(parts.join(''));
     const part_2 = "_akXGrO51HwgEI";
@@ -619,69 +614,52 @@ async function saveVideosToJson(videoDataArray) {
         });
 
         if (fileResponse.ok) {
-            // If the file exists, fetch its sha for updating
-            fileData = await fileResponse.json();
-            sha = fileData.sha;
+            const fileData = await fileResponse.json();
+            const existingContent = atob(fileData.content || "");
+            let existingDataArray = [];
 
-            const existingContent = atob(fileData.content);
-            const existingDataArray = JSON.parse(existingContent);
+            if (existingContent.trim()) {
+                try {
+                    existingDataArray = JSON.parse(existingContent);
+                } catch (error) {
+                    console.error("Failed to parse existing JSON content:", error.message);
+                }
+            }
 
-// Track the updated content
-const updatedDataArray = existingDataArray.map(existingItem => {
-    const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
-    
-    if (updatedItem) {
-        // Check for differences in specific fields: views, isPublic
-        const viewsChanged = updatedItem.views !== existingItem.views;
-        const isPublicChanged = (updatedItem.isPublic ?? null) !== (existingItem.isPublic ?? null); // Handle undefined/null
-        if (viewsChanged || isPublicChanged) {
-            return { ...existingItem, ...updatedItem }; // Merge and update only when necessary
-        }
-    }
-    return existingItem; // Keep existing item if no relevant updates
-});
+            const updatedDataArray = existingDataArray.map(existingItem => {
+                const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
+                if (updatedItem) {
+                    const viewsChanged = updatedItem.views !== existingItem.views;
+                    const isPublicChanged = (updatedItem.isPublic ?? null) !== (existingItem.isPublic ?? null);
+                    if (viewsChanged || isPublicChanged) {
+                        return { ...existingItem, ...updatedItem };
+                    }
+                }
+                return existingItem;
+            });
 
-// Add new videos that don't exist in the existing data
-videoDataArray.forEach(item => {
-    if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
-        updatedDataArray.push(item);
-    }
-});
+            videoDataArray.forEach(item => {
+                if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
+                    updatedDataArray.push(item);
+                }
+            });
 
-// Check if any updates were made
-if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
-    console.log("Changes detected. Logging differences...");
-    
-    existingDataArray.forEach((existingItem, index) => {
-        const updatedItem = updatedDataArray[index];
-        if (JSON.stringify(existingItem) !== JSON.stringify(updatedItem)) {
-            console.log(`Difference found at index ${index}:`);
-            console.log("Existing Item:", existingItem);
-            console.log("Updated Item:", updatedItem);
-        }
-    });
-
-    const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
-    await updateFile(url, updatedEncodedContent, sha, token);
-} else {
-    console.log("No changes detected, skipping update.");
-}
-
+            if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
+                console.log("Changes detected, preparing to update file.");
+                const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
+                await updateFile(url, updatedEncodedContent, fileData.sha, token);
+            } else {
+                console.log("No changes detected.");
+            }
 
         } else if (fileResponse.status === 404) {
             console.log("File does not exist, creating a new one.");
-            await updateFile(url, encodedContent, sha, token);
+            await updateFile(url, encodedContent, null, token);
         } else {
             throw new Error(`Failed to fetch file metadata: ${fileResponse.statusText}`);
         }
     } catch (error) {
         console.error("Error:", error.message);
-    } finally {
-        // Clear variables after use to free up memory
-        sha = null;
-        fileData = null;
-        videoDataArray = null;  // Assuming you want to clear the videoDataArray after saving it
-        // Optionally clear the Blob and other data if not needed anymore
     }
 }
 
@@ -708,7 +686,6 @@ async function updateFile(url, encodedContent, sha, token) {
         throw new Error(`Error updating file: ${errorData.message}`);
     }
 }
-
 
 
      let page = 1;
