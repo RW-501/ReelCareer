@@ -202,10 +202,26 @@ function insertSidePanelContent() {
       
 
         function toggleButtonActive(button) {
-            const allButtons = document.querySelectorAll('.side-nav-button');
-            allButtons.forEach(btn => btn.classList.remove('active'));  // Remove 'active' from all buttons
-            button.classList.add('active');  // Add 'active' to the clicked button
+          // Remove 'active' from all buttons
+          const allButtons = document.querySelectorAll('.side-nav-button');
+          allButtons.forEach(btn => btn.classList.remove('active'));
+      
+          // Add 'active' to the clicked button
+          button.classList.add('active');
+      
+          // Close or hide all .side-nav-item divs
+          const allSideNavItems = document.querySelectorAll('.side-nav-item div');
+          allSideNavItems.forEach(item => {
+              item.style.display = 'none';  // Hide all side-nav-item divs
+          });
+      
+          // Show the specific .side-nav-item div related to the clicked button
+          const targetDiv = document.querySelector(`#${button.dataset.target}`);  // Assuming each button has a 'data-target' attribute linking to the div's ID
+          if (targetDiv) {
+              targetDiv.style.display = 'block';  // Show the corresponding div
           }
+      }
+      
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             togglePopout(searchSection);
