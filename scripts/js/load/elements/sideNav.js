@@ -227,11 +227,11 @@ function insertSidePanelContent() {
             toggleButtonActive(document.getElementById('btn-menu'));
 
             
-            if(menuSection.style.display !== 'none'){
+     /*        if(menuSection.style.display !== 'none'){
               menuSection.style.display = 'none'
             }else{
               menuSection.style.display = 'block'
-            }
+            } */
           });
           
           
