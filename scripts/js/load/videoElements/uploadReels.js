@@ -501,27 +501,42 @@ function createThumbnailPicker(file) {
         thumbnailPreviewPickerSection.appendChild(slider);
 
         const updateThumbnail = (time) => {
+            console.log('updateThumbnail called with time:', time);
+            
             videoElement.currentTime = time;
             videoElement.crossOrigin = 'anonymous'; // Enable cross-origin support
-
+            console.log('videoElement currentTime set to:', videoElement.currentTime);
+            
             videoElement.onseeked = () => {
+                console.log('onseeked event triggered');
+                
                 const canvas = document.createElement('canvas');
+                console.log('Created canvas element:', canvas);
+                
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
+                console.log('Canvas dimensions set to:', canvas.width, 'x', canvas.height);
+                
                 const ctx = canvas.getContext('2d');
+                console.log('Canvas rendering context obtained:', ctx);
+                
                 ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                console.log('Image drawn on canvas from videoElement at time:', videoElement.currentTime);
                 
                 // Convert canvas to Blob and update preview
                 canvas.toBlob((blob) => {
                     if (blob) {
+                        console.log('Blob created successfully:', blob);
                         thumbnailBlob = blob;  // Store blob for upload
                         thumbnailPreview.src = URL.createObjectURL(blob);  // Update thumbnail image
+                        console.log('Thumbnail preview updated with blob URL:', thumbnailPreview.src);
                     } else {
                         console.error('Failed to create thumbnail blob.');
                     }
                 }, 'image/png'); 
             };
         };
+        
 
 
         // Initialize with middle frame
