@@ -358,7 +358,8 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
   // Set attribute to prevent multiple counts in the same session
     videoElement.setAttribute('data-view-counted', 'true');
 
-    
+    console.log("videoElement:", videoElement);
+
 // Extract video data from data attributes
 const videoData = {
   videoId: videoElement.dataset.videoId,                          // Unique video ID
@@ -375,6 +376,7 @@ const videoData = {
 };
 
 
+console.log("videoData:", videoData);
 
 
 
