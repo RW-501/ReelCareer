@@ -175,7 +175,6 @@ function insertSidePanelContent() {
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
         const locationSection = document.getElementById('location-section');
-        const menuSection = document.getElementById('side-panel-group');
         
       
         // Add listeners for showing/hiding sections
@@ -226,12 +225,13 @@ function insertSidePanelContent() {
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             toggleButtonActive(document.getElementById('btn-menu'));
+            const menuSection = document.getElementById('side-panel-group');
 
             
-            if(section.style.display = 'flex'){
-              section.style.display = 'none'
+            if(menuSection.style.display !== 'none'){
+              menuSection.style.display = 'none'
             }else{
-              section.style.display = 'flex'
+              menuSection.style.display = 'block'
             }
           });
           
