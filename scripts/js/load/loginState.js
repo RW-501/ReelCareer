@@ -407,7 +407,6 @@ let isAccountLocked = false;
       localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
       localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
   
-      setTimeout(() => {
 
       localStorage.setItem("userLoggedIn", true);
      
@@ -435,8 +434,6 @@ let isAccountLocked = false;
       }
   
     
-    
-}, 200); // 60000ms = 1 minute
 
     } catch (error) {
 
