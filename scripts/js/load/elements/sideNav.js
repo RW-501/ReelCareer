@@ -163,6 +163,8 @@ function insertSidePanelContent() {
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
         const locationSection = document.getElementById('location-section');
+
+        let isSectionOpen = false;
       
         // Add listeners for showing/hiding sections
         const togglePopout = (section) => {
@@ -173,9 +175,12 @@ function insertSidePanelContent() {
           allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
           section.style.display = 'block'; // Show only the selected section
 
+          isSectionOpen = true;
+
           updateButtonTextVisibility();
         };
       
+
         function toggleButtonActive(button) {
             const allButtons = document.querySelectorAll('.side-nav-button');
             allButtons.forEach(btn => btn.classList.remove('active'));  // Remove 'active' from all buttons
@@ -289,7 +294,7 @@ function insertSidePanelContent() {
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
 
-            }else {
+            }else if(isSectionOpen) {
 
 
               document.querySelectorAll('.btn-text').forEach((text) => {
