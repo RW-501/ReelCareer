@@ -17,11 +17,14 @@ function insertSidePanelContent() {
 
           <div id="side-panel-group">
 
-          <div class="side-nav-list">
+    
+
+          <ul class="side-nav-list">
+
+      <div class="side-nav-list">
            <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
           </div>
 
-          <ul class="side-nav-list">
             <li class="side-nav-item">
               <button id="btn-home" class="side-nav-button"><i class="fas fa-home"></i><span class="btn-text"> Home</span></button>
             </li>
