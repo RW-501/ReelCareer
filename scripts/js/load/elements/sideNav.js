@@ -295,7 +295,6 @@ function insertSidePanelContent() {
               mainSidePanel.style.width = '100%';
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
-
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
@@ -304,25 +303,35 @@ function insertSidePanelContent() {
 
 
 
-            }else{
-              document.querySelectorAll('.btn-text').forEach((text) => {
-                text.style.display = isMobile ? 'none' : 'inline';
-              });
-              mainContent.style.width = '100%';
 
+            }else{
+
+              mainSidePanel.style.width = '39%';
+              mainContent.style.width = '59%';
+              sidePanelGroup.style.display = 'flex';
 
 
 
              if(isSectionOpen) {
+              document.querySelectorAll('.btn-text').forEach((text) => {
+                text.style.display = 'inline';
+              });
 
+             }else{
+              document.querySelectorAll('.btn-text').forEach((text) => {
+                text.style.display = 'none';
+              });
 
              }
 
 
 
             }
-
-
+/* 
+            document.querySelectorAll('.btn-text').forEach((text) => {
+              text.style.display = isMobile ? 'none' : 'inline';
+            });
+ */
           };
           
           window.addEventListener('resize', updateButtonTextVisibility);
