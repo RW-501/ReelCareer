@@ -595,6 +595,8 @@ function insertSidePanelContent() {
 #side-panel-menu {
     text-align: right;
     font: menu;
+        color: white;
+
 }
 
 #btn-menu {
