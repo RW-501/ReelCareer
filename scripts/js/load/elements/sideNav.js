@@ -336,6 +336,8 @@ function insertSidePanelContent() {
 }
 #main-side-panel {
     width: fit-content;
+        display: block;
+
 }
 
 #main-content {
