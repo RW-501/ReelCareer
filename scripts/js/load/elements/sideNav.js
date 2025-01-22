@@ -211,7 +211,8 @@ function insertSidePanelContent() {
       
           // Add 'active' to the clicked button
           button.classList.add('active');
-
+          const isMobile = window.innerWidth <= 768;
+            
           if (isMobile) {
           if(menuSection.style.display !== 'none'){
             menuSection.style.display = 'none'
@@ -336,7 +337,7 @@ function insertSidePanelContent() {
           const sidePanelGroup = document.getElementById("side-panel-group");
           const menuBtn = document.getElementById("btn-menu-area");
 
-            const isMobile = window.innerWidth <= 768;
+          const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
               menuBtn.style.display = 'block';
