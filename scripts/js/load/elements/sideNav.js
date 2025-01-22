@@ -338,6 +338,10 @@ function insertSidePanelContent() {
     width: fit-content;
 }
 
+#main-side-panel {
+width: auto;
+
+}
 
 
 #side-nav {
