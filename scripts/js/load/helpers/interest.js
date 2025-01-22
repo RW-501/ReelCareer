@@ -240,13 +240,14 @@ function handleJobInput(jobInput, action = "visit") {
 
 
 
-
-
-
-  
   function handleVideoInterestInput({ searchableTitle, categories, tags, liked }) {
+    // Split the tags, remove duplicates, trim whitespace, and convert to lowercase
     const inputTags = [
-      ...new Set([...(tags.split(',') || []), searchableTitle, categories].filter(Boolean).map(tag => tag.trim().toLowerCase()))
+      ...new Set([
+        ...(tags ? tags.split(',').map(tag => tag.trim().toLowerCase()) : []), // Split and clean tags
+        searchableTitle.toLowerCase(),  // Add searchableTitle, converted to lowercase
+        ...(categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []) // Add categories, cleaned
+      ]).filter(Boolean) // Remove empty strings
     ];
   
     function isSimilarTag(tag1, tag2) {
@@ -303,7 +304,7 @@ function handleJobInput(jobInput, action = "visit") {
   
     const filteredInterest = userVideoInterest
       .map(item => item.tag.toLowerCase())
-      .filter(term => term.length > 2 && isNaN(term))
+      .filter(term => term.length > 2 && isNaN(term)) // Filter terms that are too short or numeric
       .slice(0, 15);
   
     console.log('User Video Interests:', filteredInterest);
