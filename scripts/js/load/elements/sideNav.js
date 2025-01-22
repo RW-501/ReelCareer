@@ -295,9 +295,13 @@ function insertSidePanelContent() {
 #body-main {
     display: flex;
     width: 100%;
-    flex-flow: row;
+    flex-flow: column;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    flex-wrap: wrap;
+    align-content: stretch;
+    align-items: stretch;
 }
-
 
 #body-main {
 
@@ -340,7 +344,7 @@ function insertSidePanelContent() {
 
 
 
-
+        #btn-search .search-icon,
 .side-nav-item i {
     background-color: #e9ecef69;
     border-radius: 25px;
@@ -355,9 +359,11 @@ function insertSidePanelContent() {
     height: 2.5rem;
 }
 
+        #btn-search .search-icon,
   .side-nav-item i {
     color: white;
 }
+        #btn-search .search-icon,
  .side-nav-item i:hover, i:focus {
     background-color: none;
     transform: scale(1.1);
@@ -492,11 +498,8 @@ function insertSidePanelContent() {
     display: flex;
     
     }
-    .search-icon {
-      color: #666;
-      cursor: pointer;
-    }
   
+    
     .search-suggestions {
       margin-top: 5px;
       list-style: none;
