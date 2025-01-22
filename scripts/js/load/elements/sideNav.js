@@ -286,6 +286,7 @@ function insertSidePanelContent() {
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
+              mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
 
             }else {
