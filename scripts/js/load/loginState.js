@@ -396,11 +396,11 @@ let isAccountLocked = false;
       localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
       localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
   
-  
+      setTimeout(() => {
+
       localStorage.setItem("userLoggedIn", true);
      
      
-      setTimeout(() => {
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
 
