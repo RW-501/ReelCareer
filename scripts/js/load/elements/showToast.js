@@ -13,7 +13,7 @@ function showToast(message, type = 'info', duration = 3500,
    link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
   // Check if a toast with the same message and type is already active
   const toastId = `toast_${toastNumber}`;
-  const toastKey = `${type}_${message}`; // Key to identify duplicate toasts
+  toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
   
 
