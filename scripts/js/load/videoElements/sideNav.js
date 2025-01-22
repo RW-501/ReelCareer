@@ -206,53 +206,53 @@ function insertSidePanelContent() {
         document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
 
-        console.log("currentPath: ", currentPath)
-        if (currentPath.includes('/u/reels')){
-
-          const videoAccount = document.getElementById('btn-video-account');
-          const videoAnalytics = document.getElementById('btn-video-analytics');
-
+        document.addEventListener('DOMContentLoaded', () => {
+          const currentPath = window.location.pathname;
+          const currentUrl = window.location.href;
+      
+          console.log("currentPath: ", currentPath);
+      
+          const videoAccountButton = document.getElementById('btn-video-account');
+          const videoAnalyticsButton = document.getElementById('btn-video-analytics');
+          const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
           const videoReelsSection = document.getElementById('video-reels');
           const mainAnalyticsSection = document.getElementById('main-analytics');
-          
-          let showingAccount = true; // Track which section is visible
       
-          videoAccount.addEventListener('click', () => {
-                  if (showingAccount) {
-                    videoReelsSection.style.display = 'block';
-                    mainAnalyticsSection.style.display = 'none';
-                    showingAccount = false;
-                  }
-                    });
-
-                    videoAnalytics.addEventListener('click', () => {
-                      if (showingAccount) {
-                        videoReelsSection.style.display = 'none';
-                        mainAnalyticsSection.style.display = 'block';
-                        showingAccount = true;
-                      }
-                        });
-
-
-                  
-                  console.log(`Switched to: ${showingAccount ? 'Video Reels' : 'Main Analytics'}`);
-               
-              
-
-        }else{
-          document.getElementById('btn-video-account').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
-
-
-        document.getElementById('btn-video-analytics').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/reels');
-        }
-        
-        if (currentUrl == 'https://reelcareer.co/u/'){
-
-// click id watch-history-tab
-        }else{
-        document.getElementById('btn-video-watchHistory').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/#watch-history-tab');
-        }
-       
+          if (currentPath.includes('/u/reels')) {
+              let showingAccount = true; // Track which section is visible
+      
+              videoAccountButton.addEventListener('click', () => {
+                  videoReelsSection.style.display = 'block';
+                  mainAnalyticsSection.style.display = 'none';
+                  showingAccount = false;
+                  console.log(`Switched to: Video Reels`);
+              });
+      
+              videoAnalyticsButton.addEventListener('click', () => {
+                  videoReelsSection.style.display = 'none';
+                  mainAnalyticsSection.style.display = 'block';
+                  showingAccount = true;
+                  console.log(`Switched to: Main Analytics`);
+              });
+          } else {
+              videoAccountButton.addEventListener('click', () => {
+                  window.location.href = 'https://reelcareer.co/u/reels#video-reels';
+              });
+      
+              videoAnalyticsButton.addEventListener('click', () => {
+                  window.location.href = 'https://reelcareer.co/u/reels#main-analytics';
+              });
+          }
+      
+          if (currentUrl === 'https://reelcareer.co/u/') {
+              document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
+          } else {
+              videoWatchHistoryButton.addEventListener('click', () => {
+                  window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
+              });
+          }
+      });
+      
        
         document.getElementById('btn-join').addEventListener('click', () => {
 
