@@ -91,7 +91,10 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.tags = videoData.tags || ""; // For search functionality
       videoCard.dataset.displayName = videoData.displayName || "";
       videoCard.dataset.isConnected = videoData.isConnected || "";
-      videoCard.dataset.position = videoData.position || "";
+      videoCard.dataset.rating = videoData.rating || 0;
+
+
+
       videoCard.dataset.location = videoData.location || "";
       videoCard.dataset.verified = videoData.verified || "";
       videoCard.dataset.reelUserID = videoData.createdByID || "";
@@ -142,7 +145,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
             </small>
           </div>
   
-          <p class="job-title">${videoData.position || ""}</p>
+          <p class="job-title">${videoData.rating || 0}</p>
         </div>
   
         <div class="interaction-buttons">

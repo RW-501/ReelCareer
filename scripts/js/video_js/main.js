@@ -372,15 +372,21 @@ const videoData = {
   reelURL: videoCard.dataset.reelURL,                          // URL of the page containing the video
   searchableTitle: videoCard.dataset.searchableVideoResumeTitle, // Searchable title for the video resume
   categories: videoCard.dataset.reelCategories,                // Categories associated with the video
+  duration: videoCard.dataset.duration,                // Categories associated with the video
+  location: videoCard.dataset.location,                // Categories associated with the video
+  rating: videoCard.dataset.rating,                // Categories associated with the video
   tags: videoCard.dataset.tags                                 // Tags associated with the video
 };
 
 console.log("videoData:", videoData);
 
 const videoInterestEntry = {
-  searchableTitle: videoData.searchableTitle || "",
-  categories: videoData.categories || "",
-  tags: videoData.tags || "",
+  searchableTitle: videoData.searchableTitle || [],
+  location: videoData.location || "",
+  rating: videoData.rating || 0,
+  duration: videoData.duration || 0,
+  categories: videoData.categories || [],
+  tags: videoData.tags || [],
   liked: false // Assuming this boolean is passed, set to true for testing
 };
 
@@ -438,6 +444,7 @@ console.log("Updated userData with videoWatchHistory:", videoWatchHistoryEntry);
       await updateDoc(videoRef, {
         engagegments: increment(1), // Firestore increment
         uniqueViews: increment(1) // Firestore increment
+
       });
       
       const videoCountButton = document.getElementById(`video-count_${docId}`);
@@ -494,16 +501,23 @@ console.log("Updated userData with videoWatchHistory:", videoWatchHistoryEntry);
     reelURL: videoCard.dataset.reelURL,                          // URL of the page containing the video
     searchableTitle: videoCard.dataset.searchableVideoResumeTitle, // Searchable title for the video resume
     categories: videoCard.dataset.reelCategories,                // Categories associated with the video
+    duration: videoCard.dataset.duration,                // Categories associated with the video
+    location: videoCard.dataset.location,                // Categories associated with the video
+    rating: videoCard.dataset.rating,                // Categories associated with the video
     tags: videoCard.dataset.tags                                 // Tags associated with the video
   };
   
-
-const videoInterestEntry = {
-  searchableTitle: videoData.searchableTitle || "",
-  categories: videoData.categories || "",
-  tags: videoData.tags || "",
-  liked: true // Assuming this boolean is passed, set to true for testing
-};
+  console.log("videoData:", videoData);
+  
+  const videoInterestEntry = {
+    searchableTitle: videoData.searchableTitle || [],
+    location: videoData.location || "",
+    rating: videoData.rating || 0,
+    duration: videoData.duration || 0,
+    categories: videoData.categories || [],
+    tags: videoData.tags || [],
+    liked: true // Assuming this boolean is passed, set to true for testing
+  };
 
 handleVideoInterestInput(videoInterestEntry);
       // Add user ID to the likes subcollection to record the like

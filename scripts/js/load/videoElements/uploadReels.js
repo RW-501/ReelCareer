@@ -217,7 +217,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         searchableVideoResumeTitle: searchableVideoResumeTitle,
 
         verified: userDataSaved.verified || '',
-        position: userDataSaved.position || '',
+        rating: userDataSaved.rating || '',
+        
         tags: tags || [],
         videoResumeCaptions: videoData.videoResumeCaptions,
         videoResumeTitle: videoData.videoResumeTitle,
