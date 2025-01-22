@@ -179,7 +179,7 @@ if (progress !== null) {
     setTimeout(() => {
       // If there are other toasts in the queue, show the next one
       if (toastQueue.length > 0) {
-        processNextToast(toastKey);
+        processNextToast(toastKey, toast);
       }
 
     }, duration + 300); // Allow 0.3s for fade-out animation
@@ -188,7 +188,7 @@ if (progress !== null) {
 
   window.showToast = showToast;
 
-  function processNextToast(toastKey) {
+  function processNextToast(toastKey, toast) {
     // Remove the completed toast from activeToasts
     activeToasts.delete(toastKey);
 
@@ -234,7 +234,7 @@ if (progress !== null) {
 
   // Function to dismiss toast manually
   function dismissToast(button) {
-    const toast = button.closest('.toast');
+    const toast = button.closest('.mainShowToast');
     if (toast) {
       toast.style.opacity = '0';
       toast.style.transform = 'translateY(20px)';
