@@ -278,13 +278,15 @@ function insertSidePanelContent() {
 
         const updateButtonTextVisibility = () => {
           const mainContent = document.getElementById("main-content");
+          const sidePanelGroup = document.getElementById("side-panel-group");
 
             const isMobile = window.innerWidth <= 768;
-
+            
             if (sidePanel.style.display !== 'none' && isMobile) {
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
+              sidePanelGroup.style.display = 'grid';
 
             }else {
 
