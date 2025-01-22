@@ -364,7 +364,7 @@ chatInput.addEventListener('keydown', (event) => {
     console.log("currentUrl   ",currentUrl);
 
     if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
-      const mainContent = document.getElementById("main-content");
+      const mainContent = document.getElementById("chat-bot-area");
       const closeChatBtn = document.getElementById("close-chat");
 
       if (mainContent) {
