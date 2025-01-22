@@ -84,7 +84,7 @@ function insertSidePanelContent() {
 
         <div id="search-section" class="side-panel-popout">
           <h4>Search</h4>
-          <input type="text" id="search-input" placeholder="Search videos..." aria-label="Search"  />
+          <input type="text" id="side-panel-search-input" placeholder="Search videos..." aria-label="Search"  />
           <h5>Suggestions</h5>
 
           <div class="side-panel-content">
@@ -261,7 +261,7 @@ function insertSidePanelContent() {
         });
 
         // Search and filter functionality
-        const searchInput = document.getElementById("search-input");
+        const searchInput = document.getElementById("side-panel-search-input");
         let connectionType = "";
       
         searchInput.addEventListener("input", (e) => {
@@ -381,7 +381,7 @@ function insertSidePanelContent() {
 
 
 /* Basic Styling */
-#search-input {
+#side-panel-search-input {
   width: 300px;  /* Adjust to desired width */
   padding: 10px 15px;
   font-size: 16px;
@@ -394,18 +394,18 @@ function insertSidePanelContent() {
 }
 
 /* Focus Styling */
-#search-input:focus {
+#side-panel-search-input:focus {
   border-color: #007BFF; /* Border turns blue when focused */
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add subtle glow effect */
 }
 
 /* Hover Styling */
-#search-input:hover {
+#side-panel-search-input:hover {
     border: #89bdda solid;
 }
 
 /* Placeholder Styling */
-#search-input::placeholder {
+#side-panel-search-input::placeholder {
   color: #aaa;  /* Lighter placeholder text */
   font-style: italic;  /* Slightly italic placeholder */
 }
@@ -448,7 +448,7 @@ function insertSidePanelContent() {
 
 
 
-#search-input {
+#side-panel-search-input {
   transform: scale(0.98); /* Slight shrinking effect when clicked */
     border: #89bdda solid;
       box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
@@ -566,7 +566,7 @@ margins: auto;
   }
 
 
-#search-input {
+#side-panel-search-inputearch-input {
     background: black;
     }
 
