@@ -239,8 +239,8 @@ function insertSidePanelContent() {
           
           document.getElementById('btn-search').addEventListener('click', () => {
 
-            if(searchSection.style.display == "block"){
-              searchSection.style.display == "none"
+            if(searchSection.style.display === "block"){
+              searchSection.style.display = "none"
               isSectionOpen = false;
 
             }else{
@@ -251,8 +251,8 @@ function insertSidePanelContent() {
           });
           
           document.getElementById('btn-connection').addEventListener('click', () => {
-            if(connectionSection.style.display == "block"){
-              connectionSection.style.display == "none"
+            if(connectionSection.style.display === "block"){
+              connectionSection.style.display = "none"
               isSectionOpen = false;
 
             }else{
@@ -262,8 +262,8 @@ function insertSidePanelContent() {
           });
 
           document.getElementById('btn-location').addEventListener('click', () => {
-            if(locationSection.style.display == "block"){
-              locationSection.style.display == "none"
+            if(locationSection.style.display === "block"){
+              locationSection.style.display = "none"
               isSectionOpen = false;
 
             }else{
