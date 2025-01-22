@@ -203,7 +203,7 @@ function insertSidePanelContent() {
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
         document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
         document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
-        document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/views/faq');
+        document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
 
         document.addEventListener('DOMContentLoaded', () => {

@@ -52,7 +52,7 @@ function updateFooter() {
           "order": 6
       },
       {
-          "url": "/https://reelcareer.co/faq",
+          "url": "/faq",
           "name": "FAQs",
           "title": "Frequently Asked Questions - Get Answers to Common Queries",
           "category": "Support",
