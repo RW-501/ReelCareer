@@ -8,7 +8,7 @@ function addBreadcrumbsSchema() {
         { url: "/views/contact", name: "Contact Us" },
         { url: "/views/blogs", name: "Blogs" },
         { url: "/views/news", name: "News" },
-        { url: "/views/faq", name: "FAQs" },
+        { url: "/https://reelcareer.co/faq", name: "FAQs" },
         { url: "/views/referral", name: "Affiliate Program" },
         { url: "/views/Personality-&-Trait-Tests", name: "Personality & Trait Tests" },
         { url: "/backend/dashboard", name: "Admin" },
