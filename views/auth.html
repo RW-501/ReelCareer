@@ -276,10 +276,7 @@ min-width: 500px;
     
     
 
-       <!-- Bootstrap JS and dependencies -->
-       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    
+       
     <nav>
 
     </nav>
@@ -430,8 +427,6 @@ function toggleForms() {
     }
 }
 
-// Call the function to toggle forms when the page loads
-document.addEventListener('DOMContentLoaded', toggleForms);
 
         // Toggle forms
         document.getElementById('show-login').addEventListener('click', function(event) {
@@ -499,6 +494,8 @@ document.addEventListener('DOMContentLoaded', toggleForms);
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+// Call the function to toggle forms when the page loads
+document.addEventListener('DOMContentLoaded', toggleForms);
 
 
 

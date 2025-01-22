@@ -588,8 +588,15 @@ function closePopupLogin() {
 window.openPopupLogin = openPopupLogin;
 window.closePopupLogin = closePopupLogin;
 
+const currentUrl = window.location.href;
+
+if (currentUrl !== "https://reelcareer.co/views/auth"){
+
 // Initialize the popup when the page loads
 createPopupLogin();
+
+}
+
 
 // Example call to open the popup from anywhere in main.js
 // openPopupLogin();

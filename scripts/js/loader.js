@@ -49,10 +49,12 @@ const loadedScripts = new Set();
  * Stores the current page's path for conditional script loading.
  */
 const currentPath = window.location.pathname;
+const currentUrl = window.location.href;
 
 
 if(DEBUG === true){
     console.log(`CurrentPath: ${currentPath}`);
+    console.log("currentUrl   ",currentUrl);
 
 }
 /**
@@ -212,6 +214,8 @@ function preLoadPageScripts() {
 
     loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: false }, () => {
         logExecutionTime('ecode Script', performance.now());
+       
+       
 
         loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false, type: 'module' }, () => {
             logExecutionTime('auth Script', performance.now());
