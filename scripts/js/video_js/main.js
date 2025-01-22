@@ -126,7 +126,7 @@ function handleComments(docId, commentsBtn) {
         totalWatchTime += elapsed;  // Add to total watch time
         sessionStartTime = null;  // Reset session start
 
-        updateUserVideoWatchTime(totalWatchTime);
+        updateUserVideoWatchTime(totalWatchTime / 2);
 
       }
     }
