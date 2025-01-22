@@ -243,9 +243,9 @@ function insertSidePanelContent() {
               searchSection.style.display = "none"
               isSectionOpen = false;
 
-            }else{
-              togglePopout(searchSection);
             }
+              togglePopout(searchSection);
+            
             toggleButtonActive(document.getElementById('btn-search'));
 
           });
@@ -255,9 +255,10 @@ function insertSidePanelContent() {
               connectionSection.style.display = "none"
               isSectionOpen = false;
 
-            }else{
-              togglePopout(connectionSection);
             }
+            
+              togglePopout(connectionSection);
+            
             toggleButtonActive(document.getElementById('btn-connection'));
           });
 
@@ -266,9 +267,9 @@ function insertSidePanelContent() {
               locationSection.style.display = "none"
               isSectionOpen = false;
 
-            }else{
-              togglePopout(locationSection);
             }
+              togglePopout(locationSection);
+            
             toggleButtonActive(document.getElementById('btn-location'));
 
           });
