@@ -592,7 +592,7 @@ function insertSidePanelContent() {
       box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
 }
 
-#side-panel-menu {
+.side-panel-menu {
     font: menu;
         color: white;
 
