@@ -150,11 +150,16 @@ querySnapshot.forEach((doc) => {
             reelID: data.reelID,
             videoResumeURL: data.videoResumeURL,
             videoResumeTitle: data.videoResumeTitle,
+            thumbnailURL: data.thumbnailURL,
             reported: data.reported,
             isPinned: data.isPinned,
             isPublic: data.isPublic,
             isSponsoredPost: data.isSponsoredPost,
             views: data.views,
+            reach: data.reach,
+            rating: data.rating,
+            duration: data.duration,
+            timestamp: data.timestamp,
             watchTime: data.watchTime,
             tags: data.tags || [],  // Default to empty array if no tags
             gifts: data.gifts || [],  // Default to empty array if no gifts
