@@ -4,10 +4,10 @@ let lastVisibleDoc = null;
 let searchingByTag = false; 
 const currentPath = window.location.pathname;
 
+const sidePanel = document.getElementById('main-side-panel');
 
 
 function insertSidePanelContent() {
-    const sidePanel = document.getElementById('main-side-panel');
     if (sidePanel) {
       sidePanel.innerHTML = `
         <nav id="side-nav" aria-label="Side Navigation">
@@ -289,19 +289,28 @@ function insertSidePanelContent() {
 
             const isMobile = window.innerWidth <= 768;
             
-            if (sidePanel.style.display !== 'none' && isMobile) {
+            if (isMobile) {
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = 'inline';
               });
               mainContent.style.width = '100%';
               sidePanelGroup.style.display = 'grid';
 
-            }else if(isSectionOpen) {
-
-
+            }else{
               document.querySelectorAll('.btn-text').forEach((text) => {
                 text.style.display = isMobile ? 'none' : 'inline';
               });
+              mainContent.style.width = '100%';
+
+
+
+
+             if(isSectionOpen) {
+
+
+             }
+
+
 
             }
 
@@ -313,8 +322,6 @@ function insertSidePanelContent() {
         }
 
  
-  
-  document.addEventListener('DOMContentLoaded', insertSidePanelContent);
   
   const styleElement = document.createElement('style');
   styleElement.textContent = `
@@ -636,9 +643,20 @@ margins: auto;
 
       }
   `;
-  document.head.appendChild(styleElement);
+
+
+
+
+  if(sidePanel){
+
+    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+  
+    document.head.appendChild(styleElement);
   
 
+
+  }
+ 
 
 
 
