@@ -213,7 +213,7 @@ function insertSidePanelContent() {
           button.classList.add('active');
       
           // Close or hide all .side-nav-item divs
-          const allSideNavItems = document.querySelectorAll('.side-nav-item div');
+          const allSideNavItems = document.querySelectorAll('.side-nav-item');
           allSideNavItems.forEach(item => {
               item.style.display = 'none';  // Hide all side-nav-item divs
           });
@@ -227,7 +227,6 @@ function insertSidePanelContent() {
       
 
           document.getElementById('btn-menu').addEventListener('click', () => {
-            togglePopout(searchSection);
             toggleButtonActive(document.getElementById('btn-menu'));
 
           });
