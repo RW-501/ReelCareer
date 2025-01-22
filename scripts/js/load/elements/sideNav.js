@@ -150,7 +150,8 @@ function insertSidePanelContent() {
       `;
     }
     
-  
+    let isSectionOpen = false;
+
     
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
@@ -172,7 +173,6 @@ function insertSidePanelContent() {
         const connectionSection = document.getElementById('connection-section');
         const locationSection = document.getElementById('location-section');
 
-        let isSectionOpen = false;
       
         // Add listeners for showing/hiding sections
         const togglePopout = (section) => {
