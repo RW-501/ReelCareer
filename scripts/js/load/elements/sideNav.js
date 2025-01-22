@@ -11,12 +11,15 @@ function insertSidePanelContent() {
     if (sidePanel) {
       sidePanel.innerHTML = `
         <nav id="side-nav" aria-label="Side Navigation">
-          <div class="side-panel-search">
-           <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
+          <div class="side-panel-menu">
+           <button id="btn-menu" class="side-nav-button"> <i id="menu-icon" class="fas fa-bar bar-icon"></i><span class="btn-text"> Menu</span></button>
           </div>
 
           <div id="side-panel-group">
 
+          <div class="side-nav-list">
+           <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
+          </div>
 
           <ul class="side-nav-list">
             <li class="side-nav-item">
@@ -180,6 +183,21 @@ function insertSidePanelContent() {
           isSectionOpen = true;
 
           updateButtonTextVisibility();
+
+          
+          document.querySelectorAll('.side-nav-item').forEach((item) => {
+
+            if(item.style.display = 'none'){
+              
+              item.style.display = 'block';
+
+            }
+
+
+            
+          });
+
+          
         };
       
 
@@ -188,10 +206,18 @@ function insertSidePanelContent() {
             allButtons.forEach(btn => btn.classList.remove('active'));  // Remove 'active' from all buttons
             button.classList.add('active');  // Add 'active' to the clicked button
           }
+
+          document.getElementById('btn-menu').addEventListener('click', () => {
+            togglePopout(searchSection);
+            toggleButtonActive(document.getElementById('btn-menu'));
+
+          });
+          
           
           document.getElementById('btn-search').addEventListener('click', () => {
             togglePopout(searchSection);
             toggleButtonActive(document.getElementById('btn-search'));
+
           });
           
           document.getElementById('btn-connection').addEventListener('click', () => {
