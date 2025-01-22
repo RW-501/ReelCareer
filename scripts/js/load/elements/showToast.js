@@ -189,7 +189,7 @@ function processNextToast(toastKey) {
     toast.remove();
 
     const nextToastObject = toastQueue.shift();
-    const { element, toastKey } = nextToastObject; // Destructure the object
+    let { element, toastKey } = nextToastObject; // Destructure the object
     
 
 
