@@ -938,19 +938,19 @@ anonymousCheckbox.addEventListener("change", () => {
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
+setTimeout(() => {
 
 // Event listener for the Report Obituary button
 document.getElementById('report-obituary-btn').addEventListener('click', () => {
   const reasons = prompt("Please enter the reason for reporting this obituary:");
   if (reasons) {
       // Timeout of 1 second before reporting the obituary
-      setTimeout(() => {
           reportObituary(reasons);
-      }, 1000); // 1000 milliseconds = 1 second
   } else {
       showToast("Report canceled. No reason provided.", "info");
   }
 });
+}, 1000); // 1000 milliseconds = 1 second
 
 // Function to handle reporting an obituary
 async function reportObituary(reason) {
