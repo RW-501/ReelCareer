@@ -12,9 +12,6 @@ import {
 
 
 
-import {
-  
-} from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
 
 let userINFO;
