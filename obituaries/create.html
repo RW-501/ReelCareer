@@ -1705,7 +1705,7 @@ document.querySelectorAll('#notableContributionsArea input').forEach(input => {
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
-        const userID = auth.currentUser.uid;  
+        const userId = auth.currentUser.uid;  
 
         // Sanitize inputs
         name = name.replace(/[^a-zA-Z0-9 ]/g, '');
