@@ -171,6 +171,24 @@ function insertSidePanelContent() {
     }
   });
 
+
+
+  window.addEventListener("scroll", (event) => {
+    const targetElement = event.target;
+  
+    // Check if the scroll event occurred outside of the sidePanel or #side-nav
+    const isScrollOutside = !sidePanel.contains(targetElement) && !targetElement.closest('#side-nav');
+  
+    if (isScrollOutside && sidePanel.style.display !== 'none') {
+      // Hide all popouts when the scroll happens outside the sidePanel
+      const allPopouts = document.querySelectorAll('.side-panel-popout');
+      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+      isSectionOpen = false; // Update the section state
+      updateButtonTextVisibility(); // Update UI button visibility if needed
+    }
+  });
+  
+
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
