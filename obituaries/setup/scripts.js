@@ -107,7 +107,7 @@ async function loadPageOwnerUserInfo(pageOwnerUser) {
             <div class="user-info-right">
               <div class="user-details">
                 <div class="name-badge">
-                  <a href="${userData.profileURL || '#'}" aria-label="View ${userData.displayName || 'User'}'s profile">
+                  <a href="https://reelcareer.co/u/?u=${userData.userID || '#'}" aria-label="View ${userData.displayName || 'User'}'s profile">
                     <h3 class="user-name">
                       ${userData.displayName || 'Anonymous'}
                     </h3>
