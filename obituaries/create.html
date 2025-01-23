@@ -1822,76 +1822,64 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
 
         // Add transaction details to Firestore
- const transcationsRef = collection(db, `A_Transactions`, `Create_${pageID}`);
-      await addDoc(transactionsRef, {
-  pageID: pageID,
-  url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
-  pageName: pageName,
-  transactionType: "create_Page",
-  note: `Create Page: ${pageID}`,
-  userID: userID,
-  userIP: userIP,
-  paymentDetails: paypalDetails,  // Use the payment details from PayPal response
-  amount: amountToPay,
-  fee: amountToPay * 0.10,  // 10% service fee
-  netAmount: amountToPay - (amountToPay * 0.10),  // Net amount after fee
-  status: "complete",
-  timestamp: serverTimestamp(),
-  createdDate: new Date().toISOString(),
-});
+  // Add transaction details to Firestore
+  const transactionsRef = collection(db, 'A_Transactions'); // Correctly point to the collection
+    await addDoc(transactionsRef, {
+        pageID: pageID,
+        url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+        pageName: pageName,
+        transactionType: "create_Page",
+        note: `Create Page: ${pageID}`,
+        userID: userID,
+        userIP: userIP,
+        paymentDetails: paypalDetails, // Use the payment details from PayPal response
+        amount: amountToPay,
+        fee: +(amountToPay * 0.10).toFixed(2), // 10% service fee (fixed to 2 decimal places)
+        netAmount: +(amountToPay - (amountToPay * 0.10)).toFixed(2), // Net amount after fee
+        status: "complete",
+        timestamp: serverTimestamp(),
+        createdDate: new Date().toISOString(),
+    });
 
+    console.log("Page creation transaction added successfully.");
 
-// Referral logic - Get the referrer and reward
-const referralReward = 5;
-const timestamp = new Date().toISOString();
-
-// Get the referrer’s userID from UserReferral collection
-const userReferralDocRef = doc(db, 'UserReferral', userID);
-const userReferralDoc = await getDoc(userReferralDocRef);
-
-if (userReferralDoc.exists()) {
+    // Referral logic - Get the referrer and reward
+    const referralReward = 5;
     const userReferralDocRef = doc(db, 'UserReferral', userID);
-const userReferralDoc = await getDoc(userReferralDocRef);
+    const userReferralDoc = await getDoc(userReferralDocRef);
 
-if (userReferralDoc.exists()) {
-    const userReferralData = userReferralDoc.data();
-    const referredUserID = userReferralData.referredBy;
-    const referMembershipBool = userReferralData.referMembershipBool;
-    const referObituariesBool = userReferralData.referObituariesBool;
+    if (userReferralDoc.exists()) {
+        const userReferralData = userReferralDoc.data();
+        const referredUserID = userReferralData.referredBy;
 
+        // Process referral reward only if referObituariesBool is 'pending' and type is 'joined'
+        if (userReferralData.referObituariesBool === 'pending' && userReferralData.referType === 'joined') {
+            const referralTransaction = {
+                userID: referredUserID,
+                userIP: userIP,
+                transactionType: "referral_credit",
+                amount: referralReward,
+                note: `Obituaries Referral Credit: Referred by ${userID}`,
+                fee: +(referralReward * 0.10).toFixed(2), // 10% referral fee
+                netAmount: +(referralReward - (referralReward * 0.10)).toFixed(2),
+                status: "active",
+                timestamp: serverTimestamp(),
+                createdDate: new Date().toISOString(),
+            };
 
-    // Check if the user was referred and the referral type is 'joined'
-    if (userReferralData.referObituariesBool === 'pending' && userReferralData.referType === 'joined') {
-        // Add the referral reward for the referrer
-        await addDoc(collection(db, "A_Transactions"), {
-            userID: referredUserID,  // The user receiving the referral reward
-            userIP: userIP,
-            transactionType: "referral_credit",  // Type of transaction (referral credit)
-            amount: referralReward,  // Referral reward amount
-            note: `Obituaries Referral Credit: Referred by ${userID}`,  // Description of the transaction
-            fee: referralReward * 0.10,  // Optional fee for referral (10% in this case)
-            netAmount: referralReward - (referralReward * 0.10),  // Net amount after fee deduction
-            status: "active",  // Status indicating the transaction is active
-            timestamp: serverTimestamp(),  // Current timestamp of the transaction
-            createdDate: new Date().toISOString(),  // ISO formatted date for the creation of the transaction record
-        });
+            // Add the referral reward transaction
+            await addDoc(collection(db, "A_Transactions"), referralTransaction);
 
-        let newStatus;
+            // Update referral status
+            const newStatus = userReferralData.referMembershipBool === 'active' ? "complete" : "pending";
+            await updateDoc(userReferralDocRef, {
+                referObituariesBool: 'active',
+                status: newStatus,
+            });
 
-        if (userReferralData.referMembershipBool === 'active') {
-            newStatus = "complete";
-        }
-
-
-        // Update referObituariesBool to 'active' once the referral reward has been processed
-        await updateDoc(userReferralDocRef, {
-            referObituariesBool: 'active',  // Mark the referral as complete
-            status: newStatus  
-
-        });
         
         console.log("Referral reward processed and referObituariesBool updated to active.");
-    }
+    
 } else {
     console.log("No referral data found for the user.");
 }
