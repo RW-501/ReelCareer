@@ -75,8 +75,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const videoCard = document.createElement("div");
       videoCard.className = "video-post";
       videoCard.id = `video-${docId}`;
+      videoCard.dataset.videoId = docId; // Add dataset attribute
 
       videoCard.dataset.docId = docId; // Add dataset attribute
+
+      
       videoCard.dataset.thumbnailURL = videoData.thumbnailURL || "";
       videoCard.dataset.reelURL = videoData.reelURL || "";
       videoCard.dataset.videosrc = videoData.videoResumeURL || "";
@@ -84,7 +87,6 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.searchableVideoResumeTitle = videoData.searchableVideoResumeTitle || "";
       videoCard.dataset.videoResumeTitle = videoData.videoResumeTitle || "";
 
-      videoCard.dataset.videoId = docId; // Add dataset attribute
       videoCard.dataset.reelCategories = videoData.reelCategories;
       videoCard.dataset.relatedProductsBool = videoData.relatedProductsBool;
       videoCard.dataset.isBoostedPost = videoData.isBoostedPost;
