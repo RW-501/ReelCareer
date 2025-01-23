@@ -471,27 +471,78 @@ populateSidePanelContacts(connectedUserData);
 
             if (filteredData.length > 0) {
                 filteredData.forEach(videoData => {
-                    videoDataArray.push({
-                        id: videoData.id || '',
-                        userID: videoData.userID || '',
-                        createdByID: videoData.createdByID || '',                       
-                         profilePicture: videoData.profilePicture || '',
-                        displayName: videoData.displayName || '',
-                        rating: videoData.rating || '',
-                        location: videoData.location || '',
-                        verified: videoData.verified || false,
-                        duration: videoData.duration || 0,
-
-                        likes: videoData.likes || 0,
-                        loves: videoData.loves || 0,
-                        views: videoData.views || 0,
-                        profileURL: videoData.profileURL || '',
-                        thumbnailURL: videoData.thumbnailURL || '',
-                        videoResumeURL: videoData.videoResumeURL || '',
-                        videoResumeCaptions: videoData.videoResumeCaptions || '',
-                        tags: videoData.tags || [],
-                        timestamp: videoData.timestamp || ''
-                    });
+                  videoDataArray.push({
+        // User and Profile Information
+        id: videoData.id || '',
+        userID: videoData.userID || '',
+        reelID: videoData.reelID || '',
+        reelURL: videoData.reelURL || '',
+        createdByID: videoData.createdByID || '',
+        profilePicture: videoData.profilePicture || '',
+        displayName: videoData.displayName || '',
+        rating: videoData.rating || 0,
+    
+        // Location Information
+        location: videoData.location || '',
+        state: videoData.state || '',
+        zip: videoData.zip || '',
+        city: videoData.city || '',
+        country: videoData.country || '',
+    
+        // Verification and Stats
+        verified: videoData.verified ?? false,  // Default to false if undefined
+        duration: videoData.duration || 0,
+        likes: videoData.likes || 0,
+        loves: videoData.loves || 0,
+        views: videoData.views || 0,
+        profileURL: videoData.profileURL || '',
+        thumbnailURL: videoData.thumbnailURL || '',
+        videoResumeTitle: videoData.videoResumeTitle || '',
+        videoResumeURL: videoData.videoResumeURL || '',
+        videoResumeCaptions: videoData.videoResumeCaptions || '',
+        tags: videoData.tags || [],
+        timestamp: videoData.timestamp || '',
+        
+        // Engagement and Reach Stats
+        engagements: videoData.engagegments || 0,
+        reach: videoData.reach || 0,
+        relatedProducts: videoData.relatedProducts || [],
+        reported: videoData.reported || 0,
+        shares: videoData.shares || 0,
+        shortList: videoData.shortList || 0,
+        saved: videoData.saved || 0,
+    
+        // Related Content
+        endingCard: videoData.endingCard || '',
+        relatedReels: videoData.relatedReels || [],
+        relatedURL: videoData.relatedURL || '',
+        searchableVideoResumeTitle: videoData.searchableVideoResumeTitle || [],
+        uniqueViews: videoData.uniqueViews || 0,
+        repeatViews: videoData.repeatViews || 0,
+        videoPlacement: videoData.videoPlacement || [],
+        watchTime: videoData.watchTime || '',
+    
+        // Interactive Settings
+        commentsBool: videoData.commentsBool ?? true,
+        giftsBool: videoData.giftsBool ?? true,
+        isPublic: videoData.isPublic ?? true,
+        likesBool: videoData.likesBool ?? true,
+        locationBool: videoData.locationBool ?? true,
+        lovesBool: videoData.lovesBool ?? true,
+        viewsBool: videoData.viewsBool ?? true,
+    
+        // Post Settings
+        endingCardBool: videoData.endingCardBool ?? false,
+        isBoostedPost: videoData.isBoostedPost ?? false,
+        isDeleted: videoData.isDeleted ?? false,
+        isPinned: videoData.isPinned ?? false,
+        isPinnedReelCareer: videoData.isPinnedReelCareer ?? false,
+        isSponsoredPost: videoData.isSponsoredPost ?? false,
+        notificationsBool: videoData.notifcationsBool ?? false,
+        relatedProductsBool: videoData.relatedProductsBool ?? false,
+        relatedURLBool: videoData.relatedURLBool ?? false,
+    });
+  
                 });
                 console.log("Filtered and processed video data:", videoDataArray);
                 renderVideos(videoDataArray, videoContainer, connectedUserIds, userId);

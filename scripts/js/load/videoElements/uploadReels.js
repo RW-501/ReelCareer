@@ -201,34 +201,37 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         //  showToast("Please add at least two hashtags.");
        //   return;
       }
-  
-    const videoResumeData = {
-        createdByID: userID,
+      const videoResumeData = {
+        // User and Profile Information
+        createdByID: userID || '',  // Ensure userID is always defined
         displayName: userDataSaved.displayName || '',
-        publicProfile: userDataSaved.publicProfile || true,
+        publicProfile: userDataSaved.publicProfile ?? true,  // Default to true if null/undefined
         profilePicture: userDataSaved.profilePicture || '',
         profileURL: `https://reelcareer.co/u/?u=${userID}`,
         membershipType: userDataSaved.membershipType || 'free',
+        
+        // Location Information
         location: `${userlocationData.city || ''}, ${userlocationData.state || ''}`,
         city: userlocationData.city || '',
         state: userlocationData.state || '',
         country: userlocationData.country || '',
         zip: userlocationData.zip || '',
-        searchableVideoResumeTitle: searchableVideoResumeTitle,
-
-        verified: userDataSaved.verified || '',
-        rating: 0,
-
-        tags: tags || [],
-        videoResumeCaptions: videoData.videoResumeCaptions,
-        videoResumeTitle: videoData.videoResumeTitle,
+    
+        // Video Resume Information
+        searchableVideoResumeTitle: searchableVideoResumeTitle || '',
+        videoResumeCaptions: videoData.videoResumeCaptions || '',
+        videoResumeTitle: videoData.videoResumeTitle || '',
         thumbnailURL: videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
-        videoResumeURL,
-        videoResumeFileName: videoData.name,
-        duration: videoData.duration,
-        fileType: videoData.fileType,
-        createdAt: createdAtDate,
+        videoResumeURL: videoData.videoResumeURL || '',
+        videoResumeFileName: videoData.name || '',
+        duration: videoData.duration || 0,
+        fileType: videoData.fileType || '',
+        
+        // Timestamp Information
+        createdAt: createdAtDate || null,  // Default to null if not provided
         timestamp: serverTimestamp(),
+        
+        // Engagement and Stats Information
         views: 0,
         uniqueViews: 0,
         shares: 0,
@@ -240,41 +243,55 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         relatedURLBool: false,
         relatedURL: '',
         repeatViews: 0,
-
-        relatedReels: relatedReels,
-        reelCatagories: [],
-        reelResume: [],
-
+        
+        // Related Content
+        relatedReels: relatedReels || [],
+        reelCategories: [],  // Empty array by default
+        reelResume: [],  // Empty array by default
+    
+        // Products & Comments
         relatedProductsBool: false,
         relatedProducts: [],
-
         watchTime: 0,
-        engagegments: 0,
+        engagements: 0,
         reach: 0,
         reported: 0,
         
+        // Interaction Data
         comments: 0,
         shortList: 0,
         saved: 0,
-        notifcationsBool: false,
-
+        notificationsBool: false,
+        
+        // Reel Settings
         isPinned: false,
         isPinnedReelCareer: false,
         commentsBool: true,
         locationBool: true,
         videoPlacement: [],
-
+        
+        // Post Settings
         giftsBool: true,
         viewsBool: true,
         likesBool: true,
         lovesBool: true,
-
         isPublic: true,
         isBoostedPost: false,
         isSponsoredPost: false,
         status: 'draft',
         isDeleted: false,
     };
+    
+
+
+
+
+
+
+
+
+
+    
 let reelID = '';
 
    // console.log("videoResumeData: ", videoResumeData);

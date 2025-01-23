@@ -87,12 +87,19 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.videoId = docId; // Add dataset attribute
       videoCard.dataset.reelCategories = videoData.reelCategories;
       videoCard.dataset.relatedProductsBool = videoData.relatedProductsBool;
+      videoCard.dataset.isBoostedPost = videoData.isBoostedPost;
+      videoCard.dataset.isSponsoredPost = videoData.isSponsoredPost;
+
+      videoCard.dataset.relatedURLBool = videoData.relatedURLBool;
+      videoCard.dataset.endingCardBool = videoData.endingCardBool;
+
+
       videoCard.dataset.tags = videoData.tags || ""; // For search functionality
       videoCard.dataset.displayName = videoData.displayName || "";
       videoCard.dataset.isConnected = videoData.isConnected || "";
 
 
-
+      
 
 
 
