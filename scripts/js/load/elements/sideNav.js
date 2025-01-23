@@ -1,4 +1,21 @@
 
+
+
+import {
+  db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+where, getDocs, storage, getAuth, collection, auth, analytics,
+googleProvider,onSnapshot ,
+facebookProvider,
+getUserId // Export the function
+} from 'https://reelcareer.co/scripts/js/load/module.js';
+
+
+
 let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false; 
@@ -350,6 +367,32 @@ function insertSidePanelContent() {
       });
       
        
+
+
+
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          const allUserBtns = document.querySelectorAll('.side-user-btn');
+          allUserBtns.forEach((btns) => {
+            if (btns) btns.style.display = 'none';
+          });
+      
+          const joinArea = document.getElementById('btn-join-area');
+          if (joinArea) joinArea.style.display = 'block';
+        } else {
+          const joinArea = document.getElementById('btn-join-area');
+          if (joinArea) joinArea.style.display = 'none';
+        }
+      });
+
+
+
+
+
+
+
+
+
         document.getElementById('btn-join').addEventListener('click', () => {
 
       openPopupLogin();

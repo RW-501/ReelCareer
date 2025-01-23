@@ -392,7 +392,6 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
       videoResumeData: sortedAndLimitedData
     };
 
-    // console.log("userData   ",userData);
 
 
     const userDocRef = doc(db, "Users", userDataSaved.userID);

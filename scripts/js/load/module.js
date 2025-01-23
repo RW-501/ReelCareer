@@ -144,7 +144,7 @@ const facebookProvider = new FacebookAuthProvider();
 
 import { } from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
-import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
+//import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
 import {  } from 'https://reelcareer.co/scripts/js/load/elements/observer.js';
 
 // Export Firestore, Storage, and Auth instances for use in other modules
