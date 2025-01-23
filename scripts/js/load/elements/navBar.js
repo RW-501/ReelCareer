@@ -167,7 +167,7 @@ const lastUpdateDate = new Date((lastUpdateTimestamp.seconds * 1000) + (lastUpda
 if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
   console.log("updating user:", user.displayName);
 
-  //   saveUserLoginState(user); // Save user state
+     saveUserLoginState(user); // Save user state
 }
 
       
