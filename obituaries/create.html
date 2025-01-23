@@ -1726,6 +1726,7 @@ document.querySelectorAll('#notableContributionsArea input').forEach(input => {
         if (mainPhoto) {
     // Handle save functionality with image transformations applied
     const canvas = updateImageStylesAndCreateCanvas();
+    const userID = auth.currentUser.uid;  
 
     // Convert canvas to Blob
     const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
