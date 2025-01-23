@@ -339,7 +339,7 @@ footer p {
 
 
 #mainPhoto {
-    background-color: gainsboro;
+    background: gainsboro;
 }
 
 
@@ -347,7 +347,19 @@ footer p {
 
 
 
+video {
+    background: gainsboro;
+}
 
+
+
+
+#dynamic-userInfo {
+    background: gainsboro;
+    border-radius: 5px;
+    outline: double;
+    outline-color: #a3a3a3;
+}
 
 
 
