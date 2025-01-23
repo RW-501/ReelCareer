@@ -202,7 +202,7 @@ function insertSidePanelContent() {
       const allPopouts = document.querySelectorAll('.side-panel-popout');
       allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
       isSectionOpen = false; // Update the section state
-      updateButtonTextVisibility(); // Update UI button visibility if needed
+      updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
     }
   });
   
@@ -414,7 +414,7 @@ function insertSidePanelContent() {
           }
         });
 
-        const updateButtonTextVisibility = () => {
+        const updateButtonTextVisibility = (scroll) => {
           const mainContent = document.getElementById("main-content");
           const mainSidePanel = document.getElementById("main-side-panel");
           const sidePanelGroup = document.getElementById("side-panel-group");
@@ -468,16 +468,44 @@ function insertSidePanelContent() {
                   text.style.display = 'none';
                 });
               }else{
-                menuBtn.style.display = 'block';
+
+                if(scroll === 'scroll'){
+                  menuBtn.style.display = 'none';
               
-                sideNavList.style.display = 'block';
+                  sideNavList.style.display = 'block';
+                
+                  mainSidePanel.style.width = '39%';
+                  mainContent.style.width = '59%';
+                  sidePanelGroup.style.display = 'block';
+                  document.querySelectorAll('.btn-text').forEach((text) => {
+                    text.style.display = 'none';
+                  });
+
+                }else{
+
+                  menuBtn.style.display = 'none';
               
-                mainSidePanel.style.width = '39%';
-                mainContent.style.width = '59%';
-                sidePanelGroup.style.display = 'block';
-                document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'inline';
-                });
+                  sideNavList.style.display = 'block';
+                
+                  mainSidePanel.style.width = '39%';
+                  mainContent.style.width = '59%';
+                  sidePanelGroup.style.display = 'block';
+                  document.querySelectorAll('.btn-text').forEach((text) => {
+                    text.style.display = 'inline';
+                  });
+  
+  
+  
+
+
+                }
+
+
+
+
+
+
+
               }
 
              
