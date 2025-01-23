@@ -430,6 +430,7 @@ function insertSidePanelContent() {
               if(isSectionOpen){
 
                 menuBtn.style.display = 'block';
+                menuBtnText.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -443,7 +444,7 @@ function insertSidePanelContent() {
        
               if(action === 'scroll'){
                 menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'block';
+                menuBtnText.style.display = 'none';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -458,7 +459,7 @@ function insertSidePanelContent() {
               }else{
 
                 menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'block';
+                menuBtnText.style.display = 'none';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -479,6 +480,8 @@ function insertSidePanelContent() {
               if(isSectionOpen){
 
                 menuBtn.style.display = 'none';
+                menuBtnText.style.display = 'none';
+
                 sideNavList.style.display = 'block';
               
                 mainSidePanel.style.width = '39%';
@@ -491,7 +494,8 @@ function insertSidePanelContent() {
 
                 if(action === 'scroll'){
                   menuBtn.style.display = 'block';
-              
+                  menuBtnText.style.display = 'block';
+
                   sideNavList.style.display = 'block';
                 
                   mainSidePanel.style.width = 'fit-content';
@@ -503,7 +507,8 @@ function insertSidePanelContent() {
 
                 }else if(action === 'click'){
                   menuBtn.style.display = 'block';
-              
+                  menuBtnText.style.display = 'block';
+
                   sideNavList.style.display = 'block';
                 
                   mainSidePanel.style.width = 'fit-content';
@@ -518,7 +523,8 @@ function insertSidePanelContent() {
                 }else {
 
                   menuBtn.style.display = 'none';
-              
+                  menuBtnText.style.display = 'none';
+
                   sideNavList.style.display = 'block';
                 
                   mainSidePanel.style.width = '39%';
