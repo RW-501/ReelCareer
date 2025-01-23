@@ -194,8 +194,9 @@ function insertSidePanelContent() {
     const targetElement = event.target;
   
     // Check if the scroll event occurred outside of the sidePanel or #side-nav
-    const isScrollOutside = !sidePanel.contains(targetElement) && !targetElement.closest('#side-nav');
-  
+    const isScrollOutside = !sidePanel.contains(targetElement);
+
+    
     if (isScrollOutside && sidePanel.style.display !== 'none') {
       // Hide all popouts when the scroll happens outside the sidePanel
       const allPopouts = document.querySelectorAll('.side-panel-popout');
