@@ -444,7 +444,7 @@ function insertSidePanelContent() {
        
               if(action === 'scroll'){
                 menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'none';
+                menuBtnText.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -459,7 +459,7 @@ function insertSidePanelContent() {
               }else{
 
                 menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'none';
+                menuBtnText.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
