@@ -494,7 +494,7 @@ function insertSidePanelContent() {
 
                 if(action === 'scroll'){
                   menuBtn.style.display = 'block';
-                  menuBtnText.style.display = 'block';
+                  menuBtnText.style.display = 'none';
 
                   sideNavList.style.display = 'block';
                 
