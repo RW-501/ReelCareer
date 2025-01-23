@@ -1512,6 +1512,8 @@ onAuthStateChanged(auth, async (user) => {
 }); 
 
    let pageID = '';  
+   let paypalDetails = '';
+   const amountToPay = 25;
 
 /**
  * Updates the user's profile with a new obituary page ID and name.
@@ -1633,7 +1635,7 @@ document.getElementById('preview-button').click();
         let portfolioLink = document.getElementById('portfolioLink').value.trim();
 
 
-
+        paypalDetails = details; 
         // To update the variables later, you can call the function again
 achievements = collectInputValues('#achievements');
 education = collectInputValues('#education');
@@ -1809,7 +1811,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
   note: `Create Page: ${pageID}`,
   userID: userID,
   userIP: userIP,
-  paymentDetails: details,  // Use the payment details from PayPal response
+  paymentDetails: paypalDetails,  // Use the payment details from PayPal response
   amount: amountToPay,
   fee: amountToPay * 0.10,  // 10% service fee
   netAmount: amountToPay - (amountToPay * 0.10),  // Net amount after fee
