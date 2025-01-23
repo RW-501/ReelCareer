@@ -327,6 +327,9 @@ function getUserVideoInterest() {
         .filter(term => term.length > 2 && isNaN(term)) // Filter terms that are too short or numeric
         .slice(0, 15); // Return only the top 15 interests based on rank
 
+
+        console.log('User Video Interests Json: ', JSON.stringify(filteredInterest));
+
     console.log('User Video Interests:', filteredInterest);
     return filteredInterest;
 }
