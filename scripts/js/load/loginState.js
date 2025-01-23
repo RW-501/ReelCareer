@@ -137,13 +137,16 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
     const { email, uid, emailVerified, displayName, phoneNumber, photoURL } = user;
 
 
-
+    
 
     const querySnapshot = await getDocs(reelsQuery);
-    querySnapshot.forEach((doc) => {
-      // Assuming the document contains the necessary fields: reelID, videoResumeURL, tags
-      const data = doc.data();
 
+   
+  
+    // Process each document from the query snapshot
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+    
       // Ensure videoResumeData is an array before pushing
       if (Array.isArray(videoResumeData)) {
         videoResumeData.push({
@@ -156,25 +159,63 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
           isPublic: data.isPublic,
           isSponsoredPost: data.isSponsoredPost || false,
           isBoostedPost: data.isBoostedPost || false,
-          notifcationsBool: data.notifcationsBool || false,
+          notificationsBool: data.notificationsBool || false,
+          relatedReels: data.relatedReels || [],
           views: data.views || 0,
           reach: data.reach || 0,
           rating: data.rating || 0,
           duration: data.duration || 0,
           timestamp: data.timestamp,
           watchTime: data.watchTime || 0,
-          tags: data.tags || [],  // Default to empty array if no tags
-          gifts: data.gifts || [],  // Default to empty array if no gifts
-          createdAt: data.createdAt.toDate(), // Assuming createdAt is a timestamp
+          tags: data.tags || [], // Default to empty array if no tags
+          gifts: data.gifts || [], // Default to empty array if no gifts
+          createdAt: data.createdAt.toDate(), // Assuming createdAt is a Firestore timestamp
           status: data.status || 'posted', // Default to 'posted' if no status
           reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
         });
       }
     });
-
-    // Ensure videoResumeData is an array before proceeding
-    let sortedAndLimitedData = []; // Declare it outside of the condition to ensure it's accessible later.
-
+    
+    // Filter for public and valid reels
+    const publicReels = videoResumeData.filter(item => item.isPublic && item.status === 'posted');
+    
+    // Sort public reels by rating (descending) and then limit to top 4
+    const topRatedReels = publicReels
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 4);
+    
+    // Process videoResumeData to create sortedAndLimitedData
+    let sortedAndLimitedData = [];
+    
+    if (Array.isArray(videoResumeData)) {
+      sortedAndLimitedData = [...videoResumeData]
+        .filter(item => item && item.status === 'posted' && item.createdAt) // Ensure valid status and createdAt
+        .sort((a, b) => b.createdAt - a.createdAt) // Sort by createdAt (descending)
+        .slice(0, 10); // Limit to 10 items
+    
+      // Check each item's relatedReels
+      sortedAndLimitedData.forEach((item) => {
+        if (!item.relatedReels || item.relatedReels.length === 0) {
+          // If relatedReels is empty, populate with topRatedReels
+          item.relatedReels = topRatedReels.map(reel => ({
+            reelID: reel.reelID,
+            videoResumeTitle: reel.videoResumeTitle,
+            videoUrl: reel.videoResumeURL,
+            reelURL: reel.reelURL,
+            reelTags: reel.tags,
+            reelCreatedDate: new Date(reel.createdAt)
+          }));
+        }
+      });
+    } else {
+      console.error('videoResumeData is not an array.');
+    }
+    
+    // Log the final sortedAndLimitedData for debugging
+    console.log("Final sortedAndLimitedData:", sortedAndLimitedData);
+    
+ 
+    
     if (Array.isArray(videoResumeData)) {
       // Make a copy of videoResumeData
       sortedAndLimitedData = [...videoResumeData]
@@ -185,14 +226,18 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
         .sort((a, b) => b.createdAt - a.createdAt) // Sort in descending order by createdAt
         .slice(0, 10); // Limit to 10 items
 
-      // You can now use sortedAndLimitedData for further processing
-      console.log(sortedAndLimitedData);
     } else {
       console.error('videoResumeData is not an array.');
     }
 
-    // Use sortedAndLimitedData here, ensuring it's defined regardless of whether the if block runs
-    console.log(sortedAndLimitedData);
+   
+    
+
+
+
+
+
+
 
 
 
@@ -358,7 +403,7 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
 
       // Obituary Report Count and Other User Stats
       obituaryReportCount: userDataSaved.obituaryReportCount || 0,         // Count of reports on obituary pages
-      videoResumeData: videoResumeData,                                    // Data related to video resumes
+
       contactsCount: connectionCount || 0,                                 // Number of contacts the user has
       videoResumeCount: videoResumeData.length || 0,                        // Number of video resumes uploaded
       totalReelViews: userDataSaved.totalReelViews || 0,                   // Total views on the user's reels

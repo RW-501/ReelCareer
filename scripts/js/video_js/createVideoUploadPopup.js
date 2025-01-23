@@ -827,7 +827,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
               relatedURLBool: updatedRelatedURLBool,
               relatedProductsBool: updatedRelatedProductsBool,
               endingCardBool: updatedEndingCardBool,
-  
+
               relatedURL: updatedRelatedURL,
               relatedReels: relatedReelsArray,
               reelCategories: updatedReelCategories,
