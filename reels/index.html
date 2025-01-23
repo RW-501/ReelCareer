@@ -600,7 +600,9 @@ videosQuery = query(
   });
             renderVideos(querySnap.docs, videoContainer, connectedUserIds, userId);
 
-            saveVideosToJson(videoDataArray);  // Save data to a JSON format for external use
+            // To only save when there's a new ID Default or data change:
+
+            await saveVideosToJson(videoDataArray, true);  // Default behavior
 
         } else if (page === 1) {
             videoContainer.innerHTML = "<p>No video resumes available.</p>";
@@ -618,7 +620,9 @@ const owner = "RW-501";
     const branch = 'main';
     let sha = ''; // Will store the sha if the file exists
     let fileData;
-    async function saveVideosToJson(videoDataArray) {
+
+
+    async function saveVideosToJson(videoDataArray, saveIfNewOrChanged = true) {
     const jsonData = JSON.stringify(videoDataArray, null, 2);  // Format the data
     const blob = new Blob([jsonData], { type: "application/json" });
     const encodedContent = btoa(jsonData);
@@ -658,23 +662,31 @@ const owner = "RW-501";
                 }
             }
 
-            const updatedDataArray = existingDataArray.map(existingItem => {
-                const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
-                if (updatedItem) {
-                    const viewsChanged = updatedItem.views !== existingItem.views;
-                    const isPublicChanged = (updatedItem.isPublic ?? null) !== (existingItem.isPublic ?? null);
-                    if (viewsChanged || isPublicChanged) {
-                        return { ...existingItem, ...updatedItem };
-                    }
-                }
-                return existingItem;
-            });
+            let updatedDataArray = [...existingDataArray];
 
-            videoDataArray.forEach(item => {
-                if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
-                    updatedDataArray.push(item);
-                }
-            });
+            if (saveIfNewOrChanged) {
+                // Save only if there is a new ID or any changes
+                updatedDataArray = existingDataArray.map(existingItem => {
+                    const updatedItem = videoDataArray.find(item => item.id === existingItem.id);
+                    if (updatedItem) {
+                        const viewsChanged = updatedItem.views !== existingItem.views;
+                        const isPublicChanged = (updatedItem.isPublic ?? null) !== (existingItem.isPublic ?? null);
+                        if (viewsChanged || isPublicChanged) {
+                            return { ...existingItem, ...updatedItem };
+                        }
+                    }
+                    return existingItem;
+                });
+
+                videoDataArray.forEach(item => {
+                    if (!existingDataArray.some(existingItem => existingItem.id === item.id)) {
+                        updatedDataArray.push(item);
+                    }
+                });
+            } else {
+                // Always save the new data, even if it isn't changed
+                updatedDataArray = videoDataArray;
+            }
 
             if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
                 console.log("Changes detected, preparing to update file.");

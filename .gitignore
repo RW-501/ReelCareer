@@ -72,5 +72,5 @@ node_modules/
 # Exclude obituaries/celebrating folder
 obituaries/celebrating/
 
-# Exclude reels/jSON/videoReels.json file
-reels/json/videoReels.json
+# Exclude /scripts/json/videoReels.json file
+scripts/json/videoReels.json
