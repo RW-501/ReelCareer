@@ -471,9 +471,9 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
       localStorage.setItem("userLoggedIn", false);
 
     } finally {
-      setTimeout(() => {
-        location.reload();  // Refresh the page after 1 second
-      }, 1000);
+      console.log("Updated");
+
+      
     }
 
   }
