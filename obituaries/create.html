@@ -1705,7 +1705,8 @@ document.querySelectorAll('#notableContributionsArea input').forEach(input => {
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
-        
+        const userID = auth.currentUser.uid;  
+
         // Sanitize inputs
         name = name.replace(/[^a-zA-Z0-9 ]/g, '');
         location = location.replace(/[^a-zA-Z0-9 ]/g, '');
@@ -1726,7 +1727,6 @@ document.querySelectorAll('#notableContributionsArea input').forEach(input => {
         if (mainPhoto) {
     // Handle save functionality with image transformations applied
     const canvas = updateImageStylesAndCreateCanvas();
-    const userID = auth.currentUser.uid;  
 
     // Convert canvas to Blob
     const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
