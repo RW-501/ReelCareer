@@ -931,12 +931,14 @@ anonymousCheckbox.addEventListener("change", () => {
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
 
-
 // Event listener for the Report Obituary button
 document.getElementById('report-obituary-btn').addEventListener('click', () => {
   const reasons = prompt("Please enter the reason for reporting this obituary:");
   if (reasons) {
-      reportObituary(reasons);
+      // Timeout of 1 second before reporting the obituary
+      setTimeout(() => {
+          reportObituary(reasons);
+      }, 1000); // 1000 milliseconds = 1 second
   } else {
       showToast("Report canceled. No reason provided.", "info");
   }
