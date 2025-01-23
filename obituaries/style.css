@@ -8,6 +8,7 @@ html {
     width: 100%;
     overflow-y: scroll;
     position: relative;
+    overflow-x: hidden;
 }
         /* General Styles */
         body {
@@ -21,6 +22,7 @@ html {
     position: relative;
     opacity: 0; /* Start invisible */
     animation: fade-in 2s ease-in-out forwards; /* Fade in animation */
+    overflow-x: hidden;
 }
 
 @keyframes fade-in {
