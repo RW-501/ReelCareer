@@ -1616,6 +1616,9 @@ document.getElementById('preview-button').click();
 
     const handleApproved = async (details) => {
     try {
+
+        paypalDetails = details; 
+
         // Collect form data
         let name = document.getElementById('name').value.trim();
         let sunrise = document.getElementById('sunrise').value.trim();
@@ -1635,7 +1638,6 @@ document.getElementById('preview-button').click();
         let portfolioLink = document.getElementById('portfolioLink').value.trim();
 
 
-        paypalDetails = details; 
         // To update the variables later, you can call the function again
 achievements = collectInputValues('#achievements');
 education = collectInputValues('#education');
@@ -1644,6 +1646,9 @@ causes = collectInputValues('#causesArea');
 references = collectInputValues('#referencesArea');
 skills = collectInputValues('#skillsArea');
 notableContributions = collectInputValues('#notableContributionsArea');
+
+
+
 
 /* 
 // Capture Work History
@@ -1796,6 +1801,23 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
     education: education || [],
     workHistory: workHistory || [],
+
+
+
+    // Dynamically assign the isSection properties based on values
+    isReferences: references.length > 0,
+    isSkills: skills.length > 0,
+    isCauses: causes.length > 0,
+    isContributions: notableContributions.length > 0,
+    isAchievements: achievements.length > 0,
+    isEducation: education.length > 0,
+    isWorkHistory: workHistory.length > 0,
+    isPortfolio: portfolioLink !== '',
+
+
+
+
+
 };
 
 
@@ -2060,59 +2082,59 @@ let Content = `
     </div>
     
     <!-- Additional Sections with RDFa -->
-    <div id="portfolio-section" class="changeable-area" role="region">
+    <div id="portfolio-section" class="changeable-area" role="region"${obituary.isPortfolio ? '' : 'hidden'}>
       <h4>Portfolio</h4>
       <p>Check out their portfolio: <a href="${obituary.portfolioLink}" target="_blank" property="url">${obituary.portfolioLink}</a></p>
     </div>
 
-    <div id="references-section" class="changeable-area" role="region">
-      <h4>References</h4>
-      <ul>
-        ${obituary.references.map(reference => `<li>${reference}</li>`).join('')}
-      </ul>
-    </div>
+   <div id="references-section" class="changeable-area" role="region" ${obituary.isReferences ? '' : 'hidden'}>
+  <h4>References</h4>
+  <ul>
+    ${obituary.references.map(reference => `<li>${reference}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="skills-section" class="changeable-area" role="region">
-      <h4>Skills</h4>
-      <ul>
-        ${obituary.skills.map(skill => `<li>${skill}</li>`).join('')}
-      </ul>
-    </div>
+<div id="skills-section" class="changeable-area" role="region" ${obituary.isSkills ? '' : 'hidden'}>
+  <h4>Skills</h4>
+  <ul>
+    ${obituary.skills.map(skill => `<li>${skill}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="causes-section" class="changeable-area" role="region">
-      <h4>Causes & Volunteer Work</h4>
-      <ul>
-        ${obituary.causes.map(cause => `<li>${cause}</li>`).join('')}
-      </ul>
-    </div>
+<div id="causes-section" class="changeable-area" role="region" ${obituary.isCauses ? '' : 'hidden'}>
+  <h4>Causes & Volunteer Work</h4>
+  <ul>
+    ${obituary.causes.map(cause => `<li>${cause}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="contributions-section" class="changeable-area" role="region">
-      <h4>Notable Contributions</h4>
-      <ul>
-        ${obituary.notableContributions.map(contribution => `<li>${contribution}</li>`).join('')}
-      </ul>
-    </div>
+<div id="contributions-section" class="changeable-area" role="region" ${obituary.isContributions ? '' : 'hidden'}>
+  <h4>Notable Contributions</h4>
+  <ul>
+    ${obituary.notableContributions.map(contribution => `<li>${contribution}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="achievements-section" class="changeable-area" role="region">
-      <h4>Achievements</h4>
-      <ul>
-        ${obituary.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
-      </ul>
-    </div>
+<div id="achievements-section" class="changeable-area" role="region" ${obituary.isAchievements ? '' : 'hidden'}>
+  <h4>Achievements</h4>
+  <ul>
+    ${obituary.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="education-section" class="changeable-area" role="region">
-      <h4>Education</h4>
-      <ul>
-        ${obituary.education.map(edu => `<li>${edu}</li>`).join('')}
-      </ul>
-    </div>
+<div id="education-section" class="changeable-area" role="region" ${obituary.isEducation ? '' : 'hidden'}>
+  <h4>Education</h4>
+  <ul>
+    ${obituary.education.map(edu => `<li>${edu}</li>`).join('')}
+  </ul>
+</div>
 
-    <div id="work-history-section" class="changeable-area" role="region">
-      <h4>Work History</h4>
-      <ul>
-        ${obituary.workHistory.map(work => `<li>${work}</li>`).join('')}
-      </ul>
-    </div>
+<div id="work-history-section" class="changeable-area" role="region" ${obituary.isWorkHistory ? '' : 'hidden'}>
+  <h4>Work History</h4>
+  <ul>
+    ${obituary.workHistory.map(work => `<li>${work}</li>`).join('')}
+  </ul>
+</div>
 
     <div id="dynamic-shareArea" class="changeable-area" role="complementary"></div>
     <div id="dynamic-interaction-area" class="changeable-area" role="region"></div>
