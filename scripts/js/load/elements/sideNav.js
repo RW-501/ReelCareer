@@ -474,9 +474,9 @@ function insertSidePanelContent() {
               
                   sideNavList.style.display = 'block';
                 
-                  mainSidePanel.style.width = '39%';
+                  mainSidePanel.style.width = 'fit-content';
                   mainContent.style.width = '59%';
-                  sidePanelGroup.style.display = 'block';
+                  sidePanelGroup.style.display = 'flex';
                   document.querySelectorAll('.btn-text').forEach((text) => {
                     text.style.display = 'none';
                   });
