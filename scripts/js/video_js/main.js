@@ -408,18 +408,24 @@ console.log('updatedVideoWatchCountUserData data:', updatedVideoWatchCountUserDa
 
 
 
+let userIP = sessionStorage.getItem("userIP");
 
+if(!userIP){
 
       // Fetch the user's IP address
       const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
-      const userIP = data.ip;
+       userIP = data.ip;
   
       if (!userIP) {
         console.warn("Unable to retrieve IP address.");
         return;
       }
   
+
+}
+
+
       // Check if this IP has already been recorded for this video
       const ipDocRef = doc(viewsCollection, userIP);
       const ipDocSnapshot = await getDoc(ipDocRef);
