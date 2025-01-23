@@ -3,8 +3,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     body.style.opacity = 0;
-    body.style.transition = "opacity 1s ease-in-out";
+    body.style.transition = "opacity 2s ease-in-out";
     body.style.opacity = 1;
+    console.log('Loading...');
   });
   
 
