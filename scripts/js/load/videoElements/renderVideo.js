@@ -533,6 +533,54 @@ window.generateVideoSchema = generateVideoSchema;
 
 
 
+
+
+
+// Select the target element (e.g., the element displaying the views count)
+const viewsElement = document.querySelector('.views-count');
+
+// Create a MutationObserver to detect changes
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.type === 'childList' || mutation.type === 'attributes') {
+      // Trigger your effect here when the views count changes
+      viewsElement.classList.add('viewsHighlight'); // Add an effect class
+      setTimeout(() => viewsElement.classList.remove('viewsHighlight'), 1000); // Remove the effect after 1s
+    }
+  });
+});
+
+// Configuration object to specify what to observe
+const config = { childList: true, subtree: false, attributes: true };
+
+// Start observing the viewsElement
+if (viewsElement) {
+  observer.observe(viewsElement, config);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function populateSidePanelContacts(connectedUserData) {
   const sidePanelContacts = document.getElementById('side-panel-contacts');
   sidePanelContacts.innerHTML = ''; // Reset content

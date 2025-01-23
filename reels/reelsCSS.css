@@ -445,6 +445,24 @@ main {
   
   
   
+  .views-count.viewsHighlight {
+    animation: pulse 1s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      background-color: #ffeb3b;
+    }
+    50% {
+      transform: scale(1.2);
+      background-color: #ffc107;
+    }
+    100% {
+      transform: scale(1);
+      background-color: #ffeb3b;
+    }
+  }
   
   
   
@@ -742,3 +760,10 @@ main {
   width: 100%;
   flex-flow: row;
 }
+
+
+
+
+
+
+
