@@ -1901,6 +1901,15 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
     }
 };
 
+
+
+
+
+
+
+
+
+
     
         async function createPage(obituary, pageID) {
             console.log(obituary, "    obituary: ", pageID);
@@ -2165,7 +2174,7 @@ console.log('token:', token);
     // GitHub API URL for creating/updating a file
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
-    const encodedContent = btoa(Content);
+    const encodedContent = btoa(unescape(encodeURIComponent(Content)));
 
     try {
         // First, check if the file exists by attempting a GET request
