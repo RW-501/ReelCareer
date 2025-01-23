@@ -426,6 +426,7 @@ async function incrementViews() {
     const videoUrl = pageData.videoURL;
     if (videoUrl) {
       displayVideoPreview(videoUrl, mediaSection);
+      console.log('videoURL   ',videoUrl);
     }
 
     document.getElementById("flowerCount").innerText = pageData.flowerCount || 0;
@@ -719,84 +720,91 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
               <source src="${videoUrl}" type="video/mp4">
               Your browser does not support the video tag.
           </video>`;
+
+          return;
   }
         // YouTube Video Check
         if (videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be")) {
-            const youtubeEmbed = videoUrl.includes("youtube.com") 
-                ? videoUrl.replace("watch?v=", "embed/") 
-                : videoUrl.replace("youtu.be/", "youtube.com/embed/");
-            videoPreviewContainer.innerHTML = `
-                <iframe class='media-video' width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
-        }
-        // Vimeo Video Check
-        else if (videoUrl.includes("vimeo.com")) {
-            const vimeoId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
-                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-        }
-        // MP4 Video Check (and other formats like .webm, .ogg)
-        else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
-            videoPreviewContainer.innerHTML = `
-                <video  class='media-video' width="560" height="315" controls>
-                    <source src="${videoUrl}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>`;
-        }
-        // Dailymotion Video Check
-        else if (videoUrl.includes("dailymotion.com")) {
-            const dailymotionId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
-                        allowfullscreen></iframe>`;
-        }
-        // Twitch Video Check
-        else if (videoUrl.includes("twitch.tv")) {
-            const twitchId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
-                        scrolling="no" allowfullscreen></iframe>`;
-        }
-        // Facebook Video Check
-        else if (videoUrl.includes("facebook.com")) {
-            const facebookId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
-                        width="560" height="315" frameborder="0" allowfullscreen></iframe>`;
-        }
-        // Instagram Video Check
-        else if (videoUrl.includes("instagram.com")) {
-            const instagramId = videoUrl.split("/p/").pop().split("/")[0];
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
-                        scrolling="no" allowfullscreen></iframe>`;
-        }
-        // Twitter Video Check
-        else if (videoUrl.includes("twitter.com")) {
-            const twitterId = videoUrl.split("/status/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://twitframe.com/show?url=${encodeURIComponent(twitterId)}" width="560" height="315" 
-                        frameborder="0" allowfullscreen></iframe>`;
-        }
-        // TikTok Video Check
-        else if (videoUrl.includes("tiktok.com")) {
-            const tiktokId = videoUrl.split("/video/").pop();
-            videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
-                        allowfullscreen></iframe>`;
-        }
-        // Unsupported platform message
-        else {
-            videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a URL from a supported platform like YouTube, Vimeo, Dailymotion, Instagram, or MP4.</p>";
-        }
-
-    } else {
-        // Handle case when there is no videoUrl provided
-        videoPreviewContainer.innerHTML = "<p>Please enter a video URL.</p>";
-    }
+          const youtubeEmbed = videoUrl.includes("youtube.com") 
+              ? videoUrl.replace("watch?v=", "embed/") 
+              : videoUrl.replace("youtu.be/", "youtube.com/embed/");
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+          return;
+      }
+      // Vimeo Video Check
+      else if (videoUrl.includes("vimeo.com")) {
+          const vimeoId = videoUrl.split("/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
+                      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+          return;
+      }
+      // MP4 Video Check (and other formats like .webm, .ogg)
+      else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
+          videoPreviewContainer.innerHTML = `
+              <video class='media-video' width="560" height="315" controls>
+                  <source src="${videoUrl}" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>`;
+          return;
+      }
+      // Dailymotion Video Check
+      else if (videoUrl.includes("dailymotion.com")) {
+          const dailymotionId = videoUrl.split("/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
+                      allowfullscreen></iframe>`;
+          return;
+      }
+      // Twitch Video Check
+      else if (videoUrl.includes("twitch.tv")) {
+          const twitchId = videoUrl.split("/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
+                      scrolling="no" allowfullscreen></iframe>`;
+          return;
+      }
+      // Facebook Video Check
+      else if (videoUrl.includes("facebook.com")) {
+          const facebookId = videoUrl.split("/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
+                      width="560" height="315" frameborder="0" allowfullscreen></iframe>`;
+          return;
+      }
+      // Instagram Video Check
+      else if (videoUrl.includes("instagram.com")) {
+          const instagramId = videoUrl.split("/p/").pop().split("/")[0];
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
+                      scrolling="no" allowfullscreen></iframe>`;
+          return;
+      }
+      // Twitter Video Check
+      else if (videoUrl.includes("twitter.com")) {
+          const twitterId = videoUrl.split("/status/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://twitframe.com/show?url=${encodeURIComponent(twitterId)}" width="560" height="315" 
+                      frameborder="0" allowfullscreen></iframe>`;
+          return;
+      }
+      // TikTok Video Check
+      else if (videoUrl.includes("tiktok.com")) {
+          const tiktokId = videoUrl.split("/video/").pop();
+          videoPreviewContainer.innerHTML = `
+              <iframe class='media-video' src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
+                      allowfullscreen></iframe>`;
+          return;
+      }
+      // Unsupported platform message
+      else {
+          videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a URL from a supported platform like YouTube, Vimeo, Dailymotion, Instagram, or MP4.</p>";
+          return;
+      }     
 }
 
-
+  }
 
   /* 
 function showToast(message, type = "success") {
