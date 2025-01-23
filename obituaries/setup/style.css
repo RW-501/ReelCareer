@@ -936,6 +936,8 @@ color: red;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  outline: double;
+  outline-color: #a3a3a3;
 }
 
 .user-details {
