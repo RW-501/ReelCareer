@@ -1,3 +1,20 @@
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const body = document.body;
+    body.style.opacity = 0;
+    body.style.transition = "opacity 1s ease-in-out";
+    body.style.opacity = 1;
+  });
+  
+
+
+
+
+
+
+
+
 const DEBUG = false;
 
 let loadCount = 0;
@@ -5,6 +22,10 @@ let totalFileSize = 0; // To accumulate the file size of scripts
 let pageStartTime = performance.now(); // Start tracking page load time
 const loadedScripts = new Set();
 const currentPath = window.location.pathname;
+
+
+
+
 
 function logExecutionTime(scriptName, startTime, fileSize) {
     if (DEBUG) {
