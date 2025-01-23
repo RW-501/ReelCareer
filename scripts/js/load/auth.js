@@ -313,7 +313,7 @@ function redirectToLogin() {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 50000;
+    z-index: 50000000000000;
 }
       
 #popup-login-content {
@@ -328,6 +328,8 @@ function redirectToLogin() {
     position: relative;
     animation: slideIn 0.3s ease-in-out;
     height: 90%;
+        z-index: 500000000000000;
+
 }
       
       #popup-login-close {
