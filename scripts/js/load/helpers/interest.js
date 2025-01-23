@@ -235,83 +235,119 @@ function handleJobInput(jobInput, action = "visit") {
   
   
   
-  */
+  
+
+  const videoInterestEntry = {
+    searchableTitle: videoData.searchableTitle || "",
+    location: videoData.location || "",
+    rating: videoData.rating || 0,
+    duration: videoData.duration || 0,
+    categories: videoData.categories || [],
+    tags: videoData.tags || [],
+    liked: true
+};
+
+handleVideoInterestInput(videoInterestEntry);
+*/
 
 
 
 
-  function handleVideoInterestInput({ searchableTitle, categories, tags, liked }) {
+
+
+
+function handleVideoInterestInput({ searchableTitle, categories, tags, liked, location, duration }) {
     // Split the tags, remove duplicates, trim whitespace, and convert to lowercase
     const inputTags = [
-      ...new Set([
-        ...(tags ? tags.split(',').map(tag => tag.trim().toLowerCase()) : []), // Split and clean tags
-        searchableTitle.toLowerCase(),  // Add searchableTitle, converted to lowercase
-        ...(categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []) // Add categories, cleaned
-      ]).filter(Boolean) // Remove empty strings
+        ...new Set([
+            ...(tags ? tags.split(',').map(tag => tag.trim().toLowerCase()) : []), // Split and clean tags
+            searchableTitle.toLowerCase(), // Add searchableTitle, converted to lowercase
+            ...(categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []), // Add categories, cleaned
+            ...(location ? [location.toLowerCase()] : []), // Add location
+            ...(duration ? [duration.toString()] : []) // Add duration
+        ]).filter(Boolean) // Remove empty strings
     ];
-  
+
     function isSimilarTag(tag1, tag2) {
-      return tag1.includes(tag2) || tag2.includes(tag1);
+        return tag1.includes(tag2) || tag2.includes(tag1);
     }
-  
+
     function decayRanks(interests, decayFactor = 0.9) {
-      return interests.map(tag => ({
-        ...tag,
-        rank: Math.max(1, Math.floor(tag.rank * decayFactor))
-      }));
+        return interests.map(tag => ({
+            ...tag,
+            rank: Math.max(1, Math.floor(tag.rank * decayFactor))
+        }));
     }
-  
+
     function prioritizeTags(interests) {
-      return interests.sort((a, b) => b.rank - a.rank);
+        return interests.sort((a, b) => b.rank - a.rank); // Sort tags by rank in descending order
     }
-  
+
     let userVideoInterest = JSON.parse(localStorage.getItem('userVideoInterest')) || [];
-  
+
     userVideoInterest = decayRanks(userVideoInterest);
-  
+
+    // Process the input tags
     inputTags.forEach(tagInput => {
-      const existingIndex = userVideoInterest.findIndex(item => isSimilarTag(item.tag, tagInput));
-  
-      if (existingIndex !== -1) {
-        // If liked, increase rank more significantly
-        userVideoInterest[existingIndex].rank += liked ? 3 : 1;
-      } else {
-        // Add the new tag with a higher rank if liked
-        const newTag = { tag: tagInput, rank: liked ? 3 : 1 }; // Increase rank if liked
-        if (userVideoInterest.length >= 6) {
-          userVideoInterest = prioritizeTags(userVideoInterest);
-          userVideoInterest.pop(); // Remove least important tag
+        const existingIndex = userVideoInterest.findIndex(item => isSimilarTag(item.tag, tagInput));
+
+        if (existingIndex !== -1) {
+            // If liked, increase rank more significantly
+            userVideoInterest[existingIndex].rank += liked ? 3 : 1;
+        } else {
+            // Add the new tag with a higher rank if liked
+            const newTag = { tag: tagInput, rank: liked ? 3 : 1 }; // Increase rank if liked
+            if (userVideoInterest.length >= 6) {
+                userVideoInterest = prioritizeTags(userVideoInterest);
+                userVideoInterest.pop(); // Remove least important tag
+            }
+            userVideoInterest.push(newTag);
         }
-        userVideoInterest.push(newTag);
-      }
     });
-  
+
+    // Sort and prioritize tags
     userVideoInterest = prioritizeTags(userVideoInterest);
     userVideoInterest.forEach(item => (item.isLast = false));
-  
+
     const lastAddedIndex = userVideoInterest.findIndex(item => inputTags.some(tag => isSimilarTag(item.tag, tag)));
     if (lastAddedIndex !== -1) userVideoInterest[lastAddedIndex].isLast = true;
-  
+
     localStorage.setItem('userVideoInterest', JSON.stringify(userVideoInterest));
-  
+
     return userVideoInterest.map(item => item.tag);
-  }
-  
-  window.handleVideoInterestInput = handleVideoInterestInput;
-  
-  function getUserVideoInterest() {
+}
+
+window.handleVideoInterestInput = handleVideoInterestInput;
+
+function getUserVideoInterest() {
     const userVideoInterest = JSON.parse(localStorage.getItem('userVideoInterest')) || [];
-  
+
     const filteredInterest = userVideoInterest
-      .map(item => item.tag.toLowerCase())
-      .filter(term => term.length > 2 && isNaN(term)) // Filter terms that are too short or numeric
-      .slice(0, 15);
-  
+        .map(item => item.tag.toLowerCase())
+        .filter(term => term.length > 2 && isNaN(term)) // Filter terms that are too short or numeric
+        .slice(0, 15); // Return only the top 15 interests based on rank
+
     console.log('User Video Interests:', filteredInterest);
     return filteredInterest;
-  }
-  
-  window.getUserVideoInterest = getUserVideoInterest;
+}
+
+window.getUserVideoInterest = getUserVideoInterest;
+
+// Function to filter videos based on the user's interest
+function filterVideos(videos) {
+    const userInterests = getUserVideoInterest();
+    return videos.filter(video => {
+        const videoTags = [
+            ...(video.location ? [video.location.toLowerCase()] : []),
+            ...(video.categories || []).map(cat => cat.toLowerCase()),
+            ...(video.duration ? [video.duration.toString()] : []),
+            ...(video.tags || []).map(tag => tag.toLowerCase())
+        ];
+        return videoTags.some(tag => userInterests.includes(tag));
+    });
+}
+
+window.filterVideos = filterVideos;
 
 
 
@@ -322,7 +358,7 @@ function handleJobInput(jobInput, action = "visit") {
     duration: videoData.duration || 0,
     categories: videoData.categories || [],
     tags: videoData.tags || [],
-    liked: true // Assuming this boolean is passed, set to true for testing
+    liked: true 
   };
 
 handleVideoInterestInput(videoInterestEntry);
@@ -332,6 +368,23 @@ handleVideoInterestInput(videoInterestEntry);
   */
     
   /*
-  const jobInterest = getUserJobInterest();
-  console.log('const jobInterest =', JSON.stringify(jobInterest));
+const videoInterest = getUserVideoInterest();
+console.log('User Video Interests:', JSON.stringify(videoInterest));
+
+let videosQuery = query(
+    videosRef,
+    where("status", "==", "posted"),
+    where("isPublic", "==", true),
+    // Check for tag matches in tags field (assuming tags is an array in Firestore)
+    where("tags", "array-contains", videoInterest.tags),
+    // Additional checks for categories and location
+    where("reelCategories", "array-contains", videoInterest.categories),
+    where("location", "==", videoInterest.location),
+    ...(videoInterest.duration ? [where("duration", ">=", videoInterest.duration[0]), where("duration", "<=", videoInterest.duration[1])] : []),
+    ...(includeConnected && connectionType ? [where("createdByID", "in", connectedUserIds)] : []),
+    orderBy("timestamp", "desc"),
+    limit(postsPerPage)
+);
+
+
   */

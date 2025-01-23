@@ -425,8 +425,13 @@ if(!userId){
 
 }
 
+let rc_VideoInterest = false;
+
 console.log("connectionType:", connectionType);
 console.log("includeConnected:", includeConnected);
+
+const videoInterest = getUserVideoInterest();
+console.log('User Video Interests:', JSON.stringify(videoInterest));
 
 
         // Fetch connected user IDs if needed
@@ -451,7 +456,7 @@ populateSidePanelContacts(connectedUserData);
                 orderBy("timestamp", "desc"),
                 limit(postsPerPage)
             );
-        } else if (connectionType && includeConnected) {
+        }else if (connectionType && includeConnected) {
             // Fetch more videos for pagination and filter by connected users
             videosQuery = query(
                 videosRef,
@@ -483,7 +488,24 @@ populateSidePanelContacts(connectedUserData);
                 startAfter(lastVisibleDoc),
                 limit(postsPerPage)
             );
-        } else {
+        } else if (rc_VideoInterest) {
+
+videosQuery = query(
+   videosRef,
+   where("status", "==", "posted"),
+   where("isPublic", "==", true),
+   // Check for tag matches in tags field (assuming tags is an array in Firestore)
+   where("tags", "array-contains", videoInterest.tags),
+   // Additional checks for categories and location
+   where("reelCategories", "array-contains", videoInterest.categories),
+   where("location", "==", videoInterest.location),
+   ...(videoInterest.duration ? [where("duration", ">=", videoInterest.duration[0]), where("duration", "<=", videoInterest.duration[1])] : []),
+   ...(includeConnected && connectionType ? [where("createdByID", "in", connectedUserIds)] : []),
+   orderBy("timestamp", "desc"),
+   limit(postsPerPage)
+);
+
+     }else{
             // Fetch videos from all users (with or without connection filtering)
             videosQuery = query(
                 videosRef,
