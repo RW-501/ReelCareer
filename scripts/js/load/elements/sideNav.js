@@ -31,7 +31,7 @@ function insertSidePanelContent() {
           <div id='btn-menu-area' class="side-panel-menu">
 
            <button id="btn-menu" class="side-nav-button">
-        <i id="menu-icon" class="fas fa-bars bar-icon"></i><span class="menu-text">Menu</span>
+        <i id="menu-icon" class="fas fa-bars bar-icon"></i><span  id="btn-menu-text" class="menu-text">Menu</span>
     </button>
           </div>
 
@@ -420,6 +420,7 @@ function insertSidePanelContent() {
           const sidePanelGroup = document.getElementById("side-panel-group");
           const sideNavList = document.getElementById("side-nav-list");
           const menuBtn = document.getElementById("btn-menu-area");
+          const menuBtnText = document.getElementById("btn-menu-text");
 
           const isMobile = window.innerWidth <= 768;
             
@@ -442,6 +443,7 @@ function insertSidePanelContent() {
        
               if(action === 'scroll'){
                 menuBtn.style.display = 'block';
+                menuBtnText.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -456,6 +458,7 @@ function insertSidePanelContent() {
               }else{
 
                 menuBtn.style.display = 'block';
+                menuBtnText.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
                 mainContent.style.width = '100%';
@@ -487,7 +490,7 @@ function insertSidePanelContent() {
               }else{
 
                 if(action === 'scroll'){
-                  menuBtn.style.display = 'none';
+                  menuBtn.style.display = 'block';
               
                   sideNavList.style.display = 'block';
                 
@@ -499,7 +502,7 @@ function insertSidePanelContent() {
                   });
 
                 }else if(action === 'click'){
-                  menuBtn.style.display = 'none';
+                  menuBtn.style.display = 'block';
               
                   sideNavList.style.display = 'block';
                 
