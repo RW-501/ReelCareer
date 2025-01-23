@@ -421,8 +421,10 @@ async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, inclu
       const user = auth.currentUser;
 
 if(!userId){
-  userId = auth.currentUser.uid; // Logged-in user ID
+  if(user){
 
+  userId = auth.currentUser.uid; // Logged-in user ID
+  }
 }
 
 let rc_VideoInterest = false;
