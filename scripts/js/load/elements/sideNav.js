@@ -484,8 +484,8 @@ function insertSidePanelContent() {
 
                 sideNavList.style.display = 'block';
               
-                mainSidePanel.style.width = '39%';
-                mainContent.style.width = '59%';
+                mainSidePanel.style.width = 'auto';
+                mainContent.style.width = 'auto';
                 sidePanelGroup.style.display = 'flex';
                 document.querySelectorAll('.btn-text').forEach((text) => {
                   text.style.display = 'none';
