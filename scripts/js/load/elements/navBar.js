@@ -171,7 +171,6 @@ if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
 }
 
       
-console.log("returndropdownMenuItems  .");
 
       const dropdownMenuItems = [
         {
@@ -288,7 +287,6 @@ console.log("returndropdownMenuItems  .");
     setupDropdownToggle();
 
 
-    console.log("return????????///  .");
 
   }
   

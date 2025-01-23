@@ -413,7 +413,6 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
     localStorage.setItem("userLoggedIn", true);
 
 
-    handleAuthStateChanged(user);
     showToast("Login state saved successfully!", "success");
 
 
