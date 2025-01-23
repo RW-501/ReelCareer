@@ -54,21 +54,37 @@ function showToast(message, type = 'info', duration = 3500,
   toast.style.transform = 'translateY(20px)';
   toast.style.opacity = 1;
 
-  const icon = type === 'error' 
-    ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 
-    : type === 'success' 
-      ? '<i class="fas fa-check-circle" style="color: white; font-size: 28px;"></i>' 
-      : type === 'warning' 
-        ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>'
-        : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
+  const icon = type === 'error'  
+  ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 
+  : type === 'success' 
+    ? '<i class="fas fa-check-circle" style="color: white; font-size: 28px;"></i>' 
+    : type === 'warning' 
+      ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>' 
+      : type === 'notification'
+      ? '<i class="fas fa-bell" style="color: white; font-size: 28px;"></i>'
+      : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
 
-  switch (type) {
-    case 'success': toast.style.backgroundColor = '#4CAF50'; break;
-    case 'error': toast.style.backgroundColor = '#F44336'; break;
-    case 'info': toast.style.backgroundColor = '#2196F3'; break;
-    case 'warning': toast.style.backgroundColor = '#FF9800'; break;
-    default: toast.style.backgroundColor = '#2196F3'; break;
-  }
+switch (type) {
+case 'success':
+  toast.style.backgroundColor = '#4CAF50';
+  break;
+case 'error':
+  toast.style.backgroundColor = '#F44336';
+  break;
+case 'info':
+  toast.style.backgroundColor = '#2196F3';
+  break;
+case 'warning':
+  toast.style.backgroundColor = '#FF9800';
+  break;
+case 'notification':
+  toast.style.backgroundColor = '#FFEB3B'; // Yellow for notifications
+  break;
+default:
+  toast.style.backgroundColor = '#2196F3'; // Default blue for info
+  break;
+}
+
 
   if (link) {
     message = `${message} <a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">${linkTitle}</a>`;
