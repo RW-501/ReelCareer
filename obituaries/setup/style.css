@@ -830,31 +830,31 @@ color: red;
 
   main {
 
-    
-.user-info {
-    display: flex;
-    padding: 10px;
-    gap: 10px;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: space-between;
-}
+    .user-info {
+        display: flex;
+        padding: 10px;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: center;
+    }
 
-.user-info-right {
-    display: grid;
-    gap: .5rem;
-    width: 50%;
-    align-content: stretch;
-    justify-content: space-between;
-}
+
+    .user-info-right {
+        display: grid;
+        gap: .5rem;
+        width: fit-content;
+        align-content: stretch;
+        justify-content: space-between;
+    }
 
 
 
 .user-info-left {
     display: grid;
     gap: .5rem;
-    width: 50%;
+    width: fit-content;
     align-content: stretch;
     justify-content: space-between;
 }
