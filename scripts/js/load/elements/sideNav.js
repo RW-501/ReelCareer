@@ -368,7 +368,7 @@ function insertSidePanelContent() {
       
        
 
-
+      document.addEventListener('DOMContentLoaded', () => {
 
       onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -389,7 +389,7 @@ function insertSidePanelContent() {
 
 
 
-
+    });
 
 
 
