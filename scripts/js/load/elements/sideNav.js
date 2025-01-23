@@ -182,7 +182,7 @@ function insertSidePanelContent() {
         const allPopouts = document.querySelectorAll('.side-panel-popout');
         allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
         isSectionOpen = false;
-        updateButtonTextVisibility();
+        updateButtonTextVisibility('click');
 
       //  sidePanel.style.display = 'none'; // Close the side panel
     }
@@ -414,7 +414,7 @@ function insertSidePanelContent() {
           }
         });
 
-        const updateButtonTextVisibility = (scroll) => {
+        const updateButtonTextVisibility = (action) => {
           const mainContent = document.getElementById("main-content");
           const mainSidePanel = document.getElementById("main-side-panel");
           const sidePanelGroup = document.getElementById("side-panel-group");
@@ -440,7 +440,7 @@ function insertSidePanelContent() {
                 });
               }else{
        
-              if(scroll === 'scroll'){
+              if(action === 'scroll'){
                 menuBtn.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
@@ -486,7 +486,7 @@ function insertSidePanelContent() {
                 });
               }else{
 
-                if(scroll === 'scroll'){
+                if(action === 'scroll'){
                   menuBtn.style.display = 'none';
               
                   sideNavList.style.display = 'block';
@@ -498,7 +498,21 @@ function insertSidePanelContent() {
                     text.style.display = 'none';
                   });
 
-                }else{
+                }else if(action === 'click'){
+                  menuBtn.style.display = 'none';
+              
+                  sideNavList.style.display = 'block';
+                
+                  mainSidePanel.style.width = 'fit-content';
+                  mainContent.style.width = '59%';
+                  sidePanelGroup.style.display = 'flex';
+                  document.querySelectorAll('.btn-text').forEach((text) => {
+                    text.style.display = 'none';
+                  });     
+                  
+                  
+                  
+                }else {
 
                   menuBtn.style.display = 'none';
               
