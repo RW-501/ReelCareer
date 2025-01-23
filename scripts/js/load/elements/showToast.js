@@ -1,20 +1,21 @@
 let toastNumber = 0;
-let toastQueue = []; // Queue to manage toast sequence
+let toastQueue = []; // Queue to manage toast sequence (array instead of set for order)
 let activeToasts = new Set(); // Set to track active toasts
 
 function showToast(message, type = 'info', duration = 3500,
-   link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
+    link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
   const toastId = `toast_${toastNumber}`;
   let toastKey = `${type}_${message}`; // Key to identify duplicate toasts
 
   // Check if the toast already exists in active toasts
   if (activeToasts.has(toastKey) || toastQueue.length > 0 || document.querySelector('.mainShowToast')) {
-    console.log("Maximum capacity reached. Not adding new content.");
+    console.log("Maximum capacity reached or duplicate toast detected. Not adding new content.");
     console.log("Current toastKey:", toastKey);
 
-     // Add the toast to toastQueue  set
-     toastQueue.add(toastKey);
-
+    // Add the toast to toastQueue (if not duplicate)
+    if (!activeToasts.has(toastKey)) {
+      toastQueue.push({ message, type, duration, link, confirm, linkTitle, progress });
+    }
     return; // Skip adding a duplicate toast
   }
 
@@ -54,12 +55,12 @@ function showToast(message, type = 'info', duration = 3500,
   toast.style.opacity = 1;
 
   const icon = type === 'error' 
-  ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 
-  : type === 'success' 
-  ? '<i class="fas fa-check-circle" style="color: white; font-size: 28px;"></i>' 
-  : type === 'warning' 
-  ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>'
-  : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
+    ? '<i class="fas fa-exclamation-circle" style="color: white; font-size: 28px;"></i>' 
+    : type === 'success' 
+      ? '<i class="fas fa-check-circle" style="color: white; font-size: 28px;"></i>' 
+      : type === 'warning' 
+        ? '<i class="fas fa-exclamation-triangle" style="color: white; font-size: 28px;"></i>'
+        : '<i class="fas fa-info-circle" style="color: white; font-size: 28px;"></i>';
 
   switch (type) {
     case 'success': toast.style.backgroundColor = '#4CAF50'; break;
@@ -114,6 +115,7 @@ function showToast(message, type = 'info', duration = 3500,
     }, duration + 300); // Allow time for fade-out animation
   }
 }
+window.showToast = showToast;
 
 // Process the next toast in the queue
 function processNextToast() {
@@ -122,6 +124,7 @@ function processNextToast() {
     showToast(nextToast.message, nextToast.type, nextToast.duration, nextToast.link, nextToast.confirm, nextToast.linkTitle, nextToast.progress);
   }
 }
+
 
 function dismissToast(button) {
   const toast = button.closest('.mainShowToast');
@@ -135,6 +138,7 @@ function dismissToast(button) {
     }, 300);
   }
 }
+window.dismissToast = dismissToast;
 
   // Example usage: Replace alerts with showToast
   // showToast('This is a success message!', 'success');
