@@ -362,51 +362,61 @@ function insertSidePanelContent() {
           const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
-              menuBtn.style.display = 'block';
-
-              mainSidePanel.style.width = '100%';
-              mainContent.style.width = '100%';
-              sidePanelGroup.style.display = 'grid';
-              
-              document.querySelectorAll('.btn-text').forEach((text) => {
-                text.style.display = 'inline';
-              });
 
 
+              if(isSectionOpen){
+
+                menuBtn.style.display = 'block';
+
+                mainSidePanel.style.width = '100%';
+                mainContent.style.width = '100%';
+                sidePanelGroup.style.display = 'grid';
+                sideNavList.style.display = 'none';
+
+                document.querySelectorAll('.btn-text').forEach((text) => {
+                  text.style.display = 'inline';
+                });
+              }else{
+                menuBtn.style.display = 'block';
+
+                mainSidePanel.style.width = '100%';
+                mainContent.style.width = '100%';
+                sidePanelGroup.style.display = 'grid';
+                sideNavList.style.display = 'block';
+
+                document.querySelectorAll('.btn-text').forEach((text) => {
+                  text.style.display = 'inline';
+                });
+              }
   
 
 
             }else{
 
 
+              if(isSectionOpen){
 
-
-
-
-if(isSectionOpen){
-
-  menuBtn.style.display = 'none';
-  sideNavList.style.display = 'block';
-
-  mainSidePanel.style.width = '39%';
-  mainContent.style.width = '59%';
-  sidePanelGroup.style.display = 'flex';
-  document.querySelectorAll('.btn-text').forEach((text) => {
-    text.style.display = 'none';
-  });
-}else{
-  menuBtn.style.display = 'block';
-
-  sideNavList.style.display = 'block';
-
-  mainSidePanel.style.width = '39%';
-  mainContent.style.width = '59%';
-  sidePanelGroup.style.display = 'block';
-  document.querySelectorAll('.btn-text').forEach((text) => {
-    text.style.display = 'inline';
-  });
-
-}
+                menuBtn.style.display = 'none';
+                sideNavList.style.display = 'block';
+              
+                mainSidePanel.style.width = '39%';
+                mainContent.style.width = '59%';
+                sidePanelGroup.style.display = 'flex';
+                document.querySelectorAll('.btn-text').forEach((text) => {
+                  text.style.display = 'none';
+                });
+              }else{
+                menuBtn.style.display = 'block';
+              
+                sideNavList.style.display = 'block';
+              
+                mainSidePanel.style.width = '39%';
+                mainContent.style.width = '59%';
+                sidePanelGroup.style.display = 'block';
+                document.querySelectorAll('.btn-text').forEach((text) => {
+                  text.style.display = 'inline';
+                });
+              }
 
              
 
