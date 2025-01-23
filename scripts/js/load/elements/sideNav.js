@@ -439,6 +439,22 @@ function insertSidePanelContent() {
                   text.style.display = 'inline';
                 });
               }else{
+       
+              if(scroll === 'scroll'){
+                menuBtn.style.display = 'block';
+
+                mainSidePanel.style.width = '100%';
+                mainContent.style.width = '100%';
+                sidePanelGroup.style.display = 'grid';
+                sideNavList.style.display = 'none';
+
+                document.querySelectorAll('.btn-text').forEach((text) => {
+                  text.style.display = 'inline';
+                });
+          
+
+              }else{
+
                 menuBtn.style.display = 'block';
 
                 mainSidePanel.style.width = '100%';
@@ -449,9 +465,10 @@ function insertSidePanelContent() {
                 document.querySelectorAll('.btn-text').forEach((text) => {
                   text.style.display = 'inline';
                 });
+          
+                
               }
-  
-
+            }
 
             }else{
 
