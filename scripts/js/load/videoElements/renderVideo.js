@@ -901,7 +901,7 @@ window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 const userLocation = sessionStorage.getItem("userLocation");
 let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
 
-//console.log("currentPath  ",currentPath);
+console.log("currentPath  ",currentPath);
 
 if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
 
