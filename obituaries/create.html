@@ -1801,9 +1801,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
         // Add transaction details to Firestore
       //  const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
-      const transactionsRef = collection(db, 'A_Transactions');  // Ensure db is initialized properly
-
-      await addDoc(transactionsRef), {
+      await addDoc(transactionsRef, {
   pageID: pageID,
   url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
   pageName: pageName,
@@ -1818,7 +1816,8 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
   status: "complete",
   timestamp: serverTimestamp(),
   createdDate: new Date().toISOString(),
-};
+});
+
 
 // Referral logic - Get the referrer and reward
 const referralReward = 5;
