@@ -1822,7 +1822,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
 
         // Add transaction details to Firestore
-      //  const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
+ const transcationsRef = collection(db, `A_Transactions`, `Create_${pageID}`);
       await addDoc(transactionsRef, {
   pageID: pageID,
   url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
