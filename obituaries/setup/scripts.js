@@ -63,13 +63,18 @@ const pageName = document.getElementById('pageName').innerText;
 
 
 renderShareArea(pageName);
-const nameHeader = document.getElementById("name-header");
+// Get the span element containing the name
+const nameSpan = document.querySelector("#celebrating-header span[property='name']");
 
 // Extract the first part of the name before any space
-const firstName = nameHeader.textContent.split(" ")[0];
+if (nameSpan) {
+    const firstName = nameSpan.textContent.split(" ")[0];
 
-
-renderInteractionsArea(firstName);
+    // Pass the extracted first name to the function
+    renderInteractionsArea(firstName);
+} else {
+    console.error("Name span not found.");
+}
 
 let pageOwnerUserID = '';
 
