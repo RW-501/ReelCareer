@@ -2525,7 +2525,7 @@ async function loadUserVideoResumes(userData) {
     document.getElementById('socialLinks').addEventListener('change', function() {
     const inputValue = this.value;  // Get the value of the input
     console.log('Entered social media link:', inputValue);
-    const socialLinksPreview = document.getElementById('socialLinks-preview');
+    let socialLinksPreview = document.getElementById('socialLinks-preview');
 
     socialLinksPreview += convertTextToLinks(inputValue);
 
