@@ -315,11 +315,11 @@ function loadPageScripts() {
     });
     }
     
-    // Load loginState.js as a module
+/*     // Load loginState.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true, type: 'module' }, () => {
         logExecutionTime('loginState Script', performance.now());
     });
-
+ */
 
 
         // Load renderVideo Script
