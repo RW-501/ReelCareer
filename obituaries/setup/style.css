@@ -859,7 +859,9 @@ color: red;
     justify-content: space-between;
 }
 
-
+#report-obituary-btn {
+    margin: .5rem;
+}
 
 .badge {
   align-items: center;
