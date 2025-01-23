@@ -257,10 +257,12 @@ function redirectToLogin() {
     if (dashboardContent) dashboardContent.style.display = "block";
   }
   
-  function checkLogin(user) {
+  function checkAdminLogin(user) {
     const isLoggedIn = localStorage.getItem('userLoggedIn') === true;
     const path = window.location.pathname;
-  
+    
+    console.log("checkAdminLogin path:", path);
+
     // Check if user is trying to access the backend/admin area
     const isBackendArea = path.includes('/backend') || path.includes('/backend/');
     if (!isBackendArea) return; // No further action needed for non-admin areas
@@ -283,7 +285,7 @@ function redirectToLogin() {
     }
   }
   
-  window.checkLogin = checkLogin;
+  window.checkAdminLogin = checkAdminLogin;
   
 
 

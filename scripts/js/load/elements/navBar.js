@@ -23,15 +23,22 @@ onAuthStateChanged(auth, (USER) => {
 
 
 const path = window.location.pathname;
-  
+    
+console.log("onAuthStateChanged path:", path);
+
 // Check if user is trying to access the backend/admin area
-const isBackendArea = path.includes('/backend/');
+const isBackendArea = path.includes('/backend') || path.includes('/backend/');  
+
+
 if (!isBackendArea) {
 handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
+}else{
+
+  checkAdminLogin(userINFO); // Ensure login is valid on page load
+
 }
 
 
-checkLogin(userINFO); // Ensure login is valid on page load
 
 });
 
@@ -160,11 +167,12 @@ const lastUpdateDate = new Date((lastUpdateTimestamp.seconds * 1000) + (lastUpda
 if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
   console.log("updating user:", user.displayName);
 
-  saveUserLoginState(user); // Save user state
+  //   saveUserLoginState(user); // Save user state
 }
 
       
-  
+console.log("returndropdownMenuItems  .");
+
       const dropdownMenuItems = [
         {
           title: "Profile",
@@ -278,6 +286,10 @@ if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
   
     // Dropdown toggle and close logic
     setupDropdownToggle();
+
+
+    console.log("return????????///  .");
+
   }
   
   window.handleAuthStateChanged = handleAuthStateChanged;
@@ -320,7 +332,7 @@ if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
   }
   
   
-  
+
   
   
   
