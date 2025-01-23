@@ -2,6 +2,8 @@ let toastNumber = 0;
 let toastQueue = []; // Queue to manage toast sequence (array instead of set for order)
 let activeToasts = new Set(); // Set to track active toasts
 
+let createTosatBool = false;
+
 function showToast(message, type = 'info', duration = 3500,
     link = null, confirm = false, linkTitle = 'Click Here', progress = null) {
   const toastId = `toast_${toastNumber}`;
@@ -16,7 +18,10 @@ function showToast(message, type = 'info', duration = 3500,
     if (!activeToasts.has(toastKey)) {
       toastQueue.push({ message, type, duration, link, confirm, linkTitle, progress });
     }
-    return; // Skip adding a duplicate toast
+    createTosatBool = false;
+  
+  }else {
+    createTosatBool = true;
   }
 
   const toast = document.createElement('div');
@@ -113,8 +118,10 @@ default:
     </div>
   `;
 
-  document.body.appendChild(toast);
+  if(createTosatBool){
+    document.body.appendChild(toast);
 
+ 
   // Automatically fade-out and remove the toast if not a confirmation toast
   if (!confirm) {
     setTimeout(() => {
@@ -130,6 +137,9 @@ default:
       processNextToast(); // Process next toast in the queue
     }, duration + 300); // Allow time for fade-out animation
   }
+}
+
+
 }
 window.showToast = showToast;
 
