@@ -324,11 +324,11 @@ function loadPageScripts() {
 
 
  
-        // Load renderVideo Script
+/*         // Load renderVideo Script
         loadScript('https://reelcareer.co/scripts/js/load/elements/sideNav.js', { async: true, type: 'module' }, () => {
             logExecutionTime('sideNav', performance.now());
         });
-
+ */
        // Load renderVideo Script
        loadScript('https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js', { async: true, type: 'module'}, () => {
         logExecutionTime('renderVideo', performance.now());
