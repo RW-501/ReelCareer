@@ -924,12 +924,12 @@ color: red;
 
 
 
-  main {
+  #dynamic-userInfo {
 
     .user-info {
         display: flex;
         padding: 10px;
-        gap: 10px;
+        gap: 2rem;
         align-items: center;
         flex-wrap: nowrap;
         flex-direction: row;
@@ -955,9 +955,6 @@ color: red;
     justify-content: space-between;
 }
 
-#report-obituary-btn {
-    margin: .5rem;
-}
 
 .badge {
   align-items: center;
@@ -996,19 +993,25 @@ color: red;
   font-size: 1.1rem;
   font-weight: 700;
 }
+
+.user-name a {
+    color: #555;
+
+  }
 .name-badge {
   display: flex;
 }
-.job-title {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-#pageOwnerUserID {
-    display: none;
-}
-
-
 
 
   }
+
+
+#dynamic-footer {
+  
+#report-obituary-btn {
+    margin: .5rem;
+}
+
+
+
+}

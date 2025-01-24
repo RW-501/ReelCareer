@@ -157,7 +157,9 @@ loadScript('https://reelcareer.co/obituaries/setup/scripts.js', { defer: true, t
 });
 
 
-
+loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false, type: 'module' }, () => {
+    logExecutionTime('auth Script', performance.now());
+});
 
 
 
