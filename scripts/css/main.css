@@ -406,7 +406,12 @@ box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow once loade
 
 #search-bottom-area {
   margin-bottom: 1rem !important;
-  display: flex ;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 

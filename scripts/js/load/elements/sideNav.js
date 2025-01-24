@@ -78,7 +78,7 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn">
+      <li class="side-nav-item side-user-btn" id='connectionsBTN>
         <button id="btn-connection" class="side-nav-button" aria-label="Connection">
           <i class="fas fa-user" aria-hidden="true"></i>
           <span class="btn-text">Connection</span>
@@ -1194,14 +1194,6 @@ const locationMap = new Map();
 const categoryMap = new Map();
 const topVideos = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-
-  if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
-    console.log('Match found in /reels/ or /videos/');
-  } else {
-    console.log('No match found.');
-  }
-});
 
 
 // Define the URL for the JSON file
@@ -1245,8 +1237,6 @@ data.forEach((video) => {
   }
 });
 
-// Assuming generateLocationList is a function to display or process the location map
-generateLocationList(locationMap);
 
 // You can now use 'topVideos' and 'categoryMap' as needed
 
@@ -1364,26 +1354,9 @@ generateLocationList(locationMap);
 
 
 
-if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
-
-  loadTopCategoriesWithVideos();
-  //console.log("currentPath  ",currentPath);
-
-
- 
-  
-}
-
-
 window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
-
-// Check if sessionStorage contains userLocation and set it
-const userLocation = sessionStorage.getItem("userLocation");
-let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
-
-console.log("currentPath  ",currentPath);
 
 
 
@@ -1404,8 +1377,6 @@ function generateLocationList(data, locationMap) {
     }
   });
 
-  const locationContainer = document.getElementById('locationContainer');
-  locationContainer.innerHTML = ''; // Clear any existing content
 
   // Create a reusable button component for each location (country, state, city)
 function createButton(text, className, location, onClick) {
@@ -1543,3 +1514,41 @@ function createButton(text, className, location, onClick) {
 
 
 
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Check if sessionStorage contains userLocation and set it
+const userLocation = sessionStorage.getItem("userLocation");
+let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+console.log("currentPath  ",currentPath);
+const locationContainer = document.getElementById('locationContainer');
+locationContainer.innerHTML = ''; // Clear any existing content
+
+if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
+
+
+
+}else {
+  const connectionsBTN = document.getElementById('connectionsBTN');
+  if (connectionsBTN) {
+    connectionsBTN.style.display = 'none'; // Hides the element
+  }
+} 
+
+
+
+
+    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+    loadTopCategoriesWithVideos();
+    //console.log("currentPath  ",currentPath);
+  
+  
+   // Assuming generateLocationList is a function to display or process the location map
+  generateLocationList(locationMap);
+    
+});
