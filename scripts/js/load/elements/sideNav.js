@@ -37,7 +37,7 @@ function insertSidePanelContent() {
   </div>
 
   <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
-  
+
     <ul id="side-nav-list" class="side-nav-list">
       <li class="side-nav-item" id="btn-join-area">
         <button id="btn-join" class="side-nav-button" aria-label="Join"> 
@@ -1091,6 +1091,13 @@ window.populateSidePanelContacts = populateSidePanelContacts;
 
 
 
+// Initialize location and category maps
+const locationMap = new Map();
+const categoryMap = new Map();
+const topVideos = [];
+
+
+
 
 async function loadTopCategoriesWithVideos() {
   const searchSuggestionsDiv = document.getElementById('search-suggestions');
@@ -1189,13 +1196,6 @@ async function loadTopCategoriesWithVideos() {
     `;
     document.head.appendChild(style);
   }
-
-
-// Initialize location and category maps
-const locationMap = new Map();
-const categoryMap = new Map();
-const topVideos = [];
-
 
 
 // Define the URL for the JSON file
@@ -1343,6 +1343,11 @@ data.forEach((video) => {
 
     searchSuggestionsDiv.appendChild(fragment);
   }
+
+
+  
+  generateLocationList(data, locationMap);
+    
 }
 
 
@@ -1549,10 +1554,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTopCategoriesWithVideos();
   
-    // Assuming generateLocationList is a function to display or process the location map
-  generateLocationList(locationMap);
-  
-    
   }
   
   
