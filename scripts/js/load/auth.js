@@ -353,46 +353,83 @@ function redirectToLogin() {
         color: #d32f2f;
       }
 
+#popup-login-content {
 
 .login-tabs {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adds consistent spacing between buttons */
 }
+
+.login-tabs button {
+  padding: 12px 24px; /* Slightly larger padding for better usability */
+  margin: 5px;
+  border: 2px solid transparent; /* Adds a border for better focus/hover effects */
+  border-radius: 25px; /* Circular edges for a sleek look */
+  background-color: #f4f4f4; /* Neutral background for inactive buttons */
+  color: #333; /* Darker text color for better contrast */
+  cursor: pointer;
+  font-size: 14px; /* Consistent font size */
+  font-weight: bold; /* Slightly bolder text */
+  transition: all 0.3s ease; /* Smooth transitions for all properties */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+}
+
+.login-tabs button.active {
+  background: linear-gradient(45deg, #5fa8d3, #91c1dd); /* Brighter gradient for the active button */
+  color: #fff; /* White text for contrast */
+  border-color: #5fa8d3; /* Matches the active gradient */
+  box-shadow: 0 4px 10px rgba(95, 168, 211, 0.5); /* More pronounced shadow for active state */
+  transform: translateY(-2px); /* Slight lift effect for active state */
+}
+
+.login-tabs button:not(.active):hover {
+  background-color: rgb(200, 200, 200); /* Slightly lighter hover background */
+  color: #000; /* Darker text for better visibility */
+  border-color: #ccc; /* Adds a border on hover */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Adds a hover shadow effect */
+}
+
+.login-tabs button:focus {
+  outline: none;
+  border-color: #5fa8d3; /* Focus border color for accessibility */
+  box-shadow: 0 0 8px rgba(95, 168, 211, 0.7); /* Glow effect on focus */
+}
+
   
-      .login-tabs button {
-        padding: 10px 20px;
-        margin: 5px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-      }
-  
-      .login-tabs button.active {
-    background: linear-gradient(45deg, #91c1dd, #aed0e3);
-        color: #fff;
-      }
-  
-      .login-tabs button:not(.active):hover {
-    background-color:rgb(142, 142, 143);
-      }
-  
-      input[type="email"],
-      input[type="password"],
-      input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #c4c4c4;
-        border-radius: 5px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-  
-      input:focus {
-        border-color: #1a73e8;
-        box-shadow: 0 0 5px rgba(26, 115, 232, 0.3);
-      }
-  
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+/* Focus effect */
+input:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 5px rgba(26, 115, 232, 0.3);
+}
+
+/* Hover effect */
+input:hover {
+  border-color:rgb(76, 84, 175);
+  background-color: #f9f9f9; /* Subtle change for better feedback */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+}
+
+/* Active effect */
+input:active {
+  border-color:rgb(60, 255, 0);
+  box-shadow: 0 0 5px rgba(255, 152, 0, 0.4);
+  background-color: #fffbe6; /* Slight background change for better interaction feedback */
+}
+  }
+
+  #social-login {
       button[type="submit"],
       #google-login,
       #phoneLogin,
@@ -402,9 +439,10 @@ function redirectToLogin() {
       #apple-login {
         width: 100%;
         padding: 12px;
-        margin: 8px 0;
-        border: none;
+    margin: 8px auto;
+    border: #0072ff33 solid;
         border-radius: 5px;
+    display: block;
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
@@ -418,8 +456,10 @@ function redirectToLogin() {
       #google-login:hover {
         background-color: #357ae8;
       }
-  
+  }
 
+  #popup-login-content{
+  
 #sendVerificationCode,
 #verifyCodeButton,
       #phoneLogin {
@@ -450,6 +490,8 @@ function redirectToLogin() {
         color: #0c47a1;
       }
   
+  }
+      
       @keyframes slideIn {
         from {
           transform: translateY(-20px);

@@ -998,7 +998,16 @@ color: red;
   
 
 
-
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%); /* Start off-screen (from the bottom) */
+      opacity: 0; /* Fully transparent */
+    }
+    to {
+      transform: translateY(0); /* End at the original position */
+      opacity: 1; /* Fully visible */
+    }
+  }
 
 
   #dynamic-userInfo {
