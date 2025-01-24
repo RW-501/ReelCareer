@@ -372,7 +372,7 @@ function redirectToLogin() {
   cursor: pointer;
   font-size: 14px; /* Consistent font size */
   font-weight: bold; /* Slightly bolder text */
-  transition: all 0.3s ease; /* Smooth transitions for all properties */
+  transition: all 0.2s ease; /* Smooth transitions for all properties */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
 }
 
