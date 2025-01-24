@@ -1167,6 +1167,21 @@ async function loadTopCategoriesWithVideos() {
           overflow: hidden;
       }
 
+
+      .collapsible-location {
+          background: linear-gradient(to bottom, #f4f4f4, #83bad9);
+    color: #676767 !important;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    transition: background 0.3s ease;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+      }
+
   }
 
     `;
@@ -1441,7 +1456,7 @@ function createButton(text, className, location, onClick) {
     locationContainer.innerHTML = '';
     countryMap.forEach((statesMap, country) => {
       const countryDiv = document.createElement('div');
-      countryDiv.className = 'location-tab';
+      countryDiv.className = 'country-tab';
 
       const countryButton = createButton(country, 'collapsible-location', country, () => {
         renderStates(country, statesMap);
@@ -1457,7 +1472,7 @@ function createButton(text, className, location, onClick) {
     locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
     statesMap.forEach((citiesMap, state) => {
       const stateDiv = document.createElement('div');
-      stateDiv.className = 'location-tab';
+      stateDiv.className = 'state-tab';
 
       const stateButton = createButton(state, 'collapsible-location', state, () => {
         renderCities(country, state, citiesMap);
@@ -1473,7 +1488,7 @@ function createButton(text, className, location, onClick) {
     locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
     citiesMap.forEach((video, city) => {
       const cityDiv = document.createElement('div');
-      cityDiv.className = 'location-tab';
+      cityDiv.className = 'city-tab';
 
       const cityButton = createButton(city, 'collapsible-location', city, () => {
         console.log(`Selected Location: ${country} > ${state} > ${city}`);
