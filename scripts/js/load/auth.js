@@ -353,7 +353,8 @@ function redirectToLogin() {
         color: #d32f2f;
       }
 
-#popup-login-content {
+#login-form-section,
+#signup-form-section {
 
 .login-tabs {
   display: flex;
