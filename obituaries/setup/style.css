@@ -778,12 +778,12 @@ video {
     margin: auto;
     height: 100%;
     position: fixed;
+    display: none;
+    position: fixed;
 
 
 }
 .giftPopup {
-    display: none;
-    position: fixed;
     top: 2rem;
     left: 0;
     right: 0;
@@ -802,7 +802,16 @@ video {
 .giftPopup-content {
     padding: 2rem;
     text-align: center;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+
 }
+
+.giftPopup-content::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for WebKit browsers */
+
+    }
+      
+    
   
   .gift-options {
     display: flex;
