@@ -119,11 +119,20 @@
             <div class="form-group">
               <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Salary Range (e.g., $50,000)" onkeydown="restrictKeys(event)" aria-label="Salary Range" id="salaryInput" oninput="updateCurrency(this)">
             </div>
-            <button id="main-search-btn" type="button" class="btn btn-primary btn-lg mb-2 px-4" ">Search Jobs</button> <!-- //onclick="searchJobs();-->
+            <button id="main-search-btn" type="button" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button> <!-- //onclick="searchJobs();-->
           </form>
         </div>
       </div>
     </div>
+    <div id="body-main" class="d-flex justify-content-center mb-3">
+      <button id="filter-btn" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
+        Show Filters
+      </button>
+  
+    <button id="quickPostJobButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobPostPopup">Quick Post Job</button>
+
+</div>
+
   </searchArea>
 
   
@@ -143,12 +152,7 @@
 
   <div class="container mt-5">
 
-    <!-- Toggle Button for Collapse -->
-    <div class="d-flex justify-content-center mb-3">
-      <button id="filter-btn" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
-        Show Filters
-      </button>
-    </div>
+
 
     <!-- Filter Section (Initially Collapsed) -->
     <div class="collapse" id="filterSection"  style="
@@ -580,9 +584,7 @@ border-radius: 12px;
       </nav>
     </div>
   
-    <button id="quickPostJobButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobPostPopup">Quick Post Job</button>
-
-
+   
 
     <div id="jobPostPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="jobPostPopupLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
