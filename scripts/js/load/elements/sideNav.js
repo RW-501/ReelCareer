@@ -1435,6 +1435,8 @@ function createButton(text, className, location, onClick) {
   function renderLocations(countryMap) {
     locationContainer.innerHTML = '';
     countryMap.forEach((statesMap, country) => {
+      console.log(statesMap,'   countryMap: ', country);
+
       const countryDiv = document.createElement('div');
       countryDiv.className = 'country-tab';
 
