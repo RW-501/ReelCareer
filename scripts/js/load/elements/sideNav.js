@@ -35,6 +35,8 @@ function insertSidePanelContent() {
 
   <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
     <ul id="side-nav-list" class="side-nav-list">
+
+
       <li class="side-nav-item" id="btn-join-area">
         <button id="btn-join" class="side-nav-button" aria-label="Join"> 
           <i class="fas fa-user" aria-hidden="true"></i><span class="btn-text"> Join</span>
@@ -76,7 +78,7 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn" id='connectionsBTN>
+      <li class="side-nav-item side-user-btn" id='btn-connections-area>
         <button id="btn-connection" class="side-nav-button" aria-label="Connection">
           <i class="fas fa-user" aria-hidden="true"></i>
           <span class="btn-text">Connection</span>
@@ -255,6 +257,8 @@ function insertSidePanelContent() {
 
           });
           
+
+          if(document.getElementById('btn-connection')){
           document.getElementById('btn-connection').addEventListener('click', () => {
             if(connectionSection.style.display === "block"){
               connectionSection.style.display = "none"
@@ -265,6 +269,7 @@ function insertSidePanelContent() {
             }
             toggleButtonActive(document.getElementById('btn-connection'));
           });
+        }
 
           document.getElementById('btn-location').addEventListener('click', () => {
             if(locationSection.style.display === "block"){
@@ -1537,7 +1542,7 @@ locationContainer.innerHTML = ''; // Clear any existing content
 if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
 }else {
-  const connectionsBTN = document.getElementById('connectionsBTN');
+  const connectionsBTN = document.getElementById('btn-connections-area');
   if (connectionsBTN) {
     connectionsBTN.style.display = 'none'; // Hides the element
   }
