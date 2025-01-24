@@ -1226,6 +1226,7 @@ data.forEach((video) => {
     // Calculate video rating
     const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
     topVideos.push({ ...video, rating });
+    console.warn('topVideos:', topVideos);
 
     // Group videos by categories
     if (video.reelCategories && video.reelCategories.length > 0) {
