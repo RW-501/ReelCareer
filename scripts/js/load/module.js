@@ -65,7 +65,17 @@ function initializeFirebase() {
 
 
      onAuthStateChanged(auth, (user) => {
+      console.log("onAuthStateChanged  currentUrl   ",currentUrl);
+      console.log("user   ",user);
+
+     
+
       if (user) {
+        const joinArea = document.getElementById('btn-join-area');
+        if (joinArea) joinArea.style.display = 'none';
+
+
+              
         console.log("Module User ID: ", user.uid);
     
         // Store user ID and email in local storage
@@ -76,25 +86,35 @@ function initializeFirebase() {
         userId = user.uid;
     
         // Fetch user data, ensure darkMode is checked safely
-        const userDataSaved = getUserData() || {};
-    
-        if (userDataSaved.darkMode === "true") {
-          document.body.classList.add("dark-mode");
+        try {
+          const userDataSaved =  getUserData() || {};
+          if (userDataSaved?.darkMode === "true") {
+            document.body.classList.add("dark-mode");
+          } else {
+            document.body.classList.remove("dark-mode");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error.message);
         }
+        
+        
+      
+
     
         // Redirect to the appropriate page based on the previous page
         if (window.location.pathname === "/views/auth") {
           const lastPage = document.referrer; // Get the URL of the last visited page
     
-          if (lastPage && lastPage.includes("obituaries")) {
+          if (lastPage?.includes("obituaries")) {
             localStorage.setItem("obituaryMemberID", userId);
-    
-            // Redirect to the obituaries page
             window.location.href = "/obituaries";
           } else {
-            // Redirect to the profile page
-            window.location.href = "/u/";
+            setTimeout(() => {
+              window.location.href = "/u/";
+            }, 500);
+
           }
+          
         }
     
       } else {
@@ -110,17 +130,29 @@ function initializeFirebase() {
     
         // Set userLoggedIn to false in local storage
         localStorage.setItem('userLoggedIn', false);
+
+
+        const allUserBtns = document.querySelectorAll('.side-user-btn');
+        allUserBtns.forEach((btns) => {
+          if (btns) btns.style.display = 'none';
+        });
+    
+        const joinArea = document.getElementById('btn-join-area');
+        if (joinArea) joinArea.style.display = 'block';
       }
+   
     });
+    
     
  //   console.log("Firebase initialized successfully");
   } catch (error) {
-    console.error("Error, TRY RELOADING:", error);
+    console.error("Authentication error:", error.message, error.stack);
   }
+
 }
 
-// Function to get the current user ID
 
+// Function to get the current user ID
 async function getUserId() {
      auth = getAuth();
     return new Promise((resolve, reject) => {
