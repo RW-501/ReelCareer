@@ -848,8 +848,8 @@ function showUserDataNotFoundMessage() {
   `;
 
   // Add a title to the card
-  const title = document.createElement('h3');
-  title.textContent = 'User Not Found - Login or Create an Account';
+  const title = document.createElement('span');
+  title.textContent = '<h3>User Not Found</h3> Login or Create an Account';
   title.style.marginBottom = '15px';
   card.appendChild(title);
 
