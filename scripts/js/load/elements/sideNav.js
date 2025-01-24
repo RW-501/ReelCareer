@@ -78,7 +78,7 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn" id='connectionsBTN>
+      <li class="side-nav-item side-user-btn">
         <button id="btn-connection" class="side-nav-button" aria-label="Connection">
           <i class="fas fa-user" aria-hidden="true"></i>
           <span class="btn-text">Connection</span>
@@ -1358,6 +1358,14 @@ window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
 
+// Check if sessionStorage contains userLocation and set it
+const userLocation = sessionStorage.getItem("userLocation");
+let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+console.log("currentPath  ",currentPath);
+const locationContainer = document.getElementById('locationContainer');
+locationContainer.innerHTML = ''; // Clear any existing content
+
 
 
 function generateLocationList(data, locationMap) {
@@ -1517,25 +1525,22 @@ function createButton(text, className, location, onClick) {
 
 
 
+if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
+
+  loadTopCategoriesWithVideos();
+  //console.log("currentPath  ",currentPath);
+
+
+ // Assuming generateLocationList is a function to display or process the location map
+generateLocationList(locationMap);
+
+  
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Check if sessionStorage contains userLocation and set it
-const userLocation = sessionStorage.getItem("userLocation");
-let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
-
-console.log("currentPath  ",currentPath);
-const locationContainer = document.getElementById('locationContainer');
-locationContainer.innerHTML = ''; // Clear any existing content
-
-
     document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
-    loadTopCategoriesWithVideos();
-    //console.log("currentPath  ",currentPath);
-  
-  
-   // Assuming generateLocationList is a function to display or process the location map
-  generateLocationList(locationMap);
+
     
 });
