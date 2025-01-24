@@ -453,7 +453,7 @@ video {
         }
 
 
-        .guestbook input,
+        .guestbook input[type=text],
         .guestbook textarea {
           outline: none; /* Remove the default double outline */
           border: 1px solid #a3a3a3;
@@ -463,7 +463,7 @@ video {
           width: 100%;
         }
         
-        .guestbook input:focus,
+        .guestbook input[type=text]:focus,
         .guestbook textarea:focus {
           margin-bottom: 10px;
           border: 1px solid #4caf50; /* Add a highlight color */
