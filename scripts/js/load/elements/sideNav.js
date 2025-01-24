@@ -1203,6 +1203,11 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
+}
+
+
+  window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
+
 
 // Initialize location and category maps
 const locationMap = new Map();
@@ -1210,166 +1215,150 @@ const categoryMap = new Map();
 const topVideos = [];
 
 
-
-// Define the URL for the JSON file
-const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
-
-// Fetch the JSON data
-const response = await fetch(jsonUrl);
-
-// Log the response to ensure it's being fetched correctly
-console.log("Response received:", response);
-
-// Parse the JSON data
-const data = await response.json();
-
-
-// Process each video data from the JSON
-data.forEach((video) => {
-  if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
-    const { country, state, city } = video;
-    const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
-
-    // Group videos by location
-    if (!locationMap.has(locationKey)) {
-      locationMap.set(locationKey, []);
+async function processVideoReels(jsonUrl, searchSuggestionsDiv) {
+  try {
+    // Fetch the JSON data
+    const response = await fetch(jsonUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
     }
-    locationMap.get(locationKey).push(video);
 
-    // Calculate video rating
-    const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
-    topVideos.push({ ...video, rating });
+    const data = await response.json();
+    console.log("Response received:", data);
 
-    // Group videos by categories
-    if (video.reelCategories && video.reelCategories.length > 0) {
-      video.reelCategories.forEach((category) => {
-        if (!categoryMap.has(category)) {
-          categoryMap.set(category, []);
+    // Process each video
+    data.forEach((video) => {
+      if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
+        const { country, state, city } = video;
+        const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+
+        // Group videos by location
+        if (!locationMap.has(locationKey)) {
+          locationMap.set(locationKey, []);
         }
-        categoryMap.get(category).push({ ...video, rating });
-      });
-    }
-  }
-});
+        locationMap.get(locationKey).push(video);
 
+        // Calculate video rating
+        const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
+        topVideos.push({ ...video, rating });
 
-// You can now use 'topVideos' and 'categoryMap' as needed
+        // Group videos by categories
+        if (video.reelCategories && video.reelCategories.length > 0) {
+          video.reelCategories.forEach((category) => {
+            if (!categoryMap.has(category)) {
+              categoryMap.set(category, []);
+            }
+            categoryMap.get(category).push({ ...video, rating });
+          });
+        }
+      }
+    });
 
+    // Display top categories
+    const sortedCategories = Array.from(categoryMap.entries())
+      .sort((a, b) => b[1].length - a[1].length)
+      .slice(0, 5);
 
-  const sortedCategories = Array.from(categoryMap.entries())
-    .sort((a, b) => b[1].length - a[1].length)
-    .slice(0, 5);
+    const randomPhrases = [
+      "Explore the creative world of {category}",
+      "Top picks in {category}",
+      "Watch the best {category} reels",
+      "Trending now: {category} talent",
+      "See standout work in {category}",
+    ];
 
-  const randomPhrases = [
-    "Explore the creative world of {category}",
-    "Top picks in {category}",
-    "Watch the best {category} reels",
-    "Trending now: {category} talent",
-    "See standout work in {category}"
-  ];
+    const fragment = document.createDocumentFragment();
 
-  const fragment = document.createDocumentFragment();
+    sortedCategories.forEach(([category, videos]) => {
+      const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
+      const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
 
-  sortedCategories.forEach(([category, videos]) => {
-    const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
-    const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+      if (!topVideo) {
+        console.warn('No top video found for category:', category);
+        return;
+      }
 
-    if (!topVideo) {
-      console.warn('No top video found for category:', category);
-      return;
-    }
+      const categoryDiv = document.createElement('div');
+      categoryDiv.className = 'category-item';
 
-    const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'category-item';
-
-    const categoryTitle = document.createElement('h3');
-    categoryTitle.textContent = randomPhrase;
-    categoryTitle.className = 'category-item-h3';
-    categoryDiv.appendChild(categoryTitle);
-
-    const videoContainer = document.createElement('div');
-    videoContainer.className = 'video-preview';
-
-    const thumbnail = document.createElement('img');
-    thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-    thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
-    thumbnail.className = 'video-thumbnail';
-
-/*     const videoTitle = document.createElement('span');
-    videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
-    videoTitle.className = 'video-title';
- */
-    const videoLink = document.createElement('a');
-    videoLink.href = topVideo.videoResumeURL;
-    videoLink.textContent = 'Watch Video';
-    videoLink.target = '_blank';
-    videoLink.className = 'watch-video-button';
-    videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
-
-    videoContainer.appendChild(thumbnail);
-   // videoContainer.appendChild(videoTitle);
-    videoContainer.appendChild(videoLink);
-    categoryDiv.appendChild(videoContainer);
-
-    fragment.appendChild(categoryDiv);
-  });
-
-  searchSuggestionsDiv.appendChild(fragment);
-
-  if (sortedCategories.length === 0) {
-    const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
-    topRatedVideos.forEach((video) => {
-      const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
-      const videoDiv = document.createElement('div');
-      videoDiv.className = 'category-item';
-
-      const videoTitle = document.createElement('h3');
-      videoTitle.textContent = tagPhrase;
-      videoDiv.appendChild(videoTitle);
+      const categoryTitle = document.createElement('h3');
+      categoryTitle.textContent = randomPhrase;
+      categoryTitle.className = 'category-item-h3';
+      categoryDiv.appendChild(categoryTitle);
 
       const videoContainer = document.createElement('div');
       videoContainer.className = 'video-preview';
 
       const thumbnail = document.createElement('img');
-      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
       thumbnail.className = 'video-thumbnail';
 
-      const titleSpan = document.createElement('span');
-      titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
-      titleSpan.className = 'video-title';
-
-      const link = document.createElement('a');
-      link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
-      link.textContent = 'Watch Video';
-      link.target = '_blank';
-      link.className = 'watch-video-button';
-      link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
+      const videoLink = document.createElement('a');
+      videoLink.href = topVideo.videoResumeURL;
+      videoLink.textContent = 'Watch Video';
+      videoLink.target = '_blank';
+      videoLink.className = 'watch-video-button';
+      videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
 
       videoContainer.appendChild(thumbnail);
-      videoContainer.appendChild(titleSpan);
-      videoContainer.appendChild(link);
-      videoDiv.appendChild(videoContainer);
+      videoContainer.appendChild(videoLink);
+      categoryDiv.appendChild(videoContainer);
 
-      fragment.appendChild(videoDiv);
+      fragment.appendChild(categoryDiv);
     });
 
     searchSuggestionsDiv.appendChild(fragment);
+
+    // Display top-rated videos if no categories are available
+    if (sortedCategories.length === 0) {
+      const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
+      topRatedVideos.forEach((video) => {
+        const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+        const videoDiv = document.createElement('div');
+        videoDiv.className = 'category-item';
+
+        const videoTitle = document.createElement('h3');
+        videoTitle.textContent = tagPhrase;
+        videoDiv.appendChild(videoTitle);
+
+        const videoContainer = document.createElement('div');
+        videoContainer.className = 'video-preview';
+
+        const thumbnail = document.createElement('img');
+        thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+        thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+        thumbnail.className = 'video-thumbnail';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
+        titleSpan.className = 'video-title';
+
+        const link = document.createElement('a');
+        link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+        link.textContent = 'Watch Video';
+        link.target = '_blank';
+        link.className = 'watch-video-button';
+        link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
+
+        videoContainer.appendChild(thumbnail);
+        videoContainer.appendChild(titleSpan);
+        videoContainer.appendChild(link);
+        videoDiv.appendChild(videoContainer);
+
+        fragment.appendChild(videoDiv);
+      });
+
+      searchSuggestionsDiv.appendChild(fragment);
+    }
+  } catch (error) {
+    console.error('Error fetching or processing video reels:', error);
   }
 }
 
 
 
 
-
-
-
-
-
-
-
-
-window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
 
@@ -1539,6 +1528,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check if sessionStorage contains userLocation and set it
 const userLocation = sessionStorage.getItem("userLocation");
 let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+
+const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
+const searchSuggestionsDiv = document.getElementById('search-suggestions');
+
+// Call the function
+processVideoReels(jsonUrl, searchSuggestionsDiv);
 
 console.log("currentPath  ",currentPath);
 const locationContainer = document.getElementById('locationContainer');
