@@ -1256,6 +1256,7 @@ data.forEach((video) => {
   ];
 
   const fragment = document.createDocumentFragment();
+  console.warn('sortedCategories:', sortedCategories);
 
   sortedCategories.forEach(([category, videos]) => {
     const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
