@@ -397,7 +397,7 @@ function redirectToLogin() {
   box-shadow: 0 0 8px rgba(95, 168, 211, 0.7); /* Glow effect on focus */
 }
 
-  
+#phone-verification,  
 #login-form-section,
 #signup-form-section {
 
