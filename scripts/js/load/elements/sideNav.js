@@ -178,11 +178,6 @@ function insertSidePanelContent() {
       `;
     }
     
-    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
-  
-    document.head.appendChild(styleElement);
-  
-
 
 
 
@@ -311,8 +306,6 @@ function insertSidePanelContent() {
 
       }
 
-window.loadAddEventListeners = loadAddEventListeners;
-
         document.addEventListener('DOMContentLoaded', () => {
           const currentPath = window.location.pathname;
           const currentUrl = window.location.href;
@@ -365,7 +358,7 @@ window.loadAddEventListeners = loadAddEventListeners;
      
 
 
-
+      loadAddEventListeners();
 
 
 
@@ -526,6 +519,11 @@ window.loadAddEventListeners = loadAddEventListeners;
         }
 
  
+        document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+  
+        document.head.appendChild(styleElement);
+      
+    
   
   const styleElement = document.createElement('style');
   styleElement.textContent = `
