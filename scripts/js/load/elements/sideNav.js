@@ -1210,6 +1210,7 @@ console.log("Response received:", response);
 // Parse the JSON data
 const data = await response.json();
 
+console.log('data:', data);
 
 // Process each video data from the JSON
 data.forEach((video) => {
@@ -1257,7 +1258,7 @@ data.forEach((video) => {
   ];
 
   const fragment = document.createDocumentFragment();
-  console.warn('categoryMap:', categoryMap);
+  console.log('categoryMap:', categoryMap);
 
   sortedCategories.forEach(([category, videos]) => {
     const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
