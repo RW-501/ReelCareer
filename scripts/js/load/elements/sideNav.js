@@ -304,9 +304,7 @@ function insertSidePanelContent() {
           const currentUrl = window.location.href;
       
           console.log("currentPath: ", currentPath);
-      loadAddEventListeners();
 
-      
           const videoAccountButton = document.getElementById('btn-video-account');
           const videoAnalyticsButton = document.getElementById('btn-video-analytics');
           const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
@@ -1566,4 +1564,7 @@ if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes(
    // Assuming generateLocationList is a function to display or process the location map
   generateLocationList(locationMap);
     
+  loadAddEventListeners();
+
+      
 });
