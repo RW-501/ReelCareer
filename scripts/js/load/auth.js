@@ -401,11 +401,16 @@ function redirectToLogin() {
 #login-form-section,
 #signup-form-section {
 
+button {
+outeline: none;
+}
 input[type="email"],
 input[type="password"],
 input[type="text"] {
   width: 100%;
   padding: 10px;
+  outeline: none;
+
   margin: 10px 0;
           outline: none;
   border: 1px solid #c4c4c4;
