@@ -61,12 +61,20 @@ header p {
     text-align: center;
 }
 
+#mainPhoto-area {
+    background: gainsboro;
+
+
+}
 #mainPhoto {
     width: 100%;
     max-height: 500px;
     object-fit: scale-down;
+    padding: 1rem;
+    background: gainsboro;
 
-}
+    }
+    
 .photo img {
     width: 100%;
     height: auto;
@@ -332,10 +340,6 @@ footer p {
 
 
 
-
-#mainPhoto {
-    background: gainsboro;
-}
 
 
 
