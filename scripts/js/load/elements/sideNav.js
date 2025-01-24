@@ -356,25 +356,6 @@ window.loadAddEventListeners = loadAddEventListeners;
 
 
 
-        document.getElementById('btn-join').addEventListener('click', () => {
-
-      openPopupLogin();
-  
-        });
-
-        // Search and filter functionality
-        const searchInput = document.getElementById("side-panel-search-input");
-        let connectionType = "";
-      
-        searchInput.addEventListener("input", (e) => {
-          const searchQuery = e.target.value.trim().toLowerCase();
-          if (searchQuery) {
-            console.log("Searching by tag:", searchQuery);
-            fetchVideoResumes(1, searchQuery, connectionType);
-          } else {
-            fetchVideoResumes(1, "", connectionType);
-          }
-        });
 
         const updateButtonTextVisibility = (action) => {
           const mainContent = document.getElementById("main-content");
@@ -919,6 +900,25 @@ margins: auto;
   
 
 
+    document.getElementById('btn-join').addEventListener('click', () => {
+
+      openPopupLogin();
+  
+        });
+
+        // Search and filter functionality
+        const searchInput = document.getElementById("side-panel-search-input");
+        let connectionType = "";
+      
+        searchInput.addEventListener("input", (e) => {
+          const searchQuery = e.target.value.trim().toLowerCase();
+          if (searchQuery) {
+            console.log("Searching by tag:", searchQuery);
+            fetchVideoResumes(1, searchQuery, connectionType);
+          } else {
+            fetchVideoResumes(1, "", connectionType);
+          }
+        });
 
 
  
