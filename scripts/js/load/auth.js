@@ -353,8 +353,6 @@ function redirectToLogin() {
         color: #d32f2f;
       }
 
-#login-form-section,
-#signup-form-section {
 
 .login-tabs {
   display: flex;
@@ -398,6 +396,9 @@ function redirectToLogin() {
 }
 
   
+#login-form-section,
+#signup-form-section {
+
 input[type="email"],
 input[type="password"],
 input[type="text"] {
