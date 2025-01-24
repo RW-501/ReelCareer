@@ -369,8 +369,7 @@ function insertSidePanelContent() {
       
        
 
-      document.addEventListener('DOMContentLoaded', () => {
-
+     
       onAuthStateChanged(auth, (user) => {
         console.log("currentUrl   ",currentUrl);
         console.log("user   ",user);
@@ -392,8 +391,6 @@ function insertSidePanelContent() {
 
 
 
-
-    });
 
 
 
