@@ -19,6 +19,9 @@ getUserId // Export the function
 
 const currentPath = window.location.pathname;
 
+const currentUrl = window.location.href;
+console.log("currentUrl   ",currentUrl);
+
 const sidePanel = document.getElementById('main-side-panel');
 
 
@@ -285,9 +288,6 @@ function insertSidePanelContent() {
           });
 
 
-          const currentUrl = window.location.href;
-          console.log("currentUrl   ",currentUrl);
-          
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
         document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
@@ -297,7 +297,7 @@ function insertSidePanelContent() {
 
       }
 
-
+window.loadAddEventListeners = loadAddEventListeners;
 
         document.addEventListener('DOMContentLoaded', () => {
           const currentPath = window.location.pathname;
