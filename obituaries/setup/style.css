@@ -480,7 +480,7 @@ video {
             justify-items: center;
             background: #c7c7c7;
             width: fit-content;
-            margin: 0 auto 2rem;
+            margin: 1rem auto 2rem;
             padding: 0.5rem 1rem .5rem 1rem;
             border-radius: 5px;
             flex-direction: row;

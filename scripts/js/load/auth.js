@@ -429,6 +429,44 @@ input:active {
 }
   }
 
+
+
+#popup-login-content {
+
+
+.terms-message {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.terms-message a {
+  color: #1a73e8; /* Matches a standard link color */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.terms-message a:hover {
+  text-decoration: underline;
+}
+
+hr {
+    border-top: .5rem solid #2c7ac8;
+    margin: 1rem 0;
+    width: auto;
+}
+
+  }
+
+
+
+
+
+
+
+
+
   #social-login {
       button[type="submit"],
       #google-login,
@@ -491,7 +529,7 @@ input:active {
       }
   
   }
-      
+
       @keyframes slideIn {
         from {
           transform: translateY(-20px);
@@ -533,7 +571,14 @@ input:active {
             <button type="submit">Sign Up</button>
           </form>
         </div>
-        <hr>
+
+     <p class="terms-message">
+  By signing up, you agree to our 
+  <a href="https://reelcareer.co/views/terms" target="_blank">Terms of Service</a> and 
+  <a href="https://reelcareer.co/views/privacy" target="_blank">Privacy Policy</a>.
+</p>
+
+<hr>
              <div id="social-login" class="social-login">
             <button id="google-login">Continue with Google</button>
             <button id="phoneLogin">Phone Login</button>
