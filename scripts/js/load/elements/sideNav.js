@@ -519,11 +519,6 @@ function insertSidePanelContent() {
         }
 
  
-        document.addEventListener('DOMContentLoaded', insertSidePanelContent);
-  
-        document.head.appendChild(styleElement);
-      
-    
   
   const styleElement = document.createElement('style');
   styleElement.textContent = `
@@ -969,6 +964,11 @@ margins: auto;
 
 }
  
+
+
+document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+  
+document.head.appendChild(styleElement);
 
 
 
