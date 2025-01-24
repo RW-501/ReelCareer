@@ -462,6 +462,12 @@ video {
             border-radius: 5px;
         }
 
+        .guestbook  textarea {
+            outline: double;
+            outline-color: #a3a3a3;
+        }
+
+
         .guestbook button {
             display: block;
             width: 100%;
@@ -476,6 +482,8 @@ video {
 
         .guestbook button:hover {
             background-color: #218838;
+            outline: double;
+            outline-color: #a3a3a3;
         }
 
         .guestbook-content {
@@ -497,6 +505,32 @@ video {
             border-radius: 5px;
             text-align: left;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #guestbookEntries   .entry {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            outline: double;
+            outline-color: #a3a3a3;
+        }
+
+
 
         footer {
             background: #333;
@@ -593,10 +627,8 @@ video {
     text-align: center;
     margin-top: 10px;
   }
-#celebrating-header {
 
-
-}
+  
   /* Horizontal Rule (formerly hr) */
   #horizontal-rule {
     border-top: 0.2rem solid #001643;
@@ -649,14 +681,15 @@ video {
     font-size: 1.1rem;
     color: #666;
     line-height: 1.5;
-  }
+    margin: 1.5rem;
+}
   
   /* Media Section */
   #media-section {
     margin-top: 20px;
   }
   
-  #pageID, #pageName {
+  #pageID, #pageName, #pageOwnerUserID {
     display: none;
   }
 
