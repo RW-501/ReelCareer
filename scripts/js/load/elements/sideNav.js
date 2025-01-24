@@ -16,9 +16,7 @@ getUserId // Export the function
 
 
 
-let postsPerPage = 10;
-let lastVisibleDoc = null;
-let searchingByTag = false; 
+
 const currentPath = window.location.pathname;
 
 const sidePanel = document.getElementById('main-side-panel');
@@ -561,30 +559,10 @@ function insertSidePanelContent() {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
 
+/*  */
 
 
-  .side-nav-item::after {
-  content: attr(aria-label);
-  position: absolute;
-  bottom: -25px; /* Adjust based on the design */
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  font-size: 12px;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.3s, visibility 0.3s;
-}
-
-/* Show aria-label text on hover */
-.side-nav-item:hover::after {
-  opacity: 1;
-  visibility: visible;
-}
+  
 
 #body-main {
     display: flex;
@@ -1531,12 +1509,11 @@ locationContainer.innerHTML = ''; // Clear any existing content
 
 if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
-
+}else {
   const connectionsBTN = document.getElementById('connectionsBTN');
   if (connectionsBTN) {
     connectionsBTN.style.display = 'none'; // Hides the element
   }
-
 } 
 
 
