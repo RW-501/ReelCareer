@@ -175,41 +175,7 @@ function insertSidePanelContent() {
     
     let isSectionOpen = false;
 
-    
-  // Close side panel if clicked outside
-  document.addEventListener('click', (event) => {
-    const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
-    if (!isClickInside && sidePanel.style.display !== 'none') {
-    
-    
-        const allPopouts = document.querySelectorAll('.side-panel-popout');
-        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-        isSectionOpen = false;
-        updateButtonTextVisibility('click');
-
-      //  sidePanel.style.display = 'none'; // Close the side panel
-    }
-  });
-
-
-
-  window.addEventListener("scroll", (event) => {
-    const targetElement = event.target;
-  
-    // Check if the scroll event occurred outside of the sidePanel or #side-nav
-    const isScrollOutside = !sidePanel.contains(targetElement);
-
-    
-    if (isScrollOutside && sidePanel.style.display !== 'none') {
-      // Hide all popouts when the scroll happens outside the sidePanel
-      const allPopouts = document.querySelectorAll('.side-panel-popout');
-      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-      isSectionOpen = false; // Update the section state
-      updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
-    }
-  });
-  
-
+   
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
@@ -943,13 +909,47 @@ margins: auto;
   
 
 
-  }
+
+
  
+  // Close side panel if clicked outside
+  document.addEventListener('click', (event) => {
+    const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
+    if (!isClickInside && sidePanel.style.display !== 'none') {
+    
+    
+        const allPopouts = document.querySelectorAll('.side-panel-popout');
+        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+        isSectionOpen = false;
+        updateButtonTextVisibility('click');
+
+      //  sidePanel.style.display = 'none'; // Close the side panel
+    }
+  });
 
 
 
+  window.addEventListener("scroll", (event) => {
+    const targetElement = event.target;
+  
+    // Check if the scroll event occurred outside of the sidePanel or #side-nav
+    const isScrollOutside = !sidePanel.contains(targetElement);
+
+    
+    if (isScrollOutside && sidePanel.style.display !== 'none') {
+      // Hide all popouts when the scroll happens outside the sidePanel
+      const allPopouts = document.querySelectorAll('.side-panel-popout');
+      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+      isSectionOpen = false; // Update the section state
+      updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
+    }
+  });
+  
 
 
+
+}
+ 
 
 
 
