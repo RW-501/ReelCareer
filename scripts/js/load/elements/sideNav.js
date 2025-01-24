@@ -16,11 +16,10 @@ getUserId // Export the function
 
 
 
-
+let postsPerPage = 10;
+let lastVisibleDoc = null;
+let searchingByTag = false; 
 const currentPath = window.location.pathname;
-
-const currentUrl = window.location.href;
-console.log("currentUrl   ",currentUrl);
 
 const sidePanel = document.getElementById('main-side-panel');
 
@@ -38,8 +37,6 @@ function insertSidePanelContent() {
 
   <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
     <ul id="side-nav-list" class="side-nav-list">
-
-
       <li class="side-nav-item" id="btn-join-area">
         <button id="btn-join" class="side-nav-button" aria-label="Join"> 
           <i class="fas fa-user" aria-hidden="true"></i><span class="btn-text"> Join</span>
@@ -81,7 +78,7 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn" id='btn-connections-area>
+      <li class="side-nav-item side-user-btn" id='connectionsBTN>
         <button id="btn-connection" class="side-nav-button" aria-label="Connection">
           <i class="fas fa-user" aria-hidden="true"></i>
           <span class="btn-text">Connection</span>
@@ -178,18 +175,43 @@ function insertSidePanelContent() {
       `;
     }
     
-
-
-
-
-
-
-
-
-
     let isSectionOpen = false;
 
-   
+    
+  // Close side panel if clicked outside
+  document.addEventListener('click', (event) => {
+    const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
+    if (!isClickInside && sidePanel.style.display !== 'none') {
+    
+    
+        const allPopouts = document.querySelectorAll('.side-panel-popout');
+        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+        isSectionOpen = false;
+        updateButtonTextVisibility('click');
+
+      //  sidePanel.style.display = 'none'; // Close the side panel
+    }
+  });
+
+
+
+  window.addEventListener("scroll", (event) => {
+    const targetElement = event.target;
+  
+    // Check if the scroll event occurred outside of the sidePanel or #side-nav
+    const isScrollOutside = !sidePanel.contains(targetElement);
+
+    
+    if (isScrollOutside && sidePanel.style.display !== 'none') {
+      // Hide all popouts when the scroll happens outside the sidePanel
+      const allPopouts = document.querySelectorAll('.side-panel-popout');
+      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+      isSectionOpen = false; // Update the section state
+      updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
+    }
+  });
+  
+
         // Cache popout sections
         const searchSection = document.getElementById('search-section');
         const connectionSection = document.getElementById('connection-section');
@@ -243,7 +265,6 @@ function insertSidePanelContent() {
 
       }
       
-      function loadAddEventListeners(){
 
           document.getElementById('btn-menu').addEventListener('click', () => {
             toggleButtonActive(document.getElementById('btn-menu'));
@@ -270,8 +291,6 @@ function insertSidePanelContent() {
 
           });
           
-
-          if(document.getElementById('btn-connection')){
           document.getElementById('btn-connection').addEventListener('click', () => {
             if(connectionSection.style.display === "block"){
               connectionSection.style.display = "none"
@@ -282,7 +301,6 @@ function insertSidePanelContent() {
             }
             toggleButtonActive(document.getElementById('btn-connection'));
           });
-        }
 
           document.getElementById('btn-location').addEventListener('click', () => {
             if(locationSection.style.display === "block"){
@@ -297,6 +315,9 @@ function insertSidePanelContent() {
           });
 
 
+          const currentUrl = window.location.href;
+          console.log("currentUrl   ",currentUrl);
+          
         document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
         document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
         document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
@@ -304,14 +325,12 @@ function insertSidePanelContent() {
         document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
         document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
 
-      }
-
         document.addEventListener('DOMContentLoaded', () => {
           const currentPath = window.location.pathname;
           const currentUrl = window.location.href;
       
           console.log("currentPath: ", currentPath);
-
+      
           const videoAccountButton = document.getElementById('btn-video-account');
           const videoAnalyticsButton = document.getElementById('btn-video-analytics');
           const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
@@ -358,11 +377,30 @@ function insertSidePanelContent() {
      
 
 
-      loadAddEventListeners();
 
 
 
 
+
+        document.getElementById('btn-join').addEventListener('click', () => {
+
+      openPopupLogin();
+  
+        });
+
+        // Search and filter functionality
+        const searchInput = document.getElementById("side-panel-search-input");
+        let connectionType = "";
+      
+        searchInput.addEventListener("input", (e) => {
+          const searchQuery = e.target.value.trim().toLowerCase();
+          if (searchQuery) {
+            console.log("Searching by tag:", searchQuery);
+            fetchVideoResumes(1, searchQuery, connectionType);
+          } else {
+            fetchVideoResumes(1, "", connectionType);
+          }
+        });
 
         const updateButtonTextVisibility = (action) => {
           const mainContent = document.getElementById("main-content");
@@ -523,12 +561,9 @@ function insertSidePanelContent() {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
 
-/* /* Initially hide the aria-label text */
-.side-nav-item {
-  position: relative;
-}
 
-.side-nav-item::after {
+
+  .side-nav-item::after {
   content: attr(aria-label);
   position: absolute;
   bottom: -25px; /* Adjust based on the design */
@@ -550,10 +585,6 @@ function insertSidePanelContent() {
   opacity: 1;
   visibility: visible;
 }
- */
-
-
-  
 
 #body-main {
     display: flex;
@@ -901,74 +932,19 @@ margins: auto;
 
   if(sidePanel){
 
-
-
-
-    document.getElementById('btn-join').addEventListener('click', () => {
-
-      openPopupLogin();
+    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
   
-        });
-
-        // Search and filter functionality
-        const searchInput = document.getElementById("side-panel-search-input");
-        let connectionType = "";
-      
-        searchInput.addEventListener("input", (e) => {
-          const searchQuery = e.target.value.trim().toLowerCase();
-          if (searchQuery) {
-            console.log("Searching by tag:", searchQuery);
-            fetchVideoResumes(1, searchQuery, connectionType);
-          } else {
-            fetchVideoResumes(1, "", connectionType);
-          }
-        });
-
-
- 
-  // Close side panel if clicked outside
-  document.addEventListener('click', (event) => {
-    const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
-    if (!isClickInside && sidePanel.style.display !== 'none') {
-    
-    
-        const allPopouts = document.querySelectorAll('.side-panel-popout');
-        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-        isSectionOpen = false;
-        updateButtonTextVisibility('click');
-
-      //  sidePanel.style.display = 'none'; // Close the side panel
-    }
-  });
-
-
-
-  window.addEventListener("scroll", (event) => {
-    const targetElement = event.target;
-  
-    // Check if the scroll event occurred outside of the sidePanel or #side-nav
-    const isScrollOutside = !sidePanel.contains(targetElement);
-
-    
-    if (isScrollOutside && sidePanel.style.display !== 'none') {
-      // Hide all popouts when the scroll happens outside the sidePanel
-      const allPopouts = document.querySelectorAll('.side-panel-popout');
-      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-      isSectionOpen = false; // Update the section state
-      updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
-    }
-  });
+    document.head.appendChild(styleElement);
   
 
 
-
-}
+  }
  
 
 
-document.addEventListener('DOMContentLoaded', insertSidePanelContent);
-  
-document.head.appendChild(styleElement);
+
+
+
 
 
 
@@ -1212,11 +1188,6 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
-}
-
-
-  window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
-
 
 // Initialize location and category maps
 const locationMap = new Map();
@@ -1224,150 +1195,166 @@ const categoryMap = new Map();
 const topVideos = [];
 
 
-async function processVideoReels(jsonUrl, searchSuggestionsDiv) {
-  try {
-    // Fetch the JSON data
-    const response = await fetch(jsonUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
+
+// Define the URL for the JSON file
+const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
+
+// Fetch the JSON data
+const response = await fetch(jsonUrl);
+
+// Log the response to ensure it's being fetched correctly
+console.log("Response received:", response);
+
+// Parse the JSON data
+const data = await response.json();
+
+
+// Process each video data from the JSON
+data.forEach((video) => {
+  if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
+    const { country, state, city } = video;
+    const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+
+    // Group videos by location
+    if (!locationMap.has(locationKey)) {
+      locationMap.set(locationKey, []);
+    }
+    locationMap.get(locationKey).push(video);
+
+    // Calculate video rating
+    const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
+    topVideos.push({ ...video, rating });
+
+    // Group videos by categories
+    if (video.reelCategories && video.reelCategories.length > 0) {
+      video.reelCategories.forEach((category) => {
+        if (!categoryMap.has(category)) {
+          categoryMap.set(category, []);
+        }
+        categoryMap.get(category).push({ ...video, rating });
+      });
+    }
+  }
+});
+
+
+// You can now use 'topVideos' and 'categoryMap' as needed
+
+
+  const sortedCategories = Array.from(categoryMap.entries())
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 5);
+
+  const randomPhrases = [
+    "Explore the creative world of {category}",
+    "Top picks in {category}",
+    "Watch the best {category} reels",
+    "Trending now: {category} talent",
+    "See standout work in {category}"
+  ];
+
+  const fragment = document.createDocumentFragment();
+
+  sortedCategories.forEach(([category, videos]) => {
+    const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
+    const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+
+    if (!topVideo) {
+      console.warn('No top video found for category:', category);
+      return;
     }
 
-    const data = await response.json();
-    console.log("Response received:", data);
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category-item';
 
-    // Process each video
-    data.forEach((video) => {
-      if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
-        const { country, state, city } = video;
-        const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+    const categoryTitle = document.createElement('h3');
+    categoryTitle.textContent = randomPhrase;
+    categoryTitle.className = 'category-item-h3';
+    categoryDiv.appendChild(categoryTitle);
 
-        // Group videos by location
-        if (!locationMap.has(locationKey)) {
-          locationMap.set(locationKey, []);
-        }
-        locationMap.get(locationKey).push(video);
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-preview';
 
-        // Calculate video rating
-        const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
-        topVideos.push({ ...video, rating });
+    const thumbnail = document.createElement('img');
+    thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+    thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
+    thumbnail.className = 'video-thumbnail';
 
-        // Group videos by categories
-        if (video.reelCategories && video.reelCategories.length > 0) {
-          video.reelCategories.forEach((category) => {
-            if (!categoryMap.has(category)) {
-              categoryMap.set(category, []);
-            }
-            categoryMap.get(category).push({ ...video, rating });
-          });
-        }
-      }
-    });
+/*     const videoTitle = document.createElement('span');
+    videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
+    videoTitle.className = 'video-title';
+ */
+    const videoLink = document.createElement('a');
+    videoLink.href = topVideo.videoResumeURL;
+    videoLink.textContent = 'Watch Video';
+    videoLink.target = '_blank';
+    videoLink.className = 'watch-video-button';
+    videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
 
-    // Display top categories
-    const sortedCategories = Array.from(categoryMap.entries())
-      .sort((a, b) => b[1].length - a[1].length)
-      .slice(0, 5);
+    videoContainer.appendChild(thumbnail);
+   // videoContainer.appendChild(videoTitle);
+    videoContainer.appendChild(videoLink);
+    categoryDiv.appendChild(videoContainer);
 
-    const randomPhrases = [
-      "Explore the creative world of {category}",
-      "Top picks in {category}",
-      "Watch the best {category} reels",
-      "Trending now: {category} talent",
-      "See standout work in {category}",
-    ];
+    fragment.appendChild(categoryDiv);
+  });
 
-    const fragment = document.createDocumentFragment();
+  searchSuggestionsDiv.appendChild(fragment);
 
-    sortedCategories.forEach(([category, videos]) => {
-      const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
-      const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+  if (sortedCategories.length === 0) {
+    const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
+    topRatedVideos.forEach((video) => {
+      const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+      const videoDiv = document.createElement('div');
+      videoDiv.className = 'category-item';
 
-      if (!topVideo) {
-        console.warn('No top video found for category:', category);
-        return;
-      }
-
-      const categoryDiv = document.createElement('div');
-      categoryDiv.className = 'category-item';
-
-      const categoryTitle = document.createElement('h3');
-      categoryTitle.textContent = randomPhrase;
-      categoryTitle.className = 'category-item-h3';
-      categoryDiv.appendChild(categoryTitle);
+      const videoTitle = document.createElement('h3');
+      videoTitle.textContent = tagPhrase;
+      videoDiv.appendChild(videoTitle);
 
       const videoContainer = document.createElement('div');
       videoContainer.className = 'video-preview';
 
       const thumbnail = document.createElement('img');
-      thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-      thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
+      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
       thumbnail.className = 'video-thumbnail';
 
-      const videoLink = document.createElement('a');
-      videoLink.href = topVideo.videoResumeURL;
-      videoLink.textContent = 'Watch Video';
-      videoLink.target = '_blank';
-      videoLink.className = 'watch-video-button';
-      videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
+      titleSpan.className = 'video-title';
+
+      const link = document.createElement('a');
+      link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+      link.textContent = 'Watch Video';
+      link.target = '_blank';
+      link.className = 'watch-video-button';
+      link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
 
       videoContainer.appendChild(thumbnail);
-      videoContainer.appendChild(videoLink);
-      categoryDiv.appendChild(videoContainer);
+      videoContainer.appendChild(titleSpan);
+      videoContainer.appendChild(link);
+      videoDiv.appendChild(videoContainer);
 
-      fragment.appendChild(categoryDiv);
+      fragment.appendChild(videoDiv);
     });
 
     searchSuggestionsDiv.appendChild(fragment);
-
-    // Display top-rated videos if no categories are available
-    if (sortedCategories.length === 0) {
-      const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
-      topRatedVideos.forEach((video) => {
-        const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
-        const videoDiv = document.createElement('div');
-        videoDiv.className = 'category-item';
-
-        const videoTitle = document.createElement('h3');
-        videoTitle.textContent = tagPhrase;
-        videoDiv.appendChild(videoTitle);
-
-        const videoContainer = document.createElement('div');
-        videoContainer.className = 'video-preview';
-
-        const thumbnail = document.createElement('img');
-        thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-        thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
-        thumbnail.className = 'video-thumbnail';
-
-        const titleSpan = document.createElement('span');
-        titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
-        titleSpan.className = 'video-title';
-
-        const link = document.createElement('a');
-        link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
-        link.textContent = 'Watch Video';
-        link.target = '_blank';
-        link.className = 'watch-video-button';
-        link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
-
-        videoContainer.appendChild(thumbnail);
-        videoContainer.appendChild(titleSpan);
-        videoContainer.appendChild(link);
-        videoDiv.appendChild(videoContainer);
-
-        fragment.appendChild(videoDiv);
-      });
-
-      searchSuggestionsDiv.appendChild(fragment);
-    }
-  } catch (error) {
-    console.error('Error fetching or processing video reels:', error);
   }
 }
 
 
 
 
+
+
+
+
+
+
+
+
+window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 
 
@@ -1538,24 +1525,18 @@ document.addEventListener('DOMContentLoaded', () => {
 const userLocation = sessionStorage.getItem("userLocation");
 let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
 
-
-const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
-const searchSuggestionsDiv = document.getElementById('search-suggestions');
-
-// Call the function
-processVideoReels(jsonUrl, searchSuggestionsDiv);
-
 console.log("currentPath  ",currentPath);
 const locationContainer = document.getElementById('locationContainer');
 locationContainer.innerHTML = ''; // Clear any existing content
 
 if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
-}else {
-  const connectionsBTN = document.getElementById('btn-connections-area');
+
+  const connectionsBTN = document.getElementById('connectionsBTN');
   if (connectionsBTN) {
     connectionsBTN.style.display = 'none'; // Hides the element
   }
+
 } 
 
 
@@ -1569,7 +1550,4 @@ if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes(
    // Assuming generateLocationList is a function to display or process the location map
   generateLocationList(locationMap);
     
-  loadAddEventListeners();
-
-      
 });
