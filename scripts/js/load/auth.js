@@ -509,12 +509,13 @@ hr {
         color: white;
       }
 
-      button[type="submit"] {
-    background: linear-gradient(45deg, #cce2ef, #c5dfed) !important;
-    background-color: transparent !important;
+button[type="submit"] {
+    background: linear-gradient(45deg, #99c5df, #5eacd6) !important;
     width: fit-content;
-        color: white;
-      }
+    color: white;
+    outline: none;
+    border: none;
+}
   
 
   
