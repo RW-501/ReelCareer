@@ -780,9 +780,10 @@ video {
     position: fixed;
     display: none;
     position: fixed;
-    transition: opacity 0.5s ease-in-out;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     width: 100%;
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
+
 }
 .giftPopup {
     top: 25%;

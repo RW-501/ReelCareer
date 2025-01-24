@@ -314,6 +314,8 @@ function redirectToLogin() {
     left: 0;
     right: 0;
     z-index: 50000000000000;
+      transition: all 0.3s ease; /* Smooth transitions for all properties */
+
 }
       
 #popup-login-content {
