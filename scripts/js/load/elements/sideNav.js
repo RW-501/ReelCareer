@@ -1197,7 +1197,7 @@ const topVideos = [];
 document.addEventListener('DOMContentLoaded', () => {
 
   if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
-    console.log('Match found in /reels/ or /videos/');
+    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
   } else {
     console.log('No match found.');
   }
