@@ -16,9 +16,7 @@ getUserId // Export the function
 
 
 
-let postsPerPage = 10;
-let lastVisibleDoc = null;
-let searchingByTag = false; 
+
 const currentPath = window.location.pathname;
 
 const sidePanel = document.getElementById('main-side-panel');
@@ -561,9 +559,12 @@ function insertSidePanelContent() {
   const styleElement = document.createElement('style');
   styleElement.textContent = `
 
+/* /* Initially hide the aria-label text */
+.side-nav-item {
+  position: relative;
+}
 
-
-  .side-nav-item::after {
+.side-nav-item::after {
   content: attr(aria-label);
   position: absolute;
   bottom: -25px; /* Adjust based on the design */
@@ -585,6 +586,10 @@ function insertSidePanelContent() {
   opacity: 1;
   visibility: visible;
 }
+ */
+
+
+  
 
 #body-main {
     display: flex;
@@ -1531,7 +1536,6 @@ locationContainer.innerHTML = ''; // Clear any existing content
 
 if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
-  
 }else {
   const connectionsBTN = document.getElementById('connectionsBTN');
   if (connectionsBTN) {
