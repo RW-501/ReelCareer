@@ -28,6 +28,7 @@ function insertSidePanelContent() {
     if (sidePanel) {
       sidePanel.innerHTML = `
 <nav id="side-nav" aria-label="Side Navigation">
+
   <div id="btn-menu-area" class="side-panel-menu">
     <button id="btn-menu" class="side-nav-button" aria-label="Toggle navigation menu">
       <i id="menu-icon" class="fas fa-bars bar-icon" aria-hidden="true"></i>
@@ -36,6 +37,7 @@ function insertSidePanelContent() {
   </div>
 
   <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
+  
     <ul id="side-nav-list" class="side-nav-list">
       <li class="side-nav-item" id="btn-join-area">
         <button id="btn-join" class="side-nav-button" aria-label="Join"> 
@@ -78,7 +80,7 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn">
+      <li id='btn-connetions-area' class="side-nav-item side-user-btn">
         <button id="btn-connection" class="side-nav-button" aria-label="Connection">
           <i class="fas fa-user" aria-hidden="true"></i>
           <span class="btn-text">Connection</span>
@@ -1526,15 +1528,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const locationContainer = document.getElementById('locationContainer');
   locationContainer.innerHTML = ''; // Clear any existing content
   
-  }
   
+  document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
 
-  if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
-    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+  if ( (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
+
+    const connectionsBTN = document.getElementById('btn-connetions-area');
+    if (connectionsBTN) {
+      connectionsBTN.classList.add('hidden'); // Adds the 'hidden' class to the element
+    }
+
+
   } else {
     console.log('No match found.');
   }
+}
 
   if (sidePanel) {
 
