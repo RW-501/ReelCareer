@@ -178,6 +178,20 @@ function insertSidePanelContent() {
       `;
     }
     
+    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+  
+    document.head.appendChild(styleElement);
+  
+
+
+
+
+
+
+
+
+
+
     let isSectionOpen = false;
 
    
@@ -894,10 +908,7 @@ margins: auto;
 
   if(sidePanel){
 
-    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
-  
-    document.head.appendChild(styleElement);
-  
+
 
 
     document.getElementById('btn-join').addEventListener('click', () => {
