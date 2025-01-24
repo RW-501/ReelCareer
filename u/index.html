@@ -1067,8 +1067,11 @@
           setUpUI();
         }, 300);
       } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+        showUserDataNotFoundMessage();
+                console.error("Error fetching user ID:", error);
+                return;
+              
+              }
     }
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');

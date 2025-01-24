@@ -785,16 +785,20 @@ function paymentStatusNotifications() {
                     populateUserInfo(userID); // Populate user info based on userID
                 } else {
                     console.warn('No user data found in storage.');
-                    return;
-                }
+                    showUserDataNotFoundMessage();
+                return;
+              
+              }
             } else {
                 populateUserInfo(userID); // Directly populate user info if userID is valid
             }
             loadMemberFAQs();
 
         } catch (error) {
-            console.error("Error checking page ownership:", error);
-        }
+          showUserDataNotFoundMessage();
+                console.error("Error fetching user ID:", error);
+                return;
+                  }
     }, 1000);  // 1-second delay
 });
 

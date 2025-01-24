@@ -1048,6 +1048,9 @@ input[type="checkbox"]:hover {
         loadAnalytics(userID);
     } catch (error) {
         console.error("Error loading account page:", error);
+        showUserDataNotFoundMessage();
+            
+            return;
     }
 });
 
