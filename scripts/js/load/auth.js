@@ -868,7 +868,7 @@ function showUserDataNotFoundMessage() {
   card.appendChild(goBackButton);
   // Create a "Login" button
   const loginButton = document.createElement('button');
-  loginButton.textContent = 'Go to Login Page';
+  loginButton.textContent = 'Login';
   loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
   loginButton.style.padding = '10px 20px';
   // Add an event listener to redirect to the login page
