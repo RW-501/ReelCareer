@@ -1521,26 +1521,38 @@ function createButton(text, className, location, onClick) {
 
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const currentLocation = true; // Example value
+  const currentPath = '/reels/video123'; // Example path
 
+  if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
+    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+  } else {
+    console.log('No match found.');
+  }
 
+  if (sidePanel) {
 
-if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
-
-  loadTopCategoriesWithVideos();
-  //console.log("currentPath  ",currentPath);
-
-
- // Assuming generateLocationList is a function to display or process the location map
-generateLocationList(locationMap);
-
+    loadTopCategoriesWithVideos();
   
-}
+    // Assuming generateLocationList is a function to display or process the location map
+  generateLocationList(locationMap);
+  
+    
+  }
+  
+  
+  
+});
 
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
-
-    
+  const connectionsBTN = document.getElementById('connectionsBTN');
+  if (connectionsBTN) {
+    connectionsBTN.classList.add('hidden'); // Adds the 'hidden' class to the element
+  }
 });
+
+
+
