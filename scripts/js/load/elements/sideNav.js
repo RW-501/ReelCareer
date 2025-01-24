@@ -1440,10 +1440,16 @@ function createButton(text, className, location, onClick) {
       const countryDiv = document.createElement('div');
       countryDiv.className = 'country-tab';
 
-      const countryButton = createButton(country, 'collapsible-location', country, () => {
-        renderStates(country, statesMap);
-        saveLocationToLocalStorage(country, '', '', 'country');
-      });
+      const countryButton = createButton(
+        country,
+        'collapsible-location',
+        countryDiv, // Use the `countryDiv` DOM element instead of `country`
+        () => {
+          renderStates(country, statesMap);
+          saveLocationToLocalStorage(country, '', '', 'country');
+        }
+      );
+      
       countryDiv.appendChild(countryButton);
       locationContainer.appendChild(countryDiv);
     });
@@ -1456,10 +1462,15 @@ function createButton(text, className, location, onClick) {
       const stateDiv = document.createElement('div');
       stateDiv.className = 'state-tab';
 
-      const stateButton = createButton(state, 'collapsible-location', state, () => {
-        renderCities(country, state, citiesMap);
-        saveLocationToLocalStorage(country, state, '', 'state');
-      });
+      const stateButton = createButton(
+        state,
+        'collapsible-location',
+        stateDiv, // Correct DOM element
+        () => {
+          renderCities(country, state, citiesMap);
+          saveLocationToLocalStorage(country, state, '', 'state');
+        }
+      );
       stateDiv.appendChild(stateButton);
       locationContainer.appendChild(stateDiv);
     });
@@ -1472,11 +1483,16 @@ function createButton(text, className, location, onClick) {
       const cityDiv = document.createElement('div');
       cityDiv.className = 'city-tab';
 
-      const cityButton = createButton(city, 'collapsible-location', city, () => {
-        console.log(`Selected Location: ${country} > ${state} > ${city}`);
-        saveLocationToLocalStorage(country, state, city, 'city');
-        renderVideos(video);  // Show videos related to this city
-      });
+      const cityButton = createButton(
+        city,
+        'collapsible-location',
+        cityDiv, // Correct DOM element
+        () => {
+          console.log(`Selected Location: ${country} > ${state} > ${city}`);
+          saveLocationToLocalStorage(country, state, city, 'city');
+          renderVideos(video);
+        }
+      );
 
       cityDiv.appendChild(cityButton);
       locationContainer.appendChild(cityDiv);
