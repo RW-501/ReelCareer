@@ -818,11 +818,10 @@ function openSecuritySetupPopup() {
   }, 3000); // 3-second delay before redirecting
 }
 
-
 function showUserDataNotFoundMessage() {
-
   let mainContainer = document.getElementById('main-content');
   mainContainer.innerHTML = '';
+
   // Create a container div
   const container = document.createElement('div');
   container.className = 'user-data-not-found-container';
@@ -831,11 +830,12 @@ function showUserDataNotFoundMessage() {
     justify-content: center; 
     align-items: center; 
     height: 100vh; 
-`;
+  `;
   container.style.transform = 'none';
   container.style.transition = 'none';
   container.style.opacity = '1';
   container.style.display = 'block';
+
   // Create the card div
   const card = document.createElement('div');
   card.className = 'user-data-not-found-card';
@@ -845,43 +845,71 @@ function showUserDataNotFoundMessage() {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     border-radius: 8px; 
     text-align: center;
-`;
+  `;
+
   // Add a title to the card
   const title = document.createElement('h3');
-  title.textContent = 'User Not Found Create A Profile';
+  title.textContent = 'User Not Found - Login or Create an Account';
   title.style.marginBottom = '15px';
   card.appendChild(title);
+
   // Add a message inside the card
   const message = document.createElement('p');
   message.textContent = 'The requested user could not be found.';
   message.style.marginBottom = '20px';
   card.appendChild(message);
+
+  // Add a link to the support page
+  const supportLink = document.createElement('a');
+  supportLink.href = 'https://reelcareer.co/support/';
+  supportLink.target = '_blank';
+  supportLink.rel = 'noopener noreferrer';
+  supportLink.textContent = 'Visit our Support Page for Assistance';
+  supportLink.style.cssText = `
+    display: block;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-decoration: none;
+  `;
+  supportLink.addEventListener('mouseover', () => {
+    supportLink.style.textDecoration = 'underline';
+  });
+  supportLink.addEventListener('mouseout', () => {
+    supportLink.style.textDecoration = 'none';
+  });
+  card.appendChild(supportLink);
+
   // Create a "Go Back" button
   const goBackButton = document.createElement('button');
   goBackButton.textContent = 'Go Back';
   goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
   goBackButton.style.padding = '10px 20px';
+
   // Add an event listener to navigate back
   goBackButton.addEventListener('click', () => {
     window.history.back(); // This takes the user to the previous page
   });
   card.appendChild(goBackButton);
+
   // Create a "Login" button
   const loginButton = document.createElement('button');
   loginButton.textContent = 'Login';
   loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
   loginButton.style.padding = '10px 20px';
+
   // Add an event listener to redirect to the login page
   loginButton.addEventListener('click', () => {
     openPopupLogin();
-  
   });
   card.appendChild(loginButton);
+
   // Append the card to the container
   container.appendChild(card);
-  // Append the container to the body (or a specific element on your page)
+
+  // Append the container to the main content area
   mainContainer.appendChild(container);
 }
+
 window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
 
 function showUserSignedOutMessage() {
