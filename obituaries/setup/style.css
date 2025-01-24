@@ -785,7 +785,7 @@ video {
     width: 100%;
 }
 .giftPopup {
-    top: 0;
+    top: 25%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -799,6 +799,8 @@ video {
     margin: auto;
     overflow-y: scroll;
     height: auto;
+    animation: slideIn 0.3s ease-in-out;
+
 }
   
 #giftPopup {
@@ -837,11 +839,12 @@ video {
 }
 
 
-  .gift-item img {
+.gift-item img {
     width: 100px;
     height: 100px;
     border-radius: 10px;
-  }
+    margin: auto;
+}
   
   .fees-info {
     margin: 1.5rem;

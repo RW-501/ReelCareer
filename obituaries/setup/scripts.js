@@ -64,17 +64,30 @@ const pageName = document.getElementById('pageName').innerText;
 
 renderShareArea(pageName);
 // Get the span element containing the name
-const nameSpan = document.querySelector("#celebrating-header span[property='name']");
 
-// Extract the first part of the name before any space
-if (nameSpan) {
-    const firstName = nameSpan.textContent.split(" ")[0];
 
-    // Pass the extracted first name to the function
-    renderInteractionsArea(firstName);
-} else {
-    console.error("Name span not found.");
+/**
+ * Extracts the first name from a span element and passes it to a callback function.
+ * @param {string} selector - The CSS selector for the span element containing the name.
+ * @param {function} callback - The function to call with the extracted first name.
+ */
+function getFirstName(callback) {
+  // Get the span element containing the name
+  const nameSpan = document.querySelector("#celebrating-header span[property='name']");
+
+  if (nameSpan) {
+      // Extract the first part of the name before any space
+      const firstName = nameSpan.textContent.split(" ")[0];
+
+      // Pass the extracted first name to the callback function
+      callback(firstName);
+  } else {
+      console.error("Name span not found.");
+  }
 }
+
+getFirstName(renderInteractionsArea);
+
 
 let pageOwnerUserID = '';
 
@@ -183,7 +196,6 @@ async function loadEntries() {
 
     // Replace [$Name$] with the first name in the placeholder text
     //guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
-    
 
     entriesDiv.innerHTML = ""; // Clear existing entries
 
@@ -221,7 +233,7 @@ async function loadEntries() {
       }
     });
 
-    renderGiftBoxArea(firstName);
+    getFirstName(renderGiftBoxArea);
 
     // Event Listener: Handle Anonymous Checkbox
     const giftAnonymousCheckbox = document.getElementById("gift-anonymousCheckbox");

@@ -327,10 +327,10 @@ function redirectToLogin() {
     overflow-y: auto;
     position: relative;
     animation: slideIn 0.3s ease-in-out;
-    height: 90%;
-        z-index: 500000000000000;
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-
+    z-index: 500000000000000;
+    scrollbar-width: none;
+    height: fit-content;
+    max-height: max-content;
 }
 
 #popup-login-content::-webkit-scrollbar {
@@ -352,6 +352,12 @@ function redirectToLogin() {
       #popup-login-close:hover {
         color: #d32f2f;
       }
+
+
+.login-tabs {
+    display: flex;
+    justify-content: center;
+}
   
       .login-tabs button {
         padding: 10px 20px;
