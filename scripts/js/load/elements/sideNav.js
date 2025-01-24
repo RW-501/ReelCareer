@@ -27,146 +27,151 @@ const sidePanel = document.getElementById('main-side-panel');
 function insertSidePanelContent() {
     if (sidePanel) {
       sidePanel.innerHTML = `
-        <nav id="side-nav" aria-label="Side Navigation">
-          <div id='btn-menu-area' class="side-panel-menu">
-
-           <button id="btn-menu" class="side-nav-button">
-        <i id="menu-icon" class="fas fa-bars bar-icon"></i><span  id="btn-menu-text" class="menu-text">Menu</span>
+<nav id="side-nav" aria-label="Side Navigation">
+  <div id="btn-menu-area" class="side-panel-menu">
+    <button id="btn-menu" class="side-nav-button" aria-label="Toggle navigation menu">
+      <i id="menu-icon" class="fas fa-bars bar-icon" aria-hidden="true"></i>
+      <span id="btn-menu-text" class="menu-text">Menu</span>
     </button>
-          </div>
-
-          <div id="side-panel-group">
-
-    
-
-          <ul id='side-nav-list' class="side-nav-list">
-
-      <div class="side-nav-list">
-           <button id="btn-search" class="side-nav-button"> <i id="search-icon" class="fas fa-search search-icon"></i><span class="btn-text"> Search</span></button>
-          </div>
-
-            <li class="side-nav-item">
-              <button id="btn-home" class="side-nav-button"><i class="fas fa-home"></i><span class="btn-text"> Home</span></button>
-            </li>
-
-            <li class="side-nav-item"  id="btn-join-area" >
-              <button id="btn-join" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Join</span></button>
-            </li>
-            
-            <li class="side-nav-item">
-              <button id="btn-location" class="side-nav-button"><i class="fas fa-map-marker-alt"></i><span class="btn-text">Locations</span></button>
-            </li>
-
-            <li class="side-nav-item side-user-btn">
-              <button id="showUploadPopup" class="side-nav-button"><i class="fas fa-upload"></i><span class="btn-text"> Upload Reel</span></button>
-            </li>
-            <li class="side-nav-item side-user-btn">
-              <button id="btn-profile" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text"> Profile</span></button>
-            </li>
-                       
-            <li class="side-nav-item side-user-btn">
-              <button id="btn-connection" class="side-nav-button"><i class="fas fa-user"></i><span class="btn-text">Connection</span></button>
-            </li>
-            <li class="side-nav-item side-user-btn">
-              <button id="btn-messages" class="side-nav-button"><i class="fas fa-envelope"></i><span class="btn-text"> Messages</span></button>
-            </li>
-            <li class="side-nav-item" hidden>
-              <button id="btn-create" class="side-nav-button"><i class="fas fa-film"></i><span class="btn-text"> Create Reel</span></button>
-            </li>
-            <li class="side-nav-item">
-              <button id="btn-create-obituary" class="side-nav-button"><i class="fas fa-book"></i><span class="btn-text"> Create Obituary</span></button>
-            </li>
-            <li class="side-nav-item">
-              <button id="btn-faq" class="side-nav-button"><i class="fas fa-question-circle"></i><span class="btn-text"> FAQ</span></button>
-            </li>
-
-        <li class="side-nav-item side-user-btn">
-              <button id="btn-video-account" class="side-nav-button"><i class="fas fa-film"></i><span class="btn-text"> Video Account</span></button>
-            </li>
-
-
-
-<li class="side-nav-item side-user-btn">
-    <button id="btn-video-analytics" class="side-nav-button">
-        <i class="fas fa-eye"></i><span class="btn-text"> Reels Analytics</span>
-    </button>
-</li>
-
-<li class="side-nav-item side-user-btn">
-    <button id="btn-video-watchHistory" class="side-nav-button">
-        <i class="fas fa-history"></i><span class="btn-text">  Watch History</span>
-    </button>
-</li>
-
-
-
-
-
-
-
-          </ul>
-
-<div id="side-panel-popout-section">
-
-        <div id="search-section" class="side-panel-popout">
-          <h4>Search</h4>
-          <input type="text" id="side-panel-search-input" placeholder="Search videos..." aria-label="Search"  />
-          <h5>Suggestions</h5>
-
-          <div class="side-panel-content">
-          <ul id="search-suggestions" class="search-suggestions" ></ul>
-          </div>
-          
-        </div>  
-
-                    
-  <div id="location-section" class="side-panel-popout">
-     <h4>Location</h4>
-    <div class="side-panel-content">
-
-      <div id="side-panel-location"></div>
-
-
-      <div id="currentLocationDisplay"></div>
-      <div id="selectedLocation"></div>
-      <div id="locationContainer"></div>
-
-
-      <div id="location-video-div"></div>
-    </div>
   </div>
 
+  <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
+    <ul id="side-nav-list" class="side-nav-list">
+      <li class="side-nav-item" id="btn-join-area">
+        <button id="btn-join" class="side-nav-button" aria-label="Join"> 
+          <i class="fas fa-user" aria-hidden="true"></i><span class="btn-text"> Join</span>
+        </button>
+      </li>
 
+      <li class="side-nav-item">
+        <button id="btn-search" class="side-nav-button" aria-label="Search"> 
+          <i id="search-icon" class="fas fa-search search-icon" aria-hidden="true"></i>
+          <span class="btn-text"> Search</span>
+        </button>
+      </li>
 
+      <li class="side-nav-item">
+        <button id="btn-home" class="side-nav-button" aria-label="Go to home">
+          <i class="fas fa-home" aria-hidden="true"></i>
+          <span class="btn-text"> Home</span>
+        </button>
+      </li>
 
+      <li class="side-nav-item">
+        <button id="btn-location" class="side-nav-button" aria-label="Location">
+          <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+          <span class="btn-text"> Locations</span>
+        </button>
+      </li>
 
-  <div id="connection-section" class="side-panel-popout">
-     <h4>Connection</h4>
-    <div class="side-panel-content">
+      <li class="side-nav-item side-user-btn">
+        <button id="showUploadPopup" class="side-nav-button" aria-label="Upload Reel">
+          <i class="fas fa-upload" aria-hidden="true"></i>
+          <span class="btn-text"> Upload Reel</span>
+        </button>
+      </li>
 
-      <div class="side-panel-connection-btn">
-        <button data-type="" class="connection-type-button">All Connections</button>
-        <button data-type="Networking" class="connection-type-button">Networking</button>
-        <button data-type="Friends" class="connection-type-button">Friends</button>
-        <button data-type="Family" class="connection-type-button">Family</button>
-        <button data-type="Co-workers" class="connection-type-button">Co-Workers</button>
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-profile" class="side-nav-button" aria-label="Profile">
+          <i class="fas fa-user" aria-hidden="true"></i>
+          <span class="btn-text"> Profile</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-connection" class="side-nav-button" aria-label="Connection">
+          <i class="fas fa-user" aria-hidden="true"></i>
+          <span class="btn-text">Connection</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-messages" class="side-nav-button" aria-label="Messages">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+          <span class="btn-text"> Messages</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item" hidden>
+        <button id="btn-create" class="side-nav-button" aria-label="Create Reel">
+          <i class="fas fa-film" aria-hidden="true"></i>
+          <span class="btn-text"> Create Reel</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item">
+        <button id="btn-create-obituary" class="side-nav-button" aria-label="Create Obituary">
+          <i class="fas fa-book" aria-hidden="true"></i>
+          <span class="btn-text"> Create Obituary</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item">
+        <button id="btn-faq" class="side-nav-button" aria-label="FAQ">
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+          <span class="btn-text"> FAQ</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-video-account" class="side-nav-button" aria-label="Video Account">
+          <i class="fas fa-film" aria-hidden="true"></i>
+          <span class="btn-text"> Video Account</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-video-analytics" class="side-nav-button" aria-label="Reels Analytics">
+          <i class="fas fa-eye" aria-hidden="true"></i>
+          <span class="btn-text"> Reels Analytics</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item side-user-btn">
+        <button id="btn-video-watchHistory" class="side-nav-button" aria-label="Watch History">
+          <i class="fas fa-history" aria-hidden="true"></i>
+          <span class="btn-text">  Watch History</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- Popout Sections -->
+    <div id="side-panel-popout-section" role="region" aria-labelledby="side-panel-group">
+      <div id="search-section" class="side-panel-popout" aria-labelledby="search-section">
+        <h4>Search</h4>
+        <input type="text" id="side-panel-search-input" placeholder="Search videos..." aria-label="Search videos" />
+        <h5>Suggestions</h5>
+        <ul id="search-suggestions" class="search-suggestions" aria-live="polite"></ul>
       </div>
 
-      <div id="side-panel-contacts"></div>
+      <div id="location-section" class="side-panel-popout" aria-labelledby="location-section">
+        <h4>Location</h4>
+        <div id="side-panel-location" aria-live="polite"></div>
+        <div id="currentLocationDisplay" aria-live="polite"></div>
+        <div id="selectedLocation" aria-live="polite"></div>
+        <div id="locationContainer" aria-live="polite"></div>
+        <div id="location-video-div" aria-live="polite"></div>
+      </div>
 
+      <div id="connection-section" class="side-panel-popout" aria-labelledby="connection-section">
+        <h4>Connection</h4>
+        <div class="side-panel-connection-btn">
+          <button data-type="" class="connection-type-button" aria-label="All Connections">All Connections</button>
+          <button data-type="Networking" class="connection-type-button" aria-label="Networking">Networking</button>
+          <button data-type="Friends" class="connection-type-button" aria-label="Friends">Friends</button>
+          <button data-type="Family" class="connection-type-button" aria-label="Family">Family</button>
+          <button data-type="Co-workers" class="connection-type-button" aria-label="Co-Workers">Co-Workers</button>
+        </div>
+        <div id="side-panel-contacts" aria-live="polite"></div>
+      </div>
     </div>
   </div>
-
-
-</div>
-
-</div>
-
 
   <div class="text-center m-auto btn-text">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-</div>
-        </nav>
+  </div>
+</nav>
+
       `;
     }
     
@@ -957,19 +962,514 @@ contacts.forEach(contact => {
 
 
 
+function populateSidePanelContacts(connectedUserData) {
+  const sidePanelContacts = document.getElementById('side-panel-contacts');
+  sidePanelContacts.innerHTML = ''; // Reset content
 
-    // Infinite Scroll
-    window.addEventListener("scroll", () => {
-      if (currentPath.includes('/reel/') || currentPath.includes('/videos/')){
-       // console.log("Window scrolled:", window.innerHeight + window.scrollY);
-        if (
-            window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-            !searchingByTag
-        ) {
-         //   console.log("Fetching more videos due to scroll");
-         //   fetchVideoResumes();
+  // Inject CSS for contact styling
+  const style = document.createElement('style');
+  style.textContent = `
+
+  #side-panel-contacts {
+  
+    .contact-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .contact-profile-picture {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+.contact-name {
+    flex-grow: 1;
+    color: #86bbd9;
+}
+
+.view-profile-button, .view-videos-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #b7d1eb;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+    .view-profile-button:hover, .view-videos-button:hover {
+      background-color: #0056b3;
+    }
+
+
+
+
+}
+
+  `;
+  document.head.appendChild(style);
+
+  // Iterate over connected user data
+  connectedUserData.forEach(user => {
+    const contactDiv = document.createElement('div');
+    contactDiv.className = 'contact-item';
+
+
+    const viewProfileButton = document.createElement('a');
+
+    const profileImg = document.createElement('img');
+    profileImg.src = user.profilePicture;
+    profileImg.alt = `${user.name}'s profile picture`;
+    profileImg.className = 'contact-profile-picture';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = user.name;
+    nameSpan.className = 'contact-name';
+
+    viewProfileButton.href = user.profileUrl;
+    viewProfileButton.target = '_blank';
+
+    const viewVideosButton = document.createElement('button');
+    viewVideosButton.textContent = 'View Videos';
+    viewVideosButton.className = 'view-videos-button';
+    viewVideosButton.onclick = () => {
+
+      fetchVideoResumes(page = 1, tagFilter = "", '', '', true, user.id );
+
+      console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
+    };
+
+    viewProfileButton.appendChild(profileImg);
+    viewProfileButton.appendChild(nameSpan);
+    contactDiv.appendChild(viewProfileButton);
+    contactDiv.appendChild(viewVideosButton);
+    sidePanelContacts.appendChild(contactDiv);
+  });
+}
+
+
+window.populateSidePanelContacts = populateSidePanelContacts;
+
+
+
+
+
+
+
+
+
+
+
+async function loadTopCategoriesWithVideos() {
+  const searchSuggestionsDiv = document.getElementById('search-suggestions');
+  const locationDiv = document.getElementById('location-video-div');
+  searchSuggestionsDiv.innerHTML = ''; // Clear any existing content
+  locationDiv.innerHTML = ''; // Clear any existing content
+
+  // Avoid repeated style injection
+  if (!document.getElementById('video-preview-style')) {
+    const style = document.createElement('style');
+    style.id = 'video-preview-style';
+    style.textContent = `
+
+    #main-side-panel {
+
+.category-item {
+    margin-bottom: 20px;
+    padding: 1rem;
+    background: linear-gradient(153deg, #26449e14, #1d5b9e4f);
+    border-radius: 5%;
+}
+        .category-item-h3 {
+        font-size: 1.5rem;
         }
+.video-preview {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.video-thumbnail {
+    height: 80px;
+    width: 45px;
+    margin-right: 10px;
+    object-fit: cover;
+}
+      .video-title {
+        font-weight: bold;
+        margin-right: 10px;
       }
+.watch-video-button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #b7d1eb;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+}
+      .watch-video-button:hover {
+        background-color: #0056b3;
+      }
+              .location-tab {
+          margin-top: 10px;
+      }
+      .collapsible {
+          background-color: #f1f1f1;
+          color: #444;
+          cursor: pointer;
+          padding: 10px;
+          text-align: left;
+          border: none;
+          outline: none;
+          font-size: 1.2rem;
+          border-radius: 5px;
+          margin-bottom: 5px;
+      }
+      .collapsible.active {
+          background-color: #d3d3d3;
+      }
+      .content {
+          padding: 0 15px;
+          display: none;
+          overflow: hidden;
+      }
+
+  }
+
+    `;
+    document.head.appendChild(style);
+  }
+
+
+  const categoryMap = new Map();
+  const topVideos = [];
+  const locationMap = new Map();
+
+
+  
+  /*
+
+
+          const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
+        
+        // Log the response to make sure we get it
+        console.log("Response received:", response);
+
+        const data = await response.json();
+        
+
+        */
+
+        
+  const videoResumesRef = collection(db, 'VideoResumes');
+  const querySnapshot = await getDocs(videoResumesRef);
+
+
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
+      const { country, state, city } = data;
+      const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+      if (!locationMap.has(locationKey)) {
+        locationMap.set(locationKey, []);
+      }
+      locationMap.get(locationKey).push(data);
+    }
+  });
+
+
+   // Assuming querySnapshot is already populated with the data
+   generateLocationList(querySnapshot, locationMap);
+
+
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
+      const rating = ((data.views * data.duration) / data.watchTime) * 0.7 + data.likes * 0.3;
+      topVideos.push({ ...data, rating });
+      if (data.reelCategories && data.reelCategories.length > 0) {
+        data.reelCategories.forEach((category) => {
+          if (!categoryMap.has(category)) {
+            categoryMap.set(category, []);
+          }
+          categoryMap.get(category).push({ ...data, rating });
+        });
+      }
+    }
+  });
+
+  const sortedCategories = Array.from(categoryMap.entries())
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 5);
+
+  const randomPhrases = [
+    "Explore the creative world of {category}",
+    "Top picks in {category}",
+    "Watch the best {category} reels",
+    "Trending now: {category} talent",
+    "See standout work in {category}"
+  ];
+
+  const fragment = document.createDocumentFragment();
+
+  sortedCategories.forEach(([category, videos]) => {
+    const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
+    const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+
+    if (!topVideo) {
+      console.warn('No top video found for category:', category);
+      return;
+    }
+
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category-item';
+
+    const categoryTitle = document.createElement('h3');
+    categoryTitle.textContent = randomPhrase;
+    categoryTitle.className = 'category-item-h3';
+    categoryDiv.appendChild(categoryTitle);
+
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-preview';
+
+    const thumbnail = document.createElement('img');
+    thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+    thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
+    thumbnail.className = 'video-thumbnail';
+
+/*     const videoTitle = document.createElement('span');
+    videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
+    videoTitle.className = 'video-title';
+ */
+    const videoLink = document.createElement('a');
+    videoLink.href = topVideo.videoResumeURL;
+    videoLink.textContent = 'Watch Video';
+    videoLink.target = '_blank';
+    videoLink.className = 'watch-video-button';
+    videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
+
+    videoContainer.appendChild(thumbnail);
+   // videoContainer.appendChild(videoTitle);
+    videoContainer.appendChild(videoLink);
+    categoryDiv.appendChild(videoContainer);
+
+    fragment.appendChild(categoryDiv);
+  });
+
+  searchSuggestionsDiv.appendChild(fragment);
+
+  if (sortedCategories.length === 0) {
+    const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
+    topRatedVideos.forEach((video) => {
+      const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+      const videoDiv = document.createElement('div');
+      videoDiv.className = 'category-item';
+
+      const videoTitle = document.createElement('h3');
+      videoTitle.textContent = tagPhrase;
+      videoDiv.appendChild(videoTitle);
+
+      const videoContainer = document.createElement('div');
+      videoContainer.className = 'video-preview';
+
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.className = 'video-thumbnail';
+
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
+      titleSpan.className = 'video-title';
+
+      const link = document.createElement('a');
+      link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+      link.textContent = 'Watch Video';
+      link.target = '_blank';
+      link.className = 'watch-video-button';
+      link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
+
+      videoContainer.appendChild(thumbnail);
+      videoContainer.appendChild(titleSpan);
+      videoContainer.appendChild(link);
+      videoDiv.appendChild(videoContainer);
+
+      fragment.appendChild(videoDiv);
     });
-//  });
+
+    searchSuggestionsDiv.appendChild(fragment);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
+
+  loadTopCategoriesWithVideos();
+  //console.log("currentPath  ",currentPath);
+
+
+ 
+  
+}
+
+
+window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
+
+
+
+// Check if sessionStorage contains userLocation and set it
+const userLocation = sessionStorage.getItem("userLocation");
+let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+console.log("currentPath  ",currentPath);
+
+if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
+
+  //console.log("includes  ",currentPath);
+
+  // Update the displayed local location using currentLocation object
+  document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+  
+}
+
+
+function generateLocationList(data, locationMap) {
+  // Populate location map with grouped data
+  data.forEach((doc) => {
+    const { country, state, city } = doc.data();
+    if (country && state && city) {
+      if (!locationMap.has(country)) {
+        locationMap.set(country, new Map());
+      }
+      const countryMap = locationMap.get(country);
+      if (!countryMap.has(state)) {
+        countryMap.set(state, new Map());
+      }
+      const stateMap = countryMap.get(state);
+      stateMap.set(city, doc.data());
+    }
+  });
+
+  const locationContainer = document.getElementById('locationContainer');
+  locationContainer.innerHTML = ''; // Clear any existing content
+
+  // Create a reusable button component for each location (country, state, city)
+  function createButton(text, className, location, onClick) {
+    const button = document.createElement('button');
+    button.className = className;
+    button.textContent = text;
+    button.addEventListener('click', onClick);
+    return button;
+  }
+
+  // Render the list of countries
+  function renderLocations(countryMap) {
+    locationContainer.innerHTML = '';
+    countryMap.forEach((statesMap, country) => {
+      const countryDiv = document.createElement('div');
+      countryDiv.className = 'location-tab';
+
+      const countryButton = createButton(country, 'collapsible-location', country, () => {
+        renderStates(country, statesMap);
+        saveLocationToLocalStorage(country, '', '', 'country');
+      });
+      countryDiv.appendChild(countryButton);
+      locationContainer.appendChild(countryDiv);
+    });
+  }
+
+  // Render the list of states for a given country
+  function renderStates(country, statesMap) {
+    locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
+    statesMap.forEach((citiesMap, state) => {
+      const stateDiv = document.createElement('div');
+      stateDiv.className = 'location-tab';
+
+      const stateButton = createButton(state, 'collapsible-location', state, () => {
+        renderCities(country, state, citiesMap);
+        saveLocationToLocalStorage(country, state, '', 'state');
+      });
+      stateDiv.appendChild(stateButton);
+      locationContainer.appendChild(stateDiv);
+    });
+  }
+
+  // Render the list of cities for a given state
+  function renderCities(country, state, citiesMap) {
+    locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
+    citiesMap.forEach((video, city) => {
+      const cityDiv = document.createElement('div');
+      cityDiv.className = 'location-tab';
+
+      const cityButton = createButton(city, 'collapsible-location', city, () => {
+        console.log(`Selected Location: ${country} > ${state} > ${city}`);
+        saveLocationToLocalStorage(country, state, city, 'city');
+        renderVideos(video);  // Show videos related to this city
+      });
+
+      cityDiv.appendChild(cityButton);
+      locationContainer.appendChild(cityDiv);
+    });
+  }
+
+  // Function to render the videos for a selected city
+  function renderVideos(video) {
+    locationContainer.innerHTML = `<button onclick="renderCities('${video.country}', '${video.state}', locationMap.get('${video.country}').get('${video.state}'))">Back to Cities</button>`;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'content';
+    const thumbnail = document.createElement('img');
+    thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+    thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+    thumbnail.className = 'video-thumbnail';
+
+    const videoLink = document.createElement('a');
+    videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+    videoLink.textContent = 'Watch Video';
+    videoLink.target = '_blank';
+    videoLink.className = 'watch-video-button';
+    videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
+
+    contentDiv.appendChild(thumbnail);
+    contentDiv.appendChild(videoLink);
+    locationContainer.appendChild(contentDiv);
+  }
+
+  // Save selected location to localStorage for later use
+  function saveLocationToLocalStorage(country, state, city, type) {
+    let locationID = '';
+    if (type === 'country') {
+      locationID = country;
+    } else if (type === 'state') {
+      locationID = `${country}-${state}`;
+    } else if (type === 'city') {
+      locationID = `${country}-${state}-${city}`;
+    }
+    localStorage.setItem('selectedLocation', locationID);
+  }
+
+  renderLocations(locationMap);  // Initial render for countries
+}
+
+
+
 
