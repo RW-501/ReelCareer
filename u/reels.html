@@ -1036,7 +1036,8 @@ input[type="checkbox"]:hover {
          userID = await getUserId(); // Ensure user ID is fetched
         if (!userID) {
             console.warn('No user ID found. Redirecting to login...');
-            window.location.href = '/login';
+            showUserDataNotFoundMessage();
+            
             return;
         }
 

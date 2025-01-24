@@ -767,7 +767,9 @@ function paymentStatusNotifications() {
             console.log(`User during setTimeout: ${user}`);
 
             if (!user) {
-                openPopupLogin();
+              
+              showUserDataNotFoundMessage();
+                
                 return;
             }
             const userID = auth.currentUser.uid;
