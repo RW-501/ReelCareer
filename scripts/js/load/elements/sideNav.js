@@ -371,7 +371,7 @@ function insertSidePanelContent() {
 
      
       onAuthStateChanged(auth, (user) => {
-        console.log("currentUrl   ",currentUrl);
+        console.log("onAuthStateChanged  currentUrl   ",currentUrl);
         console.log("user   ",user);
 
         if (!user) {
