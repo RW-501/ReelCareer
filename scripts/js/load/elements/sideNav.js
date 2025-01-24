@@ -1360,12 +1360,6 @@ window.loadTopCategoriesWithVideos = loadTopCategoriesWithVideos;
 
 // Check if sessionStorage contains userLocation and set it
 const userLocation = sessionStorage.getItem("userLocation");
-let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
-
-console.log("currentPath  ",currentPath);
-const locationContainer = document.getElementById('locationContainer');
-locationContainer.innerHTML = ''; // Clear any existing content
-
 
 
 function generateLocationList(data, locationMap) {
@@ -1522,8 +1516,18 @@ function createButton(text, className, location, onClick) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const currentLocation = true; // Example value
-  const currentPath = '/reels/video123'; // Example path
+
+  
+
+  if(userLocation){
+  let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+
+  console.log("currentPath  ",currentPath);
+  const locationContainer = document.getElementById('locationContainer');
+  locationContainer.innerHTML = ''; // Clear any existing content
+  
+  }
+  
 
   if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
