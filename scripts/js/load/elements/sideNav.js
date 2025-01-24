@@ -1531,8 +1531,7 @@ locationContainer.innerHTML = ''; // Clear any existing content
 
 if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
-
-
+  
 }else {
   const connectionsBTN = document.getElementById('connectionsBTN');
   if (connectionsBTN) {
