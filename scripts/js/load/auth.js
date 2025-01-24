@@ -456,9 +456,9 @@ input:active {
 }
 
 hr {
-    border-top: .5rem solid #2c7ac8;
-    margin: 1rem 0;
-    width: auto;
+    border-top: 0.2rem solid #8fc0de;
+    margin: 1rem auto;
+    width: 90%;
 }
 
   }
