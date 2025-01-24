@@ -81,12 +81,7 @@ p {
     margin: 20px 0;
 }
 
-.rc-grid-center {
-    display: grid;
-    align-items: center;
-    justify-content: space-evenly;
-    justify-items: center;
-}
+
 .info-section, .message-form {
     margin: 20px 0;
     background: rgba(255, 255, 255, 0.1);
@@ -461,6 +456,20 @@ video {
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
+
+        .anonymousCheckboxArea {
+                display: grid;
+                align-items: center;
+                justify-content: space-evenly;
+                justify-items: center;
+                background: #909090;
+                width: fit-content;
+                margin: 0 auto 2rem;
+                padding: 1rem;
+                border-radius: 5px;
+            }
+
         .guestbook input[type=checkbox], input[type=radio] {
             box-sizing: border-box;
             padding: 0;
