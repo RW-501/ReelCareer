@@ -1194,6 +1194,14 @@ const locationMap = new Map();
 const categoryMap = new Map();
 const topVideos = [];
 
+document.addEventListener('DOMContentLoaded', () => {
+
+  if (currentLocation && (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
+    console.log('Match found in /reels/ or /videos/');
+  } else {
+    console.log('No match found.');
+  }
+});
 
 
 // Define the URL for the JSON file
@@ -1377,14 +1385,6 @@ let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", stat
 
 console.log("currentPath  ",currentPath);
 
-if (currentPath.includes('/reels/') || currentPath.includes('/videos/')){
-
-  //console.log("includes  ",currentPath);
-
-  // Update the displayed local location using currentLocation object
-  document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
-  
-}
 
 
 function generateLocationList(data, locationMap) {
