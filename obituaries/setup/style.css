@@ -483,13 +483,17 @@ video {
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            outline: double;
+            outline-color: #a3a3a3;
             font-weight: 700;
+
         }
 
         .guestbook button:hover {
             background-color: #218838;
-            outline: double;
-            outline-color: #a3a3a3;
+            font-weight: 800;
+            padding: 15px;
+
         }
 
         .guestbook-content {
