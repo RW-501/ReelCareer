@@ -3,30 +3,30 @@
 
 import {
   db, getStorage, ref, uploadBytes, getDownloadURL, limit,
-doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
-query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
-uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
-OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
-createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-where, getDocs, storage, getAuth, collection, auth, analytics,
-googleProvider,onSnapshot ,
-facebookProvider,
-getUserId // Export the function
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider, onSnapshot,
+  facebookProvider,
+  getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
 
 let postsPerPage = 10;
 let lastVisibleDoc = null;
-let searchingByTag = false; 
+let searchingByTag = false;
 const currentPath = window.location.pathname;
 
 const sidePanel = document.getElementById('main-side-panel');
 
 
 function insertSidePanelContent() {
-    if (sidePanel) {
-      sidePanel.innerHTML = `
+  if (sidePanel) {
+    sidePanel.innerHTML = `
 <nav id="side-nav" aria-label="Side Navigation">
 
   <div id="btn-menu-area" class="side-panel-menu">
@@ -175,21 +175,21 @@ function insertSidePanelContent() {
 </nav>
 
       `;
-    }
-    
-    let isSectionOpen = false;
+  }
 
-    
+  let isSectionOpen = false;
+
+
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
     if (!isClickInside && sidePanel.style.display !== 'none') {
-    
-    
-        const allPopouts = document.querySelectorAll('.side-panel-popout');
-        allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
-        isSectionOpen = false;
-        updateButtonTextVisibility('click');
+
+
+      const allPopouts = document.querySelectorAll('.side-panel-popout');
+      allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
+      isSectionOpen = false;
+      updateButtonTextVisibility('click');
 
       //  sidePanel.style.display = 'none'; // Close the side panel
     }
@@ -199,11 +199,11 @@ function insertSidePanelContent() {
 
   window.addEventListener("scroll", (event) => {
     const targetElement = event.target;
-  
+
     // Check if the scroll event occurred outside of the sidePanel or #side-nav
     const isScrollOutside = !sidePanel.contains(targetElement);
 
-    
+
     if (isScrollOutside && sidePanel.style.display !== 'none') {
       // Hide all popouts when the scroll happens outside the sidePanel
       const allPopouts = document.querySelectorAll('.side-panel-popout');
@@ -212,171 +212,331 @@ function insertSidePanelContent() {
       updateButtonTextVisibility("scroll"); // Update UI button visibility if needed
     }
   });
-  
-
-        // Cache popout sections
-        const searchSection = document.getElementById('search-section');
-        const connectionSection = document.getElementById('connection-section');
-        const locationSection = document.getElementById('location-section');
-        
-      
-        // Add listeners for showing/hiding sections
-        const togglePopout = (section) => {
-
-          ///  console.log("section: ", section);
-
-            const allPopouts = document.querySelectorAll('.side-panel-popout');
-          allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
 
 
-          
-          if(section.style.display !== 'none'){
-            section.style.display = 'none'
-            isSectionOpen = false;
-
-          }else{
-            section.style.display = 'block'; // Show only the selected section
-            isSectionOpen = true;
-
-          }
+  // Cache popout sections
+  const searchSection = document.getElementById('search-section');
+  const connectionSection = document.getElementById('connection-section');
+  const locationSection = document.getElementById('location-section');
 
 
-          
-        };
-        const menuSection = document.getElementById('side-panel-group');
-        const sideNavList = document.getElementById("side-nav-list");
+  // Add listeners for showing/hiding sections
+  const togglePopout = (section) => {
+
+    ///  console.log("section: ", section);
+
+    const allPopouts = document.querySelectorAll('.side-panel-popout');
+    allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
 
 
-        function toggleButtonActive(button) {
-          // Remove 'active' from all buttons
-          const allButtons = document.querySelectorAll('.side-nav-button');
-          allButtons.forEach(btn => btn.classList.remove('active'));
-      
-          // Add 'active' to the clicked button
-          button.classList.add('active');
-          const isMobile = window.innerWidth <= 768;
-            
-          if (isMobile) {
-          if(sideNavList.style.display !== 'none'){
-            sideNavList.style.display = 'none'
-          }else{
-            sideNavList.style.display = 'block'
-          }
+
+    if (section.style.display !== 'none') {
+      section.style.display = 'none'
+      isSectionOpen = false;
+
+    } else {
+      section.style.display = 'block'; // Show only the selected section
+      isSectionOpen = true;
+
+    }
+
+
+
+  };
+  const menuSection = document.getElementById('side-panel-group');
+  const sideNavList = document.getElementById("side-nav-list");
+
+
+  function toggleButtonActive(button) {
+    // Remove 'active' from all buttons
+    const allButtons = document.querySelectorAll('.side-nav-button');
+    allButtons.forEach(btn => btn.classList.remove('active'));
+
+    // Add 'active' to the clicked button
+    button.classList.add('active');
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+      if (sideNavList.style.display !== 'none') {
+        sideNavList.style.display = 'none'
+      } else {
+        sideNavList.style.display = 'block'
+      }
+    }
+    updateButtonTextVisibility();
+
+  }
+
+
+  document.getElementById('btn-menu').addEventListener('click', () => {
+    toggleButtonActive(document.getElementById('btn-menu'));
+
+
+    /*        if(menuSection.style.display !== 'none'){
+             menuSection.style.display = 'none'
+           }else{
+             menuSection.style.display = 'block'
+           } */
+  });
+
+
+  document.getElementById('btn-search').addEventListener('click', () => {
+
+    if (searchSection.style.display === "block") {
+      searchSection.style.display = "none"
+      isSectionOpen = false;
+
+    } else {
+      togglePopout(searchSection);
+    }
+    toggleButtonActive(document.getElementById('btn-search'));
+
+  });
+
+  document.getElementById('btn-connection').addEventListener('click', () => {
+    if (connectionSection.style.display === "block") {
+      connectionSection.style.display = "none"
+      isSectionOpen = false;
+
+    } else {
+      togglePopout(connectionSection);
+    }
+    toggleButtonActive(document.getElementById('btn-connection'));
+  });
+
+  document.getElementById('btn-location').addEventListener('click', () => {
+    if (locationSection.style.display === "block") {
+      locationSection.style.display = "none"
+      isSectionOpen = false;
+
+    } else {
+      togglePopout(locationSection);
+    }
+    toggleButtonActive(document.getElementById('btn-location'));
+
+  });
+
+
+  const currentUrl = window.location.href;
+  console.log("currentUrl   ", currentUrl);
+
+  document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
+  document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
+  document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
+  document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
+  document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
+  document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const currentUrl = window.location.href;
+
+    console.log("currentPath: ", currentPath);
+
+    const videoAccountButton = document.getElementById('btn-video-account');
+    const videoAnalyticsButton = document.getElementById('btn-video-analytics');
+    const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
+    const videoReelsSection = document.getElementById('video-reels');
+    const mainAnalyticsSection = document.getElementById('main-analytics');
+    let showingAccount = true; // Track which section is visible
+
+    if (currentPath.includes('/u/reels')) {
+
+      videoAccountButton.addEventListener('click', () => {
+        videoReelsSection.style.display = 'block';
+        mainAnalyticsSection.style.display = 'none';
+        showingAccount = false;
+        console.log(`Switched to: Video Reels`);
+      });
+
+      videoAnalyticsButton.addEventListener('click', () => {
+        videoReelsSection.style.display = 'none';
+        mainAnalyticsSection.style.display = 'block';
+        showingAccount = true;
+        console.log(`Switched to: Main Analytics`);
+      });
+    } else {
+      videoAccountButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/u/reels#video-reels';
+      });
+
+      videoAnalyticsButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/u/reels#main-analytics';
+      });
+    }
+
+    if (currentUrl === 'https://reelcareer.co/u/') {
+      document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
+    } else {
+      videoWatchHistoryButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
+      });
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+  document.getElementById('btn-join').addEventListener('click', () => {
+
+    openPopupLogin();
+
+  });
+
+  // Search and filter functionality
+  const searchInput = document.getElementById("side-panel-search-input");
+  let connectionType = "";
+
+  searchInput.addEventListener("input", (e) => {
+    const searchQuery = e.target.value.trim().toLowerCase();
+    if (searchQuery) {
+      console.log("Searching by tag:", searchQuery);
+      fetchVideoResumes(1, searchQuery, connectionType);
+    } else {
+      fetchVideoResumes(1, "", connectionType);
+    }
+  });
+
+  const updateButtonTextVisibility = (action) => {
+    const mainContent = document.getElementById("main-content");
+    const mainSidePanel = document.getElementById("main-side-panel");
+    const sidePanelGroup = document.getElementById("side-panel-group");
+    const sideNavList = document.getElementById("side-nav-list");
+    const menuBtn = document.getElementById("btn-menu-area");
+    const menuBtnText = document.getElementById("btn-menu-text");
+
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+
+
+      if (isSectionOpen) {
+
+        menuBtn.style.display = 'block';
+        menuBtnText.style.display = 'block';
+
+        mainSidePanel.style.width = '100%';
+        mainContent.style.width = '100%';
+        sidePanelGroup.style.display = 'grid';
+        sideNavList.style.display = 'none';
+
+        document.querySelectorAll('.btn-text').forEach((text) => {
+          text.style.display = 'inline';
+        });
+      } else {
+
+        if (action === 'scroll') {
+          menuBtn.style.display = 'block';
+          menuBtnText.style.display = 'block';
+
+          mainSidePanel.style.width = '100%';
+          mainContent.style.width = '100%';
+          sidePanelGroup.style.display = 'grid';
+          sideNavList.style.display = 'none';
+
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'inline';
+          });
+
+
+        } else {
+
+          menuBtn.style.display = 'block';
+          menuBtnText.style.display = 'block';
+
+          mainSidePanel.style.width = '100%';
+          mainContent.style.width = '100%';
+          sidePanelGroup.style.display = 'grid';
+          sideNavList.style.display = 'block';
+
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'inline';
+          });
+
+
         }
-        updateButtonTextVisibility();
+      }
+
+    } else {
+
+
+      if (isSectionOpen) {
+
+        menuBtn.style.display = 'none';
+        menuBtnText.style.display = 'none';
+
+        sideNavList.style.display = 'block';
+
+        mainSidePanel.style.width = 'auto';
+        mainContent.style.width = 'auto';
+        sidePanelGroup.style.display = 'flex';
+        document.querySelectorAll('.btn-text').forEach((text) => {
+          text.style.display = 'none';
+        });
+      } else {
+
+        if (action === 'scroll') {
+          menuBtn.style.display = 'block';
+          menuBtnText.style.display = 'none';
+
+          sideNavList.style.display = 'block';
+
+          mainSidePanel.style.width = 'fit-content';
+          mainContent.style.width = '59%';
+          sidePanelGroup.style.display = 'flex';
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'none';
+          });
+
+        } else if (action === 'click') {
+          menuBtn.style.display = 'block';
+          menuBtnText.style.display = 'none';
+
+          sideNavList.style.display = 'block';
+
+          mainSidePanel.style.width = 'fit-content';
+          mainContent.style.width = '59%';
+          sidePanelGroup.style.display = 'flex';
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'none';
+          });
+
+
+
+        } else {
+
+          menuBtn.style.display = 'none';
+          menuBtnText.style.display = 'none';
+
+          sideNavList.style.display = 'block';
+
+          mainSidePanel.style.width = '39%';
+          mainContent.style.width = '59%';
+          sidePanelGroup.style.display = 'block';
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'inline';
+          });
+
+
+
+
+
+        }
+
+
+
+
+
+
 
       }
-      
-
-          document.getElementById('btn-menu').addEventListener('click', () => {
-            toggleButtonActive(document.getElementById('btn-menu'));
-
-            
-     /*        if(menuSection.style.display !== 'none'){
-              menuSection.style.display = 'none'
-            }else{
-              menuSection.style.display = 'block'
-            } */
-          });
-          
-          
-          document.getElementById('btn-search').addEventListener('click', () => {
-
-            if(searchSection.style.display === "block"){
-              searchSection.style.display = "none"
-              isSectionOpen = false;
-
-            }else{
-              togglePopout(searchSection);
-            }
-            toggleButtonActive(document.getElementById('btn-search'));
-
-          });
-          
-          document.getElementById('btn-connection').addEventListener('click', () => {
-            if(connectionSection.style.display === "block"){
-              connectionSection.style.display = "none"
-              isSectionOpen = false;
-
-            }else{
-              togglePopout(connectionSection);
-            }
-            toggleButtonActive(document.getElementById('btn-connection'));
-          });
-
-          document.getElementById('btn-location').addEventListener('click', () => {
-            if(locationSection.style.display === "block"){
-              locationSection.style.display = "none"
-              isSectionOpen = false;
-
-            }else{
-              togglePopout(locationSection);
-            }
-            toggleButtonActive(document.getElementById('btn-location'));
-
-          });
-
-
-          const currentUrl = window.location.href;
-          console.log("currentUrl   ",currentUrl);
-          
-        document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
-        document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
-        document.getElementById('btn-messages').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/messaging');
-        document.getElementById('btn-create').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u/create');
-        document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
-        document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
-
-        document.addEventListener('DOMContentLoaded', () => {
-          const currentPath = window.location.pathname;
-          const currentUrl = window.location.href;
-      
-          console.log("currentPath: ", currentPath);
-      
-          const videoAccountButton = document.getElementById('btn-video-account');
-          const videoAnalyticsButton = document.getElementById('btn-video-analytics');
-          const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
-          const videoReelsSection = document.getElementById('video-reels');
-          const mainAnalyticsSection = document.getElementById('main-analytics');
-          let showingAccount = true; // Track which section is visible
-
-          if (currentPath.includes('/u/reels')) {
-      
-              videoAccountButton.addEventListener('click', () => {
-                  videoReelsSection.style.display = 'block';
-                  mainAnalyticsSection.style.display = 'none';
-                  showingAccount = false;
-                  console.log(`Switched to: Video Reels`);
-              });
-      
-              videoAnalyticsButton.addEventListener('click', () => {
-                  videoReelsSection.style.display = 'none';
-                  mainAnalyticsSection.style.display = 'block';
-                  showingAccount = true;
-                  console.log(`Switched to: Main Analytics`);
-              });
-          } else {
-              videoAccountButton.addEventListener('click', () => {
-                  window.location.href = 'https://reelcareer.co/u/reels#video-reels';
-              });
-      
-              videoAnalyticsButton.addEventListener('click', () => {
-                  window.location.href = 'https://reelcareer.co/u/reels#main-analytics';
-              });
-          }
-      
-          if (currentUrl === 'https://reelcareer.co/u/') {
-              document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
-          } else {
-              videoWatchHistoryButton.addEventListener('click', () => {
-                  window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
-              });
-          }
-      });
-      
-       
-
-     
 
 
 
@@ -384,184 +544,24 @@ function insertSidePanelContent() {
 
 
 
-        document.getElementById('btn-join').addEventListener('click', () => {
-
-      openPopupLogin();
-  
-        });
-
-        // Search and filter functionality
-        const searchInput = document.getElementById("side-panel-search-input");
-        let connectionType = "";
-      
-        searchInput.addEventListener("input", (e) => {
-          const searchQuery = e.target.value.trim().toLowerCase();
-          if (searchQuery) {
-            console.log("Searching by tag:", searchQuery);
-            fetchVideoResumes(1, searchQuery, connectionType);
-          } else {
-            fetchVideoResumes(1, "", connectionType);
-          }
-        });
-
-        const updateButtonTextVisibility = (action) => {
-          const mainContent = document.getElementById("main-content");
-          const mainSidePanel = document.getElementById("main-side-panel");
-          const sidePanelGroup = document.getElementById("side-panel-group");
-          const sideNavList = document.getElementById("side-nav-list");
-          const menuBtn = document.getElementById("btn-menu-area");
-          const menuBtnText = document.getElementById("btn-menu-text");
-
-          const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
 
 
-              if(isSectionOpen){
-
-                menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'block';
-
-                mainSidePanel.style.width = '100%';
-                mainContent.style.width = '100%';
-                sidePanelGroup.style.display = 'grid';
-                sideNavList.style.display = 'none';
-
+    }
+    /* 
                 document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'inline';
+                  text.style.display = isMobile ? 'none' : 'inline';
                 });
-              }else{
-       
-              if(action === 'scroll'){
-                menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'block';
+     */
+  };
 
-                mainSidePanel.style.width = '100%';
-                mainContent.style.width = '100%';
-                sidePanelGroup.style.display = 'grid';
-                sideNavList.style.display = 'none';
-
-                document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'inline';
-                });
-          
-
-              }else{
-
-                menuBtn.style.display = 'block';
-                menuBtnText.style.display = 'block';
-
-                mainSidePanel.style.width = '100%';
-                mainContent.style.width = '100%';
-                sidePanelGroup.style.display = 'grid';
-                sideNavList.style.display = 'block';
-
-                document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'inline';
-                });
-          
-                
-              }
-            }
-
-            }else{
-
-
-              if(isSectionOpen){
-
-                menuBtn.style.display = 'none';
-                menuBtnText.style.display = 'none';
-
-                sideNavList.style.display = 'block';
-              
-                mainSidePanel.style.width = 'auto';
-                mainContent.style.width = 'auto';
-                sidePanelGroup.style.display = 'flex';
-                document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'none';
-                });
-              }else{
-
-                if(action === 'scroll'){
-                  menuBtn.style.display = 'block';
-                  menuBtnText.style.display = 'none';
-
-                  sideNavList.style.display = 'block';
-                
-                  mainSidePanel.style.width = 'fit-content';
-                  mainContent.style.width = '59%';
-                  sidePanelGroup.style.display = 'flex';
-                  document.querySelectorAll('.btn-text').forEach((text) => {
-                    text.style.display = 'none';
-                  });
-
-                }else if(action === 'click'){
-                  menuBtn.style.display = 'block';
-                  menuBtnText.style.display = 'none';
-
-                  sideNavList.style.display = 'block';
-                
-                  mainSidePanel.style.width = 'fit-content';
-                  mainContent.style.width = '59%';
-                  sidePanelGroup.style.display = 'flex';
-                  document.querySelectorAll('.btn-text').forEach((text) => {
-                    text.style.display = 'none';
-                  });     
-                  
-                  
-                  
-                }else {
-
-                  menuBtn.style.display = 'none';
-                  menuBtnText.style.display = 'none';
-
-                  sideNavList.style.display = 'block';
-                
-                  mainSidePanel.style.width = '39%';
-                  mainContent.style.width = '59%';
-                  sidePanelGroup.style.display = 'block';
-                  document.querySelectorAll('.btn-text').forEach((text) => {
-                    text.style.display = 'inline';
-                  });
-  
-  
-  
-
-
-                }
+  window.addEventListener('resize', updateButtonTextVisibility);
+  updateButtonTextVisibility();
+}
 
 
 
-
-
-
-
-              }
-
-             
-
-      
-
-             
-
-
-
-            }
-/* 
-            document.querySelectorAll('.btn-text').forEach((text) => {
-              text.style.display = isMobile ? 'none' : 'inline';
-            });
- */
-          };
-          
-          window.addEventListener('resize', updateButtonTextVisibility);
-          updateButtonTextVisibility();
-        }
-
- 
-  
-  const styleElement = document.createElement('style');
-  styleElement.textContent = `
+const styleElement = document.createElement('style');
+styleElement.textContent = `
 
 
 
@@ -932,16 +932,16 @@ margins: auto;
 
 
 
-  if(sidePanel){
+if (sidePanel) {
 
-    document.addEventListener('DOMContentLoaded', insertSidePanelContent);
-  
-    document.head.appendChild(styleElement);
-  
+  document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+
+  document.head.appendChild(styleElement);
 
 
-  }
- 
+
+}
+
 
 
 
@@ -1066,7 +1066,7 @@ function populateSidePanelContacts(connectedUserData) {
     viewVideosButton.className = 'view-videos-button';
     viewVideosButton.onclick = () => {
 
-      fetchVideoResumes(page = 1, tagFilter = "", '', '', true, user.id );
+      fetchVideoResumes(page = 1, tagFilter = "", '', '', true, user.id);
 
       console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
     };
@@ -1088,6 +1088,41 @@ window.populateSidePanelContacts = populateSidePanelContacts;
 
 
 
+
+
+function createVideoCard(video, categoryTitle = null) {
+  const videoDiv = document.createElement('div');
+  videoDiv.className = 'category-item';
+
+  // Optional category title
+  if (categoryTitle) {
+    const categoryHeader = document.createElement('h3');
+    categoryHeader.textContent = categoryTitle;
+    categoryHeader.className = 'category-item-h3';
+    videoDiv.appendChild(categoryHeader);
+  }
+
+  const videoContainer = document.createElement('div');
+  videoContainer.className = 'video-preview';
+
+  const thumbnail = document.createElement('img');
+  thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+  thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+  thumbnail.className = 'video-thumbnail';
+
+  const link = document.createElement('a');
+  link.href = video.videoResumeURL || `https://reelcareer.co/reels/?r=${video.reelURL}`;
+  link.textContent = 'Watch Video';
+  link.target = '_blank';
+  link.className = 'watch-video-button';
+  link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
+
+  videoContainer.appendChild(thumbnail);
+  videoContainer.appendChild(link);
+  videoDiv.appendChild(videoContainer);
+
+  return videoDiv;
+}
 
 
 
@@ -1198,51 +1233,51 @@ async function loadTopCategoriesWithVideos() {
   }
 
 
-// Define the URL for the JSON file
-const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
+  // Define the URL for the JSON file
+  const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
 
-// Fetch the JSON data
-const response = await fetch(jsonUrl);
+  // Fetch the JSON data
+  const response = await fetch(jsonUrl);
 
-// Log the response to ensure it's being fetched correctly
-console.log("Response received:", response);
+  // Log the response to ensure it's being fetched correctly
+  console.log("Response received:", response);
 
-// Parse the JSON data
-const data = await response.json();
+  // Parse the JSON data
+  const data = await response.json();
 
-console.log('data:', data);
+  console.log('data:', data);
 
-// Process each video data from the JSON
-data.forEach((video) => {
-  if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
-    const { country, state, city } = video;
-    const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+  // Process each video data from the JSON
+  data.forEach((video) => {
+    if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
+      const { country, state, city } = video;
+      const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
 
-    // Group videos by location
-    if (!locationMap.has(locationKey)) {
-      locationMap.set(locationKey, []);
+      // Group videos by location
+      if (!locationMap.has(locationKey)) {
+        locationMap.set(locationKey, []);
+      }
+      locationMap.get(locationKey).push(video);
+
+      // Calculate video rating
+      const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
+      topVideos.push({ ...video, rating });
+      console.warn('topVideos:', topVideos);
+
+      // Group videos by categories
+      if (video.reelCategories && video.reelCategories.length > 0) {
+        video.reelCategories.forEach((category) => {
+          if (!categoryMap.has(category)) {
+            categoryMap.set(category, []);
+          }
+          categoryMap.get(category).push({ ...video, rating });
+        });
+      }
     }
-    locationMap.get(locationKey).push(video);
+  });
 
-    // Calculate video rating
-    const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
-    topVideos.push({ ...video, rating });
-    console.warn('topVideos:', topVideos);
-
-    // Group videos by categories
-    if (video.reelCategories && video.reelCategories.length > 0) {
-      video.reelCategories.forEach((category) => {
-        if (!categoryMap.has(category)) {
-          categoryMap.set(category, []);
-        }
-        categoryMap.get(category).push({ ...video, rating });
-      });
-    }
-  }
-});
-
-
-// You can now use 'topVideos' and 'categoryMap' as needed
+  
+  // You can now use 'topVideos' and 'categoryMap' as needed
 
 
   const sortedCategories = Array.from(categoryMap.entries())
@@ -1257,100 +1292,40 @@ data.forEach((video) => {
     "See standout work in {category}"
   ];
 
-  const fragment = document.createDocumentFragment();
-  console.log('categoryMap:', categoryMap);
+ 
+// Main code
+const fragment = document.createDocumentFragment();
+console.log('categoryMap:', categoryMap);
 
-  sortedCategories.forEach(([category, videos]) => {
-    const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
-    const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
+sortedCategories.forEach(([category, videos]) => {
+  const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
+  const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
 
-    if (!topVideo) {
-      console.warn('No top video found for category:', category);
-      return;
-    }
+  if (!topVideo) {
+    console.warn('No top video found for category:', category);
+    return;
+  }
 
-    const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'category-item';
+  const videoCard = createVideoCard(topVideo, randomPhrase);
+  fragment.appendChild(videoCard);
+});
 
-    const categoryTitle = document.createElement('h3');
-    categoryTitle.textContent = randomPhrase;
-    categoryTitle.className = 'category-item-h3';
-    categoryDiv.appendChild(categoryTitle);
+searchSuggestionsDiv.appendChild(fragment);
 
-    const videoContainer = document.createElement('div');
-    videoContainer.className = 'video-preview';
-
-    const thumbnail = document.createElement('img');
-    thumbnail.src = topVideo.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-    thumbnail.alt = topVideo.videoResumeTitle || 'Video thumbnail';
-    thumbnail.className = 'video-thumbnail';
-
-/*     const videoTitle = document.createElement('span');
-    videoTitle.textContent = topVideo.videoResumeTitle || 'ReelCareer Video';
-    videoTitle.className = 'video-title';
- */
-    const videoLink = document.createElement('a');
-    videoLink.href = topVideo.videoResumeURL;
-    videoLink.textContent = 'Watch Video';
-    videoLink.target = '_blank';
-    videoLink.className = 'watch-video-button';
-    videoLink.setAttribute('aria-label', `Watch this video ${topVideo.videoResumeTitle || 'ReelCareer Video'}`);
-
-    videoContainer.appendChild(thumbnail);
-   // videoContainer.appendChild(videoTitle);
-    videoContainer.appendChild(videoLink);
-    categoryDiv.appendChild(videoContainer);
-
-    fragment.appendChild(categoryDiv);
+if (sortedCategories.length === 0) {
+  const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
+  topRatedVideos.forEach((video) => {
+    const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+    const videoCard = createVideoCard(video, tagPhrase);
+    fragment.appendChild(videoCard);
   });
 
   searchSuggestionsDiv.appendChild(fragment);
-
-  if (sortedCategories.length === 0) {
-    const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
-    topRatedVideos.forEach((video) => {
-      const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
-      const videoDiv = document.createElement('div');
-      videoDiv.className = 'category-item';
-
-      const videoTitle = document.createElement('h3');
-      videoTitle.textContent = tagPhrase;
-      videoDiv.appendChild(videoTitle);
-
-      const videoContainer = document.createElement('div');
-      videoContainer.className = 'video-preview';
-
-      const thumbnail = document.createElement('img');
-      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
-      thumbnail.className = 'video-thumbnail';
-
-      const titleSpan = document.createElement('span');
-      titleSpan.textContent = video.videoResumeTitle || 'ReelCareer Video';
-      titleSpan.className = 'video-title';
-
-      const link = document.createElement('a');
-      link.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
-      link.textContent = 'Watch Video';
-      link.target = '_blank';
-      link.className = 'watch-video-button';
-      link.setAttribute('aria-label', `Watch this video ${video.videoResumeTitle || 'Untitled Video'}`);
-
-      videoContainer.appendChild(thumbnail);
-      videoContainer.appendChild(titleSpan);
-      videoContainer.appendChild(link);
-      videoDiv.appendChild(videoContainer);
-
-      fragment.appendChild(videoDiv);
-    });
-
-    searchSuggestionsDiv.appendChild(fragment);
-  }
+}
 
 
-  
   generateLocationList(data, locationMap);
-    
+
 }
 
 
@@ -1385,205 +1360,228 @@ function generateLocationList(data, locationMap) {
         countryMap.set(state, new Map());
       }
       const stateMap = countryMap.get(state);
-      stateMap.set(city, doc);
+
+      // Group videos by city, and keep track of all videos for the city
+      if (!stateMap.has(city)) {
+        stateMap.set(city, []);
+      }
+      stateMap.get(city).push(doc);
     }
   });
+
 
 
   // Create a reusable button component for each location (country, state, city)
-function createButton(text, className, location, onClick) {
-  // Validate the inputs
-  if (typeof text !== 'string' || text.trim() === '') {
-    console.error('Button text must be a non-empty string.');
-    return null;
-  }
-
-  if (typeof className !== 'string' || className.trim() === '') {
-    console.error('Class name must be a non-empty string.');
-    return null;
-  }
-
-  if (!(location instanceof HTMLElement)) {
-    console.error('Location must be a valid DOM element.');
-    return null;
-  }
-
-  if (typeof onClick !== 'function') {
-    console.error('onClick must be a valid function.');
-    return null;
-  }
-
-  // Create the button element
-  const button = document.createElement('button');
-  button.className = className;
-  button.textContent = text;
-
-  // Add the event listener for the button click
-  button.addEventListener('click', (event) => {
-    try {
-      // Prevent the default button behavior
-      event.preventDefault();
-  
-      // Call the provided onClick handler
-      onClick(event);
-    } catch (error) {
-      console.error('Error in onClick handler:', error);
+  function createButton(text, className, location, onClick) {
+    // Validate the inputs
+    if (typeof text !== 'string' || text.trim() === '') {
+      console.error('Button text must be a non-empty string.');
+      return null;
     }
-  });
-  
 
-  // Append the button to the specified location
-  location.appendChild(button);
-
-  return button;
-}
-
-
-  // Render the list of countries
-  function renderLocations(countryMap) {
-    locationContainer.innerHTML = '';
-    countryMap.forEach((statesMap, country) => {
-      console.log(statesMap,'   countryMap: ', country);
-
-      const countryDiv = document.createElement('div');
-      countryDiv.className = 'country-tab';
-
-      const countryButton = createButton(
-        country,
-        'collapsible-location',
-        countryDiv, // Use the `countryDiv` DOM element instead of `country`
-        () => {
-          renderStates(country, statesMap);
-          saveLocationToLocalStorage(country, '', '', 'country');
-        }
-      );
-      
-      countryDiv.appendChild(countryButton);
-      locationContainer.appendChild(countryDiv);
-    });
-  }
-
-  // Render the list of states for a given country
-  function renderStates(country, statesMap) {
-    locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
-    statesMap.forEach((citiesMap, state) => {
-      const stateDiv = document.createElement('div');
-      stateDiv.className = 'state-tab';
-
-      const stateButton = createButton(
-        state,
-        'collapsible-location',
-        stateDiv, // Correct DOM element
-        () => {
-          renderCities(country, state, citiesMap);
-          saveLocationToLocalStorage(country, state, '', 'state');
-        }
-      );
-      stateDiv.appendChild(stateButton);
-      locationContainer.appendChild(stateDiv);
-    });
-  }
-
-  // Render the list of cities for a given state
-  function renderCities(country, state, citiesMap) {
-    locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
-    citiesMap.forEach((video, city) => {
-      const cityDiv = document.createElement('div');
-      cityDiv.className = 'city-tab';
-
-      const cityButton = createButton(
-        city,
-        'collapsible-location',
-        cityDiv, // Correct DOM element
-        () => {
-          console.log(`Selected Location: ${country} > ${state} > ${city}`);
-          saveLocationToLocalStorage(country, state, city, 'city');
-          renderVideos(video);
-        }
-      );
-
-      cityDiv.appendChild(cityButton);
-      locationContainer.appendChild(cityDiv);
-    });
-  }
-
-  // Function to render the videos for a selected city
-  function renderVideos(video) {
-    locationContainer.innerHTML = `<button onclick="renderCities('${video.country}', '${video.state}', locationMap.get('${video.country}').get('${video.state}'))">Back to Cities</button>`;
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'content';
-    const thumbnail = document.createElement('img');
-    thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-    thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
-    thumbnail.className = 'video-thumbnail';
-
-    const videoLink = document.createElement('a');
-    videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
-    videoLink.textContent = 'Watch Video';
-    videoLink.target = '_blank';
-    videoLink.className = 'watch-video-button';
-    videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
-
-    contentDiv.appendChild(thumbnail);
-    contentDiv.appendChild(videoLink);
-    locationContainer.appendChild(contentDiv);
-  }
-
-  // Save selected location to localStorage for later use
-  function saveLocationToLocalStorage(country, state, city, type) {
-    let locationID = '';
-    if (type === 'country') {
-      locationID = country;
-    } else if (type === 'state') {
-      locationID = `${country}-${state}`;
-    } else if (type === 'city') {
-      locationID = `${country}-${state}-${city}`;
+    if (typeof className !== 'string' || className.trim() === '') {
+      console.error('Class name must be a non-empty string.');
+      return null;
     }
-    localStorage.setItem('selectedLocation', locationID);
+
+    if (!(location instanceof HTMLElement)) {
+      console.error('Location must be a valid DOM element.');
+      return null;
+    }
+
+    if (typeof onClick !== 'function') {
+      console.error('onClick must be a valid function.');
+      return null;
+    }
+
+    // Create the button element
+    const button = document.createElement('button');
+    button.className = className;
+    button.textContent = text;
+
+    // Add the event listener for the button click
+    button.addEventListener('click', (event) => {
+      try {
+        // Prevent the default button behavior
+        event.preventDefault();
+
+        // Call the provided onClick handler
+        onClick(event);
+      } catch (error) {
+        console.error('Error in onClick handler:', error);
+      }
+    });
+
+
+    // Append the button to the specified location
+    location.appendChild(button);
+
+    return button;
   }
 
-  renderLocations(locationMap);  // Initial render for countries
-}
-
-
+  
+    // Function to select the top video for a given city
+    function getTopVideo(videos) {
+      return videos.reduce((top, video) => {
+        const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
+        const topScore = top.rating * 0.7 + top.views * 0.3;
+        return currentScore > topScore ? video : top;
+      }, videos[0]);
+    }
+  
+    // Render the list of countries
+    function renderLocations(countryMap) {
+      locationContainer.innerHTML = '';
+      countryMap.forEach((statesMap, country) => {
+        const countryDiv = document.createElement('div');
+        countryDiv.className = 'country-tab';
+  
+        const countryButton = createButton(
+          country,
+          'collapsible-location',
+          countryDiv,
+          () => {
+            renderStates(country, statesMap);
+            saveLocationToLocalStorage(country, '', '', 'country');
+          }
+        );
+  
+        countryDiv.appendChild(countryButton);
+        locationContainer.appendChild(countryDiv);
+      });
+    }
+  
+    // Render the list of states for a given country
+    function renderStates(country, statesMap) {
+      locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
+      statesMap.forEach((citiesMap, state) => {
+        const stateDiv = document.createElement('div');
+        stateDiv.className = 'state-tab';
+  
+        const stateButton = createButton(
+          state,
+          'collapsible-location',
+          stateDiv,
+          () => {
+            renderCities(country, state, citiesMap);
+            saveLocationToLocalStorage(country, state, '', 'state');
+          }
+        );
+  
+        stateDiv.appendChild(stateButton);
+        locationContainer.appendChild(stateDiv);
+      });
+    }
+  
+    // Render the list of cities for a given state
+    function renderCities(country, state, citiesMap) {
+      locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
+      citiesMap.forEach((videos, city) => {
+        const topVideo = getTopVideo(videos);
+  
+        const cityDiv = document.createElement('div');
+        cityDiv.className = 'city-tab';
+  
+        const cityButton = createButton(
+          city,
+          'collapsible-location',
+          cityDiv,
+          () => {
+            console.log(`Selected Location: ${country} > ${state} > ${city}`);
+            saveLocationToLocalStorage(country, state, city, 'city');
+            renderVideos(topVideo);
+          }
+        );
+  
+        cityDiv.appendChild(cityButton);
+        locationContainer.appendChild(cityDiv);
+      });
+    }
+  
+    // Function to render a video card for the selected city
+    function renderVideos(video) {
+      locationContainer.innerHTML = `<button onclick="renderCities('${video.country}', '${video.state}', locationMap.get('${video.country}').get('${video.state}'))">Back to Cities</button>`;
+  
+      const videoCard = createVideoCard(video);
+      locationContainer.appendChild(videoCard);
+    }
+  
+    // Function to create a reusable video card
+    function createVideoCard(video) {
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'content';
+  
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
+      thumbnail.className = 'video-thumbnail';
+  
+      const videoLink = document.createElement('a');
+      videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+      videoLink.textContent = 'Watch Video';
+      videoLink.target = '_blank';
+      videoLink.className = 'watch-video-button';
+      videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
+  
+      contentDiv.appendChild(thumbnail);
+      contentDiv.appendChild(videoLink);
+  
+      return contentDiv;
+    }
+  
+    // Save selected location to localStorage for later use
+    function saveLocationToLocalStorage(country, state, city, type) {
+      let locationID = '';
+      if (type === 'country') {
+        locationID = country;
+      } else if (type === 'state') {
+        locationID = `${country}-${state}`;
+      } else if (type === 'city') {
+        locationID = `${country}-${state}-${city}`;
+      }
+      localStorage.setItem('selectedLocation', locationID);
+    }
+  
+    renderLocations(locationMap); // Initial render for countries
+  }
+  
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  
-
-  if(userLocation){
-  let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
-
-  console.log("currentPath  ",currentPath);
-  const locationContainer = document.getElementById('locationContainer');
-  locationContainer.innerHTML = ''; // Clear any existing content
-  
-  
-  document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
 
 
-  if ( (currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
+  if (userLocation) {
+    let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
 
-    const connectionsBTN = document.getElementById('btn-connetions-area');
-    if (connectionsBTN) {
-      connectionsBTN.classList.add('hidden'); // Adds the 'hidden' class to the element
+    console.log("currentPath  ", currentPath);
+    const locationContainer = document.getElementById('locationContainer');
+    locationContainer.innerHTML = ''; // Clear any existing content
+
+
+    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+
+
+    if ((currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
+
+      const connectionsBTN = document.getElementById('btn-connetions-area');
+      if (connectionsBTN) {
+        connectionsBTN.classList.add('hidden'); // Adds the 'hidden' class to the element
+      }
+
+
+    } else {
+      console.log('No match found.');
     }
-
-
-  } else {
-    console.log('No match found.');
   }
-}
 
   if (sidePanel) {
 
     loadTopCategoriesWithVideos();
-  
+
   }
-  
-  
-  
+
+
+
 });
 
 
