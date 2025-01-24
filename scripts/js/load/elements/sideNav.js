@@ -1149,64 +1149,59 @@ async function loadTopCategoriesWithVideos() {
   }
 
 
-  const categoryMap = new Map();
-  const topVideos = [];
-  const locationMap = new Map();
-
-
-  
-  /*
-
-
-          const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
-        
-        // Log the response to make sure we get it
-        console.log("Response received:", response);
-
-        const data = await response.json();
-        
-
-        */
-
-        
-  const videoResumesRef = collection(db, 'VideoResumes');
-  const querySnapshot = await getDocs(videoResumesRef);
+// Initialize location and category maps
+const locationMap = new Map();
+const categoryMap = new Map();
+const topVideos = [];
 
 
 
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
-      const { country, state, city } = data;
-      const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
-      if (!locationMap.has(locationKey)) {
-        locationMap.set(locationKey, []);
-      }
-      locationMap.get(locationKey).push(data);
+// Define the URL for the JSON file
+const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
+
+// Fetch the JSON data
+const response = await fetch(jsonUrl);
+
+// Log the response to ensure it's being fetched correctly
+console.log("Response received:", response);
+
+// Parse the JSON data
+const data = await response.json();
+
+
+// Process each video data from the JSON
+data.forEach((video) => {
+  if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
+    const { country, state, city } = video;
+    const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
+
+    // Group videos by location
+    if (!locationMap.has(locationKey)) {
+      locationMap.set(locationKey, []);
     }
-  });
+    locationMap.get(locationKey).push(video);
 
+    // Calculate video rating
+    const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
+    topVideos.push({ ...video, rating });
 
-   // Assuming querySnapshot is already populated with the data
-   generateLocationList(querySnapshot, locationMap);
-
-
-
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    if (data.isPublic && data.status === 'posted' && !data.isDeleted) {
-      const rating = ((data.views * data.duration) / data.watchTime) * 0.7 + data.likes * 0.3;
-      topVideos.push({ ...data, rating });
-      if (data.reelCategories && data.reelCategories.length > 0) {
-        data.reelCategories.forEach((category) => {
-          if (!categoryMap.has(category)) {
-            categoryMap.set(category, []);
-          }
-          categoryMap.get(category).push({ ...data, rating });
-        });
-      }
+    // Group videos by categories
+    if (video.reelCategories && video.reelCategories.length > 0) {
+      video.reelCategories.forEach((category) => {
+        if (!categoryMap.has(category)) {
+          categoryMap.set(category, []);
+        }
+        categoryMap.get(category).push({ ...video, rating });
+      });
     }
-  });
+  }
+});
+
+// Assuming generateLocationList is a function to display or process the location map
+generateLocationList(locationMap);
+
+// You can now use 'topVideos' and 'categoryMap' as needed
+
 
   const sortedCategories = Array.from(categoryMap.entries())
     .sort((a, b) => b[1].length - a[1].length)
