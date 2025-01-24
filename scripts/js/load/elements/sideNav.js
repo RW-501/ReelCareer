@@ -585,7 +585,7 @@ function insertSidePanelContent() {
   opacity: 1;
   visibility: visible;
 }
-  
+
 #body-main {
     display: flex;
     width: 100%;
@@ -1393,13 +1393,48 @@ function generateLocationList(data, locationMap) {
   locationContainer.innerHTML = ''; // Clear any existing content
 
   // Create a reusable button component for each location (country, state, city)
-  function createButton(text, className, location, onClick) {
-    const button = document.createElement('button');
-    button.className = className;
-    button.textContent = text;
-    button.addEventListener('click', onClick);
-    return button;
+function createButton(text, className, location, onClick) {
+  // Validate the inputs
+  if (typeof text !== 'string' || text.trim() === '') {
+    console.error('Button text must be a non-empty string.');
+    return null;
   }
+
+  if (typeof className !== 'string' || className.trim() === '') {
+    console.error('Class name must be a non-empty string.');
+    return null;
+  }
+
+  if (!(location instanceof HTMLElement)) {
+    console.error('Location must be a valid DOM element.');
+    return null;
+  }
+
+  if (typeof onClick !== 'function') {
+    console.error('onClick must be a valid function.');
+    return null;
+  }
+
+  // Create the button element
+  const button = document.createElement('button');
+  button.className = className;
+  button.textContent = text;
+
+  // Add the event listener for the button click
+  button.addEventListener('click', (event) => {
+    try {
+      onClick(event);
+    } catch (error) {
+      console.error('Error in onClick handler:', error);
+    }
+  });
+
+  // Append the button to the specified location
+  location.appendChild(button);
+
+  return button;
+}
+
 
   // Render the list of countries
   function renderLocations(countryMap) {
