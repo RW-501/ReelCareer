@@ -3,26 +3,27 @@ function renderInteractionsArea(firstName) {
     
     // Create the HTML for the share buttons
     const interactionsHTML = `
-    <div id="flowerCount-area" class="changeable-area">
-                <div id="flower-area">
-            <i class="fas fa-spa"></i><div id="flowerCount">0</div>
-                </div>
-            <div class="actions">
-                <button id="send-gift" ><i class="fa fa-gift"></i> Send Gift</button>
-                <button id="send-flowers" ><i class="fas fa-spa"></i> Send Flowers</button>
-            </div>
+<div id="flowerCount-area" class="changeable-area">
+  <div id="flower-area">
+    <i class="fas fa-spa"></i>
+    <div id="flowerCount">0</div>
+  </div>
+  <div class="actions">
+    <button id="send-gift"><i class="fa fa-gift"></i> Send Gift</button>
+    <button id="send-flowers"><i class="fas fa-spa"></i> Send Flowers</button>
+  </div>
 </div>
 
 <div class="guestbook form changeable-area">
   <h2 class="changeable-text">Guestbook</h2>
-<div id="guestbookForm">
-  <div>
-    <input type="text" id="guestName" placeholder="Your Name" required>
-  </div>
-            <div class="anonymousCheckboxArea">
+  <div id="guestbookForm">
+    <div>
+      <input type="text" id="guestName" placeholder="Your Name" required>
+    </div>
+    <div class="anonymousCheckboxArea">
       <input type="checkbox" id="anonymousCheckbox">
-    <label for="anonymousCheckbox">Submit as Anonymous</label>
-  </div>
+      <label for="anonymousCheckbox">Submit as Anonymous</label>
+    </div>
 
   </div>
 
@@ -31,14 +32,12 @@ function renderInteractionsArea(firstName) {
   </div>
   <div>
 
-  <button id="submit-btn" class="changeable-text">Submit</button>
-</div>
-
+    <button id="submit-btn" class="changeable-text">Submit</button>
+  </div>
 
   <div class="guestbook-entries" id="guestbookEntries"></div>
 </div>
-  <div class="giftBox" id="giftBoxArea"></div>
-
+<div class="giftBox" id="giftBoxArea"></div>
     `;
     
     // Find the share area on the page and insert the share buttons
@@ -55,7 +54,9 @@ window.renderInteractionsArea = renderInteractionsArea;
 function renderGiftBoxArea(firstName) {
   const giftBoxAreaHTML = `
     <!-- Pop-up Container -->
-    <div id="giftPopup" class="giftPopup">
+    <div id="giftPopupArea" class="">
+        <div id="giftPopup" class="giftPopup">
+
       <div class="giftPopup-content">
 
 <!-- Back button with an arrow-left icon -->
@@ -137,6 +138,7 @@ function renderGiftBoxArea(firstName) {
         <!-- Close Button -->
         <button onclick="closeGiftPopup()">Close</button>
       </div>
+    </div>
     </div>
   `;
 

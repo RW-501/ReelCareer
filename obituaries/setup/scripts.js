@@ -478,7 +478,7 @@ window.incrementViews = incrementViews;
 
 // Open the Gift Popup
 function openGiftPopup() {
-  const giftPopup = document.getElementById("giftPopup");
+  const giftPopup = document.getElementById("giftPopupArea");
   if (giftPopup) {
     giftPopup.style.display = "block";
   }
@@ -486,7 +486,7 @@ function openGiftPopup() {
 
 // Close the Gift Popup
 function closeGiftPopup() {
-  const giftPopup = document.getElementById("giftPopup");
+  const giftPopup = document.getElementById("giftPopupArea");
   if (giftPopup) {
     giftPopup.style.display = "none";
   }

@@ -765,6 +765,22 @@ video {
 #flower-area {
     padding: .5rem;
 }
+
+
+#giftPopupArea {
+    z-index: 1000;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: rgb(138, 138, 138);
+    margin: auto;
+    height: 100%;
+    position: fixed;
+
+
+}
 .giftPopup {
     display: none;
     position: fixed;
