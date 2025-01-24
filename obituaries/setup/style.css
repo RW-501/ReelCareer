@@ -460,6 +460,7 @@ video {
           padding: 8px;
           border-radius: 5px;
           transition: all 0.3s ease; /* Add a smooth transition */
+          width: 100%;
         }
         
         .guestbook input:focus,
@@ -496,9 +497,18 @@ video {
                 height: 1rem;
                 outline-color: #a3a3a3;
                 outline-style: groove;
+
+                display: inline-block;
+                margin-bottom: .5rem;
             }
 
+            .guestbook  label {
+                display: inline-block;
+                margin-bottom: .5rem;
+                padding: 0;
+                box-sizing: border-box;
 
+            }
 
 
         .guestbook button {
@@ -566,6 +576,7 @@ video {
             background: #f9f9f9;
             outline: double;
             outline-color: #a3a3a3;
+            transition: all 0.3s ease; /* Add a smooth transition */
         }
 
 
