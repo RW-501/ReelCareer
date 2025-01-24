@@ -1372,7 +1372,7 @@ const userLocation = sessionStorage.getItem("userLocation");
 function generateLocationList(data, locationMap) {
   // Populate location map with grouped data
   data.forEach((doc) => {
-    const { country, state, city } = doc.data();
+    const { country, state, city } = doc;
     if (country && state && city) {
       if (!locationMap.has(country)) {
         locationMap.set(country, new Map());
@@ -1382,7 +1382,7 @@ function generateLocationList(data, locationMap) {
         countryMap.set(state, new Map());
       }
       const stateMap = countryMap.get(state);
-      stateMap.set(city, doc.data());
+      stateMap.set(city, doc);
     }
   });
 
