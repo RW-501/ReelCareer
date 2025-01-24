@@ -372,6 +372,9 @@ function insertSidePanelContent() {
       document.addEventListener('DOMContentLoaded', () => {
 
       onAuthStateChanged(auth, (user) => {
+        console.log("currentUrl   ",currentUrl);
+        console.log("user   ",user);
+
         if (!user) {
           const allUserBtns = document.querySelectorAll('.side-user-btn');
           allUserBtns.forEach((btns) => {
