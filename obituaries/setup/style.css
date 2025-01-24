@@ -470,10 +470,14 @@ video {
                 border-radius: 5px;
             }
 
-        .guestbook input[type=checkbox], input[type=radio] {
-            box-sizing: border-box;
-            padding: 0;
-        }
+            .guestbook input[type=checkbox], input[type=radio] {
+                box-sizing: border-box;
+                padding: 0;
+                width: 1rem;
+                height: 1rem;
+                outline-color: #a3a3a3;
+                outline-style: groove;
+            }
 
 
         .guestbook  textarea {
