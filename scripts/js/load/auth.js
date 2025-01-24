@@ -329,8 +329,15 @@ function redirectToLogin() {
     animation: slideIn 0.3s ease-in-out;
     height: 90%;
         z-index: 500000000000000;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
 
 }
+
+#popup-login-content::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for WebKit browsers */
+
+    }
+      
       
       #popup-login-close {
         position: absolute;

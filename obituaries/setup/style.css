@@ -784,29 +784,30 @@ video {
 
 }
 .giftPopup {
-    top: 2rem;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
+    position: relative;
     width: 90%;
     max-width: 600px;
     background: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     z-index: 1000;
-    bottom: 2rem;
     margin: auto;
     overflow-y: scroll;
     height: auto;
 }
   
-.giftPopup-content {
+#giftPopup {
     padding: 2rem;
     text-align: center;
     scrollbar-width: none; /* Hide scrollbar for Firefox */
 
 }
 
-.giftPopup-content::-webkit-scrollbar {
+#giftPopup::-webkit-scrollbar {
         display: none; /* Hide scrollbar for WebKit browsers */
 
     }
