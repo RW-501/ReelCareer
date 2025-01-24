@@ -407,6 +407,7 @@ input[type="text"] {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
+          outline: none;
   border: 1px solid #c4c4c4;
   border-radius: 5px;
   transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
