@@ -1420,11 +1420,16 @@ function createButton(text, className, location, onClick) {
   // Add the event listener for the button click
   button.addEventListener('click', (event) => {
     try {
+      // Prevent the default button behavior
+      event.preventDefault();
+  
+      // Call the provided onClick handler
       onClick(event);
     } catch (error) {
       console.error('Error in onClick handler:', error);
     }
   });
+  
 
   // Append the button to the specified location
   location.appendChild(button);
