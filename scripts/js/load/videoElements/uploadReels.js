@@ -513,7 +513,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 window.postReelFunction = postReelFunction;
 
-function createThumbnailPicker(file) {
+function createThumbnailPicker(file, previewContainer, index) {
     const thumbnailPreviewPickerSection = document.getElementById('thumbnailPreviewPickerSection');
     const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
     const videoElement = document.createElement('video');
@@ -525,6 +525,7 @@ function createThumbnailPicker(file) {
         videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
     } else if (file) {
         videoElement.src = file;  // Handle non-video file as a fallback
+        previewContainer.src = file;
     } else {
         console.error('Invalid file provided to createThumbnailPicker.');
         return;  // Exit the function to avoid further errors
@@ -646,7 +647,7 @@ fileInput.addEventListener("change", (e) => {
 
     // Clear previous thumbnails and preview
     const previewContainer = document.getElementById("reelVideoPreview");
-    previewContainer.innerHTML = ""; // Clear previous previews
+   // previewContainer.innerHTML = ""; // Clear previous previews
 
     // Create a thumbnail and add a preview for each video
     uploadedFiles.forEach((file, index) => {
