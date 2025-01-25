@@ -1486,6 +1486,8 @@ function generateLocationList(data, locationMap) {
     function renderStates(country, statesMap) {
       locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
       statesMap.forEach((citiesMap, state) => {
+        const topVideo = getTopVideo(citiesMap);
+
         const stateDiv = document.createElement('div');
         stateDiv.className = 'state-tab';
   
@@ -1496,6 +1498,8 @@ function generateLocationList(data, locationMap) {
           () => {
             renderCities(country, state, citiesMap);
             saveLocationToLocalStorage(country, state, '', 'state');
+            renderVideos(topVideo);
+
           }
         );
   
@@ -1531,7 +1535,6 @@ function generateLocationList(data, locationMap) {
   
     // Function to render a video card for the selected city
     function renderVideos(video) {
-      locationContainer.innerHTML = `<button onclick="renderCities('${video.country}', '${video.state}', locationMap.get('${video.country}').get('${video.state}'))">Back to Cities</button>`;
   
       const videoCard = createVideoCard(video);
       locationContainer.appendChild(videoCard);
