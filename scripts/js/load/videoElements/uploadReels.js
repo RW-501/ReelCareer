@@ -65,7 +65,8 @@ async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_$
                     progress,
                     name: videoData.name,
                     userID,
-                    videoData
+                    videoData,
+                    originalFileName: videoData.originalFileName
                 }));
    
                 
@@ -192,10 +193,13 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
 
 
-    
+    const originalFileName = videoData.originalFileName;
 
     const videoResumeTitle = videoData.videoResumeTitle;
 
+
+    console.log("originalFileName: ", originalFileName);
+    console.log("videoResumeTitle: ", videoResumeTitle);
     const searchableVideoResumeTitle = removeStopWords(videoResumeTitle, stopWords);
 
     if (tags.length < 2) {
@@ -380,9 +384,13 @@ let reelID = '';
             });
         }      
     
-
+        const descriptionInput = document.querySelector(".reel-video-content");
+        const titleInput = document.querySelector(".reel-video-title");
+        titleInput.value = '';
+        descriptionInput.value = '';
+        
         const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
-       
+       const moreOptionsArea = document.getElementById("reels-more-options-area");
        
             // Place your control logic here only if the elements are present
             const uploadContainer = document.getElementById("reel-upload-container");
@@ -392,7 +400,7 @@ let reelID = '';
 
                 createVideoUploadPopup();
                 document.getElementById("uploadArea").classList.add("hidden");
-                document.getElementById("reels-more-options-area").classList.remove("hidden");
+                moreOptionsArea.classList.remove("hidden");
             } else {
            
         
@@ -404,15 +412,27 @@ let reelID = '';
                 console.log("Upload container found. and is open");
 
                 document.getElementById("uploadArea").style.display = "none";
-                document.getElementById("reels-more-options-area").style.display = "block";
+                moreOptionsArea.style.display = "block";
                 document.getElementById("uploadArea").classList.add("hidden");
-                document.getElementById("reels-more-options-area").classList.remove("hidden");
-            }
-        
+                moreOptionsArea.classList.remove("hidden");
+
+                    
             if (saveReelChangesBtn) {
                 saveReelChangesBtn.disabled = false;
                 saveReelChangesBtn.innerText = `Save Changes`;
             }
+            }else if(moreOptionsArea.style.display = "block" ){
+                moreOptionsArea.style.display = "none";
+                document.getElementById("uploadArea").classList.remove("hidden");
+                moreOptionsArea.classList.add("hidden");
+    
+                if (saveReelChangesBtn) {
+                    saveReelChangesBtn.disabled = true;
+                    saveReelChangesBtn.innerText = ``;
+                }
+
+            }
+    
 
         }
 
@@ -473,6 +493,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             userID,
             file: uploadedFile,
             fileType: "video/mp4",
+            originalFileName: uploadedFile.name,
         };
     
         
@@ -602,20 +623,44 @@ function initializeVideoUploadHandlers() {
 
     
     fileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file || file.type.split("/")[0] !== "video") {
-          //  console.log("Invalid file type:", file.type); // Check the file type
-            showToast("Please select a valid video file.");
+        const files = e.target.files;
+        if (files.length === 0) {
+            showToast("Please select valid video files.");
             return;
         }
+    
+        // Ensure all files are videos
+        const videoFiles = Array.from(files).filter(file => file.type.split("/")[0] === "video");
         
-
-        uploadedFile = file;
-        videoDuration =  createThumbnailPicker(file);
-
+        if (videoFiles.length === 0) {
+            showToast("Please select valid video files.");
+            return;
+        }
+    
+        // Store the video files and process thumbnails (if necessary)
+        uploadedFiles = videoFiles;
+        videoDurations = uploadedFiles.map(file => createThumbnailPicker(file)); // Create thumbnails for each video
     });
+    
 
-
+    document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
+        const userID = "exampleUserID"; // Replace with the actual user ID
+        const videoDataArray = uploadedFiles.map((file, index) => ({
+            name: file.name,
+            file: file,
+            description: document.querySelector(".reel-video-content").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
+            title: document.querySelector(".reel-video-title").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
+            videoDuration: videoDurations[index], // Get the video duration from previously generated durations
+        }));
+    
+        if (videoDataArray.length === 0) {
+            showToast("No videos selected.");
+            return;
+        }
+    
+        await uploadMultipleVideoResumes(userID, videoDataArray);
+    });
+    
         
     uploadButton.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -627,9 +672,33 @@ function initializeVideoUploadHandlers() {
      
         
         try {
-            const description = document.querySelector(".reel-video-content").value.trim();
-            const title = document.querySelector(".reel-video-title").value.trim();
+            const descriptionInput = document.querySelector(".reel-video-content");
+            const titleInput = document.querySelector(".reel-video-title");
+            
+            let description = descriptionInput.value.trim();
+            let title = titleInput.value.trim();
+            
+            // Normalize the file name if title or description is empty
+            if (!title || !description) {
+                // Extract the file name without the extension
+                let normalizedFileName = uploadedFile.name.replace(/\.[^/.]+$/, ''); // Remove file extension
+                // Replace _, -, and . with spaces
+                normalizedFileName = normalizedFileName.replace(/[_\-\.]+/g, ' ').trim();
+            
+                // Assign normalized file name as title or description if empty
+                if (!title) {
+                    title = normalizedFileName;
+                    titleInput.value = title; // Update the title input field
+                }
+                if (!description) {
+                    description = normalizedFileName;
+                    descriptionInput.value = description; // Update the description input field
+                }
+            }
+            
+            // Call the postReelFunction with the processed title and description
             await postReelFunction(title, description, uploadedFile, videoDuration);
+
         } catch (error) {
 
             console.error("Upload error:",error);
@@ -643,7 +712,39 @@ function initializeVideoUploadHandlers() {
 
   // Call this function once the popup is created or relevant DOM is ready
   
+  let videoDataArray = []; // Array to hold multiple video data objects
 
+  // Function to upload multiple videos
+  async function uploadMultipleVideoResumes(userID, videoDataArray) {
+      for (const videoData of videoDataArray) {
+          // Reset progress bar for each video
+          const progressBar = document.getElementById("uploadProgressBar");
+          if (progressBar) {
+              progressBar.style.width = "0%";
+              progressBar.textContent = "0%";
+          }
+  
+          try {
+              // Call the existing upload function for each video
+              await uploadVideoResume(userID, videoData);
+  
+              // Reset or clear the current video data if needed
+              console.log(`Upload complete for video: ${videoData.name}`);
+          } catch (error) {
+              console.error(`Error uploading video ${videoData.name}:`, error);
+              continue; // Continue to the next video in case of an error
+          }
+      }
+  
+      // Final UI updates after all uploads are complete
+      const saveReelChangesBtn = document.getElementById("saveReelChangesBtn");
+      if (saveReelChangesBtn) {
+          saveReelChangesBtn.disabled = false;
+          saveReelChangesBtn.innerText = 'Save Changes';
+      }
+      showToast("All videos uploaded successfully!", "success");
+  }
+  
 
 
 
