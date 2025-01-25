@@ -231,7 +231,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         videoResumeFileName: videoData.name || '',
         duration: videoData.duration || 0,
         fileType: videoData.fileType || '',
-        
+        collection: videoData.collection || 'group_1',
+
         // Timestamp Information
         createdAt: createdAtDate || null,  // Default to null if not provided
         timestamp: serverTimestamp(),
@@ -448,7 +449,7 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 
 
-async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration) {
+async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration, collection) {
     document.getElementById("uploadArea").classList.add("hidden");
     //document.getElementById("reels-more-options-area").classList.remove("hidden");
     const reelsOptionsArea = document.getElementById("reels-more-options-area");
@@ -489,6 +490,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             name: fileName,
             videoResumeTitle,
             videoResumeCaptions,
+            collection: collection,
             tags: tags || [],
             userID,
             file: uploadedFile,
@@ -644,10 +646,10 @@ function initializeVideoUploadHandlers() {
     
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
-        const userID = "exampleUserID"; // Replace with the actual user ID
         const videoDataArray = uploadedFiles.map((file, index) => ({
             name: file.name,
             file: file,
+            collection: document.querySelector(".reel-video-collection").value.trim() || `collection ${videoDataArray.length}`,
             description: document.querySelector(".reel-video-content").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             title: document.querySelector(".reel-video-title").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             videoDuration: videoDurations[index], // Get the video duration from previously generated durations
@@ -674,7 +676,8 @@ function initializeVideoUploadHandlers() {
         try {
             const descriptionInput = document.querySelector(".reel-video-content");
             const titleInput = document.querySelector(".reel-video-title");
-            
+            const collectionInput =  document.querySelector(".reel-video-collection").value.trim() || `collection `;
+
             let description = descriptionInput.value.trim();
             let title = titleInput.value.trim();
             
@@ -697,7 +700,7 @@ function initializeVideoUploadHandlers() {
             }
             
             // Call the postReelFunction with the processed title and description
-            await postReelFunction(title, description, uploadedFile, videoDuration);
+            await postReelFunction(title, description, uploadedFile, videoDuration, collectionInput);
 
         } catch (error) {
 

@@ -474,6 +474,12 @@ display: none;
           </div>
 
 
+          <!-- collection Input -->
+          <div class="reel-groups">
+            <label for="reel-video-collection">Related URL <small class="text-muted">(Link to related content)</small></label>
+            <input type="text" class="reel-video-collection" name="collection" aria-label="Related URL" placeholder="Collection" />
+          </div>
+
 
           <!-- Status Dropdown -->
           <div class="reel-groups">
@@ -712,6 +718,8 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
 
 
       const updatedStatus = document.getElementById('status').value;
+      const updatedCollection =  document.querySelector(".reel-video-collection").value.trim() || `collection `;
+
       const updatedReelResume = document.getElementById('reelResume').value;
       const updatedThumbnailURL = thumbnailPreview.src;
      // Retrieve the reelID from localStorage
@@ -827,6 +835,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
               relatedURLBool: updatedRelatedURLBool,
               relatedProductsBool: updatedRelatedProductsBool,
               endingCardBool: updatedEndingCardBool,
+              collection: updatedCollection || 'group_1',
 
               relatedURL: updatedRelatedURL,
               relatedReels: relatedReelsArray,
