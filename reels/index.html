@@ -429,18 +429,29 @@ if(!userId){
 
 let rc_VideoInterest = false;
 
-console.log("connectionType:", connectionType);
-console.log("includeConnected:", includeConnected);
+setTimeout(async () => {
+  console.log("connectionType:", connectionType);
+  console.log("includeConnected:", includeConnected);
 
-const videoInterest = getUserVideoInterest();
-console.log('User Video Interests:', JSON.stringify(videoInterest));
+  // Log user video interests
+  const videoInterest = getUserVideoInterest();
+  console.log('User Video Interests:', JSON.stringify(videoInterest));
 
+  try {
+    // Fetch connected user IDs if needed
+    const connectedUserData = await getConnectedUserIds(connectionType);
+    const connectedUserIds = connectedUserData.map(user => user.id);
 
-        // Fetch connected user IDs if needed
-        const connectedUserData = await getConnectedUserIds(connectionType);
-const connectedUserIds = connectedUserData.map(user => user.id);
+    // Log connected user data and IDs for debugging
+    console.log('Connected User Data:', connectedUserData);
+    console.log('Connected User IDs:', connectedUserIds);
 
-populateSidePanelContacts(connectedUserData);
+    // Populate side panel with connected user data
+    populateSidePanelContacts(connectedUserData);
+  } catch (error) {
+    console.error("Error fetching connected user data:", error);
+  }
+}, 500); // Adjust the timeout duration (in ms) as needed
 
         let videosQuery;
         const videosRef = collection(db, "VideoResumes");
