@@ -431,7 +431,7 @@ display: none;
     <textarea id="reelVideoDescription" class="reel-video-content form-control" placeholder="Write a description..." aria-describedby="reelDescriptionHelp"></textarea>
     <small id="reelDescriptionHelp" class="form-text text-muted">Provide a brief description. Add tags using # (e.g., #Marketing).</small>
 
-    <button class="reel-video-btn btn btn-primary" aria-label="Post Video">Post Video</button>
+    <button id="uploadVideosBtn" class="reel-video-btn btn btn-primary" aria-label="Post Video">Post Video</button>
 
     </div>
 
