@@ -1261,7 +1261,8 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
-
+  let data ;
+if(sidePanel){
   // Define the URL for the JSON file
   const jsonUrl = 'https://reelcareer.co/scripts/json/videoReels.json';
 
@@ -1272,10 +1273,10 @@ async function loadTopCategoriesWithVideos() {
   console.log("Response received:", response);
 
   // Parse the JSON data
-  const data = await response.json();
+   data = await response.json();
 
   console.log('data:', data);
-
+}
   // Process each video data from the JSON
   data.forEach((video) => {
     if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
