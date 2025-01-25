@@ -863,7 +863,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
           showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
 
           const multipleUploadCount = document.getElementById("multipleUploadCount");
-          
+
 
           
           const uploadContainer = document.getElementById("reel-upload-container");
@@ -1170,7 +1170,10 @@ document.querySelectorAll('.category-btn').forEach(button => {
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
     
     // Add the category to the input field (with a comma)
-    input.value += (input.value ? ', ' : '') + category;
+    input.value += (input.value ? ', ' : ' ') + category;
+
+    console.log("????????????????????? ");
+
 
     // Trigger the "keyup" event (simulate enter)
     const event = new KeyboardEvent('keyup', {
@@ -1182,6 +1185,7 @@ document.querySelectorAll('.category-btn').forEach(button => {
 
     input.dispatchEvent(event);
     event.preventDefault(); // Prevent form submission
+    console.log("category: ", { category });
 
     // After adding the category, check for the comma count
     checkCommaCount();

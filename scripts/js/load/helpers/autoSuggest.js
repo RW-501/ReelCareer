@@ -160,7 +160,7 @@ function autoSuggest(input, suggestionsArray) {
   }
 }
 
-
+window.autoSuggest = autoSuggest;
 
   // Initialize on DOM content loaded
   document.addEventListener("DOMContentLoaded", () => {
