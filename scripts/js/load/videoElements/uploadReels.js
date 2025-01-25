@@ -664,6 +664,7 @@ fileInput.addEventListener("change", (e) => {
 
     // Store the valid video files
     uploadedFiles = videoFiles;
+    console.log("uploadedFiles:",uploadedFiles);
 
     // Clear previous thumbnails and preview
     const previewContainer = document.getElementById("reelVideoPreview");
@@ -676,11 +677,12 @@ fileInput.addEventListener("change", (e) => {
 });
 
 
+let videoDataArray = []; // Array to hold multiple video data objects
 
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
 
-        
+
 // Get the value of the description and trim it
 let description = document.querySelector(".reel-video-content").value.trim();
 
@@ -695,13 +697,13 @@ if (match) {
 }
 
 
-        const videoDataArray = uploadedFiles.map((file, index) => ({
+         videoDataArray = uploadedFiles.map((file, index) => ({
             name: file.name,
             file: file,
             collection: document.querySelector(".reel-video-collection").value.trim() || `Collection ${match}`,
             description: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             title: document.querySelector(".reel-video-title").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
-            videoDuration: videoDurations[index], // Get the video duration from previously generated durations
+            videoDuration: file[index], // Get the video duration from previously generated durations
         }));
     
         if (videoDataArray.length === 0) {
@@ -770,10 +772,7 @@ if (match) {
 
   window.initializeVideoUploadHandlers = initializeVideoUploadHandlers;
 
-  // Call this function once the popup is created or relevant DOM is ready
   
-  let videoDataArray = []; // Array to hold multiple video data objects
-
   // Function to upload multiple videos
   async function uploadMultipleVideoResumes(userID, videoDataArray) {
       for (const videoData of videoDataArray) {

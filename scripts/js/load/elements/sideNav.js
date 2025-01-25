@@ -547,7 +547,7 @@ function insertSidePanelContent() {
 // Apply the styles
 mainContent.style.padding = '0';
 mainContent.style.borderRadius = '0';
-mainContent.style.margin = '2%';
+mainContent.style.margin = '5%';
 mainContent.style.maxWidth = '100%';
 mainContent.style.width = '100%'; // This line you already mentioned
 
