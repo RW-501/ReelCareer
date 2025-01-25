@@ -1199,11 +1199,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", (e) => {
-
-  
   handleUserAuthentication();
-
 });
+
+
+if(document.getElementById("showUploadPopupBtn")){
+  document.getElementById("showUploadPopupBtn").addEventListener("click", (e) => {
+    handleUserAuthentication();
+  });
+
+}
+
 
 });
 
