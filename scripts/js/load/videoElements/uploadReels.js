@@ -12,12 +12,26 @@ import {
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
-let videoData;
+let isMultipleUpload = false;
 
 // Upload Video Resume to Firebase Storage
 
 async function uploadVideoResume(userID, videoData, uploadSessionKey = `upload_${videoData.name}`) {
     try {
+
+
+        document.getElementById("uploadArea").classList.add("hidden");
+        const reelsOptionsArea = document.getElementById("reels-more-options-area");
+        reelsOptionsArea.classList.remove("hidden");
+    
+        console.log('videoDuration:', videoDuration);
+        console.log('uploadedFile:', uploadedFile);
+    
+    
+        if (reelsOptionsArea) {
+            reelsOptionsArea.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    
         const fileRef = ref(storage, `users/${userID}/reels/${videoData.name}`);
         const uploadTask = uploadBytesResumable(fileRef, videoData.file);
         const progressBar = document.getElementById("uploadProgressBar");
@@ -422,7 +436,9 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 saveReelChangesBtn.disabled = false;
                 saveReelChangesBtn.innerText = `Save Changes`;
             }
-        } else if (moreOptionsArea.style.display = "block") {
+        } else if (moreOptionsArea.style.display = "block" && isMultipleUpload === true) {
+            saveReelChangesBtn.click();
+            
             moreOptionsArea.style.display = "none";
             document.getElementById("uploadArea").classList.remove("hidden");
             moreOptionsArea.classList.add("hidden");
@@ -450,18 +466,6 @@ window.completeMetadataUpdate = completeMetadataUpdate;
 
 
 async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedFile, videoDuration, collection) {
-    document.getElementById("uploadArea").classList.add("hidden");
-    //document.getElementById("reels-more-options-area").classList.remove("hidden");
-    const reelsOptionsArea = document.getElementById("reels-more-options-area");
-    reelsOptionsArea.classList.remove("hidden");
-
-    console.log('videoDuration:', videoDuration);
-    console.log('uploadedFile:', uploadedFile);
-
-
-    if (reelsOptionsArea) {
-        reelsOptionsArea.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
 
     let videoResumeURL = '';
 
@@ -660,6 +664,13 @@ function initializeVideoUploadHandlers() {
         if (videoFiles.length === 0) {
             showToast("Please select valid video files.");
             return;
+        }
+        if (videoFiles.length > 1) {
+            showToast("Multiple Upload.");
+            isMultipleUpload = true;
+        }else{
+            isMultipleUpload = false;
+
         }
 
         // Store the valid video files

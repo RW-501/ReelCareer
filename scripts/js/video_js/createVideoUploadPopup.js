@@ -437,6 +437,7 @@ display: none;
     <small id="reelDescriptionHelp" class="form-text text-muted">Provide a brief description. Add tags using # (e.g., #Marketing).</small>
 
     <button id="uploadVideosBtn" class="reel-video-btn btn btn-primary" aria-label="Post Video">Post Video</button>
+        <div id="multipleUploadCount"></div>
 
     </div>
 
@@ -861,6 +862,10 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
           
           showToast("Your Resume Reel is live.", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true, 'View Here');
 
+          const multipleUploadCount = document.getElementById("multipleUploadCount");
+          
+
+          
           const uploadContainer = document.getElementById("reel-upload-container");
           if (uploadContainer) {
              uploadContainer.remove();  // Remove the upload container
