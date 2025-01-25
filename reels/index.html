@@ -429,7 +429,7 @@ if(!userId){
 
 let rc_VideoInterest = false;
 
-setTimeout(async () => {
+// setTimeout(async () => {
   console.log("connectionType:", connectionType);
   console.log("includeConnected:", includeConnected);
 
@@ -451,7 +451,7 @@ setTimeout(async () => {
   } catch (error) {
     console.error("Error fetching connected user data:", error);
   }
-}, 2000); // Adjust the timeout duration (in ms) as needed
+//}, 2000); // Adjust the timeout duration (in ms) as needed
 
         let videosQuery;
         const videosRef = collection(db, "VideoResumes");
