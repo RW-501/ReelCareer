@@ -1584,7 +1584,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  if (userLocation) {
+  if (userLocation && sidePanel) {
     let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
 
     console.log("currentPath  ", currentPath);
