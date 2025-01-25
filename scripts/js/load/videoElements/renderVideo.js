@@ -14,6 +14,8 @@ getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
+   // Handle videoData based on doc existence
+   let videoData;
 function renderVideos(docs, container, connectedUserIds, userId) {
   
     let videoMuted = "";
@@ -33,8 +35,6 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       }
   
 
-   // Handle videoData based on doc existence
-   let videoData;
 
    // Check if doc is a Firestore document snapshot
    if (typeof doc === 'object' && doc !== null && typeof doc.exists === 'function' && doc.exists()) {
