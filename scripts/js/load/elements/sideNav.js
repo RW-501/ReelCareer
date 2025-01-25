@@ -416,6 +416,7 @@ function insertSidePanelContent() {
 
     if (isMobile) {
 
+      mainSidePanel.classList.remove('main-side-panel-fixed');
 
       if (isSectionOpen) {
 
@@ -465,8 +466,9 @@ function insertSidePanelContent() {
       }
 
     } else {
+      mainSidePanel.classList.add('main-side-panel-fixed');
 
-
+      
       if (isSectionOpen) {
 
         menuBtn.style.display = 'none';
@@ -1227,6 +1229,14 @@ async function loadTopCategoriesWithVideos() {
       }
 
   }
+
+
+  .main-side-panel-fixed {
+    width: fit-content;
+    display: block;
+    position: fixed;
+    z-index: 5000;
+}
 
     `;
     document.head.appendChild(style);
