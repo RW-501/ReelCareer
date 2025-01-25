@@ -55,7 +55,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const thumbnailURL = videoData.thumbnailURL || "";
       const profilePicture = videoData.profilePicture || "";
       const displayName = videoData.displayName || "Unknown";
-      if (createdByID) {
+      if (!createdByID) {
 
 return;
       }
