@@ -294,6 +294,8 @@ display: none;
 }
 
 
+  
+
 
 
 #reel-upload-container .video-upload-popup {
