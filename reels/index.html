@@ -397,7 +397,7 @@ let lastVisibleDoc = null;
 let searchingByTag = false; // Track if search mode is active
 //  document.addEventListener("DOMContentLoaded", () => {
    // console.log("DOMContentLoaded event fired");
-
+let connectedUserIds ;
  
 
 
@@ -440,7 +440,7 @@ setTimeout(async () => {
   try {
     // Fetch connected user IDs if needed
     const connectedUserData = await getConnectedUserIds(connectionType);
-    const connectedUserIds = connectedUserData.map(user => user.id);
+     connectedUserIds = connectedUserData.map(user => user.id);
 
     // Log connected user data and IDs for debugging
     console.log('Connected User Data:', connectedUserData);
@@ -451,7 +451,7 @@ setTimeout(async () => {
   } catch (error) {
     console.error("Error fetching connected user data:", error);
   }
-}, 1000); // Adjust the timeout duration (in ms) as needed
+}, 2000); // Adjust the timeout duration (in ms) as needed
 
         let videosQuery;
         const videosRef = collection(db, "VideoResumes");
