@@ -192,10 +192,12 @@ function insertSidePanelContent() {
       updateButtonTextVisibility('click');
 
       //  sidePanel.style.display = 'none'; // Close the side panel
-    }
+   
 
 
     */
+    }
+
   });
 
 
