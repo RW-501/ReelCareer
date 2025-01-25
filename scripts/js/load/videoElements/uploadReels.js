@@ -523,9 +523,12 @@ function createThumbnailPicker(file, previewContainer, index) {
 
     if (file && file.type && file.type.startsWith('video/')) {
         videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
+        previewContainer.src = file;
+        console.log('file:', file);
+        console.log(' URL.createObjectURL(file);:', previewContainer.src);
+
     } else if (file) {
         videoElement.src = file;  // Handle non-video file as a fallback
-        previewContainer.src = file;
     } else {
         console.error('Invalid file provided to createThumbnailPicker.');
         return;  // Exit the function to avoid further errors
@@ -575,7 +578,7 @@ function createThumbnailPicker(file, previewContainer, index) {
                     if (blob) {
                         console.log('Blob created successfully:', blob);
                         thumbnailBlob = blob;  // Store blob for upload
-                        thumbnailPreview.src = URL.createObjectURL(blob);  // Update thumbnail image
+                        thumbnailPreview.src = blob;  // Update thumbnail image
                         console.log('Thumbnail preview updated with blob URL:', thumbnailPreview.src);
                     } else {
                         console.error('Failed to create thumbnail blob.');
