@@ -674,9 +674,10 @@ button[type="submit"] {
   
 function openPopupLogin() {
 
+  console.log('openPopupLogin');
 
   const popupContainer = document.getElementById('popup-login-container');
-  if (popupContainer) {
+  if (!popupContainer) {
 
     const currentUrl = window.location.href;
 
@@ -686,6 +687,8 @@ function openPopupLogin() {
     createPopupLogin();
     }
     
+
+  }else {
     setTimeout(() => {
       popupContainer.style.opacity = '1';     // Fade in
 
@@ -714,9 +717,15 @@ function closePopupLogin() {
 window.openPopupLogin = openPopupLogin;
 window.closePopupLogin = closePopupLogin;
 
+if (currentUrl == "https://reelcareer.co/views/auth"){
+
+  addAuthEventListener();
 
 
-// Example call to open the popup from anywhere in main.js
+}
+
+
+// Example call} to open the popup from anywhere in main.js
 // openPopupLogin();
 
 
