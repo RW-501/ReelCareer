@@ -475,12 +475,6 @@ function insertSidePanelContent() {
         }
       }
 
-// Apply the styles
-mainContent.style.padding = '0';
-mainContent.style.borderRadius = '0';
-mainContent.style.margin = '0';
-mainContent.style.maxWidth = '100%';
-mainContent.style.width = '100%'; // This line you already mentioned
 
     } else {
       mainSidePanel.classList.add('main-side-panel-fixed');
@@ -550,6 +544,12 @@ mainContent.style.width = '100%'; // This line you already mentioned
         }
 
 
+// Apply the styles
+mainContent.style.padding = '0';
+mainContent.style.borderRadius = '0';
+mainContent.style.margin = '5%';
+mainContent.style.maxWidth = '100%';
+mainContent.style.width = '100%'; // This line you already mentioned
 
 
 
