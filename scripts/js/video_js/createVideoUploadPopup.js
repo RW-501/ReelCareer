@@ -1199,7 +1199,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Create a button with event listener
 document.getElementById("showUploadPopup").addEventListener("click", (e) => {
-  e.preventDefault(); // Prevent the default form submission
 
   
   handleUserAuthentication();
