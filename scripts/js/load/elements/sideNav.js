@@ -1607,9 +1607,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
-// Append the button to the side panel
-sidePanel.appendChild(locationContainer);
-
 
 });
 
