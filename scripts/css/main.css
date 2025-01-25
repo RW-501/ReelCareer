@@ -561,34 +561,27 @@ color: #0056b3;
     margin: auto;
 }
 .userProfile {
-display: flex;
-flex-wrap: wrap;
-justify-content: flex-start;
-/* gap: 0.0rem 1rem; */
-/* row-gap: 0.5rem; */
-/* grid-column-gap: 1rem; */
-width: 100%;
-margin: 0;
-padding: 0;
-flex-direction: row;
-align-content: flex-start;
-align-items: flex-start;
-
-position: relative;
-display: -ms-flexbox;
-display: flex
-;
--ms-flex-direction: column;
-flex-direction: column;
-min-width: 0;
-word-wrap: break-word;
-background-color: #fff;
-background-clip: border-box;
-border: 1px solid rgba(0, 0, 0, .125);
-border-radius: .25rem;
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  align-content: stretch;
+  align-items: flex-start;
+  position: relative;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
+  justify-content: space-evenly;
+  justify-items: center;
 }
 
+#profile-btns {
+display: flex;
 
+}
 
 .similar-jobs ,
 .related-blogs {
