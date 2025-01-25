@@ -678,13 +678,24 @@ function openPopupLogin() {
   const popupContainer = document.getElementById('popup-login-container');
   if (popupContainer) {
 
+    const currentUrl = window.location.href;
+
+    if (currentUrl !== "https://reelcareer.co/views/auth"){
+    
+    // Initialize the popup when the page loads
+    createPopupLogin();
+    }
+    
+    setTimeout(() => {
+      popupContainer.style.opacity = '1';     // Fade in
 
       popupContainer.style.visibility = 'visible'; // Ensure visibility is set
       popupContainer.style.opacity = '0';         // Start with opacity 0
       popupContainer.style.transition = 'opacity 0.5s ease-in-out'; // Add transition
       setTimeout(() => {
           popupContainer.style.opacity = '1';     // Fade in
-      }, 10); // Small delay to ensure transition works
+      }, 50); // Small delay to ensure transition works
+    }, 100);
   }
 }
 
@@ -703,14 +714,6 @@ function closePopupLogin() {
 window.openPopupLogin = openPopupLogin;
 window.closePopupLogin = closePopupLogin;
 
-const currentUrl = window.location.href;
-
-if (currentUrl !== "https://reelcareer.co/views/auth"){
-
-// Initialize the popup when the page loads
-createPopupLogin();
-
-}
 
 
 // Example call to open the popup from anywhere in main.js
