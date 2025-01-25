@@ -58,13 +58,16 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       if (!createdByID) {
         return;
       }
-
+      let isConnected;
 
       console.log("createdByID   ",createdByID);
       console.log("connectedUserIds   ",connectedUserIds);
+
+      if (connectedUserIds) {
       // Check if the logged-in user is connected to the user who posted the video
-      const isConnected = connectedUserIds.includes(createdByID);
-  
+      isConnected = connectedUserIds.includes(createdByID);
+      }
+
       // Additional logic based on connection status (if necessary)
       if (isConnected) {
         console.log(`${displayName} is connected to the logged-in user.`);
