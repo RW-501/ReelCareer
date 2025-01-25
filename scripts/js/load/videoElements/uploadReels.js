@@ -194,8 +194,9 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
     
 
+    const videoResumeTitle = videoData.videoResumeTitle;
 
-    const searchableVideoResumeTitle = removeStopWords(videoData.videoResumeTitle, stopWords);
+    const searchableVideoResumeTitle = removeStopWords(videoResumeTitle, stopWords);
 
     if (tags.length < 2) {
         //  showToast("Please add at least two hashtags.");
@@ -220,7 +221,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         // Video Resume Information
         searchableVideoResumeTitle: searchableVideoResumeTitle || '',
         videoResumeCaptions: videoData.videoResumeCaptions || '',
-        videoResumeTitle: videoData.videoResumeTitle || '',
+        videoResumeTitle: videoResumeTitle || '',
         thumbnailURL: videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
         videoResumeURL: videoData.videoResumeURL || '',
         videoResumeFileName: videoData.name || '',
@@ -433,7 +434,10 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
     const reelsOptionsArea = document.getElementById("reels-more-options-area");
     reelsOptionsArea.classList.remove("hidden");
 
+    console.log('videoDuration:', videoDuration);
+    console.log('uploadedFile:', uploadedFile);
 
+    
     if (reelsOptionsArea) {
         reelsOptionsArea.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -491,7 +495,7 @@ function createThumbnailPicker(file) {
     const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
     const videoElement = document.createElement('video');
     let thumbnailBlob = null;
-    let videoDuration = 0;
+    let videoDuration;
 
 
     if (file && file.type && file.type.startsWith('video/')) {
