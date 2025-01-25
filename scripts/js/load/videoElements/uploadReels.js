@@ -678,7 +678,9 @@ function initializeVideoUploadHandlers() {
 
 
     let videoDataArray = []; // Array to hold multiple video data objects
-
+    let userDataSaved; 
+    let userID;
+    
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
 
@@ -694,7 +696,7 @@ function initializeVideoUploadHandlers() {
             // If a word is found, assign it to the target input field
             document.querySelector(".reel-video-collection").value = match[1];
         } else {
-            console.error("No word found after $ in the description.");
+            console.warn("No word found after $ in the description.");
         }
 
 
@@ -728,8 +730,8 @@ function initializeVideoUploadHandlers() {
             return;
         }
 
-        const userDataSaved = getUserData() || {};
-        const userID = auth.currentUser?.uid || userDataSaved.userID;
+         userDataSaved = getUserData() || {};
+         userID = auth.currentUser?.uid || userDataSaved.userID;
 
         if (!userID) {
             showToast('No User Info');
