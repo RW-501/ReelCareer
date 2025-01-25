@@ -231,7 +231,7 @@ function insertSidePanelContent() {
 
 
     if (section.style.display !== 'none') {
-      section.style.display = 'none'
+      //  section.style.display = 'none'
       isSectionOpen = false;
 
     } else {
@@ -306,11 +306,11 @@ function insertSidePanelContent() {
 
   document.getElementById('btn-location').addEventListener('click', () => {
     if (locationSection.style.display === "block") {
-    //  locationSection.style.display = "none"
+     locationSection.style.display = "none"
       isSectionOpen = false;
 
     } else {
-    //  togglePopout(locationSection);
+      togglePopout(locationSection);
     }
     toggleButtonActive(document.getElementById('btn-location'));
 
