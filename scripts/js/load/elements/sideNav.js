@@ -310,7 +310,7 @@ function insertSidePanelContent() {
       isSectionOpen = false;
 
     } else {
-      togglePopout(locationSection);
+    //  togglePopout(locationSection);
     }
     toggleButtonActive(document.getElementById('btn-location'));
 
@@ -1471,7 +1471,7 @@ function generateLocationList(data, locationMap) {
       });
     }
   window.renderLocations = renderLocations;
-  
+
     // Render the list of states for a given country
     function renderStates(country, statesMap) {
       locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
