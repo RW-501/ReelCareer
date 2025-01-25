@@ -46,10 +46,10 @@ class ScrollEffectObserver {
             target.style.transform = 'rotate(0deg)';  // Rotate to 0 degrees
             break;
           case 'play-video':
-            if (target.tagName === 'VIDEO') target.play();  // Play the video when in viewport
+            if (target.tagName === 'video') target.play();  // Play the video when in viewport
             break;
           case 'pause-video':
-            if (target.tagName === 'VIDEO') target.pause();  // Pause the video when out of viewport
+            if (target.tagName === 'video') target.pause();  // Pause the video when out of viewport
             break;
           default:
             if (effectOptions.custom) {
@@ -138,6 +138,8 @@ class ScrollEffectObserver {
 
 
 
+
+  
 
 
 

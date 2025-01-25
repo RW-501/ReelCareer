@@ -1446,7 +1446,7 @@ async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
  }else{
  // Show a message or prevent submission if any post is not possible
  if (message) {
-     alert(message);
+     showToast(message);
      return false; // Stop further actions (e.g., form submission) if not eligible
  }
 

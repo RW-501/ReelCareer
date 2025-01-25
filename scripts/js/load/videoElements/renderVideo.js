@@ -428,7 +428,6 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         );
       }
   
-      //  fetchComments(docId);
     });
   }
 
@@ -445,12 +444,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const user = auth.currentUser;
   
       if (!user) {
-        openPopupLogin();
+        //openPopupLogin();
         return [];
       }
       let userId = auth.currentUser.uid; // Logged-in user ID
   
-
       // If a specific connection type is provided, filter by 'fromGroup' field
       if (connectionType !== "all") {
         q = query(
