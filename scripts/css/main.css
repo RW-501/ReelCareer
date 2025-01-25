@@ -580,14 +580,14 @@ color: #0056b3;
 
 
 #profile-btns button {
-max-width: min-content;
+  max-width: max-content;
 }
-
 #profile-btns {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  align-items: stretch;
 }
 
 .similar-jobs ,
