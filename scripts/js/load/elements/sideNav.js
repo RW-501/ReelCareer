@@ -818,6 +818,16 @@ styleElement.textContent = `
 }
 
 
+#locationContainer {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    margin: .5rem;
+}
+
     .side-panel-search {
       display: flex;
       align-items: center;
