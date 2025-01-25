@@ -1419,6 +1419,7 @@ function generateLocationList(data, locationMap) {
       return null;
     }
 
+    
     // Create the button element
     const button = document.createElement('button');
     button.className = className;
@@ -1583,6 +1584,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const locationContainer = document.getElementById('locationContainer');
     locationContainer.innerHTML = ''; // Clear any existing content
 
+// Append the button to the side panel
+sidePanel.appendChild(locationContainer);
 
     document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
 
