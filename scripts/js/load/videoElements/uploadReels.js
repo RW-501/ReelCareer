@@ -602,7 +602,9 @@ function createThumbnailPicker(file) {
 window.createThumbnailPicker = createThumbnailPicker;
 
 
+let uploadedFiles = null;
 let uploadedFile = null;
+let videoDuration = 0;
 
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
@@ -616,34 +618,44 @@ function initializeVideoUploadHandlers() {
     }
 
 
-    let videoDuration = 0;
 
-    selectVideoButton.addEventListener("click", (e) => {
+// Trigger file input when the select video button is clicked
+selectVideoButton.addEventListener("click", () => {
+    fileInput.click();
+});
 
-        fileInput.click();
+// Handle file input changes
+fileInput.addEventListener("change", (e) => {
+    const files = e.target.files;
+
+    if (files.length === 0) {
+        showToast("Please select valid video files.");
+        return;
+    }
+
+    // Filter out files that are not videos
+    const videoFiles = Array.from(files).filter(file => file.type.split("/")[0] === "video");
+
+    if (videoFiles.length === 0) {
+        showToast("Please select valid video files.");
+        return;
+    }
+
+    // Store the valid video files
+    uploadedFiles = videoFiles;
+
+    // Clear previous thumbnails and preview
+    const previewContainer = document.getElementById("reelVideoPreview");
+    previewContainer.innerHTML = ""; // Clear previous previews
+
+    // Create a thumbnail and add a preview for each video
+    uploadedFiles.forEach((file, index) => {
+        createThumbnailPicker(file, previewContainer, index);
     });
+});
 
-    
-    fileInput.addEventListener("change", (e) => {
-        const files = e.target.files;
-        if (files.length === 0) {
-            showToast("Please select valid video files.");
-            return;
-        }
-    
-        // Ensure all files are videos
-        const videoFiles = Array.from(files).filter(file => file.type.split("/")[0] === "video");
-        
-        if (videoFiles.length === 0) {
-            showToast("Please select valid video files.");
-            return;
-        }
-    
-        // Store the video files and process thumbnails (if necessary)
-        uploadedFiles = videoFiles;
-        videoDurations = uploadedFiles.map(file => createThumbnailPicker(file)); // Create thumbnails for each video
-    });
-    
+
+
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
         const videoDataArray = uploadedFiles.map((file, index) => ({
@@ -657,6 +669,14 @@ function initializeVideoUploadHandlers() {
     
         if (videoDataArray.length === 0) {
             showToast("No videos selected.");
+            return;
+        }
+    
+        const userDataSaved = getUserData() || {};
+        const userID = auth.currentUser?.uid || userDataSaved.userID;
+    
+        if (!userID) {
+            showToast('No User Info');
             return;
         }
     
