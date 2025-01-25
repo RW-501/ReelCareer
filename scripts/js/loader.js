@@ -409,16 +409,8 @@ function loadPageScripts() {
         logExecutionTime('chatBot Script', performance.now());
     });
 
-    if (!currentPath.includes('/obituaries/')) {
-    // Conditional: Load rollIn Script for specific user pages
-    if (currentPath.includes('/u/')) {
-        waitForElement('main', () => {
-            loadScript('https://reelcareer.co/scripts/js/load/functions/rollIn.js', { defer: true }, () => {
-                logExecutionTime('rollIn Script', performance.now());
-            });
-        });
-    }
-    }
+
+    
 
     // Conditional: Load trackers.js and censorWord.js for target pages
     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
@@ -459,10 +451,12 @@ function loadPageScripts() {
 }
 
 // Initialize page scripts after DOMContentLoaded
-document.addEventListener('DOMContentLoaded', loadPageScripts);
+//document.addEventListener('DOMContentLoaded', loadPageScripts);
 
+setTimeout(() => {
+    loadPageScripts();
 
-
+}, 5000); // 500ms delay
 
 
 
