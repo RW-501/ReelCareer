@@ -59,10 +59,10 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         return;
       }
       let isConnected;
-
+/* 
       console.log("createdByID   ",createdByID);
       console.log("connectedUserIds   ",connectedUserIds);
-
+ */
       if (connectedUserIds) {
       // Check if the logged-in user is connected to the user who posted the video
       isConnected = connectedUserIds.includes(createdByID);
@@ -74,12 +74,12 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       } else {
         console.log(`${displayName} is NOT connected to the logged-in user.`);
       }
-  
+  /* 
       console.log("videoData.relatedReels:", videoData.relatedReels);
 
       console.log("videoData.endingCard:", videoData.endingCard);
       console.log("videoData.relatedProducts:", videoData.relatedProducts);
-
+ */
       // Build the video card dynamically with real data
       const videoCard = document.createElement("div");
       videoCard.className = "video-post";
@@ -480,11 +480,13 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         const data = doc.data();
         const isFromCurrentUser = data.from === userId;
         const isToCurrentUser = data.to === userId;
+
+        /* 
         console.log("isFromCurrentUser ",isFromCurrentUser);
         console.log("isToCurrentUser ",isToCurrentUser);
         console.log("data.from ",data.from);
         console.log("data.to ",data.to);
-
+ */
         if ((isFromCurrentUser || isToCurrentUser) && data.status === "accepted") {
           const userData = {
             id: isToCurrentUser ? data.to : data.from,  // Get the other user's ID
