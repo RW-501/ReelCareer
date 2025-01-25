@@ -659,21 +659,18 @@ function createLoadMoreButton(loadMoreFunc) {
     });
 
 
-    function getUserTagInterestX() {
-  const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
-  const tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
-  console.log('User Tag Interests:', tagArray);
-  return tagArray;
-}
 
 // Function to fetch similar jobs based on tags
 
 window.onload = async function () {
+  console.warn('START ONLOAD');
+
   setTimeout(() => {
 // Load job listings on page load
 fetchJobListings( );
 
 loadRelatedBlogs();
+console.warn('END ONLOAD');
 
 }, 10000);
 };

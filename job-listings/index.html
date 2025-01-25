@@ -1618,6 +1618,8 @@ function populateSearchBar() {
   return  tag || keywords || location || jobType || salaryRange ;
 }// On window load, populate search bar and fetch job listings
 window.onload = async function () {
+  console.warn('START ONLOAD');
+
   // Set a timeout of 1 second (1000 ms) before executing the code
   setTimeout(async () => {
     const hasSearchParams = populateSearchBar();
@@ -1645,7 +1647,12 @@ window.onload = async function () {
     } else {
       console.warn('loadSavedFilers function not defined.');
     }
-
+    const generalTags = createTagInputSystem({
+            tagsContainerId: "tagsContainertagsSET-tag",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
+        
+        
     // Set up event listeners after loading the page
     document.getElementById('main-search-btn').addEventListener('click', searchJobs);
     document.getElementById('jobPostPopupCloseBtn').addEventListener('click', closeJobPostModal);
@@ -1653,23 +1660,12 @@ window.onload = async function () {
 
     // Load related blogs
     loadRelatedBlogs();
+    console.warn('END ONLOAD');
 
-  }, 50000); // 1000 ms = 1 second
+  }, 10000); // 1000 ms = 1 second
 };
 
     
-   // Function to fetch similar jobs based on tags
-
-   document.addEventListener("DOMContentLoaded", () => {
-    // Set a timeout of 1 second (1000 ms) before executing the code
-    setTimeout(() => {
-        const generalTags = createTagInputSystem({
-            tagsContainerId: "tagsContainertagsSET-tag",
-            badgeClass: "tag-primary" // Custom badge class for general tags
-        });
-    }, 10000); // 1000 ms = 1 second
-});
-
 
   </script>
 
