@@ -604,7 +604,7 @@ videosQuery = query(
 
             // To only save when there's a new ID Default or data change:
 
-            await saveVideosToJson(videoDataArray, true);  // Default behavior
+            await saveVideosToJson(videoDataArray, false);  // Default behavior, data change:
 
         } else if (page === 1) {
             videoContainer.innerHTML = "<p>No video resumes available.</p>";
