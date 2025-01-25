@@ -520,6 +520,8 @@ function createThumbnailPicker(file, previewContainer, index) {
     let thumbnailBlob = null;
     let videoDuration;
 
+    console.log("file:", file);
+
     console.log("videoElement:", videoElement);
     console.log("previewContainer:", previewContainer);
     
@@ -536,6 +538,8 @@ function createThumbnailPicker(file, previewContainer, index) {
         previewContainer.src =  URL.createObjectURL(file); 
         previewContainer.load(); // Ensure the video is reloaded to reflect changes
 //videoElement.play(); // Optional: Start playback automatically
+previewContainer.hidden = false; // Ensure the preview container is visible
+videoElement.hidden = false;    // Ensure the main video element is visible
 
         console.log('file:', file);
         console.log(' URL.createObjectURL(file);:', previewContainer.src);
