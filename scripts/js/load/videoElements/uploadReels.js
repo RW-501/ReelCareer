@@ -600,7 +600,7 @@ function createThumbnailPicker(file) {
 window.createThumbnailPicker = createThumbnailPicker;
 
 
-
+let uploadedFile = null;
 
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
@@ -613,7 +613,7 @@ function initializeVideoUploadHandlers() {
       return;
     }
 
-    let uploadedFile = null;
+
     let videoDuration = 0;
 
     selectVideoButton.addEventListener("click", (e) => {
