@@ -55,7 +55,12 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const thumbnailURL = videoData.thumbnailURL || "";
       const profilePicture = videoData.profilePicture || "";
       const displayName = videoData.displayName || "Unknown";
-  
+      if (createdByID) {
+
+return;
+      }
+
+
       console.log("createdByID   ",createdByID);
       console.log("connectedUserIds   ",connectedUserIds);
       // Check if the logged-in user is connected to the user who posted the video
