@@ -578,9 +578,16 @@ color: #0056b3;
   justify-items: center;
 }
 
-#profile-btns {
-display: flex;
 
+#profile-btns button {
+max-width: min-content;
+}
+
+#profile-btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .similar-jobs ,
