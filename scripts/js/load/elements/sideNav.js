@@ -426,6 +426,7 @@ function insertSidePanelContent() {
     if (isMobile) {
 
       mainSidePanel.classList.remove('main-side-panel-fixed');
+ 
 
       if (isSectionOpen) {
 
@@ -473,6 +474,13 @@ function insertSidePanelContent() {
 
         }
       }
+
+// Apply the styles
+mainContent.style.padding = '0';
+mainContent.style.borderRadius = '0';
+mainContent.style.margin = '0';
+mainContent.style.maxWidth = '100%';
+mainContent.style.width = '100%'; // This line you already mentioned
 
     } else {
       mainSidePanel.classList.add('main-side-panel-fixed');
