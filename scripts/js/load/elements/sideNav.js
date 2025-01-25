@@ -306,7 +306,7 @@ function insertSidePanelContent() {
 
   document.getElementById('btn-location').addEventListener('click', () => {
     if (locationSection.style.display === "block") {
-      locationSection.style.display = "none"
+    //  locationSection.style.display = "none"
       isSectionOpen = false;
 
     } else {
@@ -1470,6 +1470,7 @@ function generateLocationList(data, locationMap) {
         locationContainer.appendChild(countryDiv);
       });
     }
+  window.renderLocations = renderLocations;
   
     // Render the list of states for a given country
     function renderStates(country, statesMap) {
@@ -1562,7 +1563,7 @@ function generateLocationList(data, locationMap) {
       localStorage.setItem('selectedLocation', locationID);
     }
   
-    renderLocations(locationMap); // Initial render for countries
+    renderLocations(locationMap)// Initial render for countries
   }
   
 
