@@ -343,16 +343,21 @@ localStorage.setItem('userData', userData);
     // Calculate engagement and view scores
     const engagementScore = engagements + likes * 1.5; // Engagement score considers likes with a higher weight
     const viewScore = views + uniqueViews * 1.2; // View score gives additional weight to unique views
-  
+    console.log("viewScore:", viewScore);
+    console.log("engagementScore:", engagementScore);
+
     // Calculate watch time ratio (portion of video watched)
     const watchTimeRatio = duration > 0 ? watchTime / duration : 0; // Avoid division by zero
-  
+    console.log("watchTimeRatio:", watchTimeRatio);
+
     // Calculate view-duration ratio: how long viewers stay per unique view
     const viewDurationRatio = uniqueViews > 0 ? (views * duration) / uniqueViews : 0; // Avoid division by zero
-  
+    console.log("viewDurationRatio:", viewDurationRatio);
+
     // Calculate repeat view score
     const repeatViewScore = repeatViews * repeatViewWeight; // Weight repeat views separately
-  
+    console.log("repeatViewScore:", repeatViewScore);
+
     // Combine all metrics into a base rating using the defined weights
     const baseRating = 
       (viewScore * viewWeight) + // Weighted view score
@@ -361,7 +366,8 @@ localStorage.setItem('userData', userData);
       (reach * reachWeight) + // Weighted reach
       (viewDurationRatio * viewDurationWeight) + // Weighted view-duration ratio
       repeatViewScore; // Add repeat view score
-  
+      console.log("baseRating:", baseRating);
+
     // Apply the time decay factor to the base rating
     const finalRating = baseRating * decayFactor;
   
@@ -446,7 +452,7 @@ if(!userIP){
 
 
 
-    console.log("videoCard:", videoCard);
+   // console.log("videoCard:", videoCard);
 
 // Extract video data from data attributes
 const videoData = {
