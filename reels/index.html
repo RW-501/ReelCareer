@@ -475,7 +475,7 @@ setTimeout(async () => {
                 videosRef,
                 where("status", "==", "posted"),
                 where("isPublic", "==", true),
-                where("createdByID", "in", connectedUserIds),
+                ...(includeConnected && connectionType ? [where("createdByID", "in", connectedUserIds)] : []),
                 orderBy("timestamp", "desc"),
                 startAfter(lastVisibleDoc),
                 limit(postsPerPage)
