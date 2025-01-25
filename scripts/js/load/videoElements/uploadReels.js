@@ -438,7 +438,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
             }
         } else if (moreOptionsArea.style.display = "block" && isMultipleUpload === true) {
             saveReelChangesBtn.click();
-            
+
             moreOptionsArea.style.display = "none";
             document.getElementById("uploadArea").classList.remove("hidden");
             moreOptionsArea.classList.add("hidden");
@@ -530,13 +530,16 @@ function createThumbnailPicker(file, previewContainer, index) {
     console.log("previewContainer:", previewContainer);
 
     if (!videoElement) {
-        console.error("videoElement is not defined or not found in the DOM.");
+        console.warn("videoElement is not defined or not found in the DOM.");
     }
 
     if (!previewContainer) {
-        console.error("previewContainer is not defined or not found in the DOM.");
-    }
+        console.warn("previewContainer is not defined or not found in the DOM.");
+         previewContainer = document.querySelector(".videoElements");
 
+    
+    }
+    
     if (file && file.type && file.type.startsWith('video/')) {
         videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
         previewContainer.src = URL.createObjectURL(file);
