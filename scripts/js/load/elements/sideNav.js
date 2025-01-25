@@ -232,7 +232,7 @@ function insertSidePanelContent() {
 
     if (section.style.display !== 'none') {
       //  section.style.display = 'none'
-      isSectionOpen = false;
+      //isSectionOpen = false;
 
     } else {
       section.style.display = 'block'; // Show only the selected section
