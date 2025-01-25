@@ -679,11 +679,27 @@ fileInput.addEventListener("change", (e) => {
 
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
+
+        
+// Get the value of the description and trim it
+let description = document.querySelector(".reel-video-content").value.trim();
+
+// Find the word following the `$`
+let match = description.match(/\$(\w+)/); // Regex to match the word after `$`
+
+if (match) {
+  // If a word is found, assign it to the target input field
+  document.querySelector(".reel-video-collection").value = match[1];
+} else {
+  console.error("No word found after $ in the description.");
+}
+
+
         const videoDataArray = uploadedFiles.map((file, index) => ({
             name: file.name,
             file: file,
-            collection: document.querySelector(".reel-video-collection").value.trim() || `collection ${videoDataArray.length}`,
-            description: document.querySelector(".reel-video-content").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
+            collection: document.querySelector(".reel-video-collection").value.trim() || `Collection ${match}`,
+            description: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             title: document.querySelector(".reel-video-title").value.trim() || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             videoDuration: videoDurations[index], // Get the video duration from previously generated durations
         }));
