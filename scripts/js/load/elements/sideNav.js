@@ -183,7 +183,10 @@ function insertSidePanelContent() {
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav')
-     || event.target.closest('#locationContainer');
+     || event.target.closest('.collapsible-location');
+
+     console.log("isClickInside: ", isClickInside);
+
     if (!isClickInside && sidePanel.style.display !== 'none') {
 
 
@@ -196,7 +199,7 @@ function insertSidePanelContent() {
    
 
 
-  
+    
     }
 
   });
