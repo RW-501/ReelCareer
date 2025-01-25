@@ -578,7 +578,7 @@ function createThumbnailPicker(file, previewContainer, index) {
                     if (blob) {
                         console.log('Blob created successfully:', blob);
                         thumbnailBlob = blob;  // Store blob for upload
-                        thumbnailPreview.src = blob;  // Update thumbnail image
+                        thumbnailPreview.src = URL.createObjectURL(blob); ;  // Update thumbnail image
                         console.log('Thumbnail preview updated with blob URL:', thumbnailPreview.src);
                     } else {
                         console.error('Failed to create thumbnail blob.');
