@@ -185,7 +185,7 @@ function insertSidePanelContent() {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav');
     if (!isClickInside && sidePanel.style.display !== 'none') {
 
-
+/*
       const allPopouts = document.querySelectorAll('.side-panel-popout');
       allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
       isSectionOpen = false;
@@ -193,6 +193,9 @@ function insertSidePanelContent() {
 
       //  sidePanel.style.display = 'none'; // Close the side panel
     }
+
+
+    */
   });
 
 
@@ -231,8 +234,8 @@ function insertSidePanelContent() {
 
 
     if (section.style.display !== 'none') {
-      //  section.style.display = 'none'
-      //isSectionOpen = false;
+        section.style.display = 'none'
+      isSectionOpen = false;
 
     } else {
       section.style.display = 'block'; // Show only the selected section
