@@ -276,6 +276,10 @@ function preLoadPageScripts() {
     });
 
 
+    // Load interest.js as a module
+    loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
+        logExecutionTime('Interest Script', performance.now());
+    });
 
 
 }
@@ -358,10 +362,6 @@ function loadPageScripts() {
     });
 
     if (!currentPath.includes('/obituaries/')) {
-    // Load interest.js as a module
-    loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
-        logExecutionTime('Interest Script', performance.now());
-    });
 
     // Load similar.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { async: true, type: 'module' }, () => {
