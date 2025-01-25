@@ -24,7 +24,7 @@ window.addEventListener('load', function() {
  * Toggles debugging mode for logging script execution details.
  */
 const DEBUG = true;
-
+let hasLoadedPageScripts = false;
 /**
  * Tracks the number of loaded scripts.
  */
@@ -376,7 +376,7 @@ function loadPageScripts() {
     loadScript('https://reelcareer.co/scripts/js/load/helpers/autoSuggest.js', { defer: true }, () => {
         logExecutionTime('autoSuggest Script', performance.now());
     });
-}, 500000);
+}, 50000);
 
 
 
@@ -464,14 +464,17 @@ function loadPageScripts() {
 }
 
 // Initialize page scripts after DOMContentLoaded
-//document.addEventListener('DOMContentLoaded', loadPageScripts);
+if (!hasLoadedPageScripts) {
+    hasLoadedPageScripts = true;
 
-setTimeout(() => {
-    loadPageScripts();
-
-}, 5000); // 500ms delay
-
-
+    document.addEventListener('DOMContentLoaded', () => {
+        console.warn('start loadPageScripts');
+        setTimeout(() => {
+            loadPageScripts();
+            console.warn('END loadPageScripts');
+        }, 500);
+    });
+}
 
 
 
