@@ -1584,8 +1584,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const locationContainer = document.getElementById('locationContainer');
     locationContainer.innerHTML = ''; // Clear any existing content
 
-// Append the button to the side panel
-sidePanel.appendChild(locationContainer);
 
     document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
 
@@ -1609,6 +1607,8 @@ sidePanel.appendChild(locationContainer);
 
   }
 
+// Append the button to the side panel
+sidePanel.appendChild(locationContainer);
 
 
 });
