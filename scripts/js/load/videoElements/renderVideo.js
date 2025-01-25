@@ -487,14 +487,14 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
         if ((isFromCurrentUser || isToCurrentUser) && data.status === "accepted") {
           const userData = {
-            id: isFromCurrentUser ? data.to : data.from,  // Get the other user's ID
-            name: isFromCurrentUser ? data.toName : data.fromName,  // Get the other user's name
-            profileUrl: isFromCurrentUser ? data.toProfileURL : data.fromProfileURL,  // Get the other user's profile URL
-            profilePicture: isFromCurrentUser ? data.toProfilePicture : data.fromProfilePicture,  // Get the other user's profile picture
+            id: isToCurrentUser ? data.to : data.from,  // Get the other user's ID
+            name: isToCurrentUser ? data.toName : data.fromName,  // Get the other user's name
+            profileUrl: isToCurrentUser ? data.toProfileURL : data.fromProfileURL,  // Get the other user's profile URL
+            profilePicture: isToCurrentUser ? data.toProfilePicture : data.fromProfilePicture,  // Get the other user's profile picture
             acceptDate: data.acceptDate,  // Additional info
             createdAt: data.createdAt,  // Connection creation date
             status: data.status,  // Connection status
-            connectionGroup: isFromCurrentUser ? data.toGroup : data.fromGroup,  // Connection group
+            connectionGroup: isToCurrentUser ? data.toGroup : data.fromGroup,  // Connection group
           };
           connectedUserData.push(userData);
         }
