@@ -53,7 +53,18 @@ function createVideoUploadPopup() {
                 max-width: 500px;
                 width: 90%;
                 position: relative;
+                scrollbar-width: none;
+
             }
+
+
+            .video-upload-popup::-webkit-scrollbar {
+              display: none; /* Hide scrollbar for WebKit browsers */
+      
+          }
+            
+
+
             .close-button {
                 position: absolute;
                 top: 10px;
