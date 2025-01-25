@@ -33,82 +33,6 @@ function createVideoUploadPopup() {
         const uploadStyles = document.createElement("style");
         uploadStyles.id = "videoUploadStyles";
         uploadStyles.textContent = `
-            .video-upload-popup-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.8);
-                z-index: 5000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .video-upload-popup {
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-                max-width: 500px;
-                width: 90%;
-                position: relative;
-                scrollbar-width: none;
-
-            }
-
-
-            .video-upload-popup::-webkit-scrollbar {
-              display: none; /* Hide scrollbar for WebKit browsers */
-      
-          }
-            
-
-
-            .close-button {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: transparent;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-                    color: red;
-            }
-                   
-            
-            .progress {
-                height: 20px;
-                margin-bottom: 15px;
-            }
-            .select-video-btn, .reel-video-btn {
-                width: 100%;
-                padding: 10px;
-                margin-top: 10px;
-            }
-                .reel-video-title {
-    font-size: 16px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-            .reel-video-content {
-                margin-top: 15px;
-                width: 100%;
-                min-height: 80px;
-            }
-            .reel-video-preview {
-                width: 100%;
-                height: auto;
-                margin-top: 10px;
-            }
-
-
-
-
-
 
 
 
@@ -323,7 +247,15 @@ display: none;
     height: 90%;
     overflow-y: auto;
     margin: auto;
-}
+    scrollbar-width: none;
+    }
+
+
+#reel-upload-container .video-upload-popup::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+  }
+
+  
   .close-button {
     position: absolute;
     top: 15px;
