@@ -1046,6 +1046,21 @@ input[type="checkbox"]:hover {
 
         // Fetch analytics data
         loadAnalytics(userID);
+
+
+        setTimeout(() => {
+        const generalTags = createTagInputSystem({
+            tagsContainerId: "tagsContainerSET-main",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
+
+        const generalTags_reelCategories = createTagInputSystem({
+            tagsContainerId: "tagsContainerSET-reelCategories",
+            badgeClass: "tag-primary" // Custom badge class for general tags
+        });
+
+        console.log("generalTags", generalTags);
+    }, 1000); // 1-second delay
     } catch (error) {
         console.error("Error loading account page:", error);
         showUserDataNotFoundMessage();
@@ -1498,29 +1513,6 @@ function toggleContainers(action) {
   }
 
 
-
-
-
-
-
-
-
-// Wait for the document to be fully loaded before initializing
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        const generalTags = createTagInputSystem({
-            tagsContainerId: "tagsContainerSET-main",
-            badgeClass: "tag-primary" // Custom badge class for general tags
-        });
-
-        const generalTags_reelCategories = createTagInputSystem({
-            tagsContainerId: "tagsContainerSET-reelCategories",
-            badgeClass: "tag-primary" // Custom badge class for general tags
-        });
-
-        console.log("generalTags", generalTags);
-    }, 1000); // 1-second delay
-});
 
 
 
