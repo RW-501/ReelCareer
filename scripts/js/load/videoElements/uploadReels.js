@@ -606,7 +606,7 @@ let uploadedFile = null;
 
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
-    const selectVideoButton = document.querySelector(".select-video-btn");
+    const selectVideoButton = document.getElementById("mainSelectVideoBtn");
     const uploadButton = document.querySelector(".reel-video-btn");
     const videoPreview = document.querySelector(".reel-video-preview");
 

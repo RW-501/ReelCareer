@@ -419,8 +419,8 @@ display: none;
       Video Upload
     </label>
     <input type="file" id="reelVideoInput" class="reel-video-input" accept="video/*" hidden aria-describedby="videoUploadHelp">
-    <div class="reel-video-area" aria-labelledby="selectVideoLabel">
-      <button id="selectVideoLabel" class="select-video-btn btn btn-secondary" aria-label="Select Video Button">Select Video</button>
+    <div class="reel-video-area" aria-labelledby="mainSelectVideoBtn">
+      <button id="mainSelectVideoBtn" class="select-video-btn btn btn-secondary" aria-label="Select Video Button">Select Video</button>
       <video id="reelVideoPreview" class="reel-video-preview" controls hidden aria-label="Video Preview"></video>
     </div>
     <small id="videoUploadHelp" class="form-text text-muted">Upload your video file here.</small>
