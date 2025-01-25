@@ -520,10 +520,23 @@ function createThumbnailPicker(file, previewContainer, index) {
     let thumbnailBlob = null;
     let videoDuration;
 
-
+    console.log("videoElement:", videoElement);
+    console.log("previewContainer:", previewContainer);
+    
+    if (!videoElement) {
+        console.error("videoElement is not defined or not found in the DOM.");
+    }
+    
+    if (!previewContainer) {
+        console.error("previewContainer is not defined or not found in the DOM.");
+    }
+    
     if (file && file.type && file.type.startsWith('video/')) {
         videoElement.src = URL.createObjectURL(file);  // Safe to use file.type
         previewContainer.src =  URL.createObjectURL(file); 
+        previewContainer.load(); // Ensure the video is reloaded to reflect changes
+//videoElement.play(); // Optional: Start playback automatically
+
         console.log('file:', file);
         console.log(' URL.createObjectURL(file);:', previewContainer.src);
 
