@@ -480,7 +480,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         const data = doc.data();
         const isFromCurrentUser = data.from === userId;
         const isToCurrentUser = data.to === userId;
-      
+        console.log("isFromCurrentUser ",isFromCurrentUser);
+        console.log("isToCurrentUser ",isToCurrentUser);
+        console.log("data.from ",data.from);
+        console.log("data.to ",data.to);
+
         if ((isFromCurrentUser || isToCurrentUser) && data.status === "accepted") {
           const userData = {
             id: isFromCurrentUser ? data.to : data.from,  // Get the other user's ID
