@@ -259,14 +259,19 @@ handleVideoInterestInput(videoInterestEntry);
 function handleVideoInterestInput({ searchableTitle, categories, tags, liked, location, duration }) {
     // Split the tags, remove duplicates, trim whitespace, and convert to lowercase
     const inputTags = [
-        ...new Set([
-            ...(tags ? tags.split(',').map(tag => tag.trim().toLowerCase()) : []), // Split and clean tags
-            searchableTitle.toLowerCase(), // Add searchableTitle, converted to lowercase
-            ...(categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []), // Add categories, cleaned
-            ...(location ? [location.toLowerCase()] : []), // Add location
-            ...(duration ? [duration.toString()] : []) // Add duration
-        ]).filter(Boolean) // Remove empty strings
-    ];
+      ...new Set([
+          ...(Array.isArray(tags)
+              ? tags.map(tag => tag.trim().toLowerCase()) // Handle array
+              : typeof tags === 'string' && tags
+              ? tags.split(',').map(tag => tag.trim().toLowerCase()) // Handle string
+              : []),
+          searchableTitle.toLowerCase(),
+          ...(typeof categories === 'string' && categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []),
+          ...(location ? [location.toLowerCase()] : []),
+          ...(duration ? [duration.toString()] : [])
+      ]).filter(Boolean)
+  ];
+  console.log('tags:', tags, 'type:', typeof tags);
 
     function isSimilarTag(tag1, tag2) {
         return tag1.includes(tag2) || tag2.includes(tag1);
