@@ -1275,7 +1275,7 @@ if(sidePanel){
   // Parse the JSON data
    data = await response.json();
 
-  console.log('data:', data);
+  console.log('JSON data:', data);
 }
   // Process each video data from the JSON
   data.forEach((video) => {
