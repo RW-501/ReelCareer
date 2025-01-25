@@ -1162,33 +1162,56 @@ function checkCommaCount(e) {
 
 
 // Event listener for category button clicks
+// Update checkCommaCount to handle missing parameters
+function checkCommaCount(event = {}) {
+  const input = document.getElementById('input_tagsContainerSET-reelCategories');
+
+  if (!input) {
+    console.error('Input field not found!');
+    return;
+  }
+
+  const value = input.value || '';
+
+  // Check for commas in the input value
+  const commaCount = (value.match(/,/g) || []).length;
+
+  console.log(`Comma count: ${commaCount}`);
+  
+  if (event.key === ',' || event.type === 'click') {
+    console.log('Comma detected via key or click!');
+  }
+}
+
+// Adjust event listener
 document.querySelectorAll('.category-btn').forEach(button => {
-  button.addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent form submission
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
 
     const category = this.getAttribute('data-category');
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
-    
+
+    if (!input) {
+      console.error('Input field not found!');
+      return;
+    }
+
     // Add the category to the input field (with a comma)
-    input.value += (input.value ? ', ' : ' ') + category;
+    input.value += (input.value ? ', ' : '') + category;
 
-    console.log("????????????????????? ");
+    console.log("Category added:", category);
 
-
-    // Trigger the "keyup" event (simulate enter)
+    // Trigger the "keyup" event
     const event = new KeyboardEvent('keyup', {
       bubbles: true,
       cancelable: true,
-      keyCode: 13
+      key: ',', // Add the correct key
     });
-    event.preventDefault(); // Prevent form submission
 
     input.dispatchEvent(event);
-    event.preventDefault(); // Prevent form submission
-    console.log("category: ", { category });
 
-    // After adding the category, check for the comma count
-    checkCommaCount();
+    // Check comma count
+    checkCommaCount(event);
   });
 });
 
