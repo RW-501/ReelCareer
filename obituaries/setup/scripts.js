@@ -417,7 +417,7 @@ const userLocationService = {
 
 async function incrementViews() {
   try {
-    const pageID = document.getElementById('pageID').innerText.trim();
+    const pageID = document.getElementById('pageID')?.innerText?.trim();
     if (!pageID) {
       console.error('Page ID is missing.');
       return;
@@ -432,31 +432,37 @@ async function incrementViews() {
     const pageRef = doc(db, "A_Obituaries", pageID);
     const ipCollectionRef = collection(pageRef, "PageViewIPs");
 
+    // Fetch the page document
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
-      console.error("PageViewIPs document does not exist.");
+      console.error("The page document does not exist.");
       return;
     }
 
     const pageData = pageDocSnapshot.data();
+
+    // Handle video display if `videoURL` exists
     const mediaSection = document.getElementById("media-section");
-    const videoUrl = pageData.videoURL;
-    if (videoUrl) {
+    const videoUrl = pageData?.videoURL;
+    if (videoUrl && mediaSection) {
       displayVideoPreview(videoUrl, mediaSection);
-      console.log('videoURL   ',videoUrl);
+      console.log('Video URL:', videoUrl);
     }
 
-    document.getElementById("flowerCount").innerText = pageData.flowerCount || 0;
+    // Update flower count display
+    const flowerCountElement = document.getElementById("flowerCount");
+    if (flowerCountElement) {
+      flowerCountElement.innerText = pageData?.flowerCount || 0;
+    }
+
+    // Calculate view duration
     const viewStart = viewStartTime || Date.now();
     const durationOfView = Math.floor((Date.now() - viewStart) / 1000); // View duration in seconds
+
+    // Prepare update data
     const source = getViewSource();
     const userAgent = navigator.userAgent;
-
-    const updatePageData = {
-      views: increment(1),
-    };
-
-
+    const updatePageData = { views: increment(1) };
     const updateUserData = {
       lastViewTime: serverTimestamp(),
       lastViewSource: source,
@@ -464,24 +470,31 @@ async function incrementViews() {
       durationOfLastView: durationOfView,
       lastCity: locationData?.city || 'Unknown',
       lastState: locationData?.region || 'Unknown',
-      lastCountry: locationData?.country || 'Unknown'
+      lastCountry: locationData?.country || 'Unknown',
     };
-    
 
+    // Reference for user's IP document
+    const ipDocRef = doc(ipCollectionRef, ipAddress);
 
-    const ipDocRef = doc(ipCollectionRef, ipAddress);  
+    // Handle view count and user data
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
     if (ipDocSnapshot.exists()) {
-      await withTimeout(updateDoc(pageRef, updatePageData), 5000);
-      console.log("Updated general view count and details successfully.");
+      // Update existing user's view details
+      await withTimeout(updateDoc(ipDocRef, updateUserData), 5000);
+      console.log("Updated user details successfully.");
     } else {
+      // Increment unique views for a new IP address
       updatePageData.uniqueViews = increment(1);
+
+      // Update the page data
       await withTimeout(updateDoc(pageRef, updatePageData), 5000);
+
+      // Add a new document for the user's IP
       await withTimeout(setDoc(ipDocRef, updateUserData), 5000);
-      console.log("Updated unique view and general view counts successfully.");
+      console.log("Added unique view and updated user details successfully.");
     }
   } catch (error) {
-    console.error("Error updating view counts:", error);
+    console.error("Error in incrementViews:", error);
   }
 }
 

@@ -479,15 +479,7 @@ handleVideoInterestInput(videoInterestEntry);
 
     getUserVideoInterest();
 
-      if (ipDocSnapshot.exists()) {
-        console.log("View already recorded for this IP.");
-        await updateDoc(videoRef, {
-          repeatViews: increment(1) // Firestore increment
-        });
-        return; // Prevent duplicate view increment
-      }
   
-
 
 
 
@@ -518,6 +510,14 @@ const updatedUserData = {
 // Optional: Debug output for confirmation
 console.log("Updated userData with videoWatchHistory:", videoWatchHistoryEntry);
 
+
+if (ipDocSnapshot.exists()) {
+  console.log("View already recorded for this IP.");
+  await updateDoc(videoRef, {
+    repeatViews: increment(1) // Firestore increment
+  });
+  return; // Prevent duplicate view increment
+}
 
 
 
