@@ -370,11 +370,13 @@ function loadPageScripts() {
     }
 
 
+    setTimeout(() => {
 
     // Load autoSuggest.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/helpers/autoSuggest.js', { defer: true }, () => {
         logExecutionTime('autoSuggest Script', performance.now());
     });
+}, 500000);
 
 
 
@@ -398,6 +400,7 @@ function loadPageScripts() {
 
 
 
+    setTimeout(() => {
 
     // Load imagePopup.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/helpers/imagePopup.js', {  defer: true }, () => {
@@ -409,12 +412,19 @@ function loadPageScripts() {
         logExecutionTime('chatBot Script', performance.now());
     });
 
+}, 500000);
 
     
 
     // Conditional: Load trackers.js and censorWord.js for target pages
     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
-                         currentPath.includes('/jobs/') || currentPath.includes('/reels/') || currentPath.includes('/videos/') || currentPath.includes('/views/');
+    currentPath.includes('/jobs/') || currentPath.includes('/reels/') || currentPath.includes('/videos/') || currentPath.includes('/views/');
+   
+    setTimeout(() => {
+    }, 50);
+
+    setTimeout(() => {
+
     if (isTargetPage) {
         if (!currentPath.includes('/obituaries/')) {
         // Load trackers.js as a module
@@ -422,11 +432,14 @@ function loadPageScripts() {
             logExecutionTime('Trackers Script', performance.now());
         });
     }
+
         // Load censorWord Script
         loadScript('https://reelcareer.co/scripts/js/load/helpers/censorWord.js', { defer: true }, () => {
             logExecutionTime('censorWord Script', performance.now());
         });
     }
+
+}, 5000);
         // Load checkMembership Script
         loadScript('https://reelcareer.co/scripts/js/load/auth/checkMembership.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('checkMembership Script', performance.now());
