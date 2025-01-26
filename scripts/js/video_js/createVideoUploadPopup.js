@@ -704,7 +704,6 @@ document.body.appendChild(overlay);
   
 
 
-      document.getElementById('tagsSET-reelCategories').value = reelData.reelCategories || "";
 
 // Event listener for input changes to check comma count dynamically
 document.getElementById('input_tagsContainerSET-reelCategories').addEventListener('input', function() {
