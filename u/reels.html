@@ -1205,8 +1205,11 @@ async function loadVideoReels(userID) {
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
       </tr>
+
       <tr class="details-container" id="details-${reel.id}" style="display: none;">
-        <td colspan="6">
+      <tr>
+
+
           <div class="details-area">
             <div class="stats-area">
               <p><strong>Video Categories:</strong> ${reel.categories}</p>
@@ -1222,7 +1225,9 @@ async function loadVideoReels(userID) {
               data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
             </div>
           </div>
-        </td>
+
+
+      </tr>
       </tr>
     `
   )
