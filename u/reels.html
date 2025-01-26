@@ -1145,7 +1145,7 @@ async function loadVideoReels(userID) {
       title: reel.videoResumeTitle || 'N/A',
       status: reel.status,
       views: reel.views,
-      createdDate: new Date(reel.createdByID).toLocaleString(),
+      createdDate: new Date(reel.createdAt).toLocaleString(),
       videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
       thumbnailURL: reel.thumbnailURL || '',
       videoURL: reel.videoResumeURL || '',
@@ -1166,7 +1166,7 @@ async function loadVideoReels(userID) {
         <td>${reel.title}</td>
         <td>${reel.status}</td>
         <td>${reel.views}</td>
-        <td>${reel.createdDate}</td>
+        <td>${reel.createdAt}</td>
         <td>
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
