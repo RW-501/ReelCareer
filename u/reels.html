@@ -1176,10 +1176,6 @@ async function loadVideoReels(userID) {
   querySnapshot.forEach(doc => {
     const reel = doc.data();
 
-    const createdDate =  reel.createdAt.toDate().toLocaleString();
-    
-console.log(reel.createdAt); // Output: "01/25/2025, 12:34:56 PM"
-console.log(createdDate); // Output: "01/25/2025, 12:34:56 PM"
 
     reels.push({
       id: doc.id,
@@ -1212,8 +1208,9 @@ console.log(createdDate); // Output: "01/25/2025, 12:34:56 PM"
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
       </tr>
-      <tr class="details-container" id="details-${reel.id}" style="display: none;">
-        <td colspan="12">
+
+
+      <div class="details-container" id="details-${reel.id}" style="display: none;">
           <div class="details-area" style="padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px;">
             <div class="stats-area" style="margin-bottom: 10px;">
               <p><strong>Video Categories:</strong> ${reel.categories}</p>
@@ -1229,8 +1226,7 @@ console.log(createdDate); // Output: "01/25/2025, 12:34:56 PM"
               data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
             </div>
           </div>
-        </td>
-      </tr>
+      </div>
     `
   )
   .join("");
