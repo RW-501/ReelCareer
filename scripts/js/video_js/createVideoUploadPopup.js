@@ -1178,7 +1178,7 @@ function setupCategoryButtons({
   }
 
   // Add event listeners to category buttons
-  container.querySelectorAll('.category-btn').forEach(button => {
+  document.querySelectorAll('.category-btn').forEach(button => {
     button.addEventListener('click', function (e) {
       console.log('Category click!');
 
