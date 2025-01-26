@@ -514,6 +514,11 @@ input[type="checkbox"]:hover {
 }
 
 
+.active {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: bold;
+}
 
 
 
@@ -590,8 +595,14 @@ input[type="checkbox"]:hover {
 <!-- Trigger Button for Video Upload Popup -->
 <button id="showUploadPopupBtn" class="btn btn-primary btn-block mt-4" >Upload Your Reel</button>
 
+<div id="viewButtons">
+    <button id="showStats" class="btn btn-primary btn-block mt-4" >View Stats</button>
+    <button id="showReels" class="btn btn-primary btn-block mt-4" >View Reels</button>
 
-            <section id="main-analytics">
+
+</div>
+
+            <section id="main-analytics" class="pageViews" >
                 <h2>Reel Stats</h2>
 
                 <div id="total-reels-div">
@@ -652,7 +663,7 @@ input[type="checkbox"]:hover {
             </section>
             
             
-            <section id="video-reels">
+            <section id="video-reels" class="pageViews" >
                 <h2>Your Reels</h2>
                 <table>
                     <thead>
@@ -1022,7 +1033,29 @@ input[type="checkbox"]:hover {
 
 
 
+ function toggleView(viewToShow) {
+    const views = document.querySelectorAll('.pageViews'); // All views
+    const buttons = document.querySelectorAll('button'); // All buttons
+    
+    // Hide all views and deactivate all buttons
+    views.forEach(view => (view.style.display = 'none'));
+    buttons.forEach(button => button.classList.remove('active'));
 
+    // Show the selected view
+    const view = document.getElementById(viewToShow);
+    if (view) view.style.display = 'block';
+
+    // Activate the corresponding button
+    const button = document.querySelector(`[id="show${viewToShow.charAt(0).toUpperCase() + viewToShow.slice(1)}"]`);
+    if (button) button.classList.add('active');
+  }
+
+  // Add event listeners to buttons
+  document.getElementById('showStats').addEventListener('click', () => toggleView('main-analytics'));
+  document.getElementById('showReels').addEventListener('click', () => toggleView('video-reels'));
+
+  // Initialize with the default view
+  toggleView('video-reels');
 
 
 
