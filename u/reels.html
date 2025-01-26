@@ -1166,8 +1166,8 @@ async function loadVideoReels(userID) {
   // Render Table
   function renderTable(filteredReels) {
     reelList.innerHTML = filteredReels
-      .map(
-        (reel) => `
+  .map(
+    (reel) => `
       <tr>
         <td><a href="${reel.videoResumeURL}" target="_blank">View Video</a></td>
         <td>${reel.title}</td>
@@ -1178,25 +1178,24 @@ async function loadVideoReels(userID) {
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
       </tr>
-
-      <div class="details-container" id="details-${reel.id}" style="display: none;">
-
-        <div>
+      <tr class="details-container" id="details-${reel.id}" style="display: none;">
+        <td colspan="6">
+          <div>
             <p><strong>Video Categories:</strong> ${reel.categories}</p>
             <p><strong>Video Size:</strong> ${reel.size}</p>
             <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
             <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
             <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
             <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
-            <button class="btn delete-btn"   data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Delete</button>
-        
-            <button class="btn delete-admin-btn"   data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Admin Delete</button>
+            <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
+            <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
           </div>
-
-        </div>
+        </td>
+      </tr>
     `
-      )
-      .join('');
+  )
+  .join('');
+
 
   // Add toggle functionality to the details section
   document.querySelectorAll('.toggle-details-btn').forEach((button) => {
