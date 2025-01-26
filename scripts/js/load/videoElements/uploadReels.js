@@ -491,7 +491,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 
         const videoData = {
-            duration: videoDuration,
+            duration: uploadedFile.duration,
             name: fileName,
             videoResumeTitle,
             videoResumeCaptions,
@@ -502,6 +502,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             fileType: "video/mp4",
             originalFileName: uploadedFile.name,
         };
+        console.log("videoData:", videoData);
 
 
         await uploadVideoResume(userID, videoData);
@@ -738,6 +739,7 @@ function initializeVideoUploadHandlers() {
 
 
         }));
+        console.log("videoDataArray:", videoDataArray);
 
 
 
