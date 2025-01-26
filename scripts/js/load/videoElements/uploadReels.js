@@ -244,6 +244,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         videoResumeURL: videoResumeURL || '',
         videoResumeFileName: videoData.name || '',
         duration: videoData.duration || 0,
+        size: videoData.size || 0,
+        dimensions: videoData.dimensions || '',
         fileType: videoData.fileType || '',
         collection: videoData.collection || 'group_1',
 
@@ -491,7 +493,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 
         const videoData = {
-            duration: uploadedFile.duration,
+            duration: videoDuration,
             name: fileName,
             videoResumeTitle,
             videoResumeCaptions,
@@ -500,10 +502,11 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
             userID,
             file: uploadedFile,
             fileType: "video/mp4",
+            dimensions: videoDimensions,
+            size: videoSizeInMB,
             originalFileName: uploadedFile.name,
         };
-        console.log("videoData:", videoData);
-
+   
 
         await uploadVideoResume(userID, videoData);
     } catch (error) {
@@ -518,6 +521,14 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 }
 
 window.postReelFunction = postReelFunction;
+
+let videoSizeInMB ;
+
+let uploadedFiles = null;
+let uploadedFile = null;
+let videoDuration = 0;
+let videoDimensions = '';
+
 
 function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB){
     const thumbnailPreviewPickerSection = document.getElementById('thumbnailPreviewPickerSection');
@@ -560,6 +571,7 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
     videoElement.id = "videoToUpload";
      videoDuration = duration;
      console.log('videoDuration:', videoDuration);
+     videoSizeInMB = sizeInMB;
 
     videoElement.onloadedmetadata = () => {
         let metaVideoDuration = videoElement.duration;
@@ -591,6 +603,7 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
                 console.log('Canvas dimensions set to:', canvas.width, 'x', canvas.height);
+                videoDimensions = canvas.width, 'x', canvas.height;
 
                 const ctx = canvas.getContext('2d');
                 console.log('Canvas rendering context obtained:', ctx);
@@ -632,9 +645,6 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
 window.createThumbnailPicker = createThumbnailPicker;
 
 
-let uploadedFiles = null;
-let uploadedFile = null;
-let videoDuration = 0;
 
 function initializeVideoUploadHandlers() {
     const fileInput = document.querySelector(".reel-video-input");
@@ -759,7 +769,8 @@ function initializeVideoUploadHandlers() {
             videoResumeCaptions: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             videoResumeTitle:  videoResumeTitle || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             duration: videoDuration,
-            size: file.size,
+            size: videoSizeInMB,
+            dimensions: videoDimensions,  
 
 
         }));
