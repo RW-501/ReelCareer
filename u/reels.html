@@ -712,10 +712,7 @@ input[type="checkbox"]:hover {
 
     <section id="reel-main-data">
 
-        <div class="reel-groups">
-            <label for="videoResumeTitle">Title <small class="text-muted">(Provide a descriptive title for your video resume)</small></label>
-            <input type="text" id="videoResumeTitle" name="title" aria-label="Video Resume Title" placeholder="Enter title for your video resume" />
-        </div>
+
     
         <div class="reel-groups">
             <label for="reelID">Reel ID <small class="text-muted">(Auto-generated unique identifier)</small></label>
@@ -769,35 +766,17 @@ input[type="checkbox"]:hover {
             </label>
             <input type="checkbox" id="isPublic" aria-label="Make Reel Public" checked />
         </div>
-    
+
+        <div class="reel-groups">
+            <label for="videoResumeTitle">Title <small class="text-muted">(Provide a descriptive title for your video resume)</small></label>
+            <input type="text" id="videoResumeTitle" name="title" aria-label="Video Resume Title" placeholder="Enter title for your video resume" />
+        </div>
+
         <div class="reel-groups">
             <label for="videoResumeCaptions">Captions <small class="text-muted">(Optional subtitles for your video)</small></label>
             <textarea id="videoResumeCaptions" name="videoResumeCaptions" rows="3" aria-label="Captions" placeholder="Add captions..."></textarea>
         </div>
     
-        <div class="reel-groups">
-            <label for="tagsSET-main">
-                Tags <small class="text-muted">(Add a tag and press Enter)</small>
-            </label>
-            <div id="tagsContainerSET-main">
-                <input type="text" id="tagsSET-main" class="form-control" aria-label="Tags Input" placeholder="(e.g., JavaScript, Management)">
-            </div>
-        </div>
-    
-        <div class="reel-groups">
-            <label for="status">Status <small class="text-muted">(Select the current state of your reel)</small></label>
-            <select id="status" name="status" aria-label="Reel Status">
-                <option value="posted">Posted</option>
-                <option value="draft">Draft</option>
-                <option value="archived">Archived</option>
-                <option value="review" disabled>Review</option>
-            </select>
-        </div>
-    
-        <div class="reel-groups">
-            <label for="location">Location <small class="text-muted">(Where this reel is based)</small></label>
-            <input type="text" id="location" name="location" aria-label="Location" placeholder="Enter location" />
-        </div>
     
         <div class="reel-groups">
             <label for="thumbnailUpload">Thumbnail <small class="text-muted">(Upload or link a thumbnail image)</small></label>
@@ -809,29 +788,22 @@ input[type="checkbox"]:hover {
             <input type="hidden" id="thumbnailURL" name="thumbnailURL" />
         </div>
     
+
         <div class="reel-groups">
-            <label for="relatedURL">Related URL <small class="text-muted">(Link to related content)</small></label>
-            <input type="url" id="relatedURL" name="relatedURL" aria-label="Related URL" placeholder="Enter related URL" />
+            <label for="location">Location <small class="text-muted">(Where this reel is based)</small></label>
+            <input type="text" id="location" name="location" aria-label="Location" placeholder="Enter location" />
         </div>
-    
-        <div id="endingCardArea" class="reel-groups">
-            <label for="endingCard">Ending Card <small class="text-muted">(Final message or credit)</small></label>
-            <input type="text" id="endingCard" name="endingCard" aria-label="Ending Card" placeholder="Enter ending card information" />
-        </div>
-    
+
+
         <div class="reel-groups">
-            <label for="relatedReels">Related Reels <small class="text-muted">(List of associated reels)</small></label>
-            <div id="relatedReelsListContainer">
-                <div id="relatedReelsList" aria-label="Related Reels List"></div>
+            <label for="tagsSET-main">
+                Tags <small class="text-muted">(Add a tag and press Enter)</small>
+            </label>
+            <div id="tagsContainerSET-main">
+                <input type="text" id="tagsSET-main" class="form-control" aria-label="Tags Input" placeholder="(e.g., JavaScript, Management)">
             </div>
         </div>
-    
-        <div id="relatedProductsArea" class="reel-groups">
-            <label for="relatedProducts">Related Products <small class="text-muted">(Attach products linked to this reel)</small></label>
-            <button id="addProductButton" type="button" class="btn btn-secondary" aria-label="Add Product">Add Product</button>
-            <div id="productListContainer" aria-label="Product List"></div>
-        </div>
-    
+
         <div class="reel-groups">
             <label for="tagsSET-reelCategories">
                 Categories <small class="text-muted">(Add up to 3 Categories)</small>
@@ -858,6 +830,42 @@ input[type="checkbox"]:hover {
                 <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., Design, Travel)">
             </div>
         </div>
+
+        <div class="reel-groups">
+            <label for="status">Status <small class="text-muted">(Select the current state of your reel)</small></label>
+            <select id="status" name="status" aria-label="Reel Status">
+                <option value="posted">Posted</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
+                <option value="review" disabled>Review</option>
+            </select>
+        </div>
+    
+
+        <div class="reel-groups">
+            <label for="relatedURL">Related URL <small class="text-muted">(Link to related content)</small></label>
+            <input type="url" id="relatedURL" name="relatedURL" aria-label="Related URL" placeholder="Enter related URL" />
+        </div>
+    
+        <div id="endingCardArea" class="reel-groups">
+            <label for="endingCard">Ending Card <small class="text-muted">(Final message or credit)</small></label>
+            <input type="text" id="endingCard" name="endingCard" aria-label="Ending Card" placeholder="Enter ending card information" />
+        </div>
+    
+        <div class="reel-groups">
+            <label for="relatedReels">Related Reels <small class="text-muted">(List of associated reels)</small></label>
+            <div id="relatedReelsListContainer">
+                <div id="relatedReelsList" aria-label="Related Reels List"></div>
+            </div>
+        </div>
+    
+        <div id="relatedProductsArea" class="reel-groups">
+            <label for="relatedProducts">Related Products <small class="text-muted">(Attach products linked to this reel)</small></label>
+            <button id="addProductButton" type="button" class="btn btn-secondary" aria-label="Add Product">Add Product</button>
+            <div id="productListContainer" aria-label="Product List"></div>
+        </div>
+    
+
     
         <div class="reel-groups">
             <label for="reelResume">Resume <small class="text-muted">(Provide a link or upload your resume)</small></label>
