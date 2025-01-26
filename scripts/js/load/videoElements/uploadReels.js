@@ -603,7 +603,7 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
                 console.log('Canvas dimensions set to:', canvas.width, 'x', canvas.height);
-                videoDimensions = canvas.width, 'x', canvas.height;
+                videoDimensions = `${canvas.width, 'x', canvas.height}`;
 
                 const ctx = canvas.getContext('2d');
                 console.log('Canvas rendering context obtained:', ctx);
