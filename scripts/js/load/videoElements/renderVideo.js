@@ -147,12 +147,16 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoCard.dataset.createdByID = videoData.createdByID || "";
       videoCard.dataset.displayName = videoData.displayName || "";
 
+      let boostedPost = videoData.isBoostedPost ? `boostedPost` : ``;
+      let sponsoredPost = videoData.isSponsoredPost ? `sponsoredPost` : ``;
+
+
 
       generateVideoSchema(videoData, docId);
       
       let videoDuration = parseFloat(videoData.duration.toFixed(2));
       videoCard.innerHTML = `
-   <div id="videoCard_${docId}" class="video-card">
+   <div id="videoCard_${docId}" class="video-card ${sponsoredPost, boostedPost}">
     <div class="user-info">
       <div class="user-info-left">
         <img src="${
@@ -196,9 +200,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
           </button>`
           }
   
-          <button class="gift-button" data-doc-id="${docId}" aria-label="Send Gift to User">
+          ${
+            videoData.giftsBool
+              ? ` <button class="gift-button" data-doc-id="${docId}" aria-label="Send Gift to User">
             <i class="fa fa-gift"></i> Send Gift
-          </button>
+          </button>` : ``}
   
         </div>
   
@@ -234,9 +240,11 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   
       <div class="controls-container controls-bottom" data-doc-id="${docId}">
         <div class="actions">
-          <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
+          ${
+            videoData.likesBool
+              ? ` <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
             <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
-          </button>
+          </button>` : ``}
   
           <div class="realCareerVidLogo action-btn ">ReelCareer</div>
         </div>
