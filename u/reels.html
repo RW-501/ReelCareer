@@ -1180,7 +1180,7 @@ async function loadVideoReels(userID) {
       title: reel.videoResumeTitle || 'N/A',
       status: reel.status,
       views: reel.views,
-      createdDate: new Date(reel.createdAt).toLocaleString(),
+      createdDate: reel.createdAt,
       videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
       thumbnailURL: reel.thumbnailURL || '',
       videoURL: reel.videoResumeURL || '',
