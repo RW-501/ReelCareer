@@ -1390,7 +1390,7 @@ function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
     }
 }
 
-/* 
+
 // Function to disable/enable buttons and input based on comma count
 function checkCommaCount(e) {
   const input = document.getElementById('input_tagsContainerSET-reelCategories');
@@ -1450,7 +1450,7 @@ document.querySelectorAll('.category-btn').forEach(button => {
     checkCommaCount();
   });
 });
- */
+ window.checkCommaCount = checkCommaCount;
 
 
 async function checkMembershipAndBalance(checkType, checkedBool, isChecking) {
