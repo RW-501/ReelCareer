@@ -1128,101 +1128,63 @@ function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
     }
 }
 // Function to disable/enable buttons and input based on comma count
-function checkCommaCount(e) {
-  
-  const area = document.getElementById('tagsSET-reelCategories');
-
-  const input = area.getElementById('input_tagsContainerSET-reelCategories');
-  const categoryButtons = document.querySelectorAll('.category-btn');
-  
-  // Allow input modification for Backspace, Delete, and other keys
-  const isSpecialKey = e.key === 'Backspace' || e.key === 'Delete';
-  
-  // Check comma count after the change
-  const commaCount = (input.value.match(/,/g) || []).length;
-
-  if (commaCount >= 2) {
-    // Disable buttons and prevent further input if more than 2 commas are entered
-    categoryButtons.forEach(button => button.disabled = true);
-    input.disabled = true;
-  } else {
-    // Enable buttons and input if comma count is below 2
-    categoryButtons.forEach(button => button.disabled = false);
-    input.disabled = false;
-  }
-
-  // If a special key (Backspace or Delete) is pressed, allow the input to be updated
-  if (isSpecialKey) {
-    // Allow normal behavior for special keys without modifying comma count
-    return;
-  }
-
-  // Prevent other keys from entering if comma count exceeds limit
-  if (commaCount >= 2) {
-    e.preventDefault();
-  }
-}
-
-/* 
-// Event listener for category button clicks
-// Update checkCommaCount to handle missing parameters
-function checkCommaCount(event = {}) {
+function checkCommaCount() {
   const input = document.getElementById('input_tagsContainerSET-reelCategories');
+  const categoryButtons = document.querySelectorAll('.category-btn');
 
   if (!input) {
     console.error('Input field not found!');
     return;
   }
 
-  const value = input.value || '';
+  // Check comma count in the input field
+  const commaCount = (input.value.match(/,/g) || []).length;
 
-  // Check for commas in the input value
-  const commaCount = (value.match(/,/g) || []).length;
-
-  console.log(`Comma count: ${commaCount}`);
-  
-  if (event.key === ',' || event.type === 'click') {
-    console.log('Comma detected via key or click!');
+  if (commaCount >= 2) {
+    // Disable buttons and input when more than 2 commas
+    categoryButtons.forEach(button => (button.disabled = true));
+    input.disabled = true;
+  } else {
+    // Enable buttons and input if comma count is below 2
+    categoryButtons.forEach(button => (button.disabled = false));
+    input.disabled = false;
   }
-} */
+}
 
-// Adjust event listener
-const area = document.getElementById('tagsSET-reelCategories');
+// Add event listeners to category buttons
+const area = document.getElementById('categories-container');
 
 // Ensure the area element exists
 if (area) {
-  // Attach event listeners to all buttons with the class "category-btn" within the area
   area.querySelectorAll('.category-btn').forEach(button => {
-  button.addEventListener('click', function (e) {
-    e.preventDefault();
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
 
-    const category = this.getAttribute('data-category');
-    const input = document.getElementById('input_tagsContainerSET-reelCategories');
+      const category = this.getAttribute('data-category');
+      const input = document.getElementById('input_tagsContainerSET-reelCategories');
 
-    if (!input) {
-      console.error('Input field not found!');
-      return;
-    }
+      if (!input) {
+        console.error('Input field not found!');
+        return;
+      }
 
-    // Add the category to the input field (with a comma)
-    input.value += (input.value ? ', ' : '') + category;
+      // Add the category to the input field with a comma
+      input.value += (input.value ? ', ' : '') + category;
 
-    console.log("Category added:", category);
+      console.log('Category added:', category);
 
-    // Trigger the "keyup" event
-    const event = new KeyboardEvent('keyup', {
-      bubbles: true,
-      cancelable: true,
-      key: ',', // Add the correct key
+      // Check the updated comma count
+      checkCommaCount();
     });
-
-    input.dispatchEvent(event);
-
-    // Check comma count
-    checkCommaCount(event);
   });
+}
 
-});
+// Add keyup event listener to the input field to check comma count on manual input
+const inputField = document.getElementById('input_tagsContainerSET-reelCategories');
+if (inputField) {
+  inputField.addEventListener('keyup', function (e) {
+    checkCommaCount();
+  });
 }
 
 
