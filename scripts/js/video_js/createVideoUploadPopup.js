@@ -698,10 +698,7 @@ document.body.appendChild(overlay);
 
 
 
-      const tagsInput_reelCategories = document.getElementById('input_tagsContainerSET-reelCategories').value.trim();
-      const updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
-      console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
-  
+
 
 
 
@@ -881,7 +878,7 @@ localStorage.removeItem('reelID');
           };
   
     
-  
+  let updatedReelCategories ;
           
   setTimeout(() => {
 
@@ -1173,7 +1170,23 @@ if (area) {
       input.value += (input.value ? ', ' : '') + category;
 
       console.log('Category added:', category);
+      const clearTagsButton = document.querySelectorAll('.clearTagsButton');
 
+      if (clearTagsButton) {
+        clearTagsButton.forEach(button => {
+          button.addEventListener('click', function (e) {
+            e.preventDefault();
+      
+          })
+      
+        })
+      
+      }
+
+      const tagsInput_reelCategories = document.getElementById('input_tagsContainerSET-reelCategories').value.trim();
+       updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
+      console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
+  
       // Check the updated comma count
       checkCommaCount();
     });
