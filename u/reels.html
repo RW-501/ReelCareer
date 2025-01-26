@@ -1202,6 +1202,21 @@ async function loadVideoReels(userID) {
     });
   });
 
+  // Attach event listeners for edit and delete buttons
+  document.querySelectorAll('.edit-btn').forEach(btn => 
+    btn.addEventListener('click', (event) => handleReels('edit', event))
+);
+
+document.querySelectorAll('.analytics-btn').forEach(btn => 
+    btn.addEventListener('click', (event) => handleReels('analytics', event))
+);
+
+document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
+document.querySelectorAll('.delete-admin-btn').forEach(btn => btn.addEventListener('click', handleDeleteAdmin));
+}
+
+renderTable(reels);
+
 
 
 
@@ -1232,22 +1247,7 @@ async function loadVideoReels(userID) {
 }
 
 
-    // Attach event listeners for edit and delete buttons
-    document.querySelectorAll('.edit-btn').forEach(btn => 
-    btn.addEventListener('click', (event) => handleReels('edit', event))
-);
-
-document.querySelectorAll('.analytics-btn').forEach(btn => 
-    btn.addEventListener('click', (event) => handleReels('analytics', event))
-);
-
-document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
-document.querySelectorAll('.delete-admin-btn').forEach(btn => btn.addEventListener('click', handleDeleteAdmin));
-}
-
-renderTable(reels);
-
-
+  
 
 // Helper function to format time
 function formatWatchTime(seconds) {
