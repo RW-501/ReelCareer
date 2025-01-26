@@ -559,6 +559,7 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
 
     videoElement.id = "videoToUpload";
      videoDuration = duration;
+     console.log('videoDuration:', videoDuration);
 
     videoElement.onloadedmetadata = () => {
         let metaVideoDuration = videoElement.duration;
@@ -742,6 +743,7 @@ function initializeVideoUploadHandlers() {
         const titleSnippet = videoResumeTitle.substring(0, 10);
         const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, '');
 
+        console.log('videoDuration:', videoDuration);
 
         videoDataArray = uploadedFiles.map((file, index) => ({
             name: fileName,
@@ -749,14 +751,14 @@ function initializeVideoUploadHandlers() {
             collection: document.querySelector(".reel-video-collection").value.trim() || `Collection ${match}`,
             description: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             title: videoResumeTitle || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
-            videoDuration: file.duration,
+            videoDuration: videoDuration,
             fileType: "video/mp4",
             userID,
             tags: tags || [],
             originalFileName: file.name,
             videoResumeCaptions: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             videoResumeTitle:  videoResumeTitle || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
-            duration: file.duration,
+            duration: videoDuration,
             size: file.size,
 
 
