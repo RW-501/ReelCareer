@@ -1156,6 +1156,8 @@ const area = document.getElementById('categories-container');
 if (area) {
   area.querySelectorAll('.category-btn').forEach(button => {
     button.addEventListener('click', function (e) {
+      console.log('category click!');
+
       e.preventDefault();
 
       const category = this.getAttribute('data-category');
