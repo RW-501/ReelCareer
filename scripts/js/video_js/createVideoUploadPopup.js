@@ -1129,7 +1129,10 @@ function updateRelatedReelsDisplay(reelData, relatedReelsArray) {
 }
 // Function to disable/enable buttons and input based on comma count
 function checkCommaCount(e) {
-  const input = document.getElementById('input_tagsContainerSET-reelCategories');
+  
+  const area = document.getElementById('tagsSET-reelCategories');
+
+  const input = area.getElementById('input_tagsContainerSET-reelCategories');
   const categoryButtons = document.querySelectorAll('.category-btn');
   
   // Allow input modification for Backspace, Delete, and other keys
@@ -1184,9 +1187,12 @@ function checkCommaCount(event = {}) {
 } */
 
 // Adjust event listener
-document.querySelectorAll('.category-btn').forEach(button => {
+const area = document.getElementById('tagsSET-reelCategories');
+
+area.querySelectorAll('.category-btn').forEach(button => {
   button.addEventListener('click', function (e) {
     e.preventDefault();
+    const area = document.getElementById('tagsSET-reelCategories');
 
     const category = this.getAttribute('data-category');
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
