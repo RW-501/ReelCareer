@@ -256,22 +256,34 @@ handleVideoInterestInput(videoInterestEntry);
 
 
 
-function handleVideoInterestInput({ searchableTitle, categories, tags, liked, location, duration }) {
-    // Split the tags, remove duplicates, trim whitespace, and convert to lowercase
-    const inputTags = [
-      ...new Set([
-          ...(Array.isArray(tags)
-              ? tags.map(tag => tag.trim().toLowerCase()) // Handle array
-              : typeof tags === 'string' && tags
-              ? tags.split(',').map(tag => tag.trim().toLowerCase()) // Handle string
-              : []),
-          searchableTitle.toLowerCase(),
-          ...(typeof categories === 'string' && categories ? categories.split(',').map(tag => tag.trim().toLowerCase()) : []),
-          ...(location ? [location.toLowerCase()] : []),
-          ...(duration ? [duration.toString()] : [])
-      ]).filter(Boolean)
-  ];
+function handleVideoInterestInput({
+  searchableTitle = '',
+  categories = '',
+  tags = [],
+  liked = false,
+  location = '',
+  duration = null,
+} = {}) {
+  
+  // Split the tags, remove duplicates, trim whitespace, and convert to lowercase
+   const inputTags = Array.from(
+    new Set([
+      ...(Array.isArray(tags)
+        ? tags.map(tag => tag.trim().toLowerCase()) // Handle array
+        : typeof tags === 'string' && tags
+        ? tags.split(',').map(tag => tag.trim().toLowerCase()) // Handle string
+        : []),
+      searchableTitle.toLowerCase(),
+      ...(typeof categories === 'string' && categories
+        ? categories.split(',').map(tag => tag.trim().toLowerCase())
+        : []),
+      ...(location ? [location.toLowerCase()] : []),
+      ...(duration ? [duration.toString()] : []),
+    ])
+  ).filter(Boolean); // Use .filter() after converting to an array
+
   console.log('tags:', tags, 'type:', typeof tags);
+  console.log('Processed inputTags:', inputTags);
 
     function isSimilarTag(tag1, tag2) {
         return tag1.includes(tag2) || tag2.includes(tag1);
