@@ -1189,9 +1189,6 @@ async function loadVideoReels(userID) {
     `
       )
       .join('');
-  }
-
-  renderTable(reels);
 
   // Add toggle functionality to the details section
   document.querySelectorAll('.toggle-details-btn').forEach((button) => {
@@ -1246,6 +1243,9 @@ document.querySelectorAll('.analytics-btn').forEach(btn =>
 
 document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
 document.querySelectorAll('.delete-admin-btn').forEach(btn => btn.addEventListener('click', handleDeleteAdmin));
+}
+
+renderTable(reels);
 
 
 
