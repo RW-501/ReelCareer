@@ -1156,13 +1156,19 @@ async function loadVideoReels(userID) {
         <td>${reel.title}</td>
         <td>${reel.status}</td>
         <td>${reel.views}</td>
-        <td>${reel.createdDate}</td>
+        <td>${reel.timestamp}</td>
         <td>
           <div>
             <button class="btn toggle-details-btn">Toggle Details</button>
+            </div>
+        </td>
+           
             <div class="details-container" style="display: none;">
-              <p>Thumbnail URL: ${reel.thumbnailURL}</p>
-              <p>Video URL: ${reel.videoURL}</p>
+              <p>Video Categories: ${reel.reelCategories}</p>
+              <p>Video size: ${reel.size}</p>
+              <p>Video duration: ${reel.duration}</p>
+              <p>Video dimensions: ${reel.dimensions}</p>
+              <p>Video collection: ${reel.collection}</p>
 
               <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
               <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
@@ -1170,8 +1176,7 @@ async function loadVideoReels(userID) {
               <button class="btn delete-btn" data-id="${reel.id}">Delete</button>
               <button class="btn delete-admin-btn" data-id="${reel.id}">Admin Delete</button>
             </div>
-          </div>
-        </td>
+      
       </tr>
     `).join('');
   }
