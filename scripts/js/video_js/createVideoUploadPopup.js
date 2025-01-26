@@ -1180,6 +1180,10 @@ if (area) {
   });
 }
 
+window.checkCommaCount = checkCommaCount;
+
+
+
 // Add keyup event listener to the input field to check comma count on manual input
 const inputField = document.getElementById('input_tagsContainerSET-reelCategories');
 if (inputField) {
