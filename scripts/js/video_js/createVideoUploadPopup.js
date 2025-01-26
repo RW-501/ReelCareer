@@ -1160,7 +1160,7 @@ function checkCommaCount(e) {
   }
 }
 
-
+/* 
 // Event listener for category button clicks
 // Update checkCommaCount to handle missing parameters
 function checkCommaCount(event = {}) {
@@ -1181,7 +1181,7 @@ function checkCommaCount(event = {}) {
   if (event.key === ',' || event.type === 'click') {
     console.log('Comma detected via key or click!');
   }
-}
+} */
 
 // Adjust event listener
 document.querySelectorAll('.category-btn').forEach(button => {
