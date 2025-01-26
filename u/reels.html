@@ -1119,16 +1119,20 @@ input[type="checkbox"]:hover {
     }
 });
 
+
+
 async function loadVideoReels(userID) {
   console.log("userID: ", userID);
 
   const reelList = document.getElementById('reel-list');
   reelList.innerHTML = ''; // Clear existing content
 
+  // Query with limit
   const reelsQuery = query(
     collection(db, "VideoResumes"),
     where("createdByID", "==", userID),
-    where("isDeleted", "==", false)
+    where("isDeleted", "==", false),
+    limit(20) // Fetch only 20 videos
   );
   const querySnapshot = await getDocs(reelsQuery);
 
@@ -1141,56 +1145,70 @@ async function loadVideoReels(userID) {
       title: reel.videoResumeTitle || 'N/A',
       status: reel.status,
       views: reel.views,
-      createdDate: new Date(reel.reelcreatedDate).toLocaleString(),
+      createdDate: new Date(reel.createdByID).toLocaleString(),
       videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
       thumbnailURL: reel.thumbnailURL || '',
       videoURL: reel.videoResumeURL || '',
+      categories: reel.reelCategories?.join(", ") || "N/A",
+      size: reel.size || "N/A",
+      duration: reel.duration || "N/A",
+      dimensions: reel.dimensions || "N/A",
     });
   });
 
   // Render Table
   function renderTable(filteredReels) {
-    reelList.innerHTML = filteredReels.map(reel => `
+    reelList.innerHTML = filteredReels
+      .map(
+        (reel) => `
       <tr>
         <td><a href="${reel.videoResumeURL}" target="_blank">View Video</a></td>
         <td>${reel.title}</td>
         <td>${reel.status}</td>
         <td>${reel.views}</td>
-        <td>${reel.timestamp}</td>
+        <td>${reel.createdDate}</td>
         <td>
-          <div>
-            <button class="btn toggle-details-btn">Toggle Details</button>
-            </div>
+          <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
-           
-            <div class="details-container" style="display: none;">
-              <p>Video Categories: ${reel.reelCategories}</p>
-              <p>Video size: ${reel.size}</p>
-              <p>Video duration: ${reel.duration}</p>
-              <p>Video dimensions: ${reel.dimensions}</p>
-              <p>Video collection: ${reel.collection}</p>
-
-              <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
-              <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
-
-              <button class="btn delete-btn" data-id="${reel.id}">Delete</button>
-              <button class="btn delete-admin-btn" data-id="${reel.id}">Admin Delete</button>
-            </div>
-      
       </tr>
-    `).join('');
+      <tr class="details-container" id="details-${reel.id}" style="display: none;">
+        <td colspan="6">
+          <div>
+            <p><strong>Video Categories:</strong> ${reel.categories}</p>
+            <p><strong>Video Size:</strong> ${reel.size}</p>
+            <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
+            <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
+            <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
+            <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
+            <button class="btn delete-btn" data-id="${reel.id}">Delete</button>
+            <button class="btn delete-admin-btn" data-id="${reel.id}">Admin Delete</button>
+          </div>
+        </td>
+      </tr>
+    `
+      )
+      .join('');
   }
 
-  // Initial Render
   renderTable(reels);
 
-  // Add Event Listeners for Collapsible Details
-  document.querySelectorAll('.toggle-details-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-      const details = this.nextElementSibling;
-      details.style.display = details.style.display === 'none' ? 'block' : 'none';
+  // Add toggle functionality to the details section
+  document.querySelectorAll('.toggle-details-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const detailsRow = document.getElementById(`details-${button.dataset.id}`);
+      if (detailsRow.style.display === 'none') {
+        detailsRow.style.display = 'table-row';
+      } else {
+        detailsRow.style.display = 'none';
+      }
     });
   });
+
+
+
+
+
+
 
   // Add Search and Sort Functionality
   const searchInput = document.getElementById('search-input');
