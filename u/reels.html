@@ -1208,14 +1208,14 @@ async function loadVideoReels(userID) {
       </tr>
       <tr class="details-container" id="details-${reel.id}" style="display: none;">
         <td colspan="6">
-          <div class="details-area">
-            <div class="stats-area">
+          <div class="details-area" style="padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px;">
+            <div class="stats-area" style="margin-bottom: 10px;">
               <p><strong>Video Categories:</strong> ${reel.categories}</p>
               <p><strong>Video Size:</strong> ${reel.size}</p>
               <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
               <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
             </div>
-            <div class="btn-area">
+            <div class="btn-area" style="display: flex; gap: 10px;">
               <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
               <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
               <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
@@ -1227,19 +1227,20 @@ async function loadVideoReels(userID) {
       </tr>
     `
   )
-  .join('');
+  .join("");
 
 // Add toggle functionality
-document.querySelectorAll('.toggle-details-btn').forEach((button) => {
-  button.addEventListener('click', () => {
+document.querySelectorAll(".toggle-details-btn").forEach((button) => {
+  button.addEventListener("click", () => {
     const detailsRow = document.getElementById(`details-${button.dataset.id}`);
-    if (detailsRow.style.display === 'none') {
-      detailsRow.style.display = 'table-row';
+    if (detailsRow.style.display === "none") {
+      detailsRow.style.display = "table-row";
     } else {
-      detailsRow.style.display = 'none';
+      detailsRow.style.display = "none";
     }
   });
 });
+
 
   // Attach event listeners for edit and delete buttons
   document.querySelectorAll('.edit-btn').forEach(btn => 
