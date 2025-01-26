@@ -533,7 +533,19 @@ input[type="checkbox"]:hover {
     min-width: min-content;
     max-width: max-content;
 }
+.stats-area {
+    max-width: max-content;
 
+}
+.btn-area {
+    margin: auto;
+
+}
+.details-area {
+    max-width: max-content;
+
+
+}
   </style>
   
 </head>
@@ -1178,12 +1190,16 @@ async function loadVideoReels(userID) {
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
       </tr>
-      <div class="details-container" id="details-${reel.id}" style="display: none;">
 
+      <div class="details-container" id="details-${reel.id}" style="display: none;">
+            <div class="details-area">
+
+            <div class="stats-area">
             <p><strong>Video Categories:</strong> ${reel.categories}</p>
             <p><strong>Video Size:</strong> ${reel.size}</p>
             <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
             <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
+            </div>
 
             <div class="btn-area">
             <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
@@ -1191,6 +1207,7 @@ async function loadVideoReels(userID) {
             <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
             <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}"
              data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
+            </div>
             </div>
 
       </div>
@@ -1204,7 +1221,7 @@ async function loadVideoReels(userID) {
     button.addEventListener('click', () => {
       const detailsRow = document.getElementById(`details-${button.dataset.id}`);
       if (detailsRow.style.display === 'none') {
-        detailsRow.style.display = 'table-row';
+        detailsRow.style.display = 'block';
       } else {
         detailsRow.style.display = 'none';
       }
