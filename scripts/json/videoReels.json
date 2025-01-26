@@ -318,7 +318,7 @@
     "duration": 0,
     "likes": 0,
     "loves": 0,
-    "views": 0,
+    "views": 1,
     "profileURL": "https://reelcareer.co/u/?u=ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "thumbnailURL": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2FXK7D5KYRngVHNy97yDXE%2Fthumbnail%2F1737869943266_Charity.PNG?alt=media&token=d0cec99f-2aed-4b4f-a33c-56e3d3e09b1b",
     "videoResumeTitle": "test the #hash #tags",
@@ -339,12 +339,12 @@
     "endingCard": "",
     "relatedReels": [
       {
-        "reelcreatedDate": "2025-01-26T04:18:45.565Z",
         "reelTags": [],
+        "reelID": "CfXizSsyv0YBkj4mVrwp",
+        "reelcreatedDate": "2025-01-26T04:18:45.565Z",
         "reelURL": "https://reelcareer.co/reels/?r=CfXizSsyv0YBkj4mVrwp",
-        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fundefined-testthe%23-reel.mp4?alt=media&token=5a9e84dc-e443-4543-a435-30158acae0d0",
         "videoResumeTitle": "test the #hash #tags",
-        "reelID": "CfXizSsyv0YBkj4mVrwp"
+        "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fundefined-testthe%23-reel.mp4?alt=media&token=5a9e84dc-e443-4543-a435-30158acae0d0"
       }
     ],
     "relatedURL": "",
@@ -356,7 +356,7 @@
     "uniqueViews": 0,
     "repeatViews": 0,
     "videoPlacement": [],
-    "watchTime": "",
+    "watchTime": 62,
     "commentsBool": true,
     "giftsBool": true,
     "isPublic": true,
