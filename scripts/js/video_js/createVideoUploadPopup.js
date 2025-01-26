@@ -736,7 +736,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
   // Set booleans based on whether values exist
   const updatedRelatedURLBool = updatedRelatedURL ? true : false;
   const updatedLocationBool = updatedLocation ? true : false;
-  
+  let updatedCategories; 
   
   
    
@@ -843,7 +843,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
 
               relatedURL: updatedRelatedURL,
               relatedReels: relatedReelsArray,
-              reelCategories: updatedReelCategories,
+              reelCategories: updatedCategories,
               relatedProducts: relatedProductsArray,
               notifcationsBool: updatedNotificationsBool,
               commentsBool: updatedCommentsBool,
@@ -1198,7 +1198,7 @@ function setupCategoryButtons({
 
       // Process updated categories
       const tagsInput = inputField.value.trim();
-      const updatedCategories = tagsInput
+       updatedCategories = tagsInput
         ? tagsInput.split(',').map(tag => tag.toLowerCase().trim())
         : [];
       console.log('Updated Categories:', updatedCategories);
