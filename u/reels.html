@@ -1179,8 +1179,7 @@ async function loadVideoReels(userID) {
         </td>
       </tr>
       <tr class="details-container" id="details-${reel.id}" style="display: none;">
-        <td colspan="6">
-          <div>
+
             <p><strong>Video Categories:</strong> ${reel.categories}</p>
             <p><strong>Video Size:</strong> ${reel.size}</p>
             <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
@@ -1189,8 +1188,7 @@ async function loadVideoReels(userID) {
             <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
             <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
             <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
-          </div>
-        </td>
+ 
       </tr>
     `
   )
