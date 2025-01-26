@@ -1189,10 +1189,12 @@ function checkCommaCount(event = {}) {
 // Adjust event listener
 const area = document.getElementById('tagsSET-reelCategories');
 
-area.querySelectorAll('.category-btn').forEach(button => {
+// Ensure the area element exists
+if (area) {
+  // Attach event listeners to all buttons with the class "category-btn" within the area
+  area.querySelectorAll('.category-btn').forEach(button => {
   button.addEventListener('click', function (e) {
     e.preventDefault();
-    const area = document.getElementById('tagsSET-reelCategories');
 
     const category = this.getAttribute('data-category');
     const input = document.getElementById('input_tagsContainerSET-reelCategories');
@@ -1219,8 +1221,9 @@ area.querySelectorAll('.category-btn').forEach(button => {
     // Check comma count
     checkCommaCount(event);
   });
-});
 
+});
+}
 
 
 
