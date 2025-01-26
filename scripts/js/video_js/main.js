@@ -469,7 +469,7 @@ const videoData = {
   tags: videoCard.dataset.tags                                 // Tags associated with the video
 };
 
-console.log("videoData:", videoData);
+console.log("videoData from card:", videoData);
 
 const videoInterestEntry = {
   searchableTitle: videoData.searchableTitle || [],
