@@ -567,7 +567,7 @@ display: none;
               <button class="category-btn" data-category="Travel">Travel</button>
             </div>
             <div id="tagsContainerSET-reelCategories">
-              <input type="text" id="tagsSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., Design, Travel)">
+              <input type="text" id="input_tagsContainerSET-reelCategories" class="form-control" aria-label="Category Tags" placeholder="(e.g., Design, Travel)">
             </div>
           </div>
 
