@@ -1149,51 +1149,7 @@ function checkCommaCount() {
   }
 }
 
-// Add event listeners to category buttons
-const area = document.getElementById('categories-container');
 
-// Ensure the area element exists
-if (area) {
-  area.querySelectorAll('.category-btn').forEach(button => {
-    button.addEventListener('click', function (e) {
-      console.log('category click!');
-
-      e.preventDefault();
-
-      const category = this.getAttribute('data-category');
-      const input = document.getElementById('input_tagsContainerSET-reelCategories');
-
-      if (!input) {
-        console.error('Input field not found!');
-        return;
-      }
-
-      // Add the category to the input field with a comma
-      input.value += (input.value ? ', ' : '') + category;
-
-      console.log('Category added:', category);
-      const clearTagsButton = document.querySelectorAll('.clearTagsButton');
-
-      if (clearTagsButton) {
-        clearTagsButton.forEach(button => {
-          button.addEventListener('click', function (e) {
-            e.preventDefault();
-      
-          })
-      
-        })
-      
-      }
-
-      const tagsInput_reelCategories = document.getElementById('input_tagsContainerSET-reelCategories').value.trim();
-       updatedReelCategories = tagsInput_reelCategories ? tagsInput_reelCategories.split(",").map(item => item.toLowerCase().trim()) : [];
-      console.log("tagsInput_reelCategories  ",tagsInput_reelCategories);
-  
-      // Check the updated comma count
-      checkCommaCount();
-    });
-  });
-}
 
 window.checkCommaCount = checkCommaCount;
 
@@ -1207,6 +1163,73 @@ if (inputField) {
   });
 }
 
+function setupCategoryButtons({
+  containerId = 'categories-container',
+  inputFieldId = 'input_tagsContainerSET-reelCategories',
+  clearButtonClass = 'clearTagsButton',
+  onCategoryAdded = () => {},
+  onClearTags = () => {},
+}) {
+  const container = document.getElementById(containerId);
+
+  if (!container) {
+    console.error(`Container with ID '${containerId}' not found!`);
+    return;
+  }
+
+  // Add event listeners to category buttons
+  container.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', function (e) {
+      console.log('Category click!');
+
+      e.preventDefault();
+
+      const category = this.getAttribute('data-category');
+      const inputField = document.getElementById(inputFieldId);
+
+      if (!inputField) {
+        console.error(`Input field with ID '${inputFieldId}' not found!`);
+        return;
+      }
+
+      // Add the category to the input field with a comma
+      inputField.value += (inputField.value ? ', ' : '') + category;
+      console.log('Category added:', category);
+
+      // Process updated categories
+      const tagsInput = inputField.value.trim();
+      const updatedCategories = tagsInput
+        ? tagsInput.split(',').map(tag => tag.toLowerCase().trim())
+        : [];
+      console.log('Updated Categories:', updatedCategories);
+
+      // Execute optional callback when a category is added
+      if (typeof onCategoryAdded === 'function') {
+        onCategoryAdded(updatedCategories);
+      }
+
+      // Add clear tags functionality
+      const clearButtons = document.querySelectorAll(`.${clearButtonClass}`);
+      if (clearButtons.length > 0) {
+        clearButtons.forEach(clearButton => {
+          clearButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            inputField.value = ''; // Clear the input field
+            console.log('Tags cleared.');
+
+            // Execute optional callback when tags are cleared
+            if (typeof onClearTags === 'function') {
+              onClearTags();
+            }
+          });
+        });
+      }
+
+      // Call function to check the updated comma count (if applicable)
+      checkCommaCount(); // Ensure this function exists in your scope
+    });
+  });
+}
 
 
 
@@ -1216,6 +1239,19 @@ function handleUserAuthentication() {
   if (user) {
     createVideoUploadPopup();
     initializeVideoUploadHandlers();
+
+    setupCategoryButtons({
+      containerId: 'categories-container',
+      inputFieldId: 'input_tagsContainerSET-reelCategories',
+      clearButtonClass: 'clearTagsButton',
+      onCategoryAdded: (updatedCategories) => {
+        console.log('Categories after update:', updatedCategories);
+      },
+      onClearTags: () => {
+        console.log('Tags have been cleared!');
+      },
+    });
+    
   } else {
     openPopupLogin();
   }
