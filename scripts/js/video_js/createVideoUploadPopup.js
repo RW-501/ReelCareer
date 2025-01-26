@@ -1185,7 +1185,7 @@ function setupCategoryButtons({
       e.preventDefault();
 
       const category = this.getAttribute('data-category');
-      const inputField = document.getElementById(inputFieldId);
+      const inputField = document.getElementById('input_tagsContainerSET-reelCategories');
 
       if (!inputField) {
         console.error(`Input field with ID '${inputFieldId}' not found!`);
