@@ -470,7 +470,7 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
     let videoResumeURL = '';
 
     try {
-        
+
     const userDataSaved = getUserData() || {};
     const userID = auth.currentUser?.uid || userDataSaved.userID;
 
@@ -694,6 +694,9 @@ function initializeVideoUploadHandlers() {
     let userDataSaved; 
     let userID;
     
+
+         userDataSaved = getUserData() || {};
+         userID = auth.currentUser?.uid || userDataSaved.userID;
 
     document.getElementById("uploadVideosBtn").addEventListener("click", async () => {
 
