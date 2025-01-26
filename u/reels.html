@@ -675,20 +675,28 @@ input[type="checkbox"]:hover {
             
             <section id="video-reels" class="pageViews" >
                 <h2>Your Reels</h2>
-                <table>
+                <div>
+                    <input id="search-input" type="text" placeholder="Search by title" />
+                    <select id="sort-select">
+                      <option value="createdDate">Sort by Created Date</option>
+                      <option value="views">Sort by Views</option>
+                    </select>
+                  </div>
+                  
+                  <table>
                     <thead>
-                        <tr>
-                            <th>Video</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Views</th>
-                            <th>Actions</th>
-                        </tr>
+                      <tr>
+                        <th>Video</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Views</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                      </tr>
                     </thead>
-                    <tbody id="reel-list">
-                        <!-- Reels will be dynamically loaded here -->
-                    </tbody>
-                </table>
+                    <tbody id="reel-list"></tbody>
+                  </table>
+                  
             </section>
 
 <!-- Edit Modal -->
@@ -1112,40 +1120,96 @@ input[type="checkbox"]:hover {
 });
 
 async function loadVideoReels(userID) {
+  console.log("userID: ", userID);
 
-    console.log("userID  ",userID);
+  const reelList = document.getElementById('reel-list');
+  reelList.innerHTML = ''; // Clear existing content
 
-    const reelList = document.getElementById('reel-list');
-    reelList.innerHTML = ''; // Clear existing content
+  const reelsQuery = query(
+    collection(db, "VideoResumes"),
+    where("createdByID", "==", userID),
+    where("isDeleted", "==", false)
+  );
+  const querySnapshot = await getDocs(reelsQuery);
 
-    //userID
-    const reelsQuery = query(
-  collection(db, "VideoResumes"),
-  where("createdByID", "==", userID),
-  where("isDeleted", "==", false)
-);
-    const querySnapshot = await getDocs(reelsQuery);
+  let reels = [];
 
-    querySnapshot.forEach(doc => {
-        const reel = doc.data();
-
-        let videoResumeURL = `https://reelcareer.co/reels/?r=${doc.id}`;
-        const row = `
-            <tr>
-                <td><a href="${videoResumeURL}" target="_blank">View Video</a></td>
-                <td>${reel.videoResumeTitle || 'N/A'}</td>
-                <td>${reel.status}</td>
-                <td>${reel.views}</td>
-                <td>
-                    <button class="btn edit-btn" data-id="${doc.id}">Edit</button>
-                    <button class="btn analytics-btn" data-id="${doc.id}">Analytics</button>
-                    <button class="btn delete-btn"   data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Delete</button>
-                    <button class="btn delete-admin-btn"   data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${doc.id}">Admin Delete</button>
-                </td>
-            </tr>
-        `;
-        reelList.innerHTML += row;
+  querySnapshot.forEach(doc => {
+    const reel = doc.data();
+    reels.push({
+      id: doc.id,
+      title: reel.videoResumeTitle || 'N/A',
+      status: reel.status,
+      views: reel.views,
+      createdDate: new Date(reel.reelcreatedDate).toLocaleString(),
+      videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
+      thumbnailURL: reel.thumbnailURL || '',
+      videoURL: reel.videoResumeURL || '',
     });
+  });
+
+  // Render Table
+  function renderTable(filteredReels) {
+    reelList.innerHTML = filteredReels.map(reel => `
+      <tr>
+        <td><a href="${reel.videoResumeURL}" target="_blank">View Video</a></td>
+        <td>${reel.title}</td>
+        <td>${reel.status}</td>
+        <td>${reel.views}</td>
+        <td>${reel.createdDate}</td>
+        <td>
+          <div>
+            <button class="btn toggle-details-btn">Toggle Details</button>
+            <div class="details-container" style="display: none;">
+              <p>Thumbnail URL: ${reel.thumbnailURL}</p>
+              <p>Video URL: ${reel.videoURL}</p>
+
+              <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
+              <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
+
+              <button class="btn delete-btn" data-id="${reel.id}">Delete</button>
+              <button class="btn delete-admin-btn" data-id="${reel.id}">Admin Delete</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Initial Render
+  renderTable(reels);
+
+  // Add Event Listeners for Collapsible Details
+  document.querySelectorAll('.toggle-details-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const details = this.nextElementSibling;
+      details.style.display = details.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+
+  // Add Search and Sort Functionality
+  const searchInput = document.getElementById('search-input');
+  const sortSelect = document.getElementById('sort-select');
+
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredReels = reels.filter(reel =>
+      reel.title.toLowerCase().includes(searchTerm)
+    );
+    renderTable(filteredReels);
+  });
+
+  sortSelect.addEventListener('change', () => {
+    const sortBy = sortSelect.value;
+    const sortedReels = [...reels].sort((a, b) => {
+      if (sortBy === 'views') return b.views - a.views;
+      if (sortBy === 'createdDate') return new Date(b.createdDate) - new Date(a.createdDate);
+      return 0;
+    });
+    renderTable(sortedReels);
+  });
+}
+
 
     // Attach event listeners for edit and delete buttons
     document.querySelectorAll('.edit-btn').forEach(btn => 
@@ -1158,7 +1222,9 @@ document.querySelectorAll('.analytics-btn').forEach(btn =>
 
 document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
 document.querySelectorAll('.delete-admin-btn').forEach(btn => btn.addEventListener('click', handleDeleteAdmin));
-}
+
+
+
 // Helper function to format time
 function formatWatchTime(seconds) {
   const hours = Math.floor(seconds / 3600);
