@@ -519,12 +519,11 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
 window.postReelFunction = postReelFunction;
 
-function createThumbnailPicker(file, previewContainer, index) {
+function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB){
     const thumbnailPreviewPickerSection = document.getElementById('thumbnailPreviewPickerSection');
     const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume an image element for showing preview
     const videoElement = document.createElement('video');
     let thumbnailBlob = null;
-    let videoDuration;
 
     console.log("file:", file);
 
@@ -559,17 +558,18 @@ function createThumbnailPicker(file, previewContainer, index) {
     }
 
     videoElement.id = "videoToUpload";
+     videoDuration = duration;
 
     videoElement.onloadedmetadata = () => {
-        videoDuration = videoElement.duration;
+        let metaVideoDuration = videoElement.duration;
 
         // Create range slider for custom seeking
         const slider = document.createElement('input');
         slider.type = 'range';
         slider.min = '0';
-        slider.max = videoDuration.toString();
+        slider.max = metaVideoDuration.toString();
         slider.step = '0.1';
-        slider.value = (videoDuration / 2).toString();
+        slider.value = (metaVideoDuration / 2).toString();
         slider.id = 'thumbnailSlider';
 
         thumbnailPreviewPickerSection.appendChild(slider);
@@ -614,7 +614,7 @@ function createThumbnailPicker(file, previewContainer, index) {
 
 
         // Initialize with middle frame
-        updateThumbnail(videoDuration / 2);
+        updateThumbnail(metaVideoDuration / 2);
 
         // Add event listener for slider to update thumbnail
         slider.addEventListener('input', (event) => {
@@ -624,7 +624,8 @@ function createThumbnailPicker(file, previewContainer, index) {
     };
 
 
-    return videoDuration;
+    return   videoElement;
+
 }
 
 window.createThumbnailPicker = createThumbnailPicker;
@@ -653,42 +654,62 @@ function initializeVideoUploadHandlers() {
     });
 
     // Handle file input changes
-    fileInput.addEventListener("change", (e) => {
+    fileInput.addEventListener("change", async (e) => {
         const files = e.target.files;
-
+      
         if (files.length === 0) {
-            showToast("Please select valid video files.");
-            return;
+          showToast("Please select valid video files.");
+          return;
         }
-
+      
         // Filter out files that are not videos
         const videoFiles = Array.from(files).filter(file => file.type.split("/")[0] === "video");
-
+      
         if (videoFiles.length === 0) {
-            showToast("Please select valid video files.");
-            return;
+          showToast("Please select valid video files.");
+          return;
         }
+      
         if (videoFiles.length > 1) {
-            showToast("Multiple Upload.");
-            isMultipleUpload = true;
-        }else{
-            isMultipleUpload = false;
-
+          showToast("Multiple Upload.");
+          isMultipleUpload = true;
+        } else {
+          isMultipleUpload = false;
         }
-
+      
         // Store the valid video files
         uploadedFiles = videoFiles;
+      
         console.log("uploadedFiles:", uploadedFiles);
-
+      
         // Clear previous thumbnails and preview
         const previewContainer = document.getElementById("reelVideoPreview");
-        // previewContainer.innerHTML = ""; // Clear previous previews
-
-        // Create a thumbnail and add a preview for each video
+        previewContainer.innerHTML = ""; // Clear previous previews
+      
+        // Process each video file to get duration and size
         uploadedFiles.forEach((file, index) => {
-            createThumbnailPicker(file, previewContainer, index);
+          const videoURL = URL.createObjectURL(file); // Create a temporary URL for the video
+          const videoElement = document.createElement("video"); // Create a video element to load the file
+      
+          videoElement.src = videoURL;
+      
+          videoElement.addEventListener("loadedmetadata", () => {
+            const duration = videoElement.duration; // Get video duration in seconds
+            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); // Convert file size to MB
+      
+            console.log(`Video ${index + 1}:`);
+            console.log(`- Duration: ${duration.toFixed(2)} seconds`);
+            console.log(`- Size: ${sizeInMB} MB`);
+      
+            // Add the thumbnail and metadata preview
+            createThumbnailPicker(file, previewContainer, index, duration, sizeInMB);
+      
+            // Revoke the object URL after use
+            URL.revokeObjectURL(videoURL);
+          });
         });
-    });
+      });
+      
 
 
     let videoDataArray = []; // Array to hold multiple video data objects
@@ -736,6 +757,7 @@ function initializeVideoUploadHandlers() {
             videoResumeCaptions: description || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             videoResumeTitle:  videoResumeTitle || file.name.replace(/\.[^/.]+$/, '').replace(/[_\-\.]+/g, ' '),
             duration: file.duration,
+            size: file.size,
 
 
         }));
