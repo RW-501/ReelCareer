@@ -712,6 +712,8 @@ document.getElementById('input_tagsContainerSET-reelCategories').addEventListene
 document.getElementById('clearTagsButton_tagsContainerSET-reelCategories').addEventListener('click', function() {
     const tagsInputElement = document.getElementById('input_tagsContainerSET-reelCategories');
     tagsInputElement.value = ''; // For fallback compatibility if it's a regular input field
+    checkCommaCount();
+
 });
 
 
