@@ -1175,12 +1175,23 @@ async function loadVideoReels(userID) {
 
   querySnapshot.forEach(doc => {
     const reel = doc.data();
+
+    const createdDate = new Date(reel.createdAt).toLocaleString('en-US', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+});
+console.log(createdDate); // Output: "01/25/2025, 12:34:56 PM"
+
     reels.push({
       id: doc.id,
       title: reel.videoResumeTitle || 'N/A',
       status: reel.status,
       views: reel.views,
-      createdDate: new Date(reel.timestamp).toLocaleString(),
+      createdDate: createdDate,
       videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
       thumbnailURL: reel.thumbnailURL || '',
       videoURL: reel.videoResumeURL || '',
