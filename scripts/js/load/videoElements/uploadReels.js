@@ -241,7 +241,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         videoResumeCaptions: videoData.videoResumeCaptions || '',
         videoResumeTitle: videoResumeTitle || '',
         thumbnailURL: videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
-        videoResumeURL: videoData.videoResumeURL || '',
+        videoResumeURL: videoResumeURL || '',
         videoResumeFileName: videoData.name || '',
         duration: videoData.duration || 0,
         fileType: videoData.fileType || '',
@@ -536,8 +536,6 @@ function createThumbnailPicker(file, previewContainer, index) {
     if (!previewContainer) {
         console.warn("previewContainer is not defined or not found in the DOM.");
          previewContainer = document.querySelector(".videoElements");
-
-    
     }
     
     if (file && file.type && file.type.startsWith('video/')) {
