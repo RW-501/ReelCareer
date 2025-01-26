@@ -533,24 +533,20 @@ input[type="checkbox"]:hover {
     min-width: min-content;
     max-width: max-content;
 }
-.stats-area {
-    max-width: max-content;
-
-}
-
 .details-container {
-    width: 100%;
-
-}
-.btn-area {
-    margin: auto;
-
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
 }
 .details-area {
-    max-width: max-content;
-
-
+  padding: 15px;
 }
+.stats-area {
+  margin-bottom: 10px;
+}
+.btn-area button {
+  margin-right: 10px;
+}
+
   </style>
   
 </head>
@@ -1195,43 +1191,39 @@ async function loadVideoReels(userID) {
           <button class="btn toggle-details-btn" data-id="${reel.id}">Toggle Details</button>
         </td>
       </tr>
-
-      <div class="details-container" id="details-${reel.id}" style="display: none;">
-            <div class="details-area">
-
+      <tr class="details-container" id="details-${reel.id}" style="display: none;">
+        <td colspan="6">
+          <div class="details-area">
             <div class="stats-area">
-            <p><strong>Video Categories:</strong> ${reel.categories}</p>
-            <p><strong>Video Size:</strong> ${reel.size}</p>
-            <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
-            <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
+              <p><strong>Video Categories:</strong> ${reel.categories}</p>
+              <p><strong>Video Size:</strong> ${reel.size}</p>
+              <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
+              <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
             </div>
-
             <div class="btn-area">
-            <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
-            <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
-            <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
-            <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}"
-             data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
+              <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
+              <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
+              <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
+              <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}" 
+              data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
             </div>
-            </div>
-
-      </div>
+          </div>
+        </td>
+      </tr>
     `
   )
   .join('');
 
-
-  // Add toggle functionality to the details section
-  document.querySelectorAll('.toggle-details-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      const detailsRow = document.getElementById(`details-${button.dataset.id}`);
-      if (detailsRow.style.display === 'none') {
-        detailsRow.style.display = 'block';
-      } else {
-        detailsRow.style.display = 'none';
-      }
-    });
+document.querySelectorAll('.toggle-details-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    const detailsRow = document.getElementById(`details-${button.dataset.id}`);
+    if (detailsRow.style.display === 'none') {
+      detailsRow.style.display = 'table-row';
+    } else {
+      detailsRow.style.display = 'none';
+    }
   });
+});
 
   // Attach event listeners for edit and delete buttons
   document.querySelectorAll('.edit-btn').forEach(btn => 
