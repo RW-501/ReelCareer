@@ -469,6 +469,8 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
 
     let videoResumeURL = '';
 
+    try {
+        
     const userDataSaved = getUserData() || {};
     const userID = auth.currentUser?.uid || userDataSaved.userID;
 
@@ -488,7 +490,6 @@ async function postReelFunction(videoResumeTitle, videoResumeCaptions, uploadedF
     const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, '');
 
 
-    try {
         const videoData = {
             duration: videoDuration,
             name: fileName,
