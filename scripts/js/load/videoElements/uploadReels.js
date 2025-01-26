@@ -243,7 +243,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         thumbnailURL: videoData.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png',
         videoResumeURL: videoResumeURL || '',
         videoResumeFileName: videoData.name || '',
-        duration: videoData.duration || 0,
+        duration: videoData.duration / 2 || 0,
         size: videoData.size || 0,
         dimensions: videoData.dimensions || '',
         fileType: videoData.fileType || '',
