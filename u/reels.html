@@ -1184,11 +1184,15 @@ async function loadVideoReels(userID) {
             <p><strong>Video Size:</strong> ${reel.size}</p>
             <p><strong>Video Duration:</strong> ${reel.duration} seconds</p>
             <p><strong>Video Dimensions:</strong> ${reel.dimensions}</p>
+
+            <div class="btn-area">
             <button class="btn edit-btn" data-id="${reel.id}">Edit</button>
             <button class="btn analytics-btn" data-id="${reel.id}">Analytics</button>
             <button class="btn delete-btn" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Delete</button>
-            <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}" data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
- 
+            <button class="btn delete-admin-btn" data-thumbnailURL="${reel.thumbnailURL}"
+             data-video_url="${reel.videoResumeURL}" data-id="${reel.id}">Admin Delete</button>
+            </div>
+
       </tr>
     `
   )
