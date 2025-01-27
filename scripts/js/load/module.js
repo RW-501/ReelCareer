@@ -180,6 +180,84 @@ import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
 import {  } from 'https://reelcareer.co/scripts/js/load/elements/observer.js';
 //import {  } from 'https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js';
 
+
+
+
+const DEBUG = true;
+if (DEBUG) console.log("Debug on");
+
+/**
+ * Utility function to dynamically load a stylesheet.
+ * @param {string} href - The URL of the stylesheet.
+ */
+function loadStylesheet(href) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.appendChild(link);
+  if (DEBUG)  console.log(`Stylesheet loaded: ${href}`);
+}
+
+/**
+* Utility function to dynamically load a script.
+* @param {string} src - The URL of the script.
+* @param {object} attributes - Additional attributes for the script tag.
+* @param {function} callback - Optional callback to execute after the script loads.
+*/
+function loadScript(src, attributes = {}, callback) {
+  const script = document.createElement('script');
+  script.src = src;
+
+  Object.keys(attributes).forEach(key => {
+      script[key] = attributes[key];
+  });
+
+  if (callback) {
+      script.onload = callback;
+  }
+
+  document.body.appendChild(script);
+  if (DEBUG)  console.log(`Script loaded: ${src}`);
+}
+
+/**
+* Utility function to log script execution time.
+* @param {string} name - The name of the script or resource.
+* @param {number} startTime - The start time for the resource.
+*/
+function logExecutionTime(name, startTime) {
+  if (DEBUG)   console.log(`${name} loaded in ${(performance.now() - startTime).toFixed(2)} ms`);
+}
+
+// Start loading resources
+loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+logExecutionTime('FontAwesome CSS', performance.now());
+
+loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { defer: true }, () => {
+  logExecutionTime('Toast Notifications', performance.now());
+});
+
+loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
+  logExecutionTime('Logo', performance.now());
+
+  loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: false }, () => {
+      logExecutionTime('ecode Script', performance.now());
+
+      loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false, type: 'module' }, () => {
+          logExecutionTime('auth Script', performance.now());
+
+          loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
+              logExecutionTime('Navigation Bar', performance.now());
+          });
+      });
+  });
+});
+
+
+
+
+
+
 // Export Firestore, Storage, and Auth instances for use in other modules
 export {
   db, getStorage, ref, uploadBytes, getDownloadURL, limit,

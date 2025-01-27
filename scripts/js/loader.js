@@ -194,7 +194,7 @@ function preLoadPageScripts() {
 
 
 
-
+/* 
 
     // Load FontAwesome CSS
     loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
@@ -224,11 +224,13 @@ function preLoadPageScripts() {
         loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
+
+
         });
-
-      
+ 
     });
-
+ */
+     
     loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
         logExecutionTime('meta', performance.now());
     });
