@@ -736,7 +736,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
   // Set booleans based on whether values exist
   const updatedRelatedURLBool = updatedRelatedURL ? true : false;
   const updatedLocationBool = updatedLocation ? true : false;
-  let updatedCategories; 
+  
   
   
    

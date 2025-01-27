@@ -430,7 +430,7 @@ contactOnly = false, contactID ) {
       console.log("connectionType:", connectionType);
 console.log("includeConnected:", includeConnected);
 console.log("tagFilter:", tagFilter);
-
+let connectedUserIds = null;
 
 if(!userId){
   const user = auth.currentUser;
@@ -441,7 +441,7 @@ if(!userId){
 
 if(userId){
 const connectedUserData = await getConnectedUserIds(connectionType);
-const connectedUserIds = connectedUserData.map(user => user.id);
+ connectedUserIds = connectedUserData.map(user => user.id);
 
 populateSidePanelContacts(connectedUserData);
 
