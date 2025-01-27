@@ -253,12 +253,17 @@ function renderVideos(docs, container, connectedUserIds, userId) {
     </div>
   
     <div class="extra-container">
+
       <div class="video-Extra">${
-        videoData.videoResumeTitle || "Resume Content Area Coming Soon"
+       '' || "Resume Content Area Coming Soon"
       }</div>
   
     </div>
-  
+            <div class="video-title">${
+        videoData.videoResumeTitle || "Resume Content Area Coming Soon"
+      }
+    </div>
+
     <div class="caption-container">
       <p class="video-caption">${videoData.videoResumeCaptions || ""}</p>
     </div>
@@ -325,8 +330,25 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const likeButton = videoCard.querySelector(".like-btn");
       const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
       const giftButton = videoCard.querySelector(".gift-button");
-  
+
+      const realCareerVidLogo = videoCard.querySelector(".realCareerVidLogo");
+      const videoTitleBtn = videoCard.querySelector(".video-title");
+      
       // Add event listeners only if the buttons exist
+
+      if (realCareerVidLogo) {
+        realCareerVidLogo.addEventListener("click", () => {
+          window.location = `https://reelcareer.co/watch/?v=${docId}`;
+        });
+      }
+      
+      if (videoTitleBtn) {
+        videoTitleBtn.addEventListener("click", () => {
+          window.location = `https://reelcareer.co/watch/?v=${docId}`;
+        });
+      }
+      
+
       if (giftButton) {
         giftButton.addEventListener("click", () =>
           handleSendGift(createdByID, displayName, videoTitle, docId, userId)
