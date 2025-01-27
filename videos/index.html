@@ -546,7 +546,11 @@ populateSidePanelContacts(connectedUserData);
   
                 });
                 console.log("Filtered and processed video data:", videoDataArray);
-                renderVideos(videoDataArray, videoContainer, connectedUserIds, userId);
+                console.log("Preparing to render videos...");
+setTimeout(() => {
+  renderVideos(videoDataArray, videoContainer, connectedUserIds, userId);
+  console.log("Videos rendered!");
+}, 500);
 
             } else {
                 videoContainer.innerHTML = "<p>No video resumes available after filtering obituaries.</p>";
