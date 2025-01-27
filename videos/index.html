@@ -427,24 +427,25 @@ contactOnly = false, contactID ) {
     try {
 
 
-      const user = auth.currentUser;
-
-if(!userId){
-  userId = auth.currentUser.uid; // Logged-in user ID
-
-}
-
-console.log("connectionType:", connectionType);
+      console.log("connectionType:", connectionType);
 console.log("includeConnected:", includeConnected);
 console.log("tagFilter:", tagFilter);
 
 
-        // Fetch connected user IDs if needed
-        const connectedUserData = await getConnectedUserIds(connectionType);
+if(!userId){
+  const user = auth.currentUser;
+  if(user){
+    userId = auth.currentUser.uid; // Logged-in user ID
+  }
+}
+
+if(userId){
+const connectedUserData = await getConnectedUserIds(connectionType);
 const connectedUserIds = connectedUserData.map(user => user.id);
 
 populateSidePanelContacts(connectedUserData);
 
+  }
 
 
 
