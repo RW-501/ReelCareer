@@ -12,6 +12,8 @@ import {
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 let isMultipleUpload = false;
+const DEBUG = true;
+if (DEBUG) console.log("Debug on");
 
 // Upload Video Resume to Firebase Storage
 
@@ -25,8 +27,8 @@ async function uploadVideoResume(
     const reelsOptionsArea = document.getElementById("reels-more-options-area");
     reelsOptionsArea.classList.remove("hidden");
 
-    console.log("videoDuration:", videoDuration);
-    console.log("uploadedFile:", uploadedFile);
+    if (DEBUG) console.log("videoDuration:", videoDuration);
+    if (DEBUG) console.log("uploadedFile:", uploadedFile);
 
     if (reelsOptionsArea) {
       reelsOptionsArea.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -129,7 +131,7 @@ window.uploadVideoResume = uploadVideoResume;
 
 function removeStopWords(text, stopWordsSet) {
   if (!text) {
-    console.warn("No text provided to remove stop words.");
+   // console.warn("No text provided to remove stop words.");
     return [];
   }
 
@@ -164,15 +166,15 @@ const stopWords = new Set([
 // Function to extract hashtags and store them in an array
 function extractHashtags(caption) {
   if (!caption) {
-    console.warn("Caption is undefined or null");
+   // console.warn("Caption is undefined or null");
     return []; // Avoid further errors
   }
 
-  console.log("Extracting hashtags from:", caption);
+  //console.log("Extracting hashtags from:", caption);
 
   // Extract only words starting with '#'
   const words = caption.match(/#\w+/g) || []; // This pattern strictly matches hashtags
-  console.log("Hashtags found:", words);
+  if (DEBUG) console.log("Hashtags found:", words);
 
   // Filter out stop words and limit to 15 unique tags
   const filteredTags = words
@@ -217,8 +219,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
   const originalFileName = videoData.originalFileName;
 
-  console.log("originalFileName: ", originalFileName);
-  console.log("videoResumeTitle: ", videoResumeTitle);
+  if (DEBUG)  console.log("originalFileName: ", originalFileName);
+  if (DEBUG) console.log("videoResumeTitle: ", videoResumeTitle);
   const searchableVideoResumeTitle = removeStopWords(
     videoResumeTitle,
     stopWords
@@ -318,7 +320,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
   let reelID = "";
 
-  // console.log("videoResumeData: ", videoResumeData);
+  if (DEBUG)  console.log("videoResumeData: ", videoResumeData);
 
   try {
     const reelDocRef = await addDoc(
@@ -338,7 +340,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
       reelID: reelID,
       reelURL: reelURL
     });
-    console.log("Successfully updated reel document with: ", {
+    if (DEBUG)  console.log("Successfully updated reel document with: ", {
       reelID,
       reelURL
     });
@@ -395,7 +397,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
     let userData = setUserData(updatedUserData);
     localStorage.setItem("userData", userData);
-    console.log("LocalStorage userData updated with: ", updatedUserData);
+    if (DEBUG)   console.log("LocalStorage userData updated with: ", updatedUserData);
     showToast("Reel Saved successfully.");
   } catch (error) {
     console.error("Error setting or saving user data locally: ", error, {
@@ -414,7 +416,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
   // Place your control logic here only if the elements are present
   const uploadContainer = document.getElementById("reel-upload-container");
   if (!uploadContainer) {
-    console.log("No Upload container found.");
+    console.warn("No Upload container found.");
 
     createVideoUploadPopup();
     document.getElementById("uploadArea").classList.add("hidden");
@@ -422,7 +424,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
   } else {
     if (uploadContainer && uploadContainer.style.display === "none") {
       uploadContainer.style.display = "block";
-      console.log("Upload container found, It was hidden.");
+      if (DEBUG)   console.log("Upload container found, It was hidden.");
     } else if (uploadContainer && uploadContainer.style.display === "block") {
       console.log("Upload container found. and is open");
 
@@ -521,10 +523,10 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
     const videoElement = document.createElement('video');
     let thumbnailBlob = null;
 
-    console.log("file:", file);
+    if (DEBUG)  console.log("file:", file);
 
-    console.log("videoElement:", videoElement);
-    console.log("previewContainer:", previewContainer);
+    if (DEBUG)   console.log("videoElement:", videoElement);
+    if (DEBUG)  console.log("previewContainer:", previewContainer);
 
     if (!videoElement) {
         console.warn("videoElement is not defined or not found in the DOM.");
@@ -543,8 +545,8 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
         previewContainer.hidden = false; // Ensure the preview container is visible
         videoElement.hidden = false;    // Ensure the main video element is visible
 
-        console.log('file:', file);
-        console.log(' URL.createObjectURL(file);:', previewContainer.src);
+        if (DEBUG)     console.log('file:', file);
+        if (DEBUG)    console.log(' URL.createObjectURL(file);:', previewContainer.src);
 
     } else if (file) {
         videoElement.src = file;  // Handle non-video file as a fallback
@@ -555,7 +557,7 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
 
     videoElement.id = "videoToUpload";
      videoDuration = duration;
-     console.log('videoDuration:', videoDuration);
+     if (DEBUG)  console.log('videoDuration:', videoDuration);
      videoSizeInMB = sizeInMB;
 
     videoElement.onloadedmetadata = () => {
@@ -573,36 +575,36 @@ function createThumbnailPicker(file, previewContainer, index, duration, sizeInMB
         thumbnailPreviewPickerSection.appendChild(slider);
 
         const updateThumbnail = (time) => {
-            console.log('updateThumbnail called with time:', time);
+            if (DEBUG)    console.log('updateThumbnail called with time:', time);
 
             videoElement.currentTime = time;
             videoElement.crossOrigin = 'anonymous'; // Enable cross-origin support
-            console.log('videoElement currentTime set to:', videoElement.currentTime);
+            if (DEBUG)    console.log('videoElement currentTime set to:', videoElement.currentTime);
 
             videoElement.onseeked = () => {
-                console.log('onseeked event triggered');
+                if (DEBUG)        console.log('onseeked event triggered');
 
                 const canvas = document.createElement('canvas');
-                console.log('Created canvas element:', canvas);
+                if (DEBUG)     console.log('Created canvas element:', canvas);
 
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
-                console.log('Canvas dimensions set to:', canvas.width, 'x', canvas.height);
+                if (DEBUG)   console.log('Canvas dimensions set to:', canvas.width, 'x', canvas.height);
                 videoDimensions = `${canvas.width, 'x', canvas.height}`;
 
                 const ctx = canvas.getContext('2d');
-                console.log('Canvas rendering context obtained:', ctx);
+                if (DEBUG)    console.log('Canvas rendering context obtained:', ctx);
 
                 ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                console.log('Image drawn on canvas from videoElement at time:', videoElement.currentTime);
+                if (DEBUG)     console.log('Image drawn on canvas from videoElement at time:', videoElement.currentTime);
 
                 // Convert canvas to Blob and update preview
                 canvas.toBlob((blob) => {
                     if (blob) {
-                        console.log('Blob created successfully:', blob);
+                        if (DEBUG)     console.log('Blob created successfully:', blob);
                         thumbnailBlob = blob;  // Store blob for upload
                         thumbnailPreview.src = URL.createObjectURL(blob);   // Update thumbnail image
-                        console.log('Thumbnail preview updated with blob URL:', thumbnailPreview.src);
+                        if (DEBUG)      console.log('Thumbnail preview updated with blob URL:', thumbnailPreview.src);
                     } else {
                         console.error('Failed to create thumbnail blob.');
                     }
@@ -676,7 +678,7 @@ function initializeVideoUploadHandlers() {
         // Store the valid video files
         uploadedFiles = videoFiles;
       
-        console.log("uploadedFiles:", uploadedFiles);
+        if (DEBUG) console.log("uploadedFiles:", uploadedFiles);
       
         // Clear previous thumbnails and preview
         const previewContainer = document.getElementById("reelVideoPreview");
@@ -693,9 +695,9 @@ function initializeVideoUploadHandlers() {
             const duration = videoElement.duration; // Get video duration in seconds
             const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); // Convert file size to MB
       
-            console.log(`Video ${index + 1}:`);
-            console.log(`- Duration: ${duration.toFixed(2)} seconds`);
-            console.log(`- Size: ${sizeInMB} MB`);
+            if (DEBUG)   console.log(`Video ${index + 1}:`);
+            if (DEBUG)     console.log(`- Duration: ${duration.toFixed(2)} seconds`);
+            if (DEBUG)   console.log(`- Size: ${sizeInMB} MB`);
       
             // Add the thumbnail and metadata preview
             createThumbnailPicker(file, previewContainer, index, duration, sizeInMB);
@@ -738,7 +740,7 @@ function initializeVideoUploadHandlers() {
         const titleSnippet = videoResumeTitle.substring(0, 10);
         const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, '');
 
-        console.log('videoDuration:', videoDuration);
+        if (DEBUG)  console.log('videoDuration:', videoDuration);
 
         videoDataArray = uploadedFiles.map((file, index) => ({
             name: fileName,
@@ -759,7 +761,7 @@ function initializeVideoUploadHandlers() {
 
 
         }));
-        console.log("videoDataArray:", videoDataArray);
+        if (DEBUG)  console.log("videoDataArray:", videoDataArray);
 
 
 
@@ -845,7 +847,7 @@ async function uploadMultipleVideoResumes(userID, videoDataArray) {
             await uploadVideoResume(userID, videoData);
 
             // Reset or clear the current video data if needed
-            console.log(`Upload complete for video: ${videoData.name}`);
+            if (DEBUG)    console.log(`Upload complete for video: ${videoData.name}`);
         } catch (error) {
             console.error(`Error uploading video ${videoData.name}:`, error);
             continue; // Continue to the next video in case of an error
