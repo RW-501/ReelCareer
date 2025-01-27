@@ -213,7 +213,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
   
     <div class="video-container">
       <video id="video_${docId}" class="video-element" ${videoMuted} poster="${
-        videoData.thumbnailURL || ""
+        '' || videoData.thumbnailURL || ""
       }">
         <source src="${videoData.videoResumeURL}" type="video/mp4">
         Your browser does not support the video tag.
