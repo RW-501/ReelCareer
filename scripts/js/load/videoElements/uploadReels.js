@@ -266,6 +266,8 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
         relatedURL: '',
         repeatViews: 0,
 
+        rating: 100,
+
         // Related Content
         relatedReels: relatedReels || [],
         reelCategories: [],  // Empty array by default

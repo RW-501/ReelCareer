@@ -10,7 +10,7 @@
   <meta name="language" content="en">
   <meta name="geo.region" content="US-TX">
   <meta name="geo.placename" content="Dallas, Texas">
-  
+
   <title>Video Reel Watch Page- Job Board | ReelCareer</title>
 
   <!-- Open Graph Meta Tags -->
@@ -239,12 +239,30 @@
       // Fetch video data from Firestore using the videoId
       async function fetchVideoData(videoId) {
         try {
-          const docRef = doc(db, 'videos', videoId);
-          const docSnap = await getDoc(docRef);
-          
-          if (docSnap.exists()) {
-            const videoData = docSnap.data();
-            renderVideoPage(videoData, videoId);
+
+
+        // Fetch video resumes from the local JSON file
+        const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
+        
+        // Log the response to make sure we get it
+        console.log("Response received:", response);
+
+        const data = await response.json();
+        
+        // Log the fetched data
+        console.log("Fetched data:", data);
+
+        const filteredData = data.filter(videoData => {
+                const isViewable = videoData.publicProfile && videoData.status.includes('posted') || videoData.isDeleted == false;
+                if (isViewable) {
+                    console.log("including video:", videoData.id);
+                }
+                return !isViewable;
+            });
+
+          if (filteredData) {
+            const videoData = data;
+            renderVideoPage(videoData, filteredData);
           } else {
             console.error('No such document!');
           }
