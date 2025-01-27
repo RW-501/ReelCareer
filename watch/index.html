@@ -234,45 +234,49 @@
     
       // Get the video ID from the URL
       const urlParams = new URLSearchParams(window.location.search);
-      const videoId = urlParams.get('v');
-    
-      // Fetch video data from Firestore using the videoId
-      async function fetchVideoData(videoId) {
-        try {
+const videoId = urlParams.get('v');
 
-
+// Fetch video data from Firestore using the videoId
+async function fetchVideoData(videoId) {
+    try {
         // Fetch video resumes from the local JSON file
         const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
-        
-        // Log the response to make sure we get it
+
+        // Log the response to ensure it's received
         console.log("Response received:", response);
 
         const data = await response.json();
-        
+
         // Log the fetched data
         console.log("Fetched data:", data);
 
+        // Filter video data based on the desired criteria
         const filteredData = data.filter(videoData => {
-                const isViewable = videoData.publicProfile && videoData.status.includes('posted') || videoData.isDeleted == false;
-                if (isViewable) {
-                    console.log("including video:", videoData.id);
-                }
-                return !isViewable;
-            });
+            const isViewable = videoData.publicProfile && videoData.status.includes('posted') && !videoData.isDeleted;
+            if (isViewable) {
+                console.log("Including video:", videoData.id);
+            }
+            return isViewable; // Keep viewable videos
+        });
 
-          if (filteredData) {
-            const videoData = data;
-            renderVideoPage(videoData, filteredData);
-          } else {
-            console.error('No such document!');
-          }
-        } catch (error) {
-          console.error('Error fetching video data:', error);
+        if (filteredData.length > 0) {
+            const videoData = filteredData.find(video => video.id === videoId);
+
+            if (videoData) {
+                renderVideoPage(videoData, filteredData);
+            } else {
+                console.error(`No video found with ID: ${videoId}`);
+            }
+        } else {
+            console.error('No valid videos found!');
         }
-      }
-    
-      fetchVideoData(videoId); // Fetch and display video data
-    
+    } catch (error) {
+        console.error('Error fetching video data:', error);
+    }
+}
+
+fetchVideoData(videoId); // Fetch and display video data
+
       // Render the video page dynamically
       function renderVideoPage(videoData, docId) {
         let videoDuration = parseFloat(videoData.duration.toFixed(2));
