@@ -1140,7 +1140,7 @@ function createVideoCard(video, categoryTitle = null) {
   thumbnail.className = 'video-thumbnail';
 
   const link = document.createElement('a');
-  link.href = video.videoResumeURL || `https://reelcareer.co/reels/?r=${video.reelURL}`;
+  link.href = video.videoResumeURL || `https://reelcareer.co/watch/?v=${video.reelURL}`;
   link.textContent = 'Watch Video';
   link.target = '_blank';
   link.className = 'watch-video-button';
@@ -1560,7 +1560,7 @@ function generateLocationList(data, locationMap) {
       thumbnail.className = 'video-thumbnail';
   
       const videoLink = document.createElement('a');
-      videoLink.href = `https://reelcareer.co/reels/?r=${video.reelURL}`;
+      videoLink.href = `https://reelcareer.co/watch/?v=${video.reelURL}`;
       videoLink.textContent = 'Watch Video';
       videoLink.target = '_blank';
       videoLink.className = 'watch-video-button';

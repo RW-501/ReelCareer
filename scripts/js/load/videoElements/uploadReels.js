@@ -327,7 +327,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
 
 
         // Update the videoResumeData with the new reelID and generate the reelURL
-        const reelURL = `https://reelcareer.co/reels/?r=${reelID}`;
+        const reelURL = `https://reelcareer.co/watch/?v=${reelID}`;
 
         // Update videoResumeData object in Firestore
         await updateDoc(reelDocRef, {
@@ -353,7 +353,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 tags: tags || [],
                 createdAt: createdAtDate,
                 status: 'posted',
-                reelURL: `https://reelcareer.co/reels/?r=${reelID}`
+                reelURL: `https://reelcareer.co/watch/?v=${reelID}`
             })
         });
 
@@ -367,7 +367,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                 reelID: reelID,
                 createdAt: createdAtDate,
                 status: 'posted',
-                reelURL: `https://reelcareer.co/reels/?r=${reelID}`,
+                reelURL: `https://reelcareer.co/watch/?v=${reelID}`,
             }
         });
     }
@@ -384,7 +384,7 @@ async function completeMetadataUpdate(userID, videoData, videoResumeURL) {
                     isPublic: true,
                     createdAt: createdAtDate,
                     status: 'posted',
-                    reelURL: `https://reelcareer.co/reels/?r=${reelID}`
+                    reelURL: `https://reelcareer.co/watch/?v=${reelID}`
                 }
             ]
         };

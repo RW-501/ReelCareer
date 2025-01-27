@@ -98,7 +98,7 @@ console.log("mediaSrc  ",mediaSrc);
 
     const viewVideoButton = overlay.querySelector(".view-video-button");
     viewVideoButton.addEventListener("click", () => {
-        window.location.href = `https://reelcareer.co/reels/?r=${idURL}`;
+        window.location.href = `https://reelcareer.co/watch/?v=${idURL}`;
     });
 
 };

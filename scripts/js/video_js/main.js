@@ -679,7 +679,7 @@ handleVideoInterestInput(videoInterestEntry);
       navigator.share({
         title: "Check out this Reel on ReelCareer!",
         text: videoResumeTitle,
-        url: `https://reelcareer.co/reels/?r=${videoID}`,
+        url: `https://reelcareer.co/watch/?v=${videoID}`,
         files: [file]  // Including a file
       })
       .then(() => {
@@ -961,7 +961,7 @@ if (videoCard) {
       videoTitle: videoResumeTitle,
       videoCreaterID: createdByID,
       videoCreaterDisplayName: displayName,
-      videoURL: `https://reelcareer.co/reels/?r=${videoId}`,
+      videoURL: `https://reelcareer.co/watch/?v=${videoId}`,
       reasons: selectedReasons,
       message: message,
       URL: window.location.href,
@@ -1359,7 +1359,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
     await addDoc(transactionsRefs, {
       giftType,
       videoID,
-      url: `https://reelcareer.co/reels/?r=${videoID}`,
+      url: `https://reelcareer.co/watch/?v=${videoID}`,
       pageName,
       paymentDetails,
       withdraw_amount: 0,

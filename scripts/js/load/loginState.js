@@ -171,7 +171,7 @@ const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) =>
           gifts: data.gifts || [], // Default to empty array if no gifts
           createdAt: data.createdAt.toDate(), // Assuming createdAt is a Firestore timestamp
           status: data.status || 'posted', // Default to 'posted' if no status
-          reelURL: `https://reelcareer.co/reels/?r=${data.reelID}` // Construct reel URL
+          reelURL: `https://reelcareer.co/watch/?v=${data.reelID}` // Construct reel URL
         });
       }
     });

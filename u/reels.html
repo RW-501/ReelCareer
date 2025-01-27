@@ -1183,7 +1183,7 @@ async function loadVideoReels(userID) {
       status: reel.status,
       views: reel.views,
       createdDate: new Date(reel.createdAt.seconds * 1000).toLocaleString(),
-      videoResumeURL: `https://reelcareer.co/reels/?r=${doc.id}`,
+      videoResumeURL: `https://reelcareer.co/watch/?v=${doc.id}`,
       thumbnailURL: reel.thumbnailURL || '',
       videoURL: reel.videoResumeURL || '',
       categories: reel.reelCategories?.join(", ") || "N/A",
@@ -1660,7 +1660,7 @@ document.getElementById('videoResumeFileName').value = reelData.videoResumeFileN
 document.getElementById('reelID').value = reelID || '';
 document.getElementById('fileType').value = reelData.fileType || '';
 document.getElementById('createdAt').value = reelData.createdAt ? reelData.createdAt.toDate().toLocaleDateString() : '';
-document.getElementById('reelURL').value = reelData.reelURL || `https://reelcareer.co/reels/?r=${reelID}`;
+document.getElementById('reelURL').value = reelData.reelURL || `https://reelcareer.co/watch/?v=${reelID}`;
 document.getElementById('duration').value = reelData.duration ? formatWatchTime(Math.round(reelData.duration)) : '0';
 document.getElementById('videoResumeCaptions').value = reelData.videoResumeCaptions || '';
 document.getElementById('tagsSET-main').value = reelData.tags ? reelData.tags.join(', ') : '';

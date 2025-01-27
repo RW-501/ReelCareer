@@ -492,7 +492,7 @@ populateSidePanelContacts(connectedUserData);
     
         // Verification and Stats
         verified: videoData.verified ?? false,  // Default to false if undefined
-        duration: videoData.duration || 0,
+        //duration: videoData.duration || 0,
         likes: videoData.likes || 0,
         loves: videoData.loves || 0,
         views: videoData.views || 0,
@@ -503,7 +503,13 @@ populateSidePanelContacts(connectedUserData);
         videoResumeCaptions: videoData.videoResumeCaptions || '',
         tags: videoData.tags || [],
         timestamp: videoData.timestamp || '',
-        
+        duration: videoData.duration / 2 || 0,
+        size: videoData.size || 0,
+        dimensions: videoData.dimensions || '',
+        fileType: videoData.fileType || '',
+        collection: videoData.collection || 'group_1',
+
+
         // Engagement and Reach Stats
         engagements: videoData.engagegments || 0,
         reach: videoData.reach || 0,
