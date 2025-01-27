@@ -245,13 +245,18 @@ loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async
           loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
               logExecutionTime('Navigation Bar', performance.now());
 
+              loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
+                logExecutionTime('Side Navigation Bar', performance.now());
+  
+                
+            });
               
           });
       });
   });
 });
 
-import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
+//import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
 import {  } from 'https://reelcareer.co/scripts/js/load/elements/observer.js';
 //import {  } from 'https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js';
 
