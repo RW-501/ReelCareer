@@ -556,7 +556,7 @@ videosQuery = query(
     
         // Verification and Stats
         verified: videoData.verified ?? false,  // Default to false if undefined
-        duration: videoData.duration || 0,
+        duration: videoData.duration / 2 || 0,
         likes: videoData.likes || 0,
         loves: videoData.loves || 0,
         views: videoData.views || 0,
