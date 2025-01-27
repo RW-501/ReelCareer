@@ -122,7 +122,14 @@ function createNavbar() {
   
     return `
       <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
-        <div class="container d-flex align-items-center justify-content-between">
+        <div id="main-nav-bar">
+
+            <div id="btn-menu" class="main-nav-menu-btn" aria-label="Toggle navigation menu">
+      <span id="btn-menu-text" class="menu-text">
+      <i id="menu-icon" class="fas fa-bars bar-icon" aria-hidden="true"></i>
+      </span>
+    </div>
+
           <!-- Logo -->
           <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
             ReelCareer

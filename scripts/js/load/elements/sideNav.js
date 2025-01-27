@@ -30,10 +30,7 @@ function insertSidePanelContent() {
 <nav id="side-nav" aria-label="Side Navigation">
 
   <div id="btn-menu-area" class="side-panel-menu">
-    <button id="btn-menu" class="side-nav-button" aria-label="Toggle navigation menu">
-      <i id="menu-icon" class="fas fa-bars bar-icon" aria-hidden="true"></i>
-      <span id="btn-menu-text" class="menu-text">Menu</span>
-    </button>
+
   </div>
 
   <div id="side-panel-group" role="navigation" aria-label="Main Navigation">
@@ -545,9 +542,9 @@ function insertSidePanelContent() {
 
 
 // Apply the styles
-mainContent.style.padding = '0';
+mainContent.style.padding = '5%';
 mainContent.style.borderRadius = '0';
-mainContent.style.margin = '5%';
+mainContent.style.margin = '0';
 mainContent.style.maxWidth = '100%';
 mainContent.style.width = '100%'; // This line you already mentioned
 
