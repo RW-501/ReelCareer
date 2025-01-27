@@ -607,15 +607,7 @@ styleElement.textContent = `
   visibility: visible;
 }
 
-#body-main {
-    display: flex;
-    width: 100%;
-    flex-flow: wrap;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    align-content: stretch;
-    align-items: stretch;
-}
+
 #body-main {
 
   /* Basic Styling for the <i> tags */
