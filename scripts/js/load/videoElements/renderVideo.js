@@ -13,6 +13,10 @@ facebookProvider,
 getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+const DEBUG = true;
+if (DEBUG) console.log("Debug on");
+
+
 
    // Handle videoData based on doc existence
    let videoData;
@@ -30,7 +34,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       const docId = doc.id; // Firestore Document ID
       // Check if this video is already in the container
       if (container.querySelector(`[data-doc-id="${docId}"]`)) {
-        console.log(`Video with docId ${docId} already rendered. Skipping.`);
+        if (DEBUG)  console.log(`Video with docId ${docId} already rendered. Skipping.`);
         return; // Skip rendering this video
       }
   
@@ -70,9 +74,9 @@ function renderVideos(docs, container, connectedUserIds, userId) {
 
       // Additional logic based on connection status (if necessary)
       if (isConnected) {
-        console.log(`${displayName} is connected to the logged-in user.`);
+        if (DEBUG)  console.log(`${displayName} is connected to the logged-in user.`);
       } else {
-        console.log(`${displayName} is NOT connected to the logged-in user.`);
+        if (DEBUG)   console.log(`${displayName} is NOT connected to the logged-in user.`);
       }
   /* 
       console.log("videoData.relatedReels:", videoData.relatedReels);
@@ -354,7 +358,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
           handleSendGift(createdByID, displayName, videoTitle, docId, userId)
         );
       }
-      console.log("giftButton: ", giftButton);
+    //  if (DEBUG)  console.log("giftButton: ", giftButton);
 
       if (reportVideoBtn) {
         reportVideoBtn.addEventListener("click", () => openReportModal(docId, videoData));
@@ -510,7 +514,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
         const data = doc.data();
         const isFromCurrentUser = data.from === userId;
         const isToCurrentUser = data.to === userId;
-
+        if (DEBUG) console.log("data ",data);
         /* 
         console.log("isFromCurrentUser ",isFromCurrentUser);
         console.log("isToCurrentUser ",isToCurrentUser);

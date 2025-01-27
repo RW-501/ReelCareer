@@ -11,12 +11,13 @@ import {
     getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-let isMultipleUpload = false;
 const DEBUG = true;
 if (DEBUG) console.log("Debug on");
 
-// Upload Video Resume to Firebase Storage
 
+let isMultipleUpload = false;
+
+// Upload Video Resume to Firebase Storage
 async function uploadVideoResume(
   userID,
   videoData,
