@@ -951,6 +951,7 @@ margins: auto;
 
 
 if (sidePanel) {
+  console.log("lastUpdateTime:", insertSidePanelContent);
 
   document.addEventListener('DOMContentLoaded', insertSidePanelContent);
 
