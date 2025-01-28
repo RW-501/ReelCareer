@@ -23,6 +23,7 @@ const currentPath = window.location.pathname;
 
 const sidePanel = document.getElementById('main-side-panel');
 
+console.log("sidePanel:", sidePanel);
 
 function insertSidePanelContent() {
 
