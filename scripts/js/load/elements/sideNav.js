@@ -653,6 +653,8 @@ styleElement.textContent = `
     width: fit-content;
     display: block;
     position: absolute;
+    z-index: 50000;
+    box-shadow: darkslategray;
 }
 
 #main-content {
