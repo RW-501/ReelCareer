@@ -443,7 +443,9 @@ if(userId){
 const connectedUserData = await getConnectedUserIds(connectionType);
  connectedUserIds = connectedUserData.map(user => user.id);
 
-populateSidePanelContacts(connectedUserData);
+ setTimeout(() => {
+    populateSidePanelContacts(connectedUserData);
+}, 500); // Delay of 500 milliseconds (0.5 seconds)
 
   }
 
