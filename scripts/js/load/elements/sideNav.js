@@ -961,7 +961,8 @@ margins: auto;
 if (sidePanel) {
   console.log("******************  insertSidePanelContent:");
 
-  document.addEventListener('DOMContentLoaded', insertSidePanelContent);
+ // document.addEventListener('DOMContentLoaded', );
+  insertSidePanelContent();
 
   document.head.appendChild(styleElement);
 
