@@ -520,7 +520,7 @@ function insertSidePanelContent() {
           sideNavList.style.display = 'block';
 
           mainSidePanel.style.width = 'fit-content';
-          mainContent.style.width = '59%';
+          mainContent.style.width = 'fit-content';
           sidePanelGroup.style.display = 'flex';
           document.querySelectorAll('.btn-text').forEach((text) => {
             text.style.display = 'none';
@@ -651,8 +651,8 @@ styleElement.textContent = `
 }
 #main-side-panel {
     width: fit-content;
-        display: block;
-
+    display: block;
+    position: absolute;
 }
 
 #main-content {
