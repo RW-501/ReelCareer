@@ -25,6 +25,9 @@ const sidePanel = document.getElementById('main-side-panel');
 
 
 function insertSidePanelContent() {
+
+  console.log("****************** inside  insertSidePanelContent:");
+
   if (sidePanel) {
     sidePanel.innerHTML = `
 <nav id="side-nav" aria-label="Side Navigation">
@@ -951,7 +954,7 @@ margins: auto;
 
 
 if (sidePanel) {
-  console.log("lastUpdateTime:", insertSidePanelContent);
+  console.log("******************  insertSidePanelContent:");
 
   document.addEventListener('DOMContentLoaded', insertSidePanelContent);
 
