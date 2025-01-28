@@ -30,6 +30,10 @@ function insertSidePanelContent() {
   console.log("****************** inside  insertSidePanelContent:");
 
   if (sidePanel) {
+
+    console.log("****************** inside  sidePanel:");
+
+
     sidePanel.innerHTML = `
 <nav id="side-nav" aria-label="Side Navigation">
 
