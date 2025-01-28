@@ -587,7 +587,10 @@ mainContent.style.width = '100%'; // This line you already mentioned
 const styleElement = document.createElement('style');
 styleElement.textContent = `
 
-
+#menu-icon i {
+    color: white;
+    margin: 0 2rem 0 0;
+}
 
   .side-nav-item::after {
   content: attr(aria-label);
@@ -661,7 +664,6 @@ styleElement.textContent = `
 #side-nav {
     background: linear-gradient(45deg, #8abddb, #e3ebf0);
     padding: 20px;
-    border-radius: 10px;
 
 
 .side-panel-menu  i,
