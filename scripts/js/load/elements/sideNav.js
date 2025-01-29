@@ -587,7 +587,7 @@ mainContent.style.width = '100%'; // This line you already mentioned
 const styleElement = document.createElement('style');
 styleElement.textContent = `
 
-#Main-Nav_bar  i {
+#Main-Nav_bar #menu-icon  i {
   color: white;
     margin: 0 2rem 0 0;
 }
@@ -651,7 +651,7 @@ styleElement.textContent = `
 }
 #main-side-panel {
     width: fit-content;
-    display: block;
+    display: none;
     position: absolute;
     z-index: 50000;
     box-shadow: darkslategray;
