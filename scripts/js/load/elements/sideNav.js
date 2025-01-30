@@ -726,14 +726,9 @@ styleElement.textContent = `
 
 .side-panel-popout {
     display: none;
-        margin: 1rem;
-
+    margin: 1rem;
 }
-  #main-content {
-    padding: 20px;
-  
-    border-radius: 10px;
-  }
+
   
   /* Search Area Styling */
   .search-area {
