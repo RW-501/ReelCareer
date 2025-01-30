@@ -670,10 +670,7 @@ styleElement.textContent = `
     box-shadow: darkslategray;
 }
 
-#main-content {
-    max-width: 74%;
-    display: block;
-}
+
 
 
 #side-nav {
