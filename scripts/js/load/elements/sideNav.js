@@ -594,10 +594,17 @@ styleElement.textContent = `
 
 
 
+#btn-menu {
+    margin: 0 2rem 0 0;
 
+}
 
-
-
+#btn-menu-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    -webkit-text-stroke: thin;
+    font-variant: small-caps;
+}
 
 
 #Main-Nav_bar #menu-icon  i {
@@ -836,13 +843,7 @@ styleElement.textContent = `
     justify-content: flex-end;
 }
 
-#btn-menu {
-    display: flex;
-    text-align: right;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-}
+
 }
 
 
