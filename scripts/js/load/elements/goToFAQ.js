@@ -5,11 +5,23 @@
         applyFAQStyles();
     }
 
-    // Function to check if the FAQ button exists
-    function checkFAQButton() {
-        const faqButton = document.getElementById("goToFAQ_BTN");
-        return !!faqButton; // Returns true if exists, false otherwise
+
+function checkGoToFAQButton() {
+    const goToFAQBtn = document.getElementById("goToFAQ_BTN");
+
+    if (goToFAQBtn) {
+        console.log("goToFAQ_BTN exists.");
+        // Add any additional actions here, such as an event listener
+        goToFAQBtn.addEventListener("click", () => {
+            window.location.href = "/faq"; // Update the URL as needed
+        });
+    } else {
+        console.warn("goToFAQ_BTN does not exist.");
     }
+}
+
+// Run the function after the DOM has loaded
+checkGoToFAQButton();
 
     // Apply styles dynamically
     function applyFAQStyles() {
@@ -57,11 +69,3 @@
         document.head.appendChild(style);
     }
 
-    // Example usage of checkFAQButton function
-    if (checkFAQButton()) {
-        console.log("FAQ button exists.");
-    } else {
-        console.log("FAQ button not found.");
-    }
-
-    
