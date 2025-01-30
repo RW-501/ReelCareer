@@ -462,6 +462,12 @@ function loadPageScripts() {
         });
     }, 1000); // 500ms delay
     
+
+
+                  // Load goToFAQ.js as a module after <nav> is available
+                  loadScript('https://reelcareer.co/scripts/js/load/elements/goToFAQ.js', { async: false, defer: true }, () => {
+                    logExecutionTime('goToFAQ', performance.now());
+                });
    
 }
 
