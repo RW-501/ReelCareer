@@ -1691,8 +1691,10 @@ function loadConnectionsFunc() {
   
   document.getElementById('stateBtn').addEventListener('click', () => {
     console.warn('locationMap: ',locationMap);
-
-    const stateMap = locationMap.get(currentLocation.state);
+    // Get the country map first
+    const countryMap = locationMap.get(currentLocation.country);
+    
+    const stateMap = countryMap.get(currentLocation.state);
       if (stateMap) {
           renderStates(currentLocation.country, stateMap);
       } else {
@@ -1703,8 +1705,10 @@ function loadConnectionsFunc() {
   document.getElementById('cityBtn').addEventListener('click', () => {
       
     console.warn('locationMap: ',locationMap);
-
-    const cityMap = locationMap.get(currentLocation.city);
+    const countryMap = locationMap.get(currentLocation.country);
+    
+    const stateMap = countryMap.get(currentLocation.state);
+    const cityMap = stateMap.get(currentLocation.city);
       if (cityMap) {
           renderCities(currentLocation.country, currentLocation.state, cityMap);
       } else {
