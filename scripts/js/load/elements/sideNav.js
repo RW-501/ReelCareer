@@ -490,7 +490,6 @@ function insertSidePanelContent() {
         sideNavList.style.display = 'block';
 
         mainSidePanel.style.width = 'auto';
-        mainContent.style.width = 'auto';
         sidePanelGroup.style.display = 'flex';
         document.querySelectorAll('.btn-text').forEach((text) => {
           text.style.display = 'none';
@@ -502,7 +501,6 @@ function insertSidePanelContent() {
           sideNavList.style.display = 'block';
 
           mainSidePanel.style.width = 'fit-content';
-          mainContent.style.width = '59%';
           sidePanelGroup.style.display = 'flex';
           document.querySelectorAll('.btn-text').forEach((text) => {
             text.style.display = 'none';
@@ -513,7 +511,7 @@ function insertSidePanelContent() {
           sideNavList.style.display = 'block';
 
           mainSidePanel.style.width = 'fit-content';
-          mainContent.style.width = 'fit-content';
+
           sidePanelGroup.style.display = 'flex';
           document.querySelectorAll('.btn-text').forEach((text) => {
             text.style.display = 'none';
@@ -527,7 +525,7 @@ function insertSidePanelContent() {
           sideNavList.style.display = 'block';
 
           mainSidePanel.style.width = '39%';
-          mainContent.style.width = '59%';
+
           sidePanelGroup.style.display = 'block';
           document.querySelectorAll('.btn-text').forEach((text) => {
             text.style.display = 'inline';
