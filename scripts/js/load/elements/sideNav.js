@@ -1574,11 +1574,12 @@ function generateLocationList(data, locationMap) {
 
 function loadConnectionsFunc() {
 
+  let userLocationData = sessionStorage.getItem('userLocation');
 
   console.log("****************** inside  loadConnectionsFunc:");
 
-  if (userLocation && sidePanel) {
-    let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
+  if (userLocationData && sidePanel) {
+    let currentLocation = userLocationData ? JSON.parse(userLocationData) : { city: "", state: "", country: "" };
 
     console.log("currentPath  ", currentPath);
     const locationContainer = document.getElementById('locationContainer');
