@@ -691,6 +691,16 @@ function openPopupLogin() {
     
     // Initialize the popup when the page loads
     createPopupLogin();
+
+    setTimeout(() => {
+
+      popupContainer.style.visibility = 'visible'; // Ensure visibility is set
+      popupContainer.style.opacity = '0';         // Start with opacity 0
+      popupContainer.style.transition = 'opacity 0.5s ease-in-out'; // Add transition
+      setTimeout(() => {
+          popupContainer.style.opacity = '1';     // Fade in
+      }, 50); // Small delay to ensure transition works
+    }, 100); 
     }
     
 
