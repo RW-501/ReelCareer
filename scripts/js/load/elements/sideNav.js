@@ -1513,18 +1513,22 @@ function generateLocationList(data, locationMap) {
     function getTopVideo(videos) {
       console.warn('videos topVideo: ', videos);
   
-      // If videos is an object (like a Map or plain object), convert it into an array of values
-      if (typeof videos === 'object' && !Array.isArray(videos)) {
-    //    console.warn('Convert: ');
-
-          // Convert Map or object into an array of values
-         // videos = Object.values(videos);
+      // Ensure videos is an array
+      if (!Array.isArray(videos)) {
+          console.error("Expected an array but received:", typeof videos, videos);
+  
+          // If videos is an object (i.e., a single video entry), wrap it in an array
+          if (typeof videos === 'object' && videos !== null) {
+              videos = [videos]; // Convert single object to an array
+          } else {
+              return null; // If it's not an object or array, return null
+          }
       }
   
-      // Ensure videos is an array of objects
-      if (!Array.isArray(videos) || !videos.every(video => typeof video === 'object')) {
-       //   console.error("Expected an array of video objects but received:", videos);
-        //  return null;  // Return null or some fallback value
+      // If the array is empty, return null
+      if (videos.length === 0) {
+          console.warn("No videos found.");
+          return null;
       }
   
       // Find the video with the highest weighted score using reduce
@@ -1532,15 +1536,12 @@ function generateLocationList(data, locationMap) {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
   
-          // Log the current top video and the current video being evaluated
           console.log("Evaluating video: ", video, "Current top video: ", top);
   
-          // Return the entire video object (with all keys) that has the higher score
           return currentScore > topScore ? video : top;
-      }, videos[0]);  // Start with the first item as the initial "top"
+      }, videos[0]); // Start with the first item as the initial "top"
   }
   
-
     // Render the list of countries
     function renderLocations(countryMap) {
 
