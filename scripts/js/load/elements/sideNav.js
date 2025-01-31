@@ -588,7 +588,8 @@ styleElement.textContent = `
     margin: 0;
     padding: 1rem;
     color: white;
-    curser: pointer;
+    cursor: pointer;
+
         display: block;
 
 }

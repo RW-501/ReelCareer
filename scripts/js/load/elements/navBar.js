@@ -121,7 +121,7 @@ function createNavbar() {
         
   
     return `
-      <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
+      <nav id="Main-Nav_bar" class="navbar navbar ${navbarClass}" role="navigation">
         <div id="main-nav-bar">
 
             <div id="btn-menu" class="main-nav-menu-btn" aria-label="Toggle navigation menu">
