@@ -595,8 +595,8 @@ styleElement.textContent = `
 
 
 #btn-menu {
-    margin: 0 2rem 0 0;
-
+    margin: 0;
+    padding: 1rem;
 }
 
 #btn-menu-text {
