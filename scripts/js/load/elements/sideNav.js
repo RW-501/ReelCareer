@@ -1303,14 +1303,22 @@ if(sidePanel){
   data.forEach((video) => {
     if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
       const { country, state, city } = video;
-      const locationKey = `${country || 'Unknown'} > ${state || 'Unknown'} > ${city || 'Unknown'}`;
-
-      // Group videos by location
-      if (!locationMap.has(locationKey)) {
-        locationMap.set(locationKey, []);
+  
+      // Create an array of non-empty location parts
+      const locationParts = [country, state, city].filter(part => part && part !== 'Unknown');
+  
+      // Only proceed if there is at least one valid location part
+      if (locationParts.length > 0) {
+          const locationKey = locationParts.join(' > '); // Join valid parts with " > "
+  
+          // Group videos by location
+          if (!locationMap.has(locationKey)) {
+              locationMap.set(locationKey, []);
+          }
+          locationMap.get(locationKey).push(video);
       }
-      locationMap.get(locationKey).push(video);
-
+  
+  
       // Calculate video rating
       const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
       topVideos.push({ ...video, rating });
