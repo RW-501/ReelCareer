@@ -888,8 +888,16 @@ styleElement.textContent = `
 
 
 
+    }
 
 
+.side-nav-button.active {
+    border: #89bdda solid;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+    outline: none;
+
+
+    
 
 
 
@@ -915,14 +923,7 @@ styleElement.textContent = `
   }
 
 
-
-    }
-
-
-.side-nav-button.active {
-    border: #89bdda solid;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-    outline: none;
+  
 }
 
 .embedded-Logo {
