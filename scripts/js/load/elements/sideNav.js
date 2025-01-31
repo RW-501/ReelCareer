@@ -1515,10 +1515,10 @@ function generateLocationList(data, locationMap) {
   
       // If videos is an object (like a Map or plain object), convert it into an array of values
       if (typeof videos === 'object' && !Array.isArray(videos)) {
-        console.warn('Convert: ');
+    //    console.warn('Convert: ');
 
           // Convert Map or object into an array of values
-          videos = Object.values(videos);
+         // videos = Object.values(videos);
       }
   
       // Ensure videos is an array of objects
