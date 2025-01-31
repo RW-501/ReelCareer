@@ -1515,7 +1515,7 @@ function generateLocationList(data, locationMap) {
   
       // Ensure videos is an array
       if (!Array.isArray(videos)) {
-          console.error("Expected an array but received:", typeof videos);
+//console.error("Expected an array but received:", typeof videos);
   
           // If videos is an object, convert it into an array of values
           if (typeof videos === 'object') {
@@ -1529,7 +1529,7 @@ function generateLocationList(data, locationMap) {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
           return currentScore > topScore ? video : top;
-      }, videos[0]);
+      }, videos);
   }
   
 
