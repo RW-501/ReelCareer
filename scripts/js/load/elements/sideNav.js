@@ -1365,7 +1365,8 @@ searchSuggestionsDiv.appendChild(fragment);
 if (sortedCategories.length === 0) {
   const topRatedVideos = topVideos.sort((a, b) => b.rating - a.rating).slice(0, 5);
   topRatedVideos.forEach((video) => {
-    const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+  //  const tagPhrase = `Discover amazing content about: ${video.tags.join(', ')}`;
+    const tagPhrase = ` ${video.videoResumeTitle}`;
     const videoCard = createVideoCard(video, tagPhrase);
     fragment.appendChild(videoCard);
   });
@@ -1461,6 +1462,17 @@ function generateLocationList(data, locationMap) {
 
         // Call the provided onClick handler
         onClick(event);
+
+        console.warn('location: ',text);
+
+
+        /*
+            const tagPhrase = ` ${video.videoResumeTitle}`;
+    const videoCard = createVideoCard(video, tagPhrase);
+    fragment.appendChild(videoCard);
+
+    */
+
       } catch (error) {
         console.error('Error in onClick handler:', error);
       }
