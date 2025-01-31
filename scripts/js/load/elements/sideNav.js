@@ -1625,7 +1625,11 @@ document.getElementById('backToStates').addEventListener('click', () => {
     function createVideoCard(video) {
       const contentDiv = document.createElement('div');
       contentDiv.className = 'content';
-  
+
+
+      console.warn('video createVideoCard: ',video);
+
+
       const thumbnail = document.createElement('img');
       thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
       thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
