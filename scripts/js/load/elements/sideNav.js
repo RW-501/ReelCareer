@@ -1512,21 +1512,27 @@ function generateLocationList(data, locationMap) {
     // Function to select the top video for a given city
     function getTopVideo(videos) {
       console.warn('videos topVideo: ', videos);
-   
+  
       // Ensure videos is an array
       if (!Array.isArray(videos)) {
           console.error("Expected an array but received:", typeof videos);
-          return null;  // Return null or some other fallback value
+  
+          // If videos is an object, convert it into an array of values
+          if (typeof videos === 'object') {
+              videos = Object.values(videos);
+          } else {
+              return null;  // Return null or some other fallback value if it's not an object
+          }
       }
-   
+  
       return videos.reduce((top, video) => {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
           return currentScore > topScore ? video : top;
       }, videos[0]);
-   
-    }
-    
+  }
+  
+
     // Render the list of countries
     function renderLocations(countryMap) {
 
