@@ -1636,9 +1636,9 @@ function loadConnectionsFunc() {
 
     document.getElementById('currentLocationDisplay').textContent = 
     
-    `<button onclick="renderLocations('${country}', locationMap.get('${country}'))">${currentLocation.country || 'Unknown'} </button> >
-    <button onclick="renderStates('${state}', locationMap.get('${state}'))">${currentLocation.state || 'Unknown'} </button> >
-    <button onclick="renderCities('${city}', locationMap.get('${city}'))">${currentLocation.city || 'Unknown'} </button>`;
+    `<button onclick="renderLocations('${currentLocation.country}', locationMap.get('${currentLocation.country}'))">${currentLocation.country || 'Unknown'} </button> >
+    <button onclick="renderStates('${currentLocation.state}', locationMap.get('${currentLocation.state}'))">${currentLocation.state || 'Unknown'} </button> >
+    <button onclick="renderCities('${currentLocation.city}', locationMap.get('${currentLocation.city}'))">${currentLocation.city || 'Unknown'} </button>`;
 
 
     if ((currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
