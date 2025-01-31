@@ -589,6 +589,8 @@ styleElement.textContent = `
     padding: 1rem;
     color: white;
     curser: pointer;
+        display: block;
+
 }
 
 #btn-menu-text {
