@@ -785,30 +785,6 @@ styleElement.textContent = `
 
 
 
-
-
-
-#side-nav-list {
-display = 'block';
-}
-
-
-#main-side-panel {
-width = 'fit-content';
-  }
-  
-
-#side-panel-group {
-  display = 'block';
-  }
-  
-
-.btn-text {
-display = 'inline';
-
-}
-
-
       }
 
 
@@ -908,6 +884,37 @@ display = 'inline';
 .btn-text {
   color: #fff; /* Text color changes to white on hover */
 }
+
+
+
+
+
+
+
+
+
+#side-nav-list {
+  display = 'block';
+  }
+  
+  
+  #main-side-panel {
+  width = 'fit-content';
+    }
+    
+  
+  #side-panel-group {
+    display = 'block';
+    }
+    
+  
+  .btn-text {
+  display = 'inline';
+  
+  }
+
+
+
     }
 
 
