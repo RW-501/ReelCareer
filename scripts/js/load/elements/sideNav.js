@@ -1167,11 +1167,12 @@ function createVideoCard(video, categoryTitle = null) {
 
 
 
-// Initialize location and category maps
-const locationMap = new Map();
-const categoryMap = new Map();
-const topVideos = [];
 
+  // Global Maps
+  const locationMap = new Map(); // Stores location-based grouping
+  const categoryMap = new Map(); // Stores videos grouped by categories
+  const topVideos = []; // Stores top-rated videos
+  
 
 
 
@@ -1283,6 +1284,16 @@ async function loadTopCategoriesWithVideos() {
     document.head.appendChild(style);
   }
 
+
+
+
+
+
+
+
+
+
+
   let data ;
 if(sidePanel){
   // Define the URL for the JSON file
@@ -1337,6 +1348,8 @@ if(sidePanel){
   });
 
   
+  generateLocationList(data, locationMap);
+
   // You can now use 'topVideos' and 'categoryMap' as needed
   const sortedCategories = Array.from(categoryMap.entries())
     .sort((a, b) => b[1].length - a[1].length)
@@ -1382,8 +1395,6 @@ if (sortedCategories.length === 0) {
   searchSuggestionsDiv.appendChild(fragment);
 }
 
-
-  generateLocationList(data, locationMap);
 
 }
 
