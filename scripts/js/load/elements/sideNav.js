@@ -433,55 +433,8 @@ function insertSidePanelContent() {
 
     const isMobile = window.innerWidth <= 768;
 
-    if (isMobile) {
-
-      mainSidePanel.classList.remove('main-side-panel-fixed');
- 
-
-      if (isSectionOpen) {
-
-        mainSidePanel.style.width = '100%';
-        mainContent.style.width = '100%';
-        sidePanelGroup.style.display = 'grid';
-        sideNavList.style.display = 'none';
-
-        document.querySelectorAll('.btn-text').forEach((text) => {
-          text.style.display = 'inline';
-        });
-      } else {
-
-        if (action === 'scroll') {
-
-
-          mainSidePanel.style.width = '100%';
-          mainContent.style.width = '100%';
-          sidePanelGroup.style.display = 'grid';
-          sideNavList.style.display = 'none';
-
-          document.querySelectorAll('.btn-text').forEach((text) => {
-            text.style.display = 'inline';
-          });
-
-
-        } else {
-
-
-          mainSidePanel.style.width = '100%';
-          mainContent.style.width = '100%';
-          sidePanelGroup.style.display = 'grid';
-          sideNavList.style.display = 'block';
-
-          document.querySelectorAll('.btn-text').forEach((text) => {
-            text.style.display = 'inline';
-          });
-
-
-        }
-      }
-
-
-    } else {
-      mainSidePanel.classList.add('main-side-panel-fixed');
+   
+     // mainSidePanel.classList.add('main-side-panel-fixed');
 
       
       if (isSectionOpen) {
@@ -530,13 +483,14 @@ function insertSidePanelContent() {
           document.querySelectorAll('.btn-text').forEach((text) => {
             text.style.display = 'inline';
           });
-
+        }
 
 
 
 
         }
 
+      
 
 // Apply the styles
 mainContent.style.padding = '5%';
@@ -549,7 +503,7 @@ mainContent.style.width = '100%'; // This line you already mentioned
 
 
 
-      }
+      
 
 
 
@@ -559,7 +513,7 @@ mainContent.style.width = '100%'; // This line you already mentioned
 
 
 
-    }
+    
     /* 
                 document.querySelectorAll('.btn-text').forEach((text) => {
                   text.style.display = isMobile ? 'none' : 'inline';
