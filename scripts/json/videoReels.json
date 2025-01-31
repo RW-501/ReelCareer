@@ -465,7 +465,7 @@
     "duration": 15.1742405,
     "likes": 0,
     "loves": 0,
-    "views": 3,
+    "views": 4,
     "profileURL": "https://reelcareer.co/u/?u=ql9uEsdGRrY0Jpu8AaVvQafxvBH2",
     "thumbnailURL": "https://reelcareer.co/images/sq_logo_n_BG_sm.png",
     "videoResumeTitle": "Tmmmmmmmmmmmm  he title of the video",
@@ -486,27 +486,27 @@
     "endingCard": "",
     "relatedReels": [
       {
+        "videoResumeTitle": "The title of the video",
         "reelURL": "https://reelcareer.co/reels/?r=nLnfylaOyv9cFh4URU2m",
+        "reelTags": [],
         "reelID": "nLnfylaOyv9cFh4URU2m",
         "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fundefined-Thetitle-reel.mp4?alt=media&token=5a17d98c-09e2-4d85-b862-6664c7585829",
-        "videoResumeTitle": "The title of the video",
-        "reelcreatedDate": "2025-01-26T04:30:50.900Z",
-        "reelTags": []
+        "reelcreatedDate": "2025-01-26T04:30:50.900Z"
       },
       {
-        "reelcreatedDate": "2025-01-26T04:21:03.812Z",
+        "videoResumeTitle": "test the #hash #tags",
+        "reelURL": "https://reelcareer.co/reels/?r=XK7D5KYRngVHNy97yDXE",
+        "reelTags": [],
         "reelID": "XK7D5KYRngVHNy97yDXE",
         "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fundefined-testthe%23-reel.mp4?alt=media&token=b745c874-1dbd-4e9a-896c-db0f221aedc6",
-        "reelTags": [],
-        "videoResumeTitle": "test the #hash #tags",
-        "reelURL": "https://reelcareer.co/reels/?r=XK7D5KYRngVHNy97yDXE"
+        "reelcreatedDate": "2025-01-26T04:21:03.812Z"
       },
       {
-        "reelURL": "https://reelcareer.co/reels/?r=CfXizSsyv0YBkj4mVrwp",
         "reelcreatedDate": "2025-01-26T04:18:45.565Z",
-        "reelID": "CfXizSsyv0YBkj4mVrwp",
         "videoUrl": "https://firebasestorage.googleapis.com/v0/b/reelcareer-cb4b0.appspot.com/o/users%2Fql9uEsdGRrY0Jpu8AaVvQafxvBH2%2Freels%2Fundefined-testthe%23-reel.mp4?alt=media&token=5a9e84dc-e443-4543-a435-30158acae0d0",
         "reelTags": [],
+        "reelID": "CfXizSsyv0YBkj4mVrwp",
+        "reelURL": "https://reelcareer.co/reels/?r=CfXizSsyv0YBkj4mVrwp",
         "videoResumeTitle": "test the #hash #tags"
       }
     ],
@@ -517,9 +517,9 @@
       "video"
     ],
     "uniqueViews": 1,
-    "repeatViews": 2,
+    "repeatViews": 3,
     "videoPlacement": [],
-    "watchTime": 243,
+    "watchTime": 290,
     "commentsBool": true,
     "giftsBool": true,
     "isPublic": true,
@@ -535,6 +535,7 @@
     "isSponsoredPost": false,
     "notificationsBool": false,
     "relatedProductsBool": false,
-    "relatedURLBool": false
+    "relatedURLBool": false,
+    "status": "posted"
   }
 ]
