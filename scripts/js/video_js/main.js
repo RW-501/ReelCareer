@@ -375,6 +375,32 @@ localStorage.setItem('userData', userData);
     return Math.round(finalRating * 100) / 100;
   }
   
+  function updateViewCount(videoCountButton) {
+    let viewCount = parseInt(videoCountButton.textContent.replace(/,/g, '')) || 0;
+    viewCount++;
+
+    // Apply animation class
+    videoCountButton.classList.add('view-update-animation');
+
+    // Wait for animation to complete before updating the number
+    setTimeout(() => {
+        videoCountButton.innerHTML = formatNumber(viewCount);
+        videoCountButton.classList.remove('view-update-animation');
+    }, 300); // Matches animation duration
+}
+
+// Function to format numbers
+function formatNumber(num) {
+    if (num >= 1_000_000_000) {
+        return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+    } else if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+    } else if (num >= 1_000) {
+        return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+    } else {
+        return num.toLocaleString(); // Adds commas for numbers below 1K
+    }
+}
 
 
   // Function to increment view count
@@ -389,6 +415,12 @@ localStorage.setItem('userData', userData);
     return;
   }
 
+  const videoCountButton = document.getElementById(`video-count_${docId}`);
+
+
+  // Update UI instantly
+  updateViewCount(videoCountButton);
+  
 
     try {
 
@@ -541,14 +573,7 @@ if (ipDocSnapshot.exists()) {
 
       });
       
-      const videoCountButton = document.getElementById(`video-count_${docId}`);
-
-
-     // Update UI instantly
-     let viewCount = parseInt(videoCountButton.textContent) || 0;
-     viewCount++;
-     videoCountButton.innerHTML = `${viewCount}`;
-
+ 
       console.log("View count incremented");
     } catch (error) {
       console.error("Error updating view count: ", error);
@@ -557,6 +582,22 @@ if (ipDocSnapshot.exists()) {
   
   window.incrementViewCount = incrementViewCount;
   
+
+
+
+  function updateLikes(likeButton) {
+    let likesCount = parseInt(likeButton.textContent.replace(/,/g, '')) || 0;
+    likesCount++;
+
+    // Apply animation class
+    likeButton.classList.add('like-update-animation');
+
+    // Wait for animation to complete before updating the number
+    setTimeout(() => {
+        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${formatNumber(likesCount)}`;
+        likeButton.classList.remove('like-update-animation');
+    }, 300); // Matches animation duration
+}
 
   // Function to handle likes
   async function handleLike(docId, likeButton, videoElement) {
@@ -626,9 +667,8 @@ handleVideoInterestInput(videoInterestEntry);
       });
   
       // Update UI instantly
-      let likesCount = parseInt(likeButton.textContent) || 0;
-      likesCount++;
-      likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+
+      updateLikes(likeButton);
     } catch (error) {
       console.error("Error updating like count: ", error);
     }

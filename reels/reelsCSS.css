@@ -465,7 +465,27 @@ main {
     }
   }
   
-  
+
+  .view-update-animation {
+    transform: scale(1.4);
+    transition: transform 0.3s ease-in-out, opacity 0.3s;
+    opacity: 0.6;
+}
+
+.view-update-animation:hover {
+    transform: scale(1.5);
+}
+
+.view-update-animation:active {
+    transform: scale(1.2);
+}
+
+.like-update-animation {
+  transform: scale(1.4);
+  transition: transform 0.3s ease-in-out, opacity 0.3s;
+  opacity: 0.6;
+}
+
   
   
   #Main-Nav_bar {
