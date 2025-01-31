@@ -429,8 +429,7 @@ function insertSidePanelContent() {
     const mainSidePanel = document.getElementById("main-side-panel");
     const sidePanelGroup = document.getElementById("side-panel-group");
     const sideNavList = document.getElementById("side-nav-list");
-    const menuBtn = document.getElementById("btn-menu-area");
-    const menuBtnText = document.getElementById("btn-menu-text");
+
 
     const isMobile = window.innerWidth <= 768;
 
@@ -440,9 +439,6 @@ function insertSidePanelContent() {
  
 
       if (isSectionOpen) {
-
-        menuBtn.style.display = 'block';
-        menuBtnText.style.display = 'block';
 
         mainSidePanel.style.width = '100%';
         mainContent.style.width = '100%';
@@ -455,8 +451,7 @@ function insertSidePanelContent() {
       } else {
 
         if (action === 'scroll') {
-          menuBtn.style.display = 'block';
-          menuBtnText.style.display = 'block';
+
 
           mainSidePanel.style.width = '100%';
           mainContent.style.width = '100%';
@@ -470,8 +465,6 @@ function insertSidePanelContent() {
 
         } else {
 
-          menuBtn.style.display = 'block';
-          menuBtnText.style.display = 'block';
 
           mainSidePanel.style.width = '100%';
           mainContent.style.width = '100%';
@@ -493,8 +486,6 @@ function insertSidePanelContent() {
       
       if (isSectionOpen) {
 
-        menuBtn.style.display = 'none';
-        menuBtnText.style.display = 'none';
 
         sideNavList.style.display = 'block';
 
@@ -507,8 +498,6 @@ function insertSidePanelContent() {
       } else {
 
         if (action === 'scroll') {
-          menuBtn.style.display = 'block';
-          menuBtnText.style.display = 'none';
 
           sideNavList.style.display = 'block';
 
@@ -520,9 +509,7 @@ function insertSidePanelContent() {
           });
 
         } else if (action === 'click') {
-          menuBtn.style.display = 'block';
-          menuBtnText.style.display = 'none';
-
+      
           sideNavList.style.display = 'block';
 
           mainSidePanel.style.width = 'fit-content';
@@ -536,8 +523,6 @@ function insertSidePanelContent() {
 
         } else {
 
-          menuBtn.style.display = 'none';
-          menuBtnText.style.display = 'none';
 
           sideNavList.style.display = 'block';
 
@@ -615,10 +600,12 @@ styleElement.textContent = `
 
 
 #btn-menu  i {
-  color: white;
+    color: white;
     font-size: 1.2rem;
     font-weight: 600;
-    }
+    display: block;
+    width: fit-content;
+}
 
   .side-nav-item::after {
   content: attr(aria-label);
@@ -694,7 +681,7 @@ styleElement.textContent = `
 
 
 .side-panel-menu  i,
-         .side-nav-button i,
+.side-nav-button i,
 .side-nav-item i {
     background-color: #e9ecef69;
     border-radius: 25px;
@@ -710,14 +697,14 @@ styleElement.textContent = `
 }
 
 .side-panel-menu  i,
-        .side-nav-button i,
-  .side-nav-item i {
+.side-nav-button i,
+.side-nav-item i {
     color: white;
 }
 
 .side-panel-menu  i:hover, i:focus,
-        .side-nav-button i:hover, i:focus,
- .side-nav-item i:hover, i:focus {
+.side-nav-button i:hover, i:focus,
+.side-nav-item i:hover, i:focus {
     background-color: none;
     transform: scale(1.1);
     color: #007bff;
