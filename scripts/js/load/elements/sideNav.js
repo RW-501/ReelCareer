@@ -31,7 +31,6 @@ function insertSidePanelContent() {
 
   if (sidePanel) {
 
-    console.log("****************** inside  sidePanel:");
 
 
     sidePanel.innerHTML = `
@@ -180,6 +179,8 @@ function insertSidePanelContent() {
 </nav>
 
       `;
+      loadConnectionsFunc();
+
   }
 
   let isSectionOpen = false;
@@ -920,9 +921,7 @@ margins: auto;
 
 
 if (sidePanel) {
-  console.log("******************  insertSidePanelContent:");
 
- // document.addEventListener('DOMContentLoaded', );
   insertSidePanelContent();
 
   document.head.appendChild(styleElement);
@@ -1278,8 +1277,6 @@ if(sidePanel){
 
   
   // You can now use 'topVideos' and 'categoryMap' as needed
-
-
   const sortedCategories = Array.from(categoryMap.entries())
     .sort((a, b) => b[1].length - a[1].length)
     .slice(0, 5);
@@ -1551,9 +1548,10 @@ function generateLocationList(data, locationMap) {
   }
   
 
-document.addEventListener('DOMContentLoaded', () => {
+function loadConnectionsFunc() {
 
 
+  console.log("****************** inside  loadConnectionsFunc:");
 
   if (userLocation && sidePanel) {
     let currentLocation = userLocation ? JSON.parse(userLocation) : { city: "", state: "", country: "" };
@@ -1585,16 +1583,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
-
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
   const connectionsBTN = document.getElementById('connectionsBTN');
   if (connectionsBTN) {
     connectionsBTN.classList.add('hidden'); // Adds the 'hidden' class to the element
   }
-});
+}
 
 
 
