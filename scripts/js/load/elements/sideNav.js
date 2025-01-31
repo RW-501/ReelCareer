@@ -257,6 +257,8 @@ function insertSidePanelContent() {
 
 
   };
+  const navArea = document.getElementById('Main-Nav_bar');
+
   const menuSection = document.getElementById('side-panel-group');
   const sideNavList = document.getElementById("side-nav-list");
 
@@ -284,13 +286,15 @@ function insertSidePanelContent() {
 
   document.getElementById('btn-menu').addEventListener('click', () => {
 
-    if (sideNavList.style.display !== 'none') {
-      sideNavList.style.display = 'none'
-    } else {
-      sideNavList.style.display = 'block'
-    }
-    console.log("sideNavList.style.display   ", sideNavList.style.display);
+    
+    console.log("navArea.style.display   ", navArea.style.display);
 
+    
+            if(navArea.style.display !== 'none'){
+              navArea.style.display = 'none'
+           }else{
+            navArea.style.display = 'block'
+           } 
   });
 
 
