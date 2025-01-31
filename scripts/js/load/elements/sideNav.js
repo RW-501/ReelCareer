@@ -1513,7 +1513,7 @@ function generateLocationList(data, locationMap) {
     function getTopVideo(videos) {
       console.warn('videos topVideo: ', videos);
   
-      // If videos is an object (like a Map), convert it into an array of values
+      // If videos is an object (like a Map or plain object), convert it into an array of values
       if (typeof videos === 'object' && !Array.isArray(videos)) {
           // Convert Map or object into an array of values
           videos = Object.values(videos);
@@ -1522,18 +1522,18 @@ function generateLocationList(data, locationMap) {
       // Ensure videos is an array of objects
       if (!Array.isArray(videos) || !videos.every(video => typeof video === 'object')) {
           console.error("Expected an array of video objects but received:", videos);
-        //  return null;  // Return null or some fallback value
+          return null;  // Return null or some fallback value
       }
   
       // Find the video with the highest weighted score using reduce
       return videos.reduce((top, video) => {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
-          
+  
           // Log the current top video and the current video being evaluated
           console.log("Evaluating video: ", video, "Current top video: ", top);
   
-          // Return the video object (entire object with keys) that has the higher score
+          // Return the entire video object (with all keys) that has the higher score
           return currentScore > topScore ? video : top;
       }, videos[0]);  // Start with the first item as the initial "top"
   }
