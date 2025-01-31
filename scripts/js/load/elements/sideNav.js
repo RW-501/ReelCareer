@@ -1690,7 +1690,9 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('stateBtn').addEventListener('click', () => {
-      const stateMap = locationMap.get(currentLocation.state);
+    console.warn('locationMap: ',locationMap);
+
+    const stateMap = locationMap.get(currentLocation.state);
       if (stateMap) {
           renderStates(currentLocation.country, stateMap);
       } else {
@@ -1700,7 +1702,8 @@ function loadConnectionsFunc() {
   
   document.getElementById('cityBtn').addEventListener('click', () => {
       
-    
+    console.warn('locationMap: ',locationMap);
+
     const cityMap = locationMap.get(currentLocation.city);
       if (cityMap) {
           renderCities(currentLocation.country, currentLocation.state, cityMap);
