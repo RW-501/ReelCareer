@@ -68,13 +68,22 @@ function initializeFirebase() {
       console.log("onAuthStateChanged  currentUrl   ",currentUrl);
       console.log("user   ",user);
 
-     
+      if (user){
+        console.log("User")
+      }  else{
+        console.log("No User");
+      }
+          
 
       if (user) {
+        const allUserBtns = document.querySelectorAll('.side-user-btn');
+        allUserBtns.forEach((btns) => {
+          if (btns) btns.style.display = 'block';
+        });
+    
         const joinArea = document.getElementById('btn-join-area');
         if (joinArea) joinArea.style.display = 'none';
-
-
+      
               
         console.log("Module User ID: ", user.uid);
     

@@ -575,6 +575,8 @@ styleElement.textContent = `
 }
 
 
+
+
 /* Show aria-label text on hover
   .side-nav-item::after {
   content: attr(aria-label);
@@ -962,6 +964,12 @@ margins: auto;
 }
 
 
+
+
+.side-user-btn {
+    display: none;
+
+}
   `;
 
 
