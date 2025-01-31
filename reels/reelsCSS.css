@@ -207,11 +207,12 @@ main {
   }
   
   .interaction-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: .2rem;
-      padding: .2rem;
-  }
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+    padding: .2rem;
+    width: 100%;
+}
   
   
   .video-tags {
