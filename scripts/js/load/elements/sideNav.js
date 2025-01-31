@@ -1516,6 +1516,8 @@ function generateLocationList(data, locationMap) {
   
     // Render the list of countries
     function renderLocations(countryMap) {
+
+
       locationContainer.innerHTML = '';
       countryMap.forEach((statesMap, country) => {
         const countryDiv = document.createElement('div');
@@ -1656,12 +1658,40 @@ function loadConnectionsFunc() {
     locationContainer.innerHTML = ''; // Clear any existing content
 
 
-    document.getElementById('currentLocationDisplay').innerHTML = 
-    
-    `<button onclick="renderLocations('${currentLocation.country}', locationMap.get('${currentLocation.country}'))">${currentLocation.country || 'Unknown'} </button> >
-    <button onclick="renderStates('${currentLocation.state}', locationMap.get('${currentLocation.state}'))">${currentLocation.state || 'Unknown'} </button> >
-    <button onclick="renderCities('${currentLocation.city}', locationMap.get('${currentLocation.city}'))">${currentLocation.city || 'Unknown'} </button>`;
-
+    document.getElementById('currentLocationDisplay').innerHTML = `
+    <button id="countryBtn">${currentLocation.country || 'Unknown'}</button>
+    <button id="stateBtn">${currentLocation.state || 'Unknown'}</button>
+    <button id="cityBtn">${currentLocation.city || 'Unknown'}</button>
+  `;
+  
+  // Attach event listeners to buttons
+  document.getElementById('countryBtn').addEventListener('click', () => {
+      const countryMap = locationMap.get(currentLocation.country);
+      if (countryMap) {
+          renderLocations(countryMap);
+      } else {
+          console.warn("Country not found in locationMap");
+      }
+  });
+  
+  document.getElementById('stateBtn').addEventListener('click', () => {
+      const stateMap = locationMap.get(currentLocation.state);
+      if (stateMap) {
+          renderStates(currentLocation.country, stateMap);
+      } else {
+          console.warn("State not found in locationMap");
+      }
+  });
+  
+  document.getElementById('cityBtn').addEventListener('click', () => {
+      const cityMap = locationMap.get(currentLocation.city);
+      if (cityMap) {
+          renderCities(currentLocation.country, currentLocation.state, cityMap);
+      } else {
+          console.warn("City not found in locationMap");
+      }
+  });
+  
 
     if ((currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
 
