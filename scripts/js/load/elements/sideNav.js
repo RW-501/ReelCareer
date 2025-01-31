@@ -669,10 +669,10 @@ styleElement.textContent = `
 }
 #main-side-panel {
     width: fit-content;
-    display: none;
+    display: block;
     position: absolute;
     z-index: 50000;
-    box-shadow: darkslategray;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
 }
 
 
