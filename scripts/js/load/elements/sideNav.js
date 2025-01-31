@@ -1523,7 +1523,8 @@ function generateLocationList(data, locationMap) {
 
     // Render the list of states for a given country
     function renderStates(country, statesMap) {
-      locationContainer.innerHTML = `<button onclick="renderLocations(locationMap)">Back to Countries</button>`;
+      locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to Countries</button>`;
+
       statesMap.forEach((citiesMap, state) => {
         const topVideo = getTopVideo(citiesMap);
 
