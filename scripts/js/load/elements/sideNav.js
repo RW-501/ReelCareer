@@ -598,10 +598,10 @@ styleElement.textContent = `
 
 
 
-
 #btn-menu {
     margin: 0;
     padding: 1rem;
+    color: white;
 }
 
 #btn-menu-text {
@@ -612,10 +612,11 @@ styleElement.textContent = `
 }
 
 
-#Main-Nav_bar #menu-icon  i {
+#btn-menu  i {
   color: white;
-    margin: 0 2rem 0 0;
-}
+    font-size: 1.2rem;
+    font-weight: 600;
+    }
 
   .side-nav-item::after {
   content: attr(aria-label);
