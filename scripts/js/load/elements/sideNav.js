@@ -289,6 +289,7 @@ function insertSidePanelContent() {
     } else {
       sideNavList.style.display = 'block'
     }
+    console.log("sideNavList.style.display   ", sideNavList.style.display);
 
   });
 
