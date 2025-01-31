@@ -179,7 +179,7 @@ import { } from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
 
 
-const DEBUG = true;
+const DEBUG = false;
 if (DEBUG) console.log("Debug on");
 
 /**
@@ -256,7 +256,6 @@ loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async
   });
 });
 
-//import {  } from 'https://reelcareer.co/scripts/js/load/elements/sideNav.js';
 import {  } from 'https://reelcareer.co/scripts/js/load/elements/observer.js';
 //import {  } from 'https://reelcareer.co/scripts/js/load/videoElements/renderVideo.js';
 
