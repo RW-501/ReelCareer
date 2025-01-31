@@ -203,14 +203,15 @@ function insertSidePanelContent() {
       isSectionOpen = false;
       //updateButtonTextVisibility('click');
 
-      console.log('Button is now active???????????????????');  
 
       document.querySelectorAll('.side-nav-button').forEach(button => {
         button.addEventListener('click', function() {
-            this.classList.toggle('active'); // Toggle active state
-            console.log('Clicked button ID:', this.id); // Log the button's ID
+            this.classList.toggle('active'); // Toggle active class
+            console.log('Clicked button ID:', this.id); 
+            console.log('Active status:', this.classList.contains('active')); // Check if active is applied
         });
     });
+    
     
 
 
