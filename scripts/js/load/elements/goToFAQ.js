@@ -10,13 +10,13 @@ function checkGoToFAQButton() {
     const goToFAQBtn = document.getElementById("goToFAQ_BTN");
 
     if (goToFAQBtn) {
-        console.log("goToFAQ_BTN exists.");
+       // console.log("goToFAQ_BTN exists.");
         // Add any additional actions here, such as an event listener
         goToFAQBtn.addEventListener("click", () => {
             window.location.href = "https://reelcareer.co/faq"; // Update the URL as needed
         });
     } else {
-        console.warn("goToFAQ_BTN does not exist.");
+       // console.warn("goToFAQ_BTN does not exist.");
     }
 }
 

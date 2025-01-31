@@ -257,7 +257,7 @@ function insertSidePanelContent() {
 
 
   };
-  const navArea = document.getElementById('Main-Nav_bar');
+  const navArea = document.getElementById('side-nav');
 
   const menuSection = document.getElementById('side-panel-group');
   const sideNavList = document.getElementById("side-nav-list");
@@ -292,6 +292,7 @@ function insertSidePanelContent() {
     
             if(navArea.style.display !== 'none'){
               navArea.style.display = 'none'
+              console.warn("side-nav does not exist.");
            }else{
             navArea.style.display = 'block'
            } 
