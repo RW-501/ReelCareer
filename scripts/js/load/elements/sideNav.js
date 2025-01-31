@@ -1592,6 +1592,9 @@ function generateLocationList(data, locationMap) {
       });
     }
   
+    window.renderStates  = renderStates ;
+    window.renderCities = renderCities;
+    
     // Function to render a video card for the selected city
     function renderVideos(video) {
   
