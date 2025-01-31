@@ -193,6 +193,8 @@ function insertSidePanelContent() {
 
      console.log("isClickInside: ", isClickInside);
 
+
+
     if (!isClickInside && sidePanel.style.display !== 'none') {
 
 
@@ -202,7 +204,35 @@ function insertSidePanelContent() {
       //updateButtonTextVisibility('click');
 
       //  sidePanel.style.display = 'none'; // Close the side panel
+      console.log('sidePanel.style.display !== none');
+    }else{
+
+      console.log('Button is now active???????????????????');  
+
+document.querySelectorAll('.side-nav-button').forEach(button => {
+  button.addEventListener('click', function() {
+      this.classList.toggle('active'); // Toggle active state
+      if (this.classList.contains('active')) {
+          console.log('Button is now active');
+          // Do something when active
+
+          sideNavList.style.display = 'block';
+
+          mainSidePanel.style.width = 'fit-content';
+
+          sidePanelGroup.style.display = 'block';
+          document.querySelectorAll('.btn-text').forEach((text) => {
+            text.style.display = 'inline';
+          });
+      } else {
+         // console.log('Button is now inactive');
+          // Do something when inactive
     
+
+      }
+  });
+});
+
     }
 
 
@@ -505,31 +535,6 @@ mainContent.style.width = '100%'; // This line you already mentioned
 
 
 
-      
-
-document.querySelectorAll('.side-nav-button').forEach(button => {
-  button.addEventListener('click', function() {
-      this.classList.toggle('active'); // Toggle active state
-      if (this.classList.contains('active')) {
-          console.log('Button is now active');
-          // Do something when active
-
-          sideNavList.style.display = 'block';
-
-          mainSidePanel.style.width = 'fit-content';
-
-          sidePanelGroup.style.display = 'block';
-          document.querySelectorAll('.btn-text').forEach((text) => {
-            text.style.display = 'inline';
-          });
-      } else {
-         // console.log('Button is now inactive');
-          // Do something when inactive
-    
-
-      }
-  });
-});
 
 
 
