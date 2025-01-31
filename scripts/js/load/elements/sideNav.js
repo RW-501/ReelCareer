@@ -1634,7 +1634,7 @@ function loadConnectionsFunc() {
     locationContainer.innerHTML = ''; // Clear any existing content
 
 
-    document.getElementById('currentLocationDisplay').textContent = 
+    document.getElementById('currentLocationDisplay').innerHTML = 
     
     `<button onclick="renderLocations('${currentLocation.country}', locationMap.get('${currentLocation.country}'))">${currentLocation.country || 'Unknown'} </button> >
     <button onclick="renderStates('${currentLocation.state}', locationMap.get('${currentLocation.state}'))">${currentLocation.state || 'Unknown'} </button> >
