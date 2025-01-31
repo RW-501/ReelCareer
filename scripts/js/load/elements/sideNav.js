@@ -292,9 +292,10 @@ function insertSidePanelContent() {
     
             if(navArea.style.display !== 'none'){
               navArea.style.display = 'none'
-              console.warn("side-nav does not exist.");
            }else{
             navArea.style.display = 'block'
+            console.warn("side-nav exist.");
+
            } 
   });
 
