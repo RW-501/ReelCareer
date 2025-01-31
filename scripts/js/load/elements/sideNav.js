@@ -208,7 +208,7 @@ function insertSidePanelContent() {
       document.querySelectorAll('.side-nav-button').forEach(button => {
         button.addEventListener('click', function() {
             this.classList.toggle('active'); // Toggle active state
-
+            console.log('Clicked button ID:', this.id); // Log the button's ID
         });
     });
     
