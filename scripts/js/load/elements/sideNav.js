@@ -16,6 +16,14 @@ import {
 
 
 
+  // Global Maps
+  const locationMap = new Map(); // Stores location-based grouping
+  const categoryMap = new Map(); // Stores videos grouped by categories
+  const topVideos = []; // Stores top-rated videos
+  
+
+
+
 let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false;
@@ -1165,14 +1173,6 @@ function createVideoCard(video, categoryTitle = null) {
   return videoDiv;
 }
 
-
-
-
-  // Global Maps
-  const locationMap = new Map(); // Stores location-based grouping
-  const categoryMap = new Map(); // Stores videos grouped by categories
-  const topVideos = []; // Stores top-rated videos
-  
 
 
 
