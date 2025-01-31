@@ -1544,8 +1544,12 @@ function generateLocationList(data, locationMap) {
 
     // Render the list of states for a given country
     function renderStates(country, statesMap) {
-      locationContainer.innerHTML = `<button onclick="renderLocations( locationMap.get('${country}'))">Back to Countries</button>`;
+      locationContainer.innerHTML = `<button id="backToCountries">Back to Countries</button>`;
 
+      document.getElementById('backToCountries').addEventListener('click', () => {
+          renderLocations(locationMap.get(country));
+      });
+      
       statesMap.forEach((citiesMap, state) => {
         const topVideo = getTopVideo(citiesMap);
 
@@ -1571,7 +1575,12 @@ function generateLocationList(data, locationMap) {
   
     // Render the list of cities for a given state
     function renderCities(country, state, citiesMap) {
-      locationContainer.innerHTML = `<button onclick="renderStates('${country}', locationMap.get('${country}'))">Back to States</button>`;
+      locationContainer.innerHTML = `<button id="backToStates">Back to States</button>`;
+
+document.getElementById('backToStates').addEventListener('click', () => {
+  renderStates(locationMap.get(state));
+});
+
       citiesMap.forEach((videos, city) => {
         const topVideo = getTopVideo(videos);
   
