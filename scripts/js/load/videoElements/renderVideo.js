@@ -193,7 +193,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
           <p class="job-title">${videoData.rating || 0}</p>
         </div>
   
-        <div class="interaction-buttons " ${userId ? '' : ` hidden`}>
+        <div class="interaction-buttons " ${userId ? '' : ` `}>
           ${
             isConnected
               ? `<button class="message-button" data-doc-id="${docId}" aria-label="Message User">
