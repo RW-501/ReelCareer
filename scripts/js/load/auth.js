@@ -529,6 +529,12 @@ button[type="submit"] {
         transform: scale(0.98);
       }
   
+      #forgot-password-area {
+
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
       #forgot-password-link {
         color: #1a73e8;
         text-decoration: none;
@@ -570,7 +576,7 @@ button[type="submit"] {
             <button type="submit">Log In</button>
           </form>
 
-          <div>
+          <div id='forgot-password-area'>
             <a href="https://reelcareer.co/views/Forgot-Password" id="forgot-password-link">Forgot Password?</a>
           </div>
         </div>
@@ -690,7 +696,6 @@ function openPopupLogin() {
 
   }else {
     setTimeout(() => {
-      popupContainer.style.opacity = '1';     // Fade in
 
       popupContainer.style.visibility = 'visible'; // Ensure visibility is set
       popupContainer.style.opacity = '0';         // Start with opacity 0
