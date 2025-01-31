@@ -1311,13 +1311,14 @@ if(sidePanel){
   console.log('JSON data:', data);
 }
   // Process each video data from the JSON
-  data.forEach((video) => {
-    if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
+// Group videos by location (country > state > city)
+data.forEach((video) => {
+  if (video.isPublic && video.status === 'posted' && !video.isDeleted) {
       const { country, state, city } = video;
-  
+
       // Create an array of non-empty location parts
       const locationParts = [country, state, city].filter(part => part && part !== 'Unknown');
-  
+
       // Only proceed if there is at least one valid location part
       if (locationParts.length > 0) {
           const locationKey = locationParts.join(' > '); // Join valid parts with " > "
@@ -1328,6 +1329,9 @@ if(sidePanel){
           }
           locationMap.get(locationKey).push(video);
       }
+ 
+      
+
   
   
       // Calculate video rating
@@ -1695,7 +1699,9 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('cityBtn').addEventListener('click', () => {
-      const cityMap = locationMap.get(currentLocation.city);
+      
+    
+    const cityMap = locationMap.get(currentLocation.city);
       if (cityMap) {
           renderCities(currentLocation.country, currentLocation.state, cityMap);
       } else {
