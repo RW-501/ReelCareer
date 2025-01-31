@@ -1303,7 +1303,7 @@ if(sidePanel){
   const response = await fetch(jsonUrl);
 
   // Log the response to ensure it's being fetched correctly
-  console.log("Response received:", response);
+  //console.log("Response received:", response);
 
   // Parse the JSON data
    data = await response.json();
@@ -1337,7 +1337,7 @@ data.forEach((video) => {
       // Calculate video rating
       const rating = ((video.views * video.duration) / video.watchTime) * 0.7 + video.likes * 0.3;
       topVideos.push({ ...video, rating });
-      console.warn('topVideos:', topVideos);
+     // console.warn('topVideos:', topVideos);
 
       // Group videos by categories
       if (video.reelCategories && video.reelCategories.length > 0) {
@@ -1370,7 +1370,7 @@ data.forEach((video) => {
  
 // Main code
 const fragment = document.createDocumentFragment();
-console.log('categoryMap:', categoryMap);
+//console.log('categoryMap:', categoryMap);
 
 sortedCategories.forEach(([category, videos]) => {
   const randomPhrase = randomPhrases[Math.floor(Math.random() * randomPhrases.length)].replace('{category}', category);
@@ -1423,7 +1423,7 @@ const userLocation = sessionStorage.getItem("userLocation");
 
 function generateLocationList(data, locationMap) {
 
-  console.log('locationMap:', locationMap);
+ // console.log('locationMap:', locationMap);
 
   // Populate location map with grouped data
   data.forEach((doc) => {
@@ -1489,13 +1489,6 @@ function generateLocationList(data, locationMap) {
         console.warn('location: ',text);
 
 
-        /*
-            const tagPhrase = ` ${video.videoResumeTitle}`;
-    const videoCard = createVideoCard(video, tagPhrase);
-    fragment.appendChild(videoCard);
-
-    */
-
       } catch (error) {
         console.error('Error in onClick handler:', error);
       }
@@ -1511,11 +1504,11 @@ function generateLocationList(data, locationMap) {
   
     // Function to select the top video for a given city
     function getTopVideo(videos) {
-      console.warn('videos topVideo: ', videos);
+     // console.warn('videos topVideo: ', videos);
   
       // Ensure videos is an array
       if (!Array.isArray(videos)) {
-          console.error("Expected an array but received:", typeof videos, videos);
+//          console.error("Expected an array but received:", typeof videos, videos);
   
           // If videos is an object (i.e., a single video entry), wrap it in an array
           if (typeof videos === 'object' && videos !== null) {
@@ -1536,7 +1529,7 @@ function generateLocationList(data, locationMap) {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
   
-          console.log("Evaluating video: ", video, "Current top video: ", top);
+        //  console.log("Evaluating video: ", video, "Current top video: ", top);
   
           return currentScore > topScore ? video : top;
       }, videos[0]); // Start with the first item as the initial "top"
