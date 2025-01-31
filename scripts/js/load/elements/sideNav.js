@@ -1511,6 +1511,8 @@ function generateLocationList(data, locationMap) {
   
     // Function to select the top video for a given city
     function getTopVideo(videos) {
+      console.warn('videos topVideo: ',videos);
+
       return videos.reduce((top, video) => {
         const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
         const topScore = top.rating * 0.7 + top.views * 0.3;
@@ -1690,7 +1692,7 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('stateBtn').addEventListener('click', () => {
-    console.warn('locationMap: ',locationMap);
+   // console.warn('locationMap: ',locationMap);
     // Get the country map first
     const countryMap = locationMap.get(currentLocation.country);
     
@@ -1704,7 +1706,7 @@ function loadConnectionsFunc() {
   
   document.getElementById('cityBtn').addEventListener('click', () => {
       
-    console.warn('locationMap: ',locationMap);
+   // console.warn('locationMap: ',locationMap);
     const countryMap = locationMap.get(currentLocation.country);
     
     const stateMap = countryMap.get(currentLocation.state);
