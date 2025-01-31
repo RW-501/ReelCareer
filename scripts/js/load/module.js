@@ -180,7 +180,7 @@ import { } from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
 
 const DEBUG = false;
-if (DEBUG) console.log("Debug on");
+if (DEBUG) console.log("Module Debug on");
 
 /**
  * Utility function to dynamically load a stylesheet.
