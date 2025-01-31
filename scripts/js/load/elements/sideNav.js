@@ -283,14 +283,13 @@ function insertSidePanelContent() {
 
 
   document.getElementById('btn-menu').addEventListener('click', () => {
-    toggleButtonActive(document.getElementById('btn-menu'));
 
+    if (sideNavList.style.display !== 'none') {
+      sideNavList.style.display = 'none'
+    } else {
+      sideNavList.style.display = 'block'
+    }
 
-    /*        if(menuSection.style.display !== 'none'){
-             menuSection.style.display = 'none'
-           }else{
-             menuSection.style.display = 'block'
-           } */
   });
 
 
@@ -595,8 +594,8 @@ styleElement.textContent = `
 
 
 #btn-menu {
-    margin: 0 2rem 0 0;
-
+    margin: 0;
+    padding: 1rem;
 }
 
 #btn-menu-text {
