@@ -1185,6 +1185,8 @@ async function loadTopCategoriesWithVideos() {
 
     #main-side-panel {
 
+        display: none;
+
 .category-item {
     margin-bottom: 20px;
     padding: 1rem;
