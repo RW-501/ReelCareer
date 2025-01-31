@@ -1552,6 +1552,7 @@ function generateLocationList(data, locationMap) {
       
       statesMap.forEach((citiesMap, state) => {
         const topVideo = getTopVideo(citiesMap);
+        console.warn('states topVideo: ',topVideo);
 
         const stateDiv = document.createElement('div');
         stateDiv.className = 'state-tab';
@@ -1583,7 +1584,8 @@ document.getElementById('backToStates').addEventListener('click', () => {
 
       citiesMap.forEach((videos, city) => {
         const topVideo = getTopVideo(videos);
-  
+        console.warn('cities topVideo: ',topVideo);
+
         const cityDiv = document.createElement('div');
         cityDiv.className = 'city-tab';
   
