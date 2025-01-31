@@ -1501,7 +1501,7 @@ function generateLocationList(data, locationMap) {
       countryMap.forEach((statesMap, country) => {
         const countryDiv = document.createElement('div');
         countryDiv.className = 'country-tab';
-  
+  if(country !== 'Unknown'){
         const countryButton = createButton(
           country,
           'collapsible-location',
@@ -1514,6 +1514,9 @@ function generateLocationList(data, locationMap) {
   
         countryDiv.appendChild(countryButton);
         locationContainer.appendChild(countryDiv);
+      }
+
+      
       });
     }
   window.renderLocations = renderLocations;
