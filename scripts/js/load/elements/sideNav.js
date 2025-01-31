@@ -610,10 +610,12 @@ styleElement.textContent = `
     width: fit-content;
 }
 
+
+/* Show aria-label text on hover
   .side-nav-item::after {
   content: attr(aria-label);
   position: absolute;
-  bottom: -25px; /* Adjust based on the design */
+  bottom: -25px; 
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
@@ -627,12 +629,12 @@ styleElement.textContent = `
   transition: opacity 0.3s, visibility 0.3s;
 }
 
-/* Show aria-label text on hover */
+
 .side-nav-item:hover::after {
   opacity: 1;
   visibility: visible;
 }
-
+ */
 
 #body-main {
 
