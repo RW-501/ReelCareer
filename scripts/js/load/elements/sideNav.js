@@ -896,15 +896,6 @@ styleElement.textContent = `
     box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
     outline: none;
 
-
-    
-
-
-
-
-
-
-
 }
 
 .embedded-Logo {
@@ -944,6 +935,32 @@ margins: auto;
     }
 
       }
+
+
+.sideNavActive {
+
+#side-nav-list {
+  display = 'block';
+  }
+  
+  
+  #main-side-panel {
+  width = 'fit-content';
+    }
+    
+  
+  #side-panel-group {
+    display = 'block';
+    }
+    
+  
+  .btn-text {
+  display = 'inline';
+  
+  }
+}
+
+
   `;
 
 
