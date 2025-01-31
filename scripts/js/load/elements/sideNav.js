@@ -205,31 +205,9 @@ function insertSidePanelContent() {
 
       console.log('Button is now active???????????????????');  
 
-      document.querySelectorAll('.side-nav-button').forEach(button => {
-        button.addEventListener('click', function() {
-            this.classList.toggle('active'); // Toggle active state
-            if (this.classList.contains('active')) {
-                console.log('Button is now active');
-                // Do something when active
-      
-                sideNavList.style.display = 'block';
-      
-                mainSidePanel.style.width = 'fit-content';
-      
-                sidePanelGroup.style.display = 'block';
-                document.querySelectorAll('.btn-text').forEach((text) => {
-                  text.style.display = 'inline';
-                });
-            } else {
-               // console.log('Button is now inactive');
-                // Do something when inactive
-          
-      
-            }
-        });
-      });
 
-      
+
+
     }
     
 
@@ -287,7 +265,6 @@ function insertSidePanelContent() {
   };
   const navArea = document.getElementById('side-nav');
 
-  const menuSection = document.getElementById('side-panel-group');
   const mainContent = document.getElementById("main-content");
   const mainSidePanel = document.getElementById("main-side-panel");
   const sidePanelGroup = document.getElementById("side-panel-group");
@@ -796,7 +773,37 @@ styleElement.textContent = `
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* Lighter shadow on click */
     border: #89bdda solid;
       box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for depth */
+
+
+
+
+
+
+
+
+
+#side-nav-list {
+display = 'block';
 }
+
+
+#main-side-panel {
+width = 'fit-content';
+  }
+  
+
+#side-panel-group {
+  display = 'block';
+  }
+  
+
+.btn-text {
+display = 'inline';
+
+}
+
+
+      }
 
 
 
