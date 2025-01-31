@@ -543,7 +543,6 @@ videosQuery = query(
                 videoDataArray.push({
         // User and Profile Information
         id: doc.id || '',
-        userID: videoData.userID || '',
         reelID: videoData.reelID || '',
         reelURL: videoData.reelURL || '',
         createdByID: videoData.createdByID || '',
@@ -595,6 +594,7 @@ videosQuery = query(
         commentsBool: videoData.commentsBool ?? true,
         giftsBool: videoData.giftsBool ?? true,
         isPublic: videoData.isPublic ?? true,
+        status: videoData.status || 'posted',
         likesBool: videoData.likesBool ?? true,
         locationBool: videoData.locationBool ?? true,
         lovesBool: videoData.lovesBool ?? true,

@@ -185,6 +185,17 @@ function insertSidePanelContent() {
 
   let isSectionOpen = false;
 
+/*
+  document.querySelectorAll('.side-nav-button').forEach(button => {
+    button.addEventListener('click', function() {
+      this.classList.toggle('sideNavActive'); // Toggle active class
+      console.log('Clicked button ID:', this.id); 
+        console.log('Active status:', this.classList.contains('active')); // Check if active is applied
+    });
+});
+
+*/
+
 
   // Close side panel if clicked outside
   document.addEventListener('click', (event) => {
@@ -202,19 +213,6 @@ function insertSidePanelContent() {
       allPopouts.forEach((popout) => popout.style.display = 'none'); // Hide all popouts
       isSectionOpen = false;
       //updateButtonTextVisibility('click');
-
-
-      document.querySelectorAll('.side-nav-button').forEach(button => {
-        button.addEventListener('click', function() {
-          this.classList.toggle('active'); // Toggle active class
-          this.classList.toggle('sideNavActive'); // Toggle active class
-          console.log('Clicked button ID:', this.id); 
-            console.log('Active status:', this.classList.contains('active')); // Check if active is applied
-        });
-    });
-    
-    
-
 
     }
     
