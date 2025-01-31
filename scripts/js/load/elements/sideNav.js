@@ -1634,7 +1634,11 @@ function loadConnectionsFunc() {
     locationContainer.innerHTML = ''; // Clear any existing content
 
 
-    document.getElementById('currentLocationDisplay').textContent = `${currentLocation.country || 'Unknown'} > ${currentLocation.state || 'Unknown'} > ${currentLocation.city || 'Unknown'}`;
+    document.getElementById('currentLocationDisplay').textContent = 
+    
+    `<button onclick="renderLocations('${country}', locationMap.get('${country}'))">${currentLocation.country || 'Unknown'} </button> >
+    <button onclick="renderStates('${state}', locationMap.get('${state}'))">${currentLocation.state || 'Unknown'} </button> >
+    <button onclick="renderCities('${city}', locationMap.get('${city}'))">${currentLocation.city || 'Unknown'} </button>`;
 
 
     if ((currentPath.includes('/reels/') || currentPath.includes('/videos/'))) {
