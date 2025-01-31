@@ -671,10 +671,9 @@ styleElement.textContent = `
     width: fit-content;
     display: block;
     position: absolute;
-    z-index: 50000;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); /* Custom blue focus ring */
+    z-index: 1;
+    box-shadow: 0 0 0 3px rgb(102 168 238 / 31%);
 }
-
 
 
 
