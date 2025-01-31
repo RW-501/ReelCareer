@@ -902,28 +902,9 @@ styleElement.textContent = `
 
 
 
-#side-nav-list {
-  display = 'block';
-  }
-  
-  
-  #main-side-panel {
-  width = 'fit-content';
-    }
-    
-  
-  #side-panel-group {
-    display = 'block';
-    }
-    
-  
-  .btn-text {
-  display = 'inline';
-  
-  }
 
 
-  
+
 }
 
 .embedded-Logo {
