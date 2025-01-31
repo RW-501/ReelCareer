@@ -1523,8 +1523,8 @@ function generateLocationList(data, locationMap) {
   
       // Ensure videos is an array of objects
       if (!Array.isArray(videos) || !videos.every(video => typeof video === 'object')) {
-          console.error("Expected an array of video objects but received:", videos);
-          return null;  // Return null or some fallback value
+       //   console.error("Expected an array of video objects but received:", videos);
+        //  return null;  // Return null or some fallback value
       }
   
       // Find the video with the highest weighted score using reduce
