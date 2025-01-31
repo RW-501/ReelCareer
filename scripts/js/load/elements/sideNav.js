@@ -1513,9 +1513,9 @@ function generateLocationList(data, locationMap) {
     function getTopVideo(videos) {
       console.warn('videos topVideo: ', videos);
   
-      // If videos is an object, convert it into an array of values
+      // If videos is an object (like a Map), convert it into an array of values
       if (typeof videos === 'object' && !Array.isArray(videos)) {
-          // In case videos is a Map or an Object that contains video objects, we need to extract the values
+          // Convert Map or object into an array of values
           videos = Object.values(videos);
       }
   
@@ -1529,6 +1529,11 @@ function generateLocationList(data, locationMap) {
       return videos.reduce((top, video) => {
           const currentScore = video.rating * 0.7 + video.views * 0.3; // Weighted scoring
           const topScore = top.rating * 0.7 + top.views * 0.3;
+          
+          // Log the current top video and the current video being evaluated
+          console.log("Evaluating video: ", video, "Current top video: ", top);
+  
+          // Return the video object (entire object with keys) that has the higher score
           return currentScore > topScore ? video : top;
       }, videos[0]);  // Start with the first item as the initial "top"
   }
