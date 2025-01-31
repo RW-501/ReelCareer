@@ -1398,6 +1398,9 @@ const userLocation = sessionStorage.getItem("userLocation");
 
 
 function generateLocationList(data, locationMap) {
+
+  console.log('locationMap:', locationMap);
+
   // Populate location map with grouped data
   data.forEach((doc) => {
     const { country, state, city } = doc;
