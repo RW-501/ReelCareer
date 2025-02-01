@@ -1592,7 +1592,7 @@ function generateLocationList(data, locationMap) {
           () => {
             renderCities(country, state, citiesMap);
             saveLocationToLocalStorage(country, state, '', 'state');
-            renderVideos(topVideo);
+            renderSideVideos(topVideo);
 
           }
         );
@@ -1623,7 +1623,7 @@ document.getElementById('backToStates').addEventListener('click', () => {
           () => {
             console.log(`Selected Location: ${country} > ${state} > ${city}`);
             saveLocationToLocalStorage(country, state, city, 'city');
-            renderVideos(topVideo);
+            renderSideVideos(topVideo);
           }
         );
   
@@ -1636,7 +1636,7 @@ document.getElementById('backToStates').addEventListener('click', () => {
     window.renderCities = renderCities;
     
     // Function to render a video card for the selected city
-    function renderVideos(video) {
+    function renderSideVideos(video) {
   
       const videoCard = createVideoCard(video);
       locationContainer.appendChild(videoCard);
@@ -1746,9 +1746,9 @@ function loadConnectionsFunc() {
               () => {
 
                 
-               console.warn('topVideo renderVideos: ',topVideo);
+               console.warn('topVideo renderSideVideos: ',topVideo);
 
-              renderVideos(topVideo);
+               renderSideVideos(topVideo);
     
               }
             );
@@ -1784,8 +1784,8 @@ function loadConnectionsFunc() {
               cityDiv,
               () => {
 
-                console.warn('topVideo renderVideos: ',topVideo);
-               renderVideos(topVideo);
+                console.warn('topVideo renderSideVideos: ',topVideo);
+                renderSideVideos(topVideo);
               }
             );
       

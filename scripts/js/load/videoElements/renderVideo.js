@@ -31,10 +31,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       videoMuted = "";
     }
 
-    if (!Array.isArray(docs)) {
-      docs = [docs];  // Convert single object to an array
-  }
-  
+
     docs.forEach((doc) => {
       const docId = doc.id; // Firestore Document ID
       // Check if this video is already in the container
