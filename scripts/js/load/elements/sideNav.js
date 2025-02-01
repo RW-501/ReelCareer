@@ -1735,7 +1735,6 @@ function loadConnectionsFunc() {
 
           stateMap.forEach((citiesMap, state) => {
             const topVideo = getTopVideo(citiesMap);
-            console.warn('states topVideo: ',state);
     
             const stateDiv = document.createElement('div');
             stateDiv.className = 'state-tab';
@@ -1745,9 +1744,11 @@ function loadConnectionsFunc() {
               'collapsible-location',
               stateDiv,
               () => {
-               // renderCities('', state, citiesMap);
-              //  saveLocationToLocalStorage(country, state, '', 'state');
-                renderVideos(topVideo);
+
+                
+               console.warn('topVideo renderVideos: ',topVideo);
+
+              renderVideos(topVideo);
     
               }
             );
@@ -1783,9 +1784,9 @@ function loadConnectionsFunc() {
               'collapsible-location',
               cityDiv,
               () => {
-               // console.log(`Selected Location: ${country} > ${state} > ${city}`);
-             //   saveLocationToLocalStorage('', '', city, 'city');
-                renderVideos(topVideo);
+
+                console.warn('topVideo renderVideos: ',topVideo);
+               renderVideos(topVideo);
               }
             );
       
