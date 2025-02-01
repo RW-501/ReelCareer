@@ -1745,7 +1745,7 @@ function loadConnectionsFunc() {
               'collapsible-location',
               stateDiv,
               () => {
-                renderCities(country, state, citiesMap);
+               // renderCities('', state, citiesMap);
               //  saveLocationToLocalStorage(country, state, '', 'state');
                 renderVideos(topVideo);
     
