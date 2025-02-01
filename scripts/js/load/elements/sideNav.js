@@ -1450,6 +1450,9 @@ function generateLocationList(data, locationMap) {
 
   // Create a reusable button component for each location (country, state, city)
   function createButton(text, className, location, onClick) {
+
+    console.warn('text createButton: ',text);
+
     // Validate the inputs
     if (typeof text !== 'string' || text.trim() === '') {
       console.error('Button text must be a non-empty string.');
@@ -1605,7 +1608,6 @@ document.getElementById('backToStates').addEventListener('click', () => {
 
       citiesMap.forEach((videos, city) => {
         const topVideo = getTopVideo(videos);
-        console.warn('cities topVideo: ',city);
 
         const cityDiv = document.createElement('div');
         cityDiv.className = 'city-tab';
