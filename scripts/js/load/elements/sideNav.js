@@ -1504,6 +1504,8 @@ function generateLocationList(data, locationMap) {
     return button;
   }
 
+  window.createButton = createButton;
+
   
     // Function to select the top video for a given city
     function getTopVideo(videos) {
@@ -1539,7 +1541,7 @@ function generateLocationList(data, locationMap) {
   }
   window.getTopVideo = getTopVideo;
 
-  
+
     // Render the list of countries
     function renderLocations(countryMap) {
 
