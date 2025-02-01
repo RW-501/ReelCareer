@@ -1737,7 +1737,7 @@ function loadConnectionsFunc() {
             stateDiv.className = 'state-tab';
       
             const stateButton = createButton(
-              state,
+              currentLocation.state,
               'collapsible-location',
               stateDiv,
               () => {
@@ -1766,8 +1766,30 @@ function loadConnectionsFunc() {
     const stateMap = countryMap.get(currentLocation.state);
     const cityMap = stateMap.get(currentLocation.city);
       if (cityMap) {
-          renderCities(currentLocation.country, currentLocation.state, cityMap);
-      } else {
+          //renderCities(currentLocation.country, currentLocation.state, cityMap);
+
+          cityMap.forEach((videos, city) => {
+            const topVideo = getTopVideo(videos);
+    
+            const cityDiv = document.createElement('div');
+            cityDiv.className = 'city-tab';
+      
+            const cityButton = createButton(
+              currentLocation.city,
+              'collapsible-location',
+              cityDiv,
+              () => {
+                console.log(`Selected Location: ${country} > ${state} > ${city}`);
+                saveLocationToLocalStorage(country, state, city, 'city');
+                renderVideos(topVideo);
+              }
+            );
+      
+            cityDiv.appendChild(cityButton);
+            locationContainer.appendChild(cityDiv);
+          });
+      
+        } else {
           console.warn("City not found in locationMap");
       }
   });
