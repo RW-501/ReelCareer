@@ -1668,6 +1668,7 @@ document.getElementById('backToStates').addEventListener('click', () => {
   
       return contentDiv;
     }
+    window.renderSideVideos = renderSideVideos;
   
     // Save selected location to localStorage for later use
     function saveLocationToLocalStorage(country, state, city, type) {
