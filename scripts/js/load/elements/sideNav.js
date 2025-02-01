@@ -1724,7 +1724,7 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('stateBtn').addEventListener('click', () => {
-   // console.warn('locationMap: ',locationMap);
+
     // Get the country map first
     const countryMap = locationMap.get(currentLocation.country);
     
@@ -1765,7 +1765,6 @@ function loadConnectionsFunc() {
   
   document.getElementById('cityBtn').addEventListener('click', () => {
       
-   // console.warn('locationMap: ',locationMap);
     const countryMap = locationMap.get(currentLocation.country);
     
     const stateMap = countryMap.get(currentLocation.state);
