@@ -1537,6 +1537,8 @@ function generateLocationList(data, locationMap) {
           return currentScore > topScore ? video : top;
       }, videos[0]); // Start with the first item as the initial "top"
   }
+  window.getTopVideo = getTopVideo;
+
   
     // Render the list of countries
     function renderLocations(countryMap) {
