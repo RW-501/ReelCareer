@@ -1707,6 +1707,13 @@ function loadConnectionsFunc() {
       const countryMap = locationMap.get(currentLocation.country);
       if (countryMap) {
           renderLocations(countryMap);
+
+
+
+
+
+
+
       } else {
           console.warn("Country not found in locationMap");
       }
@@ -1719,7 +1726,33 @@ function loadConnectionsFunc() {
     
     const stateMap = countryMap.get(currentLocation.state);
       if (stateMap) {
-          renderStates(currentLocation.country, stateMap);
+         // renderStates(currentLocation.country, stateMap);
+
+
+          stateMap.forEach((citiesMap, state) => {
+            const topVideo = getTopVideo(citiesMap);
+            console.warn('states topVideo: ',state);
+    
+            const stateDiv = document.createElement('div');
+            stateDiv.className = 'state-tab';
+      
+            const stateButton = createButton(
+              state,
+              'collapsible-location',
+              stateDiv,
+              () => {
+                renderCities(country, state, citiesMap);
+                saveLocationToLocalStorage(country, state, '', 'state');
+                renderVideos(topVideo);
+    
+              }
+            );
+      
+            stateDiv.appendChild(stateButton);
+            locationContainer.appendChild(stateDiv);
+          });
+
+
       } else {
           console.warn("State not found in locationMap");
       }
