@@ -988,6 +988,30 @@ if (sidePanel) {
 
 
 
+  console.log("connectionType:", connectionType);
+  console.log("includeConnected:", includeConnected);
+  console.log("tagFilter:", tagFilter);
+  let connectedUserIds = null;
+  
+  if(!userId){
+    const user = auth.currentUser;
+    if(user){
+      userId = auth.currentUser.uid; // Logged-in user ID
+    }
+  }
+  
+  if(userId){
+  const connectedUserData = await getConnectedUserIds(connectionType);
+   connectedUserIds = connectedUserData.map(user => user.id);
+  
+   setTimeout(() => {
+      populateSidePanelContacts(connectedUserData);
+  }, 500); // Delay of 500 milliseconds (0.5 seconds)
+  
+    }
+  
+  
+
 }
 
 
@@ -1496,7 +1520,7 @@ function generateLocationList(data, locationMap) {
         event.preventDefault();
         const locationDiv = document.getElementById('location-video-div');
         locationDiv.innerHTML = '';
-        
+
         // Call the provided onClick handler
         onClick(event);
 
