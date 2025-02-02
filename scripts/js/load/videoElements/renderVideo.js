@@ -25,10 +25,10 @@ function renderVideos(docs, container, connectedUserIds, userId) {
     let videoMuted = "";
     const mutePreference = localStorage.getItem("videoMutePreference");
     // Set video mute state based on saved preference
-    if (mutePreference === "true") {
-      videoMuted = "mute";
-    } else {
+    if (!mutePreference === "true") {
       videoMuted = "";
+    } else {
+      videoMuted = "mute";
     }
 
 
