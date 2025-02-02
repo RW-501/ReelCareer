@@ -1494,7 +1494,9 @@ function generateLocationList(data, locationMap) {
       try {
         // Prevent the default button behavior
         event.preventDefault();
-
+        const locationDiv = document.getElementById('location-video-div');
+        locationDiv.innerHTML = '';
+        
         // Call the provided onClick handler
         onClick(event);
 
