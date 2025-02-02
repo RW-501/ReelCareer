@@ -24,6 +24,7 @@ import {
 
 
   let connectionType = "";
+  let connectedUserIds = null;
 
 
 
@@ -987,11 +988,6 @@ if (sidePanel) {
   document.head.appendChild(styleElement);
 
 
-
-  console.log("connectionType:", connectionType);
-  console.log("includeConnected:", includeConnected);
-  console.log("tagFilter:", tagFilter);
-  let connectedUserIds = null;
   
   if(!userId){
     const user = auth.currentUser;
