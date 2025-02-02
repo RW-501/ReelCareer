@@ -23,6 +23,9 @@ import {
   
 
 
+  let connectionType = "";
+
+
 
 let postsPerPage = 10;
 let lastVisibleDoc = null;
@@ -424,9 +427,6 @@ function insertSidePanelContent() {
 
 
 
-
-
-  let connectionType = "";
 
 
   document.getElementById('btn-join').addEventListener('click', () => {
