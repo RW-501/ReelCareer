@@ -228,7 +228,7 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       <!-- Custom Controls -->
       <div class="controls-top" data-doc-id="${docId}">
         <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
-          <i class="${videoMuted ? "fa fa-volume-mute" : "fa fa-volume-up"}"></i>
+          <i class="${videoMuted ? "fa fa-volume-up" : "fa fa-volume-mute"}"></i>
         </button>
   
         <button class="reportVideoBtn" data-doc-id="${docId}" aria-label="Report Video">

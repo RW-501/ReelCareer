@@ -240,8 +240,8 @@ localStorage.setItem('userData', userData);
   
     // Update the button icon
     muteButton.innerHTML = video.muted
-      ? '<i class="fa fa-volume-mute"></i>'
-      : '<i class="fa fa-volume-up"></i>';
+      ? '<i class="fa fa-volume-up"></i>'
+      : '<i class="fa fa-volume-mute"></i>';
   }
   window.toggleMute = toggleMute;
   
