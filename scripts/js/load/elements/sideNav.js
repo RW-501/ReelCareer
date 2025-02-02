@@ -1262,8 +1262,9 @@ async function loadTopCategoriesWithVideos() {
     flex-wrap: nowrap;
     justify-content: space-around;
     align-items: center;
-        width: 100%;
+    width: 100%;
     background: beige;
+    margin: .5rem;
 }
 
       .collapsible-location {
@@ -1657,7 +1658,14 @@ document.getElementById('backToStates').addEventListener('click', () => {
     // Function to create a reusable video card
     function createVideoCard(video) {
       const contentDiv = document.createElement('div');
+      contentWrapDiv.className = 'videoContentWrap';
+
+      const contentDiv = document.createElement('div');
       contentDiv.className = 'videoContent';
+
+      const contentSpan = document.createElement('span');
+      contentSpan.className = 'contentSpan';
+      contentSpan.innerHTML = `${video.location}`;
 
 
       console.warn('video createVideoCard: ',video);
@@ -1676,10 +1684,14 @@ document.getElementById('backToStates').addEventListener('click', () => {
       videoLink.className = 'watch-video-button';
       videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
   
+      contentWrapDiv.appendChild(contentSpan);
+
       contentDiv.appendChild(thumbnail);
       contentDiv.appendChild(videoLink);
-  
-      return contentDiv;
+
+      contentWrapDiv.appendChild(contentDiv);
+
+      return contentWrapDiv;
     }
     window.renderSideVideos = renderSideVideos;
   
