@@ -1616,8 +1616,12 @@ function generateLocationList(data, locationMap) {
     function renderStates(country, statesMap) {
       locationContainer.innerHTML = `<button id="backToCountries">Back to Countries</button>`;
 
-      document.getElementById('backToCountries').addEventListener('click', () => {
-          renderLocations(locationMap.get(country));
+      document.getElementById('backToCountries').addEventListener('click', (event) => {
+        event.preventDefault();
+        const locationDiv = document.getElementById('location-video-div');
+        locationDiv.innerHTML = '';
+                
+        renderLocations(locationMap.get(country));
       });
       
       statesMap.forEach((citiesMap, state) => {
