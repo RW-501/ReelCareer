@@ -426,6 +426,7 @@ function insertSidePanelContent() {
 
 
 
+  let connectionType = "";
 
 
   document.getElementById('btn-join').addEventListener('click', () => {
@@ -436,7 +437,6 @@ function insertSidePanelContent() {
 
   // Search and filter functionality
   const searchInput = document.getElementById("side-panel-search-input");
-  let connectionType = "";
 
   searchInput.addEventListener("input", (e) => {
     const searchQuery = e.target.value.trim().toLowerCase();
@@ -1620,7 +1620,7 @@ function generateLocationList(data, locationMap) {
         event.preventDefault();
         const locationDiv = document.getElementById('location-video-div');
         locationDiv.innerHTML = '';
-                
+
         renderLocations(locationMap.get(country));
       });
       
