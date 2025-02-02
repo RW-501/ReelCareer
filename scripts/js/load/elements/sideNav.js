@@ -1583,9 +1583,13 @@ function generateLocationList(data, locationMap) {
 
       locationContainer.innerHTML = '';
       countryMap.forEach((statesMap, country) => {
+        const topVideo = getTopVideo(statesMap);
+
+
         const countryDiv = document.createElement('div');
         countryDiv.className = 'country-tab';
-  if(country !== 'Unknown'){
+  
+        if(country !== 'Unknown'){
         const countryButton = createButton(
           country,
           'collapsible-location',
@@ -1593,6 +1597,9 @@ function generateLocationList(data, locationMap) {
           () => {
             renderStates(country, statesMap);
             saveLocationToLocalStorage(country, '', '', 'country');
+
+            renderSideVideos(topVideo);
+
           }
         );
   
