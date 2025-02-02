@@ -1782,6 +1782,9 @@ function loadConnectionsFunc() {
     const selectedLocation = document.getElementById('selectedLocation');
     selectedLocation.innerHTML = '';
 
+    const locationDiv = document.getElementById('location-video-div');
+    locationDiv.innerHTML = '';
+
     // Get the country map first
     const countryMap = locationMap.get(currentLocation.country);
     
@@ -1821,6 +1824,9 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('cityBtn').addEventListener('click', () => {
+    const selectedLocation = document.getElementById('selectedLocation');
+    selectedLocation.innerHTML = '';
+
     const locationDiv = document.getElementById('location-video-div');
     locationDiv.innerHTML = '';
 
