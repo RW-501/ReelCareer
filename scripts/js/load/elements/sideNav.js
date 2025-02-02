@@ -845,7 +845,6 @@ styleElement.textContent = `
       margin-top: 5px;
       list-style: none;
       padding: 0;
-      border-radius: 5px;
     }
   
     .search-suggestions li {
@@ -1196,7 +1195,6 @@ async function loadTopCategoriesWithVideos() {
     margin-bottom: 20px;
     padding: 1rem;
     background: linear-gradient(153deg, #26449e14, #1d5b9e4f);
-    border-radius: 5%;
 }
         .category-item-h3 {
         font-size: 1.5rem;
