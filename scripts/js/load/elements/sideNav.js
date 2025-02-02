@@ -1650,7 +1650,7 @@ document.getElementById('backToStates').addEventListener('click', () => {
       const locationDiv = document.getElementById('location-video-div');
 
       const videoCard = createVideoCard(video);
-      locationContainer.appendChild(videoCard);
+      locationDiv.appendChild(videoCard);
 
     }
   
