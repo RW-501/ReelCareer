@@ -1655,43 +1655,45 @@ document.getElementById('backToStates').addEventListener('click', () => {
   
     // Function to create a reusable video card
     function createVideoCard(video) {
-      const contentDiv = document.createElement('div');
+      console.warn('video createVideoCard: ', video);
+  
+      // Create wrapper div
+      const contentWrapDiv = document.createElement('div');
       contentWrapDiv.className = 'videoContentWrap';
-
+  
+      // Create inner content div
       const contentDiv = document.createElement('div');
       contentDiv.className = 'videoContent';
-
+  
+      // Video location span
       const contentSpan = document.createElement('span');
       contentSpan.className = 'contentSpan';
-      contentSpan.innerHTML = `${video.location}`;
-
-
-      console.warn('video createVideoCard: ',video);
-
-
+      contentSpan.textContent = video.location || 'Unknown location';
+  
+      // Video thumbnail
       const thumbnail = document.createElement('img');
       thumbnail.src = video.thumbnailURL || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
       thumbnail.alt = video.videoResumeTitle || 'Video thumbnail';
       thumbnail.className = 'video-thumbnail';
   
+      // Video link
       const videoLink = document.createElement('a');
-      videoLink.title = `${video.videoResumeTitle}`;
+      videoLink.title = video.videoResumeTitle || 'Untitled Video';
       videoLink.href = `https://reelcareer.co/watch/?v=${video.reelID}`;
       videoLink.textContent = 'Watch Video';
       videoLink.target = '_blank';
       videoLink.className = 'watch-video-button';
       videoLink.setAttribute('aria-label', `Watch this video: ${video.videoResumeTitle || 'Untitled Video'}`);
   
-      contentWrapDiv.appendChild(contentSpan);
-
+      // Append elements
       contentDiv.appendChild(thumbnail);
       contentDiv.appendChild(videoLink);
-
       contentWrapDiv.appendChild(contentDiv);
-
+      contentWrapDiv.appendChild(contentSpan);
+  
       return contentWrapDiv;
-    }
-    window.renderSideVideos = renderSideVideos;
+  }
+      window.renderSideVideos = renderSideVideos;
   
     // Save selected location to localStorage for later use
     function saveLocationToLocalStorage(country, state, city, type) {
