@@ -1722,22 +1722,20 @@ function loadConnectionsFunc() {
   
   // Attach event listeners to buttons
   document.getElementById('countryBtn').addEventListener('click', () => {
+    const locationDiv = document.getElementById('location-video-div');
+    locationDiv.innerHTML = '';
+
       const countryMap = locationMap.get(currentLocation.country);
       if (countryMap) {
           renderLocations(countryMap);
-
-
-
-
-
-
-
       } else {
           console.warn("Country not found in locationMap");
       }
   });
   
   document.getElementById('stateBtn').addEventListener('click', () => {
+    const locationDiv = document.getElementById('location-video-div');
+    locationDiv.innerHTML = '';
 
     // Get the country map first
     const countryMap = locationMap.get(currentLocation.country);
@@ -1778,7 +1776,9 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('cityBtn').addEventListener('click', () => {
-      
+    const locationDiv = document.getElementById('location-video-div');
+    locationDiv.innerHTML = '';
+
     const countryMap = locationMap.get(currentLocation.country);
     
     const stateMap = countryMap.get(currentLocation.state);
