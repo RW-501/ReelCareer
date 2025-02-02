@@ -471,7 +471,7 @@ if(!userIP){
 
         const videoCard = document.getElementById(`video-${docId}`);
         const rating = calculateVideoRating(videoCard);
-  console.log('Video Rating:', rating);
+  console.log(`doc: `,docId,' updated Video Rating:', rating);
   
 
             // Increment view count in the main document
