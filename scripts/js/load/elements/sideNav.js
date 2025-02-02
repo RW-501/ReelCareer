@@ -1767,8 +1767,8 @@ function loadConnectionsFunc() {
   
   // Attach event listeners to buttons
   document.getElementById('countryBtn').addEventListener('click', () => {
-    const selectedLocation = document.getElementById('selectedLocation');
-    selectedLocation.innerHTML = '';
+    const selectedLocation = document.getElementById('locationContainer');
+    locationContainer.innerHTML = '';
 
       const countryMap = locationMap.get(currentLocation.country);
       if (countryMap) {
@@ -1779,8 +1779,8 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('stateBtn').addEventListener('click', () => {
-    const selectedLocation = document.getElementById('selectedLocation');
-    selectedLocation.innerHTML = '';
+    const selectedLocation = document.getElementById('locationContainer');
+    locationContainer.innerHTML = '';
 
     const locationDiv = document.getElementById('location-video-div');
     locationDiv.innerHTML = '';
@@ -1824,8 +1824,8 @@ function loadConnectionsFunc() {
   });
   
   document.getElementById('cityBtn').addEventListener('click', () => {
-    const selectedLocation = document.getElementById('selectedLocation');
-    selectedLocation.innerHTML = '';
+    const selectedLocation = document.getElementById('locationContainer');
+    locationContainer.innerHTML = '';
 
     const locationDiv = document.getElementById('location-video-div');
     locationDiv.innerHTML = '';
