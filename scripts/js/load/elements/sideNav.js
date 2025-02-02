@@ -1637,9 +1637,12 @@ document.getElementById('backToStates').addEventListener('click', () => {
     
     // Function to render a video card for the selected city
     function renderSideVideos(video) {
-  
+      const locationDiv = document.getElementById('location-video-div');
+
       const videoCard = createVideoCard(video);
-      locationContainer.appendChild(videoCard);
+      locationDiv.appendChild(videoCard);
+      console.warn('video renderSideVideos: ',locationDiv);
+
     }
   
     // Function to create a reusable video card
@@ -1657,7 +1660,8 @@ document.getElementById('backToStates').addEventListener('click', () => {
       thumbnail.className = 'video-thumbnail';
   
       const videoLink = document.createElement('a');
-      videoLink.href = `https://reelcareer.co/watch/?v=${video.reelURL}`;
+      videoLink.title = `${video.videoResumeTitle}`;
+      videoLink.href = `https://reelcareer.co/watch/?v=${video.reelID}`;
       videoLink.textContent = 'Watch Video';
       videoLink.target = '_blank';
       videoLink.className = 'watch-video-button';
