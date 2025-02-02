@@ -1249,12 +1249,22 @@ async function loadTopCategoriesWithVideos() {
       .collapsible.active {
           background-color: #d3d3d3;
       }
-      .content {
-          padding: 0 15px;
-          display: none;
-          overflow: hidden;
-      }
 
+
+      
+
+
+.videoContent {
+    padding: 0 15px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+        width: 100%;
+    background: beige;
+}
 
       .collapsible-location {
           background: linear-gradient(to bottom, #f4f4f4, #83bad9);
@@ -1640,15 +1650,14 @@ document.getElementById('backToStates').addEventListener('click', () => {
       const locationDiv = document.getElementById('location-video-div');
 
       const videoCard = createVideoCard(video);
-      locationDiv.appendChild(videoCard);
-      console.warn('video renderSideVideos: ',locationDiv);
+      locationContainer.appendChild(videoCard);
 
     }
   
     // Function to create a reusable video card
     function createVideoCard(video) {
       const contentDiv = document.createElement('div');
-      contentDiv.className = 'content';
+      contentDiv.className = 'videoContent';
 
 
       console.warn('video createVideoCard: ',video);
