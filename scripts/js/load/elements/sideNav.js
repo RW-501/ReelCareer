@@ -987,26 +987,29 @@ if (sidePanel) {
 
   document.head.appendChild(styleElement);
 
+  await auth.onAuthStateChanged((user) => {
+    if (user) {
+         userId = user.uid; // Access the user ID
+       // console.log("User ID:", userId);
 
+
+       if(userId){
+        const connectedUserData = await getConnectedUserIds(connectionType);
+         connectedUserIds = connectedUserData.map(user => user.id);
+        
+         setTimeout(() => {
+            populateSidePanelContacts(connectedUserData);
+        }, 500); // Delay of 500 milliseconds (0.5 seconds)
+        
+          }
+        // You can call your functions that require userId here
+    } else {
+     //   console.error("No user is signed in.");
+      
+      }
+});
   
-  if(!userId){
-    const user = auth.currentUser;
-    if(user){
-      userId = auth.currentUser.uid; // Logged-in user ID
-    }
-  }
-  
-  if(userId){
-  const connectedUserData = await getConnectedUserIds(connectionType);
-   connectedUserIds = connectedUserData.map(user => user.id);
-  
-   setTimeout(() => {
-      populateSidePanelContacts(connectedUserData);
-  }, 500); // Delay of 500 milliseconds (0.5 seconds)
-  
-    }
-  
-  
+ 
 
 }
 
