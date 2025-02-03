@@ -331,49 +331,55 @@ section:empty {
 const videoId = urlParams.get('v');
 
 // Fetch video data from Firestore using the videoId
+// Fetch video data from Firestore using the videoId
 async function fetchVideoData(videoId) {
     try {
         // Fetch video resumes from the local JSON file
         const response = await fetch('https://reelcareer.co/scripts/json/videoReels.json');
 
-        // Log the response to ensure it's received
         console.log("Response received:", response);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
         const data = await response.json();
 
-        // Log the fetched data
         console.log("Fetched data:", data);
 
-        // Filter video data based on the desired criteria
+        // Filter video data based on visibility rules
         const filteredData = data.filter(videoData => {
-            const isViewable = videoData.isPublic || videoData.status ==='posted' && !videoData.isDeleted;
-            if (isViewable) {
-                console.log("Including video:", videoData.id);
-            }
-            console.log(" isViewable:", isViewable);
-
-            return isViewable; // Keep viewable videos
+            const isViewable = videoData.isPublic || (videoData.status === 'posted' && !videoData.isDeleted);
+            return isViewable;
         });
 
-        if (filteredData.length > 0) {
-            const videoData = filteredData.find(video => video.id === videoId);
-
-            if (videoData) {
-                renderVideoPage(videoData, filteredData);
-            } else {
-                console.error(`No video found with ID: ${videoId}`);
-            }
-        } else {
+        if (filteredData.length === 0) {
             console.error('No valid videos found!');
+            return;
         }
+
+        const videoData = filteredData.find(video => video.id === videoId);
+        if (!videoData) {
+            console.error(`No video found with ID: ${videoId}`);
+            return;
+        }
+
+        // Ensure the DOM is fully loaded before rendering
+        document.addEventListener("DOMContentLoaded", () => {
+            renderVideoPage(videoData, videoId);
+        });
+
     } catch (error) {
         console.error('Error fetching video data:', error);
     }
 }
 
-fetchVideoData(videoId); // Fetch and display video data
+// Call the function
+fetchVideoData(videoId);
 
 
+});
+// Function to toggle section visibility
 function toggleSection(sectionId, show = true) {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -383,103 +389,104 @@ function toggleSection(sectionId, show = true) {
     }
 }
 
+// Function to render video page
+function renderVideoPage(videoData, docId) {
+    console.log("Rendering video:", videoData);
 
-      // Render the video page dynamically
-      function renderVideoPage(videoData, docId) {
-        let videoDuration = parseFloat(videoData.duration.toFixed(2));
-        let videoMuted = videoData.isMuted ? 'muted' : '';
+    // Ensure the container exists
+    const videoContainer = document.getElementById('video-container');
+    if (!videoContainer) {
+        console.error("Error: 'video-container' not found in DOM.");
+        return;
+    }
+
+    let videoMuted = videoData.isMuted ? 'muted' : '';
+    let isConnected = false;
+
+    // Create video card
+    const videoCard = document.createElement('div');
+    videoCard.classList.add('video-card', 'modern-video-card');
+    videoCard.id = `video-${docId}`;
+    videoCard.innerHTML = `
+        <div class="user-info">
+            <div class="user-info-left">
+                <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" 
+                     alt="${videoData.displayName || 'Anonymous'}" class="profile-img">
+            </div>
+            <div class="user-info-right">
+                <h3 class="user-name">${videoData.displayName || 'Anonymous'}</h3>
+                <p class="job-title">${videoData.jobTitle || 'Job Title'}</p>
+                <div class="interaction-buttons">
+                    ${isConnected ? `<button class="message-button">Message</button>` : `<button class="connect-button">Connect</button>`}
+                    ${videoData.giftsBool ? `<button class="gift-button">Send Gift</button>` : ''}
+                </div>
+            </div>
+        </div>
+
+        <div class="video-container">
+            <video class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
+                <source src="${videoData.videoResumeURL}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="video-controls">
+                <button class="mute-toggle">${videoMuted ? 'Unmute' : 'Mute'}</button>
+                <button class="fullscreen-toggle">Full Screen</button>
+                <button class="reportVideoBtn">Report</button>
+            </div>
+
+            <div class="play-overlay">
+                <i class="fa fa-play"></i>
+            </div>
+
+            <div class="video-actions">
+                <button class="like-btn">${videoData.likes || 0} Likes</button>
+                <button class="share-btn">Share</button>
+            </div>
+        </div>
+
+        <div class="video-details">
+            <p class="views-count">${videoData.views || 0} views</p>
+            <button class="shortlist-btn">Add to Shortlist</button>
+        </div>
+
+        <div class="comments-section">
+            <input type="text" placeholder="Add a comment..." class="comment-input" />
+            <button class="add-comment-btn">Post Comment</button>
+        </div>
+    `;
+
+    // Append to container
+    videoContainer.appendChild(videoCard);
+
     
-
-
-// Show the comments section
+// Show or hide sections
 toggleSection('video-comments-container', true);
-
-// Hide the related videos section
 toggleSection('video-related-videos-container', true);
-
-
 toggleSection('video-related-products-container', true);
 
 
 
-let isConnected; 
+
+    // Attach event listeners
+    videoCard.querySelector('.connect-button')?.addEventListener('click', () => handleConnect(docId, videoData));
+    videoCard.querySelector('.like-btn')?.addEventListener('click', () => handleLike(docId, videoData));
+    videoCard.querySelector('.share-btn')?.addEventListener('click', () => handleShare(docId, videoData));
+    videoCard.querySelector('.add-comment-btn')?.addEventListener('click', () => addComment(docId));
+    videoCard.querySelector('.fullscreen-toggle')?.addEventListener('click', () => toggleFullscreen(docId));
+
+    const videoElement = videoCard.querySelector('.video-element');
+    videoElement.addEventListener('play', () => incrementViewCount(docId, videoElement));
+
+    // Handle video controls
+    videoCard.querySelector('.mute-toggle')?.addEventListener('click', () => toggleMute(videoElement));
+    videoCard.querySelector('.reportVideoBtn')?.addEventListener('click', () => openReportModal(docId, videoData));
+
+    // Add video end listener
+    addVideoEndListener(videoElement, docId);
+}
 
 
-
-        const videoCard = document.createElement('div');
-        videoCard.classList.add('video-card', 'modern-video-card');
-        videoCard.id = `video-container`;
-        videoCard.innerHTML = `
-          <div class="user-info">
-            <div class="user-info-left">
-              <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="${videoData.displayName}" class="profile-img">
-            </div>
-            <div class="user-info-right">
-              <h3 class="user-name">${videoData.displayName || 'Anonymous'}</h3>
-              <p class="job-title">${videoData.jobTitle || 'Job Title'}</p>
-              <div class="interaction-buttons">
-                ${isConnected ? `<button class="message-button">Message</button>` : `<button class="connect-button">Connect</button>`}
-                ${videoData.giftsBool ? `<button class="gift-button">Send Gift</button>` : ''}
-              </div>
-            </div>
-          </div>
-    
-          <div class="video-container">
-            <video class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
-              <source src="${videoData.videoResumeURL}" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-    
-            <div class="video-controls">
-              <button class="mute-toggle">${videoMuted ? 'Unmute' : 'Mute'}</button>
-              <button class="fullscreen-toggle">Full Screen</button>
-              <button class="reportVideoBtn">Report</button>
-            </div>
-    
-            <div class="play-overlay">
-              <i class="fa fa-play"></i>
-            </div>
-    
-            <div class="video-actions">
-              <button class="like-btn">${videoData.likes || 0} Likes</button>
-              <button class="share-btn">Share</button>
-            </div>
-          </div>
-    
-          <div class="video-details">
-            <p class="views-count">${videoData.views || 0} views</p>
-            <p class="video-duration">${videoDuration} min</p>
-            <button class="shortlist-btn">Add to Shortlist</button>
-          </div>
-    
-          <div class="comments-section">
-            <input type="text" placeholder="Add a comment..." class="comment-input" />
-            <button class="add-comment-btn">Post Comment</button>
-          </div>
-        `;
-    
-        document.getElementById('video-container').appendChild(videoCard); // Assuming you have a container with id 'video-container'
-    
-        // Attach event listeners
-        videoCard.querySelector('.message-button').addEventListener('click', () => sendMessage(docId, videoData));
-        videoCard.querySelector('.connect-button').addEventListener('click', () => handleConnect(docId, videoData));
-        videoCard.querySelector('.like-btn').addEventListener('click', () => handleLike(docId, videoData));
-        videoCard.querySelector('.share-btn').addEventListener('click', () => handleShare(docId, videoData));
-        videoCard.querySelector('.add-comment-btn').addEventListener('click', () => addComment(docId));
-        videoCard.querySelector('.fullscreen-toggle').addEventListener('click', () => toggleFullscreen(docId));
-    
-        const videoElement = videoCard.querySelector('.video-element');
-        videoElement.addEventListener('play', () => incrementViewCount(docId, videoElement));
-    
-        // Handle video controls
-        videoCard.querySelector('.mute-toggle').addEventListener('click', () => toggleMute(videoElement));
-        videoCard.querySelector('.fullscreen-toggle').addEventListener('click', () => toggleFullscreen(videoElement));
-        videoCard.querySelector('.reportVideoBtn').addEventListener('click', () => openReportModal(docId, videoData));
-    
-        // Add video end listener
-        addVideoEndListener(videoElement, docId);
-      }
-    });
     </script>
     
 </body>
