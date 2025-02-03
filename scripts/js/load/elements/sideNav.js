@@ -994,7 +994,7 @@ if (sidePanel) {
 
 
        if(userId){
-        const connectedUserData = await getConnectedUserIds(connectionType);
+        const connectedUserData =  getConnectedUserIds(connectionType);
          connectedUserIds = connectedUserData.map(user => user.id);
         
          setTimeout(() => {
