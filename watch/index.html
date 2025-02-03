@@ -346,7 +346,7 @@ async function fetchVideoData(videoId) {
 
         // Filter video data based on the desired criteria
         const filteredData = data.filter(videoData => {
-            const isViewable = videoData.isPublic && videoData.status.includes('posted') && !videoData.isDeleted;
+            const isViewable = videoData.isPublic || videoData.status ==='posted' && !videoData.isDeleted;
             if (isViewable) {
                 console.log("Including video:", videoData.id);
             }
