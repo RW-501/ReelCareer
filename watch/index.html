@@ -366,6 +366,8 @@ async function fetchVideoData(videoId) {
 
         // Ensure the DOM is fully loaded before rendering
         document.addEventListener("DOMContentLoaded", () => {
+          console.log("renderVideoPage:", videoId);
+
             renderVideoPage(videoData, videoId);
         });
 
@@ -459,7 +461,7 @@ function renderVideoPage(videoData, docId) {
     // Append to container
     videoContainer.appendChild(videoCard);
 
-    
+
 // Show or hide sections
 toggleSection('video-comments-container', true);
 toggleSection('video-related-videos-container', true);
