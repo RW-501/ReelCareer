@@ -14,6 +14,8 @@ import {
   getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+const DEBUG = false;
+if (DEBUG) console.log("Module Debug on");
 
 
   // Global Maps
@@ -35,15 +37,14 @@ const currentPath = window.location.pathname;
 
 const sidePanel = document.getElementById('main-side-panel');
 
-console.log("sidePanel:", sidePanel);
 
 function insertSidePanelContent() {
 
-  console.log("****************** inside  insertSidePanelContent:");
+
 
   if (sidePanel) {
 
-
+    if (DEBUG)   console.log("****************** sidePanel:");
 
     sidePanel.innerHTML = `
 <nav id="side-nav" aria-label="Side Navigation">
@@ -214,7 +215,7 @@ function insertSidePanelContent() {
     const isClickInside = sidePanel.contains(event.target) || event.target.closest('#side-nav')
      || event.target.closest('.collapsible-location');
 
-     console.log("isClickInside: ", isClickInside);
+     if (DEBUG)   console.log("isClickInside: ", isClickInside);
 
 
 
@@ -315,7 +316,6 @@ function insertSidePanelContent() {
   document.getElementById('btn-menu').addEventListener('click', () => {
 
     
-    console.log("navArea.style.display   ", navArea.style.display);
 
     
             if(navArea.style.display !== 'none'){
@@ -366,7 +366,7 @@ function insertSidePanelContent() {
 
 
   const currentUrl = window.location.href;
-  console.log("currentUrl   ", currentUrl);
+  if (DEBUG)    console.log("currentUrl   ", currentUrl);
 
   document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
   document.getElementById('btn-profile').addEventListener('click', () => window.location.href = 'https://reelcareer.co/u');
@@ -379,7 +379,7 @@ function insertSidePanelContent() {
     const currentPath = window.location.pathname;
     const currentUrl = window.location.href;
 
-    console.log("currentPath: ", currentPath);
+    if (DEBUG)    console.log("currentPath: ", currentPath);
 
     const videoAccountButton = document.getElementById('btn-video-account');
     const videoAnalyticsButton = document.getElementById('btn-video-analytics');
@@ -442,7 +442,7 @@ function insertSidePanelContent() {
   searchInput.addEventListener("input", (e) => {
     const searchQuery = e.target.value.trim().toLowerCase();
     if (searchQuery) {
-      console.log("Searching by tag:", searchQuery);
+      if (DEBUG)     console.log("Searching by tag:", searchQuery);
       fetchVideoResumes(1, searchQuery, connectionType);
     } else {
       fetchVideoResumes(1, "", connectionType);
@@ -990,8 +990,6 @@ if (sidePanel) {
   await auth.onAuthStateChanged((user) => {
     if (user) {
          userId = user.uid; // Access the user ID
-       // console.log("User ID:", userId);
-
 
        if(userId){
         const connectedUserData =  getConnectedUserIds(connectionType);
@@ -1004,7 +1002,7 @@ if (sidePanel) {
           }
         // You can call your functions that require userId here
     } else {
-     //   console.error("No user is signed in.");
+    if (DEBUG)    console.error("No user is signed in.");
       
       }
 });
@@ -1139,7 +1137,7 @@ function populateSidePanelContacts(connectedUserData) {
 
       fetchVideoResumes(page = 1, tagFilter = "", '', '', true, user.id);
 
-      console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
+      if (DEBUG)    console.log(`View videos for user: ${user.name} (ID: ${user.id})`);
     };
 
     viewProfileButton.appendChild(profileImg);
@@ -1340,7 +1338,7 @@ if(sidePanel){
   // Parse the JSON data
    data = await response.json();
 
-  console.log('JSON data:', data);
+   if (DEBUG)   console.log('JSON data:', data);
 }
   // Process each video data from the JSON
 // Group videos by location (country > state > city)
@@ -1409,7 +1407,7 @@ sortedCategories.forEach(([category, videos]) => {
   const topVideo = videos.sort((a, b) => b.rating - a.rating)[0];
 
   if (!topVideo) {
-    console.warn('No top video found for category:', category);
+    if (DEBUG)   console.warn('No top video found for category:', category);
     return;
   }
 
@@ -1483,7 +1481,6 @@ function generateLocationList(data, locationMap) {
   // Create a reusable button component for each location (country, state, city)
   function createButton(text, className, location, onClick) {
 
-    console.warn('text createButton: ',text);
 
     // Validate the inputs
     if (typeof text !== 'string' || text.trim() === '') {
@@ -1523,7 +1520,7 @@ function generateLocationList(data, locationMap) {
         // Call the provided onClick handler
         onClick(event);
 
-        console.warn('location: ',text);
+        if (DEBUG)   console.warn('location: ',text);
 
 
       } catch (error) {
@@ -1559,7 +1556,7 @@ function generateLocationList(data, locationMap) {
   
       // If the array is empty, return null
       if (videos.length === 0) {
-          console.warn("No videos found.");
+        if (DEBUG)     console.warn("No videos found.");
           return null;
       }
   
@@ -1625,7 +1622,7 @@ function generateLocationList(data, locationMap) {
       
       statesMap.forEach((citiesMap, state) => {
         const topVideo = getTopVideo(citiesMap);
-        console.warn('states topVideo: ',state);
+        if (DEBUG)    console.warn('states topVideo: ',state);
 
         const stateDiv = document.createElement('div');
         stateDiv.className = 'state-tab';
@@ -1691,7 +1688,7 @@ document.getElementById('backToStates').addEventListener('click', () => {
   
     // Function to create a reusable video card
     function createVideoCard(video) {
-      console.warn('video createVideoCard: ', video);
+      if (DEBUG)   console.warn('video createVideoCard: ', video);
   
       // Create wrapper div
       const contentWrapDiv = document.createElement('div');
@@ -1752,12 +1749,10 @@ function loadConnectionsFunc() {
 
   let userLocationData = sessionStorage.getItem('userLocation');
 
-  console.log("****************** inside  loadConnectionsFunc:");
 
   if (userLocationData && sidePanel) {
     let currentLocation = userLocationData ? JSON.parse(userLocationData) : { city: "", state: "", country: "" };
 
-    console.log("currentPath  ", currentPath);
     const locationContainer = document.getElementById('locationContainer');
     locationContainer.innerHTML = ''; // Clear any existing content
 
@@ -1809,7 +1804,7 @@ function loadConnectionsFunc() {
               () => {
 
                 
-               console.warn('topVideo renderSideVideos: ',topVideo);
+                if (DEBUG)      console.warn('topVideo renderSideVideos: ',topVideo);
 
                renderSideVideos(topVideo);
     
@@ -1852,7 +1847,7 @@ function loadConnectionsFunc() {
               cityDiv,
               () => {
 
-                console.warn('topVideo renderSideVideos: ',topVideo);
+                if (DEBUG)     console.warn('topVideo renderSideVideos: ',topVideo);
                 renderSideVideos(topVideo);
               }
             );
