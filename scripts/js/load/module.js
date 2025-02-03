@@ -32,6 +32,10 @@ import { getDownloadURL, uploadBytes, uploadBytesResumable, ref, getStorage, del
 // Analytics import
 import { initializeAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js';
 
+
+const DEBUG = false;
+if (DEBUG) console.log("Module Debug on");
+ 
 // Initialize Firebase
 let auth;
 let db;
@@ -65,13 +69,12 @@ function initializeFirebase() {
 
 
      onAuthStateChanged(auth, (user) => {
-      console.log("onAuthStateChanged  currentUrl   ",currentUrl);
-      console.log("user   ",user);
+      if (DEBUG)  console.log("currentUrl   ",currentUrl);
 
       if (user){
-        console.log("User")
+        if (DEBUG)  console.log("User")
       }  else{
-        console.log("No User");
+        if (DEBUG)  console.log("No User");
       }
           
 
@@ -85,7 +88,7 @@ function initializeFirebase() {
         if (joinArea) joinArea.style.display = 'none';
       
               
-        console.log("Module User ID: ", user.uid);
+        if (DEBUG) console.log("Module User ID: ", user.uid);
     
         // Store user ID and email in local storage
         localStorage.setItem('userLoggedIn', true);
@@ -103,7 +106,7 @@ function initializeFirebase() {
             document.body.classList.remove("dark-mode");
           }
         } catch (error) {
-          console.error("Error fetching user data:", error.message);
+          if (DEBUG)  console.error("Error fetching user data:", error.message);
         }
         
         
@@ -127,7 +130,7 @@ function initializeFirebase() {
         }
     
       } else {
-        console.log("No user signed in");
+        if (DEBUG)  console.log("No user signed in");
     
         // Clear local storage
         localStorage.removeItem('userLoggedIn');
@@ -155,7 +158,7 @@ function initializeFirebase() {
     
  //   console.log("Firebase initialized successfully");
   } catch (error) {
-    console.error("Authentication error:", error.message, error.stack);
+    if (DEBUG)   console.error("Authentication error:", error.message, error.stack);
   }
 
 }
@@ -188,8 +191,6 @@ import { } from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
 
 
-const DEBUG = false;
-if (DEBUG) console.log("Module Debug on");
 
 /**
  * Utility function to dynamically load a stylesheet.
