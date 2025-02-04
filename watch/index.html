@@ -349,7 +349,12 @@ async function fetchVideoData(videoId) {
 
         // Filter video data based on visibility rules
         const filteredData = data.filter(videoData => {
-            const isViewable = videoData.isPublic || (videoData.status === 'posted' && !videoData.isDeleted);
+            const isViewable = (videoData.isPublic || videoData.status === 'posted') && !videoData.isDeleted;
+          
+            console.log("isViewable:", isViewable);
+            console.log("filteredData data:", filteredData);
+
+          
             return isViewable;
         });
 
@@ -365,11 +370,11 @@ async function fetchVideoData(videoId) {
         }
 
         // Ensure the DOM is fully loaded before rendering
-        document.addEventListener("DOMContentLoaded", () => {
-          console.log("renderVideoPage:", videoId);
+      //  document.addEventListener("DOMContentLoaded", () => {
+          console.log("r-------------------   enderVideoPage:", videoId);
 
             renderVideoPage(videoData, videoId);
-        });
+      //  });
 
     } catch (error) {
         console.error('Error fetching video data:', error);
