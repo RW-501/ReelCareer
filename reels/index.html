@@ -361,7 +361,9 @@ href="https://reelcareer.co/reels/reelsCSS.css"
     } from 'https://reelcareer.co/scripts/js/video_js/main.js';
 
  
-        
+    const DEBUG = false;
+if (DEBUG) console.log("Module Debug on");
+ 
     let userId = '';
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -409,11 +411,11 @@ async function fetchVideoResumes(page = 1, tagFilter = "", connectionType, inclu
     const videoContainer = document.getElementById("video-reel-container");
     const videoDataArray = [];
 
-    console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
+    if (DEBUG) console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
 
     if (!tagFilter) {
         // Save the current video page number to localStorage
-        localStorage.setItem('videoPageNumber', page);
+        if (DEBUG)  localStorage.setItem('videoPageNumber', page);
     }
 
     try {
@@ -430,12 +432,12 @@ if(!userId){
 let rc_VideoInterest = false;
 
  setTimeout(async () => {
-  console.log("connectionType:", connectionType);
-  console.log("includeConnected:", includeConnected);
+  if (DEBUG)  console.log("connectionType:", connectionType);
+  if (DEBUG) console.log("includeConnected:", includeConnected);
 
   // Log user video interests
   const videoInterest = getUserVideoInterest();
-  console.log('User Video Interests:', JSON.stringify(videoInterest));
+  if (DEBUG)  console.log('User Video Interests:', JSON.stringify(videoInterest));
 
   try {
 /*     // Fetch connected user IDs if needed
@@ -625,7 +627,7 @@ videosQuery = query(
         } else if (page === 1) {
             videoContainer.innerHTML = "<p>No video resumes available.</p>";
         }
-      }, 2000);
+      }, 500);
 
     } catch (error) {
         console.error("Error fetching video resumes: ", error);
@@ -709,15 +711,15 @@ const owner = "RW-501";
             }
 
             if (JSON.stringify(updatedDataArray) !== JSON.stringify(existingDataArray)) {
-                console.log("Changes detected, preparing to update file.");
+              if (DEBUG)     console.log("Changes detected, preparing to update file.");
                 const updatedEncodedContent = btoa(JSON.stringify(updatedDataArray, null, 2));
                 await updateFile(url, updatedEncodedContent, fileData.sha, token);
             } else {
-                console.log("No changes detected.");
+              if (DEBUG)     console.log("No changes detected.");
             }
 
         } else if (fileResponse.status === 404) {
-            console.log("File does not exist, creating a new one.");
+          if (DEBUG)   console.log("File does not exist, creating a new one.");
             await updateFile(url, encodedContent, null, token);
         } else {
             throw new Error(`Failed to fetch file metadata: ${fileResponse.statusText}`);
@@ -825,7 +827,7 @@ const videoPageNumber = savedPageNumber ? parseInt(savedPageNumber, 10) : 1;
 
 
         if (!userId) {
-            console.log("No user.");
+          if (DEBUG)    console.log("No user.");
             lastBreadcrumb_messages.style.display = "none";
             lastBreadcrumb_profile.style.display = "none";
             lastBreadcrumb_last_create.style.display = "none";
