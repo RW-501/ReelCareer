@@ -23,7 +23,8 @@ if (DEBUG) console.log("Module Debug on");
   const categoryMap = new Map(); // Stores videos grouped by categories
   const topVideos = []; // Stores top-rated videos
   
-let userId = '';
+  
+  let userId  = '';
 
   let connectionType = "";
   let connectedUserIds = null;
