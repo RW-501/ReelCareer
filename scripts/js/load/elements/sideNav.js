@@ -447,6 +447,7 @@ const currentUrl = window.location.href;
 
     if (currentUrl === 'https://reelcareer.co/u/') {
       document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
+      document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
     } else {
         window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
   
@@ -999,7 +1000,11 @@ margins: auto;
   }
 }
 
-
+#navCloseBTN {
+    color: #83bad9;
+    text-shadow: -1px 1px 0px #9e9a9a;
+    font-weight: 800;
+}
 
 
 .side-user-btn {
