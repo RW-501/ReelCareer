@@ -352,11 +352,11 @@ async function fetchVideoData(videoId) {
             const isViewable = (videoData.isPublic || videoData.status === 'posted') && !videoData.isDeleted;
           
             console.log("isViewable:", isViewable);
-            console.log("filteredData data:", filteredData);
 
           
             return isViewable;
         });
+        console.log("filteredData data:", filteredData);
 
         if (filteredData.length === 0) {
             console.error('No valid videos found!');
