@@ -1309,7 +1309,7 @@ async function loadTopCategoriesWithVideos() {
     position: fixed;
     z-index: 5000;
 }
-    #currentLocationDisplay button {
+    #currentLocationDisplay > button {
     background: linear-gradient(to top, #f4f4f4, #83bad9);
     color: #676767 !important;
     border-radius: 5px;
