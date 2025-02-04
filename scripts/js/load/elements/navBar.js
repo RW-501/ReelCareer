@@ -170,10 +170,10 @@ const userDataSaved = getUserData() || {};
 const lastUpdateTimestamp = userDataSaved.lastUpdateTime;
 const lastUpdateDate = new Date((lastUpdateTimestamp.seconds * 1000) + (lastUpdateTimestamp.nanoseconds / 1000000));
 
-console.log("lastUpdateTime:", lastUpdateDate);
+if (DEBUG) console.log("lastUpdateTime:", lastUpdateDate);
 
 if (!lastUpdateDate || (new Date() - lastUpdateDate) > 30 * 60 * 1000) {
-  console.log("updating user:", user.displayName);
+  if (DEBUG)  console.log("updating user:", user.displayName);
 
      saveUserLoginState(user); // Save user state
 }
@@ -451,7 +451,7 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
  
 
 async function logoutUser() {
-  console.log("logoutUser: ", auth);
+  if (DEBUG) console.log("logoutUser: ", auth);
 
     try {
       await signOut(auth);
