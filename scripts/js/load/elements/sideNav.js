@@ -412,17 +412,17 @@ function insertSidePanelContent() {
         window.location.href = 'https://reelcareer.co/u/reels#main-analytics';
       });
     }
+    videoWatchHistoryButton.addEventListener('click', () => {
 
     if (currentUrl === 'https://reelcareer.co/u/') {
       document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
     } else {
-      videoWatchHistoryButton.addEventListener('click', () => {
         window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
-      });
+  
     }
   });
 
-
+});
 
 
 
