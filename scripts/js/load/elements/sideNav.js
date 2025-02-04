@@ -388,30 +388,49 @@ function insertSidePanelContent() {
     const mainAnalyticsSection = document.getElementById('main-analytics');
     let showingAccount = true; // Track which section is visible
 
-    if (currentPath.includes('/u/reels')) {
 
       videoAccountButton.addEventListener('click', () => {
+
+        if (currentPath.includes('/u/reels')) {
+
         videoReelsSection.style.display = 'block';
         mainAnalyticsSection.style.display = 'none';
         showingAccount = false;
         console.log(`Switched to: Video Reels`);
+        }else{
+          window.location.href = 'https://reelcareer.co/u/reels#video-reels';
+
+        }
+
+
       });
 
       videoAnalyticsButton.addEventListener('click', () => {
+
+
+        if (currentPath.includes('/u/reels')) {
+
         videoReelsSection.style.display = 'none';
         mainAnalyticsSection.style.display = 'block';
         showingAccount = true;
         console.log(`Switched to: Main Analytics`);
-      });
-    } else {
-      videoAccountButton.addEventListener('click', () => {
-        window.location.href = 'https://reelcareer.co/u/reels#video-reels';
-      });
-
-      videoAnalyticsButton.addEventListener('click', () => {
+      } else{
         window.location.href = 'https://reelcareer.co/u/reels#main-analytics';
-      });
-    }
+
+
+      }
+
+    });
+
+
+  
+
+   
+
+
+
+
+
     videoWatchHistoryButton.addEventListener('click', () => {
 
     if (currentUrl === 'https://reelcareer.co/u/') {
@@ -422,13 +441,9 @@ function insertSidePanelContent() {
     }
   });
 
-});
 
 
-
-
-
-
+  
 
   document.getElementById('btn-join').addEventListener('click', () => {
 
@@ -451,6 +466,8 @@ function insertSidePanelContent() {
 
 
 
+
+});
 
 
   const updateButtonTextVisibility = (action) => {
