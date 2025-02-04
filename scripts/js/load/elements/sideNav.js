@@ -1309,6 +1309,19 @@ async function loadTopCategoriesWithVideos() {
     position: fixed;
     z-index: 5000;
 }
+    #currentLocationDisplay button {
+    background: linear-gradient(to top, #f4f4f4, #83bad9);
+    color: #676767 !important;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    transition: background 0.3s ease;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    vertical-align: middle;
+}
 
     `;
     document.head.appendChild(style);
