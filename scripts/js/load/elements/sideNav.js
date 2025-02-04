@@ -446,8 +446,13 @@ const currentUrl = window.location.href;
       console.log(`Switched to: Main watch  history `);
 
     if (currentUrl === 'https://reelcareer.co/u/') {
-      document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
-      document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
+      const watchHistoryButton = document.getElementById('watch-history-tab');
+      if (watchHistoryButton) {
+          watchHistoryButton.click();
+      } else {
+          console.warn("Watch History button not found");
+      }
+    
     } else {
         window.location.href = 'https://reelcareer.co/u/#watch-history-tab';
   
