@@ -364,6 +364,7 @@ function insertSidePanelContent() {
 
   });
 
+  function loadButtonsFunc(){
 
   const currentUrl = window.location.href;
   if (DEBUG)    console.log("currentUrl   ", currentUrl);
@@ -375,7 +376,6 @@ function insertSidePanelContent() {
   document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
   document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
 
-  document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const currentUrl = window.location.href;
 
@@ -468,8 +468,9 @@ function insertSidePanelContent() {
 
 
 
-});
+}
 
+loadButtonsFunc();
 
   const updateButtonTextVisibility = (action) => {
 
