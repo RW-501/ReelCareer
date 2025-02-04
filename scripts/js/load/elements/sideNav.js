@@ -33,7 +33,9 @@ let userId = '';
 let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false;
+
 const currentPath = window.location.pathname;
+const currentUrl = window.location.href;
 
 const sidePanel = document.getElementById('main-side-panel');
 
@@ -366,7 +368,6 @@ function insertSidePanelContent() {
 
   function loadButtonsFunc(){
 
-  const currentUrl = window.location.href;
   if (DEBUG)    console.log("currentUrl   ", currentUrl);
 
   document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
@@ -376,11 +377,7 @@ function insertSidePanelContent() {
   document.getElementById('btn-faq').addEventListener('click', () => window.location.href = 'https://reelcareer.co/faq');
   document.getElementById('btn-create-obituary').addEventListener('click', () => window.location.href = 'https://reelcareer.co/obituaries/create');
 
-    const currentPath = window.location.pathname;
-    const currentUrl = window.location.href;
-
-    if (DEBUG)    console.log("currentPath: ", currentPath);
-
+  
     const videoAccountButton = document.getElementById('btn-video-account');
     const videoAnalyticsButton = document.getElementById('btn-video-analytics');
     const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
@@ -396,7 +393,7 @@ function insertSidePanelContent() {
         videoReelsSection.style.display = 'block';
         mainAnalyticsSection.style.display = 'none';
         showingAccount = false;
-        console.log(`Switched to: Video Reels`);
+        if (DEBUG)    console.log(`Switched to: Video Reels`);
         }else{
           window.location.href = 'https://reelcareer.co/u/reels#video-reels';
 
