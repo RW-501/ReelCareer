@@ -14,7 +14,7 @@ import {
   getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-const DEBUG = false;
+const DEBUG = true;
 if (DEBUG) console.log("Module Debug on");
 
 
@@ -23,7 +23,7 @@ if (DEBUG) console.log("Module Debug on");
   const categoryMap = new Map(); // Stores videos grouped by categories
   const topVideos = []; // Stores top-rated videos
   
-
+let userId = '';
 
   let connectionType = "";
   let connectedUserIds = null;
@@ -432,6 +432,7 @@ function insertSidePanelContent() {
 
 
     videoWatchHistoryButton.addEventListener('click', () => {
+      console.log(`Switched to: Main watch  history `);
 
     if (currentUrl === 'https://reelcareer.co/u/') {
       document.getElementById('watch-history-tab').click(); // Automatically opens watch history tab if needed
