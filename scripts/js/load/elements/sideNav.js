@@ -189,8 +189,8 @@ function insertSidePanelContent() {
     </div>
   </div>
 
-  <div class="text-center m-auto btn-text">
-    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+  <div class="text-center m-auto">
+    <h4 id="navCloseBTN">Close</h4>
   </div>
 </nav>
 
@@ -291,8 +291,9 @@ function insertSidePanelContent() {
   const mainSidePanel = document.getElementById("main-side-panel");
   const sidePanelGroup = document.getElementById("side-panel-group");
   const sideNavList = document.getElementById("side-nav-list");
+  const navCloseBTN = document.getElementById("navCloseBTN");
 
-
+  
   const isMobile = window.innerWidth <= 768;
 
   function toggleButtonActive(button) {
@@ -316,11 +317,7 @@ function insertSidePanelContent() {
   }
 
 
-  document.getElementById('btn-menu').addEventListener('click', () => {
-
-    
-
-    
+  navCloseBTN.addEventListener('click', () => {
             if(navArea.style.display !== 'none'){
               navArea.style.display = 'none'
            }else{
@@ -329,6 +326,16 @@ function insertSidePanelContent() {
 
            } 
   });
+
+  document.getElementById('btn-menu').addEventListener('click', () => {
+    if(navArea.style.display !== 'none'){
+      navArea.style.display = 'none'
+   }else{
+    navArea.style.display = 'block'
+    console.warn("side-nav exist.");
+
+   } 
+});
 
 
   document.getElementById('btn-search').addEventListener('click', () => {
