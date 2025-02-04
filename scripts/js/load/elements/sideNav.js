@@ -369,6 +369,10 @@ function insertSidePanelContent() {
 
   function loadButtonsFunc(){
 
+const currentPath = window.location.pathname;
+const currentUrl = window.location.href;
+
+
   if (DEBUG)    console.log("currentUrl   ", currentUrl);
 
   document.getElementById('btn-home').addEventListener('click', () => window.location.href = 'https://reelcareer.co');
@@ -384,6 +388,8 @@ function insertSidePanelContent() {
     const videoWatchHistoryButton = document.getElementById('btn-video-watchHistory');
     const videoReelsSection = document.getElementById('video-reels');
     const mainAnalyticsSection = document.getElementById('main-analytics');
+
+
     let showingAccount = true; // Track which section is visible
 
 
