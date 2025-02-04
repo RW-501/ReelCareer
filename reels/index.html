@@ -440,19 +440,17 @@ let rc_VideoInterest = false;
   if (DEBUG)  console.log('User Video Interests:', JSON.stringify(videoInterest));
 
   try {
-/*     // Fetch connected user IDs if needed
+    // Fetch connected user IDs if needed
     const connectedUserData = await getConnectedUserIds(connectionType);
      connectedUserIds = connectedUserData.map(user => user.id);
-
+/* 
     // Log connected user data and IDs for debugging
     console.log('Connected User Data:', connectedUserData);
     console.log('Connected User IDs:', connectedUserIds);
 
     // Populate side panel with connected user data
-    setTimeout(() => {
-    populateSidePanelContacts(connectedUserData);
-}, 500); // Delay of 500 milliseconds (0.5 seconds)
  */
+ populateSidePanelContacts(connectedUserData);
 
 } catch (error) {
     console.error("Error fetching connected user data:", error);

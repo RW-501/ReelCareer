@@ -1013,16 +1013,18 @@ if (sidePanel) {
   await auth.onAuthStateChanged((user) => {
     if (user) {
          userId = user.uid; // Access the user ID
-
+/*
        if(userId){
         const connectedUserData =  getConnectedUserIds(connectionType);
-         connectedUserIds = connectedUserData.map(user => user.id);
+       //  connectedUserIds = connectedUserData.map(user => user.id);
         
          setTimeout(() => {
             populateSidePanelContacts(connectedUserData);
         }, 500); // Delay of 500 milliseconds (0.5 seconds)
         
           }
+*/
+
         // You can call your functions that require userId here
     } else {
     if (DEBUG)    console.error("No user is signed in.");
