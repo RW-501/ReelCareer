@@ -2164,6 +2164,8 @@ async function handleDeleteAdmin(event) {
     const videoUrl = event.target.dataset.video_url;  // Assuming this is passed via a data attribute
     const thumbnailURL = event.target.dataset.thumbnailURL;  // Assuming this is passed via a data attribute
    // const userID = auth.currentUser.uid;
+   console.log("reelID , videoUrl, userID,: ", reelID , videoUrl, userID,);
+   console.log("thumbnailURL: ", thumbnailURL,);
 
     if (!reelID || !videoUrl || !userID) {
         showToast('Invalid reel data provided for deletion.');
@@ -2178,11 +2180,19 @@ async function handleDeleteAdmin(event) {
 
             showToast('Video file deleted successfully.');
 
-            if (thumbnailURL) {
-            const thumbnailURLRef = ref(storage, thumbnailURL);
-            await deleteObject(thumbnailURLRef);
-            showToast(' thumbnailURL deleted successfully.');
-            }
+            if (thumbnailURL && thumbnailURL !== "https://reelcareer.co/images/sq_logo_n_BG_sm.png") { 
+    try {
+        const thumbnailURLRef = ref(storage, thumbnailURL);
+        await deleteObject(thumbnailURLRef);
+        showToast('Thumbnail deleted successfully.');
+    } catch (error) {
+        console.error("Error deleting thumbnail:", error);
+        showToast('Failed to delete thumbnail.');
+    }
+} else {
+    console.log("Skipping deletion for default thumbnail.");
+}
+
 
             // 2. Delete the reel document from Firestore
             const reelRef = doc(db, "VideoResumes", reelID);
