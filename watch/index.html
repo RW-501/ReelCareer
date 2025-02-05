@@ -430,34 +430,13 @@ function createVideoCard(videoData) {
               class="card-img-top video-player" 
               id="video-${videoData.reelID}">
             </video>
-            
-            <!-- Custom Controls -->
-            <div class="controls-top" id="controls-top-${videoData.reelID}">
-              <button class="mute-toggle" aria-label="Mute or Unmute" onclick="toggleMute('video-${videoData.reelID}', this)">
-                <i class="fa fa-volume-up"></i>
-              </button>
-              <button class="fullscreen-toggle" aria-label="Enter Full Screen" onclick="toggleFullscreen('video-${videoData.reelID}')">
-                <i class="fa fa-expand"></i>
-              </button>
-            </div>
-
-            <!-- Play Button Overlay -->
-            <div class="play-overlay controls-play" id="play-overlay-${videoData.reelID}" onclick="playVideo('video-${videoData.reelID}')">
-              <i class="fa fa-play"></i>
-            </div>
-
-            <!-- Bottom Controls -->
-            <div class="controls-container controls-bottom" id="controls-bottom-${videoData.reelID}">
-              <div class="actions">
-                <button class="action-btn like-btn" onclick="handleLike('${videoData.reelID}', this)">
-                  <i class="fa fa-thumbs-up"></i>
-                </button>
-                <div class="realCareerVidLogo action-btn">ReelCareer</div>
-              </div>
-            </div>
-        </div>
-
-        <a class="btn btn-primary btn-block" href="https://reelcareer.co/watch/?v=${videoData.reelID}">View More</a>
+      <div class="video-thumbnail">
+      <a href="${videoData.pageUrl}" target="_blank">
+        <img src="${videoData.thumbnail}" alt="${videoData.title}" />
+      </a>
+    </div>
+           
+       </div>
     `;
 
     return card;
@@ -634,7 +613,7 @@ function renderVideoPage(videoData, docId) {
                 <button class="reportVideoBtn">Report</button>
             </div>
 
-            <div class="play-overlay">
+            <div id='main-play-BTN' class="play-overlay">
                 <i class="fa fa-play"></i>
             </div>
 
@@ -693,7 +672,12 @@ loadRelatedVideos(videoData);
     
     videoCard.querySelector('.fullscreen-toggle')?.addEventListener('click', () => toggleFullscreen(docId));
 
+    const playBTN = document.getElementById('main-play-BTN');
+
+
     const videoElement = document.getElementById('video-element');
+
+    
     videoElement.addEventListener('play', () => incrementViewCount(docId, videoElement));
 
     // Handle video controls
