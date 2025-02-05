@@ -1114,49 +1114,46 @@
      // console.log("DOMContentLoaded");
   
     });
+    function loadData() { 
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User detected:", user);
+            
+            // Ensure user is fully loaded
+            if (!auth.currentUser) {
+                console.warn("Auth user not fully loaded. Retrying...");
+                setTimeout(loadData, 600);
+                return;
+            }
 
-    function loadData() {
-   onAuthStateChanged(auth, (user) => {
-      if (user) {
-       //  console.log("loadData User:", user);
-     
+            let userId = auth.currentUser.uid;
+            console.log("User ID:", userId);
 
-if(!user){
-  openPopupLogin();
-  return;
-}
-userId = auth.currentUser.uid;
-//console.log("userId:", userId);
+            // Set user ID on page
+            const userPageElement = document.getElementById('userPageId');
+            if (userPageElement) {
+                userPageElement.innerText = userId;
+            } else {
+                console.warn("Element 'userPageId' not found.");
+            }
 
-document.getElementById('userPageId').innerText = userId;
+            console.log("Proceeding with user check:", userId);
 
-
-
-        console.log("Module User We outside:", userId);
-        // Ensure userIdFromURL is not null or undefined
-        if (userIdFromURL) {
-          checkUser(userIdFromURL);
-        } else if (userId) {
-          checkUser(userId);
+            // Check user from URL or session
+            if (userIdFromURL) {
+                checkUser(userIdFromURL);
+            } else if (userId) {
+                checkUser(userId);
+            } else {
+                showUserDataNotFoundMessage();
+                console.log("No user ID found in URL or session.");
+            }
         } else {
-          // Call this function when the user data is not found
-          showUserDataNotFoundMessage();
-          console.log("No user ID found in URL or session.");
+            console.log("No user signed in. Opening login popup...");
+            openPopupLogin();
         }
-
-        } else {
-         console.log("No user signed in.");
-      }
-   });
+    });
 }
-   
-
-     
-
-    setTimeout(() => {
-      loadData();
-        }, 600);
-
 
     // Retrieve and populate form inputs for tabs
     window.onload = async function() {
