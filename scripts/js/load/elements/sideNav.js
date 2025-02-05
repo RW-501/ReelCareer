@@ -66,18 +66,19 @@ function insertSidePanelContent() {
       </li>
 
       <li class="side-nav-item">
+        <button id="showUploadPopup" class="side-nav-button" aria-label="Upload Reel">
+          <i class="fas fa-upload" aria-hidden="true"></i>
+          <span class="btn-text"> Upload Reel</span>
+        </button>
+      </li>
+
+      <li class="side-nav-item">
         <button id="btn-search" class="side-nav-button" aria-label="Search"> 
           <i id="search-icon" class="fas fa-search search-icon" aria-hidden="true"></i>
           <span class="btn-text"> Search</span>
         </button>
       </li>
 
-      <li class="side-nav-item">
-        <button id="btn-home" class="side-nav-button" aria-label="Go to home">
-          <i class="fas fa-home" aria-hidden="true"></i>
-          <span class="btn-text"> Home</span>
-        </button>
-      </li>
 
       <li class="side-nav-item">
         <button id="btn-location" class="side-nav-button" aria-label="Location">
@@ -86,12 +87,13 @@ function insertSidePanelContent() {
         </button>
       </li>
 
-      <li class="side-nav-item side-user-btn">
-        <button id="showUploadPopup" class="side-nav-button" aria-label="Upload Reel">
-          <i class="fas fa-upload" aria-hidden="true"></i>
-          <span class="btn-text"> Upload Reel</span>
+      <li class="side-nav-item" hidden>
+        <button id="btn-home" class="side-nav-button" aria-label="Go to home">
+          <i class="fas fa-home" aria-hidden="true"></i>
+          <span class="btn-text"> Home</span>
         </button>
       </li>
+
 
       <li class="side-nav-item side-user-btn">
         <button id="btn-profile" class="side-nav-button" aria-label="Profile">
