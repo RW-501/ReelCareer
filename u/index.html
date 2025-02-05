@@ -1691,7 +1691,8 @@ const uniqueWebsites = websites.filter((site, index, self) =>
         }
       });
     }
-    async function loadUserVideoResumes(userData) {
+   playOverlay.style.display = 'flex';
+      async function loadUserVideoResumes(userData) {
     const videoResumeList = document.getElementById('video-resume-list');
 
     // Check if videoResumeData exists and is an array
@@ -1758,8 +1759,7 @@ const uniqueWebsites = websites.filter((site, index, self) =>
       controlsTop.style.display = 'none';
       controlsBottom.style.display = 'none';
       video.onpause = () => {
-        playOverlay.style.display = 'flex';
-        controlsTop.style.display = 'flex';
+           controlsTop.style.display = 'flex';
         controlsBottom.style.display = 'flex';
       };
       video.onended = () => {

@@ -393,7 +393,126 @@ section:empty {
 
 const videoId = urlParams.get('v');
 
-// Fetch video data from Firestore using the videoId
+
+
+
+async function loadRelatedVideos(userData) { 
+    const videoResumeList = document.getElementById('video-resume-list');
+    console.log("r-------------------   userData.relatedReels:", userData.relatedReels);
+
+    // Clear previous content
+    videoResumeList.innerHTML = '';
+
+    // Validate user video data
+    if (!userData.relatedReels || !Array.isArray(userData.relatedReels) || userData.relatedReels.length === 0) {
+        videoResumeList.innerHTML = '<li>No related videos found.</li>';
+        return;
+    }
+
+    console.log("Loading related videos: ", userData.relatedReels);
+
+    // Create and append video cards
+    userData.relatedReels.forEach(videoData => {
+        if (videoData.status === 'posted' || videoData.isPublic) {
+            videoResumeList.appendChild(createVideoCard(videoData));
+        }
+    });
+}
+
+// Function to create video card
+function createVideoCard(videoData) {
+    const card = document.createElement('div');
+    card.classList.add("profileVideoCard");
+    card.innerHTML = `
+        <div class="vidioCard">
+            <video 
+              src="${videoData.videoResumeURL}" 
+              class="card-img-top video-player" 
+              id="video-${videoData.reelID}">
+            </video>
+            
+            <!-- Custom Controls -->
+            <div class="controls-top" id="controls-top-${videoData.reelID}">
+              <button class="mute-toggle" aria-label="Mute or Unmute" onclick="toggleMute('video-${videoData.reelID}', this)">
+                <i class="fa fa-volume-up"></i>
+              </button>
+              <button class="fullscreen-toggle" aria-label="Enter Full Screen" onclick="toggleFullscreen('video-${videoData.reelID}')">
+                <i class="fa fa-expand"></i>
+              </button>
+            </div>
+
+            <!-- Play Button Overlay -->
+            <div class="play-overlay controls-play" id="play-overlay-${videoData.reelID}" onclick="playVideo('video-${videoData.reelID}')">
+              <i class="fa fa-play"></i>
+            </div>
+
+            <!-- Bottom Controls -->
+            <div class="controls-container controls-bottom" id="controls-bottom-${videoData.reelID}">
+              <div class="actions">
+                <button class="action-btn like-btn" onclick="handleLike('${videoData.reelID}', this)">
+                  <i class="fa fa-thumbs-up"></i>
+                </button>
+                <div class="realCareerVidLogo action-btn">ReelCareer</div>
+              </div>
+            </div>
+        </div>
+
+        <a class="btn btn-primary btn-block" href="https://reelcareer.co/watch/?v=${videoData.reelID}">View More</a>
+    `;
+
+    return card;
+}
+
+
+
+function playVideo(videoId) {
+    const video = document.getElementById(videoId);
+    const reelID = videoId.split('-')[1];
+
+    // Controls & Overlay
+    const playOverlay = document.getElementById(`play-overlay-${reelID}`);
+    const controlsTop = document.getElementById(`controls-top-${reelID}`);
+    const controlsBottom = document.getElementById(`controls-bottom-${reelID}`);
+
+    video.play();
+    playOverlay.style.display = 'none';
+    controlsTop.style.display = 'none';
+    controlsBottom.style.display = 'none';
+
+    video.onpause = () => {
+        controlsTop.style.display = 'flex';
+        controlsBottom.style.display = 'flex';
+    };
+    video.onended = () => {
+        playOverlay.style.display = 'flex';
+        controlsTop.style.display = 'flex';
+        controlsBottom.style.display = 'flex';
+    };
+}
+window.playVideo = playVideo;
+
+function toggleMute(videoId, muteButton) {
+    const video = document.getElementById(videoId);
+    video.muted = !video.muted;
+    muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
+}
+window.toggleMute = toggleMute;
+
+function toggleFullscreen(videoId) {
+    const video = document.getElementById(videoId);
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+    } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+    }
+}
+window.toggleFullscreen = toggleFullscreen;
+
+
+
+
 // Fetch video data from Firestore using the videoId
 async function fetchVideoData(videoId) {
     try {
@@ -434,7 +553,6 @@ async function fetchVideoData(videoId) {
 
         // Ensure the DOM is fully loaded before rendering
       //  document.addEventListener("DOMContentLoaded", () => {
-          console.log("r-------------------   enderVideoPage:", videoId);
 
             renderVideoPage(videoData, videoId);
       //  });
@@ -556,9 +674,10 @@ function renderVideoPage(videoData, docId) {
 
 // Show or hide sections
 toggleSection('video-comments-container', true);
-toggleSection('video-related-videos-container', true);
-toggleSection('video-related-products-container', true);
+toggleSection('video-related-videos-container', videoData.relatedReels.length > 0);
+toggleSection('video-related-products-container', videoData.relatedProductsBool);
 
+loadRelatedVideos(videoData);
 
 
 
