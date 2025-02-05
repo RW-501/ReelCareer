@@ -483,7 +483,7 @@ async function postReelFunction(
 
     // Ensure videoResumeTitle is a string and trim extra spaces before taking the first 10 characters
     const titleSnippet = videoResumeTitle.trim().substring(0, 10);
-    const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, "");
+    const fileName = `${userID}-${titleSnippet}_reel.mp4`.replace(/\s+/g, '');
 
     const videoData = {
       duration: videoDuration,
@@ -739,7 +739,7 @@ function initializeVideoUploadHandlers() {
 
         const tags = extractHashtags(description);
         const titleSnippet = videoResumeTitle.substring(0, 10);
-        const fileName = `${userID}-${titleSnippet}-reel.mp4`.replace(/\s+/g, '');
+        const fileName = `${userID}-${titleSnippet}_reel.mp4`.replace(/\s+/g, '');
 
         if (DEBUG)  console.log('videoDuration:', videoDuration);
 
