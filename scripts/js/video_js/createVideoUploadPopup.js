@@ -1287,7 +1287,7 @@ waitForElement("showUploadPopup", (element) => {
 waitForElement("showUploadPopupBtn", (element) => {
   element.addEventListener("click", handleUserAuthentication);
 });
-c 
+
 
 
 
