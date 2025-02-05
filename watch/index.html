@@ -429,7 +429,12 @@ function renderVideoPage(videoData, docId) {
     profileName.innerHTML = `${videoData.displayName || 'Anonymous'} `;
     profileImg.src = `${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}`;
     profilePosition.innerHTML = `${videoData.jobTitle || 'Job Title'} `;
-    infoArea.innerHTML = `  `;
+    infoArea.innerHTML = `<div class="user-info">
+                <div class="interaction-buttons">
+                    ${isConnected ? `<button class="message-button">Message</button>` : `<button class="connect-button">Connect</button>`}
+                    ${videoData.giftsBool ? `<button class="gift-button">Send Gift</button>` : ''}
+                </div>
+                 </div> `;
 
 
     // Create video card
@@ -437,20 +442,7 @@ function renderVideoPage(videoData, docId) {
     videoCard.classList.add('video-card', 'modern-video-card');
     videoCard.id = `video-${docId}`;
     videoCard.innerHTML = `
-        <div class="user-info">
-            <div class="user-info-left">
-                <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" 
-                     alt="${videoData.displayName || 'Anonymous'}" class="profile-img">
-            </div>
-            <div class="user-info-right">
-                <h3 class="user-name">${videoData.displayName || 'Anonymous'}</h3>
-                <p class="job-title">${videoData.jobTitle || 'Job Title'}</p>
-                <div class="interaction-buttons">
-                    ${isConnected ? `<button class="message-button">Message</button>` : `<button class="connect-button">Connect</button>`}
-                    ${videoData.giftsBool ? `<button class="gift-button">Send Gift</button>` : ''}
-                </div>
-            </div>
-        </div>
+
 
         <div class="video-container">
             <video class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
