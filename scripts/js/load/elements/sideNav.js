@@ -682,6 +682,7 @@ styleElement.textContent = `
     width: fit-content;
     position: absolute;
     box-shadow: 0 0 0 3px rgb(102 168 238 / 31%);
+    
 }
 
 
@@ -1250,8 +1251,7 @@ async function loadTopCategoriesWithVideos() {
 
     #main-side-panel {
 
-        display: none;
-            z-index: 5000;
+    z-index: 5000;
 
 .category-item {
     margin-bottom: 20px;
