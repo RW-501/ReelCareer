@@ -1260,7 +1260,7 @@ function handleUserAuthentication() {
 
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+//document.addEventListener('DOMContentLoaded', () => {
 
   if(document.getElementById("showUploadPopup")){
     // Create a button with event listener
@@ -1277,7 +1277,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-});
+//});
 
 
 
