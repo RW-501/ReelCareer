@@ -184,11 +184,13 @@ section:empty {
 
                   </div>
             </div>
+
             <div id="video-container">
 
             </div>
+            <div id="video-info-container">
 
-
+            </div>
         </section>
     
         <section id="video-related-products-container">
@@ -460,16 +462,9 @@ function renderVideoPage(videoData, docId) {
                 <i class="fa fa-play"></i>
             </div>
 
-            <div class="video-actions">
-                <button class="like-btn">${videoData.likes || 0} Likes</button>
-                <button class="share-btn">Share</button>
-            </div>
+  
         </div>
 
-        <div class="video-details">
-            <p class="views-count">${videoData.views || 0} views</p>
-            <button class="shortlist-btn">Add to Shortlist</button>
-        </div>
 
     
     `;
@@ -480,6 +475,17 @@ function renderVideoPage(videoData, docId) {
     const comments_Container = document.getElementById('video-comments-container');
     const related_videos_Container = document.getElementById('video-related-videos-container');
     const products_Container = document.getElementById('video-related-products-container');
+    const video_info_Container = document.getElementById('video-info-container');
+
+
+    video_info_Container.innerHTML = `          <div class="video-actions">
+                <button class="like-btn">${videoData.likes || 0} Likes</button>
+                <button class="share-btn">Share</button>
+            </div>
+        <div class="video-details">
+            <p class="views-count">${videoData.views || 0} views</p>
+            <button class="shortlist-btn">Add to Shortlist</button>
+        </div> `;
 
     comments_Container.innerHTML = `<div class="comments-section">
             <input type="text" placeholder="Add a comment..." class="comment-input" />
