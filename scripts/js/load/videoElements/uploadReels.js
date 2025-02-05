@@ -108,6 +108,7 @@ async function uploadVideoResume(
 
         progressBar.style.width = "100%";
         progressBar.textContent = "Upload Complete!";
+        saveReelChangesBtn.disabled = false; // Disable the button
 
         localStorage.removeItem(uploadSessionKey);
         setTimeout(() => {
