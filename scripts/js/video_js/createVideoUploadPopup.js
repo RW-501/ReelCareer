@@ -1260,24 +1260,30 @@ function handleUserAuthentication() {
 
 }
 
-//document.addEventListener('DOMContentLoaded', () => {
 
-  if(document.getElementById("showUploadPopup")){
-    // Create a button with event listener
-    document.getElementById("showUploadPopup").addEventListener("click", (e) => {
-      handleUserAuthentication();
-    });
-  } 
-    
-    if(document.getElementById("showUploadPopupBtn")){
-      document.getElementById("showUploadPopupBtn").addEventListener("click", (e) => {
-        handleUserAuthentication();
-      });
-    
+  function waitForElement(selector, callback, interval = 500) {
+    function checkElement() {
+        const element = document.getElementById(selector);
+        if (element) {
+            clearInterval(checkInterval); // Stop checking once the element is found
+            callback(element); // Execute the callback function
+        }
     }
+    const checkInterval = setInterval(checkElement, interval);
+}
+
+// Attach event listeners once elements are found
+waitForElement("showUploadPopup", (element) => {
+    element.addEventListener("click", handleUserAuthentication);
+});
+
+waitForElement("showUploadPopupBtn", (element) => {
+    element.addEventListener("click", handleUserAuthentication);
+});
 
 
-//});
+
+
 
 
 
