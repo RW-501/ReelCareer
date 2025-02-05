@@ -514,8 +514,8 @@ function renderVideos(docs, container, connectedUserIds, userId) {
       // Extract user IDs and other relevant data (name, profile URL, profile picture) from the 'participants' field
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const isFromCurrentUser = data.from === userId;
-        const isToCurrentUser = data.to === userId;
+        const isFromCurrentUser = data.to === userId;
+        const isToCurrentUser = data.from === userId;
         if (DEBUG) console.log("data ",data);
         /* 
         console.log("isFromCurrentUser ",isFromCurrentUser);
