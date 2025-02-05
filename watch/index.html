@@ -74,8 +74,8 @@ section:empty {
 }
 
 /* Video card styling */
-.video-card {
-    display: flex;
+.video-container {
+    display: grid;
     align-items: center;
     background: white;
     padding: 15px;
@@ -439,7 +439,7 @@ function renderVideoPage(videoData, docId) {
 
     // Create video card
     const videoCard = document.createElement('div');
-    videoCard.classList.add('video-card', 'modern-video-card');
+    videoCard.classList.add( 'modern-video-card');
     videoCard.id = `video-${docId}`;
     videoCard.innerHTML = `
 
@@ -471,14 +471,22 @@ function renderVideoPage(videoData, docId) {
             <button class="shortlist-btn">Add to Shortlist</button>
         </div>
 
-        <div class="comments-section">
-            <input type="text" placeholder="Add a comment..." class="comment-input" />
-            <button class="add-comment-btn">Post Comment</button>
-        </div>
+    
     `;
 
     // Append to container
     videoContainer.appendChild(videoCard);
+
+    const comments_Container = document.getElementById('video-comments-container');
+    const related_videos_Container = document.getElementById('video-related-videos-container');
+    const products_Container = document.getElementById('video-related-products-container');
+
+    comments_Container.innerHTML = `<div class="comments-section">
+            <input type="text" placeholder="Add a comment..." class="comment-input" />
+            <button class="add-comment-btn">Post Comment</button>
+        </div> `;
+    related_videos_Container.innerHTML = ` `;
+    products_Container.innerHTML = ` `;
 
 
 // Show or hide sections
