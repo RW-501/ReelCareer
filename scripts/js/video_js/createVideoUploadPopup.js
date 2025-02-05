@@ -713,7 +713,7 @@ document.getElementById('clearTagsButton_tagsContainerSET-reelCategories').addEv
 
 });
 
-
+ 
 
 
 
@@ -801,7 +801,8 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
   
 
   
-  
+  const updatedCategories = document.getElementById('input_tagsContainerSET-reelCategories').value;
+
   let updatedEndingCardBool = false;
   
   let updatedEndingCard = document.getElementById('endingCard').value;
@@ -843,7 +844,7 @@ const thumbnailPreview = document.getElementById('thumbnailPreview'); // Assume 
 
               relatedURL: updatedRelatedURL,
               relatedReels: relatedReelsArray,
-              reelCategories: updatedCategories,
+              reelCategories: generalTags_reelCategories || updatedCategories,
               relatedProducts: relatedProductsArray,
               notifcationsBool: updatedNotificationsBool,
               commentsBool: updatedCommentsBool,

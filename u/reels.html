@@ -2117,10 +2117,10 @@ thumbnailUpload.addEventListener('change', async (event) => {
             const downloadURL = await getDownloadURL(storageRef); // Get the download URL
             
             thumbnailURLInput.value = downloadURL; // Store the URL in the hidden input
-            alert('Thumbnail uploaded successfully.');
+            showToast('Thumbnail uploaded successfully.');
         } catch (error) {
             console.error('Error uploading thumbnail:', error);
-            alert('Failed to upload thumbnail. Please try again.');
+            showToast('Failed to upload thumbnail. Please try again.');
         }
     }
 });
