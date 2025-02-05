@@ -499,10 +499,11 @@ function renderVideoPage(videoData, docId) {
     video_info_Container.innerHTML = `          <div class="video-actions">
                 <button class="like-btn">${videoData.likes || 0} Likes</button>
                 <button class="share-btn">Share</button>
+                <button class="shortlist-btn">Add to Shortlist</button>
+
             </div>
         <div class="video-details">
             <p class="views-count">${videoData.views || 0} views</p>
-            <button class="shortlist-btn">Add to Shortlist</button>
         </div> `;
 
     comments_Container.innerHTML = `<div class="comments-section">
@@ -522,10 +523,13 @@ toggleSection('video-related-products-container', true);
 
 
     // Attach event listeners
-    videoCard.querySelector('.connect-button')?.addEventListener('click', () => handleConnect(docId, videoData));
-    videoCard.querySelector('.like-btn')?.addEventListener('click', () => handleLike(docId, videoData));
-    videoCard.querySelector('.share-btn')?.addEventListener('click', () => handleShare(docId, videoData));
-    videoCard.querySelector('.add-comment-btn')?.addEventListener('click', () => addComment(docId));
+    infoArea.querySelector('.connect-button')?.addEventListener('click', () => handleConnect(docId, videoData));
+   
+    video_info_Container.querySelector('.like-btn')?.addEventListener('click', () => handleLike(docId, videoData));
+    video_info_Container.querySelector('.share-btn')?.addEventListener('click', () => handleShare(docId, videoData));
+    
+    comments_Container.querySelector('.add-comment-btn')?.addEventListener('click', () => addComment(docId));
+    
     videoCard.querySelector('.fullscreen-toggle')?.addEventListener('click', () => toggleFullscreen(docId));
 
     const videoElement = videoCard.querySelector('.video-element');
