@@ -413,6 +413,23 @@ function renderVideoPage(videoData, docId) {
     let videoMuted = videoData.isMuted ? 'muted' : '';
     let isConnected = false;
 
+
+
+    const profileName = document.getElementById('user-profile-name');
+    const profilePosition = document.getElementById('user-profile-position');
+    const viewProfile = document.getElementById('user-view-profile-btn');
+    const infoArea = document.getElementById('video-info-area');
+
+
+
+
+
+
+    profileName.innerHTML = `${videoData.displayName || 'Anonymous'} `;
+    profilePosition.innerHTML = `  `;
+    infoArea.innerHTML = `  `;
+
+
     // Create video card
     const videoCard = document.createElement('div');
     videoCard.classList.add('video-card', 'modern-video-card');
