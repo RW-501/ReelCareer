@@ -445,41 +445,31 @@ function createVideoCard(videoData) {
 
 
 function playVideo(videoId) {
-    const video = document.getElementById(videoId);
-    const reelID = videoId.split('-')[1];
+    const video = document.getElementById(`video-element`);
 
-    // Controls & Overlay
-    const playOverlay = document.getElementById(`play-overlay-${reelID}`);
-    const controlsTop = document.getElementById(`controls-top-${reelID}`);
-    const controlsBottom = document.getElementById(`controls-bottom-${reelID}`);
-
+ 
     video.play();
-    playOverlay.style.display = 'none';
-    controlsTop.style.display = 'none';
-    controlsBottom.style.display = 'none';
+
 
     video.onpause = () => {
-        controlsTop.style.display = 'flex';
-        controlsBottom.style.display = 'flex';
+
     };
     video.onended = () => {
-        playOverlay.style.display = 'flex';
-        controlsTop.style.display = 'flex';
-        controlsBottom.style.display = 'flex';
+
     };
 }
 window.playVideo = playVideo;
 
 function toggleMute(videoId, muteButton) {
-    const video = document.getElementById(videoId);
-    video.muted = !video.muted;
+  const video = document.getElementById(`video-element`);
+  video.muted = !video.muted;
     muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
 }
 window.toggleMute = toggleMute;
 
 function toggleFullscreen(videoId) {
-    const video = document.getElementById(videoId);
-    if (video.requestFullscreen) {
+  const video = document.getElementById(`video-element`);
+  if (video.requestFullscreen) {
         video.requestFullscreen();
     } else if (video.webkitRequestFullscreen) {
         video.webkitRequestFullscreen();
@@ -594,6 +584,8 @@ function renderVideoPage(videoData, docId) {
                  </div> `;
 
 
+                 
+
     // Create video card
     const videoCard = document.createElement('div');
     videoCard.classList.add( 'modern-video-card');
@@ -673,9 +665,10 @@ loadRelatedVideos(videoData);
     videoCard.querySelector('.fullscreen-toggle')?.addEventListener('click', () => toggleFullscreen(docId));
 
     const playBTN = document.getElementById('main-play-BTN');
-
+    playBTN.addEventListener('click', () => playVideo(docId));
 
     const videoElement = document.getElementById('video-element');
+
 
     
     videoElement.addEventListener('play', () => incrementViewCount(docId, videoElement));
