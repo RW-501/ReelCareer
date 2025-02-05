@@ -405,7 +405,7 @@ display: none;
 
     overlay.id = "reel-upload-container";
 
-    // Set the inner content of the overlay
+    // Set the inner content of the overlay  multiple
     overlay.innerHTML = `
 <div class="video-upload-popup" aria-labelledby="videoUploadPopupLabel">
   <button class="close-button" aria-label="Close Popup">&times;</button>
@@ -423,7 +423,7 @@ display: none;
     <label for="reelVideoInput" aria-label="Upload Video">
       Video Upload
     </label>
-    <input type="file" id="reelVideoInput" class="reel-video-input" accept="video/*" multiple hidden  aria-describedby="videoUploadHelp">
+    <input type="file" id="reelVideoInput" class="reel-video-input" accept="video/*"  hidden  aria-describedby="videoUploadHelp">
     <div class="reel-video-area" aria-labelledby="mainSelectVideoBtn">
       <button id="mainSelectVideoBtn" class="select-video-btn btn btn-secondary" aria-label="Select Video Button">Select Video</button>
       <video id="reelVideoPreview" class="reel-video-preview" controls hidden aria-label="Video Preview"></video>
