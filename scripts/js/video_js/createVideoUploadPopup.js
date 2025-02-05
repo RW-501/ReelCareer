@@ -1260,27 +1260,34 @@ function handleUserAuthentication() {
 
 }
 
+function waitForElement(selector, callback, interval = 500, timeout = 2000) {
+  let elapsedTime = 0; // Track elapsed time
 
-  function waitForElement(selector, callback, interval = 500) {
-    function checkElement() {
-        const element = document.getElementById(selector);
-        if (element) {
-            clearInterval(checkInterval); // Stop checking once the element is found
-            callback(element); // Execute the callback function
-        }
-    }
-    const checkInterval = setInterval(checkElement, interval);
+  function checkElement() {
+      const element = document.getElementById(selector);
+      if (element) {
+          clearInterval(checkInterval); // Stop checking
+          callback(element); // Execute the callback function
+      } else if (elapsedTime >= timeout) {
+          clearInterval(checkInterval); // Stop checking after timeout
+          console.warn(`Timeout: Element ${selector} not found after ${timeout}ms`);
+      } else {
+          elapsedTime += interval; // Increment elapsed time
+      }
+  }
+
+  const checkInterval = setInterval(checkElement, interval);
 }
 
-// Attach event listeners once elements are found
+// Attach event listeners once elements are found (Timeout: 2 seconds)
 waitForElement("showUploadPopup", (element) => {
-    element.addEventListener("click", handleUserAuthentication);
+  element.addEventListener("click", handleUserAuthentication);
 });
 
 waitForElement("showUploadPopupBtn", (element) => {
-    element.addEventListener("click", handleUserAuthentication);
+  element.addEventListener("click", handleUserAuthentication);
 });
-
+c 
 
 
 
