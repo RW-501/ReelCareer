@@ -680,9 +680,7 @@ styleElement.textContent = `
 }
 #main-side-panel {
     width: fit-content;
-    display: block;
     position: absolute;
-    z-index: 1;
     box-shadow: 0 0 0 3px rgb(102 168 238 / 31%);
 }
 
@@ -1253,6 +1251,7 @@ async function loadTopCategoriesWithVideos() {
     #main-side-panel {
 
         display: none;
+            z-index: 5000;
 
 .category-item {
     margin-bottom: 20px;
@@ -1292,7 +1291,8 @@ async function loadTopCategoriesWithVideos() {
       .watch-video-button:hover {
         background-color: #0056b3;
       }
-              .location-tab {
+      
+      .location-tab {
           margin-top: 10px;
       }
       .collapsible {
@@ -1345,12 +1345,6 @@ async function loadTopCategoriesWithVideos() {
   }
 
 
-  .main-side-panel-fixed {
-    width: fit-content;
-    display: block;
-    position: fixed;
-    z-index: 5000;
-}
 #currentLocationDisplay > button { 
     background: linear-gradient(to top, #f4f4f4, #83bad9);
     color: #676767 !important;
