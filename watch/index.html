@@ -323,18 +323,50 @@ section:empty {
     </div>
   </div>
   <script type="module">
-    import { 
-      db, getStorage, ref, uploadBytes, getDownloadURL, 
-      doc, updateDoc, getDoc, increment, arrayUnion, 
-      getFirestore, serverTimestamp, collection, auth 
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot ,
+  facebookProvider,
+  getUserId // Export the function
     } from 'https://reelcareer.co/scripts/js/load/module.js';
-    
-    import { 
-      handleComments, togglePlay, addVideoEndListener, 
-      toggleMute, toggleFullscreen, handleLike, handleShare, 
-      addComment, sendMessage, handleConnect, openReportModal 
+
+
+    import {                       createVideoUploadPopup,
+        handleUserAuthentication,
+      handleComments,
+        renderTags,
+        togglePlay,
+        addVideoEndListener,
+        toggleMute,
+        toggleFullscreen,
+        handleJoinUsBtn,
+        addToShortlist,
+        incrementViewCount,
+        handleLike,
+        handleShareCount,
+        formatDuration,
+        handleShare,
+        addComment,
+        fetchComments,
+        renderComment,
+        submitVideoReport,
+        openReportModal,
+        closeReportModal,
+        handleConnect,
+        updateButtonState,
+        sendMessage,
+        setRecipientName,
+        toggleSendButton 
+         // Export the function
     } from 'https://reelcareer.co/scripts/js/video_js/main.js';
-    
+
+ 
     // Initialize Firebase and variables
     let userId = '';
     
@@ -471,7 +503,7 @@ function renderVideoPage(videoData, docId) {
 
 
         <div class="video-container">
-            <video class="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
+            <video id="video-element" ${videoMuted} poster="${videoData.thumbnailURL || ''}">
                 <source src="${videoData.videoResumeURL}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -538,7 +570,7 @@ toggleSection('video-related-products-container', true);
     
     videoCard.querySelector('.fullscreen-toggle')?.addEventListener('click', () => toggleFullscreen(docId));
 
-    const videoElement = videoCard.querySelector('.video-element');
+    const videoElement = document.getElementById('video-element');
     videoElement.addEventListener('play', () => incrementViewCount(docId, videoElement));
 
     // Handle video controls
