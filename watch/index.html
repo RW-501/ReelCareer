@@ -416,6 +416,7 @@ function renderVideoPage(videoData, docId) {
 
 
     const profileName = document.getElementById('user-profile-name');
+    const profileImg = document.getElementById('user-profile-img');
     const profilePosition = document.getElementById('user-profile-position');
     const viewProfile = document.getElementById('user-view-profile-btn');
     const infoArea = document.getElementById('video-info-area');
@@ -426,7 +427,8 @@ function renderVideoPage(videoData, docId) {
 
 
     profileName.innerHTML = `${videoData.displayName || 'Anonymous'} `;
-    profilePosition.innerHTML = `  `;
+    profileImg.src = `${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}`;
+    profilePosition.innerHTML = `${videoData.jobTitle || 'Job Title'} `;
     infoArea.innerHTML = `  `;
 
 
