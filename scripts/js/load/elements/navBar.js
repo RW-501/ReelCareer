@@ -1,5 +1,8 @@
 
+import { auth, onAuthStateChanged } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+
+/*
 import {
   db, getStorage, ref, uploadBytes, getDownloadURL, limit,
   doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
@@ -13,13 +16,11 @@ import {
   getUserId
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+*/
 
 
 let userINFO;
 
-
-  // Delay slightly to ensure Firebase auth state is ready
-  setTimeout(() => {
 
 onAuthStateChanged(auth, (user) => {
   userINFO = user;
@@ -29,6 +30,8 @@ onAuthStateChanged(auth, (user) => {
 
   console.log("onAuthStateChanged path:", path, "user:", userINFO);
 
+  // Delay slightly to ensure Firebase auth state is ready
+  setTimeout(() => {
     if (!isBackendArea) {
       try {
         handleAuthStateChanged(userINFO);
@@ -42,9 +45,8 @@ onAuthStateChanged(auth, (user) => {
         console.error("Error in checkAdminLogin:", err);
       }
     }
-});
-
   }, 250); // 250ms delay
+});
 
 
 
