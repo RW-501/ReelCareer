@@ -5,10 +5,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider, signInAnonymously, EmailAuthProvider,
-  signOut, RecaptchaVerifier,  linkWithCredential,
-  onAuthStateChanged, signInWithPhoneNumber,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signOut
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
 /*
