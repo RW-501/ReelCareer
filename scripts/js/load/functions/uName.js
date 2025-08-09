@@ -1,3 +1,10 @@
+
+
+// Mock getUserData function (replace with actual implementation)
+ function getUserData() {
+  return JSON.parse(localStorage.getItem('userData')) || [];
+}
+
 let USERDATA = '';
 
 

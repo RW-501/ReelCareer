@@ -368,6 +368,10 @@
         document.addEventListener('DOMContentLoaded', () => {
 
 
+// Mock getUserData function (replace with actual implementation)
+ function getUserData() {
+  return JSON.parse(localStorage.getItem('userData')) || [];
+}
 
 
 
@@ -428,10 +432,6 @@ if (userDataSaved.length > 0) {
   console.warn('No user data found in storage.');
 }
 
-// Mock getUserData function (replace with actual implementation)
-function getUserData() {
-  return JSON.parse(localStorage.getItem('userData')) || [];
-}
 
 
 } catch (error) {
