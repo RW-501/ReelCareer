@@ -1,22 +1,31 @@
-
-import { auth, onAuthStateChanged } from 'https://reelcareer.co/scripts/js/load/module.js';
-
-
-/*
+// Authentication imports
 import {
-  db, getStorage, ref, uploadBytes, getDownloadURL, limit,
-  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
-  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
-  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
-  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-  where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,writeBatch ,batch,
-  facebookProvider, linkWithCredential,
-  getUserId
-} from 'https://reelcareer.co/scripts/js/load/module.js';
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider, signInAnonymously, EmailAuthProvider,
+  signOut, RecaptchaVerifier,  linkWithCredential,
+  onAuthStateChanged, signInWithPhoneNumber,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
-*/
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+    authDomain: "reelcareer-cb4b0.firebaseapp.com",
+    projectId: "reelcareer-cb4b0",
+    storageBucket: "reelcareer-cb4b0.appspot.com",
+    messagingSenderId: "365163764840",
+    appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+    measurementId: "G-LBTK319K2X"
+  };
+
+    const app = initializeApp(firebaseConfig);
+  let  auth = getAuth(app);
+   let  db = getFirestore(app);
+
 
 
 let userINFO;
