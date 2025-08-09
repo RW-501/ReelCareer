@@ -17,31 +17,31 @@ import {
 let userINFO;
 
 
-onAuthStateChanged(auth, (USER) => {
-  userINFO = USER;
-//console.log("userINFO: ", userINFO);
+onAuthStateChanged(auth, (user) => {
+  userINFO = user;
 
+  const path = window.location.pathname;
+  const isBackendArea = path.includes('/backend');
 
-const path = window.location.pathname;
-    
-console.log("onAuthStateChanged path:", path);
+  console.log("onAuthStateChanged path:", path, "user:", userINFO);
 
-// Check if user is trying to access the backend/admin area
-const isBackendArea = path.includes('/backend') || path.includes('/backend/');  
-
-
-if (!isBackendArea) {
-handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
-}else{
-
-  checkAdminLogin(userINFO); // Ensure login is valid on page load
-
-}
-
-
-
+  // Delay slightly to ensure Firebase auth state is ready
+  setTimeout(() => {
+    if (!isBackendArea) {
+      try {
+        handleAuthStateChanged(userINFO);
+      } catch (err) {
+        console.error("Error in handleAuthStateChanged:", err);
+      }
+    } else {
+      try {
+        checkAdminLogin(userINFO);
+      } catch (err) {
+        console.error("Error in checkAdminLogin:", err);
+      }
+    }
+  }, 250); // 250ms delay
 });
-
 
 
 
