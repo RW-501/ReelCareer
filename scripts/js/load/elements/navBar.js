@@ -13,7 +13,7 @@ import {
   signInWithEmailAndPassword
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
-import { saveUserLoginState } from 'https://reelcareer.co/scripts/js/load/elements/loginState.js';
+import { saveUserLoginState } from 'https://reelcareer.co/scripts/js/load/loginState.js';
 
   const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
