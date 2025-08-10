@@ -539,3 +539,4 @@ console.log("user.uid:", user.uid);
 
 window.saveUserLoginState = saveUserLoginState;
 
+export { saveUserLoginState } ;
