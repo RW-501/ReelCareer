@@ -1,3 +1,5 @@
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
 // Authentication imports
 import {
   getAuth,
@@ -5,10 +7,12 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider, signInAnonymously, EmailAuthProvider,
-  signOut
+  signOut, RecaptchaVerifier,  linkWithCredential,
+  onAuthStateChanged, signInWithPhoneNumber,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
-/*
   const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
     authDomain: "reelcareer-cb4b0.firebaseapp.com",
@@ -22,15 +26,6 @@ import {
     const app = initializeApp(firebaseConfig);
   let  auth = getAuth(app);
    let  db = getFirestore(app);
-*/
-import {
-  onAuthStateChanged,
-  db,
-  auth,
-  storage,
-  analytics,
-  app
-} from "https://reelcareer.co/main.js"; // Adjust the path based on your structure
 
 let userINFO;
 
