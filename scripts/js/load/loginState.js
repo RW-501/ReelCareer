@@ -15,6 +15,12 @@ import {
 
 
 
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js';
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 
 
 // Function to update or create user information in Firestore
