@@ -14,6 +14,16 @@ import {
 
 
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+    authDomain: "reelcareer-cb4b0.firebaseapp.com",
+    projectId: "reelcareer-cb4b0",
+    storageBucket: "reelcareer-cb4b0.appspot.com",
+    messagingSenderId: "365163764840",
+    appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+    measurementId: "G-LBTK319K2X"
+  };
+
 
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
 
