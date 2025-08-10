@@ -25,7 +25,6 @@ import {
 
     const app = initializeApp(firebaseConfig);
   let  auth = getAuth(app);
-   let  db = getFirestore(app);
 
 let userINFO;
 
