@@ -19,7 +19,13 @@ import {
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user, isNewUser = false, joinedDate = null) => {
+
+  console.log("db type:", db);
+console.log("userDataSaved.userID:", userDataSaved.userID);
+console.log("user.uid:", user.uid);
+
   try {
+
 
 
     const popupLoginContainer = document.getElementById("popup-login-container");
